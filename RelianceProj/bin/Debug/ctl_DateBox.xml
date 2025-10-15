@@ -1,0 +1,54 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+ctl_DateBox
+</name>
+</assembly>
+<members>
+<member name="P:ctl_DateBox.ctl_DateBox.EnterFocusColor">
+	<summary>Set or Get the color of the control when it receives focus</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.LeaveFocusColor">
+	<summary>Set or Get the color of the control when it lost focus</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.FontLeaveColor">
+	<summary>Set or Get the color of the control when it lost focus</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.FontFocusColor">
+	<summary>Set or Get the color of the control when it lost focus</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.CustomInputTypeString">
+	<summary>Set or Get custom control's Custom Input Type string format</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.AutoFormat">
+	<summary>Set or Get control Auto Format Style</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.MandatoryField">
+	<summary>Set or Get controls mandatory status</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.MandatoryColor">
+	<summary>Set or Get the color of the control when the mandatory field is empty</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.ShowMessage">
+	<summary>Set or Get automatic validation error display status</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.IsValidated">
+	<summary>Set or Get controls validation status</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox._AllowSpace">
+	<summary>Set or Get controls Allow Space or Not </summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.ClearField">
+	<summary>Set or Get controls mandatory status</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.ERequired">
+	<summary>Set or Get controls Entry(Return) key is work or not</summary>
+</member><member name="P:ctl_DateBox.ctl_DateBox.IsDrCrBox">
+	<summary>Set or Get controls validation status</summary>
+</member><member name="M:ctl_DateBox.ctl_DateBox.PopupBalloon(System.String,System.Windows.Forms.ToolTipIcon,System.String)">
+	<summary>Calls to Show Controls Messages..</summary>
+</member><member name="P:ctl_DateBox.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:ctl_DateBox.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:ctl_DateBox.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

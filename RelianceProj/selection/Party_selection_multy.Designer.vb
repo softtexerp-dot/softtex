@@ -1,0 +1,309 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class Party_selection_multy
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.pnl_Filter_Working = New System.Windows.Forms.Panel()
+        Me.lbl_Filter_Header = New System.Windows.Forms.Label()
+        Me.txt_Filter_Text = New ctl_TextBox.ctl_TextBox()
+        Me.dgw = New System.Windows.Forms.DataGridView()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.GroupBox1.SuspendLayout()
+        Me.pnl_Filter_Working.SuspendLayout()
+        CType(Me.dgw, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox2.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.pnl_Filter_Working)
+        Me.GroupBox1.Controls.Add(Me.dgw)
+        Me.GroupBox1.Controls.Add(Me.TextBox1)
+        Me.GroupBox1.Location = New System.Drawing.Point(1, -7)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(629, 644)
+        Me.GroupBox1.TabIndex = 175
+        Me.GroupBox1.TabStop = False
+        '
+        'pnl_Filter_Working
+        '
+        Me.pnl_Filter_Working.BackColor = System.Drawing.Color.Khaki
+        Me.pnl_Filter_Working.Controls.Add(Me.lbl_Filter_Header)
+        Me.pnl_Filter_Working.Controls.Add(Me.txt_Filter_Text)
+        Me.pnl_Filter_Working.Location = New System.Drawing.Point(140, 254)
+        Me.pnl_Filter_Working.Name = "pnl_Filter_Working"
+        Me.pnl_Filter_Working.Size = New System.Drawing.Size(337, 97)
+        Me.pnl_Filter_Working.TabIndex = 158
+        Me.pnl_Filter_Working.Visible = False
+        '
+        'lbl_Filter_Header
+        '
+        Me.lbl_Filter_Header.Font = New System.Drawing.Font("Trebuchet MS", 12.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_Filter_Header.ForeColor = System.Drawing.Color.Maroon
+        Me.lbl_Filter_Header.Location = New System.Drawing.Point(7, 15)
+        Me.lbl_Filter_Header.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lbl_Filter_Header.Name = "lbl_Filter_Header"
+        Me.lbl_Filter_Header.Size = New System.Drawing.Size(323, 23)
+        Me.lbl_Filter_Header.TabIndex = 81356
+        Me.lbl_Filter_Header.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'txt_Filter_Text
+        '
+        Me.txt_Filter_Text._AllowSpace = True
+        Me.txt_Filter_Text.AcceptsReturn = True
+        Me.txt_Filter_Text.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txt_Filter_Text.BackColor = System.Drawing.Color.White
+        Me.txt_Filter_Text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txt_Filter_Text.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txt_Filter_Text.Check_End_Date_Value_FY = "YES"
+        Me.txt_Filter_Text.Check_Start_Date_Value_FY = "YES"
+        Me.txt_Filter_Text.ClearField = True
+        Me.txt_Filter_Text.CustomInputTypeString = Nothing
+        Me.txt_Filter_Text.Date_for_Database = Nothing
+        Me.txt_Filter_Text.Date_Tag = Nothing
+        Me.txt_Filter_Text.EnterFocusColor = System.Drawing.Color.White
+        Me.txt_Filter_Text.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.txt_Filter_Text.ExtraValue = ""
+        Me.txt_Filter_Text.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_Filter_Text.FontFocusColor = System.Drawing.Color.Maroon
+        Me.txt_Filter_Text.FontLeaveColor = System.Drawing.Color.Black
+        Me.txt_Filter_Text.ForeColor = System.Drawing.Color.Black
+        Me.txt_Filter_Text.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txt_Filter_Text.IsValidated = False
+        Me.txt_Filter_Text.LeaveFocusColor = System.Drawing.Color.White
+        Me.txt_Filter_Text.Location = New System.Drawing.Point(11, 56)
+        Me.txt_Filter_Text.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txt_Filter_Text.MandatoryField = False
+        Me.txt_Filter_Text.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.txt_Filter_Text.MaxDate = Nothing
+        Me.txt_Filter_Text.MinDate = Nothing
+        Me.txt_Filter_Text.Name = "txt_Filter_Text"
+        Me.txt_Filter_Text.NormalBorderColor = System.Drawing.Color.White
+        Me.txt_Filter_Text.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txt_Filter_Text.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txt_Filter_Text.RegularExpression = Nothing
+        Me.txt_Filter_Text.RegularExpressionErrorMessage = Nothing
+        Me.txt_Filter_Text.ShowMessage = False
+        Me.txt_Filter_Text.Size = New System.Drawing.Size(319, 22)
+        Me.txt_Filter_Text.SpacerString = ""
+        Me.txt_Filter_Text.TabIndex = 81355
+        Me.txt_Filter_Text.Tag = "WEIGHT"
+        Me.txt_Filter_Text.TransparentBox = True
+        Me.txt_Filter_Text.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'dgw
+        '
+        Me.dgw.AllowUserToAddRows = False
+        Me.dgw.AllowUserToDeleteRows = False
+        Me.dgw.AllowUserToResizeColumns = False
+        Me.dgw.AllowUserToResizeRows = False
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White
+        Me.dgw.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        Me.dgw.BackgroundColor = System.Drawing.Color.White
+        Me.dgw.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.DimGray
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgw.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        Me.dgw.ColumnHeadersHeight = 25
+        Me.dgw.Cursor = System.Windows.Forms.Cursors.Default
+        Me.dgw.EnableHeadersVisualStyles = False
+        Me.dgw.GridColor = System.Drawing.Color.Gray
+        Me.dgw.Location = New System.Drawing.Point(7, 42)
+        Me.dgw.Margin = New System.Windows.Forms.Padding(4)
+        Me.dgw.MultiSelect = False
+        Me.dgw.Name = "dgw"
+        Me.dgw.ReadOnly = True
+        Me.dgw.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.Gray
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ButtonHighlight
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgw.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        Me.dgw.RowHeadersVisible = False
+        Me.dgw.RowHeadersWidth = 25
+        Me.dgw.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White
+        Me.dgw.RowsDefaultCellStyle = DataGridViewCellStyle4
+        Me.dgw.RowTemplate.Height = 25
+        Me.dgw.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgw.ScrollBars = System.Windows.Forms.ScrollBars.None
+        Me.dgw.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgw.Size = New System.Drawing.Size(615, 595)
+        Me.dgw.TabIndex = 157
+        '
+        'TextBox1
+        '
+        Me.TextBox1.BackColor = System.Drawing.Color.LightCyan
+        Me.TextBox1.Location = New System.Drawing.Point(7, 14)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(615, 23)
+        Me.TextBox1.TabIndex = 155
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.Label8)
+        Me.GroupBox2.Controls.Add(Me.Label7)
+        Me.GroupBox2.Controls.Add(Me.Label6)
+        Me.GroupBox2.Controls.Add(Me.Label4)
+        Me.GroupBox2.Controls.Add(Me.Label3)
+        Me.GroupBox2.Controls.Add(Me.Label2)
+        Me.GroupBox2.Controls.Add(Me.Label1)
+        Me.GroupBox2.Location = New System.Drawing.Point(675, 57)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(200, 293)
+        Me.GroupBox2.TabIndex = 176
+        Me.GroupBox2.TabStop = False
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(27, 11)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(146, 16)
+        Me.Label8.TabIndex = 189
+        Me.Label8.Text = "FOCUS FORM NAME"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(33, 190)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(78, 16)
+        Me.Label7.TabIndex = 188
+        Me.Label7.Text = "COLOUM4"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(33, 163)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(82, 16)
+        Me.Label6.TabIndex = 187
+        Me.Label6.Text = "COLOUM 1"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(33, 234)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(122, 16)
+        Me.Label4.TabIndex = 186
+        Me.Label4.Text = "New Form Open"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(33, 134)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(82, 16)
+        Me.Label3.TabIndex = 185
+        Me.Label3.Text = "COLOUM 3"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(33, 104)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(82, 16)
+        Me.Label2.TabIndex = 184
+        Me.Label2.Text = "COLOUM 0"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(33, 68)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(55, 16)
+        Me.Label1.TabIndex = 183
+        Me.Label1.Text = "Label1"
+        '
+        'Party_selection_multy
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.LightCyan
+        Me.ClientSize = New System.Drawing.Size(642, 640)
+        Me.Controls.Add(Me.GroupBox2)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "Party_selection_multy"
+        Me.Text = "Selection List (Enter=One, F11=All, F12=OK)"
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.pnl_Filter_Working.ResumeLayout(False)
+        Me.pnl_Filter_Working.PerformLayout()
+        CType(Me.dgw, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents dgw As System.Windows.Forms.DataGridView
+    Friend WithEvents pnl_Filter_Working As Panel
+    Friend WithEvents lbl_Filter_Header As Label
+    Friend WithEvents txt_Filter_Text As ctl_TextBox.ctl_TextBox
+End Class

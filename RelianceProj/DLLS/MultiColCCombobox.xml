@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+MultiColCCombobox
+</name>
+</assembly>
+<members>
+<member name="M:MultiColComboBox.ControlList.GetStandardValues(System.ComponentModel.ITypeDescriptorContext)">
+</member><member name="M:MultiColComboBox.ControlList.GetStandardValuesSupported(System.ComponentModel.ITypeDescriptorContext)">
+</member><member name="M:MultiColComboBox.ControlList.GetStandardValuesExclusive(System.ComponentModel.ITypeDescriptorContext)">
+</member>
+</members>
+</doc>

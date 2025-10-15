@@ -1,0 +1,376 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+RelianceProj
+</name>
+</assembly>
+<members>
+<member name="T:RelianceProj.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:RelianceProj.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:RelianceProj.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:RelianceProj.Email.Email">
+ <summary>
+ This class was created by Satal Keto from www.satalketo.co.uk, you are free to use this code
+ under the condition that you leave this comment in place
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:RelianceProj.Email.Email.#ctor">
+ <summary>
+ This is the constructor for the Email class when none of the details are provided straight away
+ </summary>
+ <remarks>The SMTP details, a subject, message and at least one receipient must be added before being able to send the email</remarks>
+</member>
+<member name="M:RelianceProj.Email.Email.#ctor(System.String,System.String,System.String)">
+ <summary>
+ This is the constructor for the Email class when only the SMTP details are provided straight away
+ </summary>
+ <param name="smtpHost">The location of the SMTP server</param>
+ <param name="smtpUser">The user to login to the SMTP server</param>
+ <param name="smtpPass">The password for the user</param>
+ <remarks>A subject, message and at least one receipient must be entered before being able to send the email</remarks>
+</member>
+<member name="M:RelianceProj.Email.Email.#ctor(System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ This is the constructor for the Email class for when all details are to be provided straight away
+ </summary>
+ <param name="smtpHost">The location of the SMTP server</param>
+ <param name="smtpUser">The user to login to the SMTP server</param>
+ <param name="smtpPass">The password for the user</param>
+ <param name="subject">The subject of the email</param>
+ <param name="message">The message of the email</param>
+ <remarks>At least one receipient before being able to send the email</remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.smtpHost">
+ <summary>
+ The host address for the SMTP server
+ </summary>
+ <value>The new host address for the SMTP server</value>
+ <returns>The current host address for theSMTP server</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.smtpUser">
+ <summary>
+ The username to be used for logging into the SMTP server with
+ </summary>
+ <value>The new username to be used for logging into the SMTP server</value>
+ <returns>The current username being used for logging into the SMTP server</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.smtpPass">
+ <summary>
+ The password to be used for logging into the SMTP server with
+ </summary>
+ <value>The new password to be used for logging into the SMTP server</value>
+ <returns>The current password being used for logging into the SMTP server</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.message">
+ <summary>
+ The message to be sent to the recipients
+ </summary>
+ <value>The new message to be sent to the recipients</value>
+ <returns>The current message being sent to the recipients</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.subject">
+ <summary>
+ The subject of the email
+ </summary>
+ <value>The new subject for the email</value>
+ <returns>The current subject of the email</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.CCs">
+ <summary>
+ The email addresses that the email should be sent to as a Carbon Copy
+ </summary>
+ <value>The new collection of email addresses that the email should be sent to as a Carbon Copy</value>
+ <returns>The current collection of email addresses that the email should be sent to as a Carbon Copy</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.BCCs">
+ <summary>
+ The email addresses that the email should be sent to as a Blind Carbon Copy
+ </summary>
+ <value>The new collection of email addresses that the email should be sent to as a Blind Carbon Copy</value>
+ <returns>The current collection of email addresses that the email should be sent to as a Blind Carbon Copy</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.Tos">
+ <summary>
+ The email addresses that the email should be sent to
+ </summary>
+ <value>The new collection of email addresses that the email should be sent to</value>
+ <returns>The current collection of email addresses that the email should be sent to</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.SMTPPort">
+ <summary>
+ The port to be connect to on the SMTP server
+ </summary>
+ <value>The new port to connect to on the SMTP server</value>
+ <returns>The current port to connect to on the SMTP server</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.UseEncryption">
+ <summary>
+ Whether the SMTP server should be connected to encrypted
+ </summary>
+ <value>The new value as to whether the server should be connected to encrypted</value>
+ <returns>The current value as to whether the server should be connected to encrypted</returns>
+ <remarks></remarks>
+</member>
+<member name="P:RelianceProj.Email.Email.HTMLEmail">
+ <summary>
+ Whether the email will be HTML format or not
+ </summary>
+ <value>The new value for whether the email will be HTML format or not</value>
+ <returns>The current value of whether the email will be HTML format or not</returns>
+ <remarks></remarks>
+</member>
+<member name="M:RelianceProj.Email.Email.addAttachment(System.String)">
+ <summary>
+ This method deals with adding a new attachment to the email
+ </summary>
+ <param name="fileLocation">The location of the file to be attached</param>
+ <returns>A boolean value specifying whether the file can be attached or not</returns>
+ <remarks></remarks>
+</member>
+<member name="M:RelianceProj.Email.Email.getAttachments">
+ <summary>
+ This method deals with getting the collection of all the attachments for this email
+ </summary>
+ <returns>The collection of attachments for this email</returns>
+ <remarks></remarks>
+</member>
+<member name="M:RelianceProj.Email.Email.removeAttachment(System.String)">
+ <summary>
+ This method deals with removing an existing attachment from the email
+ </summary>
+ <param name="fileLocation">The location of the file to be removed from the email</param>
+ <remarks></remarks>
+</member>
+<member name="M:RelianceProj.Email.Email.attachmentsAreAvailable">
+ <summary>
+ This method deals with checking that all of the attachments are available
+ </summary>
+ <returns>A boolean value to specify if all the attachments are available</returns>
+ <remarks></remarks>
+</member>
+<member name="T:RelianceProj.Report_set">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSecondDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableThirdDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTable1DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTableDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTable1DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTable2DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexCompanyTableDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTable2DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableFourDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableFiveDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSixDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSalaryDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSecondRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableThirdRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTable1Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTableRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTable1Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTable2Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexCompanyTableRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTable2Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableFourRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableFiveRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSixRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSalaryRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSecondRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableThirdRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTable1RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTableRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTable1RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexRptTable2RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.SoftTexCompanyTableRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTable2RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableFourRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableFiveRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSixRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:RelianceProj.Report_set.rptTableSalaryRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+</members>
+</doc>

@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{63310AC6-1E5A-4511-98D1-137874085C8E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>RelianceProj.Main_MDI_Frm</StartupObject>
+    <RootNamespace>RelianceProj</RootNamespace>
+    <AssemblyName>RelianceProj</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>RelianceProj.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>RelianceProj.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="agfrmGlobal">
+      <HintPath>DLLS\agfrmGlobal.dll</HintPath>
+    </Reference>
+    <Reference Include="cls_frmHandle">
+      <HintPath>DLLS\cls_frmHandle.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.ClientDoc, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.ClientDoc.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.CommLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommonControls, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.CommonControls.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommonObjectModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.Controllers, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.Controllers.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CubeDefModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.DataDefModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.DataDefModel.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.DataSetConversion, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.DataSetConversion.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.ObjectFactory, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.ObjectFactory.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.Prompting, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.Prompting.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.ReportDefModel, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.XmlSerialize, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\CrystalDecisions.ReportAppServer.XmlSerialize.dll</HintPath>
+    </Reference>
+    <Reference Include="crystaldecisions.reportsource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\crystaldecisions.reportsource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ctl_DateBox">
+      <HintPath>DLLS\ctl_DateBox.dll</HintPath>
+    </Reference>
+    <Reference Include="ctl_TextBox">
+      <HintPath>DLLS\ctl_TextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="dbLayer">
+      <HintPath>DLLS\dbLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar2">
+      <HintPath>DLLS\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Data.Desktop.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Data.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Drawing.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Office.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v23.1.Drawing, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraVerticalGrid.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="dsHelper">
+      <HintPath>DLLS\dsHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="dynamicMenu">
+      <HintPath>DLLS\dynamicMenu.dll</HintPath>
+    </Reference>
+    <Reference Include="EncryptDecrypt">
+      <HintPath>DLLS\EncryptDecrypt.dll</HintPath>
+    </Reference>
+    <Reference Include="FastInvoker">
+      <HintPath>DLLS\FastInvoker.dll</HintPath>
+    </Reference>
+    <Reference Include="FlexCell, Version=4.4.3.0, Culture=neutral, PublicKeyToken=6f86587eb70ee309, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\FlexCell.dll</HintPath>
+    </Reference>
+    <Reference Include="frmFaceForm">
+      <HintPath>DLLS\frmFaceForm.dll</HintPath>
+    </Reference>
+    <Reference Include="frmOpener">
+      <HintPath>DLLS\frmOpener.dll</HintPath>
+    </Reference>
+    <Reference Include="grpBox">
+      <HintPath>DLLS\grpBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.DAO">
+      <HintPath>DLLS\Interop.DAO.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.Microsoft.Office.Core">
+      <HintPath>DLLS\Interop.Microsoft.Office.Core.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.Microsoft.Office.Interop.Access">
+      <HintPath>DLLS\Interop.Microsoft.Office.Interop.Access.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.VBIDE">
+      <HintPath>DLLS\Interop.VBIDE.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>DLLS\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>DLLS\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>DLLS\itextsharp.xtra.dll</HintPath>
+    </Reference>
+    <Reference Include="lstBox">
+      <HintPath>DLLS\lstBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>DLLS\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SmoExtended, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\Microsoft.SqlServer.SmoExtended.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLS\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>DLLS\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\BackDataCode.vb" />
+    <Compile Include="Classes\Email.vb" />
+    <Compile Include="Classes\Multi_Selection_Master.vb" />
+    <Compile Include="Classes\NewSelectionListQuery.vb" />
+    <Compile Include="Main_MDI_Frm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_MDI_Frm.Designer.vb">
+      <DependentUpon>Main_MDI_Frm.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Genral.vb" />
+    <Compile Include="Master\Master_frm.Designer.vb">
+      <DependentUpon>Master_frm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Master_frm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module1.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Other\DevGrigLayoutLoad.Designer.vb">
+      <DependentUpon>DevGrigLayoutLoad.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\DevGrigLayoutLoad.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\Outstanding_Zooming_AllCompany.Designer.vb">
+      <DependentUpon>Outstanding_Zooming_AllCompany.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\Outstanding_Zooming_AllCompany.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\RecivedStoreRoom.Designer.vb">
+      <DependentUpon>RecivedStoreRoom.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\RecivedStoreRoom.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\Report_viewer.Designer.vb">
+      <DependentUpon>Report_viewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\Report_viewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Other\Wait_form.Designer.vb">
+      <DependentUpon>Wait_form.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Other\Wait_form.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planning Gatway\NewQualityPlanEntry.Designer.vb">
+      <DependentUpon>NewQualityPlanEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planning Gatway\NewQualityPlanEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planning Gatway\PlanningGatway.Designer.vb">
+      <DependentUpon>PlanningGatway.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planning Gatway\PlanningGatway.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planning Gatway\Planning_OrderEntry.Designer.vb">
+      <DependentUpon>Planning_OrderEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planning Gatway\Planning_OrderEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planning Gatway\YarnPlaningEntry.Designer.vb">
+      <DependentUpon>YarnPlaningEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planning Gatway\YarnPlaningEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planning Gatway\YarnPurchasesPlaningDisplay.Designer.vb">
+      <DependentUpon>YarnPurchasesPlaningDisplay.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planning Gatway\YarnPurchasesPlaningDisplay.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report_set.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Report_set.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="selection\Ac_of_supply_select.Designer.vb">
+      <DependentUpon>Ac_of_supply_select.vb</DependentUpon>
+    </Compile>
+    <Compile Include="selection\Ac_of_supply_select.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="selection\FrmEditSelectionList.Designer.vb">
+      <DependentUpon>FrmEditSelectionList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="selection\FrmEditSelectionList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="selection\NewFlexCellSelection.Designer.vb">
+      <DependentUpon>NewFlexCellSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="selection\NewFlexCellSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="selection\NewSelectionForm.Designer.vb">
+      <DependentUpon>NewSelectionForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="selection\NewSelectionForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="selection\Party_selection.Designer.vb">
+      <DependentUpon>Party_selection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="selection\Party_selection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="selection\Party_selection_multy.Designer.vb">
+      <DependentUpon>Party_selection_multy.vb</DependentUpon>
+    </Compile>
+    <Compile Include="selection\Party_selection_multy.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Main_MDI_Frm.resx">
+      <DependentUpon>Main_MDI_Frm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\DevGrigLayoutLoad.resx">
+      <DependentUpon>DevGrigLayoutLoad.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\Outstanding_Zooming_AllCompany.resx">
+      <DependentUpon>Outstanding_Zooming_AllCompany.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\RecivedStoreRoom.resx">
+      <DependentUpon>RecivedStoreRoom.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\Report_viewer.resx">
+      <DependentUpon>Report_viewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Other\Wait_form.resx">
+      <DependentUpon>Wait_form.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planning Gatway\NewQualityPlanEntry.resx">
+      <DependentUpon>NewQualityPlanEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planning Gatway\PlanningGatway.resx">
+      <DependentUpon>PlanningGatway.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planning Gatway\Planning_OrderEntry.resx">
+      <DependentUpon>Planning_OrderEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planning Gatway\YarnPlaningEntry.resx">
+      <DependentUpon>YarnPlaningEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planning Gatway\YarnPurchasesPlaningDisplay.resx">
+      <DependentUpon>YarnPurchasesPlaningDisplay.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="selection\Ac_of_supply_select.resx">
+      <DependentUpon>Ac_of_supply_select.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="selection\FrmEditSelectionList.resx">
+      <DependentUpon>FrmEditSelectionList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="selection\NewFlexCellSelection.resx">
+      <DependentUpon>NewFlexCellSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="selection\NewSelectionForm.resx">
+      <DependentUpon>NewSelectionForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="selection\Party_selection.resx">
+      <DependentUpon>Party_selection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="selection\Party_selection_multy.resx">
+      <DependentUpon>Party_selection_multy.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+    <None Include="Report_set.xsc">
+      <DependentUpon>Report_set.xsd</DependentUpon>
+    </None>
+    <None Include="Report_set.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Report_set.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Report_set.xss">
+      <DependentUpon>Report_set.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

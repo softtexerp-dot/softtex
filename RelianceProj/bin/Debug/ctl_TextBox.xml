@@ -1,0 +1,64 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+ctl_TextBox
+</name>
+</assembly>
+<members>
+<member name="P:ctl_TextBox.ctl_TextBox.InputType">
+	<summary>Set or Gets TextBox Input Types as KTB_INPUTTYPES_SETTINGS</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.EnterFocusColor">
+	<summary>Set or Get the color of the control when it receives focus</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.LeaveFocusColor">
+	<summary>Set or Get the color of the control when it lost focus</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.FontLeaveColor">
+	<summary>Set or Get the color of the control when it lost focus</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.FontFocusColor">
+	<summary>Set or Get the color of the control when it lost focus</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.CustomInputTypeString">
+	<summary>Set or Get custom control's Custom Input Type string format</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.AutoFormat">
+	<summary>Set or Get control Auto Format Style</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.MandatoryField">
+	<summary>Set or Get controls mandatory status</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.ClearField">
+	<summary>Set or Get controls mandatory status</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.MandatoryColor">
+	<summary>Set or Get the color of the control when the mandatory field is empty</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.Precision">
+	<summary>Set or Get Number of decimal places</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.RegularExpression">
+	<summary>Set or Get Regular Expression for Custom Validation</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.RegularExpressionErrorMessage">
+	<summary>Set or Get Regular Expression Validation Custom Error Message</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.ShowMessage">
+	<summary>Set or Get automatic validation error display status</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.IsValidated">
+	<summary>Set or Get controls validation status</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox._AllowSpace">
+	<summary>Set or Get controls Allow Space or Not </summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.ERequired">
+	<summary>Set or Get controls Entry(Return) key is work or not</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.UpDownKeyRequired">
+	<summary>Set or Get controls Arrow key is work or not</summary>
+</member><member name="P:ctl_TextBox.ctl_TextBox.TransparentBox">
+	<summary>Set or Get controls Allow Space or Not </summary>
+</member><member name="M:ctl_TextBox.ctl_TextBox.PopupBalloon(System.String,System.Windows.Forms.ToolTipIcon,System.String)">
+	<summary>Calls to Show Controls Messages..</summary>
+</member><member name="P:ctl_TextBox.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:ctl_TextBox.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:ctl_TextBox.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>
