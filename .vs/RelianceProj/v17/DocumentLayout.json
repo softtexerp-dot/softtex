@@ -3,11 +3,27 @@
   "WorkspaceRootPath": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|c:\\users\\mahaveer\\onedrive\\documents\\github\\softtex\\relianceproj\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|c:\\users\\mahaveer\\onedrive\\documents\\github\\softtex\\relianceproj\\main_mdi_frm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\main_mdi_frm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|c:\\users\\mahaveer\\onedrive\\documents\\github\\softtex\\relianceproj\\main_mdi_frm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\main_mdi_frm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|c:\\users\\mahaveer\\onedrive\\documents\\github\\softtex\\relianceproj\\genral.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\genral.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|c:\\users\\mahaveer\\onedrive\\documents\\github\\softtex\\relianceproj\\planning gatway\\newqualityplanentry.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\planning gatway\\newqualityplanentry.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|c:\\users\\mahaveer\\onedrive\\documents\\github\\softtex\\relianceproj\\planning gatway\\newqualityplanentry.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\relianceproj\\planning gatway\\newqualityplanentry.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
       "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\planning gatway\\newqualityplanentry.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
     }
   ],
@@ -31,31 +47,77 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Module1.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Module1.vb",
+              "ToolTip": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Module1.vb",
+              "RelativeToolTip": "RelianceProj\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-17T07:44:48.351Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Main_MDI_Frm.vb",
+              "DocumentMoniker": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Main_MDI_Frm.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Main_MDI_Frm.vb",
+              "ToolTip": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Main_MDI_Frm.vb",
+              "RelativeToolTip": "RelianceProj\\Main_MDI_Frm.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-17T07:44:44.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Main_MDI_Frm.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Main_MDI_Frm.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Main_MDI_Frm.vb",
+              "ToolTip": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Main_MDI_Frm.vb [Design]",
+              "RelativeToolTip": "RelianceProj\\Main_MDI_Frm.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-17T07:44:43.163Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Genral.vb",
+              "DocumentMoniker": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Genral.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Genral.vb",
+              "ToolTip": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Genral.vb",
+              "RelativeToolTip": "RelianceProj\\Genral.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-17T07:44:36.185Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "NewQualityPlanEntry.vb",
               "DocumentMoniker": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb",
               "RelativeDocumentMoniker": "RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb",
               "ToolTip": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb",
               "RelativeToolTip": "RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAiwAMAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-10-17T05:37:17.772Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "NewQualityPlanEntry.vb [Design]",
               "DocumentMoniker": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb",
               "RelativeDocumentMoniker": "RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb",
               "ToolTip": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb [Design]",
               "RelativeToolTip": "RelianceProj\\Planning Gatway\\NewQualityPlanEntry.vb [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-10-17T05:35:29.224Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "WhenOpened": "2025-10-17T05:35:29.224Z"
             }
           ]
         }

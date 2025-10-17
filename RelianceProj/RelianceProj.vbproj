@@ -321,6 +321,12 @@
     <Compile Include="Classes\Email.vb" />
     <Compile Include="Classes\Multi_Selection_Master.vb" />
     <Compile Include="Classes\NewSelectionListQuery.vb" />
+    <Compile Include="Extra\StoreConsumption_GridZooming.Designer.vb">
+      <DependentUpon>StoreConsumption_GridZooming.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\StoreConsumption_GridZooming.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Main_MDI_Frm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -455,6 +461,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Extra\StoreConsumption_GridZooming.resx">
+      <DependentUpon>StoreConsumption_GridZooming.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main_MDI_Frm.resx">
       <DependentUpon>Main_MDI_Frm.vb</DependentUpon>
     </EmbeddedResource>
