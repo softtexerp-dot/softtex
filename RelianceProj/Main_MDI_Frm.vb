@@ -6,7 +6,12 @@
 
     Private Sub Main_MDI_Frm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SELECT_DATABSE()
-        TextBox1.Text = "Data Source=DESKTOP-N7G62DM\HP;database=Accounts24_342025104153;Integrated Security=SSPI;persist security info=True"
+        TextBox1.Text = databaseconnecton
+
+        sqL = "select*from Creat_company"
+        sql_connect_slect()
+        COMPANY_TBL = DefaltSoftTable.Copy
+
     End Sub
 
 #Region "Track Last Open Path"
@@ -55,10 +60,14 @@
         LastOpenedMenuPath = ""
     End Sub
 
-    Private Sub Btn_Dashbord_Click(sender As Object, e As EventArgs) Handles Btn_Dashbord.Click
+    Private Sub DashbordToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DashbordToolStripMenuItem.Click
         PlanningGatway.Show()
     End Sub
 
+    Private Sub StoreConsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StoreConsToolStripMenuItem.Click
+        StoreConsumption_GridZooming.Show()
+
+    End Sub
 
 
 
