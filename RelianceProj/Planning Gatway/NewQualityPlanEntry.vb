@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 
 Friend Class NewQualityPlanEntry
-
+    Dim _str As String = ""
     Private obj_Party_Selection As New Multi_Selection_Master
 
 #Region "VARIABLE DECLARATION"

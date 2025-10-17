@@ -1,12 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Mahaveer\\RelianceProj\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|d:\\mahaveer\\relianceproj\\relianceproj\\planning gatway\\yarnpurchasesplaningdisplay.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\planning gatway\\yarnpurchasesplaningdisplay.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Users\\mahaveer\\OneDrive\\Documents\\GitHub\\softtex\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,19 +9,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "YarnPurchasesPlaningDisplay.vb [Design]",
-              "DocumentMoniker": "D:\\Mahaveer\\RelianceProj\\RelianceProj\\Planning Gatway\\YarnPurchasesPlaningDisplay.vb",
-              "RelativeDocumentMoniker": "RelianceProj\\Planning Gatway\\YarnPurchasesPlaningDisplay.vb",
-              "ToolTip": "D:\\Mahaveer\\RelianceProj\\RelianceProj\\Planning Gatway\\YarnPurchasesPlaningDisplay.vb [Design]",
-              "RelativeToolTip": "RelianceProj\\Planning Gatway\\YarnPurchasesPlaningDisplay.vb [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-10-15T08:48:45.938Z",
-              "EditorCaption": " [Design]"
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         }
