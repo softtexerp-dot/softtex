@@ -3635,7 +3635,7 @@ Public Class PlanningGatway
                     ElseIf _ActivatedColName = "ProcReady" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ProcReady").ToString > "" Then
                         Dim _ProcReady As String = _QueySalesProcready("SECOND", _FilterString)
                         _SalesSecondstageGridSetting(_ProcReady, _ActivatedColName)
-                    ElseIf _ActivatedColName = "ProcReady" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ProcReady").ToString > "" Then
+                    ElseIf _ActivatedColName = "GradingStk" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "GradingStk").ToString > "" Then
                         Dim _Gradingstk As String = _QueySalesGradingStk("SECOND", _FilterString)
                         _SalesSecondstageGridSetting(_Gradingstk, _ActivatedColName)
 
@@ -6984,8 +6984,8 @@ Public Class PlanningGatway
                 .AppendLine(" 0.00 AS FactStock,")
                 .AppendLine(" 0.00 AS ProcsDyn,")
                 .AppendLine(" 0.00 AS GreyMtr,")
-                '.AppendLine(" SUM(Z.GMTR) AS ProcReady,")
-                .AppendLine(" 0.00 AS ProcReady,")
+                .AppendLine(" Sum(Z.ProcReady) AS ProcReady,")
+                '.AppendLine(" 0.00 AS ProcReady,")
                 .AppendLine(" 0.00 AS GradingStk")
 
             ElseIf _Stage = "SECOND" Then
@@ -6996,7 +6996,7 @@ Public Class PlanningGatway
                 .AppendLine(" A.ACCOUNTNAME AS PartyName,")
                 .AppendLine(" B.ITENNAME AS Item,")
                 .AppendLine(" C.SHADE AS Shade,")
-                .AppendLine(" SUM(Z.GMTR) AS ProcReady")
+                .AppendLine(" SUM(Z.ProcReady) AS ProcReady")
             End If
 
             .AppendLine(" FROM (")
@@ -7010,7 +7010,7 @@ Public Class PlanningGatway
             .Append(" TRNGREYDESP AS A ")
             .Append(" LEFT JOIN  trnfinishrcpt AS F ON A.grey_desp_pcs_id=F.grey_desp_pcs_id ")
             .Append(" WHERE 1=1 ")
-            .AppendLine(Filterstring)
+            '.AppendLine(Filterstring)
             .Append(" AND A.Process_PcsIdSelect >'' ")
             .Append(" and f.Grey_Desp_Pcs_ID IS NULL ")
             .Append(" and A.Process_Beamlotno>'' ")
@@ -7058,9 +7058,9 @@ Public Class PlanningGatway
                 .AppendLine(" 0.00 AS BeamPlan,")
                 .AppendLine(" 0.00 AS FactStock,")
                 .AppendLine(" 0.00 AS ProcsDyn,")
-                .AppendLine(" SUM(Z.GREYMTR) AS GreyMtr,")
+                .AppendLine(" 0.00 AS GreyMtr,")
                 .AppendLine(" 0.00 AS ProcReady,")
-                .AppendLine(" 0.00 AS GradingStk")
+                .AppendLine(" Sum(Z.GradingStk) AS GradingStk")
 
             ElseIf _Stage = "SECOND" Then
                 .AppendLine(" Z.ITEMCODE,")
@@ -7070,7 +7070,7 @@ Public Class PlanningGatway
                 .AppendLine(" A.ACCOUNTNAME AS PartyName,")
                 .AppendLine(" B.ITENNAME AS Item,")
                 .AppendLine(" C.SHADE AS Shade,")
-                .AppendLine(" SUM(Z.GREYMTR) AS GreyMtr")
+                .AppendLine(" SUM(Z.GradingStk) AS GradingStk")
             End If
             .AppendLine(" FROM (")
             .AppendLine("   SELECT")
