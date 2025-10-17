@@ -3601,7 +3601,7 @@ Public Class PlanningGatway
                 If Txt_ProcessStockDisplay.Text = "PARTY WISE" Then
                     NoOfstage = 1
                     _FilterString = FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ACCOUNTCODE").ToString
-                    _FilterString = " AND  A.ACCOUNTCODE = '" & _FilterString & "'"
+                    _FilterString = " AND  Z.ACCOUNTCODE = '" & _FilterString & "'"
                 ElseIf Txt_ProcessStockDisplay.Text = "ITEM WISE" Then
                     NoOfstage = 1
                     _FilterString = FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ITEMCODE").ToString
@@ -3609,38 +3609,36 @@ Public Class PlanningGatway
                 End If
 
                 If e.KeyCode = Keys.Enter Then
-
+                    Dim _EntryStage As String = "SECOND"
                     If _ActivatedColName = "OldSales" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "OldSales").ToString > "" Then
-                        Dim _OldSales As String = _QueyOldSales("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_OldSales, _ActivatedColName)
+                        Dim _OldSales As String = _QueyOldSales(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, _ActivatedColName, _EntryStage, "FIRST")
                     ElseIf _ActivatedColName = "ItemName" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemName").ToString > "" Then
-                        'Dim _OldSales As String = _QueyOldSales("FIRST", _FilterString)
+                        'Dim _OldSales As String = _QueyOldSales(_EntryStage, _FilterString)
                         '_SalesSecondstageGridSetting(_OldSales, _ActivatedColName)
                     ElseIf _ActivatedColName = "Planning" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "Planning").ToString > "" Then
-                        Dim _Beamplanning As String = _QueySalesBeamPlan("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_Beamplanning, _ActivatedColName)
+                        Dim _Beamplanning As String = _QueySalesBeamPlan(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_Beamplanning, _ActivatedColName, _EntryStage, "FIRST")
                     ElseIf _ActivatedColName = "BeamPlan" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "BeamPlan").ToString > "" Then
-                        Dim _Beamplanning As String = _QueySalesBeamPlan("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_Beamplanning, _ActivatedColName)
+                        Dim _Beamplanning As String = _QueySalesBeamPlan(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_Beamplanning, _ActivatedColName, _EntryStage, "FIRST")
                     ElseIf _ActivatedColName = "FactStock" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "FactStock").ToString > "" Then
-                        Dim _Factstock As String = _QueySalesFactstock("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_Factstock, _ActivatedColName)
+                        Dim _Factstock As String = _QueySalesFactstock(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_Factstock, _ActivatedColName, _EntryStage, "FIRST")
                     ElseIf _ActivatedColName = "ProcsDyn" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ProcsDyn").ToString > "" Then
-                        Dim _ProcsDyn As String = _QueySalesProcsDyn("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_ProcsDyn, _ActivatedColName)
-
+                        Dim _ProcsDyn As String = _QueySalesProcsDyn(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_ProcsDyn, _ActivatedColName, _EntryStage, "FIRST")
                     ElseIf _ActivatedColName = "GreyMtr" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "GreyMtr").ToString > "" Then
-                        Dim _GreyMtr As String = _QueySalesGreyMtr("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_GreyMtr, _ActivatedColName)
+                        Dim _GreyMtr As String = _QueySalesGreyMtr(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_GreyMtr, _ActivatedColName, _EntryStage, "FIRST")
                     ElseIf _ActivatedColName = "ProcReady" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ProcReady").ToString > "" Then
-                        Dim _ProcReady As String = _QueySalesProcready("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_ProcReady, _ActivatedColName)
+                        Dim _ProcReady As String = _QueySalesProcready(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_ProcReady, _ActivatedColName, _EntryStage, "FIRST")
                     ElseIf _ActivatedColName = "GradingStk" AndAlso FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "GradingStk").ToString > "" Then
-                        Dim _Gradingstk As String = _QueySalesGradingStk("SECOND", _FilterString)
-                        _SalesSecondstageGridSetting(_Gradingstk, _ActivatedColName)
-
+                        Dim _Gradingstk As String = _QueySalesGradingStk(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_Gradingstk, _ActivatedColName, _EntryStage, "FIRST")
                     End If
-            End If
+                End If
 
 #End Region
 
@@ -6488,8 +6486,6 @@ Public Class PlanningGatway
 #End Region
 
 #Region "Sales DashBoard"
-
-
     Private Sub GradingDashBord_Click(sender As Object, e As EventArgs) Handles SalesDashBord.Click
         LblSelectedOptionName.Text = "Sales Planning DashBoard"
         SelectionDashBordName = "Sales Planning DashBoard"
@@ -6606,7 +6602,7 @@ Public Class PlanningGatway
 
 #Region "Sales Dashbord ShortQuery"
 
-    Private Sub _SalesSecondstageGridSetting(ByVal _sqlquery As String, ByVal ColName As String)
+    Private Sub _SalesSecondstageGridSetting(ByVal _sqlquery As String, ByVal ColName As String, ByVal _Stage As String, ByVal Firstenter As String)
         Try
             sqL = _sqlquery.ToString
             sql_connect_slect()
@@ -6634,40 +6630,50 @@ Public Class PlanningGatway
 
                 GridView1.OptionsBehavior.Editable = False
 
-
                 GridView1.Columns("ACCOUNTCODE").Visible = False
                 GridView1.Columns("ITEMCODE").Visible = False
-                GridView1.Columns("DESIGNCODE").Visible = False
-                GridView1.Columns("SHADECODE").Visible = False
 
+                If _Stage = "THIRD" Then
+                    GridView1.Columns("DESIGNCODE").Visible = False
+                    GridView1.Columns("SHADECODE").Visible = False
+                End If
 
                 DevGridFitColumnWiotScroll(GridControl2, GridView1)
                 GridControl2.Visible = True
                 GridControl2.BringToFront()
                 GridView1.Focus()
 
-
                 GridView1.FocusedColumn = GridView1.VisibleColumns(GridView1.VisibleColumns.Count - 1) ' Last visible column
                 GridView1.MakeRowVisible(0)
                 GridView1.SelectCell(0, GridView1.FocusedColumn)
 
+                If Firstenter = "FIRST" Then
+                    GridView1.FocusedRowHandle = 0
+                Else
+                    If NoOfstage = 1 Then
+                        GridView1.FocusedRowHandle = _StgIIRowNo
+                    ElseIf NoOfstage = 2 Then
+                        GridView1.FocusedRowHandle = _StgIIIRowNo
+                    ElseIf NoOfstage = 3 Then
+                        GridView1.FocusedRowHandle = _StgIVRowNo
+                    End If
+                End If
             End If
 
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
     End Sub
+
+
     Private Function _QueySalesBeamPlan(ByVal _Stage As String, ByVal Filterstring As String)
         _strQuery = New StringBuilder
         With _strQuery
-
             .Append(" SELECT ")
 
             If _Stage = "FIRST" Then
-                .Append(" Z.ACCOUNTCODE")
-                .Append(" ,Z.ITEMCODE")
-                .Append(" ,Z.DESIGNCODE")
-                .Append(" ,Z.SHADECODE")
+                '.Append(" Z.ACCOUNTCODE")
+                .Append(" Z.ITEMCODE")
                 .Append(" ,0.00 as OldSales")
                 .Append(" ,SUM(Z.PlanningQty)-SUM(Z.OwnBeamPlanQty) as Planning")
                 .Append(" ,SUM(Z.OwnBeamPlanQty) as BeamPlan")
@@ -6677,6 +6683,13 @@ Public Class PlanningGatway
                 .Append(" ,0.00 AS ProcReady ")
                 .Append(" ,0.00 AS GradingStk ")
             ElseIf _Stage = "SECOND" Then
+                .Append(" Z.ACCOUNTCODE")
+                .Append(" ,Z.ITEMCODE")
+                .Append(" ,A.ACCOUNTNAME AS PartyName")
+                .Append(" ,B.ITENNAME AS Item")
+                .Append(" ,SUM(Z.PlanningQty)-SUM(Z.OwnBeamPlanQty) as Planning")
+                .Append(" ,SUM(Z.OwnBeamPlanQty) as BeamPlan")
+            ElseIf _Stage = "THIRD" Then
                 .Append(" Z.ACCOUNTCODE")
                 .Append(" ,Z.ITEMCODE")
                 .Append(" ,Z.DESIGNCODE")
@@ -6719,14 +6732,28 @@ Public Class PlanningGatway
             If _Stage = "SECOND" Then
                 .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE=A.ACCOUNTCODE")
                 .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE=B.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY ")
+                .Append(" Z.ACCOUNTCODE")
+                .Append(" ,Z.ITEMCODE")
+                .Append(" ,A.ACCOUNTNAME")
+                .Append(" ,B.ITENNAME ")
+                .Append(" ORDER BY ")
+                .Append(" A.ACCOUNTNAME")
+                .Append(" ,B.ITENNAME ")
+
+            ElseIf _Stage = "THIRD" Then
+                .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE=A.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE=B.ID")
                 .Append(" LEFT JOIN Mst_Fabric_Shade AS c ON Z.SHADECODE=c.ID")
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
                 .Append(" GROUP BY ")
-                .Append(" Z.ACCOUNTCODE,")
-                .Append(" Z.ITEMCODE,")
-                .Append(" Z.DESIGNCODE,")
-                .Append(" Z.SHADECODE")
+                .Append(" Z.ACCOUNTCODE")
+                .Append(" ,Z.ITEMCODE")
+                .Append(" ,Z.DESIGNCODE")
+                .Append(" ,Z.SHADECODE")
                 .Append(" ,A.ACCOUNTNAME")
                 .Append(" ,B.ITENNAME ")
                 .Append(" ,C.SHADE")
@@ -6738,16 +6765,10 @@ Public Class PlanningGatway
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
                 .Append(" GROUP BY ")
-                .Append(" Z.ACCOUNTCODE,")
-                .Append(" Z.ITEMCODE,")
-                .Append(" Z.DESIGNCODE,")
-                .Append(" Z.SHADECODE")
+                '.Append(" Z.ACCOUNTCODE,")
+                .Append(" Z.ITEMCODE")
             End If
-
-
-
         End With
-
         Return _strQuery.ToString
     End Function
     Private Function _QueySalesFactstock(ByVal _Stage As String, ByVal Filterstring As String)
@@ -6755,10 +6776,8 @@ Public Class PlanningGatway
         With _strQuery
             .Append(" SELECT  ")
             If _Stage = "FIRST" Then
-                .Append("  A.TAXSLAB AS ACCOUNTCODE")
-                .Append(" ,A.GROUPNAME AS ItemCode ")
-                .Append(" ,A.COMPNAME AS DesignCode ")
-                .Append(" ,A.PRIMERUNIT AS Shadecode ")
+                '.Append("  A.TAXSLAB AS ACCOUNTCODE")
+                .Append(" A.GROUPNAME AS ItemCode ")
                 .Append(" ,0.00 as OldSales")
                 .Append(" ,0.00 as Planning")
                 .Append(" ,0.00 as BeamPlan")
@@ -6770,32 +6789,59 @@ Public Class PlanningGatway
             ElseIf _Stage = "SECOND" Then
                 .Append("  A.TAXSLAB AS ACCOUNTCODE")
                 .Append(" ,A.GROUPNAME AS ItemCode ")
+                .Append(" ,F.ACCOUNTNAME AS PartyName")
+                .Append(" ,G.ITENNAME AS Item")
+                .Append(" ,ISNULL(SUM(D.GMtr), 0) - ISNULL(SUM(E.GMtr), 0) AS FactStock ")
+            ElseIf _Stage = "THIRD" Then
+                .Append("  A.TAXSLAB AS ACCOUNTCODE")
+                .Append(" ,A.GROUPNAME AS ItemCode ")
                 .Append(" ,A.COMPNAME AS DesignCode ")
                 .Append(" ,A.PRIMERUNIT AS Shadecode ")
+                .Append(" ,F.ACCOUNTNAME AS PartyName")
+                .Append(" ,G.ITENNAME AS Item")
+                .Append(" ,H.SHADE AS Shade")
                 .Append(" ,ISNULL(SUM(D.GMtr), 0) - ISNULL(SUM(E.GMtr), 0) AS FactStock ")
             End If
             .Append(" FROM MstItemBatchWise AS A ")
             .Append(" LEFT JOIN TrnBeamHeader AS B ON A.ITEMNAME=B.OP16  ")
             .Append(" LEFT JOIN MSTBOOK AS C ON B.BOOKCODE = C.BOOKCODE ")
             .Append(" LEFT JOIN TrnGreyRcpt AS D ON B.BEAMNO = D.BEAMNO ")
-            .Append(" LEFT JOIN TrnGreyDesp AS E ON D.Grey_Rcpt_Pcs_ID = E.Grey_Rcpt_Pcs_ID ")
-            .Append(" AND A.ITEMNAME=B.OP16  ")
+            .Append(" LEFT JOIN TrnGreyDesp AS E ON (D.Grey_Rcpt_Pcs_ID = E.Grey_Rcpt_Pcs_ID ")
+            .Append(" AND A.ITEMNAME=B.OP16 ) ")
 
             If _Stage = "SECOND" Then
-                .Append(" LEFT JOIN TrnBeamHeader AS B ON A.ITEMNAME=B.OP16  ")
-                .Append(" LEFT JOIN MSTBOOK AS C ON B.BOOKCODE = C.BOOKCODE ")
-                .Append(" LEFT JOIN TrnGreyRcpt AS D ON B.BEAMNO = D.BEAMNO ")
-                .Append(" LEFT JOIN TrnGreyDesp AS E ON D.Grey_Rcpt_Pcs_ID = E.Grey_Rcpt_Pcs_ID ")
+                .Append(" LEFT JOIN MstMasterAccount AS F ON Z.ACCOUNTCODE=F.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS G ON Z.ITEMCODE=G.ID")
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
+                .Append(" GROUP BY ")
+                .Append(" Z.ITEMCODE ")
+                .Append(" ,Z.ACCOUNTCODE  ")
+                .Append(" ,A.ACCOUNTNAME")
+                .Append(" ,B.ITENNAME")
+            ElseIf _Stage = "THIRD" Then
+                .Append(" LEFT JOIN MstMasterAccount AS F ON Z.ACCOUNTCODE=F.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS G ON Z.ITEMCODE=G.ID")
+                .Append(" LEFT JOIN Mst_Fabric_Shade AS H ON Z.SHADECODE=H.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY ")
+                .Append(" Z.ITEMCODE ")
+                .Append(" ,Z.ACCOUNTCODE  ")
+                .Append(" ,A.ACCOUNTNAME")
+                .Append(" ,G.ITENNAME")
+                .Append(" ,Z.DESIGNCODE ")
+                .Append(" ,Z.SHADECODE ")
+                .Append(" ,H.SHADE")
+
             Else
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
                 .Append(" GROUP BY  ")
-                .Append(" A.GROUPNAME, ")
-                .Append(" A.COMPNAME, ")
-                .Append("  A.TAXSLAB, ")
-                .Append(" A.PRIMERUNIT ")
+                .Append(" A.GROUPNAME ")
+                '.Append(" ,A.COMPNAME ")
+                '.Append("  A.TAXSLAB ")
+                '.Append(" A.PRIMERUNIT ")
             End If
         End With
 
@@ -6806,88 +6852,86 @@ Public Class PlanningGatway
         With _strQuery
             .Append(" SELECT  ")
             If _Stage = "FIRST" Then
-                .Append(" Z.ITEMCODE   ")
-                .Append(" ,Z.DESIGNCODE   ")
-                .Append(" ,Z.SHADECODE   ")
-                .Append(" ,Z.ACCOUNTCODE  ")
+                .Append(" Z.ITEMCODE ")
+                '.Append(" ,Z.ACCOUNTCODE  ")
                 .Append(" ,0.00 as OldSales")
                 .Append(" ,0.00 as Planning")
                 .Append(" ,0.00 as BeamPlan")
                 .Append(" ,0.00 AS FactStock ")
-                .Append(" ,SUM(Z.GFDMtr)+SUM(Z.GPDMtr)+SUM(Z.FMixMtr) AS ProcsDyn ")
+                .Append(" ,sum(Z.GREYMTR) AS ProcsDyn ")
                 .Append(" ,0.00 AS GreyMtr ")
                 .Append(" ,0.00 AS ProcReady ")
                 .Append(" ,0.00 AS GradingStk ")
             ElseIf _Stage = "SECOND" Then
-                .Append(" Z.ITEMCODE   ")
-                .Append(" ,Z.DESIGNCODE   ")
-                .Append(" ,Z.SHADECODE   ")
+                .Append(" Z.ITEMCODE ")
+                .Append(" ,Z.ACCOUNTCODE  ")
+                .Append(" ,A.ACCOUNTNAME AS PartyName")
+                .Append(" ,B.ITENNAME AS Item")
+                .Append(" ,sum(Z.GREYMTR) AS ProcsDyn ")
+            ElseIf _Stage = "THIRD" Then
+                .Append(" Z.ITEMCODE ")
+                .Append(" ,Z.DESIGNCODE ")
+                .Append(" ,Z.SHADECODE ")
                 .Append(" ,Z.ACCOUNTCODE  ")
                 .Append(" ,A.ACCOUNTNAME AS PartyName")
                 .Append(" ,B.ITENNAME AS Item")
                 .Append(" ,C.SHADE AS Shade")
-                .Append(" ,SUM(Z.GFDMtr)+SUM(Z.GPDMtr)+SUM(Z.FMixMtr) AS ProcsDyn ")
+                .Append(" ,sum(Z.GREYMTR) AS ProcsDyn ")
             End If
             .Append(" FROM ( ")
-            .Append(" SELECT    ")
-            .Append(" A.FABRIC_ITEMCODE as ITEMCODE,A.processcode as AccountCode  ")
-            .Append(" ,a.Fabric_DesignCode as DESIGNCODE   ")
-            .Append(" ,a.Fabric_ShadeCode as SHADECODE   ")
-            .Append(" ,IIF (A.FD_PD='FD',(A.GMTR),0) AS GFDMtr ")
-            .Append(" ,IIF (A.FD_PD='PD',(A.GMTR),0) AS GPDMtr ")
-            .Append(" ,IIF (A.FD_PD NOT IN ('FD','PD'),(A.GMTR),0) AS  GMixMtr ")
-            .Append(" ,0.00 AS FMixMtr ")
-            .Append(" ,0.00 AS FFDMtr ")
-            .Append(" ,0.00 AS FPDMtr ")
-            .Append(" ,a.PcAvgWt ")
-            .Append(" ,a.BeamNo ")
-            .Append(" ,a.PieceNo ")
-            .Append(" FROM TRNGREYDESP AS A  ")
-            .Append(" WHERE 1=1  ")
-            .Append(" AND A.IDP='YES' ")
-            .Append(" UNION ALL ")
-            .Append(" SELECT    ")
-            .Append(" A.FABRIC_ITEMCODE as ITEMCODE,A.processcode as AccountCode  ")
-            .Append(" ,a.Fabric_DesignCode as DESIGNCODE   ")
-            .Append(" ,a.Fabric_ShadeCode as SHADECODE   ")
-            .Append(" ,0.00 AS GFDMtr ")
-            .Append(" ,0.00 AS GPDMtr ")
-            .Append(" ,0.00 AS  GMixMtr ")
-            .Append(" ,IIF (A.FD_PD NOT IN ('FD','PD'),ISNULL(B.GMTR,0),0) AS FMixMtr ")
-            .Append(" ,IIF (A.FD_PD='FD',ISNULL(B.GMTR,0),0) AS FFDMtr ")
-            .Append(" ,IIF (A.FD_PD='PD',ISNULL(B.GMTR,0),0) AS FPDMtr ")
-            .Append(" ,a.PcAvgWt ")
-            .Append(" ,a.BeamNo ")
-            .Append(" ,a.PieceNo ")
-            .Append(" FROM TRNGREYDESP AS A  ")
-            .Append(" LEFT JOIN TRNFINISHRCPT AS B ON A.GREY_DESP_PCS_ID=B.GREY_DESP_PCS_ID ")
-            .Append(" WHERE 1=1  ")
-            .Append(" AND A.IDP='YES' ")
+            .Append(" SELECT")
+            .Append(" A.FABRIC_ITEMCODE AS ITEMCODE,")
+            .Append(" A.Fabric_DesignCode AS DESIGNCODE,")
+            .Append(" A.Fabric_ShadeCode AS SHADECODE,")
+            .Append(" A.ProcessCode AS ACCOUNTCODE,")
+            .Append(" (A.GMTR - ISNULL(SUM(B.GMTR),0)) AS GREYMTR")
+            .Append(" ,a.GREY_DESP_PCS_ID ")
+            .Append(" FROM TRNGREYDESP AS A")
+            .Append(" LEFT JOIN TRNFINISHRCPT AS B ON A.GREY_DESP_PCS_ID = B.GREY_DESP_PCS_ID")
+            .Append(" WHERE 1=1")
+            .Append(" AND A.Process_PcsIdSelect >'' ")
+            .Append(" and A.Process_Beamlotno>'' ")
+            .Append(" AND A.IDP = 'YES'")
+            .Append(" AND (A.Process_OT5 NOT IN ('OK','YES') OR A.Process_OT5 IS NULL) ")
+            .Append(" GROUP BY")
+            .Append(" A.FABRIC_ITEMCODE,")
+            .Append(" A.Fabric_DesignCode,")
+            .Append(" A.Fabric_ShadeCode,")
+            .Append(" A.ProcessCode,")
+            .Append(" A.GMTR")
+            .Append(" ,a.GREY_DESP_PCS_ID ")
+            .Append(" HAVING (A.GMTR - ISNULL(SUM(B.GMTR),0)) > 0")
             .Append(" ) AS Z ")
+
             If _Stage = "SECOND" Then
+                .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE=A.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE=B.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY ")
+                .Append(" Z.ITEMCODE ")
+                .Append(" ,Z.ACCOUNTCODE  ")
+                .Append(" ,A.ACCOUNTNAME")
+                .Append(" ,B.ITENNAME")
+            ElseIf _Stage = "THIRD" Then
                 .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE=A.ACCOUNTCODE")
                 .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE=B.ID")
                 .Append(" LEFT JOIN Mst_Fabric_Shade AS c ON Z.SHADECODE=c.ID")
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
                 .Append(" GROUP BY ")
-                .Append(" Z.ITEMCODE,Z.ACCOUNTCODE ")
-                .Append(" ,Z.DESIGNCODE   ")
-                .Append(" ,Z.SHADECODE   ")
+                .Append(" Z.ITEMCODE ")
+                .Append(" ,Z.ACCOUNTCODE  ")
                 .Append(" ,A.ACCOUNTNAME")
-                .Append(" ,B.ITENNAME ")
+                .Append(" ,B.ITENNAME")
+                .Append(" ,Z.DESIGNCODE ")
+                .Append(" ,Z.SHADECODE ")
                 .Append(" ,C.SHADE")
-                .Append(" HAVING (SUM(Z.GFDMtr)+SUM(Z.GPDMtr)+SUM(Z.GMixMtr)+SUM(Z.FMixMtr))-(SUM(Z.FFDMtr)+SUM(Z.FPDMtr))>0 ")
-
             Else
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
                 .Append(" GROUP BY ")
-                .Append(" Z.ITEMCODE,Z.AccountCode ")
-                .Append(" ,Z.DESIGNCODE   ")
-                .Append(" ,Z.SHADECODE   ")
-                .Append(" HAVING (SUM(Z.GFDMtr)+SUM(Z.GPDMtr)+SUM(Z.GMixMtr)+SUM(Z.FMixMtr))-(SUM(Z.FFDMtr)+SUM(Z.FPDMtr))>0 ")
-
+                .Append(" Z.ITEMCODE ")
             End If
         End With
 
@@ -6899,9 +6943,7 @@ Public Class PlanningGatway
             .AppendLine("SELECT")
             If _Stage = "FIRST" Then
                 .AppendLine(" Z.ITEMCODE,")
-                .AppendLine(" Z.DESIGNCODE,")
-                .AppendLine(" Z.SHADECODE,")
-                .AppendLine(" Z.ACCOUNTCODE,")
+                '.AppendLine(" Z.ACCOUNTCODE,")
                 .AppendLine(" 0.00 AS OldSales,")
                 .AppendLine(" 0.00 AS Planning,")
                 .AppendLine(" 0.00 AS BeamPlan,")
@@ -6910,8 +6952,13 @@ Public Class PlanningGatway
                 .AppendLine(" SUM(Z.GREYMTR) AS GreyMtr,")
                 .AppendLine(" 0.00 AS ProcReady,")
                 .AppendLine(" 0.00 AS GradingStk")
-
             ElseIf _Stage = "SECOND" Then
+                .AppendLine(" Z.ITEMCODE,")
+                .AppendLine(" Z.ACCOUNTCODE,")
+                .AppendLine(" A.ACCOUNTNAME AS PartyName,")
+                .AppendLine(" B.ITENNAME AS Item,")
+                .AppendLine(" SUM(Z.GREYMTR) AS GreyMtr")
+            ElseIf _Stage = "THIRD" Then
                 .AppendLine(" Z.ITEMCODE,")
                 .AppendLine(" Z.DESIGNCODE,")
                 .AppendLine(" Z.SHADECODE,")
@@ -6923,47 +6970,52 @@ Public Class PlanningGatway
             End If
 
             .AppendLine(" FROM (")
-            .AppendLine("   SELECT")
-            .AppendLine("     A.FABRIC_ITEMCODE AS ITEMCODE,")
-            .AppendLine("     A.Fabric_DesignCode AS DESIGNCODE,")
-            .AppendLine("     A.Fabric_ShadeCode AS SHADECODE,")
-            .AppendLine("     A.ProcessCode AS ProcessCode,")
-            .AppendLine("     A.AccountCode AS AccountCode,")
-            .AppendLine("     (A.GMTR - ISNULL(SUM(B.GMTR),0)) AS GREYMTR")
-            .AppendLine("   FROM TRNGREYDESP AS A")
-            .AppendLine("   LEFT JOIN TRNFINISHRCPT AS B ON A.GREY_DESP_PCS_ID = B.GREY_DESP_PCS_ID")
-            .AppendLine("   WHERE 1=1")
-            .AppendLine("     AND A.IDP = 'YES'")
-            .AppendLine("     AND A.BOOKCODE NOT IN ('0001-000000135','0001-000000095','0001-000000654')")
-            .AppendLine("     AND (A.Process_PcsIdSelect IS NULL OR A.Process_PcsIdSelect = '')")
-            .AppendLine("   GROUP BY")
-            .AppendLine("     A.FABRIC_ITEMCODE,")
-            .AppendLine("     A.Fabric_DesignCode,")
-            .AppendLine("     A.Fabric_ShadeCode,")
-            .AppendLine("     A.ProcessCode,")
-            .AppendLine("     A.AccountCode,")
-            .AppendLine("     A.GMTR")
-            .AppendLine("   HAVING (A.GMTR - ISNULL(SUM(B.GMTR),0)) > 0")
+            .AppendLine(" SELECT")
+            .AppendLine(" A.FABRIC_ITEMCODE AS ITEMCODE,")
+            .AppendLine(" A.Fabric_DesignCode AS DESIGNCODE,")
+            .AppendLine(" A.Fabric_ShadeCode AS SHADECODE,")
+            .AppendLine(" A.ProcessCode AS ProcessCode,")
+            .AppendLine(" A.AccountCode AS AccountCode,")
+            .AppendLine(" (A.GMTR - ISNULL(SUM(B.GMTR),0)) AS GREYMTR")
+            .AppendLine("  ,A.grey_desp_pcs_id")
+            .AppendLine(" FROM TRNGREYDESP AS A")
+            .AppendLine(" LEFT JOIN TRNFINISHRCPT AS B ON A.GREY_DESP_PCS_ID = B.GREY_DESP_PCS_ID")
+            .AppendLine(" WHERE 1=1")
+            .AppendLine(" AND A.IDP = 'YES'")
+            .AppendLine(" AND (A.Process_PcsIdSelect IS NULL OR A.Process_PcsIdSelect = '')")
+            .AppendLine(" GROUP BY")
+            .AppendLine(" A.FABRIC_ITEMCODE,")
+            .AppendLine(" A.Fabric_DesignCode,")
+            .AppendLine(" A.Fabric_ShadeCode,")
+            .AppendLine(" A.ProcessCode,")
+            .AppendLine(" A.AccountCode,")
+            .AppendLine(" A.GMTR")
+            .AppendLine("  , A.grey_desp_pcs_id")
+            .AppendLine(" HAVING (A.GMTR - ISNULL(SUM(B.GMTR),0)) > 0")
             .AppendLine(" ) AS Z")
 
             If _Stage = "SECOND" Then
                 .AppendLine(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
                 .AppendLine(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
-                .AppendLine(" LEFT JOIN Mst_Fabric_Shade AS C ON Z.SHADECODE = C.ID")
-            End If
-
-            .AppendLine(" WHERE 1=1")
-            .AppendLine(Filterstring)
-
-            If _Stage = "SECOND" Then
+                .AppendLine(" WHERE 1=1")
+                .AppendLine(Filterstring)
                 .AppendLine(" GROUP BY")
-                .AppendLine("   Z.ITEMCODE, Z.ACCOUNTCODE,")
-                .AppendLine("   Z.DESIGNCODE, Z.SHADECODE,")
-                .AppendLine("   A.ACCOUNTNAME, B.ITENNAME, C.SHADE")
+                .AppendLine(" Z.ITEMCODE, Z.ACCOUNTCODE,")
+                .AppendLine(" A.ACCOUNTNAME, B.ITENNAME")
+            ElseIf _Stage = "THIRD" Then
+                .AppendLine(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
+                .AppendLine(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
+                .AppendLine(" LEFT JOIN Mst_Fabric_Shade AS C ON Z.SHADECODE = C.ID")
+                .AppendLine(" WHERE 1=1")
+                .AppendLine(Filterstring)
+                .AppendLine(" GROUP BY")
+                .AppendLine(" Z.ITEMCODE, Z.ACCOUNTCODE,")
+                .AppendLine(" Z.DESIGNCODE, Z.SHADECODE, C.SHADE,")
+                .AppendLine(" A.ACCOUNTNAME, B.ITENNAME")
             Else
                 .AppendLine(" GROUP BY")
-                .AppendLine("   Z.ITEMCODE, Z.ACCOUNTCODE,")
-                .AppendLine("   Z.DESIGNCODE, Z.SHADECODE")
+                .AppendLine(" Z.ITEMCODE")
+                '.AppendLine("  , Z.ACCOUNTCODE")
             End If
         End With
 
@@ -6972,45 +7024,49 @@ Public Class PlanningGatway
     Private Function _QueySalesProcready(ByVal _Stage As String, ByVal Filterstring As String)
         _strQuery = New StringBuilder
         With _strQuery
-            .AppendLine("SELECT")
+            .Append("SELECT")
             If _Stage = "FIRST" Then
-                .AppendLine(" Z.ITEMCODE,")
-                .AppendLine(" Z.DESIGNCODE,")
-                .AppendLine(" Z.SHADECODE,")
-                .AppendLine(" Z.ACCOUNTCODE,")
-                .AppendLine(" 0.00 AS OldSales,")
-                .AppendLine(" 0.00 AS Planning,")
-                .AppendLine(" 0.00 AS BeamPlan,")
-                .AppendLine(" 0.00 AS FactStock,")
-                .AppendLine(" 0.00 AS ProcsDyn,")
-                .AppendLine(" 0.00 AS GreyMtr,")
-                .AppendLine(" Sum(Z.ProcReady) AS ProcReady,")
-                '.AppendLine(" 0.00 AS ProcReady,")
-                .AppendLine(" 0.00 AS GradingStk")
+                .Append(" Z.ITEMCODE,")
+                '.Append(" Z.ACCOUNTCODE,")
+                .Append(" 0.00 AS OldSales,")
+                .Append(" 0.00 AS Planning,")
+                .Append(" 0.00 AS BeamPlan,")
+                .Append(" 0.00 AS FactStock,")
+                .Append(" 0.00 AS ProcsDyn,")
+                .Append(" 0.00 AS GreyMtr,")
+                .Append(" Sum(Z.ProcReady) AS ProcReady,")
+                .Append(" 0.00 AS GradingStk")
 
             ElseIf _Stage = "SECOND" Then
-                .AppendLine(" Z.ITEMCODE,")
-                .AppendLine(" Z.DESIGNCODE,")
-                .AppendLine(" Z.SHADECODE,")
-                .AppendLine(" Z.ACCOUNTCODE,")
-                .AppendLine(" A.ACCOUNTNAME AS PartyName,")
-                .AppendLine(" B.ITENNAME AS Item,")
-                .AppendLine(" C.SHADE AS Shade,")
-                .AppendLine(" SUM(Z.ProcReady) AS ProcReady")
+                .Append(" Z.ITEMCODE,")
+                .Append(" Z.ACCOUNTCODE,")
+                .Append(" A.ACCOUNTNAME AS PartyName,")
+                .Append(" B.ITENNAME AS Item,")
+                .Append(" SUM(Z.ProcReady) AS ProcReady")
+            ElseIf _Stage = "THIRD" Then
+                .Append(" Z.ITEMCODE,")
+                .Append(" Z.DESIGNCODE,")
+                .Append(" Z.SHADECODE,")
+                .Append(" Z.ACCOUNTCODE,")
+                .Append(" A.ACCOUNTNAME AS PartyName,")
+                .Append(" B.ITENNAME AS Item,")
+                .Append(" C.SHADE AS Shade,")
+                .Append(" SUM(Z.ProcReady) AS ProcReady")
             End If
 
-            .AppendLine(" FROM (")
-            .AppendLine("   SELECT")
+            .Append(" FROM (")
+            .Append(" SELECT")
             .Append(" A.Fabric_ItemCode AS ITEMCODE ")
-            .Append(" ,a.Fabric_DesignCode as DESIGNCODE   ")
-            .Append(" ,a.Fabric_ShadeCode as SHADECODE   ")
+            .Append(" ,a.Fabric_DesignCode as DESIGNCODE ")
+            .Append(" ,a.Fabric_ShadeCode as SHADECODE ")
             .Append(" ,a.processcode as AccountCode  ")
             .Append(" , IIF (A.Process_OT5 IN ('OK','YES') ,SUM(A.GMTR),0) AS ProcReady ")
+            .Append(" ,A.grey_desp_pcs_id  ")
             .Append(" FROM  ")
             .Append(" TRNGREYDESP AS A ")
             .Append(" LEFT JOIN  trnfinishrcpt AS F ON A.grey_desp_pcs_id=F.grey_desp_pcs_id ")
             .Append(" WHERE 1=1 ")
-            '.AppendLine(Filterstring)
+            '.Append(Filterstring)
             .Append(" AND A.Process_PcsIdSelect >'' ")
             .Append(" and f.Grey_Desp_Pcs_ID IS NULL ")
             .Append(" and A.Process_Beamlotno>'' ")
@@ -7020,25 +7076,36 @@ Public Class PlanningGatway
             .Append(" ,a.Process_OT5 ")
             .Append(" ,a.Fabric_DesignCode ")
             .Append(" ,a.Fabric_ShadeCode ")
-            .AppendLine(" ) AS Z")
+            .Append(" ,a.grey_desp_pcs_id ")
+            .Append(" ) AS Z")
 
             If _Stage = "SECOND" Then
-                .AppendLine(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
-                .AppendLine(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
-                .AppendLine(" LEFT JOIN Mst_Fabric_Shade AS C ON Z.SHADECODE = C.ID")
-
-            End If
-            .AppendLine(" WHERE 1=1")
-            .AppendLine(Filterstring)
-            If _Stage = "SECOND" Then
-                .AppendLine(" GROUP BY")
-                .AppendLine("   Z.ITEMCODE, Z.ACCOUNTCODE,")
-                .AppendLine("   Z.DESIGNCODE, Z.SHADECODE,")
-                .AppendLine("   A.ACCOUNTNAME, B.ITENNAME, C.SHADE")
+                .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY")
+                .Append(" Z.ITEMCODE, Z.ACCOUNTCODE,")
+                .Append(" A.ACCOUNTNAME, B.ITENNAME")
+                .Append(" HAVING SUM(Z.ProcReady) >0 ")
+            ElseIf _Stage = "THIRD" Then
+                .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
+                .Append(" LEFT JOIN Mst_Fabric_Shade AS C ON Z.SHADECODE = C.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY")
+                .Append(" Z.ITEMCODE, Z.ACCOUNTCODE,")
+                .Append(" Z.DESIGNCODE, Z.SHADECODE, C.SHADE,")
+                .Append(" A.ACCOUNTNAME, B.ITENNAME")
+                .Append(" HAVING SUM(Z.ProcReady) >0 ")
             Else
-                .AppendLine(" GROUP BY")
-                .AppendLine("   Z.ITEMCODE, Z.ACCOUNTCODE,")
-                .AppendLine("   Z.DESIGNCODE, Z.SHADECODE")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY")
+                .Append(" Z.ITEMCODE")
+                '.Append("  , Z.ACCOUNTCODE")
+                .Append(" HAVING SUM(Z.ProcReady) >0 ")
             End If
         End With
 
@@ -7047,33 +7114,37 @@ Public Class PlanningGatway
     Private Function _QueySalesGradingStk(ByVal _Stage As String, ByVal Filterstring As String)
         _strQuery = New StringBuilder
         With _strQuery
-            .AppendLine("SELECT")
+            .Append("SELECT")
             If _Stage = "FIRST" Then
-                .AppendLine(" Z.ITEMCODE,")
-                .AppendLine(" Z.DESIGNCODE,")
-                .AppendLine(" Z.SHADECODE,")
-                .AppendLine(" Z.ACCOUNTCODE,")
-                .AppendLine(" 0.00 AS OldSales,")
-                .AppendLine(" 0.00 AS Planning,")
-                .AppendLine(" 0.00 AS BeamPlan,")
-                .AppendLine(" 0.00 AS FactStock,")
-                .AppendLine(" 0.00 AS ProcsDyn,")
-                .AppendLine(" 0.00 AS GreyMtr,")
-                .AppendLine(" 0.00 AS ProcReady,")
-                .AppendLine(" Sum(Z.GradingStk) AS GradingStk")
+                .Append(" Z.ITEMCODE,")
+                '.Append(" Z.ACCOUNTCODE,")
+                .Append(" 0.00 AS OldSales,")
+                .Append(" 0.00 AS Planning,")
+                .Append(" 0.00 AS BeamPlan,")
+                .Append(" 0.00 AS FactStock,")
+                .Append(" 0.00 AS ProcsDyn,")
+                .Append(" 0.00 AS GreyMtr,")
+                .Append(" 0.00 AS ProcReady,")
+                .Append(" Sum(Z.GradingStk) AS GradingStk")
 
             ElseIf _Stage = "SECOND" Then
-                .AppendLine(" Z.ITEMCODE,")
-                .AppendLine(" Z.DESIGNCODE,")
-                .AppendLine(" Z.SHADECODE,")
-                .AppendLine(" Z.ACCOUNTCODE,")
-                .AppendLine(" A.ACCOUNTNAME AS PartyName,")
-                .AppendLine(" B.ITENNAME AS Item,")
-                .AppendLine(" C.SHADE AS Shade,")
-                .AppendLine(" SUM(Z.GradingStk) AS GradingStk")
+                .Append(" Z.ITEMCODE,")
+                .Append(" Z.ACCOUNTCODE,")
+                .Append(" A.ACCOUNTNAME AS PartyName,")
+                .Append(" B.ITENNAME AS Item,")
+                .Append(" SUM(Z.GradingStk) AS GradingStk")
+            ElseIf _Stage = "THIRD" Then
+                .Append(" Z.ITEMCODE,")
+                .Append(" Z.DESIGNCODE,")
+                .Append(" Z.SHADECODE,")
+                .Append(" Z.ACCOUNTCODE,")
+                .Append(" A.ACCOUNTNAME AS PartyName,")
+                .Append(" B.ITENNAME AS Item,")
+                .Append(" C.SHADE AS Shade,")
+                .Append(" SUM(Z.GradingStk) AS GradingStk")
             End If
-            .AppendLine(" FROM (")
-            .AppendLine("   SELECT")
+            .Append(" FROM (")
+            .Append(" SELECT")
             .Append(" A.ItemCode")
             .Append(" ,A.DESIGNCODE")
             .Append(" ,A.shadecode")
@@ -7086,62 +7157,68 @@ Public Class PlanningGatway
             .Append(" ,0.00 AS GreyMtr ")
             .Append(" ,0.00 AS ProcReady ")
             .Append(" ,SUM (Z.CHK_MTR)-SUM (Z.CUT_MTR) As GradingStk")
-            .Append("  	FROM (")
-            .Append("  	SELECT")
-            .Append("  	Y.PIECE_ID")
-            .Append("  	, SUM(Y.Checked_mtr) AS CHK_MTR,")
-            .Append("  	SUM(Y.CUTTING_MTR) AS CUT_MTR")
-            .Append("  	FROM")
-            .Append("  	(")
-            .Append("  	SELECT")
-            .Append("  	A.PIECE_ID, A.mtr as Checked_mtr,0.00 AS CUTTING_MTR")
-            .Append("  	FROM TRNGRADING A,MstCutMaster B")
-            .Append("  	WHERE 1=1 AND LEFT(A.BOOKTRTYPE,1)<>'P'")
-            .Append("  	AND LEFT(A.BOOKTRTYPE,1)<>'R'")
-            .Append("  	AND A.CutCode=B.ID")
-            .Append("  	AND B.CutType in ('LUMP','THAN','RIGHT CUT')")
+            .Append(" FROM (")
+            .Append(" SELECT")
+            .Append(" Y.PIECE_ID")
+            .Append(" , SUM(Y.Checked_mtr) AS CHK_MTR,")
+            .Append(" SUM(Y.CUTTING_MTR) AS CUT_MTR")
+            .Append(" FROM")
+            .Append(" (")
+            .Append(" SELECT")
+            .Append(" A.PIECE_ID, A.mtr as Checked_mtr,0.00 AS CUTTING_MTR")
+            .Append(" FROM TRNGRADING A,MstCutMaster B")
+            .Append(" WHERE 1=1 AND LEFT(A.BOOKTRTYPE,1)<>'P'")
+            .Append(" AND LEFT(A.BOOKTRTYPE,1)<>'R'")
+            .Append(" AND A.CutCode=B.ID")
+            .Append(" AND B.CutType in ('LUMP','THAN','RIGHT CUT')")
 
-            .Append("  	UNION ALL")
-            .Append("  	SELECT ")
-            .Append("  	A.PARENT_PIECE_ID AS PIECE_ID,")
-            .Append("  	0.00 AS Checked_mtr,SUM(A.MTR) AS CUTTING_MTR")
-            .Append("  	FROM TRNGRADING A")
-            .Append("  	WHERE 1=1")
+            .Append(" UNION ALL")
+            .Append(" SELECT ")
+            .Append(" A.PARENT_PIECE_ID AS PIECE_ID,")
+            .Append(" 0.00 AS Checked_mtr,SUM(A.MTR) AS CUTTING_MTR")
+            .Append(" FROM TRNGRADING A")
+            .Append(" WHERE 1=1")
 
-            .Append("  	GROUP BY A.PARENT_PIECE_ID   ")
-            .Append("  	) AS Y")
-            .Append("  	GROUP BY Y.PIECE_ID ")
-            .Append("  	HAVING SUM(Checked_mtr)>0")
-            .Append("  	) AS Z")
-            .Append("  	, TRNGRADING as A ")
-            .Append("  where 1=1 ")
+            .Append(" GROUP BY A.PARENT_PIECE_ID ")
+            .Append(" ) AS Y")
+            .Append(" GROUP BY Y.PIECE_ID ")
+            .Append(" HAVING SUM(Checked_mtr)>0")
+            .Append(" ) AS Z")
+            .Append(" , TRNGRADING as A ")
+            .Append(" where 1=1 ")
             .Append(" And ROUND(Z.CHK_MTR-Z.CUT_MTR,2)>0 ")
-            .Append(" AND A.Piece_ID =Z.Piece_ID  ")
-            .Append("  	GROUP BY")
-            .Append("  	A.ItemCode")
-            .Append("  	,A.shadecode")
-            .Append("  	,A.DESIGNCODE")
-            .Append("  	,A.AccountCode")
-            .AppendLine(" ) AS Z")
+            .Append(" AND A.Piece_ID =Z.Piece_ID ")
+            .Append(" GROUP BY")
+            .Append(" A.ItemCode")
+            .Append(" ,A.shadecode")
+            .Append(" ,A.DESIGNCODE")
+            .Append(" ,A.AccountCode")
+            .Append(" ) AS Z")
 
             If _Stage = "SECOND" Then
-                .AppendLine(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
-                .AppendLine(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
-                .AppendLine(" LEFT JOIN Mst_Fabric_Shade AS C ON Z.SHADECODE = C.ID")
-            End If
-
-            .AppendLine(" WHERE 1=1")
-            .AppendLine(Filterstring)
-
-            If _Stage = "SECOND" Then
-                .AppendLine(" GROUP BY")
-                .AppendLine("   Z.ITEMCODE, Z.ACCOUNTCODE,")
-                .AppendLine("   Z.DESIGNCODE, Z.SHADECODE,")
-                .AppendLine("   A.ACCOUNTNAME, B.ITENNAME, C.SHADE")
+                .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY")
+                .Append(" Z.ITEMCODE, Z.ACCOUNTCODE,")
+                .Append(" A.ACCOUNTNAME, B.ITENNAME")
+            ElseIf _Stage = "THIRD" Then
+                .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE = A.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE = B.ID")
+                .Append(" LEFT JOIN Mst_Fabric_Shade AS C ON Z.SHADECODE = C.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY")
+                .Append(" Z.ITEMCODE, Z.ACCOUNTCODE,")
+                .Append(" Z.DESIGNCODE, Z.SHADECODE, C.SHADE,")
+                .Append(" A.ACCOUNTNAME, B.ITENNAME")
             Else
-                .AppendLine(" GROUP BY")
-                .AppendLine("   Z.ITEMCODE, Z.ACCOUNTCODE,")
-                .AppendLine("   Z.DESIGNCODE, Z.SHADECODE")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY")
+                .Append(" Z.ITEMCODE")
+                '.Append(" , Z.ACCOUNTCODE")
             End If
         End With
 
@@ -7155,11 +7232,9 @@ Public Class PlanningGatway
             .Append(" SELECT ")
 
             If _Stage = "FIRST" Then
-                .Append(" Z.ACCOUNTCODE")
-                .Append(" ,Z.ITEMCODE")
-                .Append(" ,Z.DESIGNCODE")
-                .Append(" ,Z.SHADECODE")
-                .Append(" ,Z.OldSales")
+                '.Append(" Z.ACCOUNTCODE")
+                .Append(" Z.ITEMCODE")
+                .Append(" ,SUM (Z.OldSales) AS OldSales")
                 .Append(" ,0.00 as Planning")
                 .Append(" ,0.00 as BeamPlan")
                 .Append(" ,0.00 as FactStock")
@@ -7170,12 +7245,18 @@ Public Class PlanningGatway
             ElseIf _Stage = "SECOND" Then
                 .Append(" Z.ACCOUNTCODE")
                 .Append(" ,Z.ITEMCODE")
+                .Append(" ,A.ACCOUNTNAME AS PartyName")
+                .Append(" ,B.ITENNAME AS Item")
+                .Append(" ,SUM (Z.OldSales) AS OldSales")
+            ElseIf _Stage = "THIRD" Then
+                .Append(" Z.ACCOUNTCODE")
+                .Append(" ,Z.ITEMCODE")
                 .Append(" ,Z.DESIGNCODE")
                 .Append(" ,Z.SHADECODE")
                 .Append(" ,A.ACCOUNTNAME AS PartyName")
                 .Append(" ,B.ITENNAME AS Item")
                 .Append(" ,C.SHADE AS Shade")
-                .Append(" ,Z.OldSales")
+                .Append(" ,SUM (Z.OldSales) AS OldSales")
             End If
 
             .Append(" FROM ( ")
@@ -7184,7 +7265,7 @@ Public Class PlanningGatway
             .Append(" ,A.ITEMCODE")
             .Append(" ,A.DESIGNCODE")
             .Append(" ,A.SHADECODE")
-            .Append(" ,A.MTR_WEIGHT as OldSales")
+            .Append(" ,sum(A.MTR_WEIGHT) as OldSales")
             .Append(" FROM")
             .Append(" TrnPackingSlip AS A ")
             .Append(" LEFT JOIN MSTBOOK AS C ON A.BOOKCODE=C.BOOKCODE")
@@ -7192,26 +7273,56 @@ Public Class PlanningGatway
             .Append(" WHERE 1=1")
             .Append(" AND C.BEHAVIOUR='FINISH'")
             .Append(" AND C.BOOKCATEGORY='PACKING SLIP'")
+            .Append(" GROUP BY ")
+            .Append(" A.ACCOUNTCODE")
+            .Append(" ,A.ITEMCODE")
+            .Append(" ,A.DESIGNCODE")
+            .Append(" ,A.SHADECODE")
             .Append(" ) AS Z")
-
             If _Stage = "SECOND" Then
+                .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE=A.ACCOUNTCODE")
+                .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE=B.ID")
+                .Append(" WHERE 1=1")
+                .Append(Filterstring)
+                .Append(" GROUP BY ")
+                .Append(" Z.ITEMCODE")
+                .Append(" ,Z.ACCOUNTCODE")
+                .Append(" ,Z.ITEMCODE")
+                .Append(" ,A.ACCOUNTNAME")
+                .Append(" ,B.ITENNAME")
+                .Append(" ORDER BY ")
+                .Append(" A.ACCOUNTNAME")
+                .Append(" ,B.ITENNAME ")
+            ElseIf _Stage = "THIRD" Then
                 .Append(" LEFT JOIN MstMasterAccount AS A ON Z.ACCOUNTCODE=A.ACCOUNTCODE")
                 .Append(" LEFT JOIN MstFabricItem AS B ON Z.ITEMCODE=B.ID")
                 .Append(" LEFT JOIN Mst_Fabric_Shade AS c ON Z.SHADECODE=c.ID")
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
+                .Append(" GROUP BY ")
+                .Append(" Z.ITEMCODE")
+                .Append(" ,Z.ACCOUNTCODE")
+                .Append(" ,Z.ITEMCODE")
+                .Append(" ,A.ACCOUNTNAME")
+                .Append(" ,B.ITENNAME")
+                .Append(" ,Z.DESIGNCODE")
+                .Append(" ,Z.SHADECODE")
+                .Append(" ,C.SHADE")
                 .Append(" ORDER BY ")
                 .Append(" A.ACCOUNTNAME")
                 .Append(" ,B.ITENNAME ")
-                .Append(" ,C.SHADE")
             Else
                 .Append(" WHERE 1=1")
                 .Append(Filterstring)
+
+                .Append(" GROUP BY ")
+                .Append(" Z.ITEMCODE")
             End If
 
         End With
         Return _strQuery.ToString
     End Function
+
 #End Region
 
     Private Function _salesQuery(ByVal Comp_Print_Name As String, ByVal DataBaseName As String, ByVal _FilterItemPartyWise As String, ByVal _GridStage As String)
@@ -7237,8 +7348,6 @@ Public Class PlanningGatway
                 .Append(" ,D.ITENNAME AS ItemName")
                 .Append(" ,Z.ITEMCODE")
             End If
-
-            .Append(" ,SUM(Z.OldSales) AS OldSales")
             .Append(" ,SUM(Z.Planning) AS Planning")
             .Append(" ,SUM(Z.BeamPlan) AS BeamPlan")
             .Append(" ,SUM(Z.FactStock) AS FactStock")
@@ -7246,340 +7355,35 @@ Public Class PlanningGatway
             .Append(" ,SUM(Z.GreyMtr) AS GreyMtr")
             .Append(" ,SUM(Z.ProcReady) AS ProcReady")
             .Append(" ,SUM(Z.GradingStk) AS GradingStk")
+            .Append(" ,SUM(Z.OldSales) AS OldSales")
             .Append(" ,SUM(Z.Planning)+SUM(Z.BeamPlan)+SUM(Z.FactStock)+SUM(Z.ProcsDyn)+SUM(Z.GreyMtr)+SUM(Z.ProcReady)+SUM(Z.GradingStk) AS TotStk")
-
             .Append(" FROM (")
-
-#Region "Old sales"
             .Append(_OldSales)
-            '.Append(" SELECT ")
-            '.Append(" A.ACCOUNTCODE")
-            '.Append(" ,A.ITEMCODE")
-            '.Append(" ,A.DESIGNCODE")
-            '.Append(" ,A.SHADECODE")
-            '.Append(" ,A.MTR_WEIGHT as OldSales")
-            '.Append(" ,0.00 as Planning")
-            '.Append(" ,0.00 as BeamPlan")
-            '.Append(" ,0.00 as FactStock")
-            '.Append(" ,0.00 AS ProcsDyn ")
-            '.Append(" ,0.00 AS GreyMtr ")
-            '.Append(" ,0.00 AS ProcReady ")
-            '.Append(" ,0.00 AS GradingStk ")
-            '.Append(" FROM")
-            '.Append(" TrnPackingSlip AS A ")
-            '.Append(" LEFT JOIN MSTBOOK AS C ON A.BOOKCODE=C.BOOKCODE")
-            '.Append(" WHERE 1=1")
-            '.Append(" AND C.BEHAVIOUR='FINISH'")
-            '.Append(" AND C.BOOKCATEGORY='PACKING SLIP'")
-
-#End Region
-
-#Region "Beam Planning Data"
             .Append(" UNION ALL ")
             .Append(_Beamplanning)
-            '.Append(" SELECT ")
-            '.Append(" Z.ACCOUNTCODE")
-            '.Append(" ,Z.ITEMCODE")
-            '.Append(" ,Z.DESIGNCODE")
-            '.Append(" ,Z.SHADECODE")
-            '.Append(" ,0.00 as OldSales")
-            '.Append(" ,SUM(Z.PlanningQty)-SUM(Z.OwnBeamPlanQty) as Planning")
-            '.Append(" ,SUM(Z.OwnBeamPlanQty) as BeamPlan")
-            '.Append(" ,0.00 as FactStock")
-            '.Append(" ,0.00 AS ProcsDyn ")
-            '.Append(" ,0.00 AS GreyMtr ")
-            '.Append(" ,0.00 AS ProcReady ")
-            '.Append(" ,0.00 AS GradingStk ")
-            '.Append(" FROM ( ")
-            '.Append(" SELECT ")
-            '.Append("  A.TAXSLAB AS ACCOUNTCODE")
-            '.Append(" ,A.GROUPNAME AS ItemCode")
-            '.Append(" ,A.COMPNAME AS DesignCode")
-            '.Append(" ,A.PRIMERUNIT AS Shadecode")
-            '.Append(" ,CAST(ISNULL(a.ALTUNIT,'0') AS DECIMAL(18, 3)) AS PlanningQty")
-            '.Append(" ,0.00 as OwnBeamPlanQty")
-            '.Append(" ,0.00 as JobBeamPlanQty")
-            '.Append(" FROM MstItemBatchWise AS A ")
-            '.Append(" WHERE 1=1")
-            '.Append(" AND A.MRP='NO'  ")
-            '.Append(" AND A.SHORTNAME='NEW QUALITY PLANNING'")
-
-            '.Append(" UNION ALL ")
-
-            '.Append(" SELECT ")
-            '.Append("  A.TAXSLAB AS ACCOUNTCODE")
-            '.Append(" , A.GROUPNAME AS ItemCode")
-            '.Append(" ,A.COMPNAME AS DesignCode")
-            '.Append(" ,A.PRIMERUNIT AS Shadecode")
-            '.Append(" ,0.00 AS PlanningQty")
-            '.Append(" ,IIF (B.Own_Job='OWN',B.Beam_Length,0) as OwnBeamPlanQty")
-            '.Append(" ,IIF (B.Own_Job='JOB',B.Beam_Length,0) as JobBeamPlanQty")
-            '.Append(" FROM MstItemBatchWise AS A ")
-            '.Append(" LEFT JOIN TrnBeamHeader AS B ON A.ITEMNAME=B.OP16 ")
-            '.Append(" LEFT JOIN MSTBOOK AS C ON B.BOOKCODE=C.BOOKCODE ")
-            '.Append(" WHERE 1=1")
-            '.Append(" AND A.ITEMNAME=B.OP16")
-            '.Append(" ) AS Z ")
-            '.Append(" GROUP BY ")
-            '.Append(" Z.ACCOUNTCODE,")
-            '.Append(" Z.ITEMCODE,")
-            '.Append(" Z.DESIGNCODE,")
-            '.Append(" Z.SHADECODE")
-#End Region
-
-
-#Region "Factory Stock"
             .Append(" UNION ALL ")
             .Append(_Factstock)
-            '.Append(" SELECT  ")
-            '.Append("  A.TAXSLAB AS ACCOUNTCODE")
-            '.Append(" ,A.GROUPNAME AS ItemCode ")
-            '.Append(" ,A.COMPNAME AS DesignCode ")
-            '.Append(" ,A.PRIMERUNIT AS Shadecode ")
-            '.Append(" ,0.00 as OldSales")
-            '.Append(" ,0.00 as Planning")
-            '.Append(" ,0.00 as BeamPlan")
-            '.Append(" ,ISNULL(SUM(D.GMtr), 0) - ISNULL(SUM(E.GMtr), 0) AS FactStock ")
-            '.Append(" ,0.00 AS ProcsDyn ")
-            '.Append(" ,0.00 AS GreyMtr ")
-            '.Append(" ,0.00 AS ProcReady ")
-            '.Append(" ,0.00 AS GradingStk ")
-            '.Append(" FROM MstItemBatchWise AS A ")
-            '.Append(" LEFT JOIN TrnBeamHeader AS B ON A.ITEMNAME=B.OP16  ")
-            '.Append(" LEFT JOIN MSTBOOK AS C ON B.BOOKCODE = C.BOOKCODE ")
-            '.Append(" LEFT JOIN TrnGreyRcpt AS D ON B.BEAMNO = D.BEAMNO ")
-            '.Append(" LEFT JOIN TrnGreyDesp AS E ON D.Grey_Rcpt_Pcs_ID = E.Grey_Rcpt_Pcs_ID ")
-            '.Append(" WHERE 1 = 1 ")
-            '.Append(" AND A.ITEMNAME=B.OP16  ")
-            '.Append(" GROUP BY  ")
-            '.Append(" A.GROUPNAME, ")
-            '.Append(" A.COMPNAME, ")
-            '.Append("  A.TAXSLAB, ")
-            '.Append(" A.PRIMERUNIT ")
-#End Region
-
-
-
-#Region "Process Stock"
             .Append(" UNION ALL ")
             .Append(_ProcsDyn)
-            '.Append(" SELECT ")
-            '.Append(" Z.FABRIC_ITEMCODE as ITEMCODE   ")
-            '.Append(" ,Z.DESIGNCODE   ")
-            '.Append(" ,Z.SHADECODE   ")
-            '.Append(" ,Z.AccountCode  ")
-            '.Append(" ,0.00 as OldSales")
-            '.Append(" ,0.00 as Planning")
-            '.Append(" ,0.00 as BeamPlan")
-            '.Append(" ,0.00 AS FactStock ")
-            '.Append(" ,SUM(Z.GFDMtr)+SUM(Z.GPDMtr)+SUM(Z.FMixMtr) AS ProcsDyn ")
-            '.Append(" ,0.00 AS GreyMtr ")
-            '.Append(" ,0.00 AS ProcReady ")
-            '.Append(" ,0.00 AS GradingStk ")
-            '.Append(" FROM ( ")
-            '.Append(" SELECT    ")
-            '.Append(" A.FABRIC_ITEMCODE,A.processcode as AccountCode  ")
-            '.Append(" ,a.Fabric_DesignCode as DESIGNCODE   ")
-            '.Append(" ,a.Fabric_ShadeCode as SHADECODE   ")
-            '.Append(" ,IIF (A.FD_PD='FD',(A.GMTR),0) AS GFDMtr ")
-            '.Append(" ,IIF (A.FD_PD='PD',(A.GMTR),0) AS GPDMtr ")
-            '.Append(" ,IIF (A.FD_PD NOT IN ('FD','PD'),(A.GMTR),0) AS  GMixMtr ")
-            '.Append(" ,0.00 AS FMixMtr ")
-            '.Append(" ,0.00 AS FFDMtr ")
-            '.Append(" ,0.00 AS FPDMtr ")
-            '.Append(" ,a.PcAvgWt ")
-            '.Append(" ,a.BeamNo ")
-            '.Append(" ,a.PieceNo ")
-            '.Append(" FROM TRNGREYDESP AS A  ")
-            '.Append(" WHERE 1=1  ")
-            '.Append(" AND A.IDP='YES' ")
-            ''.Append(" AND A.BOOKCODE NOT IN ( '0001-000000135','0001-000000095','0001-000000654')   ")
-            '.Append(" UNION ALL ")
-            '.Append(" SELECT    ")
-            '.Append(" A.FABRIC_ITEMCODE,A.processcode as AccountCode  ")
-            '.Append(" ,a.Fabric_DesignCode as DESIGNCODE   ")
-            '.Append(" ,a.Fabric_ShadeCode as SHADECODE   ")
-            '.Append(" ,0.00 AS GFDMtr ")
-            '.Append(" ,0.00 AS GPDMtr ")
-            '.Append(" ,0.00 AS  GMixMtr ")
-            '.Append(" ,IIF (A.FD_PD NOT IN ('FD','PD'),ISNULL(B.GMTR,0),0) AS FMixMtr ")
-            '.Append(" ,IIF (A.FD_PD='FD',ISNULL(B.GMTR,0),0) AS FFDMtr ")
-            '.Append(" ,IIF (A.FD_PD='PD',ISNULL(B.GMTR,0),0) AS FPDMtr ")
-            '.Append(" ,a.PcAvgWt ")
-            '.Append(" ,a.BeamNo ")
-            '.Append(" ,a.PieceNo ")
-            '.Append(" FROM TRNGREYDESP AS A  ")
-            '.Append(" LEFT JOIN TRNFINISHRCPT AS B ON A.GREY_DESP_PCS_ID=B.GREY_DESP_PCS_ID ")
-            '.Append(" WHERE 1=1  ")
-            '.Append(" AND A.IDP='YES' ")
-            ''.Append(" AND A.BOOKCODE NOT IN ( '0001-000000135','0001-000000095','0001-000000654')   ")
-            '.Append(" ) AS Z ")
-            '.Append(" GROUP BY ")
-            '.Append(" Z.FABRIC_ITEMCODE,Z.AccountCode ")
-            '.Append(" ,Z.DESIGNCODE   ")
-            '.Append(" ,Z.SHADECODE   ")
-            ''.Append(" ,Z.BeamNo ")
-            ''.Append(" ,Z.PieceNo ")
-            '.Append(" HAVING (SUM(Z.GFDMtr)+SUM(Z.GPDMtr)+SUM(Z.GMixMtr)+SUM(Z.FMixMtr))-(SUM(Z.FFDMtr)+SUM(Z.FPDMtr))>0 ")
-
-#End Region
-
-
-#Region "Process Stock After Req"
             .Append(" UNION ALL ")
             .Append(_GreyMtr)
-
-            '.Append(" SELECT ")
-            '.Append(" a.FABRIC_ITEMCODE as ITEMCODE   ")
-            '.Append(" ,a.Fabric_DesignCode as DESIGNCODE   ")
-            '.Append(" ,a.Fabric_ShadeCode as SHADECODE   ")
-            '.Append(" ,a.processcode as AccountCode  ")
-            '.Append(" ,0.00 as OldSales")
-            '.Append(" ,0.00 as Planning")
-            '.Append(" ,0.00 as BeamPlan")
-            '.Append(" ,0.00 AS FactStock ")
-            '.Append(" ,0.00 AS ProcsDyn ")
-            '.Append(" ,A.GMTR-ROUND(ISNULL(SUM(B.GMTR),0),3) AS GreyMtr ")
-            '.Append(" ,0.00 AS ProcReady ")
-            '.Append(" ,0.00 AS GradingStk ")
-            '.Append(" FROM ")
-            '.Append(" TRNGREYDESP AS A ")
-            '.Append(" LEFT JOIN TRNFINISHRCPT AS B ON  A.GREY_DESP_PCS_ID = B.GREY_DESP_PCS_ID ")
-            '.Append(" WHERE 1=1 ")
-            '.Append(" AND A.IDP='YES' ")
-            '.Append(" AND A.BOOKCODE NOT IN ( '0001-000000135','0001-000000095','0001-000000654')   ")
-            '.Append(" AND (A.Process_PcsIdSelect IS NULL  OR A.Process_PcsIdSelect='')  ")
-            '.Append(" group by ")
-            '.Append(" a.fabric_ItemCode ")
-            '.Append(" ,a.Fabric_ShadeCode ")
-            '.Append(" ,a.Fabric_DesignCode ")
-            '.Append(" ,A.BeamNo ")
-            '.Append(" ,A.PieceNo ")
-            '.Append(" ,A.Weight ")
-            '.Append(" ,A.PcAvgWt ")
-            '.Append(" ,A.Pick ")
-            '.Append(" ,A.FD_PD ")
-            '.Append(" ,A.EntryNo ")
-            '.Append(" ,A.GMTR ")
-            '.Append(" ,A.ChallanDate ")
-            '.Append(" ,A.BookVno ")
-            '.Append(" ,A.BookCode ")
-            '.Append(" ,A.ProcessCode ")
-            '.Append(" ,A.AccountCode ")
-            '.Append(" ,A.FactoryCode ")
-            '.Append(" ,A.Process_ShadeType ")
-            '.Append(" having (A.GMTR)-ISNULL(sum(B.GMTR),0)>0 ")
-#End Region
-
-#Region "Pending PBeam"
-
             .Append(" UNION ALL ")
             .Append(_ProcReady)
-
-            '.Append(" SELECT ")
-            '.Append(" A.Fabric_ItemCode AS ITEMCODE ")
-            '.Append(" ,a.Fabric_DesignCode as DESIGNCODE   ")
-            '.Append(" ,a.Fabric_ShadeCode as SHADECODE   ")
-            '.Append(" ,a.processcode as AccountCode  ")
-            '.Append(" ,0.00 as OldSales")
-            '.Append(" ,0.00 as Planning")
-            '.Append(" ,0.00 as BeamPlan")
-            '.Append(" ,0.00 AS FactStock ")
-            '.Append(" ,0.00 AS ProcsDyn ")
-            '.Append(" ,0.00 AS GreyMtr ")
-            '.Append(" , IIF (A.Process_OT5 IN ('OK','YES') ,SUM(A.GMTR),0) AS ProcReady ")
-            '.Append(" ,0.00 AS GradingStk ")
-
-            '.Append(" FROM  ")
-            '.Append(" TRNGREYDESP AS A ")
-            '.Append(" LEFT JOIN  trnfinishrcpt AS F ON A.grey_desp_pcs_id=F.grey_desp_pcs_id ")
-            '.Append(" WHERE 1=1 ")
-            '.Append(" AND A.Process_PcsIdSelect >'' ")
-            '.Append(" and f.Grey_Desp_Pcs_ID IS NULL ")
-            '.Append(" and A.Process_Beamlotno>'' ")
-            '.Append(" GROUP BY ")
-            '.Append(" A.Fabric_ItemCode ")
-            '.Append(" ,A.processcode ")
-            '.Append(" ,a.Process_OT5 ")
-            '.Append(" ,a.Fabric_DesignCode ")
-            '.Append(" ,a.Fabric_ShadeCode ")
-
-#End Region
-
-
-#Region "Grading Stock Read"
             .Append(" UNION ALL ")
             .Append(_Gradingstk)
-
-            '.Append("  	Select")
-            '.Append(" A.ItemCode")
-            '.Append(" ,A.DESIGNCODE")
-            '.Append(" ,A.shadecode")
-            '.Append(" ,A.AccountCode")
-            '.Append(" ,0.00 as OldSales")
-            '.Append(" ,0.00 as Planning")
-            '.Append(" ,0.00 as BeamPlan")
-            '.Append(" ,0.00 AS FactStock ")
-            '.Append(" ,0.00 AS ProcsDyn ")
-            '.Append(" ,0.00 AS GreyMtr ")
-            '.Append(" ,0.00 AS ProcReady ")
-            '.Append(" ,SUM (Z.CHK_MTR)-SUM (Z.CUT_MTR) As GradingStk")
-            '.Append("  	FROM (")
-            '.Append("  	SELECT")
-            '.Append("  	Y.PIECE_ID")
-            '.Append("  	, SUM(Y.Checked_mtr) AS CHK_MTR,")
-            '.Append("  	SUM(Y.CUTTING_MTR) AS CUT_MTR")
-            '.Append("  	FROM")
-            '.Append("  	(")
-            '.Append("  	SELECT")
-            '.Append("  	A.PIECE_ID, A.mtr as Checked_mtr,0.00 AS CUTTING_MTR")
-            '.Append("  	FROM TRNGRADING A,MstCutMaster B")
-            '.Append("  	WHERE 1=1 AND LEFT(A.BOOKTRTYPE,1)<>'P'")
-            '.Append("  	AND LEFT(A.BOOKTRTYPE,1)<>'R'")
-            '.Append("  	AND A.CutCode=B.ID")
-            '.Append("  	AND B.CutType in ('LUMP','THAN','RIGHT CUT')")
-
-            '.Append("  	UNION ALL")
-            '.Append("  	SELECT ")
-            '.Append("  	A.PARENT_PIECE_ID AS PIECE_ID,")
-            '.Append("  	0.00 AS Checked_mtr,SUM(A.MTR) AS CUTTING_MTR")
-            '.Append("  	FROM TRNGRADING A")
-            '.Append("  	WHERE 1=1")
-
-            '.Append("  	GROUP BY A.PARENT_PIECE_ID   ")
-            '.Append("  	) AS Y")
-            '.Append("  	GROUP BY Y.PIECE_ID ")
-            '.Append("  	HAVING SUM(Checked_mtr)>0")
-            '.Append("  	) AS Z")
-            '.Append("  	, TRNGRADING as A ")
-            '.Append("  where 1=1 ")
-            '.Append(" And ROUND(Z.CHK_MTR-Z.CUT_MTR,2)>0 ")
-            '.Append(" AND A.Piece_ID =Z.Piece_ID  ")
-            '.Append("  	GROUP BY")
-            '.Append("  	A.ItemCode")
-            '.Append("  	,A.shadecode")
-            '.Append("  	,A.DESIGNCODE")
-            '.Append("  	,A.AccountCode")
-#End Region
-
             .Append(" ) AS Z ")
-
-            .Append(" LEFT JOIN MstMasterAccount AS B ON Z.ACCOUNTCODE=B.ACCOUNTCODE")
-            '.Append(" LEFT JOIN MstMasterAccount AS C ON B.AGENTCODE=C.ACCOUNTCODE")
-            .Append(" LEFT JOIN MstFabricItem AS D ON Z.ITEMCODE=D.ID")
-
-            .Append(" GROUP BY")
-
             If _FilterItemPartyWise = "PARTY WISE" Then
+                .Append(" LEFT JOIN MstMasterAccount AS B ON Z.ACCOUNTCODE=B.ACCOUNTCODE")
+                .Append(" GROUP BY")
                 .Append(" Z.ACCOUNTCODE,")
                 .Append(" B.ACCOUNTNAME")
             Else
+                .Append(" LEFT JOIN MstFabricItem AS D ON Z.ITEMCODE=D.ID")
+                .Append(" GROUP BY")
                 .Append(" D.ITENNAME,")
                 .Append(" Z.ITEMCODE")
             End If
-
         End With
-
         Return _strQuery.ToString
     End Function
 #End Region
@@ -7909,6 +7713,100 @@ Public Class PlanningGatway
                     End If
                 End If
 #End Region
+
+            ElseIf SelectionOfView = "Sales Planning DashBoard" Then
+
+#Region "SALES"
+                If e.KeyCode = Keys.Enter Then
+
+                    Dim _itemCode As String = GridView1.GetRowCellValue(GridView1.FocusedRowHandle, "ITEMCODE").ToString
+                    Dim _ACCOUNTCODE As String = GridView1.GetRowCellValue(GridView1.FocusedRowHandle, "ACCOUNTCODE").ToString
+                    Dim _FilterString = " AND  Z.ItemCode = '" & _itemCode & "'" & " AND  Z.ACCOUNTCODE = '" & _ACCOUNTCODE & "'"
+                    Dim _EntryStage As String = "THIRD"
+
+                    If SelectionType = "OldSales" AndAlso NoOfstage = 1 Then
+                        NoOfstage = 2
+                        _StgIIRowNo = GridView1.FocusedRowHandle
+                        Dim _OldSales As String = _QueyOldSales(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "FIRST")
+                    ElseIf SelectionType = "Planning" AndAlso NoOfstage = 1 Then
+                        NoOfstage = 2
+                        _StgIIRowNo = GridView1.FocusedRowHandle
+                        Dim _OldSales As String = _QueySalesBeamPlan(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "FIRST")
+                    ElseIf SelectionType = "FactStock" AndAlso NoOfstage = 1 Then
+                        NoOfstage = 2
+                        _StgIIRowNo = GridView1.FocusedRowHandle
+                        Dim _OldSales As String = _QueySalesFactstock(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "FIRST")
+                    ElseIf SelectionType = "ProcsDyn" AndAlso NoOfstage = 1 Then
+                        NoOfstage = 2
+                        _StgIIRowNo = GridView1.FocusedRowHandle
+                        Dim _OldSales As String = _QueySalesProcsDyn(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "FIRST")
+                    ElseIf SelectionType = "GreyMtr" AndAlso NoOfstage = 1 Then
+                        NoOfstage = 2
+                        _StgIIRowNo = GridView1.FocusedRowHandle
+                        Dim _OldSales As String = _QueySalesGreyMtr(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "FIRST")
+                    ElseIf SelectionType = "ProcReady" AndAlso NoOfstage = 1 Then
+                        NoOfstage = 2
+                        _StgIIRowNo = GridView1.FocusedRowHandle
+                        Dim _OldSales As String = _QueySalesProcready(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "FIRST")
+                    ElseIf SelectionType = "GradingStk" AndAlso NoOfstage = 1 Then
+                        NoOfstage = 2
+                        _StgIIRowNo = GridView1.FocusedRowHandle
+                        Dim _OldSales As String = _QueySalesGradingStk(_EntryStage, _FilterString)
+                        _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "FIRST")
+                    End If
+
+                ElseIf e.KeyCode = Keys.Escape Then
+                    Dim _itemCode As String = ""
+                    Dim _FilterString As String = ""
+                    If Txt_ProcessStockDisplay.Text = "PARTY WISE" Then
+                        _itemCode = GridView1.GetRowCellValue(GridView1.FocusedRowHandle, "ACCOUNTCODE").ToString
+                        _FilterString = " AND  Z.ACCOUNTCODE = '" & _itemCode & "'"
+                    Else
+                        _itemCode = GridView1.GetRowCellValue(GridView1.FocusedRowHandle, "ITEMCODE").ToString
+                        _FilterString = " AND  Z.ItemCode = '" & _itemCode & "'"
+                    End If
+
+                    If NoOfstage = 2 Then
+                        Dim _EntryStage As String = "SECOND"
+                        If SelectionType = "OldSales" Then
+                            NoOfstage = 1
+                            Dim _OldSales As String = _QueyOldSales(_EntryStage, _FilterString)
+                            _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "")
+                        ElseIf SelectionType = "Planning" Then
+                            NoOfstage = 1
+                            Dim _OldSales As String = _QueySalesBeamPlan(_EntryStage, _FilterString)
+                            _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "")
+                        ElseIf SelectionType = "FactStock" Then
+                            NoOfstage = 1
+                            Dim _OldSales As String = _QueySalesFactstock(_EntryStage, _FilterString)
+                            _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "")
+                        ElseIf SelectionType = "ProcsDyn" Then
+                            NoOfstage = 1
+                            Dim _OldSales As String = _QueySalesProcsDyn(_EntryStage, _FilterString)
+                            _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "")
+                        ElseIf SelectionType = "GreyMtr" Then
+                            NoOfstage = 1
+                            Dim _OldSales As String = _QueySalesGreyMtr(_EntryStage, _FilterString)
+                            _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "")
+                        ElseIf SelectionType = "ProcReady" Then
+                            NoOfstage = 1
+                            Dim _OldSales As String = _QueySalesProcready(_EntryStage, _FilterString)
+                            _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "")
+                        ElseIf SelectionType = "GradingStk" Then
+                            NoOfstage = 1
+                            Dim _OldSales As String = _QueySalesGradingStk(_EntryStage, _FilterString)
+                            _SalesSecondstageGridSetting(_OldSales, SelectionType, _EntryStage, "")
+                        End If
+                    End If
+                End If
+#End Region
+
             End If
 
         Catch ex As Exception
@@ -8342,7 +8240,6 @@ Public Class PlanningGatway
         GridView1.Focus()
     End Function
 
-
 #End Region
 
     Private Sub Btn_Exl_Click(sender As Object, e As EventArgs) Handles Btn_Exl.Click
@@ -8463,6 +8360,6 @@ Public Class PlanningGatway
             End If
         End If
     End Sub
-    'testing
+
 
 End Class
