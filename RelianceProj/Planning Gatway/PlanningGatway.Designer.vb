@@ -526,6 +526,7 @@ Partial Class PlanningGatway
         'Process
         '
         Me.Process.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.ProcessDashBord, Me.ChangeStage})
+        Me.Process.Expanded = True
         Me.Process.ImageOptions.Image = CType(resources.GetObject("Process.ImageOptions.Image"), System.Drawing.Image)
         Me.Process.Name = "Process"
         Me.Process.Text = "Process"
