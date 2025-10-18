@@ -96,7 +96,11 @@ Friend Class StoreConsumption_GridZooming
                 GridControl1.ViewCollection.Add(bandedView)
 
                 ' 🔹 Create Bands
+                ' 🔹 Define Bands
                 Dim Itemname As New GridBand() With {.Caption = ""}
+                Dim LoomNo As New GridBand() With {.Caption = ""}
+
+                ' 🔹 Define Month Bands
                 Dim Jan As New GridBand() With {.Caption = "Jan"}
                 Dim Feb As New GridBand() With {.Caption = "Feb"}
                 Dim Mar As New GridBand() With {.Caption = "Mar"}
@@ -110,11 +114,31 @@ Friend Class StoreConsumption_GridZooming
                 Dim Nov As New GridBand() With {.Caption = "Nov"}
                 Dim Dec As New GridBand() With {.Caption = "Dec"}
 
-                bandedView.Bands.AddRange(New GridBand() {Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
+                ' 🔹 Add Bands According to View Type
+                Select Case Txt_ViewType.Text
 
-                ' 🔹 Add Columns to Bands
+                    Case "Month+Loom Wise"
+                        bandedView.Bands.AddRange(New GridBand() {LoomNo, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
+                        LoomNo.Columns.Add(AddBandedColumn(bandedView, "LoomNo", "Loom No"))
 
-                Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", ""))
+                    Case "Month+Item Wise"
+                        bandedView.Bands.AddRange(New GridBand() {Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
+                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
+
+                    Case "Loom+Item Wise"
+                        bandedView.Bands.AddRange(New GridBand() {LoomNo, Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
+                        LoomNo.Columns.Add(AddBandedColumn(bandedView, "LoomNo", "Loom No"))
+                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
+
+                    Case "Detail"
+                        bandedView.Bands.AddRange(New GridBand() {Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
+                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
+
+                    Case Else
+                        bandedView.Bands.AddRange(New GridBand() {Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
+                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
+
+                End Select
                 Jan.Columns.Add(AddBandedColumn(bandedView, "Jan,2025_Qty", "Qty"))
                 Jan.Columns.Add(AddBandedColumn(bandedView, "Jan,2025_Amt", "Amt"))
                 Feb.Columns.Add(AddBandedColumn(bandedView, "Feb,2025_Qty", "Qty"))
@@ -374,99 +398,6 @@ Friend Class StoreConsumption_GridZooming
             .AppendLine(") AS PivotResult';")
 
             .AppendLine("EXEC sp_executesql @query;")
-
-            '.AppendLine("DECLARE @cols NVARCHAR(MAX);")
-            '.AppendLine("DECLARE @query NVARCHAR(MAX);")
-
-            '' --- Build dynamic column list
-            '.AppendLine("SELECT @cols = STUFF((")
-            '.AppendLine("    SELECT DISTINCT ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy')+'_Qty')")
-            '.AppendLine("         + ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy')+'_Amt')")
-            '.AppendLine("    FROM TRNCHALLAN A")
-            '.AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
-            '.AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            '.AppendLine("    WHERE A.BOOKCODE='0001-000000155'" & filter)
-            '.AppendLine("    FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'),1,1,'');")
-
-            '.AppendLine("IF @cols IS NULL OR LEN(@cols)=0 SET @cols = '[NoData]';")
-
-            '' --- Main pivot query
-            '.AppendLine("SET @query = '")
-            '.AppendLine("SELECT " & selectCols & ", * FROM (")
-            '.AppendLine("    SELECT FORMAT(A.CHALLANDATE,''MMM,yyyy'') + ''_Qty'' AS MonthType,")
-            '.AppendLine("           SUM(A.MTR_WEIGHT) AS Value, B.ItemName, C.LoomNo")
-            '.AppendLine("    FROM TRNCHALLAN A")
-            '.AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
-            '.AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            '.AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter)
-            '.AppendLine("    GROUP BY " & groupCols)
-
-            '.AppendLine("    UNION ALL")
-
-            '.AppendLine("    SELECT FORMAT(A.CHALLANDATE,''MMM,yyyy'') + ''_Amt'' AS MonthType,")
-            '.AppendLine("           SUM(A.AMOUNT) AS Value, B.ItemName, C.LoomNo")
-            '.AppendLine("    FROM TRNCHALLAN A")
-            '.AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
-            '.AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            '.AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter)
-            '.AppendLine("    GROUP BY " & groupCols)
-
-            '.AppendLine(") AS SourceData")
-            '.AppendLine("PIVOT (")
-            '.AppendLine("    SUM(Value)")
-            '.AppendLine("    FOR MonthType IN (' + @cols + ')")
-            '.AppendLine(") AS PivotResult;';")
-
-            '.AppendLine("EXEC sp_executesql @query;")
-
-
-
-
-            '.AppendLine("DECLARE @cols NVARCHAR(MAX);")
-            '.AppendLine("DECLARE @query NVARCHAR(MAX);")
-
-            ''--- Dynamic month columns
-            '.AppendLine("SELECT @cols = STUFF((")
-            '.AppendLine("    SELECT DISTINCT ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy')+'_Qty')")
-            '.AppendLine("          + ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy')+'_Amt')")
-            '.AppendLine("    FROM TRNCHALLAN A")
-            '.AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
-            '.AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            '.AppendLine("    WHERE A.BOOKCODE='0001-000000155'" & filter)
-            '.AppendLine("    FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'),1,1,'');")
-
-            '.AppendLine("IF @cols IS NULL OR LEN(@cols)=0 SET @cols = '[NoData]';")
-
-            ''--- Dynamic pivot query
-            '.AppendLine("SET @query = '")
-            '.AppendLine("SELECT * FROM (")
-            '.AppendLine("    SELECT FORMAT(A.CHALLANDATE,''MMM,yyyy'') + ''_'' + ''Qty'' AS MonthType,")
-            '.AppendLine("           SUM(A.MTR_WEIGHT) AS Value,B.ItemName,c.LoomNo")
-            '.AppendLine("    FROM TRNCHALLAN A")
-            '.AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
-            '.AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            '.AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter)
-            '.AppendLine("    GROUP BY  FORMAT(A.CHALLANDATE,''MMM,yyyy''),B.ItemName,c.LoomNo")
-
-            '.AppendLine("    UNION ALL")
-
-            '.AppendLine("    SELECT  FORMAT(A.CHALLANDATE,''MMM,yyyy'') + ''_'' + ''Amt'' AS MonthType,")
-            '.AppendLine("           SUM(A.AMOUNT) AS Value,B.ItemName,c.LoomNo")
-            '.AppendLine("    FROM TRNCHALLAN A")
-            '.AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
-            '.AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            '.AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter)
-            '.AppendLine("    GROUP BY FORMAT(A.CHALLANDATE,''MMM,yyyy''),B.ItemName,c.LoomNo")
-
-            '.AppendLine(") AS SourceData")
-            '.AppendLine("PIVOT (")
-            '.AppendLine("    SUM(Value)")
-            '.AppendLine("    FOR MonthType IN (' + @cols + ')")
-            '.AppendLine(") AS PivotResult;';")
-
-            '.AppendLine("EXEC sp_executesql @query;")
-
-
         End With
         sqL = _strQuery.ToString
         sql_connect_slect()
