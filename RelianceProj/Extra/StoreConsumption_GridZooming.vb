@@ -130,22 +130,23 @@ Friend Class StoreConsumption_GridZooming
                         LoomNo.Columns.Add(colLoom)
                         bandedView.Bands.Add(LoomNo)
 
-                        ' ✅ Left-align cell + header text
+                        ' ✅ Left align text
                         colLoom.AppearanceCell.Options.UseTextOptions = True
                         colLoom.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                        colLoom.AppearanceHeader.Options.UseTextOptions = True
-                        colLoom.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+
+                        ' ❌ Hide column header (only band header visible)
+                        colLoom.Caption = ""
+                        colLoom.OptionsColumn.ShowCaption = False
 
                     Case "Month+Item Wise"
                         Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
                         Itemname.Columns.Add(colItem)
                         bandedView.Bands.Add(Itemname)
 
-                        ' ✅ Left-align
                         colItem.AppearanceCell.Options.UseTextOptions = True
                         colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                        colItem.AppearanceHeader.Options.UseTextOptions = True
-                        colItem.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                        colItem.Caption = ""
+                        colItem.OptionsColumn.ShowCaption = False
 
                     Case "Loom+Item Wise"
                         Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
@@ -155,19 +156,17 @@ Friend Class StoreConsumption_GridZooming
                         bandedView.Bands.Add(LoomNo)
                         bandedView.Bands.Add(Itemname)
 
-                        ' ✅ Left-align both
                         For Each col In {colLoom, colItem}
                             col.AppearanceCell.Options.UseTextOptions = True
                             col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                            col.AppearanceHeader.Options.UseTextOptions = True
-                            col.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                            col.Caption = ""
+                            col.OptionsColumn.ShowCaption = False
                         Next
 
                     Case "Detail"
                         Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
                         Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
                         Dim colDate As BandedGridColumn = AddBandedColumn(bandedView, "CHALLANDATE", "")
-
                         LoomNo.Columns.Add(colLoom)
                         Itemname.Columns.Add(colItem)
                         challanDate.Columns.Add(colDate)
@@ -176,25 +175,31 @@ Friend Class StoreConsumption_GridZooming
                         bandedView.Bands.Add(Itemname)
                         bandedView.Bands.Add(challanDate)
 
-                        ' ✅ Left-align all three
                         For Each col In {colLoom, colItem, colDate}
                             col.AppearanceCell.Options.UseTextOptions = True
                             col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                            col.AppearanceHeader.Options.UseTextOptions = True
-                            col.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                            col.Caption = ""
+                            col.OptionsColumn.ShowCaption = False
                         Next
 
                     Case Else
-                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "Item Name")
+                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
                         Itemname.Columns.Add(colItem)
                         bandedView.Bands.Add(Itemname)
 
                         colItem.AppearanceCell.Options.UseTextOptions = True
                         colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                        colItem.AppearanceHeader.Options.UseTextOptions = True
-                        colItem.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                        colItem.Caption = ""
+                        colItem.OptionsColumn.ShowCaption = False
                 End Select
 
+                ' ✅ Optional: Make band headers bold and centered
+                For Each band In bandedView.Bands
+                    band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
+                    band.AppearanceHeader.Options.UseFont = True
+                    band.AppearanceHeader.Options.UseTextOptions = True
+                    band.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+                Next
 
                 ' 🔹 MONTH BANDS (for Qty & Amt)
                 Dim dt As DataTable = GridControl1.DataSource
