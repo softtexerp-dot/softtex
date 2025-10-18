@@ -95,74 +95,6 @@ Friend Class StoreConsumption_GridZooming
                 GridControl1.MainView = bandedView
                 GridControl1.ViewCollection.Add(bandedView)
 
-                ' 🔹 Create Bands
-                ' 🔹 Define Bands
-                Dim Itemname As New GridBand() With {.Caption = ""}
-                Dim LoomNo As New GridBand() With {.Caption = ""}
-
-                ' 🔹 Define Month Bands
-                Dim Jan As New GridBand() With {.Caption = "Jan"}
-                Dim Feb As New GridBand() With {.Caption = "Feb"}
-                Dim Mar As New GridBand() With {.Caption = "Mar"}
-                Dim Apr As New GridBand() With {.Caption = "Apr"}
-                Dim May As New GridBand() With {.Caption = "May"}
-                Dim Jun As New GridBand() With {.Caption = "Jun"}
-                Dim Jul As New GridBand() With {.Caption = "Jul"}
-                Dim Aug As New GridBand() With {.Caption = "Aug"}
-                Dim Sep As New GridBand() With {.Caption = "Sep"}
-                Dim Oct As New GridBand() With {.Caption = "Oct"}
-                Dim Nov As New GridBand() With {.Caption = "Nov"}
-                Dim Dec As New GridBand() With {.Caption = "Dec"}
-
-                ' 🔹 Add Bands According to View Type
-                Select Case Txt_ViewType.Text
-
-                    Case "Month+Loom Wise"
-                        bandedView.Bands.AddRange(New GridBand() {LoomNo, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
-                        LoomNo.Columns.Add(AddBandedColumn(bandedView, "LoomNo", "Loom No"))
-
-                    Case "Month+Item Wise"
-                        bandedView.Bands.AddRange(New GridBand() {Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
-                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
-
-                    Case "Loom+Item Wise"
-                        bandedView.Bands.AddRange(New GridBand() {LoomNo, Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
-                        LoomNo.Columns.Add(AddBandedColumn(bandedView, "LoomNo", "Loom No"))
-                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
-
-                    Case "Detail"
-                        bandedView.Bands.AddRange(New GridBand() {Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
-                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
-
-                    Case Else
-                        bandedView.Bands.AddRange(New GridBand() {Itemname, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec})
-                        Itemname.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item Name"))
-
-                End Select
-                Jan.Columns.Add(AddBandedColumn(bandedView, "Jan,2025_Qty", "Qty"))
-                Jan.Columns.Add(AddBandedColumn(bandedView, "Jan,2025_Amt", "Amt"))
-                Feb.Columns.Add(AddBandedColumn(bandedView, "Feb,2025_Qty", "Qty"))
-                Feb.Columns.Add(AddBandedColumn(bandedView, "Feb,2025_Amt", "Amt"))
-                Mar.Columns.Add(AddBandedColumn(bandedView, "Mar,2025_Qty", "Qty"))
-                Mar.Columns.Add(AddBandedColumn(bandedView, "Mar,2025_Amt", "Amt"))
-                Apr.Columns.Add(AddBandedColumn(bandedView, "Apr,2025_Qty", "Qty"))
-                Apr.Columns.Add(AddBandedColumn(bandedView, "Apr,2025_Amt", "Amt"))
-                May.Columns.Add(AddBandedColumn(bandedView, "May,2025_Qty", "Qty"))
-                May.Columns.Add(AddBandedColumn(bandedView, "May,2025_Amt", "Amt"))
-                Jun.Columns.Add(AddBandedColumn(bandedView, "Jun,2025_Qty", "Qty"))
-                Jun.Columns.Add(AddBandedColumn(bandedView, "Jun,2025_Amt", "Amt"))
-                Jul.Columns.Add(AddBandedColumn(bandedView, "Jul,2025_Qty", "Qty"))
-                Jul.Columns.Add(AddBandedColumn(bandedView, "Jul,2025_Amt", "Amt"))
-                Aug.Columns.Add(AddBandedColumn(bandedView, "Aug,2025_Qty", "Qty"))
-                Aug.Columns.Add(AddBandedColumn(bandedView, "Aug,2025_Amt", "Amt"))
-                Sep.Columns.Add(AddBandedColumn(bandedView, "Sep,2025_Qty", "Qty"))
-                Sep.Columns.Add(AddBandedColumn(bandedView, "Sep,2025_Amt", "Amt"))
-                Oct.Columns.Add(AddBandedColumn(bandedView, "Oct,2025_Qty", "Qty"))
-                Oct.Columns.Add(AddBandedColumn(bandedView, "Oct,2025_Amt", "Amt"))
-                Nov.Columns.Add(AddBandedColumn(bandedView, "Nov,2025_Qty", "Qty"))
-                Nov.Columns.Add(AddBandedColumn(bandedView, "Nov,2025_Amt", "Amt"))
-                Dec.Columns.Add(AddBandedColumn(bandedView, "Dec,2025_Qty", "Qty"))
-                Dec.Columns.Add(AddBandedColumn(bandedView, "Dec,2025_Amt", "Amt"))
 
                 ' 🔹 Formatting options
                 bandedView.OptionsView.ShowBands = True
@@ -170,12 +102,133 @@ Friend Class StoreConsumption_GridZooming
                 bandedView.OptionsBehavior.Editable = False
                 bandedView.OptionsView.ShowFooter = True
                 bandedView.BestFitColumns()
+                ' Enable vertical scrolling
+                bandedView.OptionsView.ColumnAutoWidth = False   ' Allows horizontal scroll if columns exceed width
+                bandedView.OptionsView.ShowIndicator = True      ' Row indicator (optional)
+                bandedView.OptionsView.ShowFooter = True         ' Footer if needed
+
+                ' Enable scrolling
+                bandedView.OptionsBehavior.Editable = False      ' Example: make read-only
+                bandedView.OptionsView.ColumnAutoWidth = False   ' Prevent auto-stretch
+                bandedView.OptionsView.EnableAppearanceEvenRow = True
+                bandedView.OptionsView.EnableAppearanceOddRow = True
+
+                ' Scroll settings
+                bandedView.OptionsView.RowAutoHeight = True
+                bandedView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+                bandedView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+
+                ' 🔹 Create GridBands
+                Dim LoomNo As New GridBand() With {.Caption = "Loom No"}
+                Dim Itemname As New GridBand() With {.Caption = "Item Name"}
+                Dim challanDate As New GridBand() With {.Caption = "Date"}
+
+                Select Case Txt_ViewType.Text
+
+                    Case "Month+Loom Wise"
+                        Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
+                        LoomNo.Columns.Add(colLoom)
+                        bandedView.Bands.Add(LoomNo)
+
+                        ' ✅ Left-align cell + header text
+                        colLoom.AppearanceCell.Options.UseTextOptions = True
+                        colLoom.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                        colLoom.AppearanceHeader.Options.UseTextOptions = True
+                        colLoom.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+
+                    Case "Month+Item Wise"
+                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
+                        Itemname.Columns.Add(colItem)
+                        bandedView.Bands.Add(Itemname)
+
+                        ' ✅ Left-align
+                        colItem.AppearanceCell.Options.UseTextOptions = True
+                        colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                        colItem.AppearanceHeader.Options.UseTextOptions = True
+                        colItem.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+
+                    Case "Loom+Item Wise"
+                        Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
+                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
+                        LoomNo.Columns.Add(colLoom)
+                        Itemname.Columns.Add(colItem)
+                        bandedView.Bands.Add(LoomNo)
+                        bandedView.Bands.Add(Itemname)
+
+                        ' ✅ Left-align both
+                        For Each col In {colLoom, colItem}
+                            col.AppearanceCell.Options.UseTextOptions = True
+                            col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                            col.AppearanceHeader.Options.UseTextOptions = True
+                            col.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                        Next
+
+                    Case "Detail"
+                        Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
+                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
+                        Dim colDate As BandedGridColumn = AddBandedColumn(bandedView, "CHALLANDATE", "")
+
+                        LoomNo.Columns.Add(colLoom)
+                        Itemname.Columns.Add(colItem)
+                        challanDate.Columns.Add(colDate)
+
+                        bandedView.Bands.Add(LoomNo)
+                        bandedView.Bands.Add(Itemname)
+                        bandedView.Bands.Add(challanDate)
+
+                        ' ✅ Left-align all three
+                        For Each col In {colLoom, colItem, colDate}
+                            col.AppearanceCell.Options.UseTextOptions = True
+                            col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                            col.AppearanceHeader.Options.UseTextOptions = True
+                            col.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                        Next
+
+                    Case Else
+                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "Item Name")
+                        Itemname.Columns.Add(colItem)
+                        bandedView.Bands.Add(Itemname)
+
+                        colItem.AppearanceCell.Options.UseTextOptions = True
+                        colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                        colItem.AppearanceHeader.Options.UseTextOptions = True
+                        colItem.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                End Select
+
+
+                ' 🔹 MONTH BANDS (for Qty & Amt)
+                Dim dt As DataTable = GridControl1.DataSource
+                Dim monthNames As New List(Of String) From {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
+
+                For Each m In monthNames
+                    If dt.Columns.Contains(m & "_Qty") OrElse dt.Columns.Contains(m & "_Amt") Then
+                        Dim band As New GridBand() With {.Caption = m}
+
+                        If dt.Columns.Contains(m & "_Qty") Then
+                            band.Columns.Add(AddBandedColumn(bandedView, m & "_Qty", "Qty"))
+                        End If
+                        If dt.Columns.Contains(m & "_Amt") Then
+                            band.Columns.Add(AddBandedColumn(bandedView, m & "_Amt", "Amt"))
+                        End If
+
+                        band.AppearanceHeader.Options.UseTextOptions = True
+                        band.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+                        band.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
+                        band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
+                        band.AppearanceHeader.BackColor = Color.LightGray
+
+                        bandedView.Bands.Add(band)
+                    End If
+                Next
+
                 '_DevGridColumSizeAutoAdjestWhiotTickmarck(GridControl1, FirstStage)
 
                 'AlignGroupSummaryInGroupRow(GridControl1, FirstStage)
                 SetBandedGridViewAppearance(bandedView)
                 ApplyFooterSummary(bandedView)
+                bandedView.BestFitColumns()
                 FirstStage.Focus()
+                FirstStage.BestFitColumns()
                 FirstStage.FocusedRowHandle = _StgIRowNo
             End If
         End If
@@ -201,14 +254,22 @@ Friend Class StoreConsumption_GridZooming
             band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
             band.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
             band.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
-
+            ' 🔹 Set header background color
+            band.AppearanceHeader.BackColor = Color.Khaki  ' Change to any color
+            band.AppearanceHeader.BackColor2 = Color.Navy      ' Optional: for gradient
+            band.AppearanceHeader.GradientMode = Drawing2D.LinearGradientMode.Vertical  ' Optional: gradient
+            band.AppearanceHeader.ForeColor = Color.White
             ' Columns inside the band
             For Each col As DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn In band.Columns
                 ' Header font and alignment
                 col.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
-                col.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+                col.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
                 col.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
-
+                ' 🔹 Set column header background color
+                col.AppearanceHeader.BackColor = Color.LightBlue    ' Change as needed
+                col.AppearanceHeader.BackColor2 = Color.Navy        ' Optional gradient
+                col.AppearanceHeader.GradientMode = Drawing2D.LinearGradientMode.Vertical  ' Optional gradient
+                col.AppearanceHeader.ForeColor = Color.White        ' Optional text color
                 ' Cell font
                 col.AppearanceCell.Font = New Font("Verdana", 8, FontStyle.Regular)
                 col.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
@@ -321,81 +382,84 @@ Friend Class StoreConsumption_GridZooming
             '    .Append(" ORDER BY FORMAT(A.CHALLANDATE,'yyyy'), FORMAT(A.CHALLANDATE,'MM') ")
             'End If
 
-
-
-
             '--- Prepare filter and extra columns based on ViewType
             Dim filter As String = ""
             Dim extraCols As String = ""   ' columns to select and group by
 
             Dim groupCols As String = ""
             Dim selectCols As String = ""
+            Dim orderCols As String = ""
+
+            Dim dateFilter As String = ""
+
+            If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
+                ' Double single-quotes for dynamic SQL
+                dateFilter = " AND A.CHALLANDATE >=  '" & txt_From.Date_for_Database & "' And A.CHALLANDATE <=  '" & txt_To.Date_for_Database & "'"
+            End If
+
             Select Case Txt_ViewType.Text
                 Case "Month+Loom Wise"
-                    filter = " AND C.LoomNo IS NOT NULL "
-                    groupCols = "C.LoomNo, FORMAT(A.CHALLANDATE,''MMM,yyyy'')"
-                    selectCols = "C.LoomNo"
+                    filter = " AND C.LoomNo IS NOT NULL " & dateFilter
+                    groupCols = "C.LoomNo, FORMAT(A.CHALLANDATE,''MMM'')"
+                    selectCols = "C.LoomNo, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
+                    orderCols = "LoomNo, MonthName"
 
                 Case "Month+Item Wise"
-                    filter = " AND B.ItemName IS NOT NULL "
-                    groupCols = "B.ItemName, FORMAT(A.CHALLANDATE,''MMM,yyyy'')"
-                    selectCols = "B.ItemName"
+                    filter = " AND B.ItemName IS NOT NULL " & dateFilter
+                    groupCols = "B.ItemName, FORMAT(A.CHALLANDATE,''MMM'')"
+                    selectCols = "B.ItemName, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
+                    orderCols = "ItemName, MonthName"
 
                 Case "Loom+Item Wise"
-                    filter = " AND C.LoomNo IS NOT NULL AND B.ItemName IS NOT NULL "
-                    groupCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM,yyyy'')"
-                    selectCols = "C.LoomNo, B.ItemName"
+                    filter = " AND C.LoomNo IS NOT NULL AND B.ItemName IS NOT NULL " & dateFilter
+                    groupCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'')"
+                    selectCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
+                    orderCols = "LoomNo, ItemName, MonthName"
 
                 Case "Detail"
-                    filter = " AND C.LoomNo IS NOT NULL AND B.ItemName IS NOT NULL "
-                    groupCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM,yyyy'')"
-                    selectCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM,yyyy'') AS MonthName"
+                    filter = " AND C.LoomNo IS NOT NULL AND B.ItemName IS NOT NULL " & dateFilter
+                    groupCols = "C.LoomNo, B.ItemName,A.CHALLANDATE, FORMAT(A.CHALLANDATE,''MMM'')"
+                    selectCols = "C.LoomNo, B.ItemName,A.CHALLANDATE, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
+                    orderCols = "CHALLANDATE,LoomNo, ItemName, MonthName"
 
                 Case Else
-                    groupCols = "FORMAT(A.CHALLANDATE,''MMM,yyyy'')"
-                    selectCols = "FORMAT(A.CHALLANDATE,''MMM,yyyy'') AS MonthName"
+                    filter = dateFilter
+                    groupCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'')"
+                    selectCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
+                    orderCols = "LoomNo, ItemName, MonthName"
             End Select
 
+            ' --- Build the dynamic SQL
             .AppendLine("DECLARE @cols NVARCHAR(MAX);")
             .AppendLine("DECLARE @query NVARCHAR(MAX);")
-
-            ' --- Build dynamic month column list
             .AppendLine("SELECT @cols = STUFF((")
-            .AppendLine("    SELECT DISTINCT ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy')+'_Qty')")
-            .AppendLine("         + ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy')+'_Amt')")
+            .AppendLine("    SELECT DISTINCT ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+'_Qty') + ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+'_Amt')")
             .AppendLine("    FROM TRNCHALLAN A")
             .AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
             .AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            .AppendLine("    WHERE A.BOOKCODE='0001-000000155'" & filter)
+            .AppendLine("    WHERE A.BOOKCODE='0001-000000155'" & filter)  ' <-- double quotes for SQL
             .AppendLine("    FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'),1,1,'');")
-
             .AppendLine("IF @cols IS NULL OR LEN(@cols)=0 SET @cols = '[NoData]';")
 
-            ' --- Main dynamic pivot query
             .AppendLine("SET @query = '")
-            .AppendLine("SELECT ItemName, LoomNo, MonthName, * FROM (")
-            .AppendLine("    SELECT FORMAT(A.CHALLANDATE,''MMM,yyyy'') + ''_Qty'' AS MonthType,")
-            .AppendLine("           SUM(A.MTR_WEIGHT) AS Value, B.ItemName, C.LoomNo, FORMAT(A.CHALLANDATE,''MMM,yyyy'') AS MonthName")
+            .AppendLine("SELECT " & orderCols & ", ' + @cols + '")
+            .AppendLine("FROM (")
+            .AppendLine("    SELECT " & selectCols & ", FORMAT(A.CHALLANDATE,''MMM'') + ''_Qty'' AS MonthType, SUM(A.MTR_WEIGHT) AS Value")
             .AppendLine("    FROM TRNCHALLAN A")
             .AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
             .AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            .AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter)
-            .AppendLine("    GROUP BY FORMAT(A.CHALLANDATE,''MMM,yyyy''), B.ItemName, C.LoomNo")
-
+            .AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter.Replace("'", "''"))
+            .AppendLine("    GROUP BY " & groupCols)
             .AppendLine("    UNION ALL")
-
-            .AppendLine("    SELECT FORMAT(A.CHALLANDATE,''MMM,yyyy'') + ''_Amt'' AS MonthType,")
-            .AppendLine("           SUM(A.AMOUNT) AS Value, B.ItemName, C.LoomNo, FORMAT(A.CHALLANDATE,''MMM,yyyy'') AS MonthName")
+            .AppendLine("    SELECT " & selectCols & ", FORMAT(A.CHALLANDATE,''MMM'') + ''_Amt'' AS MonthType, SUM(A.AMOUNT) AS Value")
             .AppendLine("    FROM TRNCHALLAN A")
             .AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
             .AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            .AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter)
-            .AppendLine("    GROUP BY FORMAT(A.CHALLANDATE,''MMM,yyyy''), B.ItemName, C.LoomNo")
+            .AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter.Replace("'", "''"))
+            .AppendLine("    GROUP BY " & groupCols)
             .AppendLine(") AS SourceData")
-            .AppendLine("PIVOT (")
-            .AppendLine("    SUM(Value)")
-            .AppendLine("    FOR MonthType IN (' + @cols + ')")
-            .AppendLine(") AS PivotResult';")
+            .AppendLine("PIVOT (SUM(Value) FOR MonthType IN (' + @cols + ')) AS PivotResult")
+            .AppendLine("ORDER BY " & orderCols & ";'")
 
             .AppendLine("EXEC sp_executesql @query;")
         End With

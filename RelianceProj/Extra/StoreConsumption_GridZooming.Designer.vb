@@ -248,7 +248,7 @@ Partial Class StoreConsumption_GridZooming
         '
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
-        Me.But_ok.ImageOptions.Image = CType(resources.GetObject("btnAdd.ImageOptions.Image"), System.Drawing.Image)
+        Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
         Me.But_ok.Location = New System.Drawing.Point(725, 7)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(66, 36)
@@ -259,7 +259,7 @@ Partial Class StoreConsumption_GridZooming
         '
         Me.But_print.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_print.Appearance.Options.UseFont = True
-        Me.But_print.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
+        Me.But_print.ImageOptions.Image = CType(resources.GetObject("But_print.ImageOptions.Image"), System.Drawing.Image)
         Me.But_print.Location = New System.Drawing.Point(792, 7)
         Me.But_print.Name = "But_print"
         Me.But_print.Size = New System.Drawing.Size(39, 36)
@@ -269,7 +269,7 @@ Partial Class StoreConsumption_GridZooming
         '
         Me.btn_xl.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_xl.Appearance.Options.UseFont = True
-        Me.btn_xl.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image1"), System.Drawing.Image)
+        Me.btn_xl.ImageOptions.Image = CType(resources.GetObject("btn_xl.ImageOptions.Image"), System.Drawing.Image)
         Me.btn_xl.Location = New System.Drawing.Point(834, 7)
         Me.btn_xl.Name = "btn_xl"
         Me.btn_xl.Size = New System.Drawing.Size(39, 36)
