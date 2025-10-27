@@ -1,10 +1,13 @@
-﻿Imports System.IO
+﻿Imports System.ComponentModel.Design
+Imports System.IO
 Imports System.Text
 Imports CrystalDecisions.Shared
 Imports DevExpress.XtraExport.Helpers
 Imports DevExpress.XtraGrid
 Imports DevExpress.XtraGrid.Views.BandedGrid
+Imports DevExpress.XtraGrid.Views.Grid
 Imports DevExpress.XtraPrinting
+Imports DevExpress.XtraVerticalGrid
 
 
 Friend Class StoreConsumption_GridZooming
@@ -26,16 +29,24 @@ Friend Class StoreConsumption_GridZooming
 
     Dim _FILTERACCOUNTCODE As String = ""
     Dim _CloseCheck As Boolean = False
+    Dim _CommanFilterString As String = ""
+    Dim SelectionType As String = ""
+    Dim _CommanFirstStageActivColumn As String = ""
+    Dim FactStockTable As New DataTable
+    Dim SelectionOfView As String = ""
+    Dim NoOfstage As Integer = 0
+    Dim SummaryActiveClmQty As String = ""
+    Dim SummaryActiveClmName As String = ""
 
     Private Sub StoreConsumption_GridZooming_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
-            If _CloseCheck = True Then
-                Close()
-                Me.Dispose(True)
-            Else
-                _CloseCheck = True
-                txt_From.Focus()
-            End If
+            'If _CloseCheck = True Then
+            '    Close()
+            '    Me.Dispose(True)
+            'Else
+            '    _CloseCheck = True
+            '    txt_From.Focus()
+            'End If
 
 
 
@@ -44,27 +55,61 @@ Friend Class StoreConsumption_GridZooming
     Private Sub StoreConsumption_GridZooming_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
+        Txt_ViewType.Text = "Item Wise"
+        Txt_ProcessStockDisplay.Text = "SUMMARY"
         If LEDGER_FORM_DISPALY_BY <> "BUTTONCALL" Then
             Me.Location = New Point(0, 0)
         End If
-
         Generate_Date_For_DataBase(txt_From)
         Generate_Date_For_DataBase(txt_To)
-
         Dim _NewTmptbl As New DataTable
-        _NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
-        Stock_Zooming_Load(_NewTmptbl)
+        If Txt_ProcessStockDisplay.Text = "SUMMARY" AndAlso
+   (Txt_ViewType.Text = "Month+Loom Wise" Or Txt_ViewType.Text = "Month+Item Wise") Then
+            _NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
+            Stock_Zooming_Load(_NewTmptbl)
+        ElseIf (Txt_ProcessStockDisplay.Text = "SUMMARY" Or Txt_ProcessStockDisplay.Text = "DETAIL") AndAlso
+               (Txt_ViewType.Text = "Loom Wise" Or Txt_ViewType.Text = "Item Wise" Or Txt_ViewType.Text = "Loom+Item Wise") Then
+            _NewTmptbl = _SummaryMonth_Load("FIRST", "")
+            Stock_Summarymonth_Load(_NewTmptbl)
+        End If
     End Sub
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
         _CloseCheck = False
         Generate_Date_For_DataBase(txt_From)
         Generate_Date_For_DataBase(txt_To)
-
         Dim _NewTmptbl As New DataTable
-        _NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
-        Stock_Zooming_Load(_NewTmptbl)
+        Dim _NewTmptbl2 As New DataTable
+        If Txt_ProcessStockDisplay.Text = "SUMMARY" AndAlso
+   (Txt_ViewType.Text = "Month+Loom Wise" Or Txt_ViewType.Text = "Month+Item Wise") Then
+            _NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
+            Stock_Zooming_Load(_NewTmptbl)
+        ElseIf (Txt_ProcessStockDisplay.Text = "SUMMARY" Or Txt_ProcessStockDisplay.Text = "DETAIL") AndAlso
+               (Txt_ViewType.Text = "Loom Wise" Or Txt_ViewType.Text = "Item Wise" Or Txt_ViewType.Text = "Loom+Item Wise") Then
 
+            ' 🔹 Remove old view (BandedGridView)
+            GridControl1.MainView = Nothing
+            GridControl1.ViewCollection.Clear()
+
+            ' 🔹 Reset existing FirstStage GridView (no need to create new)
+            FirstStage = New GridView(GridControl1)
+            GridControl1.MainView = FirstStage
+            GridControl1.ViewCollection.Add(FirstStage)
+
+            ' 🔹 Remove all existing columns (if any)
+            FirstStage.Columns.Clear()
+
+            ' 🔹 Clear any existing bands or layouts
+            GridControl1.LevelTree.Nodes.Clear()
+            FirstStage.OptionsView.ShowFooter = True
+
+
+            ' 🔹 Other summary/detail case
+            _NewTmptbl2 = _SummaryMonth_Load("FIRST", "")
+            Stock_Summarymonth_Load(_NewTmptbl2)
+
+        End If
     End Sub
+
 
     Private Sub Stock_Zooming_Load(ByVal Stktbl As DataTable)
         If Stktbl.Rows.Count > 0 Then
@@ -75,165 +120,235 @@ Friend Class StoreConsumption_GridZooming
 
                 GridControl1.DataSource = Stktbl.Copy
 
-                'FirstStage.Columns("Qty").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Qty", "{0}"))
-                'FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
-
-                'FirstStage.Columns("Qty").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-                'FirstStage.Columns("Amount").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-                'If FirstStage.Columns("Qty") IsNot Nothing Then
-                '    FirstStage.Columns("Qty").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Qty", "{0:n2}"))
-                '    FirstStage.Columns("Qty").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-                'End If
-
-                'If FirstStage.Columns("Amount") IsNot Nothing Then
-                '    FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:n2}"))
-                '    FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-                'End If
-
                 ' 🔹 Use BandedGridView
-                Dim bandedView As New BandedGridView(GridControl1)
-                GridControl1.MainView = bandedView
-                GridControl1.ViewCollection.Add(bandedView)
 
+                Dim bandedView As New BandedGridView(GridControl1)
+                    GridControl1.MainView = bandedView
+                GridControl1.ViewCollection.Add(bandedView)
 
                 ' 🔹 Formatting options
                 bandedView.OptionsView.ShowBands = True
-                bandedView.OptionsView.ShowAutoFilterRow = True
-                bandedView.OptionsBehavior.Editable = False
-                bandedView.OptionsView.ShowFooter = True
-                bandedView.BestFitColumns()
-                ' Enable vertical scrolling
-                bandedView.OptionsView.ColumnAutoWidth = False   ' Allows horizontal scroll if columns exceed width
-                bandedView.OptionsView.ShowIndicator = True      ' Row indicator (optional)
-                bandedView.OptionsView.ShowFooter = True         ' Footer if needed
+                    bandedView.OptionsView.ShowAutoFilterRow = True
+                    bandedView.OptionsBehavior.Editable = False
+                    bandedView.OptionsView.ShowFooter = True
+                    bandedView.BestFitColumns()
+                    ' Enable vertical scrolling
+                    bandedView.OptionsView.ColumnAutoWidth = False   ' Allows horizontal scroll if columns exceed width
+                    bandedView.OptionsView.ShowIndicator = True      ' Row indicator (optional)
+                    bandedView.OptionsView.ShowFooter = True         ' Footer if needed
 
-                ' Enable scrolling
-                bandedView.OptionsBehavior.Editable = False      ' Example: make read-only
-                bandedView.OptionsView.ColumnAutoWidth = False   ' Prevent auto-stretch
-                bandedView.OptionsView.EnableAppearanceEvenRow = True
-                bandedView.OptionsView.EnableAppearanceOddRow = True
+                    ' Enable scrolling
+                    bandedView.OptionsBehavior.Editable = False      ' Example: make read-only
+                    bandedView.OptionsView.ColumnAutoWidth = False   ' Prevent auto-stretch
+                    bandedView.OptionsView.EnableAppearanceEvenRow = True
+                    bandedView.OptionsView.EnableAppearanceOddRow = True
 
-                ' Scroll settings
-                bandedView.OptionsView.RowAutoHeight = True
-                bandedView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
-                bandedView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+                    ' Scroll settings
+                    bandedView.OptionsView.RowAutoHeight = True
+                    bandedView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+                    bandedView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
 
-                ' 🔹 Create GridBands
-                Dim LoomNo As New GridBand() With {.Caption = "Loom No"}
-                Dim Itemname As New GridBand() With {.Caption = "Item Name"}
-                Dim challanDate As New GridBand() With {.Caption = "Date"}
+                    ' 🔹 Create GridBands
+                    Dim LoomNo As New GridBand() With {.Caption = "Loom No"}
+                    Dim Itemname As New GridBand() With {.Caption = "Item Name"}
+                    Dim challanDate As New GridBand() With {.Caption = "Date"}
 
-                Select Case Txt_ViewType.Text
+                    Select Case Txt_ViewType.Text
 
-                    Case "Month+Loom Wise"
-                        Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
-                        LoomNo.Columns.Add(colLoom)
-                        bandedView.Bands.Add(LoomNo)
+                        Case "Month+Loom Wise"
+                            Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
+                            LoomNo.Columns.Add(colLoom)
+                            bandedView.Bands.Add(LoomNo)
 
-                        ' ✅ Left align text
-                        colLoom.AppearanceCell.Options.UseTextOptions = True
-                        colLoom.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                            ' ✅ Left align text
+                            colLoom.AppearanceCell.Options.UseTextOptions = True
+                            colLoom.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
 
-                        ' ❌ Hide column header (only band header visible)
-                        colLoom.Caption = ""
-                        colLoom.OptionsColumn.ShowCaption = False
+                            ' ❌ Hide column header (only band header visible)
+                            colLoom.Caption = ""
+                            colLoom.OptionsColumn.ShowCaption = False
 
-                    Case "Month+Item Wise"
-                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
-                        Itemname.Columns.Add(colItem)
-                        bandedView.Bands.Add(Itemname)
+                        Case "Month+Item Wise"
+                            Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
+                            Itemname.Columns.Add(colItem)
+                            bandedView.Bands.Add(Itemname)
 
-                        colItem.AppearanceCell.Options.UseTextOptions = True
-                        colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                        colItem.Caption = ""
-                        colItem.OptionsColumn.ShowCaption = False
+                            colItem.AppearanceCell.Options.UseTextOptions = True
+                            colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                            colItem.Caption = ""
+                            colItem.OptionsColumn.ShowCaption = False
 
-                    Case "Loom+Item Wise"
-                        Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
-                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
-                        LoomNo.Columns.Add(colLoom)
-                        Itemname.Columns.Add(colItem)
-                        bandedView.Bands.Add(LoomNo)
-                        bandedView.Bands.Add(Itemname)
+                        Case "Loom+Item Wise"
+                            Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
+                            Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
+                            LoomNo.Columns.Add(colLoom)
+                            Itemname.Columns.Add(colItem)
+                            bandedView.Bands.Add(LoomNo)
+                            bandedView.Bands.Add(Itemname)
 
-                        For Each col In {colLoom, colItem}
-                            col.AppearanceCell.Options.UseTextOptions = True
-                            col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                            col.Caption = ""
-                            col.OptionsColumn.ShowCaption = False
-                        Next
+                            For Each col In {colLoom, colItem}
+                                col.AppearanceCell.Options.UseTextOptions = True
+                                col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                                col.Caption = ""
+                                col.OptionsColumn.ShowCaption = False
+                            Next
 
-                    Case "Detail"
-                        Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
-                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
-                        Dim colDate As BandedGridColumn = AddBandedColumn(bandedView, "CHALLANDATE", "")
-                        LoomNo.Columns.Add(colLoom)
-                        Itemname.Columns.Add(colItem)
-                        challanDate.Columns.Add(colDate)
+                        Case "Detail"
+                            Dim colLoom As BandedGridColumn = AddBandedColumn(bandedView, "LoomNo", "")
+                            Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
+                            Dim colDate As BandedGridColumn = AddBandedColumn(bandedView, "CHALLANDATE", "")
+                            LoomNo.Columns.Add(colLoom)
+                            Itemname.Columns.Add(colItem)
+                            challanDate.Columns.Add(colDate)
 
-                        bandedView.Bands.Add(LoomNo)
-                        bandedView.Bands.Add(Itemname)
-                        bandedView.Bands.Add(challanDate)
+                            bandedView.Bands.Add(LoomNo)
+                            bandedView.Bands.Add(Itemname)
+                            bandedView.Bands.Add(challanDate)
 
-                        For Each col In {colLoom, colItem, colDate}
-                            col.AppearanceCell.Options.UseTextOptions = True
-                            col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                            col.Caption = ""
-                            col.OptionsColumn.ShowCaption = False
-                        Next
+                            For Each col In {colLoom, colItem, colDate}
+                                col.AppearanceCell.Options.UseTextOptions = True
+                                col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                                col.Caption = ""
+                                col.OptionsColumn.ShowCaption = False
+                            Next
 
-                    Case Else
-                        Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
-                        Itemname.Columns.Add(colItem)
-                        bandedView.Bands.Add(Itemname)
+                        Case Else
+                            Dim colItem As BandedGridColumn = AddBandedColumn(bandedView, "ItemName", "")
+                            Itemname.Columns.Add(colItem)
+                            bandedView.Bands.Add(Itemname)
 
-                        colItem.AppearanceCell.Options.UseTextOptions = True
-                        colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-                        colItem.Caption = ""
-                        colItem.OptionsColumn.ShowCaption = False
-                End Select
+                            colItem.AppearanceCell.Options.UseTextOptions = True
+                            colItem.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                            colItem.Caption = ""
+                            colItem.OptionsColumn.ShowCaption = False
+                    End Select
 
-                ' ✅ Optional: Make band headers bold and centered
-                For Each band In bandedView.Bands
-                    band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
-                    band.AppearanceHeader.Options.UseFont = True
-                    band.AppearanceHeader.Options.UseTextOptions = True
-                    band.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
-                Next
-
-                ' 🔹 MONTH BANDS (for Qty & Amt)
-                Dim dt As DataTable = GridControl1.DataSource
-                Dim monthNames As New List(Of String) From {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
-
-                For Each m In monthNames
-                    If dt.Columns.Contains(m & "_Qty") OrElse dt.Columns.Contains(m & "_Amt") Then
-                        Dim band As New GridBand() With {.Caption = m}
-
-                        If dt.Columns.Contains(m & "_Qty") Then
-                            band.Columns.Add(AddBandedColumn(bandedView, m & "_Qty", "Qty"))
-                        End If
-                        If dt.Columns.Contains(m & "_Amt") Then
-                            band.Columns.Add(AddBandedColumn(bandedView, m & "_Amt", "Amt"))
-                        End If
-
+                    ' ✅ Optional: Make band headers bold and centered
+                    For Each band In bandedView.Bands
+                        band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
+                        band.AppearanceHeader.Options.UseFont = True
                         band.AppearanceHeader.Options.UseTextOptions = True
                         band.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
-                        band.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
-                        band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
-                        band.AppearanceHeader.BackColor = Color.LightGray
+                    Next
 
-                        bandedView.Bands.Add(band)
-                    End If
-                Next
+                    ' 🔹 MONTH BANDS (for Qty & Amt)
+                    Dim dt As DataTable = GridControl1.DataSource
+                    Dim monthNames As New List(Of String) From {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 
-                '_DevGridColumSizeAutoAdjestWhiotTickmarck(GridControl1, FirstStage)
+                    For Each m In monthNames
+                        If dt.Columns.Contains(m & "_Qty") OrElse dt.Columns.Contains(m & "_Amt") Then
+                            Dim band As New GridBand() With {.Caption = m}
 
-                'AlignGroupSummaryInGroupRow(GridControl1, FirstStage)
-                SetBandedGridViewAppearance(bandedView)
-                ApplyFooterSummary(bandedView)
+                            If dt.Columns.Contains(m & "_Qty") Then
+                                band.Columns.Add(AddBandedColumn(bandedView, m & "_Qty", "Qty"))
+                            End If
+                            If dt.Columns.Contains(m & "_Amt") Then
+                                band.Columns.Add(AddBandedColumn(bandedView, m & "_Amt", "Amt"))
+                            End If
+
+                            band.AppearanceHeader.Options.UseTextOptions = True
+                            band.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+                            band.AppearanceHeader.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
+                            band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
+                            band.AppearanceHeader.BackColor = Color.LightGray
+
+                            bandedView.Bands.Add(band)
+                        End If
+                    Next
+
+                    '_DevGridColumSizeAutoAdjestWhiotTickmarck(GridControl1, FirstStage)
+
+                    'AlignGroupSummaryInGroupRow(GridControl1, FirstStage)
+                    SetBandedGridViewAppearance(bandedView)
+                    ApplyFooterSummary(bandedView)
                 bandedView.BestFitColumns()
+
+
                 FirstStage.Focus()
                 FirstStage.BestFitColumns()
+                FirstStage.FocusedRowHandle = _StgIRowNo
+            End If
+        End If
+    End Sub
+
+
+    Private Sub Stock_Summarymonth_Load(ByVal Stktbl As DataTable)
+
+        FirstStage.Columns.Clear()
+        If Stktbl.Rows.Count > 0 Then
+            Display_Stage_No = 1
+            NoOfstage = 1
+
+            If Stktbl.Rows.Count > 0 Then
+                GridControl1.DataSource = Stktbl.Copy
+                DevGridFitColumnWiotScroll(GridControl1, FirstStage)
+                If FirstStage.Columns.ColumnByFieldName("Qty") IsNot Nothing Then
+                    FirstStage.Columns("Qty").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Qty", "{0:n2}"))
+                    FirstStage.GroupSummary.Add(New DevExpress.XtraGrid.GridGroupSummaryItem() With {
+                .FieldName = "Qty",
+                .SummaryType = DevExpress.Data.SummaryItemType.Sum,
+                .ShowInGroupColumnFooter = FirstStage.Columns("Qty")
+            })
+                End If
+                If FirstStage.Columns.ColumnByFieldName("Amount") IsNot Nothing Then
+                    FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:n2}"))
+                    FirstStage.GroupSummary.Add(New DevExpress.XtraGrid.GridGroupSummaryItem() With {
+                .FieldName = "Amount",
+                .SummaryType = DevExpress.Data.SummaryItemType.Sum,
+                .ShowInGroupColumnFooter = FirstStage.Columns("Amount")
+            })
+                End If
+                FirstStage.Appearance.FocusedRow.BackColor = FirstStage.Appearance.FocusedRow.BackColor.LightBlue
+                FirstStage.Appearance.FocusedRow.BackColor = Color.LightBlue
+                If Txt_ProcessStockDisplay.Text = "SUMMARY" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                        Case "Item Wise"
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Loom+Item Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Month+Loom Wise"
+
+                        Case "Month+Item Wise"
+
+                        Case Else
+                            FirstStage.Columns("ItemCode").Visible = False
+                    End Select
+                ElseIf Txt_ProcessStockDisplay.Text = "DETAIL" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                        Case "Item Wise"
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Loom+Item Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Month+Loom Wise"
+
+                        Case "Month+Item Wise"
+
+                        Case Else
+                            FirstStage.Columns("ItemCode").Visible = False
+                    End Select
+                End If
+                ' 🔹 Right-align header text for Qty and Amount columns
+                If FirstStage.Columns.ColumnByFieldName("EntryNo") IsNot Nothing Then
+                    FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                    FirstStage.Columns("EntryNo").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                End If
+                If FirstStage.Columns.ColumnByFieldName("Qty") IsNot Nothing Then
+                    FirstStage.Columns("Qty").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                    FirstStage.Columns("Qty").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
+
+                If FirstStage.Columns.ColumnByFieldName("Amount") IsNot Nothing Then
+                    FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                    FirstStage.Columns("Amount").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
+                'FirstStage.Columns("ItemCode").Visible = False
+                FirstStage.OptionsBehavior.Editable = False
                 FirstStage.FocusedRowHandle = _StgIRowNo
             End If
         End If
@@ -311,82 +426,8 @@ Friend Class StoreConsumption_GridZooming
 
     End Sub
     Private Function _Zooming_Load(ByVal _DateTo As String)
-
         _strQuery = New StringBuilder
         With _strQuery
-            '.Append(" SELECT ")
-
-            'If Txt_ViewType.Text = "Month+Loom Wise" Then
-            '    .Append(" FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy') AS MonthName, ")
-            '    .Append(" C.LoomNo, ")
-            '    .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
-            '    .Append(" SUM(A.AMOUNT) AS Amount ")
-            'ElseIf Txt_ViewType.Text = "Month+Item Wise" Then
-            '    .Append(" FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy') AS MonthName, ")
-            '    .Append(" B.ITEMNAME AS ItemName, ")
-            '    .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
-            '    .Append(" SUM(A.AMOUNT) AS Amount ")
-
-            'ElseIf Txt_ViewType.Text = "Loom+Item Wise" Then
-            '    .Append(" C.LoomNo, ")
-            '    .Append(" B.ITEMNAME AS ItemName, ")
-            '    .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
-            '    .Append(" SUM(A.AMOUNT) AS Amount ")
-            'ElseIf Txt_ViewType.Text = "Detail" Then
-            '    .Append(" FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy') AS MonthName, ")
-            '    .Append(" C.LoomNo, ")
-            '    .Append(" B.ITEMNAME AS ItemName, ")
-            '    .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
-            '    .Append(" SUM(A.AMOUNT) AS Amount ")
-
-            'Else
-            '    .Append(" FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy') AS MonthName, ")
-            '    .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
-            '    .Append(" SUM(A.AMOUNT) AS Amount ")
-            'End If
-
-            '.Append(" FROM ( ")
-            '.Append(" SELECT ")
-            '.Append(" A.CHALLANDATE ")
-            '.Append(" ,A.MTR_WEIGHT ")
-            '.Append(" ,A.AMOUNT ")
-            '.Append(" ,A.ITEMCODE ")
-            '.Append(" ,A.LOOMNOCODE  ")
-            '.Append(" FROM ")
-            '.Append(" TRNCHALLAN as A ")
-            '.Append(" WHERE 1=1  ")
-            '.Append(" and A.BOOKCODE='0001-000000155'  ")
-            '.Append(" ) AS A ")
-            '.Append(" LEFT JOIN MSTSTOREITEM AS B ON A.ITEMCODE=B.ITEMCODE ")
-            '.Append(" LEFT JOIN MstLoomNo AS C ON A.LOOMNOCODE=C.LoomNoCode ")
-            '.Append(" GROUP BY  ")
-
-            'If Txt_ViewType.Text = "Month+Loom Wise" Then
-            '    .Append(" C.LoomNo ")
-            '    .Append(" ,MONTH(A.CHALLANDATE), FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy'), ")
-            '    .Append(" FORMAT(A.CHALLANDATE,'MM'), FORMAT(A.CHALLANDATE,'yyyy') ")
-            '    .Append(" ORDER BY FORMAT(A.CHALLANDATE,'yyyy'), FORMAT(A.CHALLANDATE,'MM') ,C.LoomNo")
-            'ElseIf Txt_ViewType.Text = "Month+Item Wise" Then
-            '    .Append(" B.ITEMNAME ")
-            '    .Append(" ,MONTH(A.CHALLANDATE), FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy'), ")
-            '    .Append(" FORMAT(A.CHALLANDATE,'MM'), FORMAT(A.CHALLANDATE,'yyyy') ")
-            '    .Append(" ORDER BY FORMAT(A.CHALLANDATE,'yyyy'), FORMAT(A.CHALLANDATE,'MM') , B.ITEMNAME ")
-            'ElseIf Txt_ViewType.Text = "Loom+Item Wise" Then
-            '    .Append(" C.LoomNo, ")
-            '    .Append(" B.ITEMNAME ")
-            '    .Append(" ORDER BY C.LoomNo, B.ITEMNAME ")
-            'ElseIf Txt_ViewType.Text = "Detail" Then
-            '    .Append(" MONTH(A.CHALLANDATE), FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy'), ")
-            '    .Append(" FORMAT(A.CHALLANDATE,'MM'), FORMAT(A.CHALLANDATE,'yyyy'), ")
-            '    .Append(" C.LoomNo, ")
-            '    .Append(" B.ITEMNAME ")
-            '    .Append(" ORDER BY FORMAT(A.CHALLANDATE,'yyyy'), FORMAT(A.CHALLANDATE,'MM'),C.LoomNo, B.ITEMNAME ")
-            'Else
-            '    .Append(" MONTH(A.CHALLANDATE), FORMAT(A.CHALLANDATE,'MMM')+','+FORMAT(A.CHALLANDATE,'yyyy'), ")
-            '    .Append(" FORMAT(A.CHALLANDATE,'MM'), FORMAT(A.CHALLANDATE,'yyyy') ")
-            '    .Append(" ORDER BY FORMAT(A.CHALLANDATE,'yyyy'), FORMAT(A.CHALLANDATE,'MM') ")
-            'End If
-
             '--- Prepare filter and extra columns based on ViewType
             Dim filter As String = ""
             Dim extraCols As String = ""   ' columns to select and group by
@@ -396,56 +437,58 @@ Friend Class StoreConsumption_GridZooming
             Dim orderCols As String = ""
 
             Dim dateFilter As String = ""
-
             If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
                 ' Double single-quotes for dynamic SQL
                 dateFilter = " AND A.CHALLANDATE >=  '" & txt_From.Date_for_Database & "' And A.CHALLANDATE <=  '" & txt_To.Date_for_Database & "'"
             End If
-
             Select Case Txt_ViewType.Text
                 Case "Month+Loom Wise"
                     filter = " AND C.LoomNo IS NOT NULL " & dateFilter
                     groupCols = "C.LoomNo, FORMAT(A.CHALLANDATE,''MMM'')"
-                    selectCols = "C.LoomNo, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
-                    orderCols = "LoomNo, MonthName"
+                    selectCols = "C.LoomNo"
+                    orderCols = "LoomNo"
 
                 Case "Month+Item Wise"
                     filter = " AND B.ItemName IS NOT NULL " & dateFilter
                     groupCols = "B.ItemName, FORMAT(A.CHALLANDATE,''MMM'')"
-                    selectCols = "B.ItemName, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
-                    orderCols = "ItemName, MonthName"
+                    selectCols = "B.ItemName"
+                    orderCols = "ItemName"
 
                 Case "Loom+Item Wise"
                     filter = " AND C.LoomNo IS NOT NULL AND B.ItemName IS NOT NULL " & dateFilter
                     groupCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'')"
-                    selectCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
-                    orderCols = "LoomNo, ItemName, MonthName"
+                    selectCols = "C.LoomNo, B.ItemName"
+                    orderCols = "LoomNo, ItemName"
 
                 Case "Detail"
                     filter = " AND C.LoomNo IS NOT NULL AND B.ItemName IS NOT NULL " & dateFilter
-                    groupCols = "C.LoomNo, B.ItemName,A.CHALLANDATE, FORMAT(A.CHALLANDATE,''MMM'')"
-                    selectCols = "C.LoomNo, B.ItemName,A.CHALLANDATE, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
-                    orderCols = "CHALLANDATE,LoomNo, ItemName, MonthName"
+                    groupCols = "C.LoomNo, B.ItemName, A.CHALLANDATE, FORMAT(A.CHALLANDATE,''MMM'')"
+                    selectCols = "C.LoomNo, B.ItemName, A.CHALLANDATE"
+                    orderCols = "CHALLANDATE, LoomNo, ItemName"
 
                 Case Else
                     filter = dateFilter
                     groupCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'')"
-                    selectCols = "C.LoomNo, B.ItemName, FORMAT(A.CHALLANDATE,''MMM'') AS MonthName"
-                    orderCols = "LoomNo, ItemName, MonthName"
+                    selectCols = "C.LoomNo, B.ItemName"
+                    orderCols = "LoomNo, ItemName"
             End Select
 
             ' --- Build the dynamic SQL
+
             .AppendLine("DECLARE @cols NVARCHAR(MAX);")
             .AppendLine("DECLARE @query NVARCHAR(MAX);")
+
+            ' 🔹 Dynamic month-wise column list (Qty + Amt)
             .AppendLine("SELECT @cols = STUFF((")
             .AppendLine("    SELECT DISTINCT ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+'_Qty') + ',' + QUOTENAME(FORMAT(A.CHALLANDATE,'MMM')+'_Amt')")
             .AppendLine("    FROM TRNCHALLAN A")
             .AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
             .AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
-            .AppendLine("    WHERE A.BOOKCODE='0001-000000155'" & filter)  ' <-- double quotes for SQL
+            .AppendLine("    WHERE A.BOOKCODE='0001-000000155'" & filter)
             .AppendLine("    FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'),1,1,'');")
             .AppendLine("IF @cols IS NULL OR LEN(@cols)=0 SET @cols = '[NoData]';")
 
+            ' 🔹 Main PIVOT query (no extra GROUP BY after pivot)
             .AppendLine("SET @query = '")
             .AppendLine("SELECT " & orderCols & ", ' + @cols + '")
             .AppendLine("FROM (")
@@ -455,17 +498,21 @@ Friend Class StoreConsumption_GridZooming
             .AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
             .AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter.Replace("'", "''"))
             .AppendLine("    GROUP BY " & groupCols)
+
             .AppendLine("    UNION ALL")
+
             .AppendLine("    SELECT " & selectCols & ", FORMAT(A.CHALLANDATE,''MMM'') + ''_Amt'' AS MonthType, SUM(A.AMOUNT) AS Value")
             .AppendLine("    FROM TRNCHALLAN A")
             .AppendLine("    LEFT JOIN MSTSTOREITEM B ON A.ITEMCODE=B.ITEMCODE")
             .AppendLine("    LEFT JOIN MstLoomNo C ON A.LOOMNOCODE=C.LoomNoCode")
             .AppendLine("    WHERE A.BOOKCODE = ''0001-000000155''" & filter.Replace("'", "''"))
             .AppendLine("    GROUP BY " & groupCols)
-            .AppendLine(") AS SourceData")
-            .AppendLine("PIVOT (SUM(Value) FOR MonthType IN (' + @cols + ')) AS PivotResult")
-            .AppendLine("ORDER BY " & orderCols & ";'")
 
+            .AppendLine(") AS SourceData")
+            .AppendLine("PIVOT (")
+            .AppendLine("    SUM(Value) FOR MonthType IN (' + @cols + ')")
+            .AppendLine(") AS PivotResult")
+            .AppendLine("ORDER BY " & orderCols & ";'")
             .AppendLine("EXEC sp_executesql @query;")
         End With
         sqL = _strQuery.ToString
@@ -476,6 +523,318 @@ Friend Class StoreConsumption_GridZooming
         _NewTmptbl = DefaltSoftTable.Copy
         Return _NewTmptbl
     End Function
+
+    Private Function _SummaryMonth_Load(ByRef _EnterStage As String, ByRef FilterString As String)
+        Dim dateFilter = " AND A.CHALLANDATE >=  '" & txt_From.Date_for_Database & "' And A.CHALLANDATE <=  '" & txt_To.Date_for_Database & "'"
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append(" SELECT ")
+            If _EnterStage = "FIRST" OrElse _EnterStage = "SECOND" Then
+                If Txt_ProcessStockDisplay.Text = "SUMMARY" Then
+                    If _EnterStage = "SECOND" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                '.Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case "Item Wise"
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" A.MTR_WEIGHT AS Qty, ")
+                                .Append(" A.AMOUNT AS Amount ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" A.MTR_WEIGHT AS Qty, ")
+                                .Append(" A.AMOUNT AS Amount ")
+
+                            Case Else
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" A.MTR_WEIGHT AS Qty, ")
+                                .Append(" A.AMOUNT AS Amount ")
+                        End Select
+                    ElseIf _EnterStage = "FIRST" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" C.LoomNo, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                '.Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case "Item Wise"
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case Else
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+                        End Select
+                    End If
+
+
+
+                ElseIf Txt_ProcessStockDisplay.Text = "DETAIL" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            .Append(" A.EntryNo, ")
+                            .Append(" A.CHALLANDATE As Date, ")
+                            .Append(" C.LoomNo, ")
+                            .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                            .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                        Case "Item Wise"
+                            .Append(" A.EntryNo, ")
+                            .Append(" A.CHALLANDATE As Date, ")
+                            .Append(" B.ITEMNAME AS ItemName, ")
+                            '.Append(" A.ItemCode, ")
+                            .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                            .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                        Case "Loom+Item Wise"
+                            .Append(" A.EntryNo, ")
+                            .Append(" A.CHALLANDATE As Date, ")
+                            .Append(" C.LoomNo, ")
+                            .Append(" A.LOOMNOCODE, ")
+                            .Append(" B.ITEMNAME AS ItemName, ")
+                            .Append(" A.ItemCode, ")
+                            .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                            .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                        Case Else
+                            .Append(" A.EntryNo, ")
+                            .Append(" A.CHALLANDATE As Date, ")
+                            .Append(" B.ITEMNAME AS ItemName, ")
+                            .Append(" C.LoomNo, ")
+                            '.Append(" A.ItemCode, ")
+                            .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                            .Append(" SUM(A.AMOUNT) AS Amount ")
+                    End Select
+                Else
+                    If _EnterStage = "SECOND" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                '.Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case "Item Wise"
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" A.MTR_WEIGHT AS Qty, ")
+                                .Append(" A.AMOUNT AS Amount ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" A.MTR_WEIGHT AS Qty, ")
+                                .Append(" A.AMOUNT AS Amount ")
+
+                            Case Else
+                                .Append(" A.EntryNo, ")
+                                .Append(" A.CHALLANDATE As Date, ")
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" A.MTR_WEIGHT AS Qty, ")
+                                .Append(" A.AMOUNT AS Amount ")
+                        End Select
+                    ElseIf _EnterStage = "FIRST" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" C.LoomNo, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                '.Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case "Item Wise"
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" C.LoomNo, ")
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.LOOMNOCODE, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+
+                            Case Else
+                                .Append(" B.ITEMNAME AS ItemName, ")
+                                .Append(" A.ItemCode, ")
+                                .Append(" SUM(A.MTR_WEIGHT) AS Qty, ")
+                                .Append(" SUM(A.AMOUNT) AS Amount ")
+                        End Select
+                    End If
+                End If
+
+                .Append(" FROM ( ")
+                .Append(" SELECT A.CHALLANDATE, A.MTR_WEIGHT, A.AMOUNT, A.ITEMCODE, A.EntryNo, A.LOOMNOCODE ")
+                .Append(" FROM TRNCHALLAN AS A WHERE 1=1 ")
+                .Append(dateFilter)
+                .Append(FilterString)
+                .Append(" AND A.BOOKCODE='0001-000000155' ")
+                .Append(" ) AS A ")
+                .Append(" LEFT JOIN MSTSTOREITEM AS B ON A.ITEMCODE=B.ITEMCODE ")
+                .Append(" LEFT JOIN MstLoomNo AS C ON A.LOOMNOCODE=C.LoomNoCode ")
+
+                If Txt_ProcessStockDisplay.Text = "SUMMARY" Then
+                    If _EnterStage = "FIRST" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" GROUP BY C.LoomNo,A.LOOMNOCODE ")
+                                .Append(" ORDER BY C.LoomNo ")
+
+                            Case "Item Wise"
+                                .Append(" GROUP BY B.ItemName, A.ItemCode ")
+                                .Append(" ORDER BY B.ItemName ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" GROUP BY C.LoomNo, B.ItemName, A.ItemCode, A.LOOMNOCODE ")
+                                .Append(" ORDER BY C.LoomNo, B.ItemName ")
+
+                            Case Else
+                                .Append(" GROUP BY B.ItemName, A.ItemCode ")
+                                .Append(" ORDER BY B.ItemName ")
+                        End Select
+                    ElseIf _EnterStage = "SECOND" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" GROUP BY C.LoomNo,A.LOOMNOCODE,C.LoomNo,B.ITEMNAME, A.ItemCode, A.CHALLANDATE, A.EntryNo")
+                                .Append(" ORDER BY C.LoomNo ")
+
+                            Case "Item Wise"
+                                .Append(" GROUP BY B.ItemName, A.ItemCode,A.MTR_WEIGHT,A.AMOUNT,C.LoomNo, A.CHALLANDATE, A.EntryNo ")
+                                .Append(" ORDER BY B.ItemName ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" GROUP BY C.LoomNo, B.ItemName, A.ItemCode, A.LOOMNOCODE,A.MTR_WEIGHT,A.AMOUNT ,A.CHALLANDATE, A.EntryNo ")
+                                .Append(" ORDER BY C.LoomNo, B.ItemName ")
+
+                            Case Else
+                                .Append(" GROUP BY B.ItemName, A.ItemCode,A.MTR_WEIGHT,A.AMOUNT,A.CHALLANDATE, A.EntryNo,C.LoomNo   ")
+                                .Append(" ORDER BY B.ItemName ")
+                        End Select
+                    End If
+
+
+                ElseIf Txt_ProcessStockDisplay.Text = "DETAIL" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            .Append(" GROUP BY C.LoomNo, A.CHALLANDATE , A.EntryNo")
+                            .Append(" ORDER BY C.LoomNo, A.CHALLANDATE ")
+
+                        Case "Item Wise"
+                            .Append(" GROUP BY B.ItemName, A.ItemCode, A.CHALLANDATE, A.EntryNo ")
+                            .Append(" ORDER BY B.ItemName, A.CHALLANDATE ")
+
+                        Case "Loom+Item Wise"
+                            .Append(" GROUP BY C.LoomNo, B.ItemName, A.ItemCode, A.CHALLANDATE,A.LOOMNOCODE, A.EntryNo ")
+                            .Append(" ORDER BY C.LoomNo, B.ItemName, A.CHALLANDATE ")
+
+                        Case Else
+                            .Append(" GROUP BY B.ItemName, C.LoomNo, A.ItemCode, A.CHALLANDATE, A.EntryNo ")
+                            .Append(" ORDER BY B.ItemName, C.LoomNo, A.CHALLANDATE ")
+                    End Select
+
+                Else
+                    If _EnterStage = "FIRST" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" GROUP BY C.LoomNo,A.LOOMNOCODE ")
+                                .Append(" ORDER BY C.LoomNo ")
+
+                            Case "Item Wise"
+                                .Append(" GROUP BY B.ItemName, A.ItemCode ")
+                                .Append(" ORDER BY B.ItemName ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" GROUP BY C.LoomNo, B.ItemName, A.ItemCode, A.LOOMNOCODE ")
+                                .Append(" ORDER BY C.LoomNo, B.ItemName ")
+
+                            Case Else
+                                .Append(" GROUP BY B.ItemName, A.ItemCode ")
+                                .Append(" ORDER BY B.ItemName ")
+                        End Select
+                    ElseIf _EnterStage = "SECOND" Then
+                        Select Case Txt_ViewType.Text
+                            Case "Loom Wise"
+                                .Append(" GROUP BY C.LoomNo,A.LOOMNOCODE,C.LoomNo,B.ITEMNAME, A.ItemCode, A.CHALLANDATE, A.EntryNo")
+                                .Append(" ORDER BY C.LoomNo ")
+
+                            Case "Item Wise"
+                                .Append(" GROUP BY B.ItemName, A.ItemCode,A.MTR_WEIGHT,A.AMOUNT,C.LoomNo, A.CHALLANDATE, A.EntryNo ")
+                                .Append(" ORDER BY B.ItemName ")
+
+                            Case "Loom+Item Wise"
+                                .Append(" GROUP BY C.LoomNo, B.ItemName, A.ItemCode, A.LOOMNOCODE,A.MTR_WEIGHT,A.AMOUNT ,A.CHALLANDATE, A.EntryNo ")
+                                .Append(" ORDER BY C.LoomNo, B.ItemName ")
+
+                            Case Else
+                                .Append(" GROUP BY B.ItemName, A.ItemCode,A.MTR_WEIGHT,A.AMOUNT,A.CHALLANDATE, A.EntryNo,C.LoomNo   ")
+                                .Append(" ORDER BY B.ItemName ")
+                        End Select
+                    End If
+                End If
+
+            End If
+
+
+        End With
+        sqL = _strQuery.ToString
+        sql_connect_slect()
+        Dim _NewTmptbl2 As New DataTable
+        Zoom_Stock_Table.Clear()
+        Zoom_Stock_Table = DefaltSoftTable.Copy
+        _NewTmptbl2 = DefaltSoftTable.Copy
+        Return _NewTmptbl2
+    End Function
+
 
     Private Sub btn_xl_Click(sender As Object, e As EventArgs) Handles btn_xl.Click
         _DevExpressExcelExport(GridControl1)
@@ -501,6 +860,232 @@ Friend Class StoreConsumption_GridZooming
     End Sub
     Private Sub Btn_LayoutLoad_Click(sender As Object, e As EventArgs) Handles Btn_LayoutLoad.Click
         Load_GridLayout(FirstStage, Me.Name)
+    End Sub
+
+    Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
+        _CommanFilterString = ""
+        Dim FilterString As String = ""
+        If e.KeyCode = Keys.Enter Then
+            _StgIRowNo = FirstStage.FocusedRowHandle
+            Dim ItemCode = ""
+            Dim LOOMNOCODE = ""
+            Dim LOOMNO = ""
+            If NoOfstage = 1 Then
+                If Txt_ProcessStockDisplay.Text = "SUMMARY" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            LOOMNOCODE = " and LOOMNOCODE='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "LOOMNOCODE").ToString & "'"
+                            FilterString = LOOMNOCODE
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                        Case "Item Wise"
+                            ItemCode = " and ItemCode='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemCode").ToString & "'"
+                            FilterString = ItemCode
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                        Case "Loom+Item Wise"
+                            ItemCode = " and ItemCode='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemCode").ToString & "'"
+                            LOOMNOCODE = " and LOOMNOCODE='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "LOOMNOCODE").ToString & "'"
+                            FilterString = ItemCode & LOOMNOCODE
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                        Case "Month+Loom Wise"
+
+                        Case "Month+Item Wise"
+
+                        Case Else
+                            ItemCode = " and ItemCode='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemCode").ToString & "'"
+                            FilterString = ItemCode
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                    End Select
+                ElseIf Txt_ProcessStockDisplay.Text = "DETAIL" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            ItemCode = " and ItemCode='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemCode").ToString & "'"
+                            FilterString = ItemCode
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                        Case "Item Wise"
+                            ItemCode = " and ItemCode='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemCode").ToString & "'"
+                            FilterString = ItemCode
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                        Case "Loom+Item Wise"
+                            ItemCode = " and ItemCode='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemCode").ToString & "'"
+                            FilterString = ItemCode
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                        Case "Month+Loom Wise"
+
+                        Case "Month+Item Wise"
+
+                        Case Else
+                            ItemCode = " and ItemCode='" & FirstStage.GetRowCellValue(FirstStage.FocusedRowHandle, "ItemCode").ToString & "'"
+                            FilterString = ItemCode
+                            NoOfstage = 2
+                            _GetBeamWiseStockSecondStage(FilterString)
+                    End Select
+                End If
+
+            End If
+        ElseIf e.KeyCode = Keys.Escape Then
+            If NoOfstage = 2 Then
+                NoOfstage = 1
+                _GetBeamWiseStockFirstStage(FilterString)
+            End If
+        End If
+    End Sub
+    Private Sub _GetBeamWiseStockSecondStage(ByVal FilterString As String)
+        Try
+            Dim _TmpTbl As New DataTable
+            _TmpTbl = _SummaryMonth_Load("SECOND", FilterString)
+
+            If _TmpTbl.Rows.Count = 0 Then
+                MsgBox("No Record Found !", MsgBoxStyle.Information, "Soft-Tex PRO")
+                Exit Sub
+            Else
+
+                FirstStage.Columns.Clear()
+                GridControl1.DataSource = _TmpTbl.Copy
+
+                DevGridFitColumnWiotScroll(GridControl1, FirstStage)
+                If FirstStage.Columns.ColumnByFieldName("Qty") IsNot Nothing Then
+                    FirstStage.Columns("Qty").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Qty", "{0:n2}"))
+                    FirstStage.GroupSummary.Add(New DevExpress.XtraGrid.GridGroupSummaryItem() With {
+                .FieldName = "Qty",
+                .SummaryType = DevExpress.Data.SummaryItemType.Sum,
+                .ShowInGroupColumnFooter = FirstStage.Columns("Qty")
+            })
+                End If
+                If FirstStage.Columns.ColumnByFieldName("Amount") IsNot Nothing Then
+                    FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:n2}"))
+                    FirstStage.GroupSummary.Add(New DevExpress.XtraGrid.GridGroupSummaryItem() With {
+                .FieldName = "Amount",
+                .SummaryType = DevExpress.Data.SummaryItemType.Sum,
+                .ShowInGroupColumnFooter = FirstStage.Columns("Amount")
+            })
+                End If
+                FirstStage.Appearance.FocusedRow.BackColor = FirstStage.Appearance.FocusedRow.BackColor.LightBlue
+                FirstStage.Appearance.FocusedRow.BackColor = Color.LightBlue
+                If FirstStage.Columns.ColumnByFieldName("EntryNo") IsNot Nothing Then
+                    FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                    FirstStage.Columns("EntryNo").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+                End If
+                If FirstStage.Columns.ColumnByFieldName("Qty") IsNot Nothing Then
+                    FirstStage.Columns("Qty").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                    FirstStage.Columns("Qty").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
+
+                If FirstStage.Columns.ColumnByFieldName("Amount") IsNot Nothing Then
+                    FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                    FirstStage.Columns("Amount").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
+                If Txt_ProcessStockDisplay.Text = "SUMMARY" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                        Case "Item Wise"
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Loom+Item Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Month+Loom Wise"
+
+                        Case "Month+Item Wise"
+
+                        Case Else
+                            FirstStage.Columns("ItemCode").Visible = False
+                    End Select
+                ElseIf Txt_ProcessStockDisplay.Text = "DETAIL" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                        Case "Item Wise"
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Loom+Item Wise"
+                            'FirstStage.Columns("LOOMNOCODE").Visible = False
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case Else
+                            FirstStage.Columns("ItemCode").Visible = False
+
+                    End Select
+                End If
+
+                GridControl1.Visible = True
+                GridControl1.BringToFront()
+                FirstStage.Focus()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+    End Sub
+    Private Sub _GetBeamWiseStockFirstStage(ByVal FilterString As String)
+        Try
+            Dim _TmpTbl As New DataTable
+            _TmpTbl = _SummaryMonth_Load("FIRST", FilterString)
+
+            If _TmpTbl.Rows.Count = 0 Then
+                MsgBox("No Record Found !", MsgBoxStyle.Information, "Soft-Tex PRO")
+                Exit Sub
+            Else
+
+                FirstStage.Columns.Clear()
+                GridControl1.DataSource = _TmpTbl.Copy
+
+                DevGridFitColumnWiotScroll(GridControl1, FirstStage)
+                If FirstStage.Columns.ColumnByFieldName("Qty") IsNot Nothing Then
+                    FirstStage.Columns("Qty").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Qty", "{0:n2}"))
+                    FirstStage.GroupSummary.Add(New DevExpress.XtraGrid.GridGroupSummaryItem() With {
+                .FieldName = "Qty",
+                .SummaryType = DevExpress.Data.SummaryItemType.Sum,
+                .ShowInGroupColumnFooter = FirstStage.Columns("Qty")
+            })
+                End If
+                If FirstStage.Columns.ColumnByFieldName("Amount") IsNot Nothing Then
+                    FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:n2}"))
+                    FirstStage.GroupSummary.Add(New DevExpress.XtraGrid.GridGroupSummaryItem() With {
+                .FieldName = "Amount",
+                .SummaryType = DevExpress.Data.SummaryItemType.Sum,
+                .ShowInGroupColumnFooter = FirstStage.Columns("Amount")
+            })
+                End If
+                FirstStage.Appearance.FocusedRow.BackColor = FirstStage.Appearance.FocusedRow.BackColor.LightBlue
+                FirstStage.Appearance.FocusedRow.BackColor = Color.LightBlue
+
+                If Txt_ProcessStockDisplay.Text = "SUMMARY" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                        Case "Item Wise"
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Loom+Item Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case Else
+                            FirstStage.Columns("ItemCode").Visible = False
+                    End Select
+                ElseIf Txt_ProcessStockDisplay.Text = "DETAIL" Then
+                    Select Case Txt_ViewType.Text
+                        Case "Loom Wise"
+                            FirstStage.Columns("LOOMNOCODE").Visible = False
+                        Case "Item Wise"
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case "Loom+Item Wise"
+                            'FirstStage.Columns("LOOMNOCODE").Visible = False
+                            FirstStage.Columns("ItemCode").Visible = False
+                        Case Else
+                            FirstStage.Columns("ItemCode").Visible = False
+
+                    End Select
+                End If
+                GridControl1.Visible = True
+                GridControl1.BringToFront()
+                FirstStage.Focus()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
     End Sub
 
 
