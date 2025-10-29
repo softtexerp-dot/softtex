@@ -297,10 +297,17 @@ Friend Class StoreConsumption_GridZooming
                 'bandedView.BestFitColumns()
 
                 bandedView.FocusedRowHandle = _StgIRowNo
+                bandedView.OptionsBehavior.Editable = False
+                bandedView.OptionsView.ColumnAutoWidth = False
+                bandedView.OptionsView.RowAutoHeight = True
+                bandedView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+                bandedView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+                bandedView.OptionsView.ShowBands = True
+
+                bandedView.Focus()
+                'FirstStage.OptionsBehavior.Editable = False
                 FirstStage.BestFitColumns()
-                FirstStage.Focus()
-
-
+                'FirstStage.Focus()
             End If
         End If
     End Sub
@@ -1173,23 +1180,18 @@ Friend Class StoreConsumption_GridZooming
                             NoOfstage = 2
                             _GetBeamWiseStockSecondStage(FilterString)
                         Case "Month+Loom Wise"
-
                             Dim bandedView As BandedGridView = CType(GridControl1.MainView, BandedGridView)
                             Dim loomValue As String = bandedView.GetRowCellValue(bandedView.FocusedRowHandle, "LoomNo").ToString()
                             Dim loomValue1 As String = bandedView.GetRowCellValue(bandedView.FocusedRowHandle, "LOOMNOCODE").ToString()
-
                             Dim focusedColumn As BandedGridColumn = TryCast(bandedView.FocusedColumn, BandedGridColumn)
                             _StgIRowNo = bandedView.FocusedRowHandle
                             ' 🔹 Focused row index lo
                             Dim focusedRowHandle As Integer = bandedView.FocusedRowHandle
-
                             ' 🔹 Get current cell value
                             Dim cellValue As Object = bandedView.GetRowCellValue(focusedRowHandle, focusedColumn)
-
                             ' 🔹 Convert to string safely
                             Dim cellText As String = If(cellValue IsNot Nothing, cellValue.ToString().Trim(), "")
                             Dim parentBand As GridBand = focusedColumn.OwnerBand
-
                             ' 🔹 Agar aur ek level upar hai (multi-row band header), to le lo
                             If parentBand.ParentBand IsNot Nothing Then
                                 parentBand = parentBand.ParentBand
@@ -1198,9 +1200,7 @@ Friend Class StoreConsumption_GridZooming
                             Dim parentBandCaption As String = parentBand.Caption
                             Dim firstThreeLetters As String = parentBandCaption.Substring(0, Math.Min(3, parentBandCaption.Length))
                             Dim monthList As New List(Of String) From {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
-
                             Dim cleanCaption As String = parentBandCaption.Trim().Replace(" ", "").ToLower()
-
                             ' ✅ Condition: LoomValue not empty + Column is _Amt/_Qty + Cell has value
                             If monthList.Contains(firstThreeLetters) Then
                                 If loomValue1 <> "" AndAlso cellText <> "" Then
@@ -1213,7 +1213,6 @@ Friend Class StoreConsumption_GridZooming
                                 NoOfstage = 2
                                 _GetMonthWiseStockSecondStage(FilterString)
                             End If
-
                         Case "Month+Item Wise"
                             Dim bandedView As BandedGridView = CType(GridControl1.MainView, BandedGridView)
                             Dim Itemname As String = bandedView.GetRowCellValue(bandedView.FocusedRowHandle, "ItemName").ToString()
@@ -1223,21 +1222,15 @@ Friend Class StoreConsumption_GridZooming
                             _StgIRowNo = bandedView.FocusedRowHandle
                             ' 🔹 Get current cell value
                             Dim cellValue As Object = bandedView.GetRowCellValue(focusedRowHandle, focusedColumn)
-
                             ' 🔹 Convert to string safely
                             Dim cellText As String = If(cellValue IsNot Nothing, cellValue.ToString().Trim(), "")
                             Dim parentBand As GridBand = focusedColumn.OwnerBand
-
                             ' 🔹 Agar aur ek level upar hai (multi-row band header), to le lo
                             If parentBand.ParentBand IsNot Nothing Then
                                 parentBand = parentBand.ParentBand
                             End If
-
                             ' 🔹 Get band caption (first header row name)
                             Dim parentBandCaption As String = parentBand.Caption
-
-
-
                             Dim firstThreeLetters As String = ""
                             If parentBandCaption.Length >= 3 Then
                                 firstThreeLetters = parentBandCaption.Substring(0, 3)   ' 👈 पहले 3 अक्षर
