@@ -81,6 +81,8 @@ Friend Class StoreConsumption_GridZooming
             Stock_Summarymonth_Load(_NewTmptbl)
 
         End If
+
+        AttachButtonFocusEvents(Me)
     End Sub
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
         _CloseCheck = False
@@ -293,10 +295,12 @@ Friend Class StoreConsumption_GridZooming
                     End If
                 Next
 
-                'ConfigureBandedGridView(bandedView)
+                ConfigureBandedGridView(bandedView)
                 'bandedView.BestFitColumns()
 
                 bandedView.FocusedRowHandle = _StgIRowNo
+                bandedView.FocusedColumn = bandedView.Columns(0)
+
                 bandedView.OptionsBehavior.Editable = False
                 bandedView.OptionsView.ColumnAutoWidth = False
                 bandedView.OptionsView.RowAutoHeight = True
@@ -406,30 +410,28 @@ Friend Class StoreConsumption_GridZooming
             .Appearance.FooterPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
         End With
 
-        ' 🔹 Common font objects to avoid re-creation (faster)
+
         Dim headerFont As New Font("Verdana", 8, FontStyle.Bold)
         Dim cellFont As New Font("Verdana", 8, FontStyle.Regular)
 
-        ' 🔹 Loop once through all columns only (no nested bands loop)
+
         For Each col As DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn In view.Columns
-            ' Header formatting
-            With col.AppearanceHeader
-                .Font = headerFont
-                .TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
-                .TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
-                .BackColor = Color.LightBlue
-                .BackColor2 = Color.Navy
-                .GradientMode = Drawing2D.LinearGradientMode.Vertical
-                .ForeColor = Color.White
-            End With
+            'With col.AppearanceHeader
+            '    .Font = headerFont
+            '    .TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+            '    .TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
+            '    .BackColor = Color.LightBlue
+            '    .BackColor2 = Color.Navy
+            '    .GradientMode = Drawing2D.LinearGradientMode.Vertical
+            '    .ForeColor = Color.White
+            'End With
 
-            ' Cell formatting
-            With col.AppearanceCell
-                .Font = cellFont
-                .TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
-            End With
+            'With col.AppearanceCell
+            '    .Font = cellFont
+            '    .TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
+            'End With
 
-            ' 🔹 Numeric alignment
+
             Select Case Type.GetTypeCode(col.ColumnType)
                 Case TypeCode.Decimal, TypeCode.Double, TypeCode.Int16, TypeCode.Int32, TypeCode.Int64, TypeCode.Single
                     col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
@@ -437,7 +439,7 @@ Friend Class StoreConsumption_GridZooming
                     col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
             End Select
 
-            ' 🔹 Summary for Qty/Amt columns
+
             If col.FieldName.ToLower().Contains("_qty") OrElse col.FieldName.ToLower().Contains("_amt") Then
                 With col.SummaryItem
                     .SummaryType = DevExpress.Data.SummaryItemType.Sum
@@ -447,18 +449,18 @@ Friend Class StoreConsumption_GridZooming
             End If
         Next
 
-        ' 🔹 Band header appearance (optional, one pass)
-        For Each band As DevExpress.XtraGrid.Views.BandedGrid.GridBand In view.Bands
-            With band.AppearanceHeader
-                .Font = headerFont
-                .TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
-                .TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
-                .BackColor = Color.Khaki
-                .BackColor2 = Color.Navy
-                .GradientMode = Drawing2D.LinearGradientMode.Vertical
-                .ForeColor = Color.White
-            End With
-        Next
+
+        'For Each band As DevExpress.XtraGrid.Views.BandedGrid.GridBand In view.Bands
+        '    With band.AppearanceHeader
+        '        .Font = headerFont
+        '        .TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+        '        .TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center
+        '        .BackColor = Color.Khaki
+        '        .BackColor2 = Color.Navy
+        '        .GradientMode = Drawing2D.LinearGradientMode.Vertical
+        '        .ForeColor = Color.White
+        '    End With
+        'Next
     End Sub
 
 
@@ -1185,33 +1187,32 @@ Friend Class StoreConsumption_GridZooming
                             Dim loomValue1 As String = bandedView.GetRowCellValue(bandedView.FocusedRowHandle, "LOOMNOCODE").ToString()
                             Dim focusedColumn As BandedGridColumn = TryCast(bandedView.FocusedColumn, BandedGridColumn)
                             _StgIRowNo = bandedView.FocusedRowHandle
-                            ' 🔹 Focused row index lo
                             Dim focusedRowHandle As Integer = bandedView.FocusedRowHandle
-                            ' 🔹 Get current cell value
                             Dim cellValue As Object = bandedView.GetRowCellValue(focusedRowHandle, focusedColumn)
-                            ' 🔹 Convert to string safely
                             Dim cellText As String = If(cellValue IsNot Nothing, cellValue.ToString().Trim(), "")
-                            Dim parentBand As GridBand = focusedColumn.OwnerBand
-                            ' 🔹 Agar aur ek level upar hai (multi-row band header), to le lo
-                            If parentBand.ParentBand IsNot Nothing Then
-                                parentBand = parentBand.ParentBand
-                            End If
-                            ' 🔹 Caption and month logic
-                            Dim parentBandCaption As String = parentBand.Caption
-                            Dim firstThreeLetters As String = parentBandCaption.Substring(0, Math.Min(3, parentBandCaption.Length))
-                            Dim monthList As New List(Of String) From {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
-                            Dim cleanCaption As String = parentBandCaption.Trim().Replace(" ", "").ToLower()
-                            ' ✅ Condition: LoomValue not empty + Column is _Amt/_Qty + Cell has value
-                            If monthList.Contains(firstThreeLetters) Then
-                                If loomValue1 <> "" AndAlso cellText <> "" Then
-                                    FilterString = " and C.LoomNoCODE='" & loomValue1 & "' AND FORMAT(A.CHALLANDATE,'MMM') = '" & firstThreeLetters & "'"
-                                    NoOfstage = 2
-                                    _GetMonthWiseStockSecondStage(FilterString)
+                            Dim afocusedColumn As DevExpress.XtraGrid.Columns.GridColumn = bandedView.FocusedColumn
+                            If afocusedColumn IsNot Nothing Then
+                                Dim parentBand As GridBand = focusedColumn.OwnerBand
+                                If parentBand IsNot Nothing Then
+                                    If parentBand.ParentBand IsNot Nothing Then
+                                        parentBand = parentBand.ParentBand
+                                    End If
+                                    Dim parentBandCaption As String = parentBand.Caption
+                                    Dim firstThreeLetters As String = parentBandCaption.Substring(0, Math.Min(3, parentBandCaption.Length))
+                                    Dim monthList As New List(Of String) From {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
+                                    Dim cleanCaption As String = parentBandCaption.Trim().Replace(" ", "").ToLower()
+                                    If monthList.Contains(firstThreeLetters) Then
+                                        If loomValue1 <> "" AndAlso cellText <> "" Then
+                                            FilterString = " and C.LoomNoCODE='" & loomValue1 & "' AND FORMAT(A.CHALLANDATE,'MMM') = '" & firstThreeLetters & "'"
+                                            NoOfstage = 2
+                                            _GetMonthWiseStockSecondStage(FilterString)
+                                        End If
+                                    Else
+                                        FilterString = " and C.LoomNoCODE='" & loomValue1 & "'"
+                                        NoOfstage = 2
+                                        _GetMonthWiseStockSecondStage(FilterString)
+                                    End If
                                 End If
-                            Else
-                                FilterString = " and C.LoomNoCODE='" & loomValue1 & "'"
-                                NoOfstage = 2
-                                _GetMonthWiseStockSecondStage(FilterString)
                             End If
                         Case "Month+Item Wise"
                             Dim bandedView As BandedGridView = CType(GridControl1.MainView, BandedGridView)
@@ -1220,6 +1221,7 @@ Friend Class StoreConsumption_GridZooming
                             Dim focusedColumn As BandedGridColumn = TryCast(bandedView.FocusedColumn, BandedGridColumn)
                             Dim focusedRowHandle As Integer = bandedView.FocusedRowHandle
                             _StgIRowNo = bandedView.FocusedRowHandle
+
                             ' 🔹 Get current cell value
                             Dim cellValue As Object = bandedView.GetRowCellValue(focusedRowHandle, focusedColumn)
                             ' 🔹 Convert to string safely
