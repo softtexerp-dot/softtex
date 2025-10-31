@@ -46,16 +46,17 @@ Partial Class LogBookGridReport
         Me.But_ok.Location = New System.Drawing.Point(681, 8)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(66, 36)
-        Me.But_ok.TabIndex = 81949
+        Me.But_ok.TabIndex = 4
         Me.But_ok.Text = "Ok"
         '
         'PivotGridControl1
         '
         Me.PivotGridControl1.Location = New System.Drawing.Point(12, 54)
         Me.PivotGridControl1.Name = "PivotGridControl1"
+        Me.PivotGridControl1.OptionsCustomization.AllowFilterInCustomizationForm = True
         Me.PivotGridControl1.OptionsData.DataProcessingEngine = DevExpress.XtraPivotGrid.PivotDataProcessingEngine.Optimized
-        Me.PivotGridControl1.Size = New System.Drawing.Size(981, 555)
-        Me.PivotGridControl1.TabIndex = 81950
+        Me.PivotGridControl1.Size = New System.Drawing.Size(780, 555)
+        Me.PivotGridControl1.TabIndex = 5
         '
         'lbl_To
         '
@@ -117,7 +118,7 @@ Partial Class LogBookGridReport
         Me.txt_To.ShowMessage = False
         Me.txt_To.Size = New System.Drawing.Size(95, 22)
         Me.txt_To.SpacerString = ""
-        Me.txt_To.TabIndex = 81952
+        Me.txt_To.TabIndex = 2
         Me.txt_To.Tag = "BOOKNAME"
         Me.txt_To.Text = "  /  /    "
         Me.txt_To.TransparentBox = True
@@ -161,7 +162,7 @@ Partial Class LogBookGridReport
         Me.txt_From.ShowMessage = False
         Me.txt_From.Size = New System.Drawing.Size(95, 22)
         Me.txt_From.SpacerString = ""
-        Me.txt_From.TabIndex = 81951
+        Me.txt_From.TabIndex = 1
         Me.txt_From.Tag = "BOOKNAME"
         Me.txt_From.Text = "  /  /    "
         Me.txt_From.TransparentBox = True
@@ -206,7 +207,7 @@ Partial Class LogBookGridReport
         Me.Txt_ProcessStockDisplay.ShowMessage = False
         Me.Txt_ProcessStockDisplay.Size = New System.Drawing.Size(87, 22)
         Me.Txt_ProcessStockDisplay.SpacerString = "Summary,Detail"
-        Me.Txt_ProcessStockDisplay.TabIndex = 81955
+        Me.Txt_ProcessStockDisplay.TabIndex = 3
         Me.Txt_ProcessStockDisplay.Tag = "VECHNO"
         Me.Txt_ProcessStockDisplay.Text = "SUMMARY"
         Me.Txt_ProcessStockDisplay.TransparentBox = True
@@ -266,7 +267,7 @@ Partial Class LogBookGridReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(998, 621)
+        Me.ClientSize = New System.Drawing.Size(1100, 621)
         Me.Controls.Add(Me.btn_xl)
         Me.Controls.Add(Me.But_print)
         Me.Controls.Add(Me.Btn_LayoutLoad)
