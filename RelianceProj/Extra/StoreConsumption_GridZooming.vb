@@ -138,18 +138,19 @@ Friend Class StoreConsumption_GridZooming
             If Stktbl.Rows.Count > 0 Then
 
                 GridControl1.DataSource = Stktbl.Copy
-
-                ' 🔹 Use BandedGridView
-                Dim _ActivatedColName As String = ""
-                If FirstStage IsNot Nothing AndAlso FirstStage.FocusedColumn IsNot Nothing Then
-                    _ActivatedColName = FirstStage.FocusedColumn.FieldName
-                End If
-
                 Dim bandedView As New BandedGridView(GridControl1)
                 GridControl1.MainView = bandedView
                 GridControl1.ViewCollection.Add(bandedView)
                 '_StgIRowNo = bandedView.FocusedRowHandle
                 ' 🔹 Formatting options
+                'Dim _ActivatedColName As String = ""
+                'If bandedView IsNot Nothing AndAlso bandedView.FocusedColumn IsNot Nothing Then
+                '    _ActivatedColName = bandedView.FocusedColumn.FieldName
+                'End If
+                'Dim _StgIRowNo As Integer = 0
+                'If bandedView IsNot Nothing Then
+                '    _StgIRowNo = bandedView.FocusedRowHandle
+                'End If
                 bandedView.OptionsView.ShowBands = True
                 bandedView.OptionsView.ShowAutoFilterRow = True
                 bandedView.OptionsBehavior.Editable = False
@@ -299,7 +300,13 @@ Friend Class StoreConsumption_GridZooming
                 'bandedView.BestFitColumns()
 
                 bandedView.FocusedRowHandle = _StgIRowNo
-                bandedView.FocusedColumn = bandedView.Columns(0)
+                'bandedView.FocusedColumn = bandedView.Columns(0)
+                If bandedView.Columns("ItemName") IsNot Nothing Then
+                    bandedView.FocusedColumn = bandedView.Columns("ItemName")
+                End If
+                If bandedView.Columns("Qty") IsNot Nothing Then
+                    bandedView.FocusedColumn = bandedView.Columns("Qty")
+                End If
 
                 bandedView.OptionsBehavior.Editable = False
                 bandedView.OptionsView.ColumnAutoWidth = False
@@ -307,6 +314,7 @@ Friend Class StoreConsumption_GridZooming
                 bandedView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
                 bandedView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
                 bandedView.OptionsView.ShowBands = True
+
 
                 bandedView.Focus()
                 'FirstStage.OptionsBehavior.Editable = False
@@ -1152,7 +1160,6 @@ Friend Class StoreConsumption_GridZooming
 
     Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
         _CommanFilterString = ""
-
         Dim FilterString As String = ""
         If e.KeyCode = Keys.Enter Then
 
@@ -1201,6 +1208,13 @@ Friend Class StoreConsumption_GridZooming
                                     Dim firstThreeLetters As String = parentBandCaption.Substring(0, Math.Min(3, parentBandCaption.Length))
                                     Dim monthList As New List(Of String) From {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
                                     Dim cleanCaption As String = parentBandCaption.Trim().Replace(" ", "").ToLower()
+                                    If focusedColumn IsNot Nothing AndAlso bandedView.Columns.Contains(focusedColumn) Then
+                                        bandedView.FocusedColumn = focusedColumn
+                                    ElseIf focusedColumn IsNot Nothing AndAlso bandedView.Columns(focusedColumn.FieldName) IsNot Nothing Then
+                                        bandedView.FocusedColumn = bandedView.Columns(focusedColumn.FieldName)
+                                    End If
+                                    bandedView.MakeRowVisible(bandedView.FocusedRowHandle)
+                                    bandedView.FocusedColumn.VisibleIndex = bandedView.FocusedColumn.VisibleIndex
                                     If monthList.Contains(firstThreeLetters) Then
                                         If loomValue1 <> "" AndAlso cellText <> "" Then
                                             FilterString = " and C.LoomNoCODE='" & loomValue1 & "' AND FORMAT(A.CHALLANDATE,'MMM') = '" & firstThreeLetters & "'"
@@ -1317,10 +1331,10 @@ Friend Class StoreConsumption_GridZooming
         Try
             Dim _TmpTbl As New DataTable
             _TmpTbl = _ZoomMonth_Load("SECOND", FilterString)
-            Dim _ActivatedColName As String = ""
-            If FirstStage IsNot Nothing AndAlso FirstStage.FocusedColumn IsNot Nothing Then
-                _ActivatedColName = FirstStage.FocusedColumn.FieldName
-            End If
+            'Dim _ActivatedColName As String = ""
+            'If FirstStage IsNot Nothing AndAlso FirstStage.FocusedColumn IsNot Nothing Then
+            '    _ActivatedColName = FirstStage.FocusedColumn.FieldName
+            'End If
             If _TmpTbl.Rows.Count = 0 Then
                 MsgBox("No Record Found !", MsgBoxStyle.Information, "Soft-Tex PRO")
                 Exit Sub
@@ -1560,8 +1574,9 @@ Friend Class StoreConsumption_GridZooming
                 End If
                 GridControl1.Visible = True
                 GridControl1.BringToFront()
-                FirstStage.Focus()
+
                 FirstStage.FocusedRowHandle = _StgIRowNo
+                FirstStage.Focus()
             End If
         Catch ex As Exception
             MsgBox(ex.ToString)

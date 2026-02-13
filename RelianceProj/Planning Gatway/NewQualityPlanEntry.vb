@@ -1,7 +1,8 @@
 ﻿Imports System.Text
+Imports DevExpress.Xpf.Core
 
 Friend Class NewQualityPlanEntry
-    Dim _str As String = ""
+
     Private obj_Party_Selection As New Multi_Selection_Master
 
 #Region "VARIABLE DECLARATION"
@@ -30,7 +31,8 @@ Friend Class NewQualityPlanEntry
 #Region "QUERY SECTION"
 
     Public Function Master_GetMaxCode(ByVal _KeyFieldName As String, ByVal _TblName As String, ByVal _SELECTEDCOMPANYCODE As String) As String
-        strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10)  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)='" & _SELECTEDCOMPANYCODE & "'" & " AND SHORTNAME='NEW QUALITY PLANNING'  ORDER BY " & _KeyFieldName & " DESC "
+        'strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10)  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)='" & _SELECTEDCOMPANYCODE & "'" & " AND SHORTNAME='NEW QUALITY PLANNING'  ORDER BY " & _KeyFieldName & " DESC "
+        strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10)  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)<>'" & _SELECTEDCOMPANYCODE & "'" & " AND SHORTNAME='NEW QUALITY PLANNING'  ORDER BY " & _KeyFieldName & " DESC "
         Return strQuery.ToString
     End Function
 
@@ -412,6 +414,7 @@ Friend Class NewQualityPlanEntry
                 If _FORMMODE = "DELETE" Then
                     If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
                         Delete_Record()
+                        MsgBox("Records Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
                     End If
                 End If
 
@@ -556,7 +559,11 @@ Friend Class NewQualityPlanEntry
         sqL = getSaveQuery()
 
         sql_Data_Save_Delete_Update()
-        MsgBox("Records Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        If _FORMMODE = "ADD" Then
+            MsgBox("Record Successfully Saved!", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        ElseIf _FORMMODE = "EDIT" Then
+            MsgBox("Record Successfully Edited!", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        End If
 
         ObjCls_General.Blank_Object(Me)
         _FORMMODE = ""
@@ -616,8 +623,6 @@ Friend Class NewQualityPlanEntry
         sql_Data_Save_Delete_Update()
         ObjCls_General.Blank_Object(Me)
         _KeyFieldValue = 0
-
-
         _FORMMODE = ""
         Ctrl_Visible_False(Me.Controls)
         Command_Button_Visibility("LOAD")

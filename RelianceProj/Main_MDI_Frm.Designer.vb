@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Main_MDI_Frm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Main_MDI_Frm
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.FINE_YEAR_START = New System.Windows.Forms.Label()
@@ -29,6 +29,17 @@ Partial Class Main_MDI_Frm
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DashbordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StoreConsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LogbookToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReadMadeStockReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GetChallanDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ComplaintdetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CostdetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CostdetailnewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SundaryTypeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BlankRateUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OfferWiseBeamStockreportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TableformToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TableDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -72,7 +83,7 @@ Partial Class Main_MDI_Frm
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem, Me.LogbookToolStripMenuItem, Me.ReadMadeStockReportToolStripMenuItem, Me.GetChallanDetailsToolStripMenuItem, Me.ComplaintdetailToolStripMenuItem, Me.CostdetailToolStripMenuItem, Me.CostdetailnewToolStripMenuItem, Me.SundaryTypeToolStripMenuItem, Me.BlankRateUpdateToolStripMenuItem, Me.OfferWiseBeamStockreportToolStripMenuItem, Me.TableformToolStripMenuItem, Me.TableDetailToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -80,14 +91,80 @@ Partial Class Main_MDI_Frm
         'DashbordToolStripMenuItem
         '
         Me.DashbordToolStripMenuItem.Name = "DashbordToolStripMenuItem"
-        Me.DashbordToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.DashbordToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.DashbordToolStripMenuItem.Text = "Dashbord"
         '
         'StoreConsToolStripMenuItem
         '
         Me.StoreConsToolStripMenuItem.Name = "StoreConsToolStripMenuItem"
-        Me.StoreConsToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.StoreConsToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.StoreConsToolStripMenuItem.Text = "Store Consumption"
+        '
+        'LogbookToolStripMenuItem
+        '
+        Me.LogbookToolStripMenuItem.Name = "LogbookToolStripMenuItem"
+        Me.LogbookToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.LogbookToolStripMenuItem.Text = "Logbook"
+        '
+        'ReadMadeStockReportToolStripMenuItem
+        '
+        Me.ReadMadeStockReportToolStripMenuItem.Name = "ReadMadeStockReportToolStripMenuItem"
+        Me.ReadMadeStockReportToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.ReadMadeStockReportToolStripMenuItem.Text = "ReadMadeStockReport"
+        '
+        'GetChallanDetailsToolStripMenuItem
+        '
+        Me.GetChallanDetailsToolStripMenuItem.Name = "GetChallanDetailsToolStripMenuItem"
+        Me.GetChallanDetailsToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.GetChallanDetailsToolStripMenuItem.Text = "GetOnlineChallanDetails"
+        '
+        'ComplaintdetailToolStripMenuItem
+        '
+        Me.ComplaintdetailToolStripMenuItem.Name = "ComplaintdetailToolStripMenuItem"
+        Me.ComplaintdetailToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.ComplaintdetailToolStripMenuItem.Text = "Complaintdetail"
+        '
+        'CostdetailToolStripMenuItem
+        '
+        Me.CostdetailToolStripMenuItem.Name = "CostdetailToolStripMenuItem"
+        Me.CostdetailToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.CostdetailToolStripMenuItem.Text = "costdetail"
+        '
+        'CostdetailnewToolStripMenuItem
+        '
+        Me.CostdetailnewToolStripMenuItem.Name = "CostdetailnewToolStripMenuItem"
+        Me.CostdetailnewToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.CostdetailnewToolStripMenuItem.Text = "Costdetailnew"
+        '
+        'SundaryTypeToolStripMenuItem
+        '
+        Me.SundaryTypeToolStripMenuItem.Name = "SundaryTypeToolStripMenuItem"
+        Me.SundaryTypeToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.SundaryTypeToolStripMenuItem.Text = "SundaryType"
+        '
+        'BlankRateUpdateToolStripMenuItem
+        '
+        Me.BlankRateUpdateToolStripMenuItem.Name = "BlankRateUpdateToolStripMenuItem"
+        Me.BlankRateUpdateToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.BlankRateUpdateToolStripMenuItem.Text = "BlankRateUpdate"
+        '
+        'OfferWiseBeamStockreportToolStripMenuItem
+        '
+        Me.OfferWiseBeamStockreportToolStripMenuItem.Name = "OfferWiseBeamStockreportToolStripMenuItem"
+        Me.OfferWiseBeamStockreportToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.OfferWiseBeamStockreportToolStripMenuItem.Text = "OfferWiseBeamStockreport"
+        '
+        'TableformToolStripMenuItem
+        '
+        Me.TableformToolStripMenuItem.Name = "TableformToolStripMenuItem"
+        Me.TableformToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.TableformToolStripMenuItem.Text = "Tableform"
+        '
+        'TableDetailToolStripMenuItem
+        '
+        Me.TableDetailToolStripMenuItem.Name = "TableDetailToolStripMenuItem"
+        Me.TableDetailToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.TableDetailToolStripMenuItem.Text = "TableDetail"
         '
         'Main_MDI_Frm
         '
@@ -119,4 +196,15 @@ Partial Class Main_MDI_Frm
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DashbordToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StoreConsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LogbookToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ReadMadeStockReportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents GetChallanDetailsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ComplaintdetailToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CostdetailToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CostdetailnewToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SundaryTypeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BlankRateUpdateToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OfferWiseBeamStockreportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TableformToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TableDetailToolStripMenuItem As ToolStripMenuItem
 End Class

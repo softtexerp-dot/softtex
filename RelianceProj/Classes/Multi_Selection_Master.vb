@@ -3087,7 +3087,7 @@ Public Class Multi_Selection_Master
 
         'End With
 
-        'Return strQuery.ToString
+        Return strQuery.ToString
 
     End Function
     Public Function EntryData_Process_Invoice_txtUse_Challan_Validated(ByVal BookNaure As String, ByVal AccountCode As String, ByVal BillDate As String, ByVal Str_In_Challan_Book As String, ByVal Rate_By As String) As String
@@ -3582,7 +3582,7 @@ Public Class Multi_Selection_Master
             ElseIf BOOK_BHEWAR = "chq_printing" Then
                 sqL = "SELECT A.BookName as [Book Name],A.BOOKCATEGORY as [Remark] , A.BookCode,A.BookTrType, A.BookCode from MstBook A WHERE " & BOOK_CATGER & " AND A.ACTIVE_STATUS ='YES' ORDER BY A.BOOKCATEGORY,A.BookName"
             ElseIf BOOK_BHEWAR = "BOOKMODIFY" Then
-                sqL = "SELECT A.BookName as [Book Name],A.BOOKCATEGORY as [Remark] , A.BookCode,A.BookTrType, A.BookCode from MstBook A WHERE " & BOOK_CATGER & " AND A.ACTIVE_STATUS ='YES' ORDER BY A.BOOKCATEGORY ,A.BookName "
+                sqL = "SELECT A.BookName as [Book Name],A.BOOKCATEGORY as [Remark] , A.BookCode,A.BookTrType, A.BookCode from MstBook A WHERE 1=1 " & BOOK_CATGER & " AND A.ACTIVE_STATUS ='YES' ORDER BY A.BOOKCATEGORY ,A.BookName "
             ElseIf BOOK_BHEWAR = "BOOKPRIFIX" Then
                 sqL = "SELECT A.BookName as [Book Name],A.BOOKCATEGORY as [Remark] , A.BookCode,A.BookTrType, A.BookCode from MstBook A WHERE" & BOOK_CATGER & " AND A.ACTIVE_STATUS ='YES' ORDER BY A.BOOKCATEGORY,A.BookName"
             Else
@@ -4434,6 +4434,7 @@ Public Class Multi_Selection_Master
         Finally
         End Try
     End Sub
+
     Public Sub SELECTION_LIST_FIRST_multy_SELECTION()
         Try
             MULTY_SELECTION_COLOUM_3_DATA = ""
@@ -5103,6 +5104,10 @@ Public Class Multi_Selection_Master
             MsgBox(ex.ToString)
         Finally
         End Try
+    End Sub
+    Public Sub Multy_SubItem_Selection()
+        sqL = "SELECT A.SUBITEMNAME as [Sub Item Name],'' as Remark,A.subItemCode,A.subItemCode,A.subItemCode FROM MstStoreSubItem A WHERE 1=1  " & GROUP_WISE_MULTY_PARTY_SELECT & " ORDER BY A.SUBITEMNAME"
+        Multy_List_Load_Data()
     End Sub
     Public Sub Multy_LogBookWeaver_Selection()
         sqL = " SELECT A.EmpName as [Weaver Name], '' as Remark ,A.EmpCode,A.EmpCode,A.EmpCode FROM MstLogBookWeaver A  ORDER BY A.EmpName"
@@ -6134,6 +6139,44 @@ Public Class Multi_Selection_Master
         Finally
         End Try
     End Sub
+
+    Public Sub SINGLE_Formname_SELECTION()
+        Try
+            _strQuery = New StringBuilder
+            With _strQuery
+                .Append(" SELECT ")
+                .Append(" Distinct(A.FormName) As FormName,CAST(A.FormId AS INT) AS FormId,A.FormId,A.FormId,A.FormId")
+                .Append(" FROM formcontrol A ")
+                .Append(" WHERE 1=1 ")
+                .Append(" AND ISNULL(A.Active,'YES')<>'NO'")
+                .Append(" ORDER BY A.FormId")
+            End With
+            sqL = _strQuery.ToString
+            sql_connect_slect1()
+
+            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+            GROUP_WISE_MULTY_PARTY_SELECT = ""
+            'Party_selection.dgw.Columns(1).Visible = False
+            Party_selection.dgw.Columns(2).Visible = False
+            Party_selection.dgw.Columns(3).Visible = False
+            Party_selection.dgw.Columns(4).Visible = False
+            'Party_selection.dgw.Columns(0).Width = 480
+            Party_selection.dgw.Columns(0).Width = 350
+            Party_selection.dgw.Columns(1).Width = 130
+            Party_selection.Width = 506
+
+            Party_selection.dgw.Columns(0).HeaderText = "Form Name"
+            Party_selection.dgw.Columns(1).HeaderText = "Form Id"
+
+            SELECTION_LIST_FIRST_SELECTION()
+            Party_selection.Close()
+            Party_selection.Dispose()
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+    End Sub
     Public Sub SINGLE_ITEM_SELECTION_TypeingWise(ByVal _SearchText)
 
         Try
@@ -6720,6 +6763,39 @@ Public Class Multi_Selection_Master
             Party_selection.Width = 506
             Party_selection.dgw.Columns(0).HeaderText = "Grader Name"
             Party_selection.dgw.Columns(1).HeaderText = "MobileNo"
+            SELECTION_LIST_FIRST_SELECTION()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+
+        End Try
+    End Sub
+    Public Sub SINGLE_Sundary_SELECTION(ByVal _SundaryType As String)
+        Try
+            Party_selection.Label4.Text = "Frm_Grader"
+
+            _strQuery = New StringBuilder
+            With _strQuery
+                .Append("  SELECT ")
+                .Append(" A.RCPT_ISSUE as SundaryName")
+                .Append(" ,'' as Remark")
+                .Append(" ,A.BEHAVIOUR ")
+                .Append(" ,A.BEHAVIOUR")
+                .Append(" ,A.BEHAVIOUR")
+                .Append("  from Query1 as A")
+                .Append(" where A.Y_JOB_WORKER_STK_OWN='Cost Sheet Setting' AND A.BOOKNAME='" & _SundaryType & "' ")
+                .Append("  ORDER BY  BookName ")
+            End With
+            '.Append(" where A.Y_JOB_WORKER_STK_OWN='Cost Sheet Setting' AND BOOKNAME='" & _SundaryType & "' ")
+            sqL = _strQuery.ToString
+            sql_connect_slect()
+            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+
+            Party_selection.dgw.Columns(2).Visible = False
+            Party_selection.dgw.Columns(3).Visible = False
+            Party_selection.dgw.Columns(0).Width = 280
+            Party_selection.dgw.Columns(1).Width = 200
+            Party_selection.Width = 506
             SELECTION_LIST_FIRST_SELECTION()
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -8216,7 +8292,7 @@ Public Class Multi_Selection_Master
     Public Function Master_GetNameOtherThisEntry(ByVal _TblName As String, ByVal _KeyFieldName As String, ByVal _KeyFieldValue As String, ByVal strChkFieldName As String, ByVal strChkFieldValue As String) As String
         strQuery = New StringBuilder
         With strQuery
-            strQuery.Append(" SELECT TOP 1 ID FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>'" & _KeyFieldValue & "'")
+            strQuery.Append(" SELECT TOP 1 Bookcode FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>'" & _KeyFieldValue & "'")
         End With
         Return strQuery.ToString
 

@@ -24,6 +24,8 @@ Partial Class NewQualityPlanEntry
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(NewQualityPlanEntry))
         Me.PNL_View = New System.Windows.Forms.Panel()
+        Me.But_export = New DevExpress.XtraEditors.SimpleButton()
+        Me.But_print = New DevExpress.XtraEditors.SimpleButton()
         Me.Btn_LayoutLoad = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnLayOutSave = New DevExpress.XtraEditors.SimpleButton()
         Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
@@ -66,6 +68,12 @@ Partial Class NewQualityPlanEntry
         Me.Txt_ItemName = New ctl_TextBox.ctl_TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.btnClose = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnView = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnSave = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnDelete = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnAdd = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnModify = New DevExpress.XtraEditors.SimpleButton()
         Me.Txt_PartyName = New ctl_TextBox.ctl_TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
@@ -74,14 +82,6 @@ Partial Class NewQualityPlanEntry
         Me.Label27 = New System.Windows.Forms.Label()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.Txt_Moredetail = New ctl_TextBox.ctl_TextBox()
-        Me.btnSave = New DevExpress.XtraEditors.SimpleButton()
-        Me.btnAdd = New DevExpress.XtraEditors.SimpleButton()
-        Me.btnModify = New DevExpress.XtraEditors.SimpleButton()
-        Me.btnDelete = New DevExpress.XtraEditors.SimpleButton()
-        Me.btnView = New DevExpress.XtraEditors.SimpleButton()
-        Me.btnClose = New DevExpress.XtraEditors.SimpleButton()
-        Me.But_print = New DevExpress.XtraEditors.SimpleButton()
-        Me.But_export = New DevExpress.XtraEditors.SimpleButton()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -103,6 +103,26 @@ Partial Class NewQualityPlanEntry
         Me.PNL_View.Size = New System.Drawing.Size(298, 195)
         Me.PNL_View.TabIndex = 81939
         Me.PNL_View.Visible = False
+        '
+        'But_export
+        '
+        Me.But_export.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.But_export.Appearance.Options.UseFont = True
+        Me.But_export.ImageOptions.Image = CType(resources.GetObject("But_export.ImageOptions.Image"), System.Drawing.Image)
+        Me.But_export.Location = New System.Drawing.Point(43, 8)
+        Me.But_export.Name = "But_export"
+        Me.But_export.Size = New System.Drawing.Size(39, 36)
+        Me.But_export.TabIndex = 81949
+        '
+        'But_print
+        '
+        Me.But_print.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.But_print.Appearance.Options.UseFont = True
+        Me.But_print.ImageOptions.Image = CType(resources.GetObject("But_print.ImageOptions.Image"), System.Drawing.Image)
+        Me.But_print.Location = New System.Drawing.Point(3, 8)
+        Me.But_print.Name = "But_print"
+        Me.But_print.Size = New System.Drawing.Size(39, 36)
+        Me.But_print.TabIndex = 81948
         '
         'Btn_LayoutLoad
         '
@@ -894,6 +914,72 @@ Partial Class NewQualityPlanEntry
         Me.GroupBox1.TabIndex = 81916
         Me.GroupBox1.TabStop = False
         '
+        'btnClose
+        '
+        Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Appearance.Options.UseFont = True
+        Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnClose.Location = New System.Drawing.Point(556, 12)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(87, 36)
+        Me.btnClose.TabIndex = 81951
+        Me.btnClose.Text = "Close"
+        '
+        'btnView
+        '
+        Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnView.Appearance.Options.UseFont = True
+        Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnView.Location = New System.Drawing.Point(385, 12)
+        Me.btnView.Name = "btnView"
+        Me.btnView.Size = New System.Drawing.Size(83, 36)
+        Me.btnView.TabIndex = 81950
+        Me.btnView.Text = "View"
+        '
+        'btnSave
+        '
+        Me.btnSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Appearance.Options.UseFont = True
+        Me.btnSave.ImageOptions.Image = CType(resources.GetObject("btnSave.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnSave.Location = New System.Drawing.Point(468, 12)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(87, 36)
+        Me.btnSave.TabIndex = 81946
+        Me.btnSave.Text = "Save"
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Appearance.Options.UseFont = True
+        Me.btnDelete.ImageOptions.Image = CType(resources.GetObject("btnDelete.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnDelete.Location = New System.Drawing.Point(294, 12)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(91, 36)
+        Me.btnDelete.TabIndex = 81949
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnAdd
+        '
+        Me.btnAdd.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAdd.Appearance.Options.UseFont = True
+        Me.btnAdd.ImageOptions.Image = CType(resources.GetObject("btnAdd.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnAdd.Location = New System.Drawing.Point(130, 12)
+        Me.btnAdd.Name = "btnAdd"
+        Me.btnAdd.Size = New System.Drawing.Size(74, 36)
+        Me.btnAdd.TabIndex = 81947
+        Me.btnAdd.Text = "Add"
+        '
+        'btnModify
+        '
+        Me.btnModify.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnModify.Appearance.Options.UseFont = True
+        Me.btnModify.ImageOptions.Image = CType(resources.GetObject("btnModify.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnModify.Location = New System.Drawing.Point(206, 12)
+        Me.btnModify.Name = "btnModify"
+        Me.btnModify.Size = New System.Drawing.Size(87, 36)
+        Me.btnModify.TabIndex = 81948
+        Me.btnModify.Text = "Modify"
+        '
         'Txt_PartyName
         '
         Me.Txt_PartyName._AllowSpace = True
@@ -1074,92 +1160,6 @@ Partial Class NewQualityPlanEntry
         Me.Txt_Moredetail.Text = "NO"
         Me.Txt_Moredetail.TransparentBox = True
         Me.Txt_Moredetail.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'btnSave
-        '
-        Me.btnSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Appearance.Options.UseFont = True
-        Me.btnSave.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image2"), System.Drawing.Image)
-        Me.btnSave.Location = New System.Drawing.Point(468, 12)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(87, 36)
-        Me.btnSave.TabIndex = 81946
-        Me.btnSave.Text = "Save"
-        '
-        'btnAdd
-        '
-        Me.btnAdd.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAdd.Appearance.Options.UseFont = True
-        Me.btnAdd.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image3"), System.Drawing.Image)
-        Me.btnAdd.Location = New System.Drawing.Point(130, 12)
-        Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(74, 36)
-        Me.btnAdd.TabIndex = 81947
-        Me.btnAdd.Text = "Add"
-        '
-        'btnModify
-        '
-        Me.btnModify.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnModify.Appearance.Options.UseFont = True
-        Me.btnModify.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image4"), System.Drawing.Image)
-        Me.btnModify.Location = New System.Drawing.Point(206, 12)
-        Me.btnModify.Name = "btnModify"
-        Me.btnModify.Size = New System.Drawing.Size(87, 36)
-        Me.btnModify.TabIndex = 81948
-        Me.btnModify.Text = "Modify"
-        '
-        'btnDelete
-        '
-        Me.btnDelete.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Appearance.Options.UseFont = True
-        Me.btnDelete.ImageOptions.Image = CType(resources.GetObject("SimpleButton2.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnDelete.Location = New System.Drawing.Point(294, 12)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(91, 36)
-        Me.btnDelete.TabIndex = 81949
-        Me.btnDelete.Text = "Delete"
-        '
-        'btnView
-        '
-        Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnView.Appearance.Options.UseFont = True
-        Me.btnView.ImageOptions.Image = CType(resources.GetObject("SimpleButton3.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(385, 12)
-        Me.btnView.Name = "btnView"
-        Me.btnView.Size = New System.Drawing.Size(83, 36)
-        Me.btnView.TabIndex = 81950
-        Me.btnView.Text = "View"
-        '
-        'btnClose
-        '
-        Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Appearance.Options.UseFont = True
-        Me.btnClose.ImageOptions.Image = CType(resources.GetObject("SimpleButton4.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnClose.Location = New System.Drawing.Point(556, 12)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(87, 36)
-        Me.btnClose.TabIndex = 81951
-        Me.btnClose.Text = "Close"
-        '
-        'But_print
-        '
-        Me.But_print.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.But_print.Appearance.Options.UseFont = True
-        Me.But_print.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image1"), System.Drawing.Image)
-        Me.But_print.Location = New System.Drawing.Point(3, 8)
-        Me.But_print.Name = "But_print"
-        Me.But_print.Size = New System.Drawing.Size(39, 36)
-        Me.But_print.TabIndex = 81948
-        '
-        'But_export
-        '
-        Me.But_export.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.But_export.Appearance.Options.UseFont = True
-        Me.But_export.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_export.Location = New System.Drawing.Point(43, 8)
-        Me.But_export.Name = "But_export"
-        Me.But_export.Size = New System.Drawing.Size(39, 36)
-        Me.But_export.TabIndex = 81949
         '
         'NewQualityPlanEntry
         '

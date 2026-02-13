@@ -1,0 +1,86 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\RelianceProj\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|d:\\relianceproj\\relianceproj\\extra\\mainfrmdesigner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\extra\\mainfrmdesigner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|d:\\relianceproj\\relianceproj\\extra\\mainfrmdesigner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\extra\\mainfrmdesigner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|d:\\relianceproj\\relianceproj\\extra\\mainformread.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\extra\\mainformread.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|D:\\RelianceProj\\relianceproj\\extra\\mainformread.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{63310AC6-1E5A-4511-98D1-137874085C8E}|RelianceProj\\RelianceProj.vbproj|solutionrelative:relianceproj\\extra\\mainformread.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainFrmDesigner.vb",
+              "DocumentMoniker": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFrmDesigner.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Extra\\MainFrmDesigner.vb",
+              "ToolTip": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFrmDesigner.vb",
+              "RelativeToolTip": "RelianceProj\\Extra\\MainFrmDesigner.vb",
+              "ViewState": "AgIAANkGAAAAAAAAAAAwwO4GAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-02-13T04:42:06.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainFrmDesigner.vb [Design]",
+              "DocumentMoniker": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFrmDesigner.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Extra\\MainFrmDesigner.vb",
+              "ToolTip": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFrmDesigner.vb [Design]",
+              "RelativeToolTip": "RelianceProj\\Extra\\MainFrmDesigner.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-02-13T09:11:37.061Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainFormRead.vb",
+              "DocumentMoniker": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFormRead.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Extra\\MainFormRead.vb",
+              "ToolTip": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFormRead.vb",
+              "RelativeToolTip": "RelianceProj\\Extra\\MainFormRead.vb",
+              "ViewState": "AgIAAOwBAAAAAAAAAAAUwFcCAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-02-10T10:38:34.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainFormRead.vb [Design]",
+              "DocumentMoniker": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFormRead.vb",
+              "RelativeDocumentMoniker": "RelianceProj\\Extra\\MainFormRead.vb",
+              "ToolTip": "D:\\RelianceProj\\RelianceProj\\Extra\\MainFormRead.vb [Design]",
+              "RelativeToolTip": "RelianceProj\\Extra\\MainFormRead.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-01-28T05:11:23.864Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

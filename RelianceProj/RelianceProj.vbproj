@@ -6,12 +6,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{63310AC6-1E5A-4511-98D1-137874085C8E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>RelianceProj.Main_MDI_Frm</StartupObject>
+    <StartupObject>RelianceProj.My.MyApplication</StartupObject>
     <RootNamespace>RelianceProj</RootNamespace>
     <AssemblyName>RelianceProj</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <PublishUrl>publish\</PublishUrl>
@@ -29,10 +29,11 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
@@ -40,6 +41,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>RelianceProj.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,6 +52,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>RelianceProj.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -157,6 +160,7 @@
     <Reference Include="DevComponents.DotNetBar2">
       <HintPath>DLLS\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Charts.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.CodeParser.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -169,14 +173,22 @@
     <Reference Include="DevExpress.DataAccess.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.DataAccess.v23.1.UI, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Diagram.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Drawing.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.Images.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Office.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.Pdf.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Pdf.v23.1.Drawing, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\New folder\DevExpress.PivotGrid.v23.1.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -184,8 +196,15 @@
     <Reference Include="DevExpress.RichEdit.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.RichEdit.v23.1.Export, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v23.1.UI, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.PivotGrid.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\New folder\DevExpress.Xpf.PivotGrid.v23.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpo.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -193,18 +212,36 @@
     <Reference Include="DevExpress.XtraBars.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.XtraCharts.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v23.1.Extensions, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v23.1.Wizard, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraDiagram.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.XtraGauges.v23.1.Core, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraGrid.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="DevExpress.XtraLayout.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.XtraNavBar.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPivotGrid.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\New folder\DevExpress.XtraPivotGrid.v23.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v23.1.Design, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\New folder\DevExpress.XtraPivotGrid.v23.1.Design.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.XtraPrinting.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.XtraReports.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v23.1.CodeCompletion, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v23.1.Extensions, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraRichEdit.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v23.1, Version=23.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -223,9 +260,9 @@
     <Reference Include="FastInvoker">
       <HintPath>DLLS\FastInvoker.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCell, Version=4.4.3.0, Culture=neutral, PublicKeyToken=6f86587eb70ee309, processorArchitecture=MSIL">
+    <Reference Include="FlexCell, Version=4.7.3.0, Culture=neutral, PublicKeyToken=6f86587eb70ee309, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLLS\FlexCell.dll</HintPath>
+      <HintPath>..\..\hemraj\db\03122025\RelianceProj\RelianceProj\DLLS\FlexCell.dll</HintPath>
     </Reference>
     <Reference Include="frmFaceForm">
       <HintPath>DLLS\frmFaceForm.dll</HintPath>
@@ -289,13 +326,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLLS\Microsoft.SqlServer.SqlEnum.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>DLLS\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -321,11 +365,95 @@
     <Compile Include="Classes\Email.vb" />
     <Compile Include="Classes\Multi_Selection_Master.vb" />
     <Compile Include="Classes\NewSelectionListQuery.vb" />
+    <Compile Include="Extra\CoastSheet.Designer.vb">
+      <DependentUpon>CoastSheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\CoastSheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\Coastsheetentry.Designer.vb">
+      <DependentUpon>Coastsheetentry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\Coastsheetentry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\complaint.Designer.vb">
+      <DependentUpon>complaint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\complaint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\ComplaintDetail.Designer.vb">
+      <DependentUpon>ComplaintDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\ComplaintDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\Costsheetsundary.Designer.vb">
+      <DependentUpon>Costsheetsundary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\Costsheetsundary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\CostSundaryType.Designer.vb">
+      <DependentUpon>CostSundaryType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\CostSundaryType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\Getonlinechallandetail.Designer.vb">
+      <DependentUpon>Getonlinechallandetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\Getonlinechallandetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\LogBookGridReport.Designer.vb">
+      <DependentUpon>LogBookGridReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\LogBookGridReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\MainFormRead.Designer.vb">
+      <DependentUpon>MainFormRead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\MainFormRead.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\MainFrmDesigner.Designer.vb">
+      <DependentUpon>MainFrmDesigner.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\MainFrmDesigner.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\OfferwiseBeamstockRpt.Designer.vb">
+      <DependentUpon>OfferwiseBeamstockRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\OfferwiseBeamstockRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\ReadyMadeCrystalStockReport.Designer.vb">
+      <DependentUpon>ReadyMadeCrystalStockReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\ReadyMadeCrystalStockReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\StockBlankRateupdate.Designer.vb">
+      <DependentUpon>StockBlankRateupdate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\StockBlankRateupdate.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Extra\StoreConsumption_GridZooming.Designer.vb">
       <DependentUpon>StoreConsumption_GridZooming.vb</DependentUpon>
     </Compile>
     <Compile Include="Extra\StoreConsumption_GridZooming.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Extra\UC_Buttons.Designer.vb">
+      <DependentUpon>UC_Buttons.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Extra\UC_Buttons.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Main_MDI_Frm.vb">
       <SubType>Form</SubType>
@@ -341,6 +469,7 @@
     <Compile Include="Master\Master_frm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Modal.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -461,8 +590,50 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Extra\CoastSheet.resx">
+      <DependentUpon>CoastSheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\Coastsheetentry.resx">
+      <DependentUpon>Coastsheetentry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\complaint.resx">
+      <DependentUpon>complaint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\ComplaintDetail.resx">
+      <DependentUpon>ComplaintDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\Costsheetsundary.resx">
+      <DependentUpon>Costsheetsundary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\CostSundaryType.resx">
+      <DependentUpon>CostSundaryType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\Getonlinechallandetail.resx">
+      <DependentUpon>Getonlinechallandetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\LogBookGridReport.resx">
+      <DependentUpon>LogBookGridReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\MainFormRead.resx">
+      <DependentUpon>MainFormRead.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\MainFrmDesigner.resx">
+      <DependentUpon>MainFrmDesigner.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\OfferwiseBeamstockRpt.resx">
+      <DependentUpon>OfferwiseBeamstockRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\ReadyMadeCrystalStockReport.resx">
+      <DependentUpon>ReadyMadeCrystalStockReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\StockBlankRateupdate.resx">
+      <DependentUpon>StockBlankRateupdate.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Extra\StoreConsumption_GridZooming.resx">
       <DependentUpon>StoreConsumption_GridZooming.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Extra\UC_Buttons.resx">
+      <DependentUpon>UC_Buttons.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main_MDI_Frm.resx">
       <DependentUpon>Main_MDI_Frm.vb</DependentUpon>
@@ -534,6 +705,8 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Reports\OfferwiseBeamStockReport_1.rpt" />
     <None Include="Report_set.xsc">
       <DependentUpon>Report_set.xsd</DependentUpon>
     </None>
@@ -553,5 +726,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

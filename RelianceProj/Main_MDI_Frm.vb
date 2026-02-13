@@ -11,7 +11,6 @@
         sqL = "select*from Creat_company"
         sql_connect_slect()
         COMPANY_TBL = DefaltSoftTable.Copy
-
     End Sub
 
 #Region "Track Last Open Path"
@@ -69,11 +68,49 @@
 
     End Sub
 
+    Private Sub LogbookToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogbookToolStripMenuItem.Click
+        LogBookGridReport.Show()
+    End Sub
 
+    Private Sub ReadMadeStockReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReadMadeStockReportToolStripMenuItem.Click
+        ReadyMadeCrystalStockReport.Show()
+    End Sub
 
+    Private Sub GetChallanDetailsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetChallanDetailsToolStripMenuItem.Click
+        Getonlinechallandetail.Show()
+    End Sub
 
+    Private Sub ComplaintdetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ComplaintdetailToolStripMenuItem.Click
+        ComplaintDetail.Show()
+    End Sub
 
+    Private Sub CostdetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CostdetailToolStripMenuItem.Click
+        CoastSheet.Show()
+    End Sub
 
+    Private Sub CostdetailnewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CostdetailnewToolStripMenuItem.Click
+        Coastsheetentry.Show()
+    End Sub
+
+    Private Sub SundaryTypeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SundaryTypeToolStripMenuItem.Click
+        CostSundaryType.Show()
+    End Sub
+
+    Private Sub BlankRateUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BlankRateUpdateToolStripMenuItem.Click
+        StockBlankRateupdate.Show()
+    End Sub
+
+    Private Sub OfferWiseBeamStockreportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OfferWiseBeamStockreportToolStripMenuItem.Click
+        OfferwiseBeamstockRpt.Show()
+    End Sub
+
+    Private Sub TableformToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TableformToolStripMenuItem.Click
+        MainFrmDesigner.Show()
+    End Sub
+
+    Private Sub TableDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TableDetailToolStripMenuItem.Click
+        MainFormRead.Show()
+    End Sub
 
 #End Region
 End Class

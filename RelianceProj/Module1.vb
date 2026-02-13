@@ -5,7 +5,8 @@ Imports CrystalDecisions.CrystalReports.Engine
 
 
 Module Module2
-    Public databaseconnecton As String = "Data Source=DESKTOP-N7G62DM\HP;database=Accounts24_342025104153;Integrated Security=SSPI;persist security info=True"
+    Public databaseconnecton As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts24_342025104153;Integrated Security=SSPI;persist security info=True"
+    'Public databaseconnecton As String = "Data Source=DESKTOP-JJFE5D4;database=Accounts24_342025104153;Integrated Security=SSPI;persist security info=True"
 
     Public _UserReportPassword As String = "SOFTTEXMS"
 
@@ -689,7 +690,19 @@ Module Module2
             MsgBox("Please configure database.", MsgBoxStyle.Information, "Database")
         End Try
     End Sub
+    Public Sub ConnDB1()
+        Try
+            Dim datapath As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=CompanyDatabase;Integrated Security=SSPI;persist security info=True"
 
+            'datapath = " Database=Accounts2_12122023123533;Server=62.138.14.242;user=sa;password=1234"
+            conn = New SqlConnection(datapath)
+            'conn = New SqlConnection("Data Source=MAHAVEER\SQLEXPRESS;Initial Catalog=Accounts2;Integrated Security=True")
+            'conn = New SqlConnection("Data Source= datapath;database=Accounts;Integrated Security=True")
+            conn.Open()
+        Catch
+            MsgBox("Please configure database.", MsgBoxStyle.Information, "Database")
+        End Try
+    End Sub
     Public Sub SQLDBMENU_CONNECT()
         Try
             DefaltSoftTable.Reset()
@@ -735,11 +748,30 @@ Module Module2
             Defalt_ADP.Fill(DefaltSoftTable)
             cmd.Dispose()
             conn.Close()
-            Return DefaltSoftTable
+
         Catch ex As Exception
             MsgBox(sqL + ex.ToString)
         Finally
         End Try
+        Return DefaltSoftTable
+    End Function
+    Public Function sql_connect_slect1()
+        Try
+            DefaltSoftTable.Reset()
+            ConnDB1()
+            cmd = New SqlClient.SqlCommand(sqL, conn)
+            cmd.CommandType = CommandType.Text
+            cmd.CommandTimeout = 420
+            Dim Defalt_ADP As New SqlDataAdapter(cmd)
+            Defalt_ADP.Fill(DefaltSoftTable)
+            cmd.Dispose()
+            conn.Close()
+
+        Catch ex As Exception
+            MsgBox(sqL + ex.ToString)
+        Finally
+        End Try
+        Return DefaltSoftTable
     End Function
     Public Function sql_Data_Save_Delete_Update()
 
@@ -747,6 +779,23 @@ Module Module2
         Try
 
             ConnDB()
+            cmd = New SqlClient.SqlCommand(sqL, conn)
+            cmd.ExecuteNonQuery()
+            cmd.Dispose()
+            conn.Close()
+
+        Catch ex As Exception
+            MsgBox(sqL.ToString)
+            _GetError = True
+        Finally
+        End Try
+        Return _GetError
+    End Function
+    Public Function sql_Data_Save_Delete_Update1()
+
+        Dim _GetError As Boolean = False
+        Try
+            ConnDB1()
             cmd = New SqlClient.SqlCommand(sqL, conn)
             cmd.ExecuteNonQuery()
             cmd.Dispose()

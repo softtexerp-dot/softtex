@@ -10,7 +10,10 @@ Imports CrystalDecisions.CrystalReports.Engine
 Imports System.Data.OleDb
 Imports System.Net
 Imports DevExpress.XtraGrid
+Imports DevExpress.XtraPivotGrid
 Imports System.Data.SqlClient
+Imports DevExpress.XtraPrinting
+Imports System.Windows.Forms
 
 Module Genral
     Public _strQuery As StringBuilder
@@ -129,12 +132,41 @@ Module Genral
             MsgBox("Report Not Save", MsgBoxStyle.Critical, "Soft-Tex PRO")
         End If
     End Sub
+    Public Sub SavePivotLayout(ByVal pivotGrid As DevExpress.XtraPivotGrid.PivotGridControl, ByVal _FormName As String)
+        Dim _FileName = InputBox("Enter Report File Name", "File Name", "", 350, 350)
+
+        If _FileName <> "" Then
+            Dim _FullFileName = _FileName & CreateGUID() & ".xml"
+
+            ' 🔹 Optional: your existing helper function for DB or path tracking
+            _SaveDevGridLayoutFormat(_FileName, _FullFileName, _FormName)
+
+            ' 🔹 Save PivotGrid layout to XML
+            pivotGrid.SaveLayoutToXml(_FullFileName)
+
+            ' 🔹 Your existing layout record save function
+            _GridLayoutSave(_FullFileName)
+
+            MsgBox("File Save Success", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        Else
+            MsgBox("Report Not Saved", MsgBoxStyle.Critical, "Soft-Tex PRO")
+        End If
+    End Sub
 
     Public Sub Load_GridLayout(ByVal gridView As DevExpress.XtraGrid.Views.Grid.GridView, ByVal _FormName As String)
         DevGrigLayoutLoad._FormName = _FormName
         DevGrigLayoutLoad.ShowDialog()
         If _GridLayoutFileName > "" Then
             gridView.RestoreLayoutFromXml(_GridLayoutFileName)
+            _GridLayoutFileName = ""
+        End If
+    End Sub
+    Public Sub Load_PivotLayout(ByVal pivotGrid As DevExpress.XtraPivotGrid.PivotGridControl, ByVal _FormName As String)
+        DevGrigLayoutLoad._FormName = _FormName
+        DevGrigLayoutLoad.ShowDialog()
+
+        If _GridLayoutFileName <> "" Then
+            pivotGrid.RestoreLayoutFromXml(_GridLayoutFileName)
             _GridLayoutFileName = ""
         End If
     End Sub
@@ -850,6 +882,36 @@ Module Genral
                     Process.Start(exportFilePath)
             End Select
         End If
+
+    End Sub
+
+    Public Sub _DevPivotExpressExcelExport(ByVal pivot As DevExpress.XtraPivotGrid.PivotGridControl)
+
+        Dim saveDialog As New SaveFileDialog()
+        saveDialog.Filter = "Excel (2010) (.xlsx)|*.xlsx"
+        If saveDialog.ShowDialog() = DialogResult.Cancel Then Exit Sub
+
+        Dim exportFilePath As String = saveDialog.FileName
+
+        ' ✅ Temporarily remove rupee symbols before export
+        For Each field As DevExpress.XtraPivotGrid.PivotGridField In pivot.Fields
+            If field.CellFormat IsNot Nothing AndAlso field.CellFormat.FormatString.Contains("₹") Then
+                field.CellFormat.FormatString = field.CellFormat.FormatString.Replace("₹", "").Trim()
+            End If
+            If field.ValueFormat IsNot Nothing AndAlso field.ValueFormat.FormatString.Contains("₹") Then
+                field.ValueFormat.FormatString = field.ValueFormat.FormatString.Replace("₹", "").Trim()
+            End If
+        Next
+
+        ' ✅ Export to Excel (Data Aware mode)
+        Dim options As New DevExpress.XtraPivotGrid.PivotXlsxExportOptions() With {
+        .ExportType = DevExpress.Export.ExportType.DataAware
+    }
+
+        pivot.ExportToXlsx(exportFilePath, options)
+
+        ' ✅ Open the file after export
+        Process.Start(exportFilePath)
 
     End Sub
 
@@ -3063,4 +3125,37 @@ Module Genral
         Return host
 
     End Function
+
+    Public Sub _DevPivotExpressPrintPreview(ByVal PrintHeader As String, ByVal pivot As PivotGridControl)
+        Dim ps As New PrintingSystem()
+        Dim link As New PrintableComponentLink(ps)
+
+        ' 🔹 Assign PivotGrid
+        link.Component = pivot
+
+        ' 🔹 RTF Header
+        link.RtfReportHeader = PrintHeader
+
+        ' 🔹 Disable auto fit
+        pivot.OptionsPrint.UsePrintAppearance = True
+        pivot.Appearance.FieldValue.Font = New Font("Verdana", 8, FontStyle.Bold)
+        pivot.Appearance.Cell.Font = New Font("Verdana", 8)
+        pivot.Appearance.FieldHeader.Font = New Font("Verdana", 8)
+        pivot.Appearance.HeaderArea.Font = New Font("Verdana", 8)
+
+        ' 🔹 Page layout settings
+        ps.PageSettings.Landscape = True
+        ps.PageSettings.LeftMargin = 40
+        ps.PageSettings.RightMargin = 40
+        ps.PageSettings.TopMargin = 60
+        ps.PageSettings.BottomMargin = 40
+
+        ' 🔹 Prevent scaling (fit-to-page)
+        link.PrintingSystem.Document.AutoFitToPagesWidth = 1 ' Try adjusting this
+
+        ' 🔹 Generate document
+        link.CreateDocument()
+        link.ShowPreview()
+    End Sub
+
 End Module

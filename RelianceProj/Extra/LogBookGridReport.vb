@@ -8,7 +8,11 @@ Friend Class LogBookGridReport
     Private Sub LogBookGridReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
+
         Me.Location = New Point(0, 0)
+
+        View_Log_Book()
+
         PivotGridControl1.OptionsCustomization.AllowCustomizationForm = True
         PivotGridControl1.OptionsCustomization.AllowDrag = True
         ' ✅ Automatically show the field customization form (Field List)
@@ -24,10 +28,10 @@ Friend Class LogBookGridReport
                 custForm.Size = New Size(300, 554)     ' width × height
                 custForm.StartPosition = FormStartPosition.Manual
                 custForm.Location = New Point(804, 85)
-                custForm.Text = "List"
+                custForm.Text = "Filter Field List"
             End If
         End With
-        View_Log_Book()
+
         AttachButtonFocusEvents(Me)
     End Sub
 
@@ -52,7 +56,6 @@ Friend Class LogBookGridReport
 
             _strQuery = New StringBuilder
             With _strQuery
-
                 .Append(" SELECT Z.LOG_BOOK_DATE AS Date, ")
                 .Append(" QUOTENAME(Format(Z.LOG_BOOK_DATE,'MMM')) AS Month, ")
                 .Append(" z.LoomNo,  ")
@@ -70,8 +73,8 @@ Friend Class LogBookGridReport
                 .Append(" SUM(Z.A_SHIFT_PROD) AS [A Shift Prod], ")
                 .Append(" SUM(Z.B_SHIFT_PROD) AS [B Shift Prod], ")
                 .Append(" SUM(Z.A_SHIFT_PROD)+SUM(Z.B_SHIFT_PROD) AS [Total Prod], ")
-                .Append(" Z.Beam_Fall as Beam_Fall,  ")
-                .Append(" Z.Remark_Narr as Remark_Narr,  ")
+                .Append(" Z.Beam_Fall as FallTime,  ")
+                .Append(" Z.Remark_Narr as Remark,  ")
                 'BEAM BALANCE
                 .Append(" A.ACCOUNTNAME AS PartyName, ")
                 .Append(" B.ITENNAME AS ItemName, ")
@@ -83,7 +86,6 @@ Friend Class LogBookGridReport
                 .Append(" G.EMPNAME  AS Fitetr,")
                 .Append(" H.EMPNAME  AS BeamGatter,")
                 .Append(" z.EntryNo")
-
                 .Append(" FROM ")
                 .Append(" ( ")
                 .Append(" SELECT  ")
@@ -168,7 +170,6 @@ Friend Class LogBookGridReport
                 .Append(" left join MstEmployee F ON  Z.SUPERWISERCODE=F.EMPCODE  ")
                 .Append(" left join MstEmployee G ON  Z.FitterCode=G.EMPCODE  ")
                 .Append(" left join MstEmployee H ON  Z.BeamGatterCode=H.EMPCODE  ")
-
                 .Append(" WHERE 1=1 ")
                 .Append(" GROUP BY Z.LOG_BOOK_DATE ")
                 .Append(" ,z.EntryNo ")
@@ -186,18 +187,14 @@ Friend Class LogBookGridReport
                 .Append(" ,Z.OP13 ")
                 .Append(" ORDER BY  Z.LOG_BOOK_DATE ,z.LoomNo  ")
             End With
-
             sqL = _strQuery.ToString
             sql_connect_slect()
-
             Dim tblTmp = DefaltSoftTable.Copy
-
             Dim Qty As String = ""
             If tblTmp.Rows.Count > 0 Then
                 PivotGridControl1.Fields.Clear()
                 PivotGridControl1.DataSource = Nothing
                 PivotGridControl1.DataSource = tblTmp
-
                 ' 🔹 Define Fields
                 Dim fDate As New PivotGridField("Date", PivotArea.RowArea)
                 Dim fmonth As New PivotGridField("Month", PivotArea.RowArea)
@@ -207,57 +204,50 @@ Friend Class LogBookGridReport
                 Dim fWeavername As New PivotGridField("Weavername", PivotArea.RowArea)
                 Dim fFitetr As New PivotGridField("Fitetr", PivotArea.RowArea)
                 Dim fSuperWiser As New PivotGridField("SuperWiser", PivotArea.RowArea)
-
-
-                Dim fBeamFalltime As New PivotGridField("Beam_Fall", PivotArea.RowArea)
-                Dim fRemark As New PivotGridField("Remark_Narr", PivotArea.RowArea)
-
+                Dim fBeamFalltime As New PivotGridField("FallTime", PivotArea.RowArea)
+                Dim fRemark As New PivotGridField("Remark", PivotArea.RowArea)
+                ' 🔹 Summary Field
                 Dim fAShiftEffi As New PivotGridField("AShiftEffi", PivotArea.DataArea)
                 Dim fBShiftEffi As New PivotGridField("BShiftEffi", PivotArea.DataArea)
                 Dim fAvgEffi As New PivotGridField("AvgEffi", PivotArea.DataArea)
                 Dim fAShiftProd As New PivotGridField("A Shift Prod", PivotArea.DataArea)
                 Dim fBShiftProd As New PivotGridField("B Shift Prod", PivotArea.DataArea)
                 Dim fTotalProd As New PivotGridField("Total Prod", PivotArea.DataArea)
-
                 Dim fapack As New PivotGridField("A Pick", PivotArea.DataArea)
                 Dim fbpack As New PivotGridField("B Pick", PivotArea.DataArea)
                 Dim favgpack As New PivotGridField("Avg Pick", PivotArea.DataArea)
                 Dim fBeamBalance As New PivotGridField("BeamBalance", PivotArea.DataArea)
                 ' 🔹 Summary Type
-
                 fAShiftEffi.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
                 fBShiftEffi.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
                 fAvgEffi.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Average
                 fAShiftProd.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
                 fBShiftProd.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
                 fTotalProd.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
-
                 fapack.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
                 fbpack.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
                 favgpack.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Average
                 fBeamBalance.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
                 'fBeamFalltime.SummaryType = DevExpress.Data.PivotGrid.PivotSummaryType.Sum
-
-
-
                 ' 🔹 Friendly captions
                 fDate.Caption = "Date"
                 fmonth.Caption = "Month"
                 fLoomNo.Caption = "Loom No"
                 fItemName.Caption = "Item Name"
                 fPartyName.Caption = "Party Name"
-                fAShiftEffi.Caption = "A Shift Effi"
-                fBShiftEffi.Caption = "B Shift Effi"
-                fAvgEffi.Caption = "Avg Effi"
                 fWeavername.Caption = "Weavername"
                 fFitetr.Caption = "Fitetr"
                 fSuperWiser.Caption = "SuperWiser"
                 fRemark.Caption = "Remark"
+                fBeamFalltime.Caption = "Beam FallTime"
+                fBeamBalance.Caption = "Beam Balance"
+                ' 🔹 Summary captions
+                fAShiftEffi.Caption = "A Shift Effi"
+                fBShiftEffi.Caption = "B Shift Effi"
+                fAvgEffi.Caption = "Avg Effi"
                 fapack.Caption = "A Pick"
                 fbpack.Caption = "B Pick"
                 favgpack.Caption = "Avg Pick"
-                fBeamFalltime.Caption = "Beam FallTime"
-                fBeamBalance.Caption = "Beam Balance"
                 fAShiftProd.Caption = "A Shift Prod"
                 fBShiftProd.Caption = "B Shift Prod"
                 fTotalProd.Caption = "Total Prod"
@@ -286,7 +276,6 @@ Friend Class LogBookGridReport
                     fSuperWiser.Visible = False
                     fWeavername.Visible = False
                     fFitetr.Visible = False
-
                     fBeamFalltime.Visible = False
                     fRemark.Visible = False
                     fapack.Visible = True
@@ -297,10 +286,8 @@ Friend Class LogBookGridReport
                     fBShiftProd.Visible = True
                     fTotalProd.Visible = True
                 End If
-
                 ' 🔹 Add to Pivot
                 PivotGridControl1.Fields.AddRange(New PivotGridField() {fDate, fmonth, fLoomNo, fItemName, fPartyName, fWeavername, fFitetr, fAShiftEffi, fSuperWiser, fBShiftEffi, fAvgEffi, fapack, fbpack, favgpack, fBeamFalltime, fRemark, fBeamBalance, fAShiftProd, fBShiftProd, fTotalProd})
-
                 ' 🔹 Allow runtime field chooser
                 PivotGridControl1.OptionsCustomization.AllowDrag = True
                 PivotGridControl1.OptionsCustomization.AllowFilter = True
@@ -308,26 +295,17 @@ Friend Class LogBookGridReport
                 PivotGridControl1.OptionsCustomization.AllowExpand = True
                 PivotGridControl1.OptionsCustomization.AllowCustomizationForm = True
                 PivotGridControl1.OptionsCustomization.AllowEdit = False
-
                 ' 🔹 Show Field Chooser (runtime में columns जोड़ने के लिए)
                 PivotGridControl1.OptionsView.ShowDataHeaders = True
                 PivotGridControl1.OptionsView.ShowFilterHeaders = True
                 PivotGridControl1.OptionsView.ShowRowHeaders = True
                 PivotGridControl1.OptionsView.ShowColumnHeaders = True
-
                 ' 🔹 Auto update when user changes layout
                 AddHandler PivotGridControl1.FieldAreaChanged, AddressOf Pivot_LayoutChanged
-
                 PivotGridControl1.OptionsView.ShowDataHeaders = True
                 PivotGridControl1.OptionsView.ShowFilterHeaders = True
                 PivotGridControl1.OptionsView.ShowRowHeaders = True
                 PivotGridControl1.OptionsView.ShowColumnHeaders = True
-
-
-                '' 🔹 Scrollbars ko force enable karne ke liye
-                'PivotGridControl1.OptionsView.HorizontalScrollBarVisibility = DevExpress.XtraPivotGrid.PivotScrollBarVisibility.Auto
-                'PivotGridControl1.OptionsView.VerticalScrollBarMode = DevExpress.XtraPivotGrid.ScrollBarMode.Auto
-
 
                 PivotGridControl1.BestFit()
 
@@ -339,9 +317,6 @@ Friend Class LogBookGridReport
             MsgBox(ex.ToString)
         End Try
     End Sub
-
-
-
 
     Private Sub Pivot_LayoutChanged(sender As Object, e As PivotFieldEventArgs)
         Dim pivot = CType(sender, PivotGridControl)

@@ -24,7 +24,7 @@ Partial Class PlanningGatway
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PlanningGatway))
-        Dim GridLevelNode1 As DevExpress.XtraGrid.GridLevelNode = New DevExpress.XtraGrid.GridLevelNode()
+        Dim GridLevelNode2 As DevExpress.XtraGrid.GridLevelNode = New DevExpress.XtraGrid.GridLevelNode()
         Me.Factory = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.FactoryDashbord = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.ProdDashBoard = New DevExpress.XtraBars.Navigation.AccordionControlElement()
@@ -637,8 +637,8 @@ Partial Class PlanningGatway
         'GridControl2
         '
         Me.GridControl2.EmbeddedNavigator.Margin = New System.Windows.Forms.Padding(1, 2, 1, 2)
-        GridLevelNode1.RelationName = "Level1"
-        Me.GridControl2.LevelTree.Nodes.AddRange(New DevExpress.XtraGrid.GridLevelNode() {GridLevelNode1})
+        GridLevelNode2.RelationName = "Level1"
+        Me.GridControl2.LevelTree.Nodes.AddRange(New DevExpress.XtraGrid.GridLevelNode() {GridLevelNode2})
         Me.GridControl2.Location = New System.Drawing.Point(588, 47)
         Me.GridControl2.MainView = Me.GridView1
         Me.GridControl2.Name = "GridControl2"
