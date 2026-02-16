@@ -2287,34 +2287,6 @@ Public Class MainFrmDesigner
                             'GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
                             GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("USEMASTERKEY") + 1).Text = "N"
                             Dim row As Integer = _ActiverownoHeader
-                            'Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
-                            'Dim colUseMaster As Integer = _DataTableGrid.Columns.IndexOf("USEMASTER") + 1
-                            'Dim colOppMaster As Integer = _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1
-                            'Dim colMasterList As Integer = _DataTableGrid.Columns.IndexOf("Masterlist") + 1
-                            'Dim currentValue As String = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
-                            'If currentValue = "N" Then
-                            '    For i As Integer = 1 To GrdItem.Rows - 1
-                            '        GrdItem.Cell(i, colUseMasterKey).Text = "N"
-                            '    Next
-                            '    GrdItem.Cell(row, colUseMasterKey).Text = "Y"
-                            'Else
-                            '    GrdItem.Cell(row, colUseMasterKey).Text = "N"
-                            'End If
-                            'currentValue = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
-                            'If currentValue = "Y" Then
-                            '    GrdItem.Cell(row, colUseMaster).Text = "NO"
-                            '    GrdItem.Cell(row, colUseMaster).Locked = True
-                            '    GrdItem.Cell(row, colOppMaster).Locked = True
-                            '    GrdItem.Cell(row, colMasterList).Locked = True
-                            'Else
-                            '    GrdItem.Cell(row, colUseMaster).Locked = False
-                            '    GrdItem.Cell(row, colOppMaster).Locked = False
-                            '    GrdItem.Cell(row, colMasterList).Locked = False
-                            'End If
-                            'e.SuppressKeyPress = True
-                            'e.Handled = True
-                            'Exit Sub
-
                             Dim col As Integer = _DataTableGrid.Columns.IndexOf("USEMASTER") + 1
 
                             Dim val As String = GrdItem.Cell(row, col).Text
