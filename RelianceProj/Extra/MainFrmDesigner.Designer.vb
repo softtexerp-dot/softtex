@@ -77,6 +77,9 @@ Partial Class MainFrmDesigner
         Me.Ctl_ImpformId = New ctl_TextBox.ctl_TextBox()
         Me.Label36 = New System.Windows.Forms.Label()
         Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txtfrmtype = New ctl_TextBox.ctl_TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -87,7 +90,7 @@ Partial Class MainFrmDesigner
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(2, 62)
+        Me.Label1.Location = New System.Drawing.Point(4, 80)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(91, 16)
         Me.Label1.TabIndex = 0
@@ -123,7 +126,7 @@ Partial Class MainFrmDesigner
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(897, 38)
+        Me.Label5.Location = New System.Drawing.Point(881, 32)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(102, 16)
         Me.Label5.TabIndex = 4
@@ -132,7 +135,7 @@ Partial Class MainFrmDesigner
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(897, 12)
+        Me.Label7.Location = New System.Drawing.Point(881, 9)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(53, 16)
         Me.Label7.TabIndex = 6
@@ -162,7 +165,7 @@ Partial Class MainFrmDesigner
         Me.txtFormName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtFormName.IsValidated = False
         Me.txtFormName.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.txtFormName.Location = New System.Drawing.Point(201, 61)
+        Me.txtFormName.Location = New System.Drawing.Point(203, 79)
         Me.txtFormName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtFormName.MandatoryField = False
         Me.txtFormName.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -297,7 +300,7 @@ Partial Class MainFrmDesigner
         Me.Txt_Active.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Txt_Active.IsValidated = False
         Me.Txt_Active.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.Txt_Active.Location = New System.Drawing.Point(1049, 10)
+        Me.Txt_Active.Location = New System.Drawing.Point(1033, 7)
         Me.Txt_Active.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_Active.MandatoryField = False
         Me.Txt_Active.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -343,7 +346,7 @@ Partial Class MainFrmDesigner
         Me.Txt_ShortCutKey.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_ShortCutKey.IsValidated = False
         Me.Txt_ShortCutKey.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.Txt_ShortCutKey.Location = New System.Drawing.Point(1049, 38)
+        Me.Txt_ShortCutKey.Location = New System.Drawing.Point(1033, 32)
         Me.Txt_ShortCutKey.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_ShortCutKey.MandatoryField = False
         Me.Txt_ShortCutKey.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -367,7 +370,7 @@ Partial Class MainFrmDesigner
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(185, 62)
+        Me.Label11.Location = New System.Drawing.Point(187, 80)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(12, 16)
         Me.Label11.TabIndex = 21
@@ -403,7 +406,7 @@ Partial Class MainFrmDesigner
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(1025, 38)
+        Me.Label19.Location = New System.Drawing.Point(1009, 32)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(12, 16)
         Me.Label19.TabIndex = 29
@@ -412,7 +415,7 @@ Partial Class MainFrmDesigner
         'Label20
         '
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(1025, 11)
+        Me.Label20.Location = New System.Drawing.Point(1009, 8)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(12, 16)
         Me.Label20.TabIndex = 30
@@ -563,7 +566,7 @@ Partial Class MainFrmDesigner
         'Label24
         '
         Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(185, 38)
+        Me.Label24.Location = New System.Drawing.Point(187, 56)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(12, 16)
         Me.Label24.TabIndex = 81899
@@ -593,7 +596,7 @@ Partial Class MainFrmDesigner
         Me.Txt_FormId.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_FormId.IsValidated = False
         Me.Txt_FormId.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.Txt_FormId.Location = New System.Drawing.Point(200, 36)
+        Me.Txt_FormId.Location = New System.Drawing.Point(202, 54)
         Me.Txt_FormId.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_FormId.MandatoryField = False
         Me.Txt_FormId.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -617,7 +620,7 @@ Partial Class MainFrmDesigner
         'Label25
         '
         Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(3, 37)
+        Me.Label25.Location = New System.Drawing.Point(5, 55)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(65, 16)
         Me.Label25.TabIndex = 81897
@@ -628,10 +631,10 @@ Partial Class MainFrmDesigner
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Location = New System.Drawing.Point(1, 163)
+        Me.TabControl1.Location = New System.Drawing.Point(1, 180)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1212, 416)
+        Me.TabControl1.Size = New System.Drawing.Size(1212, 393)
         Me.TabControl1.TabIndex = 81900
         '
         'TabPage1
@@ -641,7 +644,7 @@ Partial Class MainFrmDesigner
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1204, 387)
+        Me.TabPage1.Size = New System.Drawing.Size(1204, 364)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Header Designing"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -953,16 +956,16 @@ Partial Class MainFrmDesigner
         Me.Pnlview.AutoScroll = True
         Me.Pnlview.Controls.Add(Me.Label32)
         Me.Pnlview.Controls.Add(Me.Grid3)
-        Me.Pnlview.Location = New System.Drawing.Point(963, 164)
+        Me.Pnlview.Location = New System.Drawing.Point(963, 177)
         Me.Pnlview.Name = "Pnlview"
-        Me.Pnlview.Size = New System.Drawing.Size(249, 411)
+        Me.Pnlview.Size = New System.Drawing.Size(249, 398)
         Me.Pnlview.TabIndex = 81913
         Me.Pnlview.Visible = False
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(185, 90)
+        Me.Label6.Location = New System.Drawing.Point(187, 108)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 16)
         Me.Label6.TabIndex = 82041
@@ -992,7 +995,7 @@ Partial Class MainFrmDesigner
         Me.Ctl_BookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Ctl_BookName.IsValidated = False
         Me.Ctl_BookName.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.Ctl_BookName.Location = New System.Drawing.Point(202, 89)
+        Me.Ctl_BookName.Location = New System.Drawing.Point(204, 107)
         Me.Ctl_BookName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_BookName.MandatoryField = False
         Me.Ctl_BookName.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -1016,7 +1019,7 @@ Partial Class MainFrmDesigner
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(3, 91)
+        Me.Label18.Location = New System.Drawing.Point(5, 109)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(89, 16)
         Me.Label18.TabIndex = 10
@@ -1025,7 +1028,7 @@ Partial Class MainFrmDesigner
         'Label33
         '
         Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(185, 118)
+        Me.Label33.Location = New System.Drawing.Point(187, 136)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(12, 16)
         Me.Label33.TabIndex = 82044
@@ -1055,7 +1058,7 @@ Partial Class MainFrmDesigner
         Me.Ctl_Managebybook.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Ctl_Managebybook.IsValidated = False
         Me.Ctl_Managebybook.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.Ctl_Managebybook.Location = New System.Drawing.Point(202, 117)
+        Me.Ctl_Managebybook.Location = New System.Drawing.Point(204, 135)
         Me.Ctl_Managebybook.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_Managebybook.MandatoryField = False
         Me.Ctl_Managebybook.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -1080,7 +1083,7 @@ Partial Class MainFrmDesigner
         'Label34
         '
         Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(3, 118)
+        Me.Label34.Location = New System.Drawing.Point(5, 136)
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(169, 16)
         Me.Label34.TabIndex = 11
@@ -1089,7 +1092,7 @@ Partial Class MainFrmDesigner
         'Label35
         '
         Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(185, 12)
+        Me.Label35.Location = New System.Drawing.Point(187, 30)
         Me.Label35.Name = "Label35"
         Me.Label35.Size = New System.Drawing.Size(12, 16)
         Me.Label35.TabIndex = 82047
@@ -1119,7 +1122,7 @@ Partial Class MainFrmDesigner
         Me.Ctl_ImpformId.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Ctl_ImpformId.IsValidated = False
         Me.Ctl_ImpformId.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.Ctl_ImpformId.Location = New System.Drawing.Point(200, 11)
+        Me.Ctl_ImpformId.Location = New System.Drawing.Point(202, 29)
         Me.Ctl_ImpformId.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_ImpformId.MandatoryField = False
         Me.Ctl_ImpformId.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -1143,7 +1146,7 @@ Partial Class MainFrmDesigner
         'Label36
         '
         Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(3, 12)
+        Me.Label36.Location = New System.Drawing.Point(5, 30)
         Me.Label36.Name = "Label36"
         Me.Label36.Size = New System.Drawing.Size(119, 16)
         Me.Label36.TabIndex = 82046
@@ -1158,12 +1161,79 @@ Partial Class MainFrmDesigner
         Me.UC_Buttons1.Size = New System.Drawing.Size(932, 44)
         Me.UC_Buttons1.TabIndex = 82039
         '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(187, 4)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(12, 16)
+        Me.Label8.TabIndex = 82050
+        Me.Label8.Text = ":"
+        '
+        'txtfrmtype
+        '
+        Me.txtfrmtype._AllowSpace = True
+        Me.txtfrmtype.AcceptsReturn = True
+        Me.txtfrmtype.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtfrmtype.BackColor = System.Drawing.Color.Bisque
+        Me.txtfrmtype.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtfrmtype.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtfrmtype.Check_End_Date_Value_FY = "YES"
+        Me.txtfrmtype.Check_Start_Date_Value_FY = "YES"
+        Me.txtfrmtype.ClearField = True
+        Me.txtfrmtype.CustomInputTypeString = Nothing
+        Me.txtfrmtype.Date_for_Database = Nothing
+        Me.txtfrmtype.Date_Tag = Nothing
+        Me.txtfrmtype.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtfrmtype.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtfrmtype.ExtraValue = ""
+        Me.txtfrmtype.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtfrmtype.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtfrmtype.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtfrmtype.ForeColor = System.Drawing.Color.Black
+        Me.txtfrmtype.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
+        Me.txtfrmtype.IsValidated = False
+        Me.txtfrmtype.LeaveFocusColor = System.Drawing.SystemColors.Window
+        Me.txtfrmtype.Location = New System.Drawing.Point(203, 4)
+        Me.txtfrmtype.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txtfrmtype.MandatoryField = False
+        Me.txtfrmtype.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.txtfrmtype.MaxDate = "FinYearEndDate"
+        Me.txtfrmtype.MaxLength = 12
+        Me.txtfrmtype.MinDate = "FinYearStartDate"
+        Me.txtfrmtype.Name = "txtfrmtype"
+        Me.txtfrmtype.NormalBorderColor = System.Drawing.Color.Gray
+        Me.txtfrmtype.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtfrmtype.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtfrmtype.RegularExpression = Nothing
+        Me.txtfrmtype.RegularExpressionErrorMessage = Nothing
+        Me.txtfrmtype.ShowMessage = False
+        Me.txtfrmtype.Size = New System.Drawing.Size(201, 22)
+        Me.txtfrmtype.SpacerString = "MASTER FORM ,ENTRY FORM"
+        Me.txtfrmtype.TabIndex = 82049
+        Me.txtfrmtype.Tag = ""
+        Me.txtfrmtype.Text = "MASTER FORM "
+        Me.txtfrmtype.TransparentBox = True
+        Me.txtfrmtype.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(4, 9)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(84, 16)
+        Me.Label9.TabIndex = 82048
+        Me.Label9.Text = "Form Type"
+        '
         'MainFrmDesigner
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1216, 621)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.txtfrmtype)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label35)
         Me.Controls.Add(Me.Ctl_ImpformId)
         Me.Controls.Add(Me.Label36)
@@ -1278,4 +1348,7 @@ Partial Class MainFrmDesigner
     Friend WithEvents Label35 As Label
     Friend WithEvents Ctl_ImpformId As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label36 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents txtfrmtype As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label9 As Label
 End Class
