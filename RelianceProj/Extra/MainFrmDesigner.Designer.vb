@@ -64,9 +64,6 @@ Partial Class MainFrmDesigner
         Me.TxtMainFormSizeY = New ctl_TextBox.ctl_TextBox()
         Me.TxtMainFormLocaY = New ctl_TextBox.ctl_TextBox()
         Me.Label31 = New System.Windows.Forms.Label()
-        Me.Grid3 = New FlexCell.Grid()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.Pnlview = New System.Windows.Forms.Panel()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Ctl_BookName = New ctl_TextBox.ctl_TextBox()
         Me.Label18 = New System.Windows.Forms.Label()
@@ -76,15 +73,14 @@ Partial Class MainFrmDesigner
         Me.Label35 = New System.Windows.Forms.Label()
         Me.Ctl_ImpformId = New ctl_TextBox.ctl_TextBox()
         Me.Label36 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtfrmtype = New ctl_TextBox.ctl_TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
-        Me.Pnlview.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -311,6 +307,7 @@ Partial Class MainFrmDesigner
         Me.Txt_Active.NormalBorderColor = System.Drawing.Color.Gray
         Me.Txt_Active.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.Txt_Active.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.Txt_Active.ReadOnly = True
         Me.Txt_Active.RegularExpression = Nothing
         Me.Txt_Active.RegularExpressionErrorMessage = Nothing
         Me.Txt_Active.ShowMessage = False
@@ -656,7 +653,7 @@ Partial Class MainFrmDesigner
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1204, 387)
+        Me.TabPage2.Size = New System.Drawing.Size(1204, 364)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Detail Grid"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -668,7 +665,7 @@ Partial Class MainFrmDesigner
         Me.TabPage3.Location = New System.Drawing.Point(4, 25)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(1204, 387)
+        Me.TabPage3.Size = New System.Drawing.Size(1204, 364)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Sundry Grid"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -907,61 +904,6 @@ Partial Class MainFrmDesigner
         Me.Label31.TabIndex = 81910
         Me.Label31.Text = "(Y)"
         '
-        'Grid3
-        '
-        Me.Grid3.AllowUserReorderColumn = True
-        Me.Grid3.AllowUserSort = True
-        Me.Grid3.BackColorActiveCellSel = System.Drawing.SystemColors.Highlight
-        Me.Grid3.BackColorBkg = System.Drawing.Color.White
-        Me.Grid3.BackColorFixed = System.Drawing.Color.CadetBlue
-        Me.Grid3.BackColorFixedSel = System.Drawing.Color.White
-        Me.Grid3.BoldFixedCell = False
-        Me.Grid3.BorderStyle = FlexCell.BorderStyleEnum.FixedSingle
-        Me.Grid3.CellBorderColor = System.Drawing.Color.Gray
-        Me.Grid3.CellBorderColorFixed = System.Drawing.Color.Gray
-        Me.Grid3.CheckedImage = CType(resources.GetObject("Grid3.CheckedImage"), System.Drawing.Bitmap)
-        Me.Grid3.Cols = 15
-        Me.Grid3.CommentIndicatorColor = System.Drawing.Color.Blue
-        Me.Grid3.DefaultFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.Grid3.DefaultRowHeight = CType(22, Short)
-        Me.Grid3.DisplayRowNumber = True
-        Me.Grid3.EnableTabKey = False
-        Me.Grid3.FixedRowColStyle = FlexCell.FixedRowColStyleEnum.Light3D
-        Me.Grid3.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Grid3.GridColor = System.Drawing.Color.SlateGray
-        Me.Grid3.Location = New System.Drawing.Point(3, 22)
-        Me.Grid3.MultiSelect = False
-        Me.Grid3.Name = "Grid3"
-        Me.Grid3.ReadonlyFocusRect = FlexCell.FocusRectEnum.Solid
-        Me.Grid3.SelectionBorderColor = System.Drawing.Color.Blue
-        Me.Grid3.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.Grid3.Size = New System.Drawing.Size(242, 387)
-        Me.Grid3.TabIndex = 81911
-        Me.Grid3.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
-        Me.Grid3.UncheckedImage = CType(resources.GetObject("Grid3.UncheckedImage"), System.Drawing.Bitmap)
-        '
-        'Label32
-        '
-        Me.Label32.BackColor = System.Drawing.Color.DarkSlateGray
-        Me.Label32.ForeColor = System.Drawing.Color.White
-        Me.Label32.Location = New System.Drawing.Point(3, 0)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(264, 21)
-        Me.Label32.TabIndex = 81912
-        Me.Label32.Text = "(For F11 Select All, F12 Fill Grid)"
-        Me.Label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Pnlview
-        '
-        Me.Pnlview.AutoScroll = True
-        Me.Pnlview.Controls.Add(Me.Label32)
-        Me.Pnlview.Controls.Add(Me.Grid3)
-        Me.Pnlview.Location = New System.Drawing.Point(963, 177)
-        Me.Pnlview.Name = "Pnlview"
-        Me.Pnlview.Size = New System.Drawing.Size(249, 398)
-        Me.Pnlview.TabIndex = 81913
-        Me.Pnlview.Visible = False
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -1069,6 +1011,7 @@ Partial Class MainFrmDesigner
         Me.Ctl_Managebybook.NormalBorderColor = System.Drawing.Color.Gray
         Me.Ctl_Managebybook.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.Ctl_Managebybook.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.Ctl_Managebybook.ReadOnly = True
         Me.Ctl_Managebybook.RegularExpression = Nothing
         Me.Ctl_Managebybook.RegularExpressionErrorMessage = Nothing
         Me.Ctl_Managebybook.ShowMessage = False
@@ -1152,15 +1095,6 @@ Partial Class MainFrmDesigner
         Me.Label36.TabIndex = 82046
         Me.Label36.Text = "Import Form ID"
         '
-        'UC_Buttons1
-        '
-        Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(2, 578)
-        Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
-        Me.UC_Buttons1.Name = "UC_Buttons1"
-        Me.UC_Buttons1.Size = New System.Drawing.Size(932, 44)
-        Me.UC_Buttons1.TabIndex = 82039
-        '
         'Label8
         '
         Me.Label8.AutoSize = True
@@ -1205,11 +1139,12 @@ Partial Class MainFrmDesigner
         Me.txtfrmtype.NormalBorderColor = System.Drawing.Color.Gray
         Me.txtfrmtype.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtfrmtype.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtfrmtype.ReadOnly = True
         Me.txtfrmtype.RegularExpression = Nothing
         Me.txtfrmtype.RegularExpressionErrorMessage = Nothing
         Me.txtfrmtype.ShowMessage = False
         Me.txtfrmtype.Size = New System.Drawing.Size(201, 22)
-        Me.txtfrmtype.SpacerString = "MASTER FORM ,ENTRY FORM"
+        Me.txtfrmtype.SpacerString = "MASTER FORM ,ENTRY FORM,REPORT"
         Me.txtfrmtype.TabIndex = 82049
         Me.txtfrmtype.Tag = ""
         Me.txtfrmtype.Text = "MASTER FORM "
@@ -1224,6 +1159,15 @@ Partial Class MainFrmDesigner
         Me.Label9.Size = New System.Drawing.Size(84, 16)
         Me.Label9.TabIndex = 82048
         Me.Label9.Text = "Form Type"
+        '
+        'UC_Buttons1
+        '
+        Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UC_Buttons1.Location = New System.Drawing.Point(2, 578)
+        Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
+        Me.UC_Buttons1.Name = "UC_Buttons1"
+        Me.UC_Buttons1.Size = New System.Drawing.Size(932, 44)
+        Me.UC_Buttons1.TabIndex = 82039
         '
         'MainFrmDesigner
         '
@@ -1244,7 +1188,6 @@ Partial Class MainFrmDesigner
         Me.Controls.Add(Me.Ctl_BookName)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.UC_Buttons1)
-        Me.Controls.Add(Me.Pnlview)
         Me.Controls.Add(Me.TxtMainFormLocaY)
         Me.Controls.Add(Me.Label31)
         Me.Controls.Add(Me.TxtMainFormSizeY)
@@ -1288,7 +1231,6 @@ Partial Class MainFrmDesigner
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage3.ResumeLayout(False)
-        Me.Pnlview.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1335,9 +1277,6 @@ Partial Class MainFrmDesigner
     Friend WithEvents TxtMainFormSizeY As ctl_TextBox.ctl_TextBox
     Friend WithEvents TxtMainFormLocaY As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label31 As Label
-    Friend WithEvents Grid3 As FlexCell.Grid
-    Friend WithEvents Label32 As Label
-    Friend WithEvents Pnlview As Panel
     Friend WithEvents UC_Buttons1 As UC_Buttons
     Friend WithEvents Label6 As Label
     Friend WithEvents Ctl_BookName As ctl_TextBox.ctl_TextBox

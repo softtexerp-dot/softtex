@@ -13,6 +13,12 @@ Public Class MainFormRead
     Dim _MainColumTbl As New DataTable
     Dim isDragging As Boolean = False
     Dim dragOffset As Point
+    Dim _TableName As String = ""
+    Dim _TblName As String = ""
+    Private _KeyFieldValue As String = ""
+    Private _KeyFieldName As String = ""
+    Private FieldNameAndValues(1) As String
+    Private tblFormValues As New DataTable
 
     Private _FieldWidthSet As New StringBuilder
     Private _FieldHeader As New StringBuilder
@@ -76,6 +82,7 @@ Public Class MainFormRead
 
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _HeaderTable = New DataTable()
+        _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
         _FrmLoad = True
@@ -182,9 +189,14 @@ Public Class MainFormRead
 
         _FrmLoad = False
         Dim Array_Opening(0, 4) As String
+        Dim formType As String = ""
 
+        If _MainColumTbl.Rows.Count > 0 Then
+            formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+        End If
 
-        Call Fill_Grid_Records_Into_DataTables()
+        If formType = "ENTRY FORM" Then
+            Call Fill_Grid_Records_Into_DataTables()
             GridDetailsSaveQuery(Array_Opening)
             For I = 0 To UBound(Array_Opening)
                 If Array_Opening(I, 4) <> "" Then
@@ -201,20 +213,78 @@ Public Class MainFormRead
 
             ObjCls_General.Blank_Object(Me)
 
-        For Each dr As DataRow In _MainColumTbl.Select("Columntype='Grid'")
-            Dim gridname As String = dr("CntrlName").ToString().Trim()
-            Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
-            If grd IsNot Nothing Then
-                Clear_Grid(grd, 2)
-            End If
-        Next
+            For Each dr As DataRow In _MainColumTbl.Select("Columntype='Grid'")
+                Dim gridname As String = dr("CntrlName").ToString().Trim()
+                Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
+                If grd IsNot Nothing Then
+                    Clear_Grid(grd, 2)
+                End If
+            Next
+        Else
 
+            SaveRecord()
+        End If
 
         txtFormName.Focus()
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
 
     End Sub
+    Private Sub SaveRecord()
+        '_TblName = CmbTableName.Text
+        Dim CompleteQuery As String = ""
+        Dim SaveQuery As String = ""
+        Dim strQuery As String = ""
+        Dim LASTCODE As String = ""
+        If _FORMMODE = "ADD" Then
+            ' *** Get Last Code According to Company Selected ***
+            strQuery = GetMaxCode()
+            sqL = strQuery
+            sql_connect_slect()
+
+
+            If DefaltSoftTable.Rows.Count > 0 Then
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
+            Else
+                LASTCODE = "1"
+            End If
+            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+        Else
+            LASTCODE = _KeyFieldValue
+        End If
+        tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
+        'tblFormValues.Rows(0)("USEMASTERKEY") = "Y"
+        ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
+        ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
+        SaveQuery = getSaveQuery()
+        sqL = SaveQuery
+        sql_Data_Save_Delete_Update()
+        MsgBox("Records Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        ObjCls_General.Blank_Object(Me)
+        _FORMMODE = ""
+        Ctrl_Visible_False(Me.Controls)
+    End Sub
+#Region "QUERY SECTION"
+    Public Function GetMaxCode() As String
+        GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
+    End Function
+    'Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
+    '    _strQuery = New StringBuilder
+    '    With _strQuery
+    '        .Append(" SELECT * FROM " & _TblName & " WHERE 1=1 AND BEHAVIOUR='" & strKeyID & "'")
+    '    End With
+    '    Return _strQuery.ToString
+    'End Function
+    Private Function getSaveQuery()
+        _strQuery = New StringBuilder
+        If _FORMMODE = "ADD" Then
+            _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
+        ElseIf _FORMMODE = "EDIT" Then
+            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
+        End If
+        getSaveQuery = _strQuery.ToString
+    End Function
+#End Region
     Private Sub Fill_Grid_Records_Into_DataTables()
         'Dim FieldDr As DataRow
 
@@ -401,12 +471,11 @@ Public Class MainFormRead
 
         Dim _extrafielddatatable As New StringBuilder()
         Dim _extrafield_values_datatable As New StringBuilder()
-        Dim _TableName As String = ""
+
         For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox' AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
             _TableName = dr("DataBaseTable").ToString().Trim()
             Dim ctrlName As String = dr("CntrlName").ToString().Trim()
             Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
-
             Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
             Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
             If ctrl Is Nothing OrElse Not TypeOf ctrl Is TextBox Then Continue For
@@ -536,6 +605,14 @@ Public Class MainFormRead
                 If header = "" OrElse colName = "" Then
                     Continue For
                 End If
+
+                ' Grid Col Names
+                If _Grid1ColNames.Length > 0 Then
+                    _Grid1ColNames.Append(",")
+                End If
+                _Grid1ColNames.Append(colName)
+
+
                 ' Field Header
 
                 If header.Trim > "" Then
@@ -550,11 +627,8 @@ Public Class MainFormRead
                 End If
                 _FieldHeaderAlignment.Append(colName & ":" & alignVal)
 
-                ' Grid Col Names
-                If _Grid1ColNames.Length > 0 Then
-                    _Grid1ColNames.Append(",")
-                End If
-                _Grid1ColNames.Append(colName)
+
+
                 ' Field Alignment
                 If _FieldAlignMent.Length > 0 Then
                     _FieldAlignMent.Append(",")
@@ -637,10 +711,14 @@ Public Class MainFormRead
     End Sub
 
     Private Sub View_Record()
+
+        Dim _Grid1ColNames = New StringBuilder()
+
         Dim View_Filter_Condition = " AND  FormName='" & txtFormName.Text & "'  "
         If txtFormName.Text <> "" Then
             If _MainColumTbl.Rows.Count > 0 Then
                 For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+
                     Dim Name As String = dr("CntrlName").ToString()
                     RemoveControlIfExists(Name)
                     RemoveControlIfExists("Lbl_" & Name)
@@ -668,18 +746,31 @@ Public Class MainFormRead
             Dim height As Integer
             Dim width As Integer
             For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                Dim usemasterkey As String = dr("USEMASTERKEY").ToString
+
                 Dim colType As String = dr("ColumnType").ToString()
                 Dim HeaderName As String = dr("Text").ToString()
                 Dim Name As String = dr("CntrlName").ToString()
                 Dim Tabindex As Int64 = dr("Tabindex").ToString()
+                Dim colName As String = dr("DataBaseColumn").ToString().Trim()
+                If usemasterkey = "Y" Then
+                    _TblName = dr("DataBaseTable").ToString()
+                    _KeyFieldName = colName
+                End If
+                ' Grid Col Names
+                If _Grid1ColNames.Length > 0 Then
+                    _Grid1ColNames.Append(",")
+                End If
+                _Grid1ColNames.Append(colName)
+                Dim Tag As String = dr("DataBaseColumn").ToString()
+                Dim oppMasterCode As String = dr("OppMasterCode").ToString()
                 FormId = dr("FormId").ToString()
                 Id = dr("Id").ToString()
-                leftPos = dr("LocationX").ToString()
+                If HeaderName > "" Then
+                    leftPos = dr("LocationX").ToString()
                 topPos = dr("LocationY").ToString()
                 width = dr("SizeWidth").ToString()
                 height = dr("SizeHeight").ToString()
-                Dim Tag As String = dr("DataBaseColumn").ToString()
-                Dim oppMasterCode As String = dr("OppMasterCode").ToString()
                 Dim lbl As New Label()
                 lbl.Name = "Lbl_" & Name
                 lbl.Text = HeaderName
@@ -692,57 +783,62 @@ Public Class MainFormRead
                 AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                 AddHandler lbl.MouseMove, AddressOf Control_MouseMove
                 AddHandler lbl.MouseUp, AddressOf Control_MouseUp
-                If colType = "TextBox" AndAlso HeaderName > "" Then
-                    Dim LblSize As Int16 = lbl.Width
-                    Dim txt As New TextBox()
-                    txt.Name = Name
-                    txt.Left = leftPos + 130
-                    txt.Top = topPos
-                    txt.Width = width
-                    txt.Height = height
-                    txt.Tag = Tag
-                    txt.TabIndex = Tabindex
-                    Me.Controls.Add(txt)
-                    AddHandler txt.MouseDown, AddressOf Control_MouseDown
-                    AddHandler txt.MouseMove, AddressOf Control_MouseMove
-                    AddHandler txt.MouseUp, AddressOf Control_MouseUp
-                    'Master list Bind karne ke liye
-                    AddHandler txt.KeyDown, AddressOf Control_KeyDown
-                ElseIf colType = "Button" AndAlso HeaderName > "" Then
-                    Dim btn As New Button()
-                    btn.Name = Name
-                    btn.Left = leftPos + 130
-                    btn.Top = topPos
-                    btn.Width = width
-                    Me.Controls.Add(btn)
-                    AddHandler btn.MouseDown, AddressOf Control_MouseDown
-                    AddHandler btn.MouseMove, AddressOf Control_MouseMove
-                    AddHandler btn.MouseUp, AddressOf Control_MouseUp
-                ElseIf colType = "Grid" AndAlso HeaderName > "" Then
-                    'Dim gridname As String = _MainColumTbl.Rows(0)("CntrlName").ToString()
-                    Dim gridname As String = dr("CntrlName").ToString().Trim()
-                    If gridname = "Grid1" Then
-                        Dim grid1 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid1, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                    ElseIf gridname = "Grid2" Then
-                        Dim grid2 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                    ElseIf gridname = "Grid3" Then
-                        Dim grid3 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid3, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                    ElseIf gridname = "Grid4" Then
-                        Dim grid4 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid4, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                    ElseIf gridname = "Grid5" Then
-                        Dim grid5 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid5, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                    If colType = "TextBox" Then
+                        Dim LblSize As Int16 = lbl.Width
+                        Dim txt As New TextBox()
+                        txt.Name = Name
+                        txt.Left = leftPos + 130
+                        txt.Top = topPos
+                        txt.Width = width
+                        txt.Height = height
+                        txt.Tag = Tag
+                        txt.TabIndex = Tabindex
+                        Me.Controls.Add(txt)
+                        AddHandler txt.MouseDown, AddressOf Control_MouseDown
+                        AddHandler txt.MouseMove, AddressOf Control_MouseMove
+                        AddHandler txt.MouseUp, AddressOf Control_MouseUp
+                        'Master list Bind karne ke liye
+                        AddHandler txt.KeyDown, AddressOf Control_KeyDown
+                    ElseIf colType = "Button" Then
+                        Dim btn As New Button()
+                        btn.Name = Name
+                        btn.Left = leftPos + 130
+                        btn.Top = topPos
+                        btn.Width = width
+                        Me.Controls.Add(btn)
+                        AddHandler btn.MouseDown, AddressOf Control_MouseDown
+                        AddHandler btn.MouseMove, AddressOf Control_MouseMove
+                        AddHandler btn.MouseUp, AddressOf Control_MouseUp
+                    ElseIf colType = "Grid" Then
+                        'Dim gridname As String = _MainColumTbl.Rows(0)("CntrlName").ToString()
+                        Dim gridname As String = dr("CntrlName").ToString().Trim()
+                        If gridname = "Grid1" Then
+                            Dim grid1 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid1, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                        ElseIf gridname = "Grid2" Then
+                            Dim grid2 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                        ElseIf gridname = "Grid3" Then
+                            Dim grid3 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid3, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                        ElseIf gridname = "Grid4" Then
+                            Dim grid4 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid4, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                        ElseIf gridname = "Grid5" Then
+                            Dim grid5 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid5, leftPos, topPos, width, height, oppMasterCode, Tabindex)
 
+                        End If
+
+                    ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
+                        Dim cmb As New ComboBox()
+
+
+                        'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
                     End If
-
-                ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
-                    Dim cmb As New ComboBox()
-
-
-                    'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
                 End If
 
                 topPos += 35
             Next
+
+            ObjCls_General.CreateDataTable(tblFormValues, _Grid1ColNames.ToString, "YES")
+
+
 #End Region
             BtnUpdatepos.Enabled = True
             btnmovecontrol.Enabled = True
@@ -769,6 +865,7 @@ Public Class MainFormRead
         grd.Tag = tagValue
         grd.TabIndex = TabIndex
         defineGridColName()
+
         If gridName = "Grid1" Then
             GenerateTable(_DataTableGrid1, grd)
             GridFormatting(_DataTableGrid1, grd)
@@ -1194,13 +1291,7 @@ Public Class MainFormRead
             If TypeOf ctrl Is TextBox Then
                 Dim txt As TextBox = DirectCast(ctrl, TextBox)
                 txt.Text = displayValue
-                'txt.Tag = codeValue
-
                 txt.ReadOnly = True
-
-                'If Not _UniqueValues.Any(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase) AndAlso String.Equals(x.Item2, offMasterCode, StringComparison.OrdinalIgnoreCase) AndAlso String.Equals(x.Item3, codeValue, StringComparison.OrdinalIgnoreCase)) Then
-                '    _UniqueValues.Add(Tuple.Create(ctrl.Name, offMasterCode, codeValue))
-                'End If
                 Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase))
                 If existingItem Is Nothing Then
                     _UniqueValues.Add(Tuple.Create(ctrl.Name, offMasterCode, codeValue))

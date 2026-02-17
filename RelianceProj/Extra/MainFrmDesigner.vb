@@ -19,14 +19,9 @@ Public Class MainFrmDesigner
     Dim ColumnTypeCounter As New Dictionary(Of String, Integer)
     Dim LocationY As Integer = 10
 
-    Private _KeyFieldValue As String = ""
-    Private _KeyFieldName As String = "ADD3"
-    Private _TblName As String = ""
+
 #Region "HEADER GRID COL. DEFINE AND FORMATTING "
 #Region "GRID GENERAL VARIABLE "
-    Private FieldNameAndValues(1) As String
-    Private tblFormValues As New DataTable
-
     Private _headerColNames As New StringBuilder
 
     Private Grid_Table_ColNames() As String
@@ -142,6 +137,7 @@ Public Class MainFrmDesigner
             .Append(",FormDesignType")
             .Append(",Masking")
             .Append(",Managebook")
+            .Append(",FormType")
 
         End With
 
@@ -287,6 +283,7 @@ Public Class MainFrmDesigner
             .Append(",SaveYN:Y")
             .Append(",Precision:N") 'decimal
             .Append(",Managebook:N")
+            .Append(",FormType:N")
         End With
 
 
@@ -368,9 +365,9 @@ Public Class MainFrmDesigner
 
         _FieldNameColmType = New StringBuilder
         With _FieldNameColmType
-            .Append("DataBaseColumn:CMB")
-            .Append(",OppMasterCode:CMB")
-            .Append(",Masterlist:CMB")
+            '.Append("DataBaseColumn:CMB")
+            '.Append(",OppMasterCode:CMB")
+            .Append("Masterlist:CMB")
         End With
         Grid_Table_ColNames = _GridColNames.ToString.ToUpper.Split(",")
     End Sub
@@ -688,9 +685,9 @@ Public Class MainFrmDesigner
 
         Detail_FieldNameColmType = New StringBuilder
         With Detail_FieldNameColmType
-            .Append("DataBaseColumn:CMB")
-            .Append(",OppMasterCode:CMB")
-            .Append(",Masterlist:CMB")
+            '.Append("DataBaseColumn:CMB")
+            '.Append(",OppMasterCode:CMB")
+            .Append("Masterlist:CMB")
         End With
         Detail_Grid_Table_ColNames = Detail_GridColNames.ToString.ToUpper.Split(",")
     End Sub
@@ -718,9 +715,6 @@ Public Class MainFrmDesigner
 
 #Region "SELECTION GRID DETAIL "
 #Region "SELECTION DETAIL GRID GENERAL VARIABLE "
-    Private selectFieldNameAndValues(1) As String
-    Private selecttblFormValues As New DataTable
-
     Private _selectheaderColNames As New StringBuilder
 
     Private selectGrid_Table_ColNames() As String
@@ -783,89 +777,89 @@ Public Class MainFrmDesigner
     Private _selectFieldNameForTotal As New StringBuilder
     Private _selectFieldNameColmType As New StringBuilder
 #End Region
-    Private Sub selectDefine_Grid_Item_ColName()
-        _selectGridColNames = New StringBuilder
-        With _selectGridColNames
-            .Append("Column_Name")
-            .Append(",IsSelect")
-        End With
+    'Private Sub selectDefine_Grid_Item_ColName()
+    '    _selectGridColNames = New StringBuilder
+    '    With _selectGridColNames
+    '        .Append("Column_Name")
+    '        .Append(",IsSelect")
+    '    End With
 
-        _selectGridColType = New StringBuilder
-        With _selectGridColType
-            .Append("IsSelect:Y")
-        End With
+    '    _selectGridColType = New StringBuilder
+    '    With _selectGridColType
+    '        .Append("IsSelect:Y")
+    '    End With
 
-        _selectGridColValidate = New StringBuilder
-        With _selectGridColValidate
-        End With
+    '    _selectGridColValidate = New StringBuilder
+    '    With _selectGridColValidate
+    '    End With
 
-        _selectGridCol_FocusByPass = New StringBuilder
-        With _selectGridCol_FocusByPass
-        End With
+    '    _selectGridCol_FocusByPass = New StringBuilder
+    '    With _selectGridCol_FocusByPass
+    '    End With
 
-        _selectFieldHeader = New StringBuilder
-        With _selectFieldHeader
+    '    _selectFieldHeader = New StringBuilder
+    '    With _selectFieldHeader
 
-            .Append("Column_Name:DataBase Column")
-            .Append(",IsSelect:Select")
-        End With
+    '        .Append("Column_Name:DataBase Column")
+    '        .Append(",IsSelect:Select")
+    '    End With
 
-        _selectFieldHeaderAlignment = New StringBuilder
-        With _selectFieldHeaderAlignment
+    '    _selectFieldHeaderAlignment = New StringBuilder
+    '    With _selectFieldHeaderAlignment
 
-            .Append("Column_Name:L")
+    '        .Append("Column_Name:L")
 
-        End With
+    '    End With
 
-        _selectFieldAlignMent = New StringBuilder
-        With _selectFieldAlignMent
+    '    _selectFieldAlignMent = New StringBuilder
+    '    With _selectFieldAlignMent
 
-            .Append("Column_Name:L")
+    '        .Append("Column_Name:L")
 
-        End With
+    '    End With
 
-        _selectFieldNotVisibile = New StringBuilder
-        With _selectFieldNotVisibile
-            '.Append("ID:N")
-        End With
+    '    _selectFieldNotVisibile = New StringBuilder
+    '    With _selectFieldNotVisibile
+    '        '.Append("ID:N")
+    '    End With
 
 
 
-        _selectFieldNotRequiredForSave = New StringBuilder
-        With _selectFieldNotRequiredForSave
-            '.Append("ID:N")
-        End With
+    '    _selectFieldNotRequiredForSave = New StringBuilder
+    '    With _selectFieldNotRequiredForSave
+    '        '.Append("ID:N")
+    '    End With
 
-        _selectFieldWidthSet = New StringBuilder
-        With _selectFieldWidthSet
-            .Append("Column_Name:50")
-            .Append(",IsSelect:20")
-        End With
+    '    _selectFieldWidthSet = New StringBuilder
+    '    With _selectFieldWidthSet
+    '        .Append("Column_Name:50")
+    '        .Append(",IsSelect:20")
+    '    End With
 
-        _selectFieldDefaultValues = New StringBuilder
-        With _selectFieldDefaultValues
-            '.Append("OrderNo:0")
-        End With
+    '    _selectFieldDefaultValues = New StringBuilder
+    '    With _selectFieldDefaultValues
+    '        '.Append("OrderNo:0")
+    '    End With
 
-        _selectFieldLocked = New StringBuilder
-        With _selectFieldLocked
-            .Append("Column_Name:Y")
-        End With
+    '    _selectFieldLocked = New StringBuilder
+    '    With _selectFieldLocked
+    '        .Append("Column_Name:Y")
+    '    End With
 
-        _selectFieldMasking = New StringBuilder
-        With _selectFieldMasking
-            '.Append("GMTR:NO-2,")
-        End With
+    '    _selectFieldMasking = New StringBuilder
+    '    With _selectFieldMasking
+    '        '.Append("GMTR:NO-2,")
+    '    End With
 
-        With _selectFieldNameSameValueCopy
-        End With
+    '    With _selectFieldNameSameValueCopy
+    '    End With
 
-        _selectFieldNameColmType = New StringBuilder
-        With _selectFieldNameColmType
-            .Append("IsSelect:CHK")
-        End With
-        selectGrid_Table_ColNames = _selectGridColNames.ToString.ToUpper.Split(",")
-    End Sub
+    '    _selectFieldNameColmType = New StringBuilder
+    '    With _selectFieldNameColmType
+    '        .Append("IsSelect:CHK")
+    '    End With
+    '    selectGrid_Table_ColNames = _selectGridColNames.ToString.ToUpper.Split(",")
+    'End Sub
     Private Sub selectGenerateTable(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
         ObjCls_General.CreateDataTable(gridTable, _selectGridColNames.ToString.ToUpper, "NO", _selectGridColType.ToString)
         'grdObj.ExtendLastCol = True
@@ -1021,46 +1015,13 @@ Public Class MainFrmDesigner
                 End If
             End If
         ElseIf _ActivatedColName = "DATABASECOLUMN" Then
-            Dim _getcol As Integer = Grid1.ActiveCell.Col
-            Grid1.ComboBox(_getcol).DropDown()
-            If Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("DATABASECOLUMN") + 1).Text = "" Then
-                Dim _TblName As String = Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text
-                sqL = "SELECT COLUMN_NAME  FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" & _TblName & "' ORDER BY COLUMN_NAME "
-                sql_connect_slect()
-                Dim dtFiltered As DataTable
-                'dtFiltered = GetFilteredColumnsFromGrid(Grid1, DefaltSoftTable)
-                dtFiltered = View_RecordGridDetail()
-                Dim cmb = Grid1.ComboBox(_getcol)
-                cmb.DataSource = Nothing
-                cmb.DisplayMember = ""
-                cmb.DataSource = dtFiltered
-                cmb.DisplayMember = "COLUMN_NAME"
+            If e.KeyCode = Keys.Enter Then
+                View_RecordGridDetail(Grid1, Detail_DataTableGrid, "MULTY", _ActivatedColName)
             End If
         ElseIf _ActivatedColName = "OPPMASTERCODE" Then
-            Dim _getcol As Integer = Grid1.ActiveCell.Col
-            Grid1.ComboBox(_getcol).DropDown()
-            If Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("DATABASECOLUMN") + 1).Text = "" Then
-                Dim dtFiltered As DataTable
-                dtFiltered = _GetAllColumName()
-                Dim cmb = Grid1.ComboBox(_getcol)
-                cmb.DataSource = Nothing
-                cmb.DisplayMember = ""
-                cmb.DataSource = dtFiltered
-                cmb.DisplayMember = "COLUMN_NAME"
-            Else
-                Dim dtFiltered As DataTable
-                dtFiltered = _GetAllColumName()
-                Dim cmb = Grid1.ComboBox(_getcol)
-                cmb.DataSource = Nothing
-                cmb.DisplayMember = ""
-                cmb.DataSource = dtFiltered
-                cmb.DisplayMember = "COLUMN_NAME"
+            If e.KeyCode = Keys.Enter Then
+                View_RecordGridDetail(Grid1, Detail_DataTableGrid, "SINGLE", _ActivatedColName)
             End If
-        End If
-        If e.KeyCode = Keys.F9 Then
-            _FocusgridName = "Grid1"
-            View_RecordGridDetail()
-            Pnlview.Visible = True
         End If
         Call Fill_Sr_No_Item(Grid1, Detail_DataTableGrid)
     End Sub
@@ -1079,34 +1040,152 @@ Public Class MainFrmDesigner
         tblTmp = DefaltSoftTable.Copy
         Return tblTmp
     End Function
-    Private Function View_RecordGridDetail()
+
+    Private Sub _LoadadataGrid(ByVal _GetGrid As FlexCell.Grid, ByVal _GridDatatbl As DataTable, ByVal _ColmName As String, ByVal _ActiverownoHeader As Integer)
+
+        Dim _BaseName As String = _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text
+        If _ActiverownoHeader > 0 Then
+
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text = _BaseName.ToString()
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DATABASECOLUMN") + 1).Text = _ColmName
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationX") + 1).Text = 10
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = LocationY
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 100
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("OrderNo") + 1).Text = _ActiverownoHeader
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("Tabindex") + 1).Text = _ActiverownoHeader
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXTALIGN") + 1).Text = "L"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SAVEYN") + 1).Text = "Y"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("InputType") + 1).Text = "Normal"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("READONLY") + 1).Text = "N"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USEMASTERKEY") + 1).Text = "N"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
+
+
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
+            Dim colUseMaster As Integer = _DataTableGrid.Columns.IndexOf("USEMASTER") + 1
+            Dim colOppMaster As Integer = _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1
+            Dim colMasterList As Integer = _DataTableGrid.Columns.IndexOf("Masterlist") + 1
+            Dim colheader As Integer = _DataTableGrid.Columns.IndexOf("Text") + 1
+            Dim currentValue As String = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
+            Dim alreadyYRow As Integer = -1
+            For i As Integer = 1 To GrdItem.Rows - 1
+                If GrdItem.Cell(i, colUseMasterKey).Text.Trim().ToUpper() = "Y" Then
+                    alreadyYRow = i
+                    Exit For
+                End If
+            Next
+            If currentValue = "N" Then
+                If alreadyYRow <> -1 AndAlso alreadyYRow <> row Then
+                    Exit Sub
+                End If
+                GrdItem.Cell(row, colUseMasterKey).Text = "Y"
+            Else
+                GrdItem.Cell(row, colUseMasterKey).Text = "N"
+            End If
+            currentValue = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
+
+            If currentValue = "Y" Then
+                GrdItem.Cell(row, colUseMaster).Text = "NO"
+                GrdItem.Cell(row, colUseMaster).Locked = True
+                GrdItem.Cell(row, colOppMaster).Text = ""
+                GrdItem.Cell(row, colOppMaster).Locked = True
+                GrdItem.Cell(row, colMasterList).Locked = True
+                GrdItem.Cell(row, colheader).Locked = True
+            Else
+                GrdItem.Cell(row, colUseMaster).Locked = False
+                GrdItem.Cell(row, colOppMaster).Locked = False
+                GrdItem.Cell(row, colMasterList).Locked = False
+                GrdItem.Cell(row, colheader).Locked = False
+            End If
+            Exit Sub
+            LocationY = LocationY + 30
+            _GetGrid.Rows = _GetGrid.Rows + 1
+        End If
+    End Sub
+    Private Sub View_RecordGridDetail(ByVal _gridName As FlexCell.Grid, ByVal Datatable As DataTable, ByVal _SelectionType As String, ByVal _ActivatedColName As String)
+
+        Dim selectedCols As New List(Of String)
+        For i As Integer = 1 To _gridName.Rows - 1
+            Dim val As String = _gridName.Cell(i, Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text
+            If Not String.IsNullOrWhiteSpace(val) Then
+                selectedCols.Add(val.Trim())
+            End If
+        Next
+        Dim whereCondition As String = ""
+        If selectedCols.Count > 0 Then
+            Dim inClause As String = "'" & String.Join("','", selectedCols.Select(Function(x) x.Replace("'", "''"))) & "'"
+            whereCondition = " and COLUMN_NAME NOT IN (" & inClause & ") "
+        End If
+
 
         _strQuery = New StringBuilder
         Dim _TblName As String = CmbTableName.Text
         With _strQuery
-            .Append(" SELECT COLUMN_NAME,ORDINAL_POSITION As IsSelect  FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" & _TblName & "'  ")
+            .Append(" SELECT  ")
+            .Append(" 'False' as TickMark  ")
+            .Append(" ,COLUMN_NAME,'' As Remark   ")
+            .Append(" FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" & _TblName & "'  ")
+            .Append(whereCondition)
             .Append("ORDER BY COLUMN_NAME")
         End With
         sqL = _strQuery.ToString
         sql_connect_slect()
-        Dim tblTmp As DataTable
-        tblTmp = DefaltSoftTable.Copy
+        'obj_Party_Selection.MULTI_SELECTION_GRID_SETTING()
+        'Dim tblTmp As DataTable
+        'tblTmp = DefaltSoftTable.Copy
 
-        Clear_Grid(Grid3, 2)
-        Dim dtFiltered As DataTable
-        dtFiltered = GetFilteredColumnsFromGrid(GrdItem, DefaltSoftTable, _DataTableGrid)
-        dtFiltered = GetFilteredColumnsFromGrid(Grid1, dtFiltered, Detail_DataTableGrid)
-        Fill_Records(dtFiltered, selectGrid_Table_ColNames, Grid3, 0, True, "", False)
+        'Dim dtFiltered As DataTable
+        'dtFiltered = GetFilteredColumnsFromGrid(GrdItem, DefaltSoftTable, _DataTableGrid)
+        'dtFiltered = GetFilteredColumnsFromGrid(Grid1, dtFiltered, Detail_DataTableGrid)
 
-        For r As Integer = 1 To Grid3.Rows - 1
-            If Val(Grid3.Cell(r, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).Text) = 1 Then
-                Grid3.Cell(r, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).Text = 0
+
+        Dim COLUMN_NAME As String = ""
+        Dim _LoadQuery = _strQuery.ToString
+        If _SelectionType = "MULTY" Then
+            Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType([Nothing]), "", _SelectionType)
+            Dim accountCodes As New List(Of String)
+            If selectedList IsNot Nothing Then
+
+
+                For Each rowDict As Dictionary(Of String, Object) In selectedList
+                    If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("COLUMN_NAME") Then
+                        If COLUMN_NAME <> "" Then COLUMN_NAME &= ","
+                        COLUMN_NAME &= rowDict("COLUMN_NAME").ToString()
+                    End If
+                Next
+                Dim rawList As String() = {COLUMN_NAME}
+                Dim qualityList As New List(Of String)
+                For Each item In rawList
+                    If Not String.IsNullOrWhiteSpace(item) Then
+                        qualityList.AddRange(item.Split(","c))
+                    End If
+                Next
+                Dim finalQualityList = qualityList.Select(Function(q) q.Trim()).Where(Function(q) q <> "").Distinct().ToList()
+                Dim _ActiverownoHeader As Integer = _gridName.ActiveCell.Row
+                For Each item In finalQualityList
+
+                    _LoadadataGrid(_gridName, Datatable, item, _ActiverownoHeader)
+                    _ActiverownoHeader += 1
+                Next
             End If
-        Next
-        Grid3.Focus()
-        Grid3.Cell(1, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).SetFocus()
-        Return dtFiltered
-    End Function
+
+        Else
+            Dim _ActiveText As String = _gridName.Cell(_gridName.ActiveCell.Row, Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType([Nothing]), _ActiveText, _SelectionType)
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("COLUMN_NAME") Then
+                    _gridName.Cell(_gridName.ActiveCell.Row, Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text = selected("COLUMN_NAME").ToString()
+                End If
+            End If
+        End If
+
+        _gridName.Focus()
+    End Sub
 
 #End Region
 
@@ -1149,18 +1228,8 @@ Public Class MainFrmDesigner
         _addcoloum()
         txtfrmtype.Text = "MASTER FORM"
         Ctl_Managebybook.Text = "NO"
-
-
-        Pnlview.Width = Me.Width
-        Pnlview.Height = Me.Height
-        Pnlview.Location = New Point(800, 0)
-
-        Grid3.Width = Pnlview.Width - 820
-        Grid3.Height = Pnlview.Height - 110
-        'Grid3.Location = New Point(600, 0)
-
-
         Me.Location = New Point(0, 0)
+        _FrmLoad = True
         GetTblName(_DataBaseFileName)
         Define_Grid_Item_ColName()
         GenerateTable(_DataTableGrid, GrdItem)
@@ -1176,22 +1245,10 @@ Public Class MainFrmDesigner
         Grid1.Rows = 2
         Grid1.Cell(1, Detail_DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
         FocusSetToGridDefaultColumn(Grid1, _DefaultColOfGrid)
-
-        _FrmLoad = True
-
-        selectDefine_Grid_Item_ColName()
-        selectGenerateTable(_selectDataTableGrid, Grid3)
-        selectGridFormatting(_selectDataTableGrid, Grid3)
-        Clear_Grid(Grid3, 2)
-        Grid3.Rows = 2
-        Grid3.Cell(1, _selectDataTableGrid.Columns.IndexOf("ISSELECT") + 1).SetFocus()
-        FocusSetToGridDefaultColumn(Grid3, _DefaultColOfGrid)
-
-
-        _FrmLoad = False
         'Change_Grid_Data = False
         Ctrl_Visible_False(Me.Controls)
         UC_Buttons1._ButtonEnableDisable("LOAD")
+        _FrmLoad = False
         TabControl1.Enabled = False
         AttachButtonFocusEvents(Me)
     End Sub
@@ -1488,56 +1545,7 @@ Public Class MainFrmDesigner
         Ctl_BookName.Text = ""
         Ctl_Managebybook.Text = "NO"
     End Sub
-#Region "CTRL VISIBLE FALSE"
-    'Private Sub Cost_Sheet_Ctrl_Visible_False()
-    '    GrdItem.Enabled = False
-    '    Grid1.Enabled = False
-    '    Grid2.Enabled = False
-    '    Txt_FormId.Visible = False
-    '    txtFormName.Visible = False
-    '    Txt_mainFormSize.Visible = False
-    '    TxtMainFormSizeY.Visible = False
-    '    Txt_MainFormLocation.Visible = False
-    '    TxtMainFormLocaY.Visible = False
-    '    CmbTableName.Visible = False
-    '    Txt_MenuName.Visible = False
-    '    Txt_PerentMenuName.Visible = False
-    '    'Cmb_Nature.Visible = False
-    '    'Cmb_Beahviour.Visible = False
-    '    'Cmb_BookCategory.Visible = False
-    '    Txt_Active.Visible = False
-    '    Txt_ShortCutKey.Visible = False
-    '    Ctl_BookName.Visible = False
-    '    Ctl_Managebybook.Visible = False
-    '    'Txt_OrderNo.Visible = False
 
-    'End Sub
-#End Region
-#Region "CTRL VISIBLE TRUE"
-    'Private Sub Cost_Sheet_Ctrl_Visible_True()
-    '    GrdItem.Enabled = True
-    '    Grid1.Enabled = True
-    '    Grid2.Enabled = True
-    '    Txt_FormId.Visible = True
-    '    txtFormName.Visible = True
-    '    Txt_mainFormSize.Visible = True
-    '    TxtMainFormSizeY.Visible = True
-    '    Txt_MainFormLocation.Visible = True
-    '    TxtMainFormLocaY.Visible = True
-    '    CmbTableName.Visible = True
-    '    Txt_MenuName.Visible = True
-    '    Txt_PerentMenuName.Visible = True
-    '    'Cmb_Nature.Visible = True
-    '    'Cmb_Beahviour.Visible = True
-    '    'Cmb_BookCategory.Visible = True
-    '    Txt_Active.Visible = True
-    '    Txt_ShortCutKey.Visible = True
-    '    Ctl_BookName.Visible = True
-    '    Ctl_Managebybook.Visible = True
-    '    'Txt_OrderNo.Visible = True
-
-    'End Sub
-#End Region
     Private Sub GetTblName(ByVal dbName As String)
         sqL = "Select  TABLE_NAME From INFORMATION_SCHEMA.TABLES Where TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" & dbName & "' order by TABLE_NAME"
         Dim _Tmptbl As DataTable = sql_connect_slect()
@@ -1739,41 +1747,6 @@ Public Class MainFrmDesigner
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "Y"
                 End If
             End If
-
-            'ElseIf _ActivatedColName = "USEMASTERKEY" Then
-            '    If e.KeyCode = Keys.Space Then
-            '        If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1).Text = "Y" Then
-            '            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1).Text = "N"
-            '        ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1).Text = "N" Then
-            '            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1).Text = "Y"
-            '        End If
-            '    End If
-            '    Dim row As Integer = GrdItem.ActiveCell.Row
-            '    Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
-            '    Dim colUseMaster As Integer = _DataTableGrid.Columns.IndexOf("USEMASTER") + 1
-            '    Dim colOppMaster As Integer = _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1
-            '    Dim colMasterList As Integer = _DataTableGrid.Columns.IndexOf("Masterlist") + 1
-            '    Dim currentValue As String = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
-            '    If currentValue = "Y" Then
-            '        GrdItem.Cell(row, colUseMaster).Text = "NO"
-            '        GrdItem.Cell(row, colUseMaster).Locked = True
-            '        GrdItem.Cell(row, colOppMaster).Locked = True
-            '        GrdItem.Cell(row, colMasterList).Locked = True
-            '    Else
-            '        GrdItem.Cell(row, colUseMaster).Locked = False
-            '        GrdItem.Cell(row, colOppMaster).Locked = False
-            '        GrdItem.Cell(row, colMasterList).Locked = False
-            '    End If
-            '    If GrdItem.ActiveCell.Col = colUseMasterKey Then
-            '        If e.KeyCode = Keys.Space Then
-            '            currentValue = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
-            '            If currentValue = "Y" Then
-            '                e.SuppressKeyPress = True
-            '                e.Handled = True
-            '                Exit Sub
-            '            End If
-            '        End If
-            '    End If
         ElseIf _ActivatedColName = "USEMASTERKEY" Then
 
             If e.KeyCode <> Keys.Space Then Exit Sub
@@ -1786,7 +1759,6 @@ Public Class MainFrmDesigner
             Dim colMasterList As Integer = _DataTableGrid.Columns.IndexOf("Masterlist") + 1
             Dim colheader As Integer = _DataTableGrid.Columns.IndexOf("Text") + 1
             Dim currentValue As String = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
-            Dim currentValue1 As String = GrdItem.Cell(row, colUseMaster).Text.Trim().ToUpper()
             Dim alreadyYRow As Integer = -1
             For i As Integer = 1 To GrdItem.Rows - 1
                 If GrdItem.Cell(i, colUseMasterKey).Text.Trim().ToUpper() = "Y" Then
@@ -1809,6 +1781,7 @@ Public Class MainFrmDesigner
             If currentValue = "Y" Then
                 GrdItem.Cell(row, colUseMaster).Text = "NO"
                 GrdItem.Cell(row, colUseMaster).Locked = True
+                GrdItem.Cell(row, colOppMaster).Text = ""
                 GrdItem.Cell(row, colOppMaster).Locked = True
                 GrdItem.Cell(row, colMasterList).Locked = True
                 GrdItem.Cell(row, colheader).Locked = True
@@ -1823,57 +1796,25 @@ Public Class MainFrmDesigner
             e.Handled = True
             Exit Sub
         ElseIf _ActivatedColName = "DATABASECOLUMN" Then
-            Dim _getcol As Integer = GrdItem.ActiveCell.Col
-            GrdItem.ComboBox(_getcol).DropDown()
-            If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DATABASECOLUMN") + 1).Text = "" Then
-                Dim _TblName As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text
-                sqL = "SELECT COLUMN_NAME,ORDINAL_POSITION As IsSelect   FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" & _TblName & "' ORDER BY COLUMN_NAME "
-                sql_connect_slect()
-                Dim dtFiltered As DataTable
-                'dtFiltered = GetFilteredColumnsFromGrid(GrdItem, DefaltSoftTable)
-                dtFiltered = View_RecordGridDetail()
-                Dim cmb = GrdItem.ComboBox(_getcol)
-                cmb.DataSource = Nothing
-                cmb.DisplayMember = ""
+            If e.KeyCode = Keys.Enter Then
+                View_RecordGridDetail(GrdItem, _DataTableGrid, "MULTY", _ActivatedColName)
 
-                cmb.DataSource = dtFiltered
-                cmb.DisplayMember = "COLUMN_NAME"
             End If
+
 
         ElseIf _ActivatedColName = "OPPMASTERCODE" Then
-            Dim _getcol As Integer = GrdItem.ActiveCell.Col
-            GrdItem.ComboBox(_getcol).DropDown()
-            If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DATABASECOLUMN") + 1).Text = "" Then
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
+            Dim currentValue As String = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
+            If e.KeyCode = Keys.Enter And currentValue = "N" Then
+                View_RecordGridDetail(GrdItem, _DataTableGrid, "SINGLE", _ActivatedColName)
+            ElseIf currentValue = "Y" Then
 
-                Dim dtFiltered As DataTable
-                dtFiltered = _GetAllColumName()
-                Dim cmb = GrdItem.ComboBox(_getcol)
-                cmb.DataSource = Nothing
-                cmb.DisplayMember = ""
-
-                cmb.DataSource = dtFiltered
-                cmb.DisplayMember = "COLUMN_NAME"
-            Else
-                Dim dtFiltered As DataTable
-                dtFiltered = _GetAllColumName()
-                Dim cmb = GrdItem.ComboBox(_getcol)
-                cmb.DataSource = Nothing
-                cmb.DisplayMember = ""
-
-                cmb.DataSource = dtFiltered
-                cmb.DisplayMember = "COLUMN_NAME"
             End If
-
         ElseIf _ActivatedColName = "SPACERSTRING" Then
             If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
                 GrdItem.Rows = GrdItem.Rows + 1
             End If
-        End If
-
-        If e.KeyCode = Keys.F9 Then
-            _FocusgridName = "GrdItem"
-            View_RecordGridDetail()
-            Pnlview.Visible = True
         End If
     End Sub
     Public Sub FillUseMasterCombo(ByVal cmb As Object)
@@ -1922,35 +1863,24 @@ Public Class MainFrmDesigner
             Select Case _STRTRNOBJECT
                 Case "GRDITEM"
                     Delete_Row(GrdItem, _DataTableGrid)
-                    If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
-                        GrdItem.Rows = GrdItem.Rows + 1
-                    End If
-
                 Case "GRID1"
                     Delete_Row(Grid1, Detail_DataTableGrid)
-                    If Grid1.Rows - 1 = Grid1.ActiveCell.Row Then
-                        Grid1.Rows = Grid1.Rows + 1
-                    End If
                     Call Fill_Sr_No_Item(Grid1, Detail_DataTableGrid)
             End Select
         ElseIf e.KeyCode = Keys.Escape Then
-            If Pnlview.Visible = True Then
-                Pnlview.Visible = False
+
+            If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+
+                Me.Close()
+                Me.Dispose()
             Else
-                If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
-
-                    Me.Close()
-                    Me.Dispose()
-                Else
-                    'Txt_FormId.Focus()
-                    txtfrmtype.Focus()
-                    _ClearTex()
-                    Call Ctrl_Visible_True(Me.Controls)
-                    Clear_Grid(GrdItem, 2)
-                    Clear_Grid(Grid1, 2)
-                End If
+                'Txt_FormId.Focus()
+                txtfrmtype.Focus()
+                _ClearTex()
+                Call Ctrl_Visible_True(Me.Controls)
+                Clear_Grid(GrdItem, 2)
+                Clear_Grid(Grid1, 2)
             End If
-
         End If
     End Sub
 
@@ -2133,7 +2063,7 @@ Public Class MainFrmDesigner
                 Fill_Records(DefaltSoftTable, Detail_Grid_Table_ColNames, Grid1, 0, True, "", False)
             Else
                 If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
-                    MsgBox("From Id " + Trim(Txt_FormId.Text) + " Not Found")
+                    MsgBox("From Id " + Trim(Txt_FormId.Text) + " Not Found data " + txtfrmtype.Text)
                     'Txt_FormId.Visible = True
 
                     'Txt_FormId.Focus()
@@ -2239,131 +2169,6 @@ Public Class MainFrmDesigner
 
         _FrmLoad = False
     End Sub
-
-    Private Sub Grid3_KeyDown(Sender As Object, e As KeyEventArgs) Handles Grid3.KeyDown
-        If e.KeyCode = Keys.F11 Then
-            For r As Integer = 1 To Grid3.Rows - 1
-                If Val(Grid3.Cell(r, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).Text) = 1 Then
-                    Grid3.Cell(r, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).Text = 0
-                Else
-                    Grid3.Cell(r, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).Text = 1
-                End If
-            Next
-
-        ElseIf e.KeyCode = Keys.F12 Then
-            'selection list for Header grid
-
-            If _FocusgridName = "GrdItem" Then
-                Dim _ActiverownoHeader As Integer = GrdItem.ActiveCell.Row
-                If _ActiverownoHeader > 0 Then
-                    'Dim colIndexCT As Integer = _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1
-                    'Dim firstValue As String = GrdItem.Cell(_ActiverownoHeader, colIndexCT).Text.Trim()
-                    'Dim baseName As String = New String(firstValue.TakeWhile(Function(c) Not Char.IsDigit(c)).ToArray())
-                    'If baseName = "" Then
-                    '    baseName = "TextBox"
-                    'End If
-
-                    Dim _BaseName As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text
-
-                    For r As Integer = 1 To Grid3.Rows - 1
-                        If Val(Grid3.Cell(r, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).Text) = 1 Then
-                            Dim _ColmName As String = Grid3.Cell(r, _selectDataTableGrid.Columns.IndexOf("Column_Name") + 1).Text
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = _BaseName.ToString()
-                            'GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "GRIDDETAIL"
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("DATABASECOLUMN") + 1).Text = _ColmName
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("LocationX") + 1).Text = 10
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = LocationY
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("SizeHeight") + 1).Text = 20
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("SizeWidth") + 1).Text = 100
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("OrderNo") + 1).Text = _ActiverownoHeader
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("Tabindex") + 1).Text = _ActiverownoHeader
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("VISIBLE") + 1).Text = "N"
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("TEXTALIGN") + 1).Text = "L"
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("SAVEYN") + 1).Text = "Y"
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("InputType") + 1).Text = "Normal"
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
-                            'GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
-                            GrdItem.Cell(_ActiverownoHeader, _DataTableGrid.Columns.IndexOf("USEMASTERKEY") + 1).Text = "N"
-                            Dim row As Integer = _ActiverownoHeader
-                            Dim col As Integer = _DataTableGrid.Columns.IndexOf("USEMASTER") + 1
-
-                            Dim val As String = GrdItem.Cell(row, col).Text
-
-                            ' Clean value (remove spaces)
-                            val = val.Trim().ToUpper()
-
-                            If val = "YES" Then
-                                GrdItem.Cell(row, col).Text = "YES"
-                            Else
-                                GrdItem.Cell(row, col).Text = "NO"
-                            End If
-                            ' Control name ke sath numbering
-                            'GrdItem.Cell(_ActiverownoHeader, colIndexCT).Text = baseName & (_ActiverownoHeader).ToString()
-
-
-                            GrdItem.Rows = GrdItem.Rows + 1
-                            _ActiverownoHeader = _ActiverownoHeader + 1
-                            LocationY = LocationY + 30
-                        End If
-                    Next
-                    GrdItem.Focus()
-                End If
-            ElseIf _FocusgridName = "Grid1" Then
-                'selection list for Detail grid
-                Dim _Activerowno As Integer = Grid1.ActiveCell.Row
-                If _Activerowno > 0 Then
-                    Dim _BaseName As String = Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text
-
-                    For r As Integer = 1 To Grid3.Rows - 1
-                        If Val(Grid3.Cell(r, selectGrid_Table_ColNames.ToList.IndexOf("ISSELECT") + 1).Text) = 1 Then
-                            Dim _ColmName As String = Grid3.Cell(r, _selectDataTableGrid.Columns.IndexOf("Column_Name") + 1).Text
-
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = _BaseName.ToString()
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("DATABASECOLUMN") + 1).Text = _ColmName
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "TextBox"
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("LocationX") + 1).Text = 50
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = 10
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("SizeHeight") + 1).Text = 20
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("SizeWidth") + 1).Text = 10
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("Tabindex") + 1).Text = _Activerowno
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("OrderNo") + 1).Text = _Activerowno
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("InputType") + 1).Text = "Normal"
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("TEXTALIGN") + 1).Text = "L"
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("SAVEYN") + 1).Text = "Y"
-                            'Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
-                            Dim row As Integer = _Activerowno
-                            Dim col As Integer = Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1
-
-                            Dim val As String = Grid1.Cell(row, col).Text
-
-                            ' Clean value (remove spaces)
-                            val = val.Trim().ToUpper()
-
-                            If val = "YES" Then
-                                Grid1.Cell(row, col).Text = "YES"
-                            Else
-                                Grid1.Cell(row, col).Text = "NO"
-                            End If
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
-                            Grid1.Cell(_Activerowno, Detail_DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text = "Grid Detail Design"
-
-                            Grid1.Rows = Grid1.Rows + 1
-                            _Activerowno = _Activerowno + 1
-                        End If
-                    Next
-                    Grid1.Focus()
-                End If
-            End If
-            Pnlview.Visible = False
-        ElseIf e.KeyCode = Keys.Escape Then
-            Pnlview.Visible = False
-        End If
-    End Sub
-
 #End Region
 
 
@@ -2379,23 +2184,6 @@ Public Class MainFrmDesigner
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
             txtfrmtype.Focus()
-            'If txtfrmtype.Text <> "" Then
-            '    _FrmLoad = False
-            '    Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
-            '    Dim TblTmp As New DataTable
-            '    Dim Last_Entry_No As Integer = 1
-            '    sqL = Str_Qry
-            '    sql_connect_slect1()
-            '    If DefaltSoftTable.Rows.Count > 0 Then
-            '        If IsDBNull(DefaltSoftTable.Rows(0).Item("FormID")) Then DefaltSoftTable.Rows(0).Item("FormID") = 1
-            '        Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID")) + 1
-            '    End If
-
-            '    Txt_FormId.Text = Last_Entry_No
-            '    Txt_FormId.Focus()
-            '    Txt_FormId.Select()
-            'End If
-
         End If
 
     End Sub
@@ -2502,8 +2290,8 @@ Public Class MainFrmDesigner
 
     Private Sub UC_Buttons1_SaveClick() Handles UC_Buttons1.SaveClick
         _FrmLoad = False
-        If txtfrmtype.Text = "ENTRY FORM" Then
-            Fill_Grid_Records_Into_DataTables()
+
+        Fill_Grid_Records_Into_DataTables()
             Dim Array_Opening(0, 4) As String
             Dim Pcs_Row_No As Integer = 0
             If _BookCode <> "" Then
@@ -2525,66 +2313,26 @@ Public Class MainFrmDesigner
             Next
             Detail_Fill_Grid_Records_Into_DataTables()
             Detail_griditemDetailsSaveQuery(Array_Opening)
-            For I = 0 To UBound(Array_Opening)
-                If Array_Opening(I, 4) <> "" Then
-                    strQuery = Array_Opening(I, 4)
-                    sqL = strQuery.ToString
-                    'sql_Data_Save_Delete_Update()
-                    sql_Data_Save_Delete_Update1()
-                    Pcs_Row_No = Pcs_Row_No + 1
-                End If
-            Next
-
-
-            Interaction.MsgBox("Records Successfully Saved", MsgBoxStyle.Information, "Soft-Tex PRO")
+        For I = 0 To UBound(Array_Opening)
+            If Array_Opening(I, 4) <> "" Then
+                strQuery = Array_Opening(I, 4)
+                sqL = strQuery.ToString
+                'sql_Data_Save_Delete_Update()
+                sql_Data_Save_Delete_Update1()
+                Pcs_Row_No = Pcs_Row_No + 1
+            End If
+        Next
+        Interaction.MsgBox("Records Successfully Saved", MsgBoxStyle.Information, "Soft-Tex PRO")
             ObjCls_General.Blank_Object(Me)
             GrdItem.BoldFixedCell = False
             Clear_Grid(GrdItem, 2)
             Grid1.BoldFixedCell = False
             Clear_Grid(Grid1, 2)
-        Else
-
-            SaveRecord()
-        End If
-
 
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
-    Private Sub SaveRecord()
-        _TblName = CmbTableName.Text
-        Dim CompleteQuery As String = ""
-        Dim SaveQuery As String = ""
-        Dim strQuery As String = ""
-        Dim LASTCODE As String = ""
-        If _FORMMODE = "ADD" Then
-            ' *** Get Last Code According to Company Selected ***
-            strQuery = GetMaxCode()
-            sqL = strQuery
-            sql_connect_slect()
 
-
-            If DefaltSoftTable.Rows.Count > 0 Then
-                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
-            Else
-                LASTCODE = "1"
-            End If
-            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-        Else
-            LASTCODE = _KeyFieldValue
-        End If
-        tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
-        'tblFormValues.Rows(0)("Y_JOB_WORKER_STK_OWN") = "Cost Sheet Setting"
-        ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
-        ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
-        SaveQuery = getSaveQuery()
-        sqL = SaveQuery
-        sql_Data_Save_Delete_Update()
-        MsgBox("Records Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-        ObjCls_General.Blank_Object(Me)
-        _FORMMODE = ""
-        Ctrl_Visible_False(Me.Controls)
-    End Sub
 
     Private Sub UC_Buttons1_CloseClick() Handles UC_Buttons1.CloseClick
         If _FORMMODE = "" Then
@@ -2774,25 +2522,5 @@ Public Class MainFrmDesigner
 
 
 #End Region
-#Region "QUERY SECTION"
-    Public Function GetMaxCode() As String
-        GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
-    End Function
-    Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
-        _strQuery = New StringBuilder
-        With _strQuery
-            .Append(" SELECT * FROM " & _TblName & " WHERE 1=1 AND BEHAVIOUR='" & strKeyID & "'")
-        End With
-        Return _strQuery.ToString
-    End Function
-    Private Function getSaveQuery()
-        _strQuery = New StringBuilder
-        If _FORMMODE = "ADD" Then
-            _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
-        ElseIf _FORMMODE = "EDIT" Then
-            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
-        End If
-        getSaveQuery = _strQuery.ToString
-    End Function
-#End Region
+
 End Class

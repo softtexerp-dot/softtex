@@ -35,13 +35,13 @@ Public Class NewSelectionListQuery
 
             With _strQuery
                 .Append("SELECT")
-                '.Append(" 'False' as TickMark,  ")
-                .Append(" A.AccountName,")
-                .Append(" B.CityName,")
-                .Append(" A.ACCOUNTCODE,")
-                .Append(" A.GROUPCODE,")
-                .Append(" D.ACCOUNTNAME AS AgentName, ")
-                .Append(" IIF(D.OP3='YES','YES',a.OP3) AS BlackList ")
+                .Append(" 'False' as TickMark")
+                .Append(" ,A.AccountName")
+                .Append(" ,B.CityName")
+                .Append(" ,A.ACCOUNTCODE")
+                .Append(" ,A.GROUPCODE")
+                .Append(" ,D.ACCOUNTNAME AS AgentName ")
+                .Append(" ,IIF(D.OP3='YES','YES',a.OP3) AS BlackList ")
                 .Append(" FROM MstMasterAccount AS A ")
                 .Append(" LEFT JOIN MSTCITY AS B ON B.CITYCODE = A.CITYCODE ")
                 .Append(" LEFT JOIN MstMasterAccount AS D ON D.ACCOUNTCODE = A.AGENTCODE ")
@@ -70,7 +70,8 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" A.YarnTypeName AS YarnGroupName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.YarnTypeName AS YarnGroupName ")
                 .Append(" ,'' as Remark ")
                 .Append(" ,A.YarnTypeCode AS ACCOUNTCODE  ")
                 .Append("  FROM MstYarnType A  ")
@@ -93,10 +94,9 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT ")
-                .Append(" A.ACCOUNTNAME AS AgentName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.ACCOUNTNAME AS AgentName ")
                 .Append(" ,B.GROUPNAME AS GroupName ")
-                .Append(" ,A.ACCOUNTCODE ")
-                .Append(" ,A.ACCOUNTCODE ")
                 .Append(" ,A.ACCOUNTCODE ")
                 .Append(" FROM MstMasterAccount A ")
                 .Append(" INNER JOIN MstFinGroup B ON A.GROUPCODE = B.GROUPCODE ")
@@ -119,11 +119,10 @@ Public Class NewSelectionListQuery
             _strQuery = New StringBuilder
             With _strQuery
                 .Append("  Select  ")
-                .Append(" B.cityname ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,B.cityname ")
                 .Append(" ,A.StateName ")
                 .Append(" ,B.citycode as ACCOUNTCODE")
-                .Append(" ,B.citycode")
-                .Append(" ,B.citycode")
                 .Append(" from MstState As A , MstCity As B   ")
                 .Append("  WHERE ")
                 .Append("  A.stateid = B.STATEID ")
@@ -143,11 +142,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT ")
-                .Append(" MSTS.StateName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,MSTS.StateName ")
                 .Append(" ,MSTS.COUNTRY ")
                 .Append(" ,CAST(MSTS.STATEID AS varchar) AS ACCOUNTCODE ")
-                .Append(" ,CAST(MSTS.STATEID AS varchar) AS ID ")
-                .Append(" ,CAST(MSTS.STATEID AS varchar) AS ID ")
                 .Append(" FROM MstState AS MSTS ")
                 .Append(" WHERE 1=1 ")
                 .Append(FilterString)
@@ -166,10 +164,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT ")
-                .Append(" A.ITENNAME ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.ITENNAME ")
                 .Append(" ,A.HSNCODE")
                 .Append(" ,A.ID as ACCOUNTCODE")
-                .Append(" ,A.ID ")
                 .Append(" ,A.GROUPID")
                 .Append(" FROM MstFabricItem A ")
                 .Append(" WHERE 1=1 ")
@@ -190,11 +188,11 @@ Public Class NewSelectionListQuery
 
         Try
             With _strQuery
-                .Append("  Select A.Design_Name as DesignName ")
+                .Append("  Select ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.Design_Name as DesignName")
                 .Append(" ,B.ITENNAME ")
                 .Append(" ,A.Design_code as ACCOUNTCODE")
-                .Append(" ,A.Design_code ")
-                .Append(" ,A.Design_code  ")
                 .Append(" From Mst_Fabric_Design A ")
                 .Append(" LEFT JOIN MstFabricItem B ON A.Item_Code=B.ID   ")
                 .Append(" WHERE  1 = 1  ")
@@ -214,7 +212,8 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" Select ")
-                .Append(" A.SHADE As ShadeName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.SHADE As ShadeName ")
                 .Append(" ,A.REMARK_COLOR As ShadeType")
                 .Append(" ,A.Id as ACCOUNTCODE")
                 .Append(" ,A.OP3 As Remark ")
@@ -239,11 +238,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" A.SELVEDGE_NAME as SelvedgeName")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.SELVEDGE_NAME as SelvedgeName")
                 .Append(" ,B.ITENNAME as QualityName")
                 .Append(" ,A.ID as ACCOUNTCODE")
-                .Append(" ,A.ID")
-                .Append(" ,A.ID")
                 .Append(" FROM Mst_selvedge A LEFT JOIN MstFabricItem B ON A.item_code=B.ID")
                 .Append(" WHERE 1=1 ")
                 .Append(FilterString)
@@ -262,11 +260,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" a.YarnTypeName as YarnType")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,a.YarnTypeName as YarnType")
                 .Append(" ,'' as Remark")
                 .Append(" ,A.YarnTypeCode As ACCOUNTCODE")
-                .Append(" ,A.YarnTypeCode")
-                .Append(" ,A.YarnTypeCode")
                 .Append(" FROM MstYarnType A ")
                 .Append(" WHERE 1=1 ")
                 .Append(FilterString)
@@ -285,11 +282,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT ")
-                .Append(" A.CountName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.CountName ")
                 .Append(" ,A.HSNCode")
                 .Append(" ,A.CountCode As ACCOUNTCODE")
-                .Append(" ,A.CountCode ")
-                .Append(" ,A.CountCode ")
                 .Append(" FROM MstYarnCount A")
                 .Append(" WHERE 1=1 ")
                 .Append(FilterString)
@@ -309,7 +305,8 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append("  SELECT ")
-                .Append(" A.ItemName as ItemName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.ItemName as ItemName ")
                 .Append(" ,B.GroupName as GroupName ")
                 .Append(" ,A.ItemCode As ACCOUNTCODE")
                 .Append(" ,A.Descr ")
@@ -335,11 +332,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append("  SELECT ")
-                .Append(" A.SUBITEMNAME as SubItemName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.SUBITEMNAME as SubItemName ")
                 .Append(",'' as Remark")
                 .Append(" ,A.subItemCode as ACCOUNTCODE")
-                .Append(" ,A.subItemCode ")
-                .Append(" ,A.subItemCode")
                 .Append(" FROM ")
                 .Append(" MstStoreSubItem A  ")
                 .Append(" WHERE 1=1 ")
@@ -358,11 +354,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append("  SELECT ")
-                .Append(" a.SizeName as SizeName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,a.SizeName as SizeName ")
                 .Append(",a.op1 as Remark")
                 .Append(" ,A.SizeCode As ACCOUNTCODE")
-                .Append(" ,A.SizeCode ")
-                .Append(" ,A.SizeCode ")
                 .Append(" FROM ")
                 .Append(" MstSize AS A ")
                 .Append(" WHERE 1=1 ")
@@ -381,11 +376,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append("  SELECT ")
-                .Append(" a.ColorName as ColorName")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,a.ColorName as ColorName")
                 .Append(",'' as Remark")
                 .Append(" ,A.ColorCode As ACCOUNTCODE")
-                .Append(" ,A.ColorCode ")
-                .Append(" ,A.ColorCode ")
                 .Append(" FROM ")
                 .Append(" MstColor AS A ")
                 .Append(" WHERE 1=1 ")
@@ -404,11 +398,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" A.RemarkName AS Remark ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.RemarkName AS Remark ")
                 .Append(" ,'' as OtherRemark  ")
                 .Append(" ,A.RemarkCode As ACCOUNTCODE")
-                .Append(" ,A.RemarkCode")
-                .Append(" ,A.RemarkCode ")
                 .Append(" FROM MstRemark A ")
                 .Append(" WHERE 1=1 AND ( Remark_For IN ('" & FilterString & "') ")
                 .Append(" OR REMARKCODE='0000-000000001') ")
@@ -426,7 +419,8 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" A.ACCOUNTNAME  ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.ACCOUNTNAME  ")
                 .Append(" ,B.CITYNAME ")
                 .Append(" , A.ACCOUNTCODE As ACCOUNTCODE ")
                 .Append(" , A.GROUPCODE ")
@@ -449,11 +443,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" CUTM.CUTNAME  ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,CUTM.CUTNAME  ")
                 .Append(" ,CUTM.CUTTYPE ")
                 .Append(" , CUTM.ID As ACCOUNTCODE ")
-                .Append(" , CUTM.ID ")
-                .Append(" ,CUTM.ID ")
                 .Append(" FROM MstCutMaster As CUTM ")
                 .Append(" WHERE 1=1 ")
                 .Append(FilterString)
@@ -471,11 +464,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" a.Departmentname as DepName")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,a.Departmentname as DepName")
                 .Append(" ,a.Descr as Remark ")
                 .Append(" , A.Departmentcode As ACCOUNTCODE ")
-                .Append(" , A.Departmentcode ")
-                .Append(" ,A.Departmentcode ")
                 .Append(" FROM MstDepartment As A ")
                 .Append(" WHERE 1=1 ")
                 .Append(FilterString)
@@ -494,12 +486,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" POSTNAME as Post ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,POSTNAME as Post ")
                 .Append(" ,descr as Descr ")
                 .Append(" ,A.POSTCODE As ACCOUNTCODE ")
-                .Append(" ,A.POSTCODE ")
-                .Append(" ,A.POSTCODE ")
-                .Append(" ,A.POSTCODE ")
                 .Append(" FROM MSTPOST A ")
                 .Append("  WHERE 1=1  ")
                 .Append(FilterString)
@@ -517,10 +507,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" A.EMPNAME As EmployeeName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.EMPNAME As EmployeeName ")
                 .Append(" ,A.FATHERNAME as FatherName ")
                 .Append(" ,A.EMPCODE As ACCOUNTCODE ")
-                .Append(" ,A.EMPCODE ")
                 .Append(" ,B.PostName ")
                 .Append(" ,A.EMPCODE ")
                 .Append(" From MstEmployee A ")
@@ -541,11 +531,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" a.fabric_GroupName as GroupName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,a.fabric_GroupName as GroupName ")
                 .Append(" ,'' as Remark ")
                 .Append(" ,A.ID As ACCOUNTCODE ")
-                .Append(" ,A.ID ")
-                .Append(" ,A.ID ")
                 .Append(" From MstFabricGroup A ")
                 .Append(" Where 1 = 1 ")
                 .Append(FilterString)
@@ -563,11 +552,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" a.GodownName as GodownName")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,a.GodownName as GodownName")
                 .Append(" ,'' as Remark ")
                 .Append(" ,A.GodownCode As ACCOUNTCODE ")
-                .Append(" ,A.GodownCode ")
-                .Append(" ,A.GodownCode ")
                 .Append(" From MstGodown A ")
                 .Append(" Where 1 = 1 ")
                 .Append(FilterString)
@@ -585,11 +573,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append("  SELECT ")
-                .Append("  A.GraderName   ")
+                .Append(" 'False' as TickMark  ")
+                .Append("  ,A.GraderName   ")
                 .Append("  , a.OP1 as MobileNo  ")
                 .Append("  ,A.GraderCode As ACCOUNTCODE ")
-                .Append("  ,A.GraderCode")
-                .Append("  ,A.GraderCode")
                 .Append("  from MstGrader as A   ")
                 .Append(" Where 1 = 1 ")
                 .Append(FilterString)
@@ -607,11 +594,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append("  SELECT ")
-                .Append("  A.COMPANYNAME   ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.COMPANYNAME   ")
                 .Append("  ,A.POLICYNO  ")
                 .Append("  ,A.ID As ACCOUNTCODE ")
-                .Append("  ,A.ID")
-                .Append("  ,A.ID")
                 .Append("  from MstInsuranceCompany as A   ")
                 .Append(" Where 1 = 1 and a.TOPUPCOMPANY is null")
                 .Append(FilterString)
@@ -629,11 +615,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT ")
-                .Append(" a.LOOMNO as LoomNo ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,a.LOOMNO as LoomNo ")
                 .Append(" ,a.rpm as RPM ")
                 .Append(" ,a.LoomNoCode As ACCOUNTCODE")
-                .Append(" ,a.LoomNoCode ")
-                .Append(" ,a.LoomNoCode ")
                 .Append(" FROM MSTLOOMNO as a ")
                 .Append(" where 1=1 ")
                 .Append(FilterString)
@@ -651,11 +636,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT ")
-                .Append(" A.salesmanname as Saleman ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.salesmanname as Saleman ")
                 .Append(" ,'' as Remark  ")
                 .Append(" ,A.salesmancode As ACCOUNTCODE")
-                .Append(" ,A.salesmancode ")
-                .Append(" ,A.salesmancode ")
                 .Append(" FROM MstSalesMan as a ")
                 .Append(" where 1=1 ")
                 .Append(FilterString)
@@ -673,10 +657,10 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT ")
-                .Append(" A.TRANSPORTNAME as TransportName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.TRANSPORTNAME as TransportName ")
                 .Append(" ,A.city as CityName  ")
                 .Append(" ,A.ID As ACCOUNTCODE")
-                .Append(" ,A.ID ")
                 .Append(" ,A.GSTIN AS [Gst No] ")
                 .Append(" FROM MstTransport as a ")
                 .Append(" where 1=1 ")
@@ -807,7 +791,8 @@ Public Class NewSelectionListQuery
         Try
             With _strQuery
                 .Append(" SELECT  ")
-                .Append(" A.ItemName AS ItemName ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.ItemName AS ItemName ")
                 .Append(" ,A.HSNCode as HsnCode ")
                 .Append(" ,A.PartNo ")
                 .Append(" ,A.Goods_Type as Location ")
