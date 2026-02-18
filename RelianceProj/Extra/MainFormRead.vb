@@ -78,10 +78,8 @@ Public Class MainFormRead
     Private _FrmLoad As Boolean = True
     Private Change_Grid_Data As Boolean = True
 
-    Private _HeaderTable As DataTable
-
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        _HeaderTable = New DataTable()
+        '_TblName = GetTableName()
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
@@ -133,15 +131,37 @@ Public Class MainFormRead
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_EditClick()
-
         _FORMMODE = "EDIT"
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
-
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-
+        If _FORMMODE = "EDIT" Then
+            txtFormName.Focus()
+        End If
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+    End Sub
+    Private Sub Alter_Form()
+        _FrmLoad = True
+        Dim _strquery As New StringBuilder
+        Dim tblTmp As New DataTable
+        strQuery = getAlter_Form_Query()
+        sqL = strQuery.ToString
+        sql_connect_slect()
+        tblTmp = DefaltSoftTable.Copy
+        ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
+        _FrmLoad = False
+    End Sub
+    Private Sub Alter_EntryForm()
+        _FrmLoad = True
+        Dim _strquery As New StringBuilder
+        Dim tblTmp As New DataTable
+        strQuery = getAlter_Form_EntryQuery()
+        sqL = strQuery.ToString
+        sql_connect_slect()
+        tblTmp = DefaltSoftTable.Copy
+        ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
+        _FrmLoad = False
     End Sub
     Private Sub UC_Buttons1_DeleteClick()
 
@@ -231,7 +251,6 @@ Public Class MainFormRead
 
     End Sub
     Private Sub SaveRecord()
-        '_TblName = CmbTableName.Text
         Dim CompleteQuery As String = ""
         Dim SaveQuery As String = ""
         Dim strQuery As String = ""
@@ -268,20 +287,32 @@ Public Class MainFormRead
     Public Function GetMaxCode() As String
         GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
     End Function
-    'Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
-    '    _strQuery = New StringBuilder
-    '    With _strQuery
-    '        .Append(" SELECT * FROM " & _TblName & " WHERE 1=1 AND BEHAVIOUR='" & strKeyID & "'")
-    '    End With
-    '    Return _strQuery.ToString
-    'End Function
+    Private Function getAlter_Form_Query() As String
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append(" SELECT * FROM " & _TblName & " ")
+            .Append(" WHERE 1=1 ")
+            .Append(" And " & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'")
+            .Append(" ORDER BY ID DESC")
+        End With
+        Return _strQuery.ToString
+    End Function
+    Private Function getAlter_Form_EntryQuery() As String
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append(" SELECT * FROM " & _TblName & " ")
+            .Append(" WHERE 1=1 ")
+            .Append(" ORDER BY ID DESC")
+        End With
+        Return _strQuery.ToString
+    End Function
     Private Function getSaveQuery()
         _strQuery = New StringBuilder
         If _FORMMODE = "ADD" Then
             _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
         ElseIf _FORMMODE = "EDIT" Then
-            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
-        End If
+            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "= " & " '" & _KeyFieldValue & "'")
+            End If
         getSaveQuery = _strQuery.ToString
     End Function
 #End Region
@@ -747,14 +778,13 @@ Public Class MainFormRead
             Dim width As Integer
             For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
                 Dim usemasterkey As String = dr("USEMASTERKEY").ToString
-
                 Dim colType As String = dr("ColumnType").ToString()
                 Dim HeaderName As String = dr("Text").ToString()
                 Dim Name As String = dr("CntrlName").ToString()
                 Dim Tabindex As Int64 = dr("Tabindex").ToString()
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
+                _TblName = dr("DataBaseTable").ToString()
                 If usemasterkey = "Y" Then
-                    _TblName = dr("DataBaseTable").ToString()
                     _KeyFieldName = colName
                 End If
                 ' Grid Col Names
@@ -768,21 +798,21 @@ Public Class MainFormRead
                 Id = dr("Id").ToString()
                 If HeaderName > "" Then
                     leftPos = dr("LocationX").ToString()
-                topPos = dr("LocationY").ToString()
-                width = dr("SizeWidth").ToString()
-                height = dr("SizeHeight").ToString()
-                Dim lbl As New Label()
-                lbl.Name = "Lbl_" & Name
-                lbl.Text = HeaderName
-                lbl.Left = leftPos
-                lbl.Top = topPos
-                lbl.AutoSize = False
-                lbl.Width = 120   ' 🔒 fixed width for all labels
-                lbl.TextAlign = ContentAlignment.MiddleRight
-                Me.Controls.Add(lbl)
-                AddHandler lbl.MouseDown, AddressOf Control_MouseDown
-                AddHandler lbl.MouseMove, AddressOf Control_MouseMove
-                AddHandler lbl.MouseUp, AddressOf Control_MouseUp
+                    topPos = dr("LocationY").ToString()
+                    width = dr("SizeWidth").ToString()
+                    height = dr("SizeHeight").ToString()
+                    Dim lbl As New Label()
+                    lbl.Name = "Lbl_" & Name
+                    lbl.Text = HeaderName
+                    lbl.Left = leftPos
+                    lbl.Top = topPos
+                    lbl.AutoSize = False
+                    lbl.Width = 120   ' 🔒 fixed width for all labels
+                    lbl.TextAlign = ContentAlignment.MiddleRight
+                    Me.Controls.Add(lbl)
+                    AddHandler lbl.MouseDown, AddressOf Control_MouseDown
+                    AddHandler lbl.MouseMove, AddressOf Control_MouseMove
+                    AddHandler lbl.MouseUp, AddressOf Control_MouseUp
                     If colType = "TextBox" Then
                         Dim LblSize As Int16 = lbl.Width
                         Dim txt As New TextBox()
@@ -846,7 +876,31 @@ Public Class MainFormRead
             BtnUpdatepos.Enabled = False
             btnmovecontrol.Enabled = False
         End If
+        Dim LASTCODE As String = ""
+        If _FORMMODE = "EDIT" Then
+            Dim formType As String = ""
 
+            If _MainColumTbl.Rows.Count > 0 Then
+                formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+            End If
+            If formType = "ENTRY FORM" Then
+                Call Alter_EntryForm()
+
+            Else
+                strQuery = GetMaxCode()
+                sqL = strQuery
+                sql_connect_slect()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
+                Else
+                    LASTCODE = "1"
+                End If
+                LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+                _KeyFieldValue = LASTCODE
+                Call Alter_Form()
+            End If
+
+        End If
     End Sub
     Private Function SetupFlexGrid(ByVal gridName As String, ByVal gridTable As DataTable, ByVal leftPos As Integer, ByVal topPos As Integer, ByVal width As Integer, ByVal height As Integer, ByVal tagValue As Object, ByVal TabIndex As Integer) As FlexCell.Grid
         If String.IsNullOrWhiteSpace(gridName) Then Return Nothing
@@ -897,7 +951,20 @@ Public Class MainFormRead
         FocusSetToGridDefaultColumn(grd, _DefaultColOfGrid)
         Return grd
     End Function
+    'Private Function GetTableName() As String
 
+    '    Dim tblName As String = ""
+
+    '    If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then
+    '        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+    '            tblName = dr("DataBaseTable").ToString().Trim()
+    '            Exit For   ' Sirf first valid row ka table name lena hai
+    '        Next
+    '    End If
+
+    '    Return tblName
+
+    'End Function
 
     Private Sub Grid_RowColChange(sender As Object, ByVal e As FlexCell.Grid.RowColChangeEventArgs)
         _ActivatedColName = Trim(UCase(sender.Cell(0, sender.ActiveCell.Col).TAG))
