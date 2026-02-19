@@ -489,7 +489,7 @@ Partial Class MainFrmDesigner
         Me.GrdItem.ReadonlyFocusRect = FlexCell.FocusRectEnum.Solid
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.GrdItem.Size = New System.Drawing.Size(1200, 364)
+        Me.GrdItem.Size = New System.Drawing.Size(1195, 335)
         Me.GrdItem.TabIndex = 81894
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
@@ -522,7 +522,7 @@ Partial Class MainFrmDesigner
         Me.Grid1.ReadonlyFocusRect = FlexCell.FocusRectEnum.Solid
         Me.Grid1.SelectionBorderColor = System.Drawing.Color.Blue
         Me.Grid1.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.Grid1.Size = New System.Drawing.Size(1201, 361)
+        Me.Grid1.Size = New System.Drawing.Size(1192, 332)
         Me.Grid1.TabIndex = 81895
         Me.Grid1.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.Grid1.UncheckedImage = CType(resources.GetObject("Grid1.UncheckedImage"), System.Drawing.Bitmap)
@@ -555,7 +555,7 @@ Partial Class MainFrmDesigner
         Me.Grid2.ReadonlyFocusRect = FlexCell.FocusRectEnum.Solid
         Me.Grid2.SelectionBorderColor = System.Drawing.Color.Blue
         Me.Grid2.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.Grid2.Size = New System.Drawing.Size(1202, 360)
+        Me.Grid2.Size = New System.Drawing.Size(1193, 331)
         Me.Grid2.TabIndex = 81896
         Me.Grid2.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.Grid2.UncheckedImage = CType(resources.GetObject("Grid2.UncheckedImage"), System.Drawing.Bitmap)
