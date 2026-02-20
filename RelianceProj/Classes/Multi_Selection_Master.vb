@@ -4403,7 +4403,6 @@ Public Class Multi_Selection_Master
                         Party_selection.Label6.Text = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
                         MULTY_SELECTION_COLOUM_1_DATA = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
                         MULTY_SELECTION_COLOUM_2_DATA = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
-
                         Exit For
                     End If
                 Next
@@ -4421,6 +4420,79 @@ Public Class Multi_Selection_Master
                 Party_selection.Label6.Text = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
                 MULTY_SELECTION_COLOUM_1_DATA = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
                 MULTY_SELECTION_COLOUM_2_DATA = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+            End If
+            Party_selection.Owner = Main_MDI_Frm
+            Party_selection.StartPosition = FormStartPosition.CenterParent
+
+            Party_selection.dgw.Focus()
+            Party_selection.ShowDialog()
+            Party_selection.Close()
+            Party_selection.Dispose()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+    End Sub
+    Public Sub SELECTION_LIST_FIRST_SELECTION1()
+        Try
+            If Party_selection.dgw.Rows.Count = 0 Then
+                Party_selection.Label2.Text = ""
+                Party_selection.Label3.Text = ""
+                Party_selection.Label6.Text = ""
+                Party_selection.Label7.Text = ""
+                MULTY_SELECTION_COLOUM_1_DATA = ""
+                MULTY_SELECTION_COLOUM_2_DATA = ""
+                MULTY_SELECTION_COLOUM_3_DATA = ""
+                'Party_selection.dgw.Rows.Add("Value 1", "Value 2", "Value3")
+
+                'Party_selection.dgw.AllowUserToAddRows = True
+                'Party_selection.dgw.Rows.Add()
+                MsgBox("Record Not Found.", MsgBoxStyle.Information, "Soft-Tex PRO")
+                SendKeys.Send("{UP}")
+                Party_selection.Close()
+                Party_selection.Dispose()
+                Exit Sub
+            End If
+
+            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
+            row.Height = 30
+
+
+            Party_selection.dgw.ClearSelection()
+            If Party_selection.txtSearch.Text <> "" Then
+                Dim s As String = Party_selection.txtSearch.Text
+                For x As Integer = 0 To Party_selection.dgw.Rows.Count - 1
+                    If CStr(Party_selection.dgw.Rows(x).Cells(0).Value).StartsWith(s) Then
+                        Party_selection.dgw.FirstDisplayedScrollingRowIndex = x
+                        Party_selection.dgw.Item(0, x).Selected = True
+                        'Party_selection.Label2.Text = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                        'Party_selection.Label3.Text = Party_selection.dgw.SelectedRows(0).Cells(2).Value.ToString
+                        'Party_selection.Label6.Text = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                        'MULTY_SELECTION_COLOUM_1_DATA = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                        'MULTY_SELECTION_COLOUM_2_DATA = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                        Party_selection.Label2.Text = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                        MULTY_SELECTION_COLOUM_1_DATA = Party_selection.Label2.Text
+                        MULTY_SELECTION_COLOUM_2_DATA = Party_selection.Label2.Text
+                        Exit For
+                    End If
+                Next
+            End If
+
+            If Party_selection.txtSearch.Text = Party_selection.Label2.Text Then
+            Else
+                Party_selection.txtSearch.Text = ""
+            End If
+            If Party_selection.txtSearch.Text = "" Then
+                Party_selection.dgw.FirstDisplayedScrollingRowIndex = 0
+                Party_selection.dgw.Rows(0).Selected = True
+                'Party_selection.Label2.Text = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                'Party_selection.Label3.Text = Party_selection.dgw.SelectedRows(0).Cells(2).Value.ToString
+                'Party_selection.Label6.Text = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                'MULTY_SELECTION_COLOUM_1_DATA = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                'MULTY_SELECTION_COLOUM_2_DATA = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                Party_selection.Label2.Text = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                MULTY_SELECTION_COLOUM_1_DATA = Party_selection.Label2.Text
+                MULTY_SELECTION_COLOUM_2_DATA = Party_selection.Label2.Text
             End If
             Party_selection.Owner = Main_MDI_Frm
             Party_selection.StartPosition = FormStartPosition.CenterParent
@@ -6137,6 +6209,70 @@ Public Class Multi_Selection_Master
         Catch ex As Exception
             MsgBox(ex.ToString)
         Finally
+        End Try
+    End Sub
+    Public Sub SINGLE_Master_SELECTION()
+        Try
+            Party_selection.Label4.Text = ""
+
+            Dim masters As String() = {
+            "ACCOUNT MASTER",
+            "AGENT MASTER",
+            "CITY MASTER",
+            "STATE MASTER",
+            "FABRIC ITEM MASTER",
+            "FABRIC DESIGN MASTER",
+            "FABRIC SHADE MASTER",
+            "FABRIC SELVEDGE MASTER",
+            "YARN MASTER",
+            "YARN SHADE MASTER",
+            "GENRAL ITEM MASTER",
+            "SUBITEM MASTER",
+            "SIZE MASTER",
+            "COLOR MASTER",
+            "REMARK MASTER",
+            "PROCESS MASTER",
+            "CUT MASTER",
+            "DEPARTMENT MASTER",
+            "POST MASTER",
+            "EMPLOYEE MASTER",
+            "FABRIC GROUP MASTER",
+            "GODOWN MASTER",
+            "GRADER MASTER",
+            "INSURANCE MASTER",
+            "LOOMNO MASTER",
+            "SALESMAN MASTER",
+            "TRANSPORT MASTER"
+        }
+
+            Dim sortedMasters = masters.OrderBy(Function(x) x).ToArray()
+            Dim dtMasters As New DataTable
+            dtMasters.Columns.Add("Master Name", GetType(String))
+            dtMasters.Columns.Add("Remark", GetType(String))
+            dtMasters.Columns.Add("Master Name1", GetType(String))
+            dtMasters.Columns.Add("Master Name2", GetType(String))
+            dtMasters.Columns.Add("Master Name3", GetType(String))
+
+            For Each item As String In sortedMasters
+                dtMasters.Rows.Add(item, "", item, item, item)
+            Next
+
+            ' ✅ Correct Binding
+            Party_selection.dgw.DataSource = dtMasters
+
+            Party_selection.dgw.Columns("Master Name1").Visible = False
+            Party_selection.dgw.Columns("Master Name2").Visible = False
+            Party_selection.dgw.Columns("Master Name3").Visible = False
+            Party_selection.dgw.Columns("Master Name").Width = 280
+            Party_selection.dgw.Columns("Remark").Width = 200
+            Party_selection.Width = 506
+
+
+
+            SELECTION_LIST_FIRST_SELECTION()
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
         End Try
     End Sub
 
