@@ -1,8 +1,10 @@
 ﻿Imports System.Text
+Imports CrystalDecisions.ReportAppServer.DataDefModel
 Imports DevExpress.DataAccess.Sql
 Imports DevExpress.Utils.Gesture
 Imports DevExpress.Utils.VisualEffects
 Imports DevExpress.XtraBars.Customization
+Imports DevExpress.XtraEditors.TextEditController.Win32
 Imports DevExpress.XtraGrid.Views
 Imports DevExpress.XtraRichEdit.Model
 Imports FlexCell
@@ -13,7 +15,7 @@ Public Class MainFormRead
 
     Dim _MainColumTbl As New DataTable
     Dim isDragging As Boolean = False
-    Dim dragOffset As Point
+    Dim dragOffset As POINT
     Dim _TableName As String = ""
     Dim _TblName As String = ""
     Private _KeyFieldValue As String = ""
@@ -83,7 +85,7 @@ Public Class MainFormRead
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
         Me.KeyPreview = True
-        Me.Location = New Point(0, 0)
+        Me.Location = New POINT(0, 0)
         _FrmLoad = True
         CreateButtonsControl()
         Ctrl_Visible_False(Me.Controls)
@@ -124,7 +126,6 @@ Public Class MainFormRead
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-
         If _FORMMODE = "ADD" Then
             txtFormName.Focus()
             ' ADD mode ka logic yahan
@@ -154,17 +155,7 @@ Public Class MainFormRead
         _FrmLoad = False
         Return tblTmp
     End Function
-    'Private Sub Alter_EntryForm()
-    '    _FrmLoad = True
-    '    Dim _strquery As New StringBuilder
-    '    Dim tblTmp As New DataTable
-    '    strQuery = getAlter_Form_EntryQuery()
-    '    sqL = strQuery.ToString
-    '    sql_connect_slect()
-    '    tblTmp = DefaltSoftTable.Copy
-    '    ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
-    '    _FrmLoad = False
-    'End Sub
+
     Private Function Alter_EntryForm(ByVal Entryno As String) As DataTable
         _FrmLoad = True
         Dim tblTmp As New DataTable
@@ -175,6 +166,35 @@ Public Class MainFormRead
         sql_connect_slect()
         tblTmp = DefaltSoftTable.Copy
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
+
+
+        For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox' AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
+            Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
+            Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+            Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
+            Dim UseMaster As String = dr("UseMaster").ToString().Trim()
+            Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
+            Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
+            If ctrl Is Nothing OrElse Not TypeOf ctrl Is TextBox Then Continue For
+            Dim txt As TextBox = DirectCast(ctrl, TextBox)
+            Dim value As String = txt.Text.Trim().Trim("'"c)
+            If _InputType = "DateBox" Then
+                value = Convert.ToDateTime(value).ToString("dd/MM/yyyy")
+                txt.Text = value
+            End If
+
+            If UseMaster = "YES" Then
+                For Each dr1 As DataRow In tblTmp.Select()
+                    Dim _HeaderNAme As String = dr("Text").ToString()
+                    txt.Text = dr1(_HeaderNAme).ToString
+                Next
+                Dim ActivetextName As String = ctrl.Text
+                RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
+                Me.SelectNextControl(ctrl, True, True, True, True)
+            End If
+        Next
+
+
         _FrmLoad = False
         Return tblTmp   ' 👈 yaha return kar diya
     End Function
@@ -192,8 +212,7 @@ Public Class MainFormRead
         If MsgBox("Do You Want To Delete (Y/N)",
               MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
               "Delete ?") = MsgBoxResult.Yes Then
-
-            Call Delete_Entry()
+            'Call Delete_Entry()
 
         End If
 
@@ -211,12 +230,10 @@ Public Class MainFormRead
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
-            Dim EntryNo As Integer
-            EntryNo = _GetMaxEntryNo()
-            If EntryNo > 0 Then
-                Dim txt As New TextBox()
-                txt.Text = EntryNo - 1
-                txtEntryno = txt.Text
+            Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+            If ctrl.Length > 0 Then
+                Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                _GetAlterData(Entytxt.Text - 1)
             End If
         End If
         Call Ctrl_Visible_True(Me.Controls)
@@ -227,20 +244,18 @@ Public Class MainFormRead
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
-            Dim EntryNo As Integer
-            EntryNo = _GetMaxEntryNo()
-            If EntryNo > 0 Then
-                Dim txt As New TextBox()
-                txt.Text = EntryNo + 1
-                txtEntryno = txt.Text
-            End If
             Call Ctrl_Visible_True(Me.Controls)
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+            Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+            If ctrl.Length > 0 Then
+                Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                _GetAlterData(Entytxt.Text + 1)
+            End If
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_SaveClick()
-
+        Dim EntryNo As String = ""
         _FrmLoad = False
         Dim Array_Opening(0, 4) As String
         Dim formType As String = ""
@@ -250,6 +265,12 @@ Public Class MainFormRead
         End If
 
         If formType = "ENTRY FORM" Then
+            Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+            If ctrl.Length > 0 Then
+                Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                sqL = "DELETE FROM " & _TblName & " WHERE ENTRYNO =" & Entytxt.Text & "  "
+                sql_Data_Save_Delete_Update()
+            End If
             Call Fill_Grid_Records_Into_DataTables()
             GridDetailsSaveQuery(Array_Opening)
             For I = 0 To UBound(Array_Opening)
@@ -289,7 +310,6 @@ Public Class MainFormRead
         Dim strQuery As String = ""
         Dim LASTCODE As String = ""
         If _FORMMODE = "ADD" Then
-            ' *** Get Last Code According to Company Selected ***
             strQuery = GetMaxCode()
             sqL = strQuery
             sql_connect_slect()
@@ -331,12 +351,32 @@ Public Class MainFormRead
         Return _strQuery.ToString
     End Function
     Private Function getAlter_Form_EntryQuery(ByVal EntryNo As String) As String
+        Dim leftJoin As String = ""
+        Dim joinHeader As String = ""
+
+
+        For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
+            Dim _DatabaseHeaderName As String = dr("Text").ToString()
+            Dim _OppositCode As String = dr("OppMasterCode").ToString()
+            Dim _SelectionMastrName As String = dr("MasterList").ToString()
+
+            Dim res = GetAccountMaster(_DatabaseHeaderName, _OppositCode, _SelectionMastrName)
+
+            leftJoin = res.LeftJoin
+            joinHeader = res.JoinHeader
+        Next
+
+
+
         _strQuery = New StringBuilder
         With _strQuery
-            .Append(" SELECT * FROM " & _TblName & " ")
+            .Append(" SELECT A.*  ")
+            .Append(joinHeader)
+            .Append(" FROM " & _TblName & " as A ")
+            .Append(leftJoin)
             .Append(" WHERE 1=1 ")
             .Append(" And EntryNo=" & EntryNo & "")
-            .Append(" ORDER BY ID DESC")
+            .Append(" ORDER BY EntryNo DESC")
         End With
         Return _strQuery.ToString
     End Function
@@ -347,7 +387,7 @@ Public Class MainFormRead
         ElseIf _FORMMODE = "EDIT" Then
             _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "= " & " '" & _KeyFieldValue & "'")
         End If
-        getSaveQuery = _strQuery.ToString
+            getSaveQuery = _strQuery.ToString
     End Function
 #End Region
     Private Sub Fill_Grid_Records_Into_DataTables()
@@ -537,6 +577,7 @@ Public Class MainFormRead
 
             For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox' AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
                 _TableName = dr("DataBaseTable").ToString().Trim()
+                Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
                 Dim ctrlName As String = dr("CntrlName").ToString().Trim()
                 Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
@@ -545,17 +586,22 @@ Public Class MainFormRead
 
                 Dim txt As TextBox = DirectCast(ctrl, TextBox)
 
-                ' 🔹 Main Column
                 _extrafielddatatable.Append(columnName & ",")
-
                 Dim value As String = txt.Text.Trim().Trim("'"c)
+
+                If _InputType = "DateBox" Then
+                    value = Convert.ToDateTime(value).ToString("yyyy-MM-dd")
+                End If
 
                 If value = "" Then
                     _extrafield_values_datatable.Append(value & ",")
                 ElseIf IsNumeric(value) Then
                     _extrafield_values_datatable.Append(value & ",")
                 Else
-                    _extrafield_values_datatable.Append("" & value.Replace("'", "''") & ",")
+                    If existingItem IsNot Nothing Then
+                    Else
+                        _extrafield_values_datatable.Append("" & value.Replace("'", "''") & ",")
+                    End If
                 End If
 
 
@@ -822,6 +868,7 @@ Public Class MainFormRead
                 Dim height As Integer
                 Dim width As Integer
                 For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                    Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
                     Dim usemasterkey As String = dr("USEMASTERKEY").ToString
                     Dim colType As String = dr("ColumnType").ToString()
                     Dim HeaderName As String = dr("Text").ToString()
@@ -829,11 +876,16 @@ Public Class MainFormRead
                     Dim Tabindex As Int64 = dr("Tabindex").ToString()
                     Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                     _TblName = dr("DataBaseTable").ToString()
-
-                    If _FORMMODE = "EDIT" Then
-                        EntryNo = _GetMaxEntryNo()
+                    Dim formtype As String = ""
+                    formtype = dr("FormType").ToString().Trim()
+                    If formtype = "ENTRY FORM" Then
+                        If _FORMMODE = "EDIT" Then
+                            EntryNo = _GetMaxEntryNo()
+                        End If
+                    Else
 
                     End If
+
 
 
 
@@ -882,15 +934,26 @@ Public Class MainFormRead
                             txt.Tag = Tag
                             txt.TabIndex = Tabindex
                             Me.Controls.Add(txt)
-
-                            If Tag = "ENTRYNO" Then
-                                txtEntryno = Name
-                                txt.Text = EntryNo
-                                If _FORMMODE = "ADD" Then
-                                    EntryNo = _GetMaxEntryNo()
-                                    txt.Text = EntryNo + 1
+                            If formtype = "ENTRY FORM" Then
+                                If Tag = "ENTRYNO" Then
+                                    txtEntryno = Name
+                                    txt.Text = EntryNo
+                                    If _FORMMODE = "ADD" Then
+                                        EntryNo = _GetMaxEntryNo()
+                                        txt.Text = EntryNo + 1
+                                    End If
+                                    AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
                                 End If
-                                AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
+                                If _InputType = "DateBox" Then
+                                    txt.MaxLength = 10
+                                    txt.Text = Today.ToString("dd/MM/yyyy")
+
+                                    AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
+                                    AddHandler txt.Leave, AddressOf DateBox_Validate
+                                    'AddHandler txt.Leave, AddressOf DateBox_ForceFormat
+                                    'AddHandler txt.Leave, AddressOf MaskedDate_Leave
+                                End If
+                            Else
                             End If
 
                             AddHandler txt.MouseDown, AddressOf Control_MouseDown
@@ -912,19 +975,19 @@ Public Class MainFormRead
                             Dim gridname As String = dr("CntrlName").ToString().Trim()
                             If gridname = "Grid1" Then
                                 Dim grid1 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid1, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                                Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
+                                'Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
                             ElseIf gridname = "Grid2" Then
                                 Dim grid2 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                                Fill_Current_Row_Sr_No(_DataTableGrid2, grid2)
+                                'Fill_Current_Row_Sr_No(_DataTableGrid2, grid2)
                             ElseIf gridname = "Grid3" Then
                                 Dim grid3 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid3, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                                Fill_Current_Row_Sr_No(_DataTableGrid3, grid3)
+                                'Fill_Current_Row_Sr_No(_DataTableGrid3, grid3)
                             ElseIf gridname = "Grid4" Then
                                 Dim grid4 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid4, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                                Fill_Current_Row_Sr_No(_DataTableGrid4, grid4)
+                                'Fill_Current_Row_Sr_No(_DataTableGrid4, grid4)
                             ElseIf gridname = "Grid5" Then
                                 Dim grid5 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid5, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                                Fill_Current_Row_Sr_No(_DataTableGrid5, grid5)
+                                'Fill_Current_Row_Sr_No(_DataTableGrid5, grid5)
                             End If
 
                         ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
@@ -947,61 +1010,86 @@ Public Class MainFormRead
                 btnmovecontrol.Enabled = False
             End If
 
-            'Dim LASTCODE As String = ""
-            'If _FORMMODE = "EDIT" Then
-            '    Dim formType As String = ""
+            Dim LASTCODE As String = ""
+            If _FORMMODE = "EDIT" Then
+                Dim formType As String = ""
 
-            '    If _MainColumTbl.Rows.Count > 0 Then
-            '        formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-            '    End If
-            '    If formType = "ENTRY FORM" Then
-            '        '        Dim EntryNo As String = ""
-            '        '        EntryNo = _GetMaxEntryNo()
+                If _MainColumTbl.Rows.Count > 0 Then
+                    formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+                End If
+                If formType = "ENTRY FORM" Then
+                    '        '        Dim EntryNo As String = ""
+                    '        '        EntryNo = _GetMaxEntryNo()
 
-            '        '        Dim tblTmp As DataTable = Alter_EntryForm(EntryNo)
+                    '        '        Dim tblTmp As DataTable = Alter_EntryForm(EntryNo)
 
-            '        '        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
-            '        '            Dim gridname As String = dr("CntrlName").ToString().Trim()
-            '        '            If gridname.StartsWith("Grid1") Then
-            '        '                Dim grd As FlexCell.Grid = TryCast(Me.Controls(gridname), FlexCell.Grid)
-            '        '                If grd IsNot Nothing Then
+                    '        '        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                    '        '            Dim gridname As String = dr("CntrlName").ToString().Trim()
+                    '        '            If gridname.StartsWith("Grid1") Then
+                    '        '                Dim grd As FlexCell.Grid = TryCast(Me.Controls(gridname), FlexCell.Grid)
+                    '        '                If grd IsNot Nothing Then
 
-            '        '                    grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
-            '        '                    Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
-            '        '                    grd.Rows = grd.Rows + 1
-            '        '                End If
-            '        '            End If
-            '        '        Next
-            '    Else
+                    '        '                    grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
+                    '        '                    Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
+                    '        '                    grd.Rows = grd.Rows + 1
+                    '        '                End If
+                    '        '            End If
+                    '        '        Next
+                Else
 
-            '        'Dim tblTmp As DataTable = Alter_EntryForm()
-            '        strQuery = GetMaxCode()
-            '        sqL = strQuery
-            '        sql_connect_slect()
-            '        If DefaltSoftTable.Rows.Count > 0 Then
-            '            LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
-            '        Else
-            '            LASTCODE = "1"
-            '        End If
-            '        LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-            '        _KeyFieldValue = LASTCODE
-            '        Dim tblTmp1 As DataTable = Alter_Form()
-            '        'Call Alter_Form()
-            '    End If
+                    'Dim tblTmp As DataTable = Alter_EntryForm()
+                    strQuery = GetMaxCode()
+                    sqL = strQuery
+                    sql_connect_slect()
+                    If DefaltSoftTable.Rows.Count > 0 Then
+                        LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
+                    Else
+                        LASTCODE = "1"
+                    End If
+                    LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+                    _KeyFieldValue = LASTCODE
+                    Dim tblTmp1 As DataTable = Alter_Form()
+                    'Call Alter_Form()
+                End If
 
-            'End If
+            End If
         Catch ex As Exception
             MsgBox(ex.ToString)
         Finally
         End Try
     End Sub
-
+    Private Sub DateBox_KeyPress(sender As Object, e As KeyPressEventArgs)
+        Dim txt As TextBox = DirectCast(sender, TextBox)
+        If Char.IsControl(e.KeyChar) Then Exit Sub
+        If txt.Text.Length >= 10 Then
+            e.Handled = True
+            Exit Sub
+        End If
+        If Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+            Exit Sub
+        End If
+        If txt.Text.Length = 2 Or txt.Text.Length = 5 Then
+            txt.Text &= "/"
+            txt.SelectionStart = txt.Text.Length
+        End If
+    End Sub
+    Private Sub DateBox_Validate(sender As Object, e As EventArgs)
+        Dim txt As TextBox = DirectCast(sender, TextBox)
+        Dim dt As DateTime
+        If DateTime.TryParseExact(txt.Text, "dd/MM/yyyy", Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, dt) Then
+            txt.Text = dt.ToString("dd/MM/yyyy")
+        Else
+            MessageBox.Show("Invalid Date. Enter valid date in DD/MM/YYYY format.")
+            txt.Focus()
+        End If
+    End Sub
 
     Private Function _GetMaxEntryNo()
         Dim ENTRYNO As Int64 = 1
         Dim Tbltmp As DataTable
         Dim _strquery As New StringBuilder
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " ORDER BY ID DESC "
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " ORDER BY ENTRYNO DESC "
         sqL = strQuery
         sql_connect_slect()
         Tbltmp = DefaltSoftTable.Copy
@@ -1094,32 +1182,44 @@ Public Class MainFormRead
     'End Sub
     Private Sub EntryNoControl_KeyDown(sender As Object, e As KeyEventArgs)
         If e.KeyCode = Keys.Enter Then
-
-            'Dim LASTCODE As String = ""
             If _FORMMODE = "EDIT" Then
                 Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
                 If ctrl.Length > 0 Then
                     Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-
-                    Dim tblTmp As DataTable = Alter_EntryForm(Entytxt.Text)
-
-                    For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
-                        Dim gridname As String = dr("CntrlName").ToString().Trim()
-                        If gridname.StartsWith("Grid1") Then
-                            Dim grd As FlexCell.Grid = TryCast(Me.Controls(gridname), FlexCell.Grid)
-                            If grd IsNot Nothing Then
-
-                                grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
-                                Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
-                                grd.Rows = grd.Rows + 1
-                            End If
-                        End If
-
-                    Next
-
+                    _GetAlterData(Entytxt.Text)
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub _GetAlterData(ByVal _EntryNo As Int64)
+
+        Dim tblTmp As DataTable = Alter_EntryForm(_EntryNo)
+        Dim grd As FlexCell.Grid
+        Dim gridname As String = ""
+        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+            gridname = dr("CntrlName").ToString().Trim()
+            If gridname.StartsWith("Grid1") Then
+                grd = TryCast(Me.Controls(gridname), FlexCell.Grid)
+            End If
+
+
+            If tblTmp.Rows.Count > 0 Then
+                If gridname.StartsWith("Grid1") Then
+                    If grd IsNot Nothing Then
+                        'Clear_Grid(grd, 2)
+                        grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
+                        Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
+                        grd.Rows = grd.Rows + 1
+                        Call Fill_Sr_No_Item(grd, _DataTableGrid1)
+                    End If
+                End If
+            Else
+                ' ObjCls_General.Blank_Object(Me)
+                Clear_Grid(grd, 2)
+                MsgBox("Record Not Found")
+            End If
+        Next
     End Sub
     Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
 
@@ -1135,6 +1235,7 @@ Public Class MainFormRead
                 Dim ActivetextName = grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(_ActivatedColName) + 1).Text
                 If grd.Rows - 1 = grd.ActiveCell.Row Then
                     grd.Rows = grd.Rows + 1
+                    Call Fill_Sr_No_Item(grd, _DataTableGrid1)
                 End If
                 RunActivatedColumnMasterSelection(_ActivatedColName, ActivetextName)
                 SendKeys.Send("{TAB}")
@@ -1167,7 +1268,30 @@ Public Class MainFormRead
                 RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
                 Me.SelectNextControl(ctrl, True, True, True, True)
             End If
+            'Dim formType As String = ""
+            'If _MainColumTbl.Rows.Count > 0 Then
+            '    formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+            'End If
 
+            'If formType = "ENTRY FORM" Then
+            'Else
+            '    If TypeOf ctrl Is TextBox Then
+            '        Dim LASTCODE As String = ""
+            '        If _FORMMODE = "EDIT" Then
+            '            strQuery = GetMaxCode()
+            '            sqL = strQuery
+            '            sql_connect_slect()
+            '            If DefaltSoftTable.Rows.Count > 0 Then
+            '                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
+            '            Else
+            '                LASTCODE = "1"
+            '            End If
+            '            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+            '            _KeyFieldValue = LASTCODE
+            '            Dim tblTmp1 As DataTable = Alter_Form()
+            '        End If
+            '    End If
+            'End If
         End If
 
     End Sub
@@ -1223,7 +1347,8 @@ Public Class MainFormRead
         Dim height As Integer = ctrl.Height
         Dim width As Integer = ctrl.Width
         Dim ctrlName As String = ctrl.Name
-        updatepossition(leftPos, topPos, height, width, ctrlName, FormId, Id)
+        Dim Tabindex As Integer = ctrl.TabIndex
+        updatepossition(leftPos, topPos, height, width, ctrlName, Tabindex, FormId, Id)
 
     End Sub
 
@@ -1254,12 +1379,19 @@ Public Class MainFormRead
     End Sub
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
         View_Record()
-        Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
-        If ctrl.Length > 0 Then
-            Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-            Entytxt.Focus()
-            Entytxt.SelectAll()
+        Dim formType As String = ""
+        If _MainColumTbl.Rows.Count > 0 Then
+            formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
         End If
+        If formType = "ENTRY FORM" Then
+            Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+            If ctrl.Length > 0 Then
+                Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                Entytxt.Focus()
+                Entytxt.SelectAll()
+            End If
+        End If
+
     End Sub
 
     Private Sub MainFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -1532,7 +1664,7 @@ Public Class MainFormRead
 
             ElseIf TypeOf ctrl Is FlexCell.Grid Then
                 Dim grd = DirectCast(ctrl, FlexCell.Grid)
-                Call Fill_Sr_No_Item(grd, _DataTableGrid1)
+                'Call Fill_Sr_No_Item(grd, _DataTableGrid1)
                 If ctrl.Name = "Grid1" Then
                     grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(activeColName) + 1).Text = displayValue
                     grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
@@ -1558,22 +1690,17 @@ Public Class MainFormRead
     Private Sub Fill_Sr_No_Item(ByVal GrdObj As FlexCell.Grid, ByVal Data_Table As DataTable)
         Dim i As Integer = 0
         For i = 1 To GrdObj.Rows - 1
-            'If Val(GrdObj.Cell(i, Data_Table.Columns.IndexOf("AMOUNT") + 1).Text) > 0 Then
             GrdObj.Cell(i, Data_Table.Columns.IndexOf("SRNO") + 1).Text = i
-            'End If
         Next
     End Sub
 #End Region
-    Private Sub updatepossition(ByVal leftpos As String, ByVal topPos As String, ByVal Height As String, ByVal Width As String, ByVal ctrlName As String, ByVal FormId As String, ByVal Id As String)
+    Private Sub updatepossition(ByVal leftpos As String, ByVal topPos As String, ByVal Height As String, ByVal Width As String, ByVal ctrlName As String, ByVal Tabindex As String, ByVal FormId As String, ByVal Id As String)
         _strQuery = New StringBuilder
-
         Try
-            'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & "  WHERE Text='" & ctrlName & "'"
-            'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "' and Id='" & Id & "'"
             If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
                 strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
             Else
-                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
             End If
 
             sqL = strQuery.ToString
