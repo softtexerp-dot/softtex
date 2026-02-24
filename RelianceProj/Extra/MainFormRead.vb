@@ -143,18 +143,6 @@ Public Class MainFormRead
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
-    Private Function Alter_Form() As DataTable
-        _FrmLoad = True
-        Dim _strquery As New StringBuilder
-        Dim tblTmp As New DataTable
-        strQuery = getAlter_Form_Query()
-        sqL = strQuery.ToString
-        sql_connect_slect()
-        tblTmp = DefaltSoftTable.Copy
-        ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
-        _FrmLoad = False
-        Return tblTmp
-    End Function
 
     Private Function Alter_EntryForm(ByVal Entryno As String) As DataTable
         _FrmLoad = True
@@ -295,8 +283,6 @@ Public Class MainFormRead
                     Clear_Grid(grd, 2)
                 End If
             Next
-        Else
-            SaveRecord()
         End If
 
         txtFormName.Focus()
@@ -304,52 +290,8 @@ Public Class MainFormRead
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
 
     End Sub
-    Private Sub SaveRecord()
-        Dim CompleteQuery As String = ""
-        Dim SaveQuery As String = ""
-        Dim strQuery As String = ""
-        Dim LASTCODE As String = ""
-        If _FORMMODE = "ADD" Then
-            strQuery = GetMaxCode()
-            sqL = strQuery
-            sql_connect_slect()
-            If DefaltSoftTable.Rows.Count > 0 Then
-                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
-            Else
-                LASTCODE = "1"
-            End If
-            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-        Else
-            LASTCODE = _KeyFieldValue
-        End If
-        If _KeyFieldName <> "" Then
-            tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
-        End If
-        'tblFormValues.Rows(0)("USEMASTERKEY") = "Y"
-        ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
-        ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
-        SaveQuery = getSaveQuery()
-        sqL = SaveQuery
-        sql_Data_Save_Delete_Update()
-        MsgBox("Records Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-        ObjCls_General.Blank_Object(Me)
-        _FORMMODE = ""
-        Ctrl_Visible_False(Me.Controls)
-    End Sub
+
 #Region "QUERY SECTION"
-    Public Function GetMaxCode() As String
-        GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
-    End Function
-    Private Function getAlter_Form_Query() As String
-        _strQuery = New StringBuilder
-        With _strQuery
-            .Append(" SELECT * FROM " & _TblName & " ")
-            .Append(" WHERE 1=1 ")
-            .Append(" And " & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'")
-            .Append(" ORDER BY ID DESC")
-        End With
-        Return _strQuery.ToString
-    End Function
     Private Function getAlter_Form_EntryQuery(ByVal EntryNo As String) As String
         Dim leftJoin As String = ""
         Dim joinHeader As String = ""
@@ -379,15 +321,6 @@ Public Class MainFormRead
             .Append(" ORDER BY EntryNo DESC")
         End With
         Return _strQuery.ToString
-    End Function
-    Private Function getSaveQuery()
-        _strQuery = New StringBuilder
-        If _FORMMODE = "ADD" Then
-            _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
-        ElseIf _FORMMODE = "EDIT" Then
-            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "= " & " '" & _KeyFieldValue & "'")
-        End If
-            getSaveQuery = _strQuery.ToString
     End Function
 #End Region
     Private Sub Fill_Grid_Records_Into_DataTables()
@@ -603,8 +536,6 @@ Public Class MainFormRead
                         _extrafield_values_datatable.Append("" & value.Replace("'", "''") & ",")
                     End If
                 End If
-
-
                 ' 🔹 OppMasterCode Column Add (If Exists)
                 If existingItem IsNot Nothing Then
 
@@ -627,10 +558,6 @@ Public Class MainFormRead
 
                 End If
             Next
-            'If _KeyFieldName <> "" Then
-            '    _extrafielddatatable.Append(_KeyFieldName & ",")
-            '    _extrafield_values_datatable.Append("'" & _KeyFieldValue.Replace("'", "''") & "',")
-            'End If
             ' 🔹 Remove last comma safely (ONLY ONCE)
             If _extrafielddatatable.Length > 0 Then
                 _extrafielddatatable.Length -= 1
@@ -676,9 +603,7 @@ Public Class MainFormRead
         _FrmLoad = True
         Dim I As Integer = 0
         Dim _LastID As Integer = 0
-
         _strQuery = New StringBuilder
-
         Try
             If txtEntryno > 0 Then
                 strQuery = "DELETE FROM " & _TblName & " WHERE EntryNo='" & txtEntryno & "'"
@@ -885,10 +810,6 @@ Public Class MainFormRead
                     Else
 
                     End If
-
-
-
-
                     If usemasterkey = "Y" Then
                         _KeyFieldName = colName
                     End If
@@ -934,6 +855,9 @@ Public Class MainFormRead
                             txt.Tag = Tag
                             txt.TabIndex = Tabindex
                             Me.Controls.Add(txt)
+                            If txt.TabIndex = 1 Then
+                                txt.Focus()
+                            End If
                             If formtype = "ENTRY FORM" Then
                                 If Tag = "ENTRYNO" Then
                                     txtEntryno = Name
@@ -947,11 +871,8 @@ Public Class MainFormRead
                                 If _InputType = "DateBox" Then
                                     txt.MaxLength = 10
                                     txt.Text = Today.ToString("dd/MM/yyyy")
-
                                     AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
                                     AddHandler txt.Leave, AddressOf DateBox_Validate
-                                    'AddHandler txt.Leave, AddressOf DateBox_ForceFormat
-                                    'AddHandler txt.Leave, AddressOf MaskedDate_Leave
                                 End If
                             Else
                             End If
@@ -1009,50 +930,6 @@ Public Class MainFormRead
                 BtnUpdatepos.Enabled = False
                 btnmovecontrol.Enabled = False
             End If
-
-            Dim LASTCODE As String = ""
-            If _FORMMODE = "EDIT" Then
-                Dim formType As String = ""
-
-                If _MainColumTbl.Rows.Count > 0 Then
-                    formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-                End If
-                If formType = "ENTRY FORM" Then
-                    '        '        Dim EntryNo As String = ""
-                    '        '        EntryNo = _GetMaxEntryNo()
-
-                    '        '        Dim tblTmp As DataTable = Alter_EntryForm(EntryNo)
-
-                    '        '        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
-                    '        '            Dim gridname As String = dr("CntrlName").ToString().Trim()
-                    '        '            If gridname.StartsWith("Grid1") Then
-                    '        '                Dim grd As FlexCell.Grid = TryCast(Me.Controls(gridname), FlexCell.Grid)
-                    '        '                If grd IsNot Nothing Then
-
-                    '        '                    grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
-                    '        '                    Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
-                    '        '                    grd.Rows = grd.Rows + 1
-                    '        '                End If
-                    '        '            End If
-                    '        '        Next
-                Else
-
-                    'Dim tblTmp As DataTable = Alter_EntryForm()
-                    strQuery = GetMaxCode()
-                    sqL = strQuery
-                    sql_connect_slect()
-                    If DefaltSoftTable.Rows.Count > 0 Then
-                        LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
-                    Else
-                        LASTCODE = "1"
-                    End If
-                    LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-                    _KeyFieldValue = LASTCODE
-                    Dim tblTmp1 As DataTable = Alter_Form()
-                    'Call Alter_Form()
-                End If
-
-            End If
         Catch ex As Exception
             MsgBox(ex.ToString)
         Finally
@@ -1060,19 +937,30 @@ Public Class MainFormRead
     End Sub
     Private Sub DateBox_KeyPress(sender As Object, e As KeyPressEventArgs)
         Dim txt As TextBox = DirectCast(sender, TextBox)
-        If Char.IsControl(e.KeyChar) Then Exit Sub
-        If txt.Text.Length >= 10 Then
+        ' Sirf digit allow
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
             e.Handled = True
             Exit Sub
         End If
-        If Not Char.IsDigit(e.KeyChar) Then
+        Dim txtBox As TextBox = DirectCast(sender, TextBox)
+
+        ' Backspace allow
+        If e.KeyChar = ChrW(Keys.Back) Then Exit Sub
+        ' Max length 10 (DD/MM/YYYY)
+        If txtBox.SelectionStart >= 10 Then
             e.Handled = True
             Exit Sub
         End If
-        If txt.Text.Length = 2 Or txt.Text.Length = 5 Then
-            txt.Text &= "/"
-            txt.SelectionStart = txt.Text.Length
+        ' Overwrite Mode
+        Dim pos As Integer = txtBox.SelectionStart
+        ' Slash position skip kare
+        If pos = 2 Or pos = 5 Then
+            pos += 1
+            txtBox.SelectionStart = pos
         End If
+        txtBox.Text = txtBox.Text.Remove(pos, 1).Insert(pos, e.KeyChar)
+        txtBox.SelectionStart = pos + 1
+        e.Handled = True
     End Sub
     Private Sub DateBox_Validate(sender As Object, e As EventArgs)
         Dim txt As TextBox = DirectCast(sender, TextBox)
@@ -1159,27 +1047,6 @@ Public Class MainFormRead
         _ActivatedColName = Trim(UCase(sender.Cell(0, sender.ActiveCell.Col).TAG))
     End Sub
 
-    'Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
-    '    Dim ctrl As Control = TryCast(sender, Control)
-    '    If ctrl Is Nothing Then Exit Sub
-
-    '    ' 🔹 Agar sender FlexCell Grid hai
-    '    If TypeOf ctrl Is FlexCell.Grid Then
-    '        If e.KeyCode = Keys.Enter Then
-    '            Dim gridName As String = ctrl.Name
-    '            Dim grd As FlexCell.Grid = TryCast(Me.Controls(gridName), FlexCell.Grid)
-    '            _ActivatedColName = Trim(UCase(sender.Cell(0, sender.ActiveCell.Col).TAG))
-    '            Dim ActivetextName = grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(_ActivatedColName) + 1).Text
-    '            RunActivatedColumnMasterSelection(_ActivatedColName, ActivetextName)
-    '        End If
-    '    Else
-    '        If e.KeyCode = Keys.Enter Then
-    '            Dim ActivetextName = ctrl.Text
-    '            RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
-    '            SendKeys.Send("{TAB}")
-    '        End If
-    '    End If
-    'End Sub
     Private Sub EntryNoControl_KeyDown(sender As Object, e As KeyEventArgs)
         If e.KeyCode = Keys.Enter Then
             If _FORMMODE = "EDIT" Then
@@ -1222,12 +1089,9 @@ Public Class MainFormRead
         Next
     End Sub
     Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
-
         Dim ctrl As Control = TryCast(sender, Control)
         If ctrl Is Nothing Then Exit Sub
-
         If e.KeyCode = Keys.Enter Then
-
             e.SuppressKeyPress = True
             If TypeOf ctrl Is FlexCell.Grid Then
                 Dim grd As FlexCell.Grid = DirectCast(ctrl, FlexCell.Grid)
@@ -1239,67 +1103,22 @@ Public Class MainFormRead
                 End If
                 RunActivatedColumnMasterSelection(_ActivatedColName, ActivetextName)
                 SendKeys.Send("{TAB}")
-                'ElseIf TypeOf ctrl Is TextBox Then
-                '    Dim LASTCODE As String = ""
-                '    If _FORMMODE = "EDIT" Then
-                '        Dim formType As String = ""
-
-                '        If _MainColumTbl.Rows.Count > 0 Then
-                '            formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-                '        End If
-                '        If formType = "ENTRY FORM" Then
-                '        Else
-                '            strQuery = GetMaxCode()
-                '            sqL = strQuery
-                '            sql_connect_slect()
-                '            If DefaltSoftTable.Rows.Count > 0 Then
-                '                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
-                '            Else
-                '                LASTCODE = "1"
-                '            End If
-                '            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-                '            _KeyFieldValue = LASTCODE
-                '            Dim tblTmp1 As DataTable = Alter_Form()
-                '        End If
-
-                '    End If
             Else
                 Dim ActivetextName As String = ctrl.Text
                 RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
                 Me.SelectNextControl(ctrl, True, True, True, True)
             End If
-            'Dim formType As String = ""
-            'If _MainColumTbl.Rows.Count > 0 Then
-            '    formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-            'End If
-
-            'If formType = "ENTRY FORM" Then
-            'Else
-            '    If TypeOf ctrl Is TextBox Then
-            '        Dim LASTCODE As String = ""
-            '        If _FORMMODE = "EDIT" Then
-            '            strQuery = GetMaxCode()
-            '            sqL = strQuery
-            '            sql_connect_slect()
-            '            If DefaltSoftTable.Rows.Count > 0 Then
-            '                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
-            '            Else
-            '                LASTCODE = "1"
-            '            End If
-            '            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-            '            _KeyFieldValue = LASTCODE
-            '            Dim tblTmp1 As DataTable = Alter_Form()
-            '        End If
-            '    End If
-            'End If
+        ElseIf e.KeyCode = Keys.Up Then
+            Dim ActivetextName As String = ctrl.Text
+            Me.SelectNextControl(DirectCast(sender, Control), False, True, True, True)
+        ElseIf e.KeyCode = Keys.Down Then
+            Dim ActivetextName As String = ctrl.Text
+            Me.SelectNextControl(ctrl, True, True, True, True)
         End If
-
     End Sub
 
     Private Sub RunActivatedColumnMasterSelection(ByVal ctrlmasterName As String, ByVal ActivetextName As String)
-
         For Each dr As DataRow In _MainColumTbl.Select("DataBaseColumn='" & ctrlmasterName & "'")
-
             Dim offmastercode As String = dr("OPPMASTERCODE").ToString()
             Dim masterName As String = dr("MASTERLIST").ToString()
             Dim ctrlNameStr As String = dr("CntrlName").ToString().Trim()
@@ -1308,7 +1127,6 @@ Public Class MainFormRead
                 HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName)
             End If
         Next
-
     End Sub
     Private Sub HandleControlAction(ByVal sender As Object)
         If isDragging Then
@@ -1391,7 +1209,8 @@ Public Class MainFormRead
                 Entytxt.SelectAll()
             End If
         End If
-
+        isMoveMode = False
+        isDragging = False
     End Sub
 
     Private Sub MainFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -1722,6 +1541,8 @@ Public Class MainFormRead
                 SaveControlPosition(ctrl)
             End If
         Next
+        isMoveMode = False
+        isDragging = False
         PropertyGrid1.Visible = False
         txtFormName.Text = ""
         txtFormName.Focus()

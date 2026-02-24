@@ -37,7 +37,7 @@ Partial Class MainMasterFormRead
         '
         'PropertyGrid1
         '
-        Me.PropertyGrid1.Location = New System.Drawing.Point(969, 97)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(969, 103)
         Me.PropertyGrid1.Name = "PropertyGrid1"
         Me.PropertyGrid1.Size = New System.Drawing.Size(228, 794)
         Me.PropertyGrid1.TabIndex = 81935
@@ -49,7 +49,7 @@ Partial Class MainMasterFormRead
         Me.BtnUpdatepos.Appearance.Options.UseFont = True
         Me.BtnUpdatepos.Enabled = False
         Me.BtnUpdatepos.ImageOptions.Image = CType(resources.GetObject("BtnUpdatepos.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnUpdatepos.Location = New System.Drawing.Point(1014, 7)
+        Me.BtnUpdatepos.Location = New System.Drawing.Point(1014, 13)
         Me.BtnUpdatepos.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.BtnUpdatepos.Name = "BtnUpdatepos"
         Me.BtnUpdatepos.Size = New System.Drawing.Size(142, 39)
@@ -61,7 +61,7 @@ Partial Class MainMasterFormRead
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(1045, 52)
+        Me.btnView.Location = New System.Drawing.Point(1045, 58)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(111, 39)
@@ -71,9 +71,9 @@ Partial Class MainMasterFormRead
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(861, 62)
+        Me.Label11.Location = New System.Drawing.Point(861, 68)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(10, 13)
+        Me.Label11.Size = New System.Drawing.Size(12, 16)
         Me.Label11.TabIndex = 81933
         Me.Label11.Text = ":"
         '
@@ -101,7 +101,7 @@ Partial Class MainMasterFormRead
         Me.txtFormName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtFormName.IsValidated = False
         Me.txtFormName.LeaveFocusColor = System.Drawing.SystemColors.Window
-        Me.txtFormName.Location = New System.Drawing.Point(878, 61)
+        Me.txtFormName.Location = New System.Drawing.Point(878, 67)
         Me.txtFormName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtFormName.MandatoryField = False
         Me.txtFormName.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -125,9 +125,9 @@ Partial Class MainMasterFormRead
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(764, 62)
+        Me.Label1.Location = New System.Drawing.Point(764, 68)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(61, 13)
+        Me.Label1.Size = New System.Drawing.Size(91, 16)
         Me.Label1.TabIndex = 81930
         Me.Label1.Text = "Form Name"
         '
@@ -141,7 +141,7 @@ Partial Class MainMasterFormRead
         Me.btnmovecontrol.Appearance.Options.UseFont = True
         Me.btnmovecontrol.Enabled = False
         Me.btnmovecontrol.ImageOptions.Image = CType(resources.GetObject("btnmovecontrol.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnmovecontrol.Location = New System.Drawing.Point(767, 7)
+        Me.btnmovecontrol.Location = New System.Drawing.Point(767, 13)
         Me.btnmovecontrol.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnmovecontrol.Name = "btnmovecontrol"
         Me.btnmovecontrol.Size = New System.Drawing.Size(142, 39)
@@ -150,10 +150,10 @@ Partial Class MainMasterFormRead
         '
         'MainMasterFormRead
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1200, 862)
+        Me.ClientSize = New System.Drawing.Size(1200, 911)
         Me.Controls.Add(Me.PropertyGrid1)
         Me.Controls.Add(Me.BtnUpdatepos)
         Me.Controls.Add(Me.btnView)
@@ -161,7 +161,9 @@ Partial Class MainMasterFormRead
         Me.Controls.Add(Me.txtFormName)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnmovecontrol)
+        Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "MainMasterFormRead"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Main Master Form Read"
