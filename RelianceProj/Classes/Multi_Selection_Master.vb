@@ -6285,6 +6285,45 @@ Public Class Multi_Selection_Master
                 .Append(" FROM formcontrol A ")
                 .Append(" WHERE 1=1 ")
                 .Append(" AND ISNULL(A.Active,'YES')<>'NO'")
+                .Append(" AND FormType='ENTRY FORM'")
+                .Append(" ORDER BY A.FormId")
+            End With
+            sqL = _strQuery.ToString
+            sql_connect_slect1()
+
+            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+            GROUP_WISE_MULTY_PARTY_SELECT = ""
+            'Party_selection.dgw.Columns(1).Visible = False
+            Party_selection.dgw.Columns(2).Visible = False
+            Party_selection.dgw.Columns(3).Visible = False
+            Party_selection.dgw.Columns(4).Visible = False
+            'Party_selection.dgw.Columns(0).Width = 480
+            Party_selection.dgw.Columns(0).Width = 350
+            Party_selection.dgw.Columns(1).Width = 130
+            Party_selection.Width = 506
+
+            Party_selection.dgw.Columns(0).HeaderText = "Form Name"
+            Party_selection.dgw.Columns(1).HeaderText = "Form Id"
+
+            SELECTION_LIST_FIRST_SELECTION()
+            Party_selection.Close()
+            Party_selection.Dispose()
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+    End Sub
+    Public Sub SINGLE_FormnameMasterform_SELECTION()
+        Try
+            _strQuery = New StringBuilder
+            With _strQuery
+                .Append(" SELECT ")
+                .Append(" Distinct(A.FormName) As FormName,CAST(A.FormId AS INT) AS FormId,A.FormId,A.FormId,A.FormId")
+                .Append(" FROM formcontrol A ")
+                .Append(" WHERE 1=1 ")
+                .Append(" AND ISNULL(A.Active,'YES')<>'NO'")
+                .Append(" AND FormType='MASTER FORM'")
                 .Append(" ORDER BY A.FormId")
             End With
             sqL = _strQuery.ToString
