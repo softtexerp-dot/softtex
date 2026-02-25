@@ -2,6 +2,7 @@
 Imports CrystalDecisions.ReportAppServer.DataDefModel
 Imports DevExpress.DataAccess.Sql
 Imports DevExpress.Utils.Gesture
+Imports DevExpress.Utils.MVVM
 Imports DevExpress.Utils.VisualEffects
 Imports DevExpress.XtraBars.Customization
 Imports DevExpress.XtraEditors.TextEditController.Win32
@@ -82,6 +83,11 @@ Public Class MainFormRead
     Private Change_Grid_Data As Boolean = True
     Dim txtEntryno As String = ""
 
+
+    Dim _Bookcode As String = ""
+    Dim _Booktrtype As String = ""
+    Dim _BookVNo As String = ""
+
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
         Me.KeyPreview = True
@@ -128,7 +134,7 @@ Public Class MainFormRead
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
             txtFormName.Focus()
-            ' ADD mode ka logic yahan
+            _BookVNo = ""
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
@@ -156,7 +162,7 @@ Public Class MainFormRead
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
 
 
-        For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox' AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
+        For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox'  AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
             Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
             Dim ctrlName As String = dr("CntrlName").ToString().Trim()
             Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
@@ -171,6 +177,8 @@ Public Class MainFormRead
                 txt.Text = value
             End If
 
+            _BookVNo = tblTmp.Rows(0).Item("bookvno").ToString
+
             If UseMaster = "YES" Then
                 For Each dr1 As DataRow In tblTmp.Select()
                     Dim _HeaderNAme As String = dr("Text").ToString()
@@ -181,37 +189,61 @@ Public Class MainFormRead
                 Me.SelectNextControl(ctrl, True, True, True, True)
             End If
         Next
-
-
         _FrmLoad = False
         Return tblTmp   ' 👈 yaha return kar diya
     End Function
     Private Sub UC_Buttons1_DeleteClick()
 
         _FrmLoad = True
+
         _FORMMODE = "DELETE"
-        Dim EntryNo As Integer
-        EntryNo = _GetMaxEntryNo()
-        If EntryNo > 0 Then
-            Dim txt As New TextBox()
-            txt.Text = EntryNo
-            txtEntryno = txt.Text
-        End If
-        If MsgBox("Do You Want To Delete (Y/N)",
-              MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
-              "Delete ?") = MsgBoxResult.Yes Then
-            'Call Delete_Entry()
+        ''Dim EntryNo As Integer
+        ''EntryNo = _GetMaxEntryNo()
+        ''If EntryNo > 0 Then
+        ''    Dim txt As New TextBox()
+        ''    txt.Text = EntryNo
+        ''    txtEntryno = txt.Text
+        ''End If
+        'If MsgBox("Do You Want To Delete (Y/N)",
+        '      MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
+        '      "Delete ?") = MsgBoxResult.Yes Then
+        '    'Call Delete_Entry()
 
-        End If
+        'End If
 
-        ObjCls_General.Blank_Object(Me)
+        'ObjCls_General.Blank_Object(Me)
 
-        Ctrl_Visible_False(Me.Controls)
+        'Ctrl_Visible_False(Me.Controls)
 
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        'UC_Buttons1._ButtonEnableDisable("LOAD")
+        'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
 
+        '_FrmLoad = False
+        'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         _FrmLoad = False
+        Call Ctrl_Visible_True(Me.Controls)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        If _FORMMODE = "DELETE" Then
+            txtFormName.Focus()
+        End If
+        'Dim EntryNo As Integer
+        'EntryNo = _GetMaxEntryNo()
+        'If EntryNo > 0 Then
+        '    Dim txt As New TextBox()
+        '    txt.Text = EntryNo
+        '    txtEntryno = txt.Text
+        'End If
+        'If MsgBox("Do You Want To Delete (Y/N)",
+        '      MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
+        '      "Delete ?") = MsgBoxResult.Yes Then
+        '    'Call Delete_Entry()
+
+        'End If
+
+        'ObjCls_General.Blank_Object(Me)
+
+        'Ctrl_Visible_False(Me.Controls)
+        Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_BackClick()
@@ -256,7 +288,7 @@ Public Class MainFormRead
             Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
             If ctrl.Length > 0 Then
                 Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                sqL = "DELETE FROM " & _TblName & " WHERE ENTRYNO =" & Entytxt.Text & "  "
+                sqL = "DELETE FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "' AND ENTRYNO =" & Entytxt.Text & "  "
                 sql_Data_Save_Delete_Update()
             End If
             Call Fill_Grid_Records_Into_DataTables()
@@ -317,6 +349,7 @@ Public Class MainFormRead
             .Append(" FROM " & _TblName & " as A ")
             .Append(leftJoin)
             .Append(" WHERE 1=1 ")
+            .Append(" AND BOOKCODE='" & _Bookcode & "'  ")
             .Append(" And EntryNo=" & EntryNo & "")
             .Append(" ORDER BY EntryNo DESC")
         End With
@@ -509,6 +542,12 @@ Public Class MainFormRead
             Dim _extrafield_values_datatable As New StringBuilder()
 
             For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox' AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
+
+                If _BookVNo = "" Then
+                    _BookVNo = Generate_Book_Vno(Val(txtEntryno), _Booktrtype)
+                End If
+
+
                 _TableName = dr("DataBaseTable").ToString().Trim()
                 Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
                 Dim ctrlName As String = dr("CntrlName").ToString().Trim()
@@ -525,7 +564,14 @@ Public Class MainFormRead
                 If _InputType = "DateBox" Then
                     value = Convert.ToDateTime(value).ToString("yyyy-MM-dd")
                 End If
-
+                ' 🔹 Book columns override
+                'If columnName.Equals("BookVno", StringComparison.OrdinalIgnoreCase) Then
+                '    value = _BookVNo
+                'ElseIf columnName.Equals("BookCode", StringComparison.OrdinalIgnoreCase) Then
+                '    value = _Bookcode
+                'ElseIf columnName.Equals("BookTrType", StringComparison.OrdinalIgnoreCase) Then
+                '    value = _Booktrtype
+                'End If
                 If value = "" Then
                     _extrafield_values_datatable.Append(value & ",")
                 ElseIf IsNumeric(value) Then
@@ -536,6 +582,7 @@ Public Class MainFormRead
                         _extrafield_values_datatable.Append("" & value.Replace("'", "''") & ",")
                     End If
                 End If
+
                 ' 🔹 OppMasterCode Column Add (If Exists)
                 If existingItem IsNot Nothing Then
 
@@ -557,7 +604,19 @@ Public Class MainFormRead
                     End If
 
                 End If
+
             Next
+            ' 🔹 Add BookVno
+            _extrafielddatatable.Append("BookVno,")
+            _extrafield_values_datatable.Append("" & _BookVNo.Replace("'", "''") & ",")
+
+            ' 🔹 Add BookCode
+            _extrafielddatatable.Append("BookCode,")
+            _extrafield_values_datatable.Append("" & _Bookcode.Replace("'", "''") & ",")
+
+            ' 🔹 Add BookTrType
+            _extrafielddatatable.Append("BookTrType,")
+            _extrafield_values_datatable.Append("" & _Booktrtype.Replace("'", "''") & ",")
             ' 🔹 Remove last comma safely (ONLY ONCE)
             If _extrafielddatatable.Length > 0 Then
                 _extrafielddatatable.Length -= 1
@@ -605,11 +664,13 @@ Public Class MainFormRead
         Dim _LastID As Integer = 0
         _strQuery = New StringBuilder
         Try
-            If txtEntryno > 0 Then
-                strQuery = "DELETE FROM " & _TblName & " WHERE EntryNo='" & txtEntryno & "'"
+            Dim EntryNO As String = _GetMaxEntryNo()
+
+            If EntryNO > 0 Then
+                strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE='" & _Bookcode & "'  AND EntryNo='" & EntryNO & "' "
             End If
             sqL = strQuery.ToString
-            sql_connect_slect1()
+            sql_connect_slect()
             '-----------------------------------------------------------------------
             '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
@@ -641,6 +702,7 @@ Public Class MainFormRead
 
             For Each dr As DataRow In _MainColumTbl.Rows
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
+                Dim colType As String = dr("ColumnType").ToString().Trim()
                 Dim header As String = dr("Text").ToString().Trim()
                 Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
                 If alignVal = "" Then alignVal = "L"
@@ -688,6 +750,11 @@ Public Class MainFormRead
                 Dim visibleVal As String = dr("Visible").ToString().Trim().ToUpper()
 
                 If header.Trim <> "" Then
+                    If colType = "TextBox" Then
+                        If visibleVal = "Y" Then
+                            visibleVal = "N"
+                        End If
+                    End If
                     If _FieldNotVisibile.Length > 0 Then
                         _FieldNotVisibile.Append(",")
                     End If
@@ -704,7 +771,7 @@ Public Class MainFormRead
 
                 ' Col Type
                 Dim colInputType As String = dr("InputType").ToString().Trim().ToUpper()
-                Dim colType As String = dr("ColumnType").ToString().Trim().ToUpper()
+                'Dim colType As String = dr("ColumnType").ToString().Trim().ToUpper()
                 If colInputType = "Number" Then
                     colType = "N"
                     If _Grid1ColType.Length > 0 Then
@@ -798,13 +865,17 @@ Public Class MainFormRead
                     Dim colType As String = dr("ColumnType").ToString()
                     Dim HeaderName As String = dr("Text").ToString()
                     Dim Name As String = dr("CntrlName").ToString()
+                    Dim visible As String = dr("Visible").ToString()
                     Dim Tabindex As Int64 = dr("Tabindex").ToString()
+                    _Bookcode = dr("Bookcode").ToString()
+
+
                     Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                     _TblName = dr("DataBaseTable").ToString()
                     Dim formtype As String = ""
                     formtype = dr("FormType").ToString().Trim()
                     If formtype = "ENTRY FORM" Then
-                        If _FORMMODE = "EDIT" Then
+                        If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                             EntryNo = _GetMaxEntryNo()
                         End If
                     Else
@@ -832,6 +903,8 @@ Public Class MainFormRead
                         lbl.Text = HeaderName
                         If Name = "Grid1" Or Name = "Grid2" Or Name = "Grid3" Or Name = "Grid4" Or Name = "Grid5" Then
                             lbl.Visible = False
+                        ElseIf visible = "N" Then
+                            lbl.Visible = False
                         Else
                             lbl.Visible = True
                         End If
@@ -844,7 +917,8 @@ Public Class MainFormRead
                         AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                         AddHandler lbl.MouseMove, AddressOf Control_MouseMove
                         AddHandler lbl.MouseUp, AddressOf Control_MouseUp
-                        If colType = "TextBox" Then
+                        If colType = "TextBox" AndAlso visible = "Y" Then
+
                             Dim LblSize As Int16 = lbl.Width
                             Dim txt As New TextBox()
                             txt.Name = Name
@@ -866,6 +940,7 @@ Public Class MainFormRead
                                         EntryNo = _GetMaxEntryNo()
                                         txt.Text = EntryNo + 1
                                     End If
+
                                     AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
                                 End If
                                 If _InputType = "DateBox" Then
@@ -873,6 +948,11 @@ Public Class MainFormRead
                                     txt.Text = Today.ToString("dd/MM/yyyy")
                                     AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
                                     AddHandler txt.Leave, AddressOf DateBox_Validate
+                                End If
+                                If _FORMMODE = "DELETE" Then
+                                    EntryNo = _GetMaxEntryNo()
+                                    'txt.Text = EntryNo
+
                                 End If
                             Else
                             End If
@@ -918,8 +998,17 @@ Public Class MainFormRead
                             'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
                         End If
                         topPos += 35
+
                     End If
                 Next
+
+                sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
+                sql_connect_slect()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    _Booktrtype = DefaltSoftTable.Rows(0).Item("booktrtype").ToString
+                Else
+                    MsgBox("Book Not Find Please Define Book", MsgBoxStyle.Critical)
+                End If
 
                 ObjCls_General.CreateDataTable(tblFormValues, _Grid1ColNames.ToString, "YES")
 
@@ -974,10 +1063,10 @@ Public Class MainFormRead
     End Sub
 
     Private Function _GetMaxEntryNo()
-        Dim ENTRYNO As Int64 = 1
+        Dim ENTRYNO As Int64 = 0
         Dim Tbltmp As DataTable
         Dim _strquery As New StringBuilder
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " ORDER BY ENTRYNO DESC "
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & _TblName & "  WHERE BOOKCODE='" & _Bookcode & "' ORDER BY ENTRYNO DESC "
         sqL = strQuery
         sql_connect_slect()
         Tbltmp = DefaltSoftTable.Copy
@@ -1054,6 +1143,18 @@ Public Class MainFormRead
                 If ctrl.Length > 0 Then
                     Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
                     _GetAlterData(Entytxt.Text)
+                End If
+            End If
+            If _FORMMODE = "DELETE" Then
+                If MsgBox("Do You Want To Delete (Y/N)",
+                  MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
+                  "Delete ?") = MsgBoxResult.Yes Then
+                    Call Delete_Entry()
+                    ObjCls_General.Blank_Object(Me)
+                    Ctrl_Visible_False(Me.Controls)
+                    'Change_Grid_Data = True
+                    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                 End If
             End If
         End If

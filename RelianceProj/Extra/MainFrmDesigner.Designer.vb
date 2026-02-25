@@ -975,6 +975,7 @@ Partial Class MainFrmDesigner
         Me.Label33.Size = New System.Drawing.Size(12, 16)
         Me.Label33.TabIndex = 82044
         Me.Label33.Text = ":"
+        Me.Label33.Visible = False
         '
         'Ctl_Managebybook
         '
@@ -1022,6 +1023,8 @@ Partial Class MainFrmDesigner
         Me.Ctl_Managebybook.Text = "YES"
         Me.Ctl_Managebybook.TransparentBox = True
         Me.Ctl_Managebybook.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.Ctl_Managebybook.Visible = False
+        Me.Ctl_Managebybook.WordWrap = False
         '
         'Label34
         '
@@ -1031,6 +1034,7 @@ Partial Class MainFrmDesigner
         Me.Label34.Size = New System.Drawing.Size(169, 16)
         Me.Label34.TabIndex = 11
         Me.Label34.Text = "Manage By BookName"
+        Me.Label34.Visible = False
         '
         'Label35
         '

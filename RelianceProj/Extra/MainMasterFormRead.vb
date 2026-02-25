@@ -149,21 +149,28 @@ Public Class MainMasterFormRead
     Private Sub UC_Buttons1_DeleteClick()
         _FrmLoad = True
         _FORMMODE = "DELETE"
-        If MsgBox("Do You Want To Delete (Y/N)",
-              MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
-              "Delete ?") = MsgBoxResult.Yes Then
-            'Call Delete_Entry()
+        'If MsgBox("Do You Want To Delete (Y/N)",
+        '      MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
+        '      "Delete ?") = MsgBoxResult.Yes Then
+        '    'Call Delete_Entry()
 
+        'End If
+
+        'ObjCls_General.Blank_Object(Me)
+
+        'Ctrl_Visible_False(Me.Controls)
+
+        'UC_Buttons1._ButtonEnableDisable("LOAD")
+        'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+
+        '_FrmLoad = False
+        'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        Call Ctrl_Visible_True(Me.Controls)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        If _FORMMODE = "DELETE" Then
+            txtFormName.Focus()
         End If
-
-        ObjCls_General.Blank_Object(Me)
-
-        Ctrl_Visible_False(Me.Controls)
-
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-
-        _FrmLoad = False
+        Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_BackClick()
@@ -413,8 +420,8 @@ Public Class MainMasterFormRead
 
             strQuery = "DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'"
 
-            sqL = strQuery.ToString
-            sql_connect_slect1()
+            'sqL = strQuery.ToString
+            'sql_connect_slect()
             '-----------------------------------------------------------------------
             '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
@@ -724,8 +731,13 @@ Public Class MainMasterFormRead
                     _KeyFieldValue = LASTCODE
                     Dim tblTmp1 As DataTable = Alter_Form()
                 End If
-                'ElseIf _FORMMODE = "DELETE" Then
-                '    Call Delete_Entry()
+            ElseIf _FORMMODE = "DELETE" Then
+                If MsgBox("Do You Want To Delete (Y/N)",
+      MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
+      "Delete ?") = MsgBoxResult.Yes Then
+                    Call Delete_Entry()
+
+                End If
             End If
         Catch ex As Exception
             MsgBox(ex.ToString)

@@ -1129,7 +1129,19 @@ Public Class MainFrmDesigner
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 310
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 1193
             Else
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+                If _ColmName = "ID" Then
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+                ElseIf _ColmName = "BOOKCODE" Then
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+                ElseIf _ColmName = "BOOKTRTYPE" Then
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+                ElseIf _ColmName = "BOOKVNO" Then
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+
+                Else
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
+                End If
+
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 100
@@ -1140,6 +1152,9 @@ Public Class MainFrmDesigner
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("InputType") + 1).Text = _DataType
             Else
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("InputType") + 1).Text = "Normal"
+            End If
+            If _DataType = "datetime" Then
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("InputType") + 1).Text = "DateBox"
             End If
             '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
             'Dim colIndex As Integer = _GridDatatbl.Columns.IndexOf("USEMASTER") + 1
@@ -1265,7 +1280,9 @@ Public Class MainFrmDesigner
 
         _addcoloum()
         txtfrmtype.Text = "MASTER FORM"
-        Ctl_Managebybook.Text = "NO"
+        'Ctl_Managebybook.Text = "NO"
+        Ctl_Managebybook.Text = "YES"
+        Ctl_Managebybook.Visible = False
         Me.Location = New Point(0, 0)
         _FrmLoad = True
         GetTblName(_DataBaseFileName)
@@ -1601,7 +1618,9 @@ Public Class MainFrmDesigner
         Txt_Active.Text = "YES"
         Txt_ShortCutKey.Text = ""
         Ctl_BookName.Text = ""
-        Ctl_Managebybook.Text = "NO"
+        'Ctl_Managebybook.Text = "NO"
+        Ctl_Managebybook.Text = "YES"
+
     End Sub
 
     Private Sub GetTblName(ByVal dbName As String)
@@ -2252,7 +2271,7 @@ Public Class MainFrmDesigner
         '    _FORMMODE = "EDIT"
         'End If
         If e.KeyCode = Keys.Enter Then
-            If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" Then
+            If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim = "ENTRY FORM" Then
                 Dim _Tmptbla As New DataTable
                 _Tmptbla = _checkForm()
                 If _Tmptbla.Rows.Count > 0 Then
@@ -2263,6 +2282,9 @@ Public Class MainFrmDesigner
                     'Txt_FormId.Focus()
                     txtfrmtype.Focus()
                 End If
+            ElseIf txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
+                Ctl_BookName.Text = ""
+                LoadFormDesign()
             End If
         End If
     End Sub
@@ -2306,6 +2328,7 @@ Public Class MainFrmDesigner
         If _FORMMODE = "ADD" Then
             txtfrmtype.Text = "MASTER FORM"
             txtfrmtype.Focus()
+            Ctl_Managebybook.Visible = False
         End If
 
     End Sub
@@ -2333,6 +2356,7 @@ Public Class MainFrmDesigner
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         Change_Grid_Data = True
+        Ctl_Managebybook.Visible = False
     End Sub
     Private Sub UC_Buttons1_DeleteClick() Handles UC_Buttons1.DeleteClick
         _FrmLoad = True
@@ -2351,7 +2375,7 @@ Public Class MainFrmDesigner
         'Txt_FormId.Focus()
         'Txt_FormId.Select()
         txtfrmtype.Focus()
-
+        Ctl_Managebybook.Visible = False
 
         If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
             Call Delete_Entry()
@@ -2390,6 +2414,7 @@ Public Class MainFrmDesigner
         Ctl_BookName.Text = ""
         'Ctl_BookName.Focus()
         txtfrmtype.Text = "MASTER FORM"
+        Ctl_Managebybook.Visible = False
         txtfrmtype.Focus()
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
@@ -2408,7 +2433,7 @@ Public Class MainFrmDesigner
             'Ctl_BookName.Focus()
             txtfrmtype.Text = "MASTER FORM"
             txtfrmtype.Focus()
-
+            Ctl_Managebybook.Visible = False
             Call Ctrl_Visible_True(Me.Controls)
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         End If
@@ -2430,15 +2455,42 @@ Public Class MainFrmDesigner
             GrdItem.Focus()
             Exit Sub
         End If
-        Dim _ChekColmHeader As Boolean = False
+        If txtfrmtype.Text.Trim = "ENTRY FORM" Then
+            Dim hasBookCode As Boolean = False
+            Dim hasBookTrType As Boolean = False
+            Dim hasBookVno As Boolean = False
 
-        Dim colHeader As Integer = _DataTableGrid.Columns.IndexOf("Text") + 1
-        For i As Integer = 1 To GrdItem.Rows - 1
-            If String.IsNullOrWhiteSpace(GrdItem.Cell(i, colHeader).Text) And GrdItem.Cell(i, colUseMasterKey).Text.Trim().ToUpper() <> "Y" Then
-                _ChekColmHeader = True
-                Exit For
+            Dim colDatabaseColumn As Integer = _DataTableGrid.Columns.IndexOf("DatabaseColumn") + 1
+
+            For i As Integer = 1 To GrdItem.Rows - 1
+
+                Dim dbColumnName As String = GrdItem.Cell(i, colDatabaseColumn).Text.Trim().ToUpper()
+
+                If dbColumnName = "BOOKCODE" Then
+                    hasBookCode = True
+                ElseIf dbColumnName = "BOOKTRTYPE" Then
+                    hasBookTrType = True
+                ElseIf dbColumnName = "BOOKVNO" Then
+                    hasBookVno = True
+                End If
+            Next
+
+            If Not (hasBookCode AndAlso hasBookTrType AndAlso hasBookVno) Then
+                MsgBox("Please Select BookCode, BookTrType and BookVno in DatabaseColumn")
+                GrdItem.Focus()
+                Exit Sub
             End If
-        Next
+        End If
+
+        'Dim _ChekColmHeader As Boolean = False
+
+        'Dim colHeader As Integer = _DataTableGrid.Columns.IndexOf("Text") + 1
+        'For i As Integer = 1 To GrdItem.Rows - 1
+        '    If String.IsNullOrWhiteSpace(GrdItem.Cell(i, colHeader).Text) And GrdItem.Cell(i, colUseMasterKey).Text.Trim().ToUpper() <> "Y" Then
+        '        _ChekColmHeader = True
+        '        Exit For
+        '    End If
+        'Next
         'If _ChekColmHeader = True Then
         '    MsgBox("Please Fill Header Name")
         '    GrdItem.Focus()
@@ -2489,7 +2541,7 @@ Public Class MainFrmDesigner
             Clear_Grid(GrdItem, 2)
             Grid1.BoldFixedCell = False
             Clear_Grid(Grid1, 2)
-
+        Ctl_Managebybook.Visible = False
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
@@ -2543,7 +2595,7 @@ Public Class MainFrmDesigner
     Private Sub Ctl_BookName_KeyDown(sender As Object, e As KeyEventArgs) Handles Ctl_BookName.KeyDown
         If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
             BOOK_BHEWAR = ""
-            If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text > "" Then
+            If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text > "" AndAlso txtfrmtype.Text.Trim = "ENTRY FORM" Then
                 Dim View_Filter_Condition As String = ""
                 Dim _Tmptbla As New DataTable
                 _Tmptbla = _checkForm()
@@ -2571,17 +2623,25 @@ Public Class MainFrmDesigner
                     End If
                 End If
                 LoadFormDesignAfteredit(_BookCode)
+            ElseIf txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
+                Ctl_BookName.Text = ""
+                LoadFormDesign()
             Else
-                BOOK_CATGER = ""
-                BOOK_BHEWAR = "BOOKMODIFY"
-                If Ctl_Managebybook.Text = "YES" Then
-                    obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
-                    If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
-                        Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                        Ctl_BookName.ReadOnly = True
-                        _BookCode = MULTY_SELECTION_COLOUM_3_DATA
-                        'Ctl_Managebybook.Focus()
-                        Txt_mainFormSize.Focus()
+                If txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
+                    Ctl_BookName.Text = ""
+                    LoadFormDesign()
+                Else
+                    BOOK_CATGER = ""
+                    BOOK_BHEWAR = "BOOKMODIFY"
+                    If Ctl_Managebybook.Text = "YES" And txtfrmtype.Text = "ENTRY FORM" Then
+                        obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
+                        If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
+                            Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
+                            Ctl_BookName.ReadOnly = True
+                            _BookCode = MULTY_SELECTION_COLOUM_3_DATA
+                            'Ctl_Managebybook.Focus()
+                            Txt_mainFormSize.Focus()
+                        End If
                     End If
                 End If
             End If
