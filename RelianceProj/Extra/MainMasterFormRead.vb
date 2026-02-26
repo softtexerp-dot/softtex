@@ -420,8 +420,8 @@ Public Class MainMasterFormRead
 
             strQuery = "DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'"
 
-            'sqL = strQuery.ToString
-            'sql_connect_slect()
+            sqL = strQuery.ToString
+            sql_connect_slect()
             '-----------------------------------------------------------------------
             '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
@@ -735,7 +735,7 @@ Public Class MainMasterFormRead
                 If MsgBox("Do You Want To Delete (Y/N)",
       MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
       "Delete ?") = MsgBoxResult.Yes Then
-                    Call Delete_Entry()
+                    'Call Delete_Entry()
 
                 End If
             End If

@@ -37,7 +37,7 @@ Partial Class MainMasterFormRead
         '
         'PropertyGrid1
         '
-        Me.PropertyGrid1.Location = New System.Drawing.Point(969, 103)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(985, 103)
         Me.PropertyGrid1.Name = "PropertyGrid1"
         Me.PropertyGrid1.Size = New System.Drawing.Size(228, 794)
         Me.PropertyGrid1.TabIndex = 81935
@@ -153,7 +153,7 @@ Partial Class MainMasterFormRead
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1200, 911)
+        Me.ClientSize = New System.Drawing.Size(1216, 621)
         Me.Controls.Add(Me.PropertyGrid1)
         Me.Controls.Add(Me.BtnUpdatepos)
         Me.Controls.Add(Me.btnView)

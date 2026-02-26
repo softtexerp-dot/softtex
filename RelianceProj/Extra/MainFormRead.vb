@@ -123,7 +123,7 @@ Public Class MainFormRead
         AddHandler UC_Buttons1.ReportsClick, AddressOf UC_Buttons1_ReportsClick
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnView")
+        UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
     End Sub
 #Region "Button Click"
     Private Sub UC_Buttons1_AddClick()
@@ -645,7 +645,24 @@ Public Class MainFormRead
 
     End Sub
     Private Sub UC_Buttons1_ViewClick()
+        _FrmLoad = False
         _FORMMODE = "VIEW"
+        Dim _BookName As String = ""
+
+        Call Ctrl_Visible_True(Me.Controls)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        If _FORMMODE = "VIEW" Then
+            txtFormName.Focus()
+        End If
+        'sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
+        'sql_connect_slect()
+        'If DefaltSoftTable.Rows.Count > 0 Then
+        '    _BookName = DefaltSoftTable.Rows(0).Item("BookName").ToString
+        'Else
+        '    MsgBox("Not Record Found", MsgBoxStyle.Critical)
+        'End If
+
+        'PrintViewPage.Show()
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_PrintClick()
@@ -875,7 +892,7 @@ Public Class MainFormRead
                     Dim formtype As String = ""
                     formtype = dr("FormType").ToString().Trim()
                     If formtype = "ENTRY FORM" Then
-                        If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
+                        If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Or _FORMMODE = "VIEW" Then
                             EntryNo = _GetMaxEntryNo()
                         End If
                     Else
@@ -1139,6 +1156,13 @@ Public Class MainFormRead
     Private Sub EntryNoControl_KeyDown(sender As Object, e As KeyEventArgs)
         If e.KeyCode = Keys.Enter Then
             If _FORMMODE = "EDIT" Then
+                Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+                If ctrl.Length > 0 Then
+                    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                    _GetAlterData(Entytxt.Text)
+                End If
+            End If
+            If _FORMMODE = "VIEW" Then
                 Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
                 If ctrl.Length > 0 Then
                     Dim Entytxt As TextBox = CType(ctrl(0), TextBox)

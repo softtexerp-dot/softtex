@@ -1133,13 +1133,24 @@ Public Class MainFrmDesigner
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
                 ElseIf _ColmName = "BOOKCODE" Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Text = "BOOKCODE"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Locked = True
+                    '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 0
                 ElseIf _ColmName = "BOOKTRTYPE" Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Text = "BOOKTRTYPE"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Locked = True
+                    '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 0
+
                 ElseIf _ColmName = "BOOKVNO" Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Text = "BOOKVNO"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Locked = True
+                    '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 0
 
                 Else
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
+
                 End If
 
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
@@ -1525,11 +1536,16 @@ Public Class MainFrmDesigner
             If _FORMMODE <> "EDIT" Then
                 Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("TEXT") + 1).Text.Trim()
                 If textValue <> "" Then
-                    If CurrentLocationY = 0 Then
-                        CurrentLocationY = 10   ' 🔹 First time
+                    If textValue = "BOOKCODE" Or textValue = "BOOKTRTYPE" Or textValue = "BOOKVNO" Then
+                        CurrentLocationY = 0
                     Else
-                        CurrentLocationY += 30  ' 🔹 Next rows
+                        If CurrentLocationY = 0 Then
+                            CurrentLocationY = 10   ' 🔹 First time
+                        Else
+                            CurrentLocationY += 30  ' 🔹 Next rows
+                        End If
                     End If
+
                     GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = CurrentLocationY
                 End If
             End If
@@ -1620,7 +1636,7 @@ Public Class MainFrmDesigner
         Ctl_BookName.Text = ""
         'Ctl_Managebybook.Text = "NO"
         Ctl_Managebybook.Text = "YES"
-
+        Ctl_Managebybook.Visible = False
     End Sub
 
     Private Sub GetTblName(ByVal dbName As String)
@@ -2297,7 +2313,7 @@ Public Class MainFrmDesigner
         _strQuery = New StringBuilder
 
         Try
-            strQuery = "DELETE FROM " & _DatabaseTableNameItem & " WHERE FormID='" & Txt_FormId.Text & "'"
+            strQuery = "DELETE FROM " & _DatabaseTableNameItem & " WHERE FormID='" & Txt_FormId.Text & "' and Bookcode='" & _BookCode & "'"
             sqL = strQuery.ToString
             sql_connect_slect1()
             '-----------------------------------------------------------------------
@@ -2375,7 +2391,7 @@ Public Class MainFrmDesigner
         'Txt_FormId.Focus()
         'Txt_FormId.Select()
         txtfrmtype.Focus()
-        Ctl_Managebybook.Visible = False
+
 
         If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
             Call Delete_Entry()
@@ -2400,6 +2416,7 @@ Public Class MainFrmDesigner
         UC_Buttons1._ButtonEnableDisable("Load")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         _FrmLoad = False
+        Ctl_Managebybook.Visible = False
     End Sub
     Private Sub UC_Buttons1_BackClick() Handles UC_Buttons1.BackClick
         _FrmLoad = False
@@ -2414,10 +2431,11 @@ Public Class MainFrmDesigner
         Ctl_BookName.Text = ""
         'Ctl_BookName.Focus()
         txtfrmtype.Text = "MASTER FORM"
-        Ctl_Managebybook.Visible = False
+
         txtfrmtype.Focus()
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        Ctl_Managebybook.Visible = False
     End Sub
 
     Private Sub UC_Buttons1_NextClick() Handles UC_Buttons1.NextClick
@@ -2433,9 +2451,11 @@ Public Class MainFrmDesigner
             'Ctl_BookName.Focus()
             txtfrmtype.Text = "MASTER FORM"
             txtfrmtype.Focus()
-            Ctl_Managebybook.Visible = False
+            Ctl_Managebybook.Text = ""
+
             Call Ctrl_Visible_True(Me.Controls)
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+            Ctl_Managebybook.Visible = False
         End If
 
     End Sub
@@ -2541,9 +2561,10 @@ Public Class MainFrmDesigner
             Clear_Grid(GrdItem, 2)
             Grid1.BoldFixedCell = False
             Clear_Grid(Grid1, 2)
-        Ctl_Managebybook.Visible = False
+
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+        Ctl_Managebybook.Visible = False
     End Sub
 
 
@@ -2728,6 +2749,7 @@ Public Class MainFrmDesigner
                 Txt_FormId.Select()
                 'Ctl_BookName.Focus()
                 'Ctl_BookName.Select()
+                Ctl_Managebybook.Visible = False
             End If
             If e.KeyCode = Keys.Enter Then
                 If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim > "" Then
@@ -2736,10 +2758,12 @@ Public Class MainFrmDesigner
                     If _Tmptbla.Rows.Count > 0 Then
                         'Ctl_BookName.Focus()
                         'Ctl_BookName.Select()
+                        Ctl_Managebybook.Visible = False
                     Else
                         MsgBox("Record Not Found " & txtfrmtype.Text)
                         'Txt_FormId.Focus()
                         txtfrmtype.Focus()
+                        Ctl_Managebybook.Visible = False
                     End If
                 End If
             End If
