@@ -40,6 +40,8 @@ Partial Class Main_MDI_Frm
         Me.OfferWiseBeamStockreportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableformToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TableDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MasterFormDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QueryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -83,7 +85,7 @@ Partial Class Main_MDI_Frm
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem, Me.LogbookToolStripMenuItem, Me.ReadMadeStockReportToolStripMenuItem, Me.GetChallanDetailsToolStripMenuItem, Me.ComplaintdetailToolStripMenuItem, Me.CostdetailToolStripMenuItem, Me.CostdetailnewToolStripMenuItem, Me.SundaryTypeToolStripMenuItem, Me.BlankRateUpdateToolStripMenuItem, Me.OfferWiseBeamStockreportToolStripMenuItem, Me.TableformToolStripMenuItem, Me.TableDetailToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem, Me.LogbookToolStripMenuItem, Me.ReadMadeStockReportToolStripMenuItem, Me.GetChallanDetailsToolStripMenuItem, Me.ComplaintdetailToolStripMenuItem, Me.CostdetailToolStripMenuItem, Me.CostdetailnewToolStripMenuItem, Me.SundaryTypeToolStripMenuItem, Me.BlankRateUpdateToolStripMenuItem, Me.OfferWiseBeamStockreportToolStripMenuItem, Me.TableformToolStripMenuItem, Me.TableDetailToolStripMenuItem, Me.MasterFormDetailToolStripMenuItem, Me.QueryToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -164,7 +166,19 @@ Partial Class Main_MDI_Frm
         '
         Me.TableDetailToolStripMenuItem.Name = "TableDetailToolStripMenuItem"
         Me.TableDetailToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
-        Me.TableDetailToolStripMenuItem.Text = "TableDetail"
+        Me.TableDetailToolStripMenuItem.Text = "EntryFormDetail"
+        '
+        'MasterFormDetailToolStripMenuItem
+        '
+        Me.MasterFormDetailToolStripMenuItem.Name = "MasterFormDetailToolStripMenuItem"
+        Me.MasterFormDetailToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.MasterFormDetailToolStripMenuItem.Text = "MasterFormDetail"
+        '
+        'QueryToolStripMenuItem
+        '
+        Me.QueryToolStripMenuItem.Name = "QueryToolStripMenuItem"
+        Me.QueryToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.QueryToolStripMenuItem.Text = "Query"
         '
         'Main_MDI_Frm
         '
@@ -207,4 +221,6 @@ Partial Class Main_MDI_Frm
     Friend WithEvents OfferWiseBeamStockreportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TableformToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TableDetailToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MasterFormDetailToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents QueryToolStripMenuItem As ToolStripMenuItem
 End Class

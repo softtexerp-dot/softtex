@@ -112,5 +112,13 @@
         MainFormRead.Show()
     End Sub
 
+    Private Sub MasterFormDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterFormDetailToolStripMenuItem.Click
+        MainMasterFormRead.Show()
+    End Sub
+
+    Private Sub QueryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QueryToolStripMenuItem.Click
+        QueryLoad.Show()
+    End Sub
+
 #End Region
 End Class

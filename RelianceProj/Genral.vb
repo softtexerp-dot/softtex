@@ -1568,6 +1568,8 @@ Module Genral
                 Call Ctrl_Visible_True(ctl.controls)
             ElseIf TypeOf ctl Is TextBox Then
                 ctl.visible = True
+            ElseIf TypeOf ctl Is RichTextBox Then
+                ctl.visible = True
             ElseIf TypeOf ctl Is ctl_TextBox.ctl_TextBox Then
                 ctl.visible = True
             ElseIf TypeOf ctl Is FlexCell.Grid Then
@@ -1587,6 +1589,8 @@ Module Genral
             ElseIf TypeOf ctl Is TextBox Then
                 ctl.visible = False
             ElseIf TypeOf ctl Is ctl_TextBox.ctl_TextBox Then
+                ctl.visible = False
+            ElseIf TypeOf ctl Is RichTextBox Then
                 ctl.visible = False
             ElseIf TypeOf ctl Is FlexCell.Grid Then
                 ctl.visible = False
