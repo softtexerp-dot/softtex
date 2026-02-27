@@ -1135,19 +1135,20 @@ Public Class MainFrmDesigner
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Text = "BOOKCODE"
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Locked = True
-                    '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 0
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 10
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Locked = True
                 ElseIf _ColmName = "BOOKTRTYPE" Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Text = "BOOKTRTYPE"
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Locked = True
-                    '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 0
-
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 10
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Locked = True
                 ElseIf _ColmName = "BOOKVNO" Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Text = "BOOKVNO"
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXT") + 1).Locked = True
-                    '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 0
-
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 10
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Locked = True
                 Else
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
 
@@ -1536,17 +1537,18 @@ Public Class MainFrmDesigner
             If _FORMMODE <> "EDIT" Then
                 Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("TEXT") + 1).Text.Trim()
                 If textValue <> "" Then
+                    ' 🔹 Fix value for these 3 fields
                     If textValue = "BOOKCODE" Or textValue = "BOOKTRTYPE" Or textValue = "BOOKVNO" Then
-                        CurrentLocationY = 0
+                        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = 10
                     Else
+                        ' 🔹 Increment for other fields
                         If CurrentLocationY = 0 Then
-                            CurrentLocationY = 10   ' 🔹 First time
+                            CurrentLocationY = 10
                         Else
-                            CurrentLocationY += 30  ' 🔹 Next rows
+                            CurrentLocationY += 30
                         End If
+                        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = CurrentLocationY
                     End If
-
-                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = CurrentLocationY
                 End If
             End If
 
@@ -2309,9 +2311,7 @@ Public Class MainFrmDesigner
         _FrmLoad = True
         Dim I As Integer = 0
         Dim _LastID As Integer = 0
-
         _strQuery = New StringBuilder
-
         Try
             strQuery = "DELETE FROM " & _DatabaseTableNameItem & " WHERE FormID='" & Txt_FormId.Text & "' and Bookcode='" & _BookCode & "'"
             sqL = strQuery.ToString
@@ -2494,7 +2494,6 @@ Public Class MainFrmDesigner
                     hasBookVno = True
                 End If
             Next
-
             If Not (hasBookCode AndAlso hasBookTrType AndAlso hasBookVno) Then
                 MsgBox("Please Select BookCode, BookTrType and BookVno in DatabaseColumn")
                 GrdItem.Focus()
