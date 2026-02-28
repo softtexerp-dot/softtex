@@ -8464,6 +8464,7 @@ Public Class Multi_Selection_Master
         End With
         Return strQuery.ToString
     End Function
+
     Public Function Master_GetNameOtherThisEntry(ByVal _TblName As String, ByVal _KeyFieldName As String, ByVal _KeyFieldValue As String, ByVal strChkFieldName As String, ByVal strChkFieldValue As String) As String
         strQuery = New StringBuilder
         With strQuery

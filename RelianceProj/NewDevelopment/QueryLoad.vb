@@ -2,12 +2,23 @@
 
 Public Class QueryLoad
 
+    Private _ColNames As New StringBuilder
+    Private FieldNameAndValues(1) As String
+    Private tblFormValues As New DataTable
+    Private _ErrorValue As String = ""
+    Private _KeyFieldValue As String = ""
+    Private _KeyFieldName As String = "MainId"
+    Private _KeyFormName As String = "FormName"
+    Private _TblName As String = "FormQueryMaster"
+
+
     Private _FrmLoad As Boolean = True
     Private UC_Buttons1 As UC_Buttons
     Private Change_Grid_Data As Boolean = True
     Private _FORMMODE As String = ""
-
+    Dim txtMainId As String = ""
     Dim GetformName As String = ""
+    Dim filePath As String
 
     Private Sub QueryLoad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
@@ -15,6 +26,12 @@ Public Class QueryLoad
         _FrmLoad = True
         'GetformName = MainFormRead._getformName()
         'MsgBox(GetformName)
+        'RTBQuery.Focus()
+        TxtType.Text = "VIEW"
+        Txt_Active.Text = "YES"
+        'Call ALTER_FORM(_KeyFieldValue)
+        Call defineColName()
+        ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         CreateButtonsControl()
         Ctrl_Visible_False(Me.Controls)
         UC_Buttons1._ButtonEnableDisable("LOAD")
@@ -39,6 +56,7 @@ Public Class QueryLoad
         AddHandler UC_Buttons1.CloseClick, AddressOf UC_Buttons1_CloseClick
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        'UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnBack", "BtnNext", "BtnView", "BtnAdd", "BtnEdit", "BtnDelete")
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnBack", "BtnNext", "BtnView")
     End Sub
 #Region "Button Click"
@@ -49,24 +67,52 @@ Public Class QueryLoad
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
-            RTBQuery.Focus()
+            TxtType.Focus()
             'RTBQuery.Text = GetformName
-            GetformName = MainFormRead._getformName()
+            'GetformName = MainFormRead._getformName()
+            Txt_CntrlName.Visible = False
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_EditClick()
         _FORMMODE = "EDIT"
+        'Txt_CntrlName.Visible = False
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        Dim LASTCODE As String = ""
         If _FORMMODE = "EDIT" Then
-            RTBQuery.Focus()
+            TxtType.Focus()
+
+            'Own_Selection_List()
+            'If txtMainId <> "" Then
+            '    Ctrl_Visible_True(Me.Controls)
+            '    'ALTER_FORM(txtMainId)
+
+            'Else
+            '    _FORMMODE = ""
+            'End If
+
+            strQuery = GetMaxCode()
+            sqL = strQuery
+            sql_connect_slect1()
+
+
+            If DefaltSoftTable.Rows.Count > 0 Then
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
+            Else
+                LASTCODE = "1"
+            End If
+            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+        Else
+            LASTCODE = _KeyFieldValue
+        End If
+        If LASTCODE <> "" Then
+            ALTER_FORM(LASTCODE)
         End If
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
-
 
     Private Sub UC_Buttons1_DeleteClick()
 
@@ -77,43 +123,60 @@ Public Class QueryLoad
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If _FORMMODE = "DELETE" Then
-            RTBQuery.Focus()
-        End If
+        If txtMainId <> "" Then
 
+            Call ALTER_FORM(txtMainId)
+            If (Mid(_KeyFieldValue, 1, 4)) = "0" Then
+                MsgBox("It's A Default Record, Can't Delete", MsgBoxStyle.Critical, "Soft-Tex PRO")
+            Else
+
+                If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+                    Call Delete_Record()
+                End If
+
+            End If
+        End If
+        Ctrl_Visible_True(Me.Controls)
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
 
     Private Sub UC_Buttons1_SaveClick()
-        RTBQuery.Focus()
-        Dim folderPath As String = "D:\RelianceProj\RelianceProj\Setting"
+        'RTBQuery.Focus()
+        GetformName = MainFormRead._getformName()
+        Dim SaveQuery As String = ""
+        Dim LASTCODE As String = ""
+        If _FORMMODE = "ADD" Then
+            strQuery = GetMaxCode()
+            sqL = strQuery
+            sql_connect_slect1()
 
-        ' 🔹 Folder exist nahi kare to create karo
-        If Not IO.Directory.Exists(folderPath) Then
-            IO.Directory.CreateDirectory(folderPath)
+
+            If DefaltSoftTable.Rows.Count > 0 Then
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
+            Else
+                LASTCODE = "1"
+            End If
+            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+        Else
+            LASTCODE = _KeyFieldValue
         End If
-
-        Dim safeFileName As String = String.Concat(GetformName.Split(IO.Path.GetInvalidFileNameChars()))
-        Dim filePath As String = IO.Path.Combine(folderPath, safeFileName & ".ste")
-
-        ' 🔹 1️⃣ Read (agar file exist kare)
-        Dim oldContent As String = ""
-
-        If IO.File.Exists(filePath) Then
-            oldContent = IO.File.ReadAllText(filePath)
-        End If
-
-        ' 🔹 2️⃣ Replace (Overwrite)
-        Dim newContent As String = "Form Name: " & GetformName & Environment.NewLine &
-                            "Updated On: " & DateTime.Now.ToString()
-
-        IO.File.WriteAllText(filePath, newContent)
-
-        MessageBox.Show("File Save Successfully")
+        tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
+        tblFormValues.Rows(0)(_KeyFormName) = GetformName
+        tblFormValues.Rows(0)("Type") = TxtType.Text.Trim()
+        tblFormValues.Rows(0)("QueryText") = RTBQuery.Text
+        tblFormValues.Rows(0)("CreateDate") = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+        tblFormValues.Rows(0)("Status") = Txt_Active.Text.Trim()
+        tblFormValues.Rows(0)("CntrlName") = Txt_CntrlName.Text
+        ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
+        ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
+        SaveQuery = getSaveQuery()
+        sqL = SaveQuery
+        sql_Data_Save_Delete_Update1()
+        MessageBox.Show("Save Successfully")
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-
+        Call Ctrl_Visible_False(Me.Controls)
     End Sub
     Private Sub UC_Buttons1_CloseClick()
 
@@ -127,29 +190,121 @@ Public Class QueryLoad
 
     End Sub
 
-    Private Sub Delete_Entry()
-        _FrmLoad = True
-        Dim I As Integer = 0
-        Dim _LastID As Integer = 0
-        _strQuery = New StringBuilder
-        Try
-
-            'strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE='" & _Bookcode & "'  AND EntryNo='" & EntryNO & "' "
-
-            sqL = strQuery.ToString
-            sql_connect_slect()
-            '-----------------------------------------------------------------------
-            '_FORMMODE = "ADD"
-            MsgBox("Entry Successfully Deleted")
-        Catch ex As Exception
-
-            MsgBox("Error While Delete Entry")
-        Finally
-            cmd = Nothing
-        End Try
-
-        _FrmLoad = False
+    Private Sub txttype_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtType.KeyDown
+        If TxtType.Text.Trim() = "TOTAL COLUMN" Then
+            If e.KeyCode = Keys.Enter Then
+                Label3.Visible = True
+                Label2.Visible = True
+                Txt_CntrlName.Visible = True
+                'Exit Sub
+            Else
+                Label3.Visible = False
+                Label2.Visible = False
+                Txt_CntrlName.Visible = False
+                'Exit Sub
+            End If
+        End If
     End Sub
 
+#End Region
+#Region "QUERY SECTION"
+    Public Function GetMaxCode() As String
+        GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
+    End Function
+    'Public Function GetName() As String
+    '    GetName = obj_Party_Selection.Master_GetNameOtherThisEntry(_TblName, _KeyFieldName, _KeyFieldValue, "RCPT_ISSUE", Txtsundaryname.Text)
+    'End Function
+    Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
+        _strQuery = New StringBuilder
+        Dim Filter As String = ""
+        If strKeyID <> "" Then
+            Filter = " AND MainId='" & strKeyID & "' "
+        End If
+        With _strQuery
+            '.Append(" SELECT * FROM " & _TblName & " WHERE 1=1 AND MainId='" & strKeyID & "'")
+            .Append(" SELECT * FROM " & _TblName & " WHERE 1=1 ")
+            .Append(Filter)
+            .Append(" Order By MainId desc")
+        End With
+        Return _strQuery.ToString
+    End Function
+    Private Function getSaveQuery()
+        _strQuery = New StringBuilder
+        If _FORMMODE = "ADD" Then
+            _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
+        ElseIf _FORMMODE = "EDIT" Then
+            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
+        End If
+        getSaveQuery = _strQuery.ToString
+    End Function
+#End Region
+#Region "TABLE FIELD DECLARE"
+    Private Sub defineColName()
+        With _ColNames
+            .Append("MainId,")
+            .Append("FormName,")
+            .Append("Type,")
+            .Append("QueryText,")
+            .Append("CreateDate,")
+            .Append("Status,")
+            .Append("CntrlName")
+        End With
+    End Sub
+#End Region
+#Region "ALTER FORM METHOD"
+    Private Sub ALTER_FORM(ByVal strKeyID As String)
+        Dim tblTmp As New DataTable
+        '_FORMMODE = "EDIT"
+        strQuery = getAlter_Form_Query(strKeyID)
+        sqL = strQuery
+        sql_connect_slect1()
+        tblTmp = DefaltSoftTable.Copy
+        tblFormValues.Rows.Clear()
+        If tblTmp.Rows.Count > 0 Then
+            txtMainId = tblTmp.Rows(0).Item("MainId")
+            _KeyFieldValue = txtMainId
+            TxtType.Text = tblTmp.Rows(0).Item("Type").ToString()
+            RTBQuery.Text = tblTmp.Rows(0).Item("QueryText").ToString()
+            Txt_Active.Text = tblTmp.Rows(0).Item("Status").ToString()
+            If tblTmp.Rows(0).Item("CntrlName").ToString() <> "" Then
+                Txt_CntrlName.Text = tblTmp.Rows(0).Item("CntrlName").ToString()
+                Label3.Visible = True
+                Label2.Visible = True
+            End If
+
+        End If
+        For Each dr As DataRow In tblTmp.Rows
+            tblFormValues.ImportRow(dr)
+        Next
+
+        ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblFormValues)
+    End Sub
+#End Region
+#Region "SELECTION LIST CODE"
+    Private Sub Own_Selection_List()
+        Call ALTER_FORM(_KeyFieldValue)
+        Dim _lastkEyFieldValue As String = ""
+        txtMainId = ""
+        _lastkEyFieldValue = _KeyFieldValue
+        _KeyFieldValue = txtMainId
+    End Sub
+#End Region
+#Region "DELETE RECORD"
+    Private Sub Delete_Record()
+        Dim _entryNo As Integer = 0
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
+        End With
+        sqL = _strQuery.ToString
+        sql_Data_Save_Delete_Update1()
+        ObjCls_General.Blank_Object(Me)
+        _KeyFieldValue = 0
+        Call Ctrl_Visible_False(Me.Controls)
+    End Sub
+
+    Private Sub QueryLoad_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+
+    End Sub
 #End Region
 End Class
