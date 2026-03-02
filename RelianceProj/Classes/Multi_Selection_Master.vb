@@ -8473,6 +8473,22 @@ Public Class Multi_Selection_Master
         Return strQuery.ToString
 
     End Function
+    Public Function Master_GetName(ByVal _TblName As String, ByVal _KeyFieldName As String, ByVal _KeyFieldValue As String, ByVal strChkFieldName As String, ByVal strChkFieldValue As String) As String
+        strQuery = New StringBuilder
+        With strQuery
+            strQuery.Append(" SELECT TOP 1 FormName FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>'" & _KeyFieldValue & "'")
+        End With
+        Return strQuery.ToString
+
+    End Function
+    Public Function Master_GetMenuName(ByVal _TblName As String, ByVal _KeyFieldName As String, ByVal _KeyFieldValue As String, ByVal strChkFieldName As String, ByVal strChkFieldValue As String) As String
+        strQuery = New StringBuilder
+        With strQuery
+            strQuery.Append(" SELECT TOP 1 MenuName FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>'" & _KeyFieldValue & "'")
+        End With
+        Return strQuery.ToString
+
+    End Function
     Public Function EntryData_Yarn_Offer_View_Record(ByVal View_Filter_Condition As String, ByVal View_Order_By As String) As String
         strQuery = New StringBuilder
 

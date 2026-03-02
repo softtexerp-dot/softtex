@@ -116,7 +116,7 @@ Partial Class QueryLoad
         Me.Txt_CntrlName.Date_for_Database = Nothing
         Me.Txt_CntrlName.Date_Tag = Nothing
         Me.Txt_CntrlName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.Txt_CntrlName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.Txt_CntrlName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
         Me.Txt_CntrlName.ExtraValue = ""
         Me.Txt_CntrlName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Txt_CntrlName.FontFocusColor = System.Drawing.Color.Blue
@@ -145,7 +145,6 @@ Partial Class QueryLoad
         Me.Txt_CntrlName.Tag = "FormID"
         Me.Txt_CntrlName.TransparentBox = True
         Me.Txt_CntrlName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        Me.Txt_CntrlName.Visible = False
         '
         'TxtType
         '
@@ -264,7 +263,7 @@ Partial Class QueryLoad
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1104, 611)
+        Me.ClientSize = New System.Drawing.Size(1104, 621)
         Me.Controls.Add(Me.Txt_CntrlName)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label3)
