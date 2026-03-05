@@ -186,7 +186,6 @@ Public Class QueryLoad
             If (Mid(_KeyFieldValue, 1, 4)) = "0" Then
                 MsgBox("It's A Default Record, Can't Delete", MsgBoxStyle.Critical, "Soft-Tex PRO")
             Else
-
                 If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
                     Call Delete_Record()
                 End If
@@ -280,7 +279,7 @@ Public Class QueryLoad
         GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
     End Function
     Public Function GetName() As String
-        GetName = obj_Party_Selection.Master_GetName(_TblName, _KeyFieldName, _KeyFieldValue, "TYPE", TxtType.Text)
+        GetName = obj_Party_Selection.Master_GetName(_TblName, _KeyFieldName, _KeyFieldValue, "TYPE", TxtType.Text, "FormName", GetformName)
     End Function
     Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
         _strQuery = New StringBuilder
@@ -328,12 +327,13 @@ Public Class QueryLoad
         sql_connect_slect1()
         tblTmp = DefaltSoftTable.Copy
         If tblTmp.Rows.Count > 0 Then
-            If tblTmp.Rows(0).Item("FormName") <> "" Then
+            If tblTmp.Rows(0).Item("FormName") = GetformName Then
                 MsgBox("This Form Name " & GetformName & " Type of " & TxtType.Text.Trim() & " Already Exist!")
                 TxtType.Focus()
                 Exit Function
+            Else
+                Validate_Form_Values = True
             End If
-
         Else
             Validate_Form_Values = True
         End If
