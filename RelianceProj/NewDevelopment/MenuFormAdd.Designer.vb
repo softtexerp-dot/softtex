@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class MenuFormAdd
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class MenuFormAdd
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
@@ -41,9 +41,6 @@ Partial Class MenuFormAdd
         Me.Txt_MenuDisplayName = New ctl_TextBox.ctl_TextBox()
         Me.Txt_MenuShortCutKey = New ctl_TextBox.ctl_TextBox()
         Me.Txt_MenuUnderMenuName = New ctl_TextBox.ctl_TextBox()
-        Me.btnSave = New System.Windows.Forms.Button()
-        Me.btnClose = New System.Windows.Forms.Button()
-        Me.BtnView = New System.Windows.Forms.Button()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
@@ -52,17 +49,12 @@ Partial Class MenuFormAdd
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.btnAdd = New System.Windows.Forms.Button()
-        Me.btnModify = New System.Windows.Forms.Button()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Txt_MenuPosition = New ctl_TextBox.ctl_TextBox()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Txt_UnderMenuPositionId = New ctl_TextBox.ctl_TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label6
@@ -563,54 +555,6 @@ Partial Class MenuFormAdd
         Me.Txt_MenuUnderMenuName.TransparentBox = True
         Me.Txt_MenuUnderMenuName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
-        'btnSave
-        '
-        Me.btnSave.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnSave.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        'Me.btnSave.Image = Global.Textile.My.Resources.Resources.SAVE
-        Me.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnSave.Location = New System.Drawing.Point(325, 379)
-        Me.btnSave.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(79, 37)
-        Me.btnSave.TabIndex = 22
-        Me.btnSave.Text = "Save"
-        Me.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnSave.UseVisualStyleBackColor = False
-        '
-        'btnClose
-        '
-        Me.btnClose.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnClose.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        'Me.btnClose.Image = Global.Textile.My.Resources.Resources.CLOSE
-        Me.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnClose.Location = New System.Drawing.Point(486, 379)
-        Me.btnClose.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(81, 37)
-        Me.btnClose.TabIndex = 24
-        Me.btnClose.Text = "Close"
-        Me.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnClose.UseVisualStyleBackColor = False
-        '
-        'BtnView
-        '
-        Me.BtnView.BackColor = System.Drawing.SystemColors.Menu
-        Me.BtnView.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnView.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        'Me.BtnView.Image = Global.Textile.My.Resources.Resources.view_icon
-        Me.BtnView.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnView.Location = New System.Drawing.Point(408, 379)
-        Me.BtnView.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.BtnView.Name = "BtnView"
-        Me.BtnView.Size = New System.Drawing.Size(74, 37)
-        Me.BtnView.TabIndex = 23
-        Me.BtnView.Text = "View"
-        Me.BtnView.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnView.UseVisualStyleBackColor = False
-        '
         'Label11
         '
         Me.Label11.AutoSize = True
@@ -698,36 +642,6 @@ Partial Class MenuFormAdd
         Me.Label18.Size = New System.Drawing.Size(12, 14)
         Me.Label18.TabIndex = 81841
         Me.Label18.Text = ":"
-        '
-        'btnAdd
-        '
-        Me.btnAdd.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnAdd.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAdd.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        'Me.btnAdd.Image = Global.Textile.My.Resources.Resources.Button_Add_icon__1_
-        Me.btnAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAdd.Location = New System.Drawing.Point(159, 378)
-        Me.btnAdd.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(71, 38)
-        Me.btnAdd.TabIndex = 21
-        Me.btnAdd.Text = "New"
-        Me.btnAdd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnAdd.UseVisualStyleBackColor = False
-        '
-        'btnModify
-        '
-        Me.btnModify.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnModify.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        'Me.btnModify.Image = Global.Textile.My.Resources.Resources.EDIT
-        Me.btnModify.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnModify.Location = New System.Drawing.Point(235, 378)
-        Me.btnModify.Name = "btnModify"
-        Me.btnModify.Size = New System.Drawing.Size(85, 38)
-        Me.btnModify.TabIndex = 81842
-        Me.btnModify.Text = "     Modify"
-        Me.btnModify.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnModify.UseVisualStyleBackColor = True
         '
         'Label19
         '
@@ -859,68 +773,18 @@ Partial Class MenuFormAdd
         Me.Label22.TabIndex = 81847
         Me.Label22.Text = "Under Menu Id"
         '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.SystemColors.Menu
-        Me.Button1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button1.Location = New System.Drawing.Point(26, 379)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(91, 38)
-        Me.Button1.TabIndex = 81849
-        Me.Button1.Text = "Designer"
-        Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Button1.UseVisualStyleBackColor = False
-        '
-        'Button2
-        '
-        Me.Button2.BackColor = System.Drawing.SystemColors.Menu
-        Me.Button2.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button2.Location = New System.Drawing.Point(26, 422)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(91, 38)
-        Me.Button2.TabIndex = 81850
-        Me.Button2.Text = "Mdi form"
-        Me.Button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Button2.UseVisualStyleBackColor = False
-        '
-        'Button3
-        '
-        Me.Button3.BackColor = System.Drawing.SystemColors.Menu
-        Me.Button3.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Button3.Location = New System.Drawing.Point(121, 422)
-        Me.Button3.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(91, 38)
-        Me.Button3.TabIndex = 81851
-        Me.Button3.Text = "File Creat"
-        Me.Button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Button3.UseVisualStyleBackColor = False
-        '
         'MenuFormAdd
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.ClientSize = New System.Drawing.Size(580, 461)
-        Me.Controls.Add(Me.Button3)
-        Me.Controls.Add(Me.Button2)
-        Me.Controls.Add(Me.Button1)
+        Me.ClientSize = New System.Drawing.Size(638, 461)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)
         Me.Controls.Add(Me.Label22)
         Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.Txt_MenuPosition)
         Me.Controls.Add(Me.Label19)
-        Me.Controls.Add(Me.btnModify)
-        Me.Controls.Add(Me.btnAdd)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.Label16)
@@ -929,9 +793,6 @@ Partial Class MenuFormAdd
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.BtnView)
-        Me.Controls.Add(Me.btnSave)
-        Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.Txt_MenuUnderMenuName)
         Me.Controls.Add(Me.Txt_MenuShortCutKey)
         Me.Controls.Add(Me.Txt_MenuDisplayName)
@@ -983,9 +844,6 @@ Partial Class MenuFormAdd
     Friend WithEvents Txt_MenuDisplayName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Txt_MenuShortCutKey As ctl_TextBox.ctl_TextBox
     Friend WithEvents Txt_MenuUnderMenuName As ctl_TextBox.ctl_TextBox
-    Friend WithEvents btnSave As Button
-    Friend WithEvents btnClose As Button
-    Friend WithEvents BtnView As Button
     Friend WithEvents Label11 As Label
     Friend WithEvents Label12 As Label
     Friend WithEvents Label13 As Label
@@ -994,15 +852,10 @@ Partial Class MenuFormAdd
     Friend WithEvents Label16 As Label
     Friend WithEvents Label17 As Label
     Friend WithEvents Label18 As Label
-    Friend WithEvents btnAdd As Button
-    Friend WithEvents btnModify As Button
     Friend WithEvents Label19 As Label
     Friend WithEvents Txt_MenuPosition As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label20 As Label
     Friend WithEvents Label21 As Label
     Friend WithEvents Txt_UnderMenuPositionId As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label22 As Label
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
 End Class
