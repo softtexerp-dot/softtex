@@ -7,7 +7,7 @@ Public Class QueryLoad
     Private FieldNameAndValues(1) As String
     Private tblFormValues As New DataTable
     Private _ErrorValue As String = ""
-    Private _KeyFieldValue As String = ""
+    Private _KeyFieldValue As String = "0"
     Private _KeyFieldName As String = "MainId"
     Private _KeyFormName As String = "FormName"
     Private _TblName As String = "FormQueryMaster"
@@ -17,7 +17,7 @@ Public Class QueryLoad
     Private UC_Buttons1 As UC_Buttons
     Private Change_Grid_Data As Boolean = True
     Private _FORMMODE As String = ""
-    Dim txtMainId As String = ""
+    Dim txtMainId As Integer = 0
     Dim GetformName As String = ""
     Dim filePath As String
     Private CurrentBackNumber As Integer = 0
@@ -26,12 +26,8 @@ Public Class QueryLoad
         Me.KeyPreview = True
         Me.Location = New Point(5, 0)
         _FrmLoad = True
-        'GetformName = MainFormRead._getformName()
-        'MsgBox(GetformName)
-        'RTBQuery.Focus()
         TxtType.Text = "VIEW"
         Txt_Active.Text = "YES"
-        'Call ALTER_FORM(_KeyFieldValue)
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         CreateButtonsControl()
@@ -60,7 +56,6 @@ Public Class QueryLoad
         AddHandler UC_Buttons1.CloseClick, AddressOf UC_Buttons1_CloseClick
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        'UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnBack", "BtnNext", "BtnView", "BtnAdd", "BtnEdit", "BtnDelete")
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnView")
     End Sub
 #Region "Button Click"
@@ -72,8 +67,6 @@ Public Class QueryLoad
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
             TxtType.Focus()
-            'RTBQuery.Text = GetformName
-            'GetformName = MainFormRead._getformName()
             Txt_CntrlName.Visible = False
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
@@ -87,21 +80,12 @@ Public Class QueryLoad
         Dim LASTCODE As String = ""
         If _FORMMODE = "EDIT" Then
             TxtType.Focus()
-            strQuery = GetMaxCode()
-            sqL = strQuery
-            sql_connect_slect1()
-            'If DefaltSoftTable.Rows.Count > 0 Then
-            '    LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
-            'Else
-            '    LASTCODE = "1"
-            'End If
+            _GetMaxId()
             If DefaltSoftTable.Rows.Count > 0 Then
-                CurrentBackNumber = Val(DefaltSoftTable.Rows(0).Item(0))
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item("MainId"))
             Else
-                CurrentBackNumber = 1
+                LASTCODE = 1
             End If
-            'LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-            LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
         Else
             LASTCODE = _KeyFieldValue
         End If
@@ -119,23 +103,11 @@ Public Class QueryLoad
         Txt_CntrlName.Visible = False
         If _FORMMODE = "EDIT" Then
             TxtType.Focus()
-            strQuery = GetMaxCode()
-            sqL = strQuery
-            sql_connect_slect1()
-
-
-            'If DefaltSoftTable.Rows.Count > 0 Then
-            '    LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) - 1
-            'Else
-            '    LASTCODE = "1"
-            'End If
-            If CurrentBackNumber > 1 Then
-                CurrentBackNumber -= 1
+            If DefaltSoftTable.Rows.Count > 0 Then
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item("MainId")) - 1
+            Else
+                LASTCODE = "1"
             End If
-            LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
-            'LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-        Else
-            LASTCODE = _KeyFieldValue
         End If
         If LASTCODE <> "" Then
             ALTER_FORM(LASTCODE)
@@ -150,21 +122,11 @@ Public Class QueryLoad
         Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
             TxtType.Focus()
-            strQuery = GetMaxCode()
-            sqL = strQuery
-            sql_connect_slect1()
-
-
-            'If DefaltSoftTable.Rows.Count > 0 Then
-            '    LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
-            'Else
-            '    LASTCODE = "1"
-            'End If
-            CurrentBackNumber += 1
-            LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
-            'LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
-        Else
-            LASTCODE = _KeyFieldValue
+            If DefaltSoftTable.Rows.Count > 0 Then
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item("MainId")) + 1
+            Else
+                LASTCODE = "1"
+            End If
         End If
         If LASTCODE <> "" Then
             ALTER_FORM(LASTCODE)
@@ -178,11 +140,10 @@ Public Class QueryLoad
         _FORMMODE = "DELETE"
 
         _FrmLoad = False
+        _GetMaxId()
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If txtMainId <> "" Then
-
-            Call ALTER_FORM(txtMainId)
+        If txtMainId > 0 Then
             If (Mid(_KeyFieldValue, 1, 4)) = "0" Then
                 MsgBox("It's A Default Record, Can't Delete", MsgBoxStyle.Critical, "Soft-Tex PRO")
             Else
@@ -194,29 +155,22 @@ Public Class QueryLoad
         End If
         Ctrl_Visible_True(Me.Controls)
         Change_Grid_Data = True
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        UC_Buttons1._ButtonEnableDisable("LOAD")
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
 
     Private Sub UC_Buttons1_SaveClick()
-        'RTBQuery.Focus()
-
         GetformName = MainFormRead._getformName()
         If Validate_Form_Values() = False Then Exit Sub
         Dim SaveQuery As String = ""
         Dim LASTCODE As String = ""
         If _FORMMODE = "ADD" Then
-
-            strQuery = GetMaxCode()
-            sqL = strQuery
-            sql_connect_slect1()
-
-
+            _GetMaxId()
             If DefaltSoftTable.Rows.Count > 0 Then
-                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item("MainId")) + 1
             Else
                 LASTCODE = "1"
             End If
-            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
         Else
             LASTCODE = _KeyFieldValue
         End If
@@ -230,8 +184,10 @@ Public Class QueryLoad
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
         SaveQuery = getSaveQuery()
-        sqL = SaveQuery
-        sql_Data_Save_Delete_Update1()
+        'sqL = SaveQuery
+        'sql_Data_Save_Delete_Update1()
+        RS = SaveQuery.ToString
+        MenuDesign_QuerySaveUpdateDelete()
         MessageBox.Show("Save Successfully")
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
@@ -275,23 +231,36 @@ Public Class QueryLoad
 
 #End Region
 #Region "QUERY SECTION"
-    Public Function GetMaxCode() As String
-        GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
-    End Function
+    'Public Function GetMaxCode() As String
+    '    GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
+    'End Function
+    Private Sub _GetMaxId()
+        RS = "SELECT TOP 1  * FROM " & _TblName & "  ORDER BY " & _KeyFieldName & " DESC"
+        MenuDesign_QueryLoad()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
+                txtMainId = DefaltSoftTable.Rows(0).Item("MainId")
+                _KeyFieldValue = txtMainId
+            Else
+                txtMainId = DefaltSoftTable.Rows(0).Item("MainId") + 1
+            End If
+        Else
+            txtMainId = 1
+        End If
+    End Sub
     Public Function GetName() As String
-        GetName = obj_Party_Selection.Master_GetName(_TblName, _KeyFieldName, _KeyFieldValue, "TYPE", TxtType.Text, "FormName", GetformName)
+        RS = "SELECT TOP 1 FormName FROM " & _TblName & "  WHERE  1=1 AND Type='" & TxtType.Text & "'" & " AND FormName='" & GetformName & "'"
+        MenuDesign_QueryLoad()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            GetName = DefaltSoftTable.Rows(0).Item("FormName").ToString()
+        End If
+        Return GetName
     End Function
     Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
         _strQuery = New StringBuilder
-        Dim Filter As String = ""
-        If strKeyID <> "" Then
-            Filter = " AND MainId='" & strKeyID & "' "
-        End If
         With _strQuery
-            '.Append(" SELECT * FROM " & _TblName & " WHERE 1=1 AND MainId='" & strKeyID & "'")
-            .Append(" SELECT * FROM " & _TblName & " WHERE 1=1 ")
-            .Append(Filter)
-            .Append(" Order By MainId desc")
+            .Append(" SELECT A.* ")
+            .Append(" FROM " & _TblName & " A WHERE 1=1 AND " & _KeyFieldName & " =" & strKeyID & "")
         End With
         Return _strQuery.ToString
     End Function
@@ -300,7 +269,7 @@ Public Class QueryLoad
         If _FORMMODE = "ADD" Then
             _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
         ElseIf _FORMMODE = "EDIT" Then
-            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
+            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
         End If
         getSaveQuery = _strQuery.ToString
     End Function
@@ -322,32 +291,36 @@ Public Class QueryLoad
     Private Function Validate_Form_Values() As Boolean
         Dim tblTmp As New DataTable
         Validate_Form_Values = False
-        strQuery = GetName()
-        sqL = strQuery
-        sql_connect_slect1()
-        tblTmp = DefaltSoftTable.Copy
-        If tblTmp.Rows.Count > 0 Then
-            If tblTmp.Rows(0).Item("FormName") = GetformName Then
-                MsgBox("This Form Name " & GetformName & " Type of " & TxtType.Text.Trim() & " Already Exist!")
-                TxtType.Focus()
-                Exit Function
+        If _FORMMODE = "EDIT" Then
+            Validate_Form_Values = True
+        Else
+            GetName()
+            tblTmp = DefaltSoftTable.Copy
+            If tblTmp.Rows.Count > 0 Then
+                If tblTmp.Rows(0).Item("FormName") = GetformName Then
+                    MsgBox("This Form Name " & GetformName & " Type of " & TxtType.Text.Trim() & " Already Exist!")
+                    TxtType.Focus()
+                    Exit Function
+                Else
+                    Validate_Form_Values = True
+                End If
             Else
                 Validate_Form_Values = True
             End If
-        Else
-            Validate_Form_Values = True
         End If
+
+
     End Function
 #End Region
 #Region "ALTER FORM METHOD"
     Private Sub ALTER_FORM(ByVal strKeyID As String)
         Dim tblTmp As New DataTable
         '_FORMMODE = "EDIT"
-        strQuery = getAlter_Form_Query(strKeyID)
-        sqL = strQuery
-        sql_connect_slect1()
-        tblTmp = DefaltSoftTable.Copy
+        RS = getAlter_Form_Query(strKeyID)
+        MenuDesign_QueryLoad()
+        tblTmp = DefaltSoftTable
         tblFormValues.Rows.Clear()
+
         If tblTmp.Rows.Count > 0 Then
             txtMainId = tblTmp.Rows(0).Item("MainId")
             _KeyFieldValue = txtMainId
@@ -366,6 +339,7 @@ Public Class QueryLoad
                 Label3.Visible = False
                 Label2.Visible = False
             End If
+
         Else
             If tblTmp.Rows.Count = 0 Then
                 ObjCls_General.Blank_Object(Me)
@@ -395,8 +369,10 @@ Public Class QueryLoad
         With _strQuery
             .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
         End With
-        sqL = _strQuery.ToString
-        sql_Data_Save_Delete_Update1()
+        'sqL = _strQuery.ToString
+        'sql_Data_Save_Delete_Update1()
+        RS = _strQuery.ToString
+        MenuDesign_QuerySaveUpdateDelete()
         ObjCls_General.Blank_Object(Me)
         _KeyFieldValue = 0
         Call Ctrl_Visible_False(Me.Controls)
