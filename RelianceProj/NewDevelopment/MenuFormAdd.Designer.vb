@@ -172,7 +172,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuSepartor._AllowSpace = True
         Me.Txt_MenuSepartor.AcceptsReturn = True
         Me.Txt_MenuSepartor.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuSepartor.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuSepartor.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuSepartor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuSepartor.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuSepartor.Check_Start_Date_Value_FY = "YES"
@@ -189,7 +189,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuSepartor.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuSepartor.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Txt_MenuSepartor.IsValidated = False
-        Me.Txt_MenuSepartor.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuSepartor.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuSepartor.Location = New System.Drawing.Point(230, 133)
         Me.Txt_MenuSepartor.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuSepartor.MandatoryField = False
@@ -216,7 +216,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuActive._AllowSpace = True
         Me.Txt_MenuActive.AcceptsReturn = True
         Me.Txt_MenuActive.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuActive.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuActive.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuActive.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.Txt_MenuActive.Check_End_Date_Value_FY = "YES"
@@ -234,7 +234,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuActive.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuActive.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Txt_MenuActive.IsValidated = False
-        Me.Txt_MenuActive.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuActive.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuActive.Location = New System.Drawing.Point(230, 105)
         Me.Txt_MenuActive.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuActive.MandatoryField = False
@@ -261,7 +261,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuType._AllowSpace = True
         Me.Txt_MenuType.AcceptsReturn = True
         Me.Txt_MenuType.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuType.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuType.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuType.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.Txt_MenuType.Check_End_Date_Value_FY = "YES"
@@ -279,7 +279,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuType.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Txt_MenuType.IsValidated = False
-        Me.Txt_MenuType.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuType.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuType.Location = New System.Drawing.Point(230, 77)
         Me.Txt_MenuType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuType.MandatoryField = False
@@ -306,7 +306,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuName._AllowSpace = True
         Me.Txt_MenuName.AcceptsReturn = True
         Me.Txt_MenuName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuName.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuName.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuName.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuName.Check_Start_Date_Value_FY = "YES"
@@ -323,7 +323,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuName.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_MenuName.IsValidated = False
-        Me.Txt_MenuName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuName.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuName.Location = New System.Drawing.Point(230, 49)
         Me.Txt_MenuName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuName.MandatoryField = False
@@ -336,7 +336,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuName.RegularExpression = Nothing
         Me.Txt_MenuName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuName.ShowMessage = False
-        Me.Txt_MenuName.Size = New System.Drawing.Size(337, 22)
+        Me.Txt_MenuName.Size = New System.Drawing.Size(396, 22)
         Me.Txt_MenuName.SpacerString = ""
         Me.Txt_MenuName.TabIndex = 2
         Me.Txt_MenuName.Tag = "MenuName"
@@ -348,7 +348,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuId._AllowSpace = True
         Me.Txt_MenuId.AcceptsReturn = True
         Me.Txt_MenuId.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuId.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuId.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuId.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuId.Check_Start_Date_Value_FY = "YES"
@@ -365,7 +365,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuId.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuId.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SerialNumber
         Me.Txt_MenuId.IsValidated = False
-        Me.Txt_MenuId.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuId.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuId.Location = New System.Drawing.Point(230, 19)
         Me.Txt_MenuId.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuId.MandatoryField = False
@@ -390,7 +390,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuOrder._AllowSpace = True
         Me.Txt_MenuOrder.AcceptsReturn = True
         Me.Txt_MenuOrder.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuOrder.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuOrder.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuOrder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuOrder.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuOrder.Check_Start_Date_Value_FY = "YES"
@@ -407,7 +407,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuOrder.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuOrder.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SerialNumber
         Me.Txt_MenuOrder.IsValidated = False
-        Me.Txt_MenuOrder.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuOrder.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuOrder.Location = New System.Drawing.Point(230, 249)
         Me.Txt_MenuOrder.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuOrder.MandatoryField = False
@@ -432,7 +432,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuDisplayName._AllowSpace = True
         Me.Txt_MenuDisplayName.AcceptsReturn = True
         Me.Txt_MenuDisplayName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuDisplayName.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuDisplayName.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuDisplayName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuDisplayName.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuDisplayName.Check_Start_Date_Value_FY = "YES"
@@ -449,7 +449,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuDisplayName.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuDisplayName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_MenuDisplayName.IsValidated = False
-        Me.Txt_MenuDisplayName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuDisplayName.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuDisplayName.Location = New System.Drawing.Point(230, 280)
         Me.Txt_MenuDisplayName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuDisplayName.MandatoryField = False
@@ -463,7 +463,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuDisplayName.RegularExpression = Nothing
         Me.Txt_MenuDisplayName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuDisplayName.ShowMessage = False
-        Me.Txt_MenuDisplayName.Size = New System.Drawing.Size(337, 22)
+        Me.Txt_MenuDisplayName.Size = New System.Drawing.Size(396, 22)
         Me.Txt_MenuDisplayName.SpacerString = ""
         Me.Txt_MenuDisplayName.TabIndex = 11
         Me.Txt_MenuDisplayName.Tag = "SelectedFormName"
@@ -475,7 +475,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuShortCutKey._AllowSpace = True
         Me.Txt_MenuShortCutKey.AcceptsReturn = True
         Me.Txt_MenuShortCutKey.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuShortCutKey.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuShortCutKey.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuShortCutKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuShortCutKey.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuShortCutKey.Check_Start_Date_Value_FY = "YES"
@@ -492,7 +492,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuShortCutKey.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuShortCutKey.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_MenuShortCutKey.IsValidated = False
-        Me.Txt_MenuShortCutKey.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuShortCutKey.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuShortCutKey.Location = New System.Drawing.Point(230, 308)
         Me.Txt_MenuShortCutKey.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuShortCutKey.MandatoryField = False
@@ -505,7 +505,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuShortCutKey.RegularExpression = Nothing
         Me.Txt_MenuShortCutKey.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuShortCutKey.ShowMessage = False
-        Me.Txt_MenuShortCutKey.Size = New System.Drawing.Size(337, 22)
+        Me.Txt_MenuShortCutKey.Size = New System.Drawing.Size(396, 22)
         Me.Txt_MenuShortCutKey.SpacerString = ""
         Me.Txt_MenuShortCutKey.TabIndex = 12
         Me.Txt_MenuShortCutKey.Tag = "ShortCutKey"
@@ -517,7 +517,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuUnderMenuName._AllowSpace = True
         Me.Txt_MenuUnderMenuName.AcceptsReturn = True
         Me.Txt_MenuUnderMenuName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuUnderMenuName.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuUnderMenuName.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuUnderMenuName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuUnderMenuName.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuUnderMenuName.Check_Start_Date_Value_FY = "YES"
@@ -534,7 +534,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuUnderMenuName.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuUnderMenuName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_MenuUnderMenuName.IsValidated = False
-        Me.Txt_MenuUnderMenuName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuUnderMenuName.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuUnderMenuName.Location = New System.Drawing.Point(230, 193)
         Me.Txt_MenuUnderMenuName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuUnderMenuName.MandatoryField = False
@@ -548,7 +548,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuUnderMenuName.RegularExpression = Nothing
         Me.Txt_MenuUnderMenuName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuUnderMenuName.ShowMessage = False
-        Me.Txt_MenuUnderMenuName.Size = New System.Drawing.Size(337, 22)
+        Me.Txt_MenuUnderMenuName.Size = New System.Drawing.Size(396, 22)
         Me.Txt_MenuUnderMenuName.SpacerString = ""
         Me.Txt_MenuUnderMenuName.TabIndex = 8
         Me.Txt_MenuUnderMenuName.Tag = "MainMenuName"
@@ -659,7 +659,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuPosition._AllowSpace = True
         Me.Txt_MenuPosition.AcceptsReturn = True
         Me.Txt_MenuPosition.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_MenuPosition.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuPosition.BackColor = System.Drawing.Color.Bisque
         Me.Txt_MenuPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_MenuPosition.Check_End_Date_Value_FY = "YES"
         Me.Txt_MenuPosition.Check_Start_Date_Value_FY = "YES"
@@ -676,7 +676,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuPosition.ForeColor = System.Drawing.Color.Black
         Me.Txt_MenuPosition.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SerialNumber
         Me.Txt_MenuPosition.IsValidated = False
-        Me.Txt_MenuPosition.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_MenuPosition.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_MenuPosition.Location = New System.Drawing.Point(230, 161)
         Me.Txt_MenuPosition.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_MenuPosition.MandatoryField = False
@@ -724,7 +724,7 @@ Partial Class MenuFormAdd
         Me.Txt_UnderMenuPositionId._AllowSpace = True
         Me.Txt_UnderMenuPositionId.AcceptsReturn = True
         Me.Txt_UnderMenuPositionId.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_UnderMenuPositionId.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_UnderMenuPositionId.BackColor = System.Drawing.Color.Bisque
         Me.Txt_UnderMenuPositionId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_UnderMenuPositionId.Check_End_Date_Value_FY = "YES"
         Me.Txt_UnderMenuPositionId.Check_Start_Date_Value_FY = "YES"
@@ -741,7 +741,7 @@ Partial Class MenuFormAdd
         Me.Txt_UnderMenuPositionId.ForeColor = System.Drawing.Color.Black
         Me.Txt_UnderMenuPositionId.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SerialNumber
         Me.Txt_UnderMenuPositionId.IsValidated = False
-        Me.Txt_UnderMenuPositionId.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Txt_UnderMenuPositionId.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.Txt_UnderMenuPositionId.Location = New System.Drawing.Point(230, 221)
         Me.Txt_UnderMenuPositionId.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_UnderMenuPositionId.MandatoryField = False
@@ -777,7 +777,7 @@ Partial Class MenuFormAdd
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(638, 461)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)
@@ -820,7 +820,7 @@ Partial Class MenuFormAdd
         Me.MinimizeBox = False
         Me.Name = "MenuFormAdd"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Menu Form Add"
+        Me.Text = "Menu Form"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

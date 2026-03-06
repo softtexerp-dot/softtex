@@ -106,8 +106,6 @@ Friend Class MenuFormAdd
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         old_Me_text = Me.Text
-        'Call Command_Button_Visibility("LOAD")
-        'UC_Buttons1._ButtonEnableDisable("LOAD")
         Ctrl_Visible_False(Me.Controls)
 
         _FrmLoad = False
@@ -252,7 +250,6 @@ Friend Class MenuFormAdd
                 Txt_MenuActive.Text = "NO"
                 Txt_MenuSepartor.Text = "False"
                 UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-                'Call Ctrl_Visible_False(Me.Controls)
                 MsgBox("Record Not Found")
             End If
         End If
@@ -266,11 +263,8 @@ Friend Class MenuFormAdd
         With _strQuery
             .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
         End With
-        'sqL = _strQuery.ToString
-        'sql_Data_Save_Delete_Update()
         RS = _strQuery.ToString
         MenuDesign_QueryLoad()
-
         ObjCls_General.Blank_Object(Me)
         _KeyFieldValue = 0
     End Sub
@@ -300,11 +294,8 @@ Friend Class MenuFormAdd
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
             Else
-
                 If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
             End If
-
-
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
                 RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
                 MenuDesign_QueryLoad()
@@ -315,8 +306,6 @@ Friend Class MenuFormAdd
                 End If
             End If
         End If
-
-
     End Sub
 
     Private Sub Txt_MenuUnderMenuName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_MenuUnderMenuName.KeyDown
@@ -468,10 +457,7 @@ Friend Class MenuFormAdd
                 End If
             End If
             ObjCls_General.Blank_Object(Me)
-            '_FORMMODE = ""
             Ctrl_Visible_False(Me.Controls)
-            'Command_Button_Visibility("LOAD")
-            'Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
         End If
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
@@ -521,6 +507,8 @@ Friend Class MenuFormAdd
         _FrmLoad = True
         Dim SaveQuery As String = ""
         Dim LASTCODE As String = ""
+        If Txt_MenuOrder.Text.Trim = "" Then Txt_MenuOrder.Text = 1
+        _MenuPositiomset()
         If _FORMMODE = "ADD" Then
             _GetMaxId()
             If DefaltSoftTable.Rows.Count > 0 Then
@@ -545,8 +533,6 @@ Friend Class MenuFormAdd
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
         SaveQuery = getSaveQuery()
-        'sqL = SaveQuery
-        'sql_Data_Save_Delete_Update1()
         RS = SaveQuery.ToString
         MenuDesign_QuerySaveUpdateDelete()
         MessageBox.Show("Save Successfully")
@@ -617,7 +603,6 @@ Friend Class MenuFormAdd
             End If
         End If
     End Sub
-
 #End Region
 
 End Class
