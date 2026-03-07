@@ -176,56 +176,6 @@ Friend Class MenuFormAdd
 
     End Sub
 
-
-#Region "SAVE METHOD"
-    'Private Sub SaveRecord()
-    '    Dim SaveQuery As String = ""
-    '    Dim Qry As New StringBuilder()
-    '    If Txt_MenuOrder.Text.Trim = "" Then Txt_MenuOrder.Text = 1
-    '    _MenuPositiomset()
-
-    '    Qry.Append("INSERT INTO MenuName (")
-    '    Qry.Append("MainId")
-    '    Qry.Append(",MenuName")
-    '    Qry.Append(",MenuPositionId")
-    '    Qry.Append(",MainMenuPositionId")
-    '    Qry.Append(",MenuOrderNo")
-    '    Qry.Append(",ActiveStatus")
-    '    Qry.Append(",MenuPosition")
-    '    Qry.Append(",MenuIsSparate")
-    '    Qry.Append(",MainMenuName")
-    '    Qry.Append(",SelectedFormName")
-    '    Qry.Append(",ShortCutKey")
-    '    Qry.Append(" ) VALUES (")
-    '    Qry.Append(Val(Txt_MenuId.Text) & ", ") ' Ensure numeric
-    '    Qry.Append("'" & Txt_MenuName.Text.Replace("'", "''") & "', ")
-    '    Qry.Append(Val(Txt_UnderMenuPositionId.Text) & ", ") ' Ensure numeric
-    '    Qry.Append(Val(Txt_UnderMenuPositionId.Text) & ", ") ' Ensure numeric
-    '    Qry.Append(Val(Txt_MenuOrder.Text) & ", ") ' Ensure numeric
-    '    Qry.Append("'" & Txt_MenuActive.Text.Replace("'", "''") & "',")
-    '    Qry.Append(Val(Txt_MenuPosition.Text) & ",")
-    '    Qry.Append("'" & Txt_MenuSepartor.Text.Replace("'", "''") & "', ")
-    '    Qry.Append("'" & Txt_MenuUnderMenuName.Text.Replace("'", "''") & "', ")
-    '    Qry.Append("'" & Txt_MenuDisplayName.Text.Replace("'", "''") & "', ")
-    '    Qry.Append("'" & Txt_MenuShortCutKey.Text.Replace("'", "''") & "' ")
-    '    Qry.Append(")")
-    '    RS = Qry.ToString
-    '    MenuDesign_QuerySaveUpdateDelete()
-
-    '    MsgBox("Records Successfully Saved", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-    '    _KeyFieldValue = 0
-
-    '    ObjCls_General.Blank_Object(Me)
-    '    _FORMMODE = ""
-    '    Ctrl_Visible_False(Me.Controls)
-    '    'Command_Button_Visibility("LOAD")
-    '    'Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
-    '    UC_Buttons1._ButtonEnableDisable("LOAD")
-    '    UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-
-    'End Sub
-#End Region
-
 #Region "ALTER FORM METHOD"
     Private Sub ALTER_FORM(ByVal strKeyID As String)
         Dim tblTmp As New DataTable
@@ -293,8 +243,14 @@ Friend Class MenuFormAdd
                 Txt_MenuPosition.Text = 0
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
+            ElseIf Txt_MenuType.Text.Trim = "PARENT1" Then
+                Txt_MenuPosition.Text = 3
+            ElseIf Txt_MenuType.Text.Trim = "PARENT2" Then
+                Txt_MenuPosition.Text = 4
             Else
-                If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
+                'If Txt_MenuPosition.Text.Trim = "" Then
+                Txt_MenuPosition.Text = 1
+                'End If
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
                 RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
@@ -343,10 +299,93 @@ Friend Class MenuFormAdd
         ElseIf e.KeyCode = Keys.Delete Then
             Txt_MenuUnderMenuName.Text = ""
         End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
+            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
+            Dim Qry As New StringBuilder()
+            Qry.Append(" SELECT ")
+            Qry.Append(" A.MenuName ")
+            Qry.Append(" ,'' AS Remark ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" FROM MenuName AS A ")
+            Qry.Append(" WHERE 1=1 ")
+            Qry.Append(" AND A.MenuPositionId=0 ")
+            Qry.Append(" ORDER BY A.MenuName ")
+            RS = Qry.ToString
+            MenuDesign_QueryLoad()
+            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+            Party_selection.dgw.Columns(2).Visible = False
+            Party_selection.dgw.Columns(3).Visible = False
+            Party_selection.dgw.Columns(0).Width = 280
+            Party_selection.dgw.Columns(1).Width = 200
+            Party_selection.Width = 506
+            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
+            row.Height = 30
+            obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
+
+            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+                Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
+                Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
+            End If
+            _MenuPositiomset()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuUnderMenuName.Text = ""
+        End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
+            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
+            Dim Qry As New StringBuilder()
+            Qry.Append(" SELECT ")
+            Qry.Append(" A.MenuName ")
+            Qry.Append(" ,'' AS Remark ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" FROM MenuName AS A ")
+            Qry.Append(" WHERE 1=1 ")
+            Qry.Append(" AND A.MenuPositionId=0 ")
+            Qry.Append(" ORDER BY A.MenuName ")
+            RS = Qry.ToString
+            MenuDesign_QueryLoad()
+            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+            Party_selection.dgw.Columns(2).Visible = False
+            Party_selection.dgw.Columns(3).Visible = False
+            Party_selection.dgw.Columns(0).Width = 280
+            Party_selection.dgw.Columns(1).Width = 200
+            Party_selection.Width = 506
+            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
+            row.Height = 30
+            obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
+
+            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+                Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
+                Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
+            End If
+            _MenuPositiomset()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuUnderMenuName.Text = ""
+        End If
+
     End Sub
 
     Private Sub Txt_MenuDisplayName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_MenuDisplayName.KeyDown
         If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text = "SUB MENU" Then
+            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
+            GetAllFormsAsDataTable()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuDisplayName.Text = ""
+        End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
+            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
+            GetAllFormsAsDataTable()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuDisplayName.Text = ""
+        End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
             Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
             GetAllFormsAsDataTable()
             SendKeys.Send("{TAB}")
@@ -423,20 +462,16 @@ Friend Class MenuFormAdd
             If DefaltSoftTable.Rows.Count > 0 Then
                 Txt_MenuId.Text = DefaltSoftTable.Rows(0).Item("MainId")
                 _KeyFieldValue = Txt_MenuId.Text
-            Else
-                Txt_MenuId.Text = 1
+                'Else
+                '    Txt_MenuId.Text = 1
             End If
-
             Call ALTER_FORM(Txt_MenuId.Text)
         End If
-
-
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
 
 
     Private Sub UC_Buttons1_DeleteClick()
-
         _FrmLoad = True
         Last_Focused_Btn = "DELETE"
         _FORMMODE = "DELETE"
@@ -471,7 +506,6 @@ Friend Class MenuFormAdd
             Else
                 RS = "SELECT TOP 1  * FROM " & _TblName & "  where " & _KeyFieldName & "=" & Txt_MenuId.Text & " ORDER BY " & _KeyFieldName & " DESC"
             End If
-
             MenuDesign_QueryLoad()
             If DefaltSoftTable.Rows.Count > 0 Then
                 Txt_MenuId.Text = DefaltSoftTable.Rows(0).Item("MainId")
@@ -539,7 +573,6 @@ Friend Class MenuFormAdd
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         Call Ctrl_Visible_False(Me.Controls)
-        'SaveRecord()
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")

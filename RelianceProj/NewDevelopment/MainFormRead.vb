@@ -89,6 +89,8 @@ Public Class MainFormRead
     Dim _BookVNo As String = ""
     'Dim _FormName As String = ""
     Public Property FormNameValue As String
+    Dim allText As String
+    Dim tmptbl As New DataTable
 
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
@@ -100,7 +102,23 @@ Public Class MainFormRead
         UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
         _FrmLoad = False
+
+        PnlGrdView.Width = Me.Width
+        PnlGrdView.Height = Me.Height
+        PnlGrdView.Location = New POINT(0, 0)
+
+        GridControl1.Width = PnlGrdView.Width - 25
+        GridControl1.Height = PnlGrdView.Height - 100
+        GridControl1.Location = New POINT(3, 53)
+
+        FormNameValue = _getformName()
+        'tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+        'allText = GetQuery(tmptbl, "VIEW", "VIEW")
+
+
     End Sub
+
+
 
     Private Sub CreateButtonsControl()
 
@@ -657,16 +675,109 @@ Public Class MainFormRead
         If _FORMMODE = "VIEW" Then
             txtFormName.Focus()
         End If
-        'sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
+        LoadViewData(tmptbl, _Bookcode)
+
+
+        'Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
+        'Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+
+        'Generate_Date_For_DataBase(Txt_ViewFrom)
+        'Generate_Date_For_DataBase(Txt_ViewTO)
+
+        'Dim _FilterCondition As String = " and bookcode='" & _Bookcode & "' and entrydate>='" & Txt_ViewFrom.Date_for_Database & "' and entrydate>='" & Txt_ViewTO.Date_for_Database & "'"
+
+        'Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
+        ''Dim PRINTQUERY As String = GetQuery(tmptbl, "PRINTQUERY", "VIEW")
+        ''Dim GRIDTOTAL As String = GetQuery(tmptbl, "GRIDTOTAL", "VIEW")
+        ''Dim SECTIONTOTAL As String = GetQuery(tmptbl, "SECTIONTOTAL", "VIEW")
+        'sqL = ViewQuery.ToString
         'sql_connect_slect()
-        'If DefaltSoftTable.Rows.Count > 0 Then
-        '    _BookName = DefaltSoftTable.Rows(0).Item("BookName").ToString
+        'Dim _tmptbl As New DataTable
+        '_tmptbl = DefaltSoftTable.Copy
+        'FirstStage.Columns.Clear()
+        'Dim Qty As String = ""
+        'If _tmptbl.Rows.Count > 0 Then
+
+        '    GridControl1.DataSource = _tmptbl.Copy
+
+        '    DevGridFitColumn(GridControl1, FirstStage)
+
+        '    PnlGrdView.Visible = True
+        '    FirstStage.BestFitColumns()
+        '    FirstStage.Focus()
+        '    PnlGrdView.BringToFront()
+        '    GridControl1.BringToFront()
         'Else
-        '    MsgBox("Not Record Found", MsgBoxStyle.Critical)
+        '    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+
         'End If
 
-        'PrintViewPage.Show()
+
+        'Dim ViewPrint As String = GetQuery(tmptbl, "PRINTQUERY", "PRINT")
+        'Dim ViewTotal As String = GetQuery(tmptbl, "GRIDTOTAL", "TOTAL COLUMN")
+
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+    End Sub
+    Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
+
+        Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
+        Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+
+        Generate_Date_For_DataBase(Txt_ViewFrom)
+        Generate_Date_For_DataBase(Txt_ViewTO)
+
+        Dim _FilterCondition As String = " and bookcode='" & _Bookcode & "' and entrydate>='" & Txt_ViewFrom.Date_for_Database & "' and entrydate<='" & Txt_ViewTO.Date_for_Database & "'"
+        'Dim _FilterCondition As String = " and bookcode='" & _Bookcode & "' "
+        ' 🔹 Queries Read
+        Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
+        Dim PRINTQUERY As String = GetQuery(tmptbl, "PRINTQUERY", "VIEW")
+        Dim GRIDTOTAL As String = GetQuery(tmptbl, "GRIDTOTAL", "VIEW")
+        Dim SECTIONTOTAL As String = GetQuery(tmptbl, "SECTIONTOTAL", "VIEW")
+        If ViewQuery = "" Then
+            MsgBox("View Query Not Found")
+            Exit Sub
+        End If
+        ' 🔹 View Query Execute
+        sqL = ViewQuery & _FilterCondition
+        sql_connect_slect()
+
+        Dim ResultTable As New DataTable
+        ResultTable = DefaltSoftTable.Copy
+
+        FirstStage.Columns.Clear()
+
+        If ResultTable.Rows.Count > 0 Then
+
+            GridControl1.DataSource = ResultTable.Copy
+            DevGridFitColumn(GridControl1, FirstStage)
+
+            PnlGrdView.Visible = True
+            FirstStage.BestFitColumns()
+            FirstStage.Focus()
+
+            PnlGrdView.BringToFront()
+            GridControl1.BringToFront()
+
+        Else
+
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            txtFormName.Focus()
+        End If
+
+        ' 🔹 Grid Total Query
+        If GRIDTOTAL <> "" Then
+            sqL = GRIDTOTAL & _FilterCondition
+            sql_connect_slect()
+            ' Yaha total calculation ka code likh sakte ho
+        End If
+
+        ' 🔹 Section Total Query
+        If SECTIONTOTAL <> "" Then
+            sqL = SECTIONTOTAL & _FilterCondition
+            sql_connect_slect()
+            ' Yaha section total ka code likh sakte ho
+        End If
+
     End Sub
     Private Sub UC_Buttons1_PrintClick()
         _FORMMODE = "PRINT"
@@ -1351,6 +1462,13 @@ Public Class MainFormRead
                 Me.Dispose()
             End If
         End If
+        If PnlGrdView.Visible = True Then
+            PnlGrdView.Visible = False
+            _FORMMODE = ""
+            UC_Buttons1._ButtonEnableDisable("LOAD")
+            Exit Sub
+        End If
+
         If e.KeyCode = Keys.F4 Then
             PropertyGrid1.Visible = True
 
@@ -1696,6 +1814,17 @@ Public Class MainFormRead
 
     Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles SimpleButton1.Click
         FormNameValue = _getformName()
+        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+        'tmptbl = _GetFormQuery(FormNameValue, "PRINT")
+        'tmptbl = _GetFormQuery(FormNameValue, "TOTAL COLUMN")
+        'tmptbl = _GetFormQuery(FormNameValue, "SECTIONTOTAL")
+        allText = GetQuery(tmptbl, "VIEW", "VIEW")
+        'allText = GetQuery(tmptbl, "PRINTQUERY", "PRINT")
+        'allText = GetQuery(tmptbl, "GRIDTOTAL", "TOTAL COLUMN")
+        'allText = GetQuery(tmptbl, "SECTIONTOTAL", "SECTIONTOTAL")
     End Sub
     Public Function _getformName() As String
         If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then
@@ -1704,4 +1833,25 @@ Public Class MainFormRead
         End If
         Return ""
     End Function
+
+    Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
+
+    End Sub
+
+    Private Sub Btn_LayoutLoad_Click(sender As Object, e As EventArgs) Handles Btn_LayoutLoad.Click
+
+    End Sub
+
+    Private Sub SimpleButton2_Click_1(sender As Object, e As EventArgs) Handles SimpleButton2.Click
+        LoadViewData(tmptbl, _Bookcode)
+    End Sub
+
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = " Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
+        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+    End Sub
+
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
+        _DevExpressExcelExport(GridControl1)
+    End Sub
 End Class

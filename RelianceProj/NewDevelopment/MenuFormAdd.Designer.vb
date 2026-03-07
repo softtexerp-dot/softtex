@@ -294,7 +294,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuType.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuType.ShowMessage = False
         Me.Txt_MenuType.Size = New System.Drawing.Size(114, 22)
-        Me.Txt_MenuType.SpacerString = "MAIN MENU,SUB MENU"
+        Me.Txt_MenuType.SpacerString = "MAIN MENU,SUB MENU,PARENT1,PARENT2"
         Me.Txt_MenuType.TabIndex = 3
         Me.Txt_MenuType.Tag = "BOOKNAME"
         Me.Txt_MenuType.Text = "MAIN MENU"
