@@ -353,7 +353,6 @@ Module Module2
 
     End Sub
 
-
     Public Sub _creatPasswordInDbMenu()
         Dim appPath As String = My.Application.Info.DirectoryPath
         Dim connectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & appPath + "\SQLDB.mdb;Mode=12;Jet OLEDB:Database Password=;"
@@ -415,7 +414,6 @@ Module Module2
             Exit Sub
         End Try
     End Sub
-
     Public Sub ReportsMenuConn()
 
         Dim appPath As String = ""
@@ -465,14 +463,14 @@ Module Module2
 #Region "MenuDesign Data Connection"
     Public Sub MenuDesignConn()
 
-        'Dim appPath As String = My.Application.Info.DirectoryPath
+        Dim appPath As String = My.Application.Info.DirectoryPath
 
-        Dim appPath As String = ""
-        If _CheckServerPcs = True Then
-            appPath = (System.Windows.Forms.Application.StartupPath)
-        Else
-            appPath = _ServerPcPath
-        End If
+        'Dim appPath As String = ""
+        'If _CheckServerPcs = True Then
+        '    appPath = (System.Windows.Forms.Application.StartupPath)
+        'Else
+        '    appPath = _ServerPcPath
+        'End If
 
 
 
@@ -735,7 +733,6 @@ Module Module2
         Finally
         End Try
     End Sub
-
     Public Function sql_connect_slect()
         Try
             DefaltSoftTable.Reset()
@@ -773,6 +770,7 @@ Module Module2
         End Try
         Return DefaltSoftTable
     End Function
+
     Public Function sql_Data_Save_Delete_Update()
 
         Dim _GetError As Boolean = False

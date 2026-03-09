@@ -5078,7 +5078,7 @@ Partial Class CoastSheet
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
         Me.PnlGrdView.Location = New System.Drawing.Point(72, 181)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(111, 122)
+        Me.PnlGrdView.Size = New System.Drawing.Size(144, 122)
         Me.PnlGrdView.TabIndex = 81819
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False

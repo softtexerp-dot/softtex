@@ -2,12 +2,9 @@
 
     Public LastOpenedMenuPath As String = ""
 
-
-
     Private Sub Main_MDI_Frm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SELECT_DATABSE()
         TextBox1.Text = databaseconnecton
-
         sqL = "select*from Creat_company"
         sql_connect_slect()
         COMPANY_TBL = DefaltSoftTable.Copy
@@ -118,6 +115,14 @@
 
     Private Sub QueryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QueryToolStripMenuItem.Click
         QueryLoad.Show()
+    End Sub
+
+    Private Sub MenuMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MenuMasterToolStripMenuItem.Click
+        MenuFormAdd.Show()
+    End Sub
+
+    Private Sub MenuLoadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MenuLoadToolStripMenuItem.Click
+        MasterMenuLoad.Show()
     End Sub
 
 #End Region

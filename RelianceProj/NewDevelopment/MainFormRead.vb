@@ -72,11 +72,6 @@ Public Class MainFormRead
     Private _RowNo As Integer
     Private _ColNo As Integer
 
-    'Dim Grid2 As New FlexCell.Grid()
-    'Dim Grid3 As New FlexCell.Grid()
-    'Dim Grid4 As New FlexCell.Grid()
-    'Dim Grid5 As New FlexCell.Grid()
-
     Private UC_Buttons1 As UC_Buttons
     Private _FORMMODE As String = ""
     Private _FrmLoad As Boolean = True
@@ -87,7 +82,8 @@ Public Class MainFormRead
     Dim _Bookcode As String = ""
     Dim _Booktrtype As String = ""
     Dim _BookVNo As String = ""
-    'Dim _FormName As String = ""
+
+    Dim _FormCloseMode As Boolean = False
     Public Property FormNameValue As String
     Dim allText As String
     Dim tmptbl As New DataTable
@@ -98,10 +94,11 @@ Public Class MainFormRead
         Me.Location = New POINT(0, 0)
         _FrmLoad = True
         CreateButtonsControl()
-        Ctrl_Visible_False(Me.Controls)
+        'Ctrl_Visible_False(Me.Controls)
         UC_Buttons1._ButtonEnableDisable("LOAD")
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         AttachButtonFocusEvents(Me)
-        _FrmLoad = False
+
 
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
@@ -111,10 +108,10 @@ Public Class MainFormRead
         GridControl1.Height = PnlGrdView.Height - 100
         GridControl1.Location = New POINT(3, 53)
 
-        FormNameValue = _getformName()
+        'FormNameValue = _getformName()
         'tmptbl = _GetFormQuery(FormNameValue, "VIEW")
         'allText = GetQuery(tmptbl, "VIEW", "VIEW")
-
+        _FrmLoad = False
 
     End Sub
 
@@ -148,9 +145,10 @@ Public Class MainFormRead
 #Region "Button Click"
     Private Sub UC_Buttons1_AddClick()
         Change_Grid_Data = True
+        _FormCloseMode = False
         _FORMMODE = "ADD"
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
             txtFormName.Focus()
@@ -161,7 +159,8 @@ Public Class MainFormRead
     Private Sub UC_Buttons1_EditClick()
         _FORMMODE = "EDIT"
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        _FormCloseMode = False
+        'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "EDIT" Then
             txtFormName.Focus()
@@ -214,62 +213,36 @@ Public Class MainFormRead
         Return tblTmp   ' 👈 yaha return kar diya
     End Function
     Private Sub UC_Buttons1_DeleteClick()
-
         _FrmLoad = True
-
+        _FormCloseMode = False
         _FORMMODE = "DELETE"
-        ''Dim EntryNo As Integer
-        ''EntryNo = _GetMaxEntryNo()
-        ''If EntryNo > 0 Then
-        ''    Dim txt As New TextBox()
-        ''    txt.Text = EntryNo
-        ''    txtEntryno = txt.Text
-        ''End If
-        'If MsgBox("Do You Want To Delete (Y/N)",
-        '      MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
-        '      "Delete ?") = MsgBoxResult.Yes Then
-        '    'Call Delete_Entry()
-
-        'End If
-
-        'ObjCls_General.Blank_Object(Me)
-
-        'Ctrl_Visible_False(Me.Controls)
-
-        'UC_Buttons1._ButtonEnableDisable("LOAD")
-        'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-
-        '_FrmLoad = False
-        'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "DELETE" Then
             txtFormName.Focus()
         End If
-        'Dim EntryNo As Integer
-        'EntryNo = _GetMaxEntryNo()
-        'If EntryNo > 0 Then
-        '    Dim txt As New TextBox()
-        '    txt.Text = EntryNo
-        '    txtEntryno = txt.Text
-        'End If
-        'If MsgBox("Do You Want To Delete (Y/N)",
-        '      MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
-        '      "Delete ?") = MsgBoxResult.Yes Then
-        '    'Call Delete_Entry()
-
-        'End If
-
-        'ObjCls_General.Blank_Object(Me)
-
-        'Ctrl_Visible_False(Me.Controls)
+        Dim EntryNo As Integer
+        EntryNo = _GetMaxEntryNo()
+        If EntryNo > 0 Then
+            Dim txt As New TextBox()
+            txt.Text = EntryNo
+            txtEntryno = txt.Text
+        End If
+        If MsgBox("Do You Want To Delete (Y/N)",
+              MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
+              "Delete ?") = MsgBoxResult.Yes Then
+            Call Delete_Entry()
+        End If
+        ObjCls_General.Blank_Object(Me)
+        Ctrl_Visible_False(Me.Controls)
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_BackClick()
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        _FormCloseMode = False
+        'Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
             Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
             If ctrl.Length > 0 Then
@@ -277,15 +250,16 @@ Public Class MainFormRead
                 _GetAlterData(Entytxt.Text - 1)
             End If
         End If
-        Call Ctrl_Visible_True(Me.Controls)
+        'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_NextClick()
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        _FormCloseMode = False
+        'Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
-            Call Ctrl_Visible_True(Me.Controls)
+            'Call Ctrl_Visible_True(Me.Controls)
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
             Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
             If ctrl.Length > 0 Then
@@ -338,18 +312,73 @@ Public Class MainFormRead
             Next
         End If
 
-        txtFormName.Focus()
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+        txtFormName.Focus()
+    End Sub
+    Private Sub UC_Buttons1_CloseClick()
+
+        If _FORMMODE = "" Then
+            Me.Close()
+            Exit Sub
+        End If
+
+        Me.Close()
+        Me.Dispose(True)
+
+    End Sub
+    Private Sub UC_Buttons1_ViewClick()
+        _FrmLoad = False
+        _FORMMODE = "VIEW"
+        _FormCloseMode = False
+        Dim _BookName As String = ""
+
+        'Call Ctrl_Visible_True(Me.Controls)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        If _FORMMODE = "VIEW" Then
+            txtFormName.Focus()
+        End If
+
+        Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
+        Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+        LoadViewData(tmptbl, _Bookcode)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+    End Sub
+    Private Sub UC_Buttons1_PrintClick()
+        _FORMMODE = "PRINT"
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        ' print logic yahan add kar sakte ho
+    End Sub
+    Private Sub UC_Buttons1_ReportsClick()
+        _FORMMODE = "REPORTS"
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        ' reports logic yahan add kar sakte ho
+    End Sub
+    Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
 
     End Sub
 
+    Private Sub Btn_LayoutLoad_Click(sender As Object, e As EventArgs) Handles Btn_LayoutLoad.Click
+
+    End Sub
+
+    Private Sub SimpleButton2_Click_1(sender As Object, e As EventArgs) Handles SimpleButton2.Click
+        LoadViewData(tmptbl, _Bookcode)
+    End Sub
+
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = " Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
+        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+    End Sub
+
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
+        _DevExpressExcelExport(GridControl1)
+    End Sub
+#End Region
 #Region "QUERY SECTION"
     Private Function getAlter_Form_EntryQuery(ByVal EntryNo As String) As String
         Dim leftJoin As String = ""
         Dim joinHeader As String = ""
-
-
         For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
             Dim _DatabaseHeaderName As String = dr("Text").ToString()
             Dim _OppositCode As String = dr("OppMasterCode").ToString()
@@ -360,9 +389,6 @@ Public Class MainFormRead
             leftJoin = res.LeftJoin
             joinHeader = res.JoinHeader
         Next
-
-
-
         _strQuery = New StringBuilder
         With _strQuery
             .Append(" SELECT A.*  ")
@@ -425,99 +451,6 @@ Public Class MainFormRead
                     End If
                 Next
             Next
-
-
-            'For Each dr As DataRow In _MainColumTbl.Select("Columntype='Grid'")
-
-            '    Dim gridname As String = dr("CntrlName").ToString().Trim()
-
-            '    Dim grd As FlexCell.Grid = TryCast(Me.Controls(gridname), FlexCell.Grid)
-
-            '    If gridname = "Grid1" Then
-            '        For i As Int16 = 1 To grd.Rows - 1
-            '            'If Val(GrdItem.Cell(i, _DataTableGrid1.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
-            '            FieldDr = _DataTableGrid1.NewRow
-            '            For j As Int16 = 1 To grd.Cols - 1
-            '                If FieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
-            '                    FieldDr(j - 1) = Val(grd.Cell(i, j).Text)
-            '                Else
-            '                    FieldDr(j - 1) = (grd.Cell(i, j).Text)
-            '                End If
-            '            Next
-
-            '            _DataTableGrid1.Rows.Add(FieldDr)
-            '            'End If
-            '        Next
-            '    ElseIf gridname = "Grid2" Then
-            '        For i As Int16 = 1 To grd.Rows - 1
-            '            'If Val(GrdItem.Cell(i, _DataTableGrid1.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
-            '            FieldDr = _DataTableGrid2.NewRow
-            '            For j As Int16 = 1 To grd.Cols - 1
-            '                If FieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
-            '                    FieldDr(j - 1) = Val(grd.Cell(i, j).Text)
-            '                Else
-            '                    FieldDr(j - 1) = (grd.Cell(i, j).Text)
-            '                End If
-            '            Next
-
-            '            _DataTableGrid2.Rows.Add(FieldDr)
-            '            'End If
-            '        Next
-
-            '    ElseIf gridname = "Grid3" Then
-
-            '        For i As Int16 = 1 To grd.Rows - 1
-            '            'If Val(GrdItem.Cell(i, _DataTableGrid1.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
-            '            FieldDr = _DataTableGrid3.NewRow
-            '            For j As Int16 = 1 To grd.Cols - 1
-            '                If FieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
-            '                    FieldDr(j - 1) = Val(grd.Cell(i, j).Text)
-            '                Else
-            '                    FieldDr(j - 1) = (grd.Cell(i, j).Text)
-            '                End If
-            '            Next
-
-            '            _DataTableGrid3.Rows.Add(FieldDr)
-            '            'End If
-            '        Next
-            '    ElseIf gridname = "Grid4" Then
-            '        For i As Int16 = 1 To grd.Rows - 1
-            '            'If Val(GrdItem.Cell(i, _DataTableGrid1.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
-            '            FieldDr = _DataTableGrid4.NewRow
-            '            For j As Int16 = 1 To grd.Cols - 1
-            '                If FieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
-            '                    FieldDr(j - 1) = Val(grd.Cell(i, j).Text)
-            '                Else
-            '                    FieldDr(j - 1) = (grd.Cell(i, j).Text)
-            '                End If
-            '            Next
-
-            '            _DataTableGrid4.Rows.Add(FieldDr)
-            '            'End If
-            '        Next
-
-            '    ElseIf gridname = "Grid5" Then
-            '        For i As Int16 = 1 To grd.Rows - 1
-            '            'If Val(GrdItem.Cell(i, _DataTableGrid1.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
-            '            FieldDr = _DataTableGrid5.NewRow
-            '            For j As Int16 = 1 To grd.Cols - 1
-            '                If FieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
-            '                    FieldDr(j - 1) = Val(grd.Cell(i, j).Text)
-            '                Else
-            '                    FieldDr(j - 1) = (grd.Cell(i, j).Text)
-            '                End If
-            '            Next
-
-            '            _DataTableGrid5.Rows.Add(FieldDr)
-            '            'End If
-            '        Next
-            '    End If
-
-
-
-
-
-            'Next
         Catch ex As Exception
             MsgBox(ex.ToString)
         Finally
@@ -654,141 +587,95 @@ Public Class MainFormRead
         Finally
         End Try
     End Function
-    Private Sub UC_Buttons1_CloseClick()
 
-        If _FORMMODE = "" Then
-            Me.Close()
-            Exit Sub
-        End If
-
-        Me.Close()
-        Me.Dispose(True)
-
-    End Sub
-    Private Sub UC_Buttons1_ViewClick()
-        _FrmLoad = False
-        _FORMMODE = "VIEW"
-        Dim _BookName As String = ""
-
-        Call Ctrl_Visible_True(Me.Controls)
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If _FORMMODE = "VIEW" Then
-            txtFormName.Focus()
-        End If
-        LoadViewData(tmptbl, _Bookcode)
-
-
-        'Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
-        'Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-
-        'Generate_Date_For_DataBase(Txt_ViewFrom)
-        'Generate_Date_For_DataBase(Txt_ViewTO)
-
-        'Dim _FilterCondition As String = " and bookcode='" & _Bookcode & "' and entrydate>='" & Txt_ViewFrom.Date_for_Database & "' and entrydate>='" & Txt_ViewTO.Date_for_Database & "'"
-
-        'Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
-        ''Dim PRINTQUERY As String = GetQuery(tmptbl, "PRINTQUERY", "VIEW")
-        ''Dim GRIDTOTAL As String = GetQuery(tmptbl, "GRIDTOTAL", "VIEW")
-        ''Dim SECTIONTOTAL As String = GetQuery(tmptbl, "SECTIONTOTAL", "VIEW")
-        'sqL = ViewQuery.ToString
-        'sql_connect_slect()
-        'Dim _tmptbl As New DataTable
-        '_tmptbl = DefaltSoftTable.Copy
-        'FirstStage.Columns.Clear()
-        'Dim Qty As String = ""
-        'If _tmptbl.Rows.Count > 0 Then
-
-        '    GridControl1.DataSource = _tmptbl.Copy
-
-        '    DevGridFitColumn(GridControl1, FirstStage)
-
-        '    PnlGrdView.Visible = True
-        '    FirstStage.BestFitColumns()
-        '    FirstStage.Focus()
-        '    PnlGrdView.BringToFront()
-        '    GridControl1.BringToFront()
-        'Else
-        '    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-
-        'End If
-
-
-        'Dim ViewPrint As String = GetQuery(tmptbl, "PRINTQUERY", "PRINT")
-        'Dim ViewTotal As String = GetQuery(tmptbl, "GRIDTOTAL", "TOTAL COLUMN")
-
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-    End Sub
     Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
-
-        Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
-        Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-
         Generate_Date_For_DataBase(Txt_ViewFrom)
         Generate_Date_For_DataBase(Txt_ViewTO)
+        'Txt_ViewFrom.Focus()
+        'Txt_ViewFrom.Select()
+        Dim FilterBookcode As String = " '" & _Bookcode & "' "
+        Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+        Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
 
-        Dim _FilterCondition As String = " and bookcode='" & _Bookcode & "' and entrydate>='" & Txt_ViewFrom.Date_for_Database & "' and entrydate<='" & Txt_ViewTO.Date_for_Database & "'"
-        'Dim _FilterCondition As String = " and bookcode='" & _Bookcode & "' "
         ' 🔹 Queries Read
         Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
-        Dim PRINTQUERY As String = GetQuery(tmptbl, "PRINTQUERY", "VIEW")
-        Dim GRIDTOTAL As String = GetQuery(tmptbl, "GRIDTOTAL", "VIEW")
-        Dim SECTIONTOTAL As String = GetQuery(tmptbl, "SECTIONTOTAL", "VIEW")
         If ViewQuery = "" Then
-            MsgBox("View Query Not Found")
-            Exit Sub
+            If txtFormName.Text = "" Then
+                Exit Sub
+            Else
+                MsgBox("View Query Not Found")
+                Exit Sub
+            End If
         End If
-        ' 🔹 View Query Execute
-        sqL = ViewQuery & _FilterCondition
+
+
+        ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
+        ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
+        ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
+        sqL = ViewQuery
         sql_connect_slect()
+
 
         Dim ResultTable As New DataTable
         ResultTable = DefaltSoftTable.Copy
-
         FirstStage.Columns.Clear()
-
         If ResultTable.Rows.Count > 0 Then
-
             GridControl1.DataSource = ResultTable.Copy
             DevGridFitColumn(GridControl1, FirstStage)
+            FirstStage.OptionsView.ShowFooter = True
+
+
+            Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
+
+
+            Dim ColumnList As String = ViewQueryTotal
+            Dim Columns() As String = ColumnList.Split(","c)
+
+
+            For Each col As String In Columns
+
+                If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+
+                    'Total
+                    FirstStage.Columns(col).Summary.Clear()
+                    FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
+
+                End If
+
+            Next
+
+            ViewQueryTotal = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
+
+            ColumnList = ViewQueryTotal
+            Dim HideColumns() As String = ColumnList.Split(","c)
+
+            For Each col As String In HideColumns
+                If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+
+                    'Hide
+                    FirstStage.Columns(col).Visible = False
+
+                End If
+
+            Next
+
+
+
 
             PnlGrdView.Visible = True
+
+
             FirstStage.BestFitColumns()
             FirstStage.Focus()
-
             PnlGrdView.BringToFront()
             GridControl1.BringToFront()
-
         Else
-
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             txtFormName.Focus()
         End If
 
-        ' 🔹 Grid Total Query
-        If GRIDTOTAL <> "" Then
-            sqL = GRIDTOTAL & _FilterCondition
-            sql_connect_slect()
-            ' Yaha total calculation ka code likh sakte ho
-        End If
+    End Sub
 
-        ' 🔹 Section Total Query
-        If SECTIONTOTAL <> "" Then
-            sqL = SECTIONTOTAL & _FilterCondition
-            sql_connect_slect()
-            ' Yaha section total ka code likh sakte ho
-        End If
-
-    End Sub
-    Private Sub UC_Buttons1_PrintClick()
-        _FORMMODE = "PRINT"
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        ' print logic yahan add kar sakte ho
-    End Sub
-    Private Sub UC_Buttons1_ReportsClick()
-        _FORMMODE = "REPORTS"
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        ' reports logic yahan add kar sakte ho
-    End Sub
     Private Sub Delete_Entry()
         _FrmLoad = True
         Dim I As Integer = 0
@@ -815,7 +702,7 @@ Public Class MainFormRead
         _FrmLoad = False
     End Sub
 
-#End Region
+
     Private Sub defineGridColName()
         _Grid1ColNames = New StringBuilder()
         _FieldHeader = New StringBuilder()
@@ -1137,11 +1024,11 @@ Public Class MainFormRead
 #End Region
                 BtnUpdatepos.Enabled = True
                 btnmovecontrol.Enabled = True
-                SimpleButton1.Enabled = True
+
             Else
                 BtnUpdatepos.Enabled = False
                 btnmovecontrol.Enabled = False
-                SimpleButton1.Enabled = False
+
             End If
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -1284,7 +1171,6 @@ Public Class MainFormRead
                     Call Delete_Entry()
                     ObjCls_General.Blank_Object(Me)
                     Ctrl_Visible_False(Me.Controls)
-                    'Change_Grid_Data = True
                     UC_Buttons1._ButtonEnableDisable("LOAD")
                     UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                 End If
@@ -1307,23 +1193,17 @@ Public Class MainFormRead
             If tblTmp.Rows.Count > 0 Then
                 If gridname.StartsWith("Grid1") Then
                     If grd IsNot Nothing Then
-                        'Clear_Grid(grd, 2)
                         grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
                         Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
                         grd.Rows = grd.Rows + 1
                         Call Fill_Sr_No_Item(grd, _DataTableGrid1)
                     End If
                 End If
-                'Else
-                '    ' ObjCls_General.Blank_Object(Me)
-                '    Clear_Grid(grd, 2)
-                '    MsgBox("Record Not Found")
             End If
 
         Next
         If tblTmp.Rows.Count > 0 Then
         Else
-            'ObjCls_General.Blank_Object(Me)
             Clear_Grid(grd, 2)
             MsgBox("Record Not Found")
         End If
@@ -1435,7 +1315,7 @@ Public Class MainFormRead
         grdObj.AutoRedraw = True
         grdObj.Refresh()
     End Sub
-    Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
+    Private Sub btn_View_Click(sender As Object, e As EventArgs) Handles btn_View.Click
         View_Record()
         Dim formType As String = ""
         If _MainColumTbl.Rows.Count > 0 Then
@@ -1451,25 +1331,41 @@ Public Class MainFormRead
         End If
         isMoveMode = False
         isDragging = False
+
+        FormNameValue = _getformName()
+
+        If _FORMMODE = "VIEW" Then
+            tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+            LoadViewData(tmptbl, _Bookcode)
+        End If
+
     End Sub
 
     Private Sub MainFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
+
             If PropertyGrid1.Visible = True Then
                 PropertyGrid1.Visible = False
-            Else
-                Me.Close()
-                Me.Dispose()
             End If
-        End If
-        If PnlGrdView.Visible = True Then
-            PnlGrdView.Visible = False
-            _FORMMODE = ""
-            UC_Buttons1._ButtonEnableDisable("LOAD")
-            Exit Sub
-        End If
 
-        If e.KeyCode = Keys.F4 Then
+
+            If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
+                PnlGrdView.Visible = False
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                Exit Sub
+            ElseIf _FormCloseMode = False Then
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                _FormCloseMode = True
+                Exit Sub
+            End If
+
+            If _FormCloseMode = True Then
+                Me.Close()
+                Me.Dispose(True)
+            End If
+        ElseIf e.KeyCode = Keys.F4 Then
             PropertyGrid1.Visible = True
 
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
@@ -1484,7 +1380,7 @@ Public Class MainFormRead
             obj_Party_Selection.SINGLE_Formname_SELECTION()
             If MULTY_SELECTION_COLOUM_3_DATA > "" Then
                 txtFormName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                btnView.Focus()
+                btn_View.Focus()
             End If
         End If
 
@@ -1812,20 +1708,7 @@ Public Class MainFormRead
         End If
     End Sub
 
-    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles SimpleButton1.Click
-        FormNameValue = _getformName()
-        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-        tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-        'tmptbl = _GetFormQuery(FormNameValue, "PRINT")
-        'tmptbl = _GetFormQuery(FormNameValue, "TOTAL COLUMN")
-        'tmptbl = _GetFormQuery(FormNameValue, "SECTIONTOTAL")
-        allText = GetQuery(tmptbl, "VIEW", "VIEW")
-        'allText = GetQuery(tmptbl, "PRINTQUERY", "PRINT")
-        'allText = GetQuery(tmptbl, "GRIDTOTAL", "TOTAL COLUMN")
-        'allText = GetQuery(tmptbl, "SECTIONTOTAL", "SECTIONTOTAL")
-    End Sub
+
     Public Function _getformName() As String
         If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then
             'MsgBox(_MainColumTbl.Rows(0)("FormName").ToString().Trim())
@@ -1834,24 +1717,5 @@ Public Class MainFormRead
         Return ""
     End Function
 
-    Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
 
-    End Sub
-
-    Private Sub Btn_LayoutLoad_Click(sender As Object, e As EventArgs) Handles Btn_LayoutLoad.Click
-
-    End Sub
-
-    Private Sub SimpleButton2_Click_1(sender As Object, e As EventArgs) Handles SimpleButton2.Click
-        LoadViewData(tmptbl, _Bookcode)
-    End Sub
-
-    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
-        Dim _RptTiltle = " Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
-        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
-    End Sub
-
-    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
-        _DevExpressExcelExport(GridControl1)
-    End Sub
 End Class

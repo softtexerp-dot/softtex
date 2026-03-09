@@ -27,13 +27,15 @@ Partial Class MainFormRead
         Me.Label11 = New System.Windows.Forms.Label()
         Me.txtFormName = New ctl_TextBox.ctl_TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.btnView = New DevExpress.XtraEditors.SimpleButton()
+        Me.btn_View = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnUpdatepos = New DevExpress.XtraEditors.SimpleButton()
         Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.btnmovecontrol = New DevExpress.XtraEditors.SimpleButton()
-        Me.SimpleButton1 = New DevExpress.XtraEditors.SimpleButton()
         Me.PnlGrdView = New System.Windows.Forms.GroupBox()
+        Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
+        Me.SimpleButton2 = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.Btn_LayoutLoad = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnLayOutSave = New DevExpress.XtraEditors.SimpleButton()
         Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
@@ -45,9 +47,6 @@ Partial Class MainFormRead
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.Txt_ViewTO = New ctl_TextBox.ctl_TextBox()
         Me.Txt_ViewFrom = New ctl_TextBox.ctl_TextBox()
-        Me.SimpleButton2 = New DevExpress.XtraEditors.SimpleButton()
-        Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
-        Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlGrdView.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -120,17 +119,17 @@ Partial Class MainFormRead
         Me.Label1.TabIndex = 81900
         Me.Label1.Text = "Form Name"
         '
-        'btnView
+        'btn_View
         '
-        Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnView.Appearance.Options.UseFont = True
-        Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(964, 48)
-        Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btnView.Name = "btnView"
-        Me.btnView.Size = New System.Drawing.Size(111, 39)
-        Me.btnView.TabIndex = 81902
-        Me.btnView.Text = "View"
+        Me.btn_View.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_View.Appearance.Options.UseFont = True
+        Me.btn_View.ImageOptions.Image = CType(resources.GetObject("btn_View.ImageOptions.Image"), System.Drawing.Image)
+        Me.btn_View.Location = New System.Drawing.Point(964, 48)
+        Me.btn_View.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btn_View.Name = "btn_View"
+        Me.btn_View.Size = New System.Drawing.Size(111, 39)
+        Me.btn_View.TabIndex = 81902
+        Me.btn_View.Text = "View"
         '
         'BtnUpdatepos
         '
@@ -170,19 +169,6 @@ Partial Class MainFormRead
         Me.btnmovecontrol.TabIndex = 81929
         Me.btnmovecontrol.Text = "MoveControl"
         '
-        'SimpleButton1
-        '
-        Me.SimpleButton1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SimpleButton1.Appearance.Options.UseFont = True
-        Me.SimpleButton1.Enabled = False
-        Me.SimpleButton1.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
-        Me.SimpleButton1.Location = New System.Drawing.Point(767, 3)
-        Me.SimpleButton1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.SimpleButton1.Name = "SimpleButton1"
-        Me.SimpleButton1.Size = New System.Drawing.Size(160, 39)
-        Me.SimpleButton1.TabIndex = 81930
-        Me.SimpleButton1.Text = "FindFormName"
-        '
         'PnlGrdView
         '
         Me.PnlGrdView.BackColor = System.Drawing.Color.LightCyan
@@ -198,10 +184,44 @@ Partial Class MainFormRead
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
         Me.PnlGrdView.Location = New System.Drawing.Point(195, 75)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(137, 175)
+        Me.PnlGrdView.Size = New System.Drawing.Size(149, 175)
         Me.PnlGrdView.TabIndex = 81931
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
+        '
+        'BtnExport
+        '
+        Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnExport.Appearance.Options.UseFont = True
+        Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnExport.Location = New System.Drawing.Point(686, 12)
+        Me.BtnExport.Name = "BtnExport"
+        Me.BtnExport.Size = New System.Drawing.Size(90, 35)
+        Me.BtnExport.TabIndex = 81965
+        Me.BtnExport.Text = "Export"
+        '
+        'SimpleButton2
+        '
+        Me.SimpleButton2.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SimpleButton2.Appearance.Options.UseFont = True
+        Me.SimpleButton2.ImageOptions.Image = CType(resources.GetObject("SimpleButton2.ImageOptions.Image"), System.Drawing.Image)
+        Me.SimpleButton2.Location = New System.Drawing.Point(523, 12)
+        Me.SimpleButton2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.SimpleButton2.Name = "SimpleButton2"
+        Me.SimpleButton2.Size = New System.Drawing.Size(64, 34)
+        Me.SimpleButton2.TabIndex = 81891
+        Me.SimpleButton2.Text = "OK"
+        '
+        'BtnPrint
+        '
+        Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPrint.Appearance.Options.UseFont = True
+        Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnPrint.Location = New System.Drawing.Point(593, 12)
+        Me.BtnPrint.Name = "BtnPrint"
+        Me.BtnPrint.Size = New System.Drawing.Size(90, 35)
+        Me.BtnPrint.TabIndex = 81964
+        Me.BtnPrint.Text = "Print"
         '
         'Btn_LayoutLoad
         '
@@ -212,6 +232,7 @@ Partial Class MainFormRead
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(28, 32)
         Me.Btn_LayoutLoad.TabIndex = 81914
+        Me.Btn_LayoutLoad.Visible = False
         '
         'BtnLayOutSave
         '
@@ -222,6 +243,7 @@ Partial Class MainFormRead
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(26, 32)
         Me.BtnLayOutSave.TabIndex = 81913
+        Me.BtnLayOutSave.Visible = False
         '
         'GridControl1
         '
@@ -229,7 +251,7 @@ Partial Class MainFormRead
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
         Me.GridControl1.Size = New System.Drawing.Size(823, 523)
-        Me.GridControl1.TabIndex = 81898
+        Me.GridControl1.TabIndex = 81992
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
         'FirstStage
@@ -379,40 +401,6 @@ Partial Class MainFormRead
         Me.Txt_ViewFrom.TransparentBox = True
         Me.Txt_ViewFrom.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
-        'SimpleButton2
-        '
-        Me.SimpleButton2.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SimpleButton2.Appearance.Options.UseFont = True
-        Me.SimpleButton2.ImageOptions.Image = CType(resources.GetObject("SimpleButton2.ImageOptions.Image"), System.Drawing.Image)
-        Me.SimpleButton2.Location = New System.Drawing.Point(523, 12)
-        Me.SimpleButton2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.SimpleButton2.Name = "SimpleButton2"
-        Me.SimpleButton2.Size = New System.Drawing.Size(64, 34)
-        Me.SimpleButton2.TabIndex = 81915
-        Me.SimpleButton2.Text = "OK"
-        '
-        'BtnExport
-        '
-        Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnExport.Appearance.Options.UseFont = True
-        Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(686, 12)
-        Me.BtnExport.Name = "BtnExport"
-        Me.BtnExport.Size = New System.Drawing.Size(90, 35)
-        Me.BtnExport.TabIndex = 81965
-        Me.BtnExport.Text = "Export"
-        '
-        'BtnPrint
-        '
-        Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnPrint.Appearance.Options.UseFont = True
-        Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(593, 12)
-        Me.BtnPrint.Name = "BtnPrint"
-        Me.BtnPrint.Size = New System.Drawing.Size(90, 35)
-        Me.BtnPrint.TabIndex = 81964
-        Me.BtnPrint.Text = "Print"
-        '
         'MainFormRead
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -420,11 +408,10 @@ Partial Class MainFormRead
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1104, 621)
         Me.Controls.Add(Me.PnlGrdView)
-        Me.Controls.Add(Me.SimpleButton1)
         Me.Controls.Add(Me.btnmovecontrol)
         Me.Controls.Add(Me.PropertyGrid1)
         Me.Controls.Add(Me.BtnUpdatepos)
-        Me.Controls.Add(Me.btnView)
+        Me.Controls.Add(Me.btn_View)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.txtFormName)
         Me.Controls.Add(Me.Label1)
@@ -450,12 +437,11 @@ Partial Class MainFormRead
     Friend WithEvents Label11 As Label
     Friend WithEvents txtFormName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btn_View As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnUpdatepos As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents PropertyGrid1 As PropertyGrid
     Friend WithEvents ErrorProvider1 As ErrorProvider
     Friend WithEvents btnmovecontrol As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents SimpleButton1 As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents PnlGrdView As GroupBox
     Friend WithEvents Btn_LayoutLoad As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnLayOutSave As DevExpress.XtraEditors.SimpleButton

@@ -501,3 +501,8 @@ D:\RelianceProj\RelianceProj\bin\Debug\DevExpress.XtraReports.v23.1.Extensions.d
 D:\RelianceProj\RelianceProj\bin\Debug\DevExpress.XtraRichEdit.v23.1.dll
 D:\RelianceProj\RelianceProj\bin\Debug\DevExpress.XtraTreeList.v23.1.dll
 D:\RelianceProj\RelianceProj\bin\Debug\DevExpress.XtraVerticalGrid.v23.1.dll
+D:\RelianceProj\RelianceProj\obj\Debug\RelianceProj.MainMasterFormRead.resources
+D:\RelianceProj\RelianceProj\obj\Debug\RelianceProj.PrintViewPage.resources
+D:\RelianceProj\RelianceProj\obj\Debug\RelianceProj.QueryLoad.resources
+D:\RelianceProj\RelianceProj\obj\Debug\RelianceProj.MenuFormAdd.resources
+D:\RelianceProj\RelianceProj\obj\Debug\RelianceProj.MasterMenuLoad.resources

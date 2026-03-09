@@ -363,8 +363,10 @@
   <ItemGroup>
     <Compile Include="Classes\BackDataCode.vb" />
     <Compile Include="Classes\Email.vb" />
+    <Compile Include="Classes\GetMasterDataJoinInMaster.vb" />
     <Compile Include="Classes\Multi_Selection_Master.vb" />
     <Compile Include="Classes\NewSelectionListQuery.vb" />
+    <Compile Include="Classes\QueryRead.vb" />
     <Compile Include="Extra\CoastSheet.Designer.vb">
       <DependentUpon>CoastSheet.vb</DependentUpon>
     </Compile>
@@ -413,22 +415,46 @@
     <Compile Include="Extra\LogBookGridReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Extra\MainFormRead.Designer.vb">
+    <Compile Include="NewDevelopment\MainFormRead.Designer.vb">
       <DependentUpon>MainFormRead.vb</DependentUpon>
     </Compile>
-    <Compile Include="Extra\MainFormRead.vb">
+    <Compile Include="NewDevelopment\MainFormRead.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Extra\MainFrmDesigner.Designer.vb">
+    <Compile Include="NewDevelopment\MainFrmDesigner.Designer.vb">
       <DependentUpon>MainFrmDesigner.vb</DependentUpon>
     </Compile>
-    <Compile Include="Extra\MainFrmDesigner.vb">
+    <Compile Include="NewDevelopment\MainFrmDesigner.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDevelopment\MainMasterFormRead.Designer.vb">
+      <DependentUpon>MainMasterFormRead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NewDevelopment\MainMasterFormRead.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Extra\OfferwiseBeamstockRpt.Designer.vb">
       <DependentUpon>OfferwiseBeamstockRpt.vb</DependentUpon>
     </Compile>
     <Compile Include="Extra\OfferwiseBeamstockRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDevelopment\MasterMenuLoad.Designer.vb">
+      <DependentUpon>MasterMenuLoad.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NewDevelopment\MasterMenuLoad.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDevelopment\MenuFormAdd.Designer.vb">
+      <DependentUpon>MenuFormAdd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NewDevelopment\MenuFormAdd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDevelopment\PrintViewPage.Designer.vb">
+      <DependentUpon>PrintViewPage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NewDevelopment\PrintViewPage.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Extra\ReadyMadeCrystalStockReport.Designer.vb">
@@ -449,10 +475,16 @@
     <Compile Include="Extra\StoreConsumption_GridZooming.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Extra\UC_Buttons.Designer.vb">
+    <Compile Include="NewDevelopment\QueryLoad.Designer.vb">
+      <DependentUpon>QueryLoad.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NewDevelopment\QueryLoad.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDevelopment\UC_Buttons.Designer.vb">
       <DependentUpon>UC_Buttons.vb</DependentUpon>
     </Compile>
-    <Compile Include="Extra\UC_Buttons.vb">
+    <Compile Include="NewDevelopment\UC_Buttons.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Main_MDI_Frm.vb">
@@ -614,14 +646,26 @@
     <EmbeddedResource Include="Extra\LogBookGridReport.resx">
       <DependentUpon>LogBookGridReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Extra\MainFormRead.resx">
+    <EmbeddedResource Include="NewDevelopment\MainFormRead.resx">
       <DependentUpon>MainFormRead.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Extra\MainFrmDesigner.resx">
+    <EmbeddedResource Include="NewDevelopment\MainFrmDesigner.resx">
       <DependentUpon>MainFrmDesigner.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDevelopment\MainMasterFormRead.resx">
+      <DependentUpon>MainMasterFormRead.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Extra\OfferwiseBeamstockRpt.resx">
       <DependentUpon>OfferwiseBeamstockRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDevelopment\MasterMenuLoad.resx">
+      <DependentUpon>MasterMenuLoad.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDevelopment\MenuFormAdd.resx">
+      <DependentUpon>MenuFormAdd.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDevelopment\PrintViewPage.resx">
+      <DependentUpon>PrintViewPage.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Extra\ReadyMadeCrystalStockReport.resx">
       <DependentUpon>ReadyMadeCrystalStockReport.vb</DependentUpon>
@@ -632,7 +676,10 @@
     <EmbeddedResource Include="Extra\StoreConsumption_GridZooming.resx">
       <DependentUpon>StoreConsumption_GridZooming.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Extra\UC_Buttons.resx">
+    <EmbeddedResource Include="NewDevelopment\QueryLoad.resx">
+      <DependentUpon>QueryLoad.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDevelopment\UC_Buttons.resx">
       <DependentUpon>UC_Buttons.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main_MDI_Frm.resx">
@@ -727,5 +774,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Setting\QueryLoad.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

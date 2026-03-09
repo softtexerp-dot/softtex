@@ -248,9 +248,8 @@ Friend Class MenuFormAdd
             ElseIf Txt_MenuType.Text.Trim = "PARENT2" Then
                 Txt_MenuPosition.Text = 4
             Else
-                'If Txt_MenuPosition.Text.Trim = "" Then
+                'If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
                 Txt_MenuPosition.Text = 1
-                'End If
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
                 RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
@@ -268,18 +267,29 @@ Friend Class MenuFormAdd
         If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text = "SUB MENU" Then
             Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
             Dim Qry As New StringBuilder()
+            'Qry.Append(" SELECT ")
+            'Qry.Append(" A.MenuName ")
+            'Qry.Append(" ,'' AS Remark ")
+            'Qry.Append(" ,A.MainId ")
+            'Qry.Append(" ,A.MainId ")
+            'Qry.Append(" ,A.MainId ")
+            'Qry.Append(" FROM MenuName AS A ")
+            'Qry.Append(" WHERE 1=1 ")
+            'Qry.Append(" AND A.MenuPositionId=0 ")
+            'Qry.Append(" ORDER BY A.MenuName ")
+            'RS = Qry.ToString
+            'MenuDesign_QueryLoad()
             Qry.Append(" SELECT ")
-            Qry.Append(" A.MenuName ")
+            Qry.Append("Distinct(A.FormName) As FormName ")
             Qry.Append(" ,'' AS Remark ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM MenuName AS A ")
+            Qry.Append(" ,A.FormId ")
+            Qry.Append(" ,A.FormId ")
+            Qry.Append(" ,A.FormId ")
+            Qry.Append(" FROM FormControl AS A ")
             Qry.Append(" WHERE 1=1 ")
-            Qry.Append(" AND A.MenuPositionId=0 ")
-            Qry.Append(" ORDER BY A.MenuName ")
-            RS = Qry.ToString
-            MenuDesign_QueryLoad()
+            Qry.Append(" ORDER BY A.FormName ")
+            sqL = Qry.ToString
+            sql_connect_slect1()
             Party_selection.dgw.DataSource = DefaltSoftTable.Copy
             Party_selection.dgw.Columns(2).Visible = False
             Party_selection.dgw.Columns(3).Visible = False
@@ -310,7 +320,7 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MainId ")
             Qry.Append(" FROM MenuName AS A ")
             Qry.Append(" WHERE 1=1 ")
-            Qry.Append(" AND A.MenuPositionId=0 ")
+            Qry.Append(" AND A.MenuPositionId=1 ")
             Qry.Append(" ORDER BY A.MenuName ")
             RS = Qry.ToString
             MenuDesign_QueryLoad()
@@ -344,7 +354,7 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MainId ")
             Qry.Append(" FROM MenuName AS A ")
             Qry.Append(" WHERE 1=1 ")
-            Qry.Append(" AND A.MenuPositionId=0 ")
+            Qry.Append(" AND A.MenuPositionId=2 ")
             Qry.Append(" ORDER BY A.MenuName ")
             RS = Qry.ToString
             MenuDesign_QueryLoad()

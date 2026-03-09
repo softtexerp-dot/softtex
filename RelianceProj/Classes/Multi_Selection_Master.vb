@@ -1,5 +1,6 @@
 ﻿Imports CrystalDecisions.CrystalReports.Engine
 Imports DevExpress.Drawing.Internal.Fonts.DXFontMetrics
+Imports DevExpress.Utils.DPI
 Imports Microsoft.VisualBasic.CompilerServices
 Imports System.ComponentModel
 Imports System.IO
@@ -8473,10 +8474,10 @@ Public Class Multi_Selection_Master
         Return strQuery.ToString
 
     End Function
-    Public Function Master_GetName(ByVal _TblName As String, ByVal _KeyFieldName As String, ByVal _KeyFieldValue As String, ByVal strChkFieldName As String, ByVal strChkFieldValue As String) As String
+    Public Function Master_GetName(ByVal _TblName As String, ByVal _KeyFieldName As String, ByVal _KeyFieldValue As String, ByVal strChkFieldName As String, ByVal strChkFieldValue As String, ByVal FormName As String, ByVal getformname As String) As String
         strQuery = New StringBuilder
         With strQuery
-            strQuery.Append(" SELECT TOP 1 FormName FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>'" & _KeyFieldValue & "'")
+            strQuery.Append(" SELECT TOP 1 FormName FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>" & _KeyFieldValue & " AND " & FormName & "='" & getformname & "'")
         End With
         Return strQuery.ToString
 
