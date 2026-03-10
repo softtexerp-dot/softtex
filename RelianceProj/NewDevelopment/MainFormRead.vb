@@ -1345,28 +1345,29 @@ Public Class MainFormRead
         If e.KeyCode = Keys.Escape Then
 
             If PropertyGrid1.Visible = True Then
-                PropertyGrid1.Visible = False
-            End If
+                    PropertyGrid1.Visible = False
+                End If
 
 
-            If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
-                PnlGrdView.Visible = False
-                UC_Buttons1._ButtonEnableDisable("LOAD")
-                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                Exit Sub
-            ElseIf _FormCloseMode = False Then
-                UC_Buttons1._ButtonEnableDisable("LOAD")
-                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                _FormCloseMode = True
-                Exit Sub
-            End If
-
-            If _FormCloseMode = True Then
-                Me.Close()
-                Me.Dispose(True)
+                If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
+                    PnlGrdView.Visible = False
+                    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    Exit Sub
+                ElseIf _FormCloseMode = False Then
+                    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    _FormCloseMode = True
+                    Exit Sub
+                End If
+            If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+                If _FormCloseMode = True Then
+                    Me.Close()
+                    Me.Dispose(True)
+                End If
             End If
         ElseIf e.KeyCode = Keys.F4 Then
-            PropertyGrid1.Visible = True
+                PropertyGrid1.Visible = True
 
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl

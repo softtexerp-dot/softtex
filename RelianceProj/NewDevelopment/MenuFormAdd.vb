@@ -41,6 +41,7 @@ Friend Class MenuFormAdd
     Private Str_In_Sales_Party_Code As String = ""
     Private Str_In_Process_Code As String = ""
     Private CurrentBackNumber As Integer = 0
+    Private _MainmenupositionId As Integer = 0
 #End Region
 
 #Region "QUERY SECTION"
@@ -79,6 +80,7 @@ Friend Class MenuFormAdd
             .Append(",MainMenuName")
             .Append(",SelectedFormName")
             .Append(",ShortCutKey")
+            .Append(",MenuType")
         End With
     End Sub
 #End Region
@@ -144,18 +146,20 @@ Friend Class MenuFormAdd
     End Sub
     Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
-            _FrmLoad = True
-            If _FORMMODE = "" Then
-                Me.Close()
-                Dispose(True)
-            ElseIf _FORMMODE <> "" Then
-                _FORMMODE = ""
-                ObjCls_General.Blank_Object(Me)
-                _KeyFieldValue = 0
-                Call Ctrl_Visible_False(Me.Controls)
-                'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
-                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                _FrmLoad = False
+            If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+                _FrmLoad = True
+                If _FORMMODE = "" Then
+                    Me.Close()
+                    Dispose(True)
+                ElseIf _FORMMODE <> "" Then
+                    _FORMMODE = ""
+                    ObjCls_General.Blank_Object(Me)
+                    _KeyFieldValue = 0
+                    Call Ctrl_Visible_False(Me.Controls)
+                    'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    _FrmLoad = False
+                End If
             End If
         End If
     End Sub
@@ -189,6 +193,7 @@ Friend Class MenuFormAdd
         Next
 
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblFormValues)
+        Txt_MenuShortCutKey.Text = tblFormValues.Rows(0)("MenuType")
         If tblTmp.Rows.Count > 0 Then
             '    _BookTrtype = tblTmp(0)("BOOKTRTYPE").ToString
             '    Str_In_Group = Replace(tblTmp(0)("GROUP_CODE_FILTER_STRING").ToString, "#", "'")
@@ -244,9 +249,11 @@ Friend Class MenuFormAdd
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
             ElseIf Txt_MenuType.Text.Trim = "PARENT1" Then
-                Txt_MenuPosition.Text = 3
+                Txt_MenuPosition.Text = 2
+                'Txt_UnderMenuPositionId.Text = 2
+                _MainmenupositionId = 2
             ElseIf Txt_MenuType.Text.Trim = "PARENT2" Then
-                Txt_MenuPosition.Text = 4
+                Txt_MenuPosition.Text = 3
             Else
                 'If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
                 Txt_MenuPosition.Text = 1
@@ -267,29 +274,19 @@ Friend Class MenuFormAdd
         If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text = "SUB MENU" Then
             Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
             Dim Qry As New StringBuilder()
-            'Qry.Append(" SELECT ")
-            'Qry.Append(" A.MenuName ")
-            'Qry.Append(" ,'' AS Remark ")
-            'Qry.Append(" ,A.MainId ")
-            'Qry.Append(" ,A.MainId ")
-            'Qry.Append(" ,A.MainId ")
-            'Qry.Append(" FROM MenuName AS A ")
-            'Qry.Append(" WHERE 1=1 ")
-            'Qry.Append(" AND A.MenuPositionId=0 ")
-            'Qry.Append(" ORDER BY A.MenuName ")
-            'RS = Qry.ToString
-            'MenuDesign_QueryLoad()
             Qry.Append(" SELECT ")
-            Qry.Append("Distinct(A.FormName) As FormName ")
+            Qry.Append(" A.MenuName ")
             Qry.Append(" ,'' AS Remark ")
-            Qry.Append(" ,A.FormId ")
-            Qry.Append(" ,A.FormId ")
-            Qry.Append(" ,A.FormId ")
-            Qry.Append(" FROM FormControl AS A ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" ,A.MainId ")
+            Qry.Append(" FROM MenuName AS A ")
             Qry.Append(" WHERE 1=1 ")
-            Qry.Append(" ORDER BY A.FormName ")
-            sqL = Qry.ToString
-            sql_connect_slect1()
+            'Qry.Append(" AND A.MenuPositionId=0 ")
+            Qry.Append(" AND A.MainMenuPositionId=0 ")
+            Qry.Append(" ORDER BY A.MenuName ")
+            RS = Qry.ToString
+            MenuDesign_QueryLoad()
             Party_selection.dgw.DataSource = DefaltSoftTable.Copy
             Party_selection.dgw.Columns(2).Visible = False
             Party_selection.dgw.Columns(3).Visible = False
@@ -320,10 +317,12 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MainId ")
             Qry.Append(" FROM MenuName AS A ")
             Qry.Append(" WHERE 1=1 ")
-            Qry.Append(" AND A.MenuPositionId=1 ")
+            'Qry.Append(" AND A.MenuPositionId=1 ")
+            Qry.Append(" AND A.MainMenuPositionId=1 ")
             Qry.Append(" ORDER BY A.MenuName ")
             RS = Qry.ToString
             MenuDesign_QueryLoad()
+
             Party_selection.dgw.DataSource = DefaltSoftTable.Copy
             Party_selection.dgw.Columns(2).Visible = False
             Party_selection.dgw.Columns(3).Visible = False
@@ -354,7 +353,8 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MainId ")
             Qry.Append(" FROM MenuName AS A ")
             Qry.Append(" WHERE 1=1 ")
-            Qry.Append(" AND A.MenuPositionId=2 ")
+            'Qry.Append(" AND A.MenuPositionId=2 ")
+            Qry.Append(" AND A.MainMenuPositionId=2 ")
             Qry.Append(" ORDER BY A.MenuName ")
             RS = Qry.ToString
             MenuDesign_QueryLoad()
@@ -416,6 +416,23 @@ Friend Class MenuFormAdd
                 dt.Rows.Add(t.Name.ToUpper, "", t.Name, t.Name, t.Name)
             End If
         Next
+
+        Dim Qry As New StringBuilder()
+        Qry.Append(" SELECT ")
+        Qry.Append("Distinct(A.FormName) As FormName ")
+        Qry.Append(" ,A.FormType AS Remark ")
+        Qry.Append(" ,A.FormName ")
+        Qry.Append(" ,A.FormName ")
+        Qry.Append(" ,A.FormName ")
+        Qry.Append(" FROM FormControl AS A ")
+        Qry.Append(" WHERE 1=1 ")
+        sqL = Qry.ToString
+        sql_connect_slect1()
+        Dim dt2 As New DataTable()
+        dt2 = DefaltSoftTable.Copy
+        For Each r As DataRow In dt2.Rows
+            dt.Rows.Add(r("FormName"), r("Remark"), r("FormName"), r("FormName"), r("FormName"))
+        Next
         Dim dv As DataView = dt.DefaultView
         dv.Sort = "FormName ASC"
         dt = dv.ToTable()
@@ -464,9 +481,9 @@ Friend Class MenuFormAdd
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "EDIT" Then
             '_GetMaxId()
-            Txt_MenuType.Text = "SUB MENU"
-            Txt_MenuActive.Text = "NO"
-            Txt_MenuSepartor.Text = "False"
+            'Txt_MenuType.Text = "SUB MENU"
+            'Txt_MenuActive.Text = "NO"
+            'Txt_MenuSepartor.Text = "False"
             RS = "SELECT TOP 1  * FROM " & _TblName & " ORDER BY " & _KeyFieldName & " DESC"
             MenuDesign_QueryLoad()
             If DefaltSoftTable.Rows.Count > 0 Then
@@ -566,7 +583,11 @@ Friend Class MenuFormAdd
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
         tblFormValues.Rows(0)("MenuName") = Txt_MenuName.Text.Replace("'", "''")
         tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
-        tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
+        If Txt_MenuType.Text.Trim = "PARENT1" Then
+            tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
+        Else
+            tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
+        End If
         tblFormValues.Rows(0)("MenuOrderNo") = Val(Txt_MenuOrder.Text)
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
         tblFormValues.Rows(0)("MenuPosition") = Val(Txt_MenuPosition.Text)
@@ -574,18 +595,31 @@ Friend Class MenuFormAdd
         tblFormValues.Rows(0)("MainMenuName") = Txt_MenuUnderMenuName.Text.Replace("'", "''")
         tblFormValues.Rows(0)("SelectedFormName") = Txt_MenuDisplayName.Text.Replace("'", "''")
         tblFormValues.Rows(0)("ShortCutKey") = Txt_MenuShortCutKey.Text.Replace("'", "''")
+        tblFormValues.Rows(0)("MenuType") = Txt_MenuType.Text.Replace("'", "''")
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
         SaveQuery = getSaveQuery()
         RS = SaveQuery.ToString
         MenuDesign_QuerySaveUpdateDelete()
         MessageBox.Show("Save Successfully")
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         Call Ctrl_Visible_False(Me.Controls)
+        Clear()
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+    End Sub
+    Private Sub Clear()
+        Txt_MenuId.Text = ""
+        Txt_MenuName.Text = ""
+        Txt_MenuType.Text = "SUB MENU"
+        Txt_MenuActive.Text = "NO"
+        Txt_MenuSepartor.Text = "False"
+        Txt_MenuPosition.Text = ""
+        Txt_MenuUnderMenuName.Text = ""
+        Txt_UnderMenuPositionId.Text = ""
+        Txt_MenuOrder.Text = ""
+        Txt_MenuDisplayName.Text = ""
+        Txt_MenuShortCutKey.Text = ""
     End Sub
 
     Private Sub UC_Buttons1_CloseClick()

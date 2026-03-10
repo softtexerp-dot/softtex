@@ -379,7 +379,23 @@ Public Class QueryLoad
     End Sub
 
     Private Sub QueryLoad_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-
+        If e.KeyCode = Keys.Escape Then
+            If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+                _FrmLoad = True
+                If _FORMMODE = "" Then
+                    Me.Close()
+                    Dispose(True)
+                ElseIf _FORMMODE <> "" Then
+                    _FORMMODE = ""
+                    ObjCls_General.Blank_Object(Me)
+                    _KeyFieldValue = 0
+                    Call Ctrl_Visible_False(Me.Controls)
+                    'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    _FrmLoad = False
+                End If
+            End If
+        End If
     End Sub
 #End Region
 End Class
