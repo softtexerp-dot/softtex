@@ -6,6 +6,7 @@ Public Class MasterMenuLoad
     Private FirstStep_SubItem As ToolStripMenuItem
     Private previous_SubItem As ToolStripMenuItem
     Private countShow As Integer = 0
+    Dim menuformname As String = ""
     Private Sub MasterMenuLoad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         previous_SubItem = Nothing
 
@@ -64,7 +65,7 @@ Public Class MasterMenuLoad
                 Dim menuName As String = reader("MenuName").ToString()
                 Dim isSeparator As Boolean = Convert.ToBoolean(reader("MenuIsSparate"))
                 Dim SelectedFormName As String = reader("SelectedFormName").ToString()
-
+                'menuformname = reader("MenuName").ToString()
                 If isSeparator Then
 
                     Dim separator As New ToolStripSeparator()
@@ -78,6 +79,7 @@ Public Class MasterMenuLoad
                     Dim newMenuItem As New ToolStripMenuItem(menuName)
 
                     newMenuItem.Tag = SelectedFormName
+                    'newMenuItem.Tag = SelectedFormName & ":" & menuName
                     menuDictionary(menuID) = newMenuItem
 
                     AddHandler newMenuItem.Click, AddressOf MenuItem_Click
@@ -122,6 +124,8 @@ Public Class MasterMenuLoad
             TagSplit = mnuItem.Tag.ToString.Split(":")
 
             Dim Frm_Name_For_Active As String = TagSplit(0)
+            'Dim menuformname As String = TagSplit(1)
+            Dim menuformname As String = ""
             Dim frm As New Form
             Dim asm = System.Reflection.Assembly.GetExecutingAssembly
             Dim myTypes As Type() = asm.GetTypes()
@@ -202,9 +206,23 @@ Public Class MasterMenuLoad
                 If Frm_Name_For_Active.ToString.ToUpper = "COMPANY_CHANGE" Or Frm_Name_For_Active.ToString.ToUpper = "YEAR_CHANGE" Then
                     frm.ShowDialog()
                 Else
-                    frm.Show()
+                    sqL = "SELECT Distinct(FormType) As FormType FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
+                    sql_connect_slect1()
+                    Dim tbl As New DataTable
+                    tbl = DefaltSoftTable.Copy
+                    If tbl.Rows.Count > 0 Then
+                        menuformname = tbl.Rows(0)("FormType")
+                    End If
+                    If menuformname = "MASTER FORM" Then
+                        MainMasterFormRead.MainMasterLoadFormName = Frm_Name_For_Active.ToString
+                        MainMasterFormRead.Show()
+                    Else
+                        MainFormRead.MainLoadFormName = Frm_Name_For_Active.ToString
+                        MainFormRead.Show()
+                    End If
+
                 End If
-            End If
+                End If
         End If
     End Sub
     Private Sub ShortCutMenuLoad()

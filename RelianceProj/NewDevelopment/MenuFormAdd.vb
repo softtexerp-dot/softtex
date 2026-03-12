@@ -193,11 +193,12 @@ Friend Class MenuFormAdd
         Next
 
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblFormValues)
-        Txt_MenuShortCutKey.Text = tblFormValues.Rows(0)("MenuType")
+        'Txt_MenuShortCutKey.Text = tblFormValues.Rows(0)("MenuType")
         If tblTmp.Rows.Count > 0 Then
             '    _BookTrtype = tblTmp(0)("BOOKTRTYPE").ToString
             '    Str_In_Group = Replace(tblTmp(0)("GROUP_CODE_FILTER_STRING").ToString, "#", "'")
             Txt_MenuId.Focus()
+            Txt_MenuType.Text = tblTmp.Rows(0)("MenuType")
         Else
             If tblTmp.Rows.Count = 0 Then
                 ObjCls_General.Blank_Object(Me)

@@ -81,6 +81,11 @@ Public Class MainMasterFormRead
     Private Change_Grid_Data As Boolean = True
     Dim txtEntryno As String = ""
     Private CurrentBackNumber As Integer = 0
+    Public MainMasterLoadFormName As String = ""
+    Public Property FormNameValue As String
+    Dim tmptbl As New DataTable
+
+
     Private Sub CreateButtonsControl()
 
         UC_Buttons1 = New UC_Buttons()
@@ -111,11 +116,12 @@ Public Class MainMasterFormRead
         Change_Grid_Data = True
         _FORMMODE = "ADD"
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
-            txtFormName.Focus()
+            'txtFormName.Focus()
             ' ADD mode ka logic yahan
+            Call Ctrl_Visible_True(Me.Controls)
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
@@ -125,7 +131,9 @@ Public Class MainMasterFormRead
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "EDIT" Then
-            txtFormName.Focus()
+            'txtFormName.Focus()
+            Call Ctrl_Visible_True(Me.Controls)
+            _LoadDefaultData()
         End If
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
@@ -170,7 +178,7 @@ Public Class MainMasterFormRead
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "DELETE" Then
-            txtFormName.Focus()
+            'txtFormName.Focus()
         End If
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
@@ -238,7 +246,7 @@ Public Class MainMasterFormRead
         Dim formType As String = ""
         Dim LASTCODE As String = ""
         SaveRecord()
-        txtFormName.Focus()
+        'txtFormName.Focus()
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
 
@@ -519,8 +527,8 @@ Public Class MainMasterFormRead
 
             Dim _Grid1ColNames = New StringBuilder()
 
-            Dim View_Filter_Condition = " AND  FormName='" & txtFormName.Text & "' "
-            If txtFormName.Text <> "" Then
+            Dim View_Filter_Condition = " AND  FormName='" & MainMasterLoadFormName & "' "
+            If MainMasterLoadFormName <> "" Then
                 If _MainColumTbl.Rows.Count > 0 Then
                     For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
 
@@ -598,11 +606,16 @@ Public Class MainMasterFormRead
                         Else
                             lbl.Visible = True
                         End If
-                        lbl.Left = leftPos
+                        'lbl.Left = leftPos
+                        If leftPos < 0 Then
+                            lbl.Left = leftPos + 10
+                        Else
+                            lbl.Left = leftPos
+                        End If
                         lbl.Top = topPos
                         lbl.AutoSize = False
                         lbl.Width = 120   ' 🔒 fixed width for all labels
-                        lbl.TextAlign = ContentAlignment.MiddleRight
+                        lbl.TextAlign = ContentAlignment.MiddleLeft
                         Me.Controls.Add(lbl)
                         AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                         AddHandler lbl.MouseMove, AddressOf Control_MouseMove
@@ -797,18 +810,22 @@ Public Class MainMasterFormRead
         grdObj.AutoRedraw = True
         grdObj.Refresh()
     End Sub
-    Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
+    Private Sub _LoadDefaultData()
         View_Record()
-    End Sub
-    Private Sub txtFormName_KeyDown(sender As Object, e As KeyEventArgs) Handles txtFormName.KeyDown
-        If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
-            Party_selection.txtSearch.Text = txtFormName.Text
-            obj_Party_Selection.SINGLE_FormnameMasterform_SELECTION()
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                txtFormName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                btnView.Focus()
-            End If
+        If _FORMMODE = "VIEW" Then
+            tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+            'LoadViewData(tmptbl, _Bookcode)
         End If
+    End Sub
+    Private Sub txtFormName_KeyDown(sender As Object, e As KeyEventArgs)
+        'If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
+        '    Party_selection.txtSearch.Text = txtFormName.Text
+        '    obj_Party_Selection.SINGLE_FormnameMasterform_SELECTION()
+        '    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+        '        txtFormName.Text = MULTY_SELECTION_COLOUM_1_DATA
+        '        btnView.Focus()
+        '    End If
+        'End If
         isMoveMode = False
         isDragging = False
     End Sub
@@ -1051,25 +1068,25 @@ Public Class MainMasterFormRead
                 End If
 
 
-            ElseIf TypeOf ctrl Is FlexCell.Grid Then
-                Dim grd = DirectCast(ctrl, FlexCell.Grid)
-                'Call Fill_Sr_No_Item(grd, _DataTableGrid1)
-                If ctrl.Name = "Grid1" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid2" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid3" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid4" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid5" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                End If
+                'ElseIf TypeOf ctrl Is FlexCell.Grid Then
+                '    Dim grd = DirectCast(ctrl, FlexCell.Grid)
+                '    'Call Fill_Sr_No_Item(grd, _DataTableGrid1)
+                '    If ctrl.Name = "Grid1" Then
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                '    ElseIf ctrl.Name = "Grid2" Then
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                '    ElseIf ctrl.Name = "Grid3" Then
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                '    ElseIf ctrl.Name = "Grid4" Then
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                '    ElseIf ctrl.Name = "Grid5" Then
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                '    End If
             End If
         End If
 
@@ -1086,11 +1103,11 @@ Public Class MainMasterFormRead
     Private Sub updatepossition(ByVal leftpos As String, ByVal topPos As String, ByVal Height As String, ByVal Width As String, ByVal ctrlName As String, ByVal Tabindex As String, ByVal FormId As String, ByVal Id As String)
         _strQuery = New StringBuilder
         Try
-            If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
-                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
-            Else
-                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
-            End If
+            'If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
+            '    strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+            'Else
+            strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+            'End If
 
             sqL = strQuery.ToString
             sql_connect_slect1()
@@ -1112,8 +1129,8 @@ Public Class MainMasterFormRead
             End If
         Next
         PropertyGrid1.Visible = False
-        txtFormName.Text = ""
-        txtFormName.Focus()
+        'txtFormName.Text = ""
+        'txtFormName.Focus()
         isMoveMode = False
         isDragging = False
     End Sub
@@ -1143,6 +1160,9 @@ Public Class MainMasterFormRead
                 Me.Close()
                 Me.Dispose()
             End If
+        ElseIf e.KeyCode = Keys.F6 Then
+            btnmovecontrol.Visible = True
+            BtnUpdatepos.Visible = False
         End If
         If e.KeyCode = Keys.F4 Then
             PropertyGrid1.Visible = True
@@ -1159,9 +1179,20 @@ Public Class MainMasterFormRead
         Me.Location = New POINT(0, 0)
         _FrmLoad = True
         CreateButtonsControl()
-        Ctrl_Visible_False(Me.Controls)
+
         UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
+        FormNameValue = _getformName()
+        _LoadDefaultData()
+        Ctrl_Visible_False(Me.Controls)
         _FrmLoad = False
     End Sub
+    Public Function _getformName() As String
+        If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then
+            'MsgBox(_MainColumTbl.Rows(0)("FormName").ToString().Trim())
+            Return _MainColumTbl.Rows(0)("FormName").ToString().Trim()
+        End If
+        Return ""
+    End Function
+
 End Class

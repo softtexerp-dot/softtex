@@ -77,6 +77,7 @@ Public Class MainFormRead
     Private _FrmLoad As Boolean = True
     Private Change_Grid_Data As Boolean = True
     Dim txtEntryno As String = ""
+    Public MainLoadFormName As String = ""
 
 
     Dim _Bookcode As String = ""
@@ -94,11 +95,12 @@ Public Class MainFormRead
         Me.Location = New POINT(0, 0)
         _FrmLoad = True
         CreateButtonsControl()
-        'Ctrl_Visible_False(Me.Controls)
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+        'ObjCls_General.Blank_Object(Me)
+        '
+        'UC_Buttons1._ButtonEnableDisable("LOAD")
+        'UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+        'UC_Buttons1.Set_Focus_Last_Clicked_Btn("ADD")
         AttachButtonFocusEvents(Me)
-
 
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
@@ -107,12 +109,10 @@ Public Class MainFormRead
         GridControl1.Width = PnlGrdView.Width - 25
         GridControl1.Height = PnlGrdView.Height - 100
         GridControl1.Location = New POINT(3, 53)
-
-        'FormNameValue = _getformName()
-        'tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-        'allText = GetQuery(tmptbl, "VIEW", "VIEW")
+        _LoadDefaultData()
+        Ctrl_Visible_False(Me.Controls)
         _FrmLoad = False
-
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
 
 
@@ -151,8 +151,17 @@ Public Class MainFormRead
         'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
-            txtFormName.Focus()
+            'txtFormName.Focus()
             _BookVNo = ""
+            Ctrl_Visible_True(Me.Controls)
+            _LoadDefaultData()
+            _GridEnable()
+            'Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+
+            'If ctrl.Length > 0 Then
+            '    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+            '    Entytxt.Focus()
+            'End If
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
@@ -163,9 +172,12 @@ Public Class MainFormRead
         'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "EDIT" Then
-            txtFormName.Focus()
+            'txtFormName.Focus()
+            Ctrl_Visible_True(Me.Controls)
+            _LoadDefaultData()
+            _GridEnable()
         End If
-        Change_Grid_Data = True
+        'Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
 
@@ -220,7 +232,7 @@ Public Class MainFormRead
         'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "DELETE" Then
-            txtFormName.Focus()
+            'txtFormName.Focus()
         End If
         Dim EntryNo As Integer
         EntryNo = _GetMaxEntryNo()
@@ -228,6 +240,7 @@ Public Class MainFormRead
             Dim txt As New TextBox()
             txt.Text = EntryNo
             txtEntryno = txt.Text
+            Ctrl_Visible_True(Me.Controls)
         End If
         If MsgBox("Do You Want To Delete (Y/N)",
               MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
@@ -248,6 +261,7 @@ Public Class MainFormRead
             If ctrl.Length > 0 Then
                 Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
                 _GetAlterData(Entytxt.Text - 1)
+
             End If
         End If
         'Call Ctrl_Visible_True(Me.Controls)
@@ -314,7 +328,7 @@ Public Class MainFormRead
 
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-        txtFormName.Focus()
+        'txtFormName.Focus()
     End Sub
     Private Sub UC_Buttons1_CloseClick()
 
@@ -336,11 +350,14 @@ Public Class MainFormRead
         'Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "VIEW" Then
-            txtFormName.Focus()
+            'txtFormName.Focus()
+            Ctrl_Visible_True(Me.Controls)
         End If
 
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+        _LoadDefaultData()
+        '_GridEnable()
         LoadViewData(tmptbl, _Bookcode)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
     End Sub
@@ -600,7 +617,7 @@ Public Class MainFormRead
         ' 🔹 Queries Read
         Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
         If ViewQuery = "" Then
-            If txtFormName.Text = "" Then
+            If MainLoadFormName = "" Then
                 Exit Sub
             Else
                 MsgBox("View Query Not Found")
@@ -671,7 +688,7 @@ Public Class MainFormRead
             GridControl1.BringToFront()
         Else
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-            txtFormName.Focus()
+            'txtFormName.Focus()
         End If
 
     End Sub
@@ -841,8 +858,8 @@ Public Class MainFormRead
         Try
             Dim EntryNo As Integer = 1
             Dim _Grid1ColNames = New StringBuilder()
-            Dim View_Filter_Condition = " AND  FormName='" & txtFormName.Text & "' "
-            If txtFormName.Text <> "" Then
+            Dim View_Filter_Condition = " AND  FormName='" & MainLoadFormName & "' "
+            If MainLoadFormName <> "" Then
                 If _MainColumTbl.Rows.Count > 0 Then
                     For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
 
@@ -921,11 +938,17 @@ Public Class MainFormRead
                         Else
                             lbl.Visible = True
                         End If
-                        lbl.Left = leftPos
+                        'lbl.Left = leftPos + 50
+                        If leftPos < 0 Then
+                            lbl.Left = leftPos + 50
+                        Else
+                            lbl.Left = leftPos
+                        End If
+                        'lbl.Left = leftPos
                         lbl.Top = topPos
-                        lbl.AutoSize = False
                         lbl.Width = 120   ' 🔒 fixed width for all labels
-                        lbl.TextAlign = ContentAlignment.MiddleRight
+                        lbl.TextAlign = ContentAlignment.MiddleLeft
+                        lbl.AutoSize = True
                         Me.Controls.Add(lbl)
                         AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                         AddHandler lbl.MouseMove, AddressOf Control_MouseMove
@@ -1109,8 +1132,8 @@ Public Class MainFormRead
         grd.Height = height
         grd.Tag = tagValue
         grd.TabIndex = TabIndex
+        grd.Enabled = False
         defineGridColName()
-
         If gridName = "Grid1" Then
             GenerateTable(_DataTableGrid1, grd)
             GridFormatting(_DataTableGrid1, grd)
@@ -1315,59 +1338,61 @@ Public Class MainFormRead
         grdObj.AutoRedraw = True
         grdObj.Refresh()
     End Sub
-    Private Sub btn_View_Click(sender As Object, e As EventArgs) Handles btn_View.Click
+    Private Sub _LoadDefaultData()
         View_Record()
         Dim formType As String = ""
         If _MainColumTbl.Rows.Count > 0 Then
             formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
         End If
         If formType = "ENTRY FORM" Then
-            Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
-            If ctrl.Length > 0 Then
-                Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                Entytxt.Focus()
-                Entytxt.SelectAll()
-            End If
+            'Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+            'If ctrl.Length > 0 Then
+            '    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+            '    Entytxt.Focus()
+            '    Entytxt.SelectAll()
+            'End If
+
         End If
-        isMoveMode = False
-        isDragging = False
-
         FormNameValue = _getformName()
-
         If _FORMMODE = "VIEW" Then
             tmptbl = _GetFormQuery(FormNameValue, "VIEW")
             LoadViewData(tmptbl, _Bookcode)
         End If
-
+        isMoveMode = False
+        isDragging = False
     End Sub
 
     Private Sub MainFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
 
             If PropertyGrid1.Visible = True Then
-                    PropertyGrid1.Visible = False
-                End If
+                PropertyGrid1.Visible = False
+            End If
 
 
-                If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
-                    PnlGrdView.Visible = False
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    Exit Sub
-                ElseIf _FormCloseMode = False Then
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    _FormCloseMode = True
-                    Exit Sub
-                End If
+            If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
+                PnlGrdView.Visible = False
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                Exit Sub
+            ElseIf _FormCloseMode = False Then
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                _FormCloseMode = True
+                Exit Sub
+            End If
             If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
                 If _FormCloseMode = True Then
                     Me.Close()
                     Me.Dispose(True)
                 End If
             End If
+        ElseIf e.KeyCode = Keys.F6 Then
+            btnmovecontrol.Visible = True
+            BtnUpdatepos.Visible = False
+
         ElseIf e.KeyCode = Keys.F4 Then
-                PropertyGrid1.Visible = True
+            PropertyGrid1.Visible = True
 
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
@@ -1375,17 +1400,17 @@ Public Class MainFormRead
         End If
     End Sub
 
-    Private Sub txtFormName_KeyDown(sender As Object, e As KeyEventArgs) Handles txtFormName.KeyDown
-        If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
-            Party_selection.txtSearch.Text = txtFormName.Text
-            obj_Party_Selection.SINGLE_Formname_SELECTION()
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                txtFormName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                btn_View.Focus()
-            End If
-        End If
+    'Private Sub txtFormName_KeyDown(sender As Object, e As KeyEventArgs)
+    '    If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
+    '        Party_selection.txtSearch.Text = txtFormName.Text
+    '        obj_Party_Selection.SINGLE_Formname_SELECTION()
+    '        If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+    '            txtFormName.Text = MULTY_SELECTION_COLOUM_1_DATA
+    '            btn_View.Focus()
+    '        End If
+    '    End If
 
-    End Sub
+    'End Sub
 
     Private Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String)
 
@@ -1687,9 +1712,22 @@ Public Class MainFormRead
         Next
         isMoveMode = False
         isDragging = False
+        Ctrl_Visible_True(Me.Controls)
         PropertyGrid1.Visible = False
-        txtFormName.Text = ""
-        txtFormName.Focus()
+        'txtFormName.Text = ""
+        'txtFormName.Focus()
+    End Sub
+
+    Private Sub _GridEnable()
+        'Dim grd As FlexCell.Grid = TryCast(Me.Controls("Grid1"), FlexCell.Grid)
+
+        'grd.Enabled = True
+        For i As Integer = 1 To 5
+            Dim grd As FlexCell.Grid = TryCast(Me.Controls("Grid" & i), FlexCell.Grid)
+            If grd IsNot Nothing Then
+                grd.Enabled = True
+            End If
+        Next
     End Sub
 
     Private Sub SimpleButton2_Click(sender As Object, e As EventArgs) Handles btnmovecontrol.Click
@@ -1707,6 +1745,8 @@ Public Class MainFormRead
         Else
             PropertyGrid1.Visible = False
         End If
+        Ctrl_Visible_True(Me.Controls)
+        _GridEnable()
     End Sub
 
 

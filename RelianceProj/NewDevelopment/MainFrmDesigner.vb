@@ -1352,6 +1352,8 @@ Public Class MainFrmDesigner
             End With
             sqL = _strQuery.ToString
             sql_Data_Save_Delete_Update1()
+            'RS = _strQuery.ToString
+            'MenuDesign_QuerySaveUpdateDelete()
         End If
 
     End Sub
@@ -1515,8 +1517,10 @@ Public Class MainFrmDesigner
         End With
         Dim TblTmp As New DataTable
         Dim Last_Cntrlid As Integer = 1
-        sqL = _strQuery.ToString
-        sql_connect_slect1()
+        'sqL = _strQuery.ToString
+        'sql_connect_slect1()
+        RS = _strQuery.ToString
+        MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             If IsDBNull(DefaltSoftTable.Rows(0).Item("Cntrlid")) Then DefaltSoftTable.Rows(0).Item("Cntrlid") = 1
             Last_Cntrlid = Val(DefaltSoftTable.Rows(0).Item("Cntrlid")) + 1
@@ -2086,9 +2090,11 @@ Public Class MainFrmDesigner
             .Append(View_Filter_Condition)
             .Append(" AND  FormDesignType='HEADER DESIGN' ")
         End With
-        sqL = _strQuery.ToString
+        'sqL = _strQuery.ToString
         Dim tblTmp As New DataTable
-        sql_connect_slect1()
+        'sql_connect_slect1()
+        RS = _strQuery.ToString
+        MenuDesign_QueryLoad()
         tblTmp = DefaltSoftTable.Copy
         If tblTmp.Rows.Count > 0 Then
 
@@ -2107,8 +2113,10 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            sqL = _strQuery.ToString
-            sql_connect_slect1()
+            'sqL = _strQuery.ToString
+            'sql_connect_slect1()
+            RS = _strQuery.ToString
+            MenuDesign_QueryLoad()
 
             Fill_Records(DefaltSoftTable, Detail_Grid_Table_ColNames, Grid1, 0, True, "", False)
         Else
@@ -2123,8 +2131,10 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            sqL = _strQuery.ToString
-            sql_connect_slect1()
+            'sqL = _strQuery.ToString
+            'sql_connect_slect1()
+            RS = _strQuery.ToString
+            MenuDesign_QueryLoad()
             tblTmp = DefaltSoftTable.Copy
 
             If tblTmp.Rows.Count > 0 Then
@@ -2173,9 +2183,11 @@ Public Class MainFrmDesigner
             .Append(View_Filter_Condition)
             .Append(" AND  FormDesignType='HEADER DESIGN' ")
         End With
-        sqL = _strQuery.ToString
+        'sqL = _strQuery.ToString
         Dim tblTmp As New DataTable
-        sql_connect_slect1()
+        'sql_connect_slect1()
+        RS = _strQuery.ToString
+        MenuDesign_QuerySaveUpdateDelete()
         tblTmp = DefaltSoftTable.Copy
         If tblTmp.Rows.Count > 0 Then
 
@@ -2194,8 +2206,10 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            sqL = _strQuery.ToString
-            sql_connect_slect1()
+            'sqL = _strQuery.ToString
+            'sql_connect_slect1()
+            RS = _strQuery.ToString
+            MenuDesign_QueryLoad()
 
             Fill_Records(DefaltSoftTable, Detail_Grid_Table_ColNames, Grid1, 0, True, "", False)
         Else
@@ -2210,8 +2224,10 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            sqL = _strQuery.ToString
-            sql_connect_slect1()
+            'sqL = _strQuery.ToString
+            'sql_connect_slect1()
+            RS = _strQuery.ToString
+            MenuDesign_QueryLoad()
             tblTmp = DefaltSoftTable.Copy
 
             If tblTmp.Rows.Count > 0 Then
@@ -2314,8 +2330,10 @@ Public Class MainFrmDesigner
         _strQuery = New StringBuilder
         Try
             strQuery = "DELETE FROM " & _DatabaseTableNameItem & " WHERE FormID='" & Txt_FormId.Text & "' and Bookcode='" & _BookCode & "'"
-            sqL = strQuery.ToString
-            sql_connect_slect1()
+            'sqL = strQuery.ToString
+            'sql_connect_slect1()
+            RS = strQuery.ToString
+            MenuDesign_QuerySaveUpdateDelete()
             '-----------------------------------------------------------------------
             '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
@@ -2357,8 +2375,10 @@ Public Class MainFrmDesigner
         Call Ctrl_Visible_True(Me.Controls)
         Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
         Dim Last_Entry_No As Integer = 1
-        sqL = Str_Qry
-        sql_connect_slect1()
+        'sqL = Str_Qry
+        'sql_connect_slect1()
+        RS = Str_Qry.ToString
+        MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID"))
         End If
@@ -2381,8 +2401,10 @@ Public Class MainFrmDesigner
         _FORMMODE = "DELETE"
         Dim Last_Entry_No As Integer = 1
         Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
-        sqL = Str_Qry
-        sql_connect_slect1()
+        'sqL = Str_Qry
+        'sql_connect_slect1()
+        RS = Str_Qry.ToString
+        MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID"))
         End If
@@ -2532,15 +2554,19 @@ Public Class MainFrmDesigner
                 sqL = "DELETE FROM " & _DatabaseTableNameItem & " WHERE FormID='" & Txt_FormId.Text & "' and FormType='" & txtfrmtype.Text & "'"
             End If
 
-            sql_Data_Save_Delete_Update1()
-            griditemDetailsSaveQuery(Array_Opening)
+        'sql_Data_Save_Delete_Update1()
+        RS = sqL.ToString
+        MenuDesign_QuerySaveUpdateDelete()
+        griditemDetailsSaveQuery(Array_Opening)
             For I = 0 To UBound(Array_Opening)
                 If Array_Opening(I, 4) <> "" Then
                     strQuery = Array_Opening(I, 4)
-                    sqL = strQuery.ToString
+                'sqL = strQuery.ToString
 
-                    sql_Data_Save_Delete_Update1()
-                    Pcs_Row_No = Pcs_Row_No + 1
+                'sql_Data_Save_Delete_Update1()
+                RS = strQuery.ToString
+                MenuDesign_QuerySaveUpdateDelete()
+                Pcs_Row_No = Pcs_Row_No + 1
                 End If
             Next
             Detail_Fill_Grid_Records_Into_DataTables()
@@ -2548,9 +2574,11 @@ Public Class MainFrmDesigner
         For I = 0 To UBound(Array_Opening)
             If Array_Opening(I, 4) <> "" Then
                 strQuery = Array_Opening(I, 4)
-                sqL = strQuery.ToString
-                'sql_Data_Save_Delete_Update()
-                sql_Data_Save_Delete_Update1()
+                'sqL = strQuery.ToString
+                ''sql_Data_Save_Delete_Update()
+                'sql_Data_Save_Delete_Update1()
+                RS = strQuery.ToString
+                MenuDesign_QuerySaveUpdateDelete()
                 Pcs_Row_No = Pcs_Row_No + 1
             End If
         Next
@@ -2736,8 +2764,11 @@ Public Class MainFrmDesigner
                 Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
                 Dim TblTmp As New DataTable
                 Dim Last_Entry_No As Integer = 1
-                sqL = Str_Qry
-                sql_connect_slect1()
+                'sqL = Str_Qry
+                'sql_connect_slect1()
+                RS = Str_Qry.ToString
+                MenuDesign_QueryLoad()
+
                 If DefaltSoftTable.Rows.Count > 0 Then
                     If IsDBNull(DefaltSoftTable.Rows(0).Item("FormID")) Then DefaltSoftTable.Rows(0).Item("FormID") = 1
                     Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID")) + 1

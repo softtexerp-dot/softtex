@@ -161,6 +161,9 @@ Public Class QueryLoad
 
     Private Sub UC_Buttons1_SaveClick()
         GetformName = MainFormRead._getformName()
+        If GetformName = "" Then
+            GetformName = MainMasterFormRead._getformName()
+        End If
         If Validate_Form_Values() = False Then Exit Sub
         Dim SaveQuery As String = ""
         Dim LASTCODE As String = ""
