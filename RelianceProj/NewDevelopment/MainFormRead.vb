@@ -189,6 +189,8 @@ Public Class MainFormRead
         strQuery = getAlter_Form_EntryQuery(Entryno)
         sqL = strQuery.ToString
         sql_connect_slect()
+        'RS = _strquery.ToString
+        'MenuDesign_QueryLoad()
         tblTmp = DefaltSoftTable.Copy
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
 
@@ -210,6 +212,7 @@ Public Class MainFormRead
 
             If UseMaster = "YES" Then
                 For Each dr1 As DataRow In tblTmp.Select()
+                    'Dim _HeaderNAme As String = dr("UserText").ToString()
                     Dim _HeaderNAme As String = dr("Text").ToString()
                     txt.Text = dr1(_HeaderNAme).ToString
                 Next
@@ -405,6 +408,7 @@ Public Class MainFormRead
         Dim leftJoin As String = ""
         Dim joinHeader As String = ""
         For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
+            'Dim _DatabaseHeaderName As String = dr("UserText").ToString()
             Dim _DatabaseHeaderName As String = dr("Text").ToString()
             Dim _OppositCode As String = dr("OppMasterCode").ToString()
             Dim _SelectionMastrName As String = dr("MasterList").ToString()
@@ -687,6 +691,8 @@ Public Class MainFormRead
             End If
             sqL = strQuery.ToString
             sql_connect_slect()
+            'RS = _strQuery.ToString
+            'MenuDesign_QueryLoad()
             '-----------------------------------------------------------------------
             '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
@@ -719,6 +725,7 @@ Public Class MainFormRead
             For Each dr As DataRow In _MainColumTbl.Select("", "OrderNo")
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim colType As String = dr("ColumnType").ToString().Trim()
+                'Dim header As String = dr("UserText").ToString().Trim()
                 Dim header As String = dr("Text").ToString().Trim()
                 Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
                 If alignVal = "" Then alignVal = "L"
@@ -843,6 +850,7 @@ Public Class MainFormRead
             If MainLoadFormName <> "" Then
                 If _MainColumTbl.Rows.Count > 0 Then
                     For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                        'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> 0")
 
                         Dim Name As String = dr("CntrlName").ToString()
                         RemoveControlIfExists(Name)
@@ -856,6 +864,8 @@ Public Class MainFormRead
                 End With
                 sqL = _strQuery.ToString
                 sql_connect_slect1()
+                'RS = _strQuery.ToString
+                'MenuDesign_QueryLoad()
                 _MainColumTbl = DefaltSoftTable.Copy
                 Dim _UseMasterTabl As New DataTable
                 _UseMasterTabl = _MainColumTbl.Clone
@@ -871,10 +881,12 @@ Public Class MainFormRead
                 Dim height As Integer
                 Dim width As Integer
                 For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                    'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> 0")
                     Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
                     Dim usemasterkey As String = dr("USEMASTERKEY").ToString
                     Dim colType As String = dr("ColumnType").ToString()
                     Dim HeaderName As String = dr("Text").ToString()
+                    'Dim HeaderName As String = dr("UserText").ToString()
                     Dim Name As String = dr("CntrlName").ToString()
                     Dim visible As String = dr("Visible").ToString()
                     Dim Tabindex As Int64 = dr("Tabindex").ToString()
@@ -993,7 +1005,7 @@ Public Class MainFormRead
                             Dim gridname As String = dr("CntrlName").ToString().Trim()
                             If gridname = "Grid1" Then
                                 Dim grid1 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid1, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                                'Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
+                                Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
                             ElseIf gridname = "Grid2" Then
                                 Dim grid2 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
                                 'Fill_Current_Row_Sr_No(_DataTableGrid2, grid2)
@@ -1085,6 +1097,7 @@ Public Class MainFormRead
         strQuery = "SELECT TOP 1 ENTRYNO FROM " & _TblName & "  WHERE BOOKCODE='" & _Bookcode & "' ORDER BY ENTRYNO DESC "
         sqL = strQuery
         sql_connect_slect()
+
         Tbltmp = DefaltSoftTable.Copy
         If Tbltmp.Rows.Count > 0 Then
             ENTRYNO = Val(Tbltmp.Rows(0).Item(0))
@@ -1111,6 +1124,7 @@ Public Class MainFormRead
         grd.Left = leftPos + 130
         grd.Top = topPos
         grd.Width = width
+        'grd.Width = 1193
         grd.Height = height
         grd.Tag = tagValue
         grd.TabIndex = TabIndex
@@ -1188,7 +1202,7 @@ Public Class MainFormRead
         Dim tblTmp As DataTable = Alter_EntryForm(_EntryNo)
         Dim grd As FlexCell.Grid
         Dim gridname As String = ""
-        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> 0")
             gridname = dr("CntrlName").ToString().Trim()
             If gridname.StartsWith("Grid1") Then
                 grd = TryCast(Me.Controls(gridname), FlexCell.Grid)
@@ -1683,6 +1697,8 @@ Public Class MainFormRead
 
             sqL = strQuery.ToString
             sql_connect_slect1()
+            'RS = _strQuery.ToString
+            'MenuDesign_QueryLoad()
         Catch ex As Exception
 
             MsgBox("Error While update Entry")
