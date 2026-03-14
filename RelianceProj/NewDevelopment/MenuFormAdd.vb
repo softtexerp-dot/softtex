@@ -118,6 +118,15 @@ Friend Class MenuFormAdd
             Me.Top = 80
         End If
 
+
+        PnlGrdView.Width = Me.Width
+        PnlGrdView.Height = Me.Height
+        PnlGrdView.Location = New Point(0, 0)
+
+        GridControl1.Width = PnlGrdView.Width - 25
+        GridControl1.Height = PnlGrdView.Height - 100
+        GridControl1.Location = New Point(3, 53)
+
     End Sub
     Private Sub CreateButtonsControl()
 
@@ -681,6 +690,38 @@ Friend Class MenuFormAdd
             End If
         End If
     End Sub
-#End Region
 
+    Private Sub SimpleButton2_Click(sender As Object, e As EventArgs) Handles SimpleButton2.Click
+        View_Record()
+    End Sub
+
+#End Region
+    Private Sub View_Record()
+        RS = "SELECT TOP 1  * FROM " & _TblName & " where 1=1 ORDER BY " & _KeyFieldName & " DESC"
+        MenuDesign_QueryLoad()
+        Dim tblTmp As DataTable
+        tblTmp = DefaltSoftTable.Copy
+        FirstStage.Columns.Clear()
+        Dim Qty As String = ""
+        If tblTmp.Rows.Count > 0 Then
+            GridControl1.DataSource = tblTmp.Copy
+            DevGridFitColumn(GridControl1, FirstStage)
+            PnlGrdView.Visible = True
+            FirstStage.BestFitColumns()
+            FirstStage.Focus()
+            PnlGrdView.BringToFront()
+            GridControl1.BringToFront()
+        Else
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+        End If
+    End Sub
+
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = " Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
+        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+    End Sub
+
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
+        _DevExpressExcelExport(GridControl1)
+    End Sub
 End Class

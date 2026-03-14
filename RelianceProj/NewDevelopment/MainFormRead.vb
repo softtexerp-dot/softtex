@@ -260,7 +260,11 @@ Public Class MainFormRead
             Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
             If ctrl.Length > 0 Then
                 Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                _GetAlterData(Entytxt.Text - 1)
+                If Entytxt.Text = "" Then
+                Else
+                    _GetAlterData(Entytxt.Text - 1)
+                End If
+
 
             End If
         End If
@@ -274,11 +278,15 @@ Public Class MainFormRead
         'Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
             'Call Ctrl_Visible_True(Me.Controls)
+
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
             Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
             If ctrl.Length > 0 Then
                 Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                _GetAlterData(Entytxt.Text + 1)
+                If Entytxt.Text = "" Then
+                Else
+                    _GetAlterData(Entytxt.Text + 1)
+                End If
             End If
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
@@ -613,7 +621,6 @@ Public Class MainFormRead
         Dim FilterBookcode As String = " '" & _Bookcode & "' "
         Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
         Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
-
         ' 🔹 Queries Read
         Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
         If ViewQuery = "" Then
@@ -624,15 +631,11 @@ Public Class MainFormRead
                 Exit Sub
             End If
         End If
-
-
         ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
         ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
         ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
         sqL = ViewQuery
         sql_connect_slect()
-
-
         Dim ResultTable As New DataTable
         ResultTable = DefaltSoftTable.Copy
         FirstStage.Columns.Clear()
@@ -640,48 +643,26 @@ Public Class MainFormRead
             GridControl1.DataSource = ResultTable.Copy
             DevGridFitColumn(GridControl1, FirstStage)
             FirstStage.OptionsView.ShowFooter = True
-
-
             Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
-
-
             Dim ColumnList As String = ViewQueryTotal
             Dim Columns() As String = ColumnList.Split(","c)
-
-
             For Each col As String In Columns
-
                 If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-
                     'Total
                     FirstStage.Columns(col).Summary.Clear()
                     FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
-
                 End If
-
             Next
-
             ViewQueryTotal = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
-
             ColumnList = ViewQueryTotal
             Dim HideColumns() As String = ColumnList.Split(","c)
-
             For Each col As String In HideColumns
                 If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-
                     'Hide
                     FirstStage.Columns(col).Visible = False
-
                 End If
-
             Next
-
-
-
-
             PnlGrdView.Visible = True
-
-
             FirstStage.BestFitColumns()
             FirstStage.Focus()
             PnlGrdView.BringToFront()
@@ -940,7 +921,8 @@ Public Class MainFormRead
                         End If
                         'lbl.Left = leftPos + 50
                         If leftPos < 0 Then
-                            lbl.Left = leftPos + 50
+                            'lbl.Left = leftPos + 50
+                            lbl.Left = leftPos
                         Else
                             lbl.Left = leftPos
                         End If
@@ -1211,8 +1193,6 @@ Public Class MainFormRead
             If gridname.StartsWith("Grid1") Then
                 grd = TryCast(Me.Controls(gridname), FlexCell.Grid)
             End If
-
-
             If tblTmp.Rows.Count > 0 Then
                 If gridname.StartsWith("Grid1") Then
                     If grd IsNot Nothing Then
@@ -1227,8 +1207,10 @@ Public Class MainFormRead
         Next
         If tblTmp.Rows.Count > 0 Then
         Else
-            Clear_Grid(grd, 2)
             MsgBox("Record Not Found")
+            ObjCls_General.Blank_Object(Me)
+            Clear_Grid(grd, 2)
+            'Ctrl_Visible_False(Me.Controls)
         End If
     End Sub
     Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
@@ -1389,7 +1371,7 @@ Public Class MainFormRead
             End If
         ElseIf e.KeyCode = Keys.F6 Then
             btnmovecontrol.Visible = True
-            BtnUpdatepos.Visible = False
+            BtnUpdatepos.Visible = True
 
         ElseIf e.KeyCode = Keys.F4 Then
             PropertyGrid1.Visible = True
@@ -1630,6 +1612,14 @@ Public Class MainFormRead
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("TransportName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
                         SetGridValue(selected("TransportName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "BOOK MASTER"
+                Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("BookName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("BookName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
                     End If
                 End If
         End Select

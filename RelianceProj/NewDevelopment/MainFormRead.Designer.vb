@@ -100,7 +100,7 @@ Partial Class MainFormRead
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
         Me.PnlGrdView.Location = New System.Drawing.Point(195, 75)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(149, 175)
+        Me.PnlGrdView.Size = New System.Drawing.Size(134, 175)
         Me.PnlGrdView.TabIndex = 81931
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
