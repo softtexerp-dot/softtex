@@ -436,8 +436,10 @@ Friend Class MenuFormAdd
         Qry.Append(" ,A.FormName ")
         Qry.Append(" FROM FormControl AS A ")
         Qry.Append(" WHERE 1=1 ")
-        sqL = Qry.ToString
-        sql_connect_slect1()
+        'sqL = Qry.ToString
+        'sql_connect_slect1()
+        RS = Qry.ToString
+        MenuDesign_QueryLoad()
         Dim dt2 As New DataTable()
         dt2 = DefaltSoftTable.Copy
         For Each r As DataRow In dt2.Rows

@@ -299,7 +299,8 @@ Public Class MainMasterFormRead
         Dim leftJoin As String = ""
         Dim joinHeader As String = ""
         For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
-            Dim _DatabaseHeaderName As String = dr("Text").ToString()
+            'Dim _DatabaseHeaderName As String = dr("Text").ToString()
+            Dim _DatabaseHeaderName As String = dr("UserText").ToString()
             Dim _OppositCode As String = dr("OppMasterCode").ToString()
             Dim _SelectionMastrName As String = dr("MasterList").ToString()
             Dim res = GetAccountMaster(_DatabaseHeaderName, _OppositCode, _SelectionMastrName)
@@ -313,7 +314,7 @@ Public Class MainMasterFormRead
             .Append(" FROM " & _TblName & " as A")
             .Append(leftJoin)
             .Append(" WHERE 1=1 ")
-            .Append(" And " & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'")
+            .Append(" And A." & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'")
             .Append(" ORDER BY ID DESC")
         End With
         Return _strQuery.ToString
@@ -404,112 +405,113 @@ Public Class MainMasterFormRead
     End Sub
 
 #End Region
-    Private Sub defineGridColName()
-        _Grid1ColNames = New StringBuilder()
-        _FieldHeader = New StringBuilder()
-        _FieldHeaderAlignment = New StringBuilder()
-        _FieldAlignMent = New StringBuilder()
-        _FieldWidthSet = New StringBuilder()
-        _FieldNotVisibile = New StringBuilder()
-        _FieldLocked = New StringBuilder()
-        _Grid1ColType = New StringBuilder()
-        _FieldMasking = New StringBuilder()
-        _FieldUsemaster = New StringBuilder()
-        _Fieldmasterlist = New StringBuilder()
-        _FieldNotRequiredForSave = New StringBuilder()
-        If _MainColumTbl.Rows.Count > 0 Then
+    'Private Sub defineGridColName()
+    '    _Grid1ColNames = New StringBuilder()
+    '    _FieldHeader = New StringBuilder()
+    '    _FieldHeaderAlignment = New StringBuilder()
+    '    _FieldAlignMent = New StringBuilder()
+    '    _FieldWidthSet = New StringBuilder()
+    '    _FieldNotVisibile = New StringBuilder()
+    '    _FieldLocked = New StringBuilder()
+    '    _Grid1ColType = New StringBuilder()
+    '    _FieldMasking = New StringBuilder()
+    '    _FieldUsemaster = New StringBuilder()
+    '    _Fieldmasterlist = New StringBuilder()
+    '    _FieldNotRequiredForSave = New StringBuilder()
+    '    If _MainColumTbl.Rows.Count > 0 Then
 
-            For Each dr As DataRow In _MainColumTbl.Rows
-                Dim colName As String = dr("DataBaseColumn").ToString().Trim()
-                Dim header As String = dr("Text").ToString().Trim()
-                Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
-                If alignVal = "" Then alignVal = "L"
-                If header = "" OrElse colName = "" Then
-                    Continue For
-                End If
-                ' Grid Col Names
-                If _Grid1ColNames.Length > 0 Then
-                    _Grid1ColNames.Append(",")
-                End If
-                _Grid1ColNames.Append(colName)
-                ' Field Header
-                If header.Trim > "" Then
-                    If _FieldHeader.Length > 0 Then
-                        _FieldHeader.Append(",")
-                    End If
-                    _FieldHeader.Append(colName & ":" & header)
-                End If
-                ' Header Alignment
-                If _FieldHeaderAlignment.Length > 0 Then
-                    _FieldHeaderAlignment.Append(",")
-                End If
-                _FieldHeaderAlignment.Append(colName & ":" & alignVal)
-                ' Field Alignment
-                If _FieldAlignMent.Length > 0 Then
-                    _FieldAlignMent.Append(",")
-                End If
-                _FieldAlignMent.Append(colName & ":" & alignVal)
-                ' Width
-                Dim widthVal As Int32 = dr("SizeWidth").ToString().Trim()
-                If _FieldWidthSet.Length > 0 Then
-                    _FieldWidthSet.Append(",")
-                End If
-                _FieldWidthSet.Append(colName & ":" & widthVal)
-                ' Not Visible
-                Dim visibleVal As String = dr("Visible").ToString().Trim().ToUpper()
-                If header.Trim <> "" Then
-                    If _FieldNotVisibile.Length > 0 Then
-                        _FieldNotVisibile.Append(",")
-                    End If
-                    _FieldNotVisibile.Append(colName & ":" & visibleVal)
-                End If
-                ' Locked
-                Dim lockVal As String = dr("ReadOnly").ToString().Trim().ToUpper()
-                If lockVal = "" Then lockVal = "N"
-                If _FieldLocked.Length > 0 Then
-                    _FieldLocked.Append(",")
-                End If
-                _FieldLocked.Append(colName & ":" & lockVal)
-                ' Col Type
-                Dim colInputType As String = dr("InputType").ToString().Trim().ToUpper()
-                Dim colType As String = dr("ColumnType").ToString().Trim().ToUpper()
-                If colInputType = "Number" Then
-                    colType = "N"
-                    If _Grid1ColType.Length > 0 Then
-                        _Grid1ColType.Append(",")
-                    End If
-                    _Grid1ColType.Append(colName & ":" & colType)
-                End If
-                ' Masking
-                Dim prec As Integer = Val(dr("Masking"))
-                If colInputType = "Number" Then
-                    Dim maskVal As String = "NO-" & prec.ToString()
-                    If _FieldMasking.Length > 0 Then
-                        _FieldMasking.Append(",")
-                    End If
-                    _FieldMasking.Append(colName & ":" & maskVal)
-                End If
-                Dim notrequired As String = dr("SaveYN").ToString().Trim().ToUpper()
-                If notrequired = "N" Then
-                    If _FieldNotRequiredForSave.Length > 0 AndAlso Not _FieldNotRequiredForSave.ToString().EndsWith(",") Then
-                        _FieldNotRequiredForSave.Append(",")
-                    End If
-                    _FieldNotRequiredForSave.Append(colName & ":" & notrequired)
-                End If
-                'default value set
-                '_FieldDefaultValues = New StringBuilder
-                'With _FieldDefaultValues
-                '    .Append("Yarn_Rate:0,")
-                '    .Append("pattern:0,")
-                '    .Append("Avg_weight:0,")
-                '    .Append("PROFIT_PER:0,")
-                '    .Append("Yarn_Amount:0")
-                '    .Append("VALUE_LOSS_PER_MTR:0")
-                'End With
-            Next
-            Grid1_Table_ColNames = _Grid1ColNames.ToString.ToUpper.Split(",")
-        End If
-    End Sub
+    '        For Each dr As DataRow In _MainColumTbl.Rows
+    '            Dim colName As String = dr("DataBaseColumn").ToString().Trim()
+    '            'Dim header As String = dr("Text").ToString().Trim()
+    '            Dim header As String = dr("UserText").ToString().Trim()
+    '            Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
+    '            If alignVal = "" Then alignVal = "L"
+    '            If header = "" OrElse colName = "" Then
+    '                Continue For
+    '            End If
+    '            ' Grid Col Names
+    '            If _Grid1ColNames.Length > 0 Then
+    '                _Grid1ColNames.Append(",")
+    '            End If
+    '            _Grid1ColNames.Append(colName)
+    '            ' Field Header
+    '            If header.Trim > "" Then
+    '                If _FieldHeader.Length > 0 Then
+    '                    _FieldHeader.Append(",")
+    '                End If
+    '                _FieldHeader.Append(colName & ":" & header)
+    '            End If
+    '            ' Header Alignment
+    '            If _FieldHeaderAlignment.Length > 0 Then
+    '                _FieldHeaderAlignment.Append(",")
+    '            End If
+    '            _FieldHeaderAlignment.Append(colName & ":" & alignVal)
+    '            ' Field Alignment
+    '            If _FieldAlignMent.Length > 0 Then
+    '                _FieldAlignMent.Append(",")
+    '            End If
+    '            _FieldAlignMent.Append(colName & ":" & alignVal)
+    '            ' Width
+    '            Dim widthVal As Int32 = dr("SizeWidth").ToString().Trim()
+    '            If _FieldWidthSet.Length > 0 Then
+    '                _FieldWidthSet.Append(",")
+    '            End If
+    '            _FieldWidthSet.Append(colName & ":" & widthVal)
+    '            ' Not Visible
+    '            Dim visibleVal As String = dr("Visible").ToString().Trim().ToUpper()
+    '            If header.Trim <> "" Then
+    '                If _FieldNotVisibile.Length > 0 Then
+    '                    _FieldNotVisibile.Append(",")
+    '                End If
+    '                _FieldNotVisibile.Append(colName & ":" & visibleVal)
+    '            End If
+    '            ' Locked
+    '            Dim lockVal As String = dr("ReadOnly").ToString().Trim().ToUpper()
+    '            If lockVal = "" Then lockVal = "N"
+    '            If _FieldLocked.Length > 0 Then
+    '                _FieldLocked.Append(",")
+    '            End If
+    '            _FieldLocked.Append(colName & ":" & lockVal)
+    '            ' Col Type
+    '            Dim colInputType As String = dr("InputType").ToString().Trim().ToUpper()
+    '            Dim colType As String = dr("ColumnType").ToString().Trim().ToUpper()
+    '            If colInputType = "Number" Then
+    '                colType = "N"
+    '                If _Grid1ColType.Length > 0 Then
+    '                    _Grid1ColType.Append(",")
+    '                End If
+    '                _Grid1ColType.Append(colName & ":" & colType)
+    '            End If
+    '            ' Masking
+    '            Dim prec As Integer = Val(dr("Masking"))
+    '            If colInputType = "Number" Then
+    '                Dim maskVal As String = "NO-" & prec.ToString()
+    '                If _FieldMasking.Length > 0 Then
+    '                    _FieldMasking.Append(",")
+    '                End If
+    '                _FieldMasking.Append(colName & ":" & maskVal)
+    '            End If
+    '            Dim notrequired As String = dr("SaveYN").ToString().Trim().ToUpper()
+    '            If notrequired = "N" Then
+    '                If _FieldNotRequiredForSave.Length > 0 AndAlso Not _FieldNotRequiredForSave.ToString().EndsWith(",") Then
+    '                    _FieldNotRequiredForSave.Append(",")
+    '                End If
+    '                _FieldNotRequiredForSave.Append(colName & ":" & notrequired)
+    '            End If
+    '            'default value set
+    '            '_FieldDefaultValues = New StringBuilder
+    '            'With _FieldDefaultValues
+    '            '    .Append("Yarn_Rate:0,")
+    '            '    .Append("pattern:0,")
+    '            '    .Append("Avg_weight:0,")
+    '            '    .Append("PROFIT_PER:0,")
+    '            '    .Append("Yarn_Amount:0")
+    '            '    .Append("VALUE_LOSS_PER_MTR:0")
+    '            'End With
+    '        Next
+    '        Grid1_Table_ColNames = _Grid1ColNames.ToString.ToUpper.Split(",")
+    '    End If
+    'End Sub
     Private Sub RemoveControlIfExists(ctrlName As String)
 
         Dim oldCtrl As Control = Me.Controls.Cast(Of Control)().FirstOrDefault(Function(c) c.Name = ctrlName)
@@ -531,8 +533,8 @@ Public Class MainMasterFormRead
             Dim View_Filter_Condition = " AND  FormName='" & MainMasterLoadFormName & "' "
             If MainMasterLoadFormName <> "" Then
                 If _MainColumTbl.Rows.Count > 0 Then
-                    For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
-
+                    'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                    For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
                         Dim Name As String = dr("CntrlName").ToString()
                         RemoveControlIfExists(Name)
                         RemoveControlIfExists("Lbl_" & Name)
@@ -543,8 +545,10 @@ Public Class MainMasterFormRead
                     .Append("Select * FROM " & _DatabaseTableName & " WHERE 1=1 ")
                     .Append(View_Filter_Condition)
                 End With
-                sqL = _strQuery.ToString
-                sql_connect_slect1()
+                'sqL = _strQuery.ToString
+                'sql_connect_slect1()
+                RS = _strQuery.ToString
+                MenuDesign_QueryLoad()
                 _MainColumTbl = DefaltSoftTable.Copy
                 Dim _UseMasterTabl As New DataTable
                 _UseMasterTabl = _MainColumTbl.Clone
@@ -559,12 +563,15 @@ Public Class MainMasterFormRead
                 Dim leftPos As Integer
                 Dim height As Integer
                 Dim width As Integer
-                For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
                     Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
                     Dim usemasterkey As String = dr("USEMASTERKEY").ToString
                     Dim colType As String = dr("ColumnType").ToString()
-                    Dim HeaderName As String = dr("Text").ToString()
+                    'Dim HeaderName As String = dr("Text").ToString()
+                    Dim HeaderName As String = dr("UserText").ToString()
                     Dim Name As String = dr("CntrlName").ToString()
+                    Dim visible As String = dr("Visible").ToString()
                     Dim Tabindex As Int64 = dr("Tabindex").ToString()
                     Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                     _TblName = dr("DataBaseTable").ToString()
@@ -592,6 +599,7 @@ Public Class MainMasterFormRead
                     Dim Tag As String = dr("DataBaseColumn").ToString()
                     Dim oppMasterCode As String = dr("OppMasterCode").ToString()
                     Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                    Dim _Readonly As String = dr("ReadOnly").ToString()
                     FormId = dr("FormId").ToString()
                     Id = dr("Id").ToString()
                     If HeaderName > "" Then
@@ -621,7 +629,7 @@ Public Class MainMasterFormRead
                         AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                         AddHandler lbl.MouseMove, AddressOf Control_MouseMove
                         AddHandler lbl.MouseUp, AddressOf Control_MouseUp
-                        If colType = "TextBox" Then
+                        If colType = "TextBox" AndAlso Visible = "Y" Then
                             Dim LblSize As Int16 = lbl.Width
                             Dim txt As New TextBox()
                             txt.Name = Name
@@ -631,6 +639,11 @@ Public Class MainMasterFormRead
                             txt.Height = height
                             txt.Tag = Tag
                             txt.TabIndex = Tabindex
+                            If _Readonly = "Y" Then
+                                txt.ReadOnly = True
+                            Else
+                                txt.ReadOnly = False
+                            End If
                             Me.Controls.Add(txt)
                             If txt.TabIndex = 1 Then
                                 txt.Focus()
@@ -1113,14 +1126,18 @@ Public Class MainMasterFormRead
     Private Sub updatepossition(ByVal leftpos As String, ByVal topPos As String, ByVal Height As String, ByVal Width As String, ByVal ctrlName As String, ByVal Tabindex As String, ByVal FormId As String, ByVal Id As String)
         _strQuery = New StringBuilder
         Try
-            'If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
-            '    strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
-            'Else
-            strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
-            'End If
+            If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
+                'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
+            Else
+                'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
+            End If
 
-            sqL = strQuery.ToString
-            sql_connect_slect1()
+            'sqL = strQuery.ToString
+            'sql_connect_slect1()
+            RS = strQuery.ToString
+            MenuDesign_QueryLoad()
         Catch ex As Exception
 
             MsgBox("Error While update Entry")
@@ -1190,7 +1207,7 @@ Public Class MainMasterFormRead
         _FrmLoad = True
         CreateButtonsControl()
 
-        UC_Buttons1._ButtonEnableDisable("LOAD")
+        'UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
         'FormNameValue = _getformName()
         PnlGrdView.Width = Me.Width

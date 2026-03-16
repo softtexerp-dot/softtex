@@ -189,8 +189,6 @@ Public Class MainFormRead
         strQuery = getAlter_Form_EntryQuery(Entryno)
         sqL = strQuery.ToString
         sql_connect_slect()
-        'RS = _strquery.ToString
-        'MenuDesign_QueryLoad()
         tblTmp = DefaltSoftTable.Copy
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
 
@@ -212,8 +210,8 @@ Public Class MainFormRead
 
             If UseMaster = "YES" Then
                 For Each dr1 As DataRow In tblTmp.Select()
-                    'Dim _HeaderNAme As String = dr("UserText").ToString()
-                    Dim _HeaderNAme As String = dr("Text").ToString()
+                    Dim _HeaderNAme As String = dr("UserText").ToString()
+                    'Dim _HeaderNAme As String = dr("Text").ToString()
                     txt.Text = dr1(_HeaderNAme).ToString
                 Next
                 Dim ActivetextName As String = ctrl.Text
@@ -408,8 +406,8 @@ Public Class MainFormRead
         Dim leftJoin As String = ""
         Dim joinHeader As String = ""
         For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
-            'Dim _DatabaseHeaderName As String = dr("UserText").ToString()
-            Dim _DatabaseHeaderName As String = dr("Text").ToString()
+            Dim _DatabaseHeaderName As String = dr("UserText").ToString()
+            'Dim _DatabaseHeaderName As String = dr("Text").ToString()
             Dim _OppositCode As String = dr("OppMasterCode").ToString()
             Dim _SelectionMastrName As String = dr("MasterList").ToString()
 
@@ -425,8 +423,8 @@ Public Class MainFormRead
             .Append(" FROM " & _TblName & " as A ")
             .Append(leftJoin)
             .Append(" WHERE 1=1 ")
-            .Append(" AND BOOKCODE='" & _Bookcode & "'  ")
-            .Append(" And EntryNo=" & EntryNo & "")
+            .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
+            .Append(" And A.EntryNo=" & EntryNo & "")
             .Append(" ORDER BY EntryNo DESC")
         End With
         Return _strQuery.ToString
@@ -691,8 +689,6 @@ Public Class MainFormRead
             End If
             sqL = strQuery.ToString
             sql_connect_slect()
-            'RS = _strQuery.ToString
-            'MenuDesign_QueryLoad()
             '-----------------------------------------------------------------------
             '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
@@ -725,8 +721,8 @@ Public Class MainFormRead
             For Each dr As DataRow In _MainColumTbl.Select("", "OrderNo")
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim colType As String = dr("ColumnType").ToString().Trim()
-                'Dim header As String = dr("UserText").ToString().Trim()
-                Dim header As String = dr("Text").ToString().Trim()
+                Dim header As String = dr("UserText").ToString().Trim()
+                'Dim header As String = dr("Text").ToString().Trim()
                 Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
                 If alignVal = "" Then alignVal = "L"
                 If header = "" OrElse colName = "" Then
@@ -849,8 +845,8 @@ Public Class MainFormRead
             Dim View_Filter_Condition = " AND  FormName='" & MainLoadFormName & "' "
             If MainLoadFormName <> "" Then
                 If _MainColumTbl.Rows.Count > 0 Then
-                    For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
-                        'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> 0")
+                    'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                    For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
 
                         Dim Name As String = dr("CntrlName").ToString()
                         RemoveControlIfExists(Name)
@@ -862,10 +858,10 @@ Public Class MainFormRead
                     .Append("Select * FROM " & _DatabaseTableName & " WHERE 1=1 ")
                     .Append(View_Filter_Condition)
                 End With
-                sqL = _strQuery.ToString
-                sql_connect_slect1()
-                'RS = _strQuery.ToString
-                'MenuDesign_QueryLoad()
+                'sqL = _strQuery.ToString
+                'sql_connect_slect1()
+                RS = _strQuery.ToString
+                MenuDesign_QueryLoad()
                 _MainColumTbl = DefaltSoftTable.Copy
                 Dim _UseMasterTabl As New DataTable
                 _UseMasterTabl = _MainColumTbl.Clone
@@ -880,13 +876,13 @@ Public Class MainFormRead
                 Dim leftPos As Integer
                 Dim height As Integer
                 Dim width As Integer
-                For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
-                    'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> 0")
+                'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+                For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
                     Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
                     Dim usemasterkey As String = dr("USEMASTERKEY").ToString
                     Dim colType As String = dr("ColumnType").ToString()
-                    Dim HeaderName As String = dr("Text").ToString()
-                    'Dim HeaderName As String = dr("UserText").ToString()
+                    'Dim HeaderName As String = dr("Text").ToString()
+                    Dim HeaderName As String = dr("UserText").ToString()
                     Dim Name As String = dr("CntrlName").ToString()
                     Dim visible As String = dr("Visible").ToString()
                     Dim Tabindex As Int64 = dr("Tabindex").ToString()
@@ -914,6 +910,7 @@ Public Class MainFormRead
                     _Grid1ColNames.Append(colName)
                     Dim Tag As String = dr("DataBaseColumn").ToString()
                     Dim oppMasterCode As String = dr("OppMasterCode").ToString()
+                    Dim _Readonly As String = dr("ReadOnly").ToString()
                     FormId = dr("FormId").ToString()
                     Id = dr("Id").ToString()
                     If HeaderName > "" Then
@@ -934,6 +931,7 @@ Public Class MainFormRead
                         'lbl.Left = leftPos + 50
                         If leftPos < 0 Then
                             'lbl.Left = leftPos + 50
+                            'leftPos = 0
                             lbl.Left = leftPos
                         Else
                             lbl.Left = leftPos
@@ -958,6 +956,11 @@ Public Class MainFormRead
                             txt.Height = height
                             txt.Tag = Tag
                             txt.TabIndex = Tabindex
+                            If _Readonly = "Y" Then
+                                txt.ReadOnly = True
+                            Else
+                                txt.ReadOnly = False
+                            End If
                             Me.Controls.Add(txt)
                             If txt.TabIndex = 1 Then
                                 txt.Focus()
@@ -1124,7 +1127,9 @@ Public Class MainFormRead
         grd.Left = leftPos + 130
         grd.Top = topPos
         grd.Width = width
-        'grd.Width = 1193
+        'If grd.Name = "Grid1" Then
+        '    grd.Width = 1193
+        'End If
         grd.Height = height
         grd.Tag = tagValue
         grd.TabIndex = TabIndex
@@ -1146,6 +1151,7 @@ Public Class MainFormRead
             GenerateTable(_DataTableGrid5, grd)
             GridFormatting(_DataTableGrid5, grd)
         End If
+
         RemoveHandler grd.MouseDown, AddressOf Control_MouseDown
         RemoveHandler grd.MouseMove, AddressOf Control_MouseMove
         RemoveHandler grd.MouseUp, AddressOf Control_MouseUp
@@ -1159,6 +1165,7 @@ Public Class MainFormRead
 
         grd.Cell(1, gridTable.Columns.IndexOf("SRNO") + 1).SetFocus()
         FocusSetToGridDefaultColumn(grd, _DefaultColOfGrid)
+
         Return grd
     End Function
 
@@ -1202,7 +1209,8 @@ Public Class MainFormRead
         Dim tblTmp As DataTable = Alter_EntryForm(_EntryNo)
         Dim grd As FlexCell.Grid
         Dim gridname As String = ""
-        For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> 0")
+        'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
+        For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
             gridname = dr("CntrlName").ToString().Trim()
             If gridname.StartsWith("Grid1") Then
                 grd = TryCast(Me.Controls(gridname), FlexCell.Grid)
@@ -1690,15 +1698,17 @@ Public Class MainFormRead
         _strQuery = New StringBuilder
         Try
             If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
-                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+                'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             Else
-                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+                'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
+                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             End If
 
-            sqL = strQuery.ToString
-            sql_connect_slect1()
-            'RS = _strQuery.ToString
-            'MenuDesign_QueryLoad()
+            'sqL = strQuery.ToString
+            'sql_connect_slect1()
+            RS = strQuery.ToString
+            MenuDesign_QueryLoad()
         Catch ex As Exception
 
             MsgBox("Error While update Entry")
