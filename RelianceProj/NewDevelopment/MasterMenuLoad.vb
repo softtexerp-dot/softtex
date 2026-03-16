@@ -206,8 +206,11 @@ Public Class MasterMenuLoad
                 If Frm_Name_For_Active.ToString.ToUpper = "COMPANY_CHANGE" Or Frm_Name_For_Active.ToString.ToUpper = "YEAR_CHANGE" Then
                     frm.ShowDialog()
                 Else
+                    'sqL = "SELECT Distinct(FormType) As FormType FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
+                    'sql_connect_slect1()
                     sqL = "SELECT Distinct(FormType) As FormType FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
-                    sql_connect_slect1()
+                    RS = sqL.ToString
+                    MenuDesign_QueryLoad()
                     Dim tbl As New DataTable
                     tbl = DefaltSoftTable.Copy
                     If tbl.Rows.Count > 0 Then
