@@ -209,11 +209,11 @@ Public Class MainFormRead
             End If
 
             If UseMaster = "YES" Then
-                For Each dr1 As DataRow In tblTmp.Select()
-                    Dim _HeaderNAme As String = dr("UserText").ToString()
-                    'Dim _HeaderNAme As String = dr("Text").ToString()
-                    txt.Text = dr1(_HeaderNAme).ToString
-                Next
+                'For Each dr1 As DataRow In tblTmp.Select()
+                '    'Dim _HeaderNAme As String = dr("UserText").ToString()
+                '    'Dim _HeaderNAme As String = dr("Text").ToString()
+                '    'txt.Text = dr1(_HeaderNAme).ToString
+                'Next
                 Dim ActivetextName As String = ctrl.Text
                 RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
                 Me.SelectNextControl(ctrl, True, True, True, True)
@@ -500,7 +500,7 @@ Public Class MainFormRead
     }
             Dim totalRows As Integer = tables.Sum(Function(t) If(t IsNot Nothing, t.Rows.Count, 0))
             If totalRows = 0 Then
-                'Return String.Empty
+                Exit Function
             End If
             Dim Query_Auto_Grid(totalRows - 1, 4) As String
             Dim rowIndex As Integer = 0
@@ -516,6 +516,25 @@ Public Class MainFormRead
                     Next
                 End If
             Next
+            'For Each dt As DataTable In tables
+            '    If dt Is Nothing OrElse dt.Rows.Count = 0 Then Continue For
+
+            '    For Each dr As DataRow In dt.Rows
+
+            '        If rowIndex >= totalRows Then Exit For
+
+            '        For colIndex As Integer = 0 To 4
+            '            If colIndex < dt.Columns.Count Then
+            '                Query_Auto_Grid(rowIndex, colIndex) = dr(colIndex).ToString()
+            '            Else
+            '                Query_Auto_Grid(rowIndex, colIndex) = ""
+            '            End If
+            '        Next
+
+            '        rowIndex += 1
+            '    Next
+            '    If rowIndex >= totalRows Then Exit For
+            'Next
             strFilterString = ""
 
 
@@ -545,20 +564,13 @@ Public Class MainFormRead
                 If _InputType = "DateBox" Then
                     value = Convert.ToDateTime(value).ToString("yyyy-MM-dd")
                 End If
-                ' 🔹 Book columns override
-                'If columnName.Equals("BookVno", StringComparison.OrdinalIgnoreCase) Then
-                '    value = _BookVNo
-                'ElseIf columnName.Equals("BookCode", StringComparison.OrdinalIgnoreCase) Then
-                '    value = _Bookcode
-                'ElseIf columnName.Equals("BookTrType", StringComparison.OrdinalIgnoreCase) Then
-                '    value = _Booktrtype
-                'End If
                 If value = "" Then
                     _extrafield_values_datatable.Append(value & ",")
                 ElseIf IsNumeric(value) Then
                     _extrafield_values_datatable.Append(value & ",")
                 Else
                     If existingItem IsNot Nothing Then
+                        _extrafield_values_datatable.Append("" & value.Replace("'", "''") & ",")
                     Else
                         _extrafield_values_datatable.Append("" & value.Replace("'", "''") & ",")
                     End If
@@ -1349,12 +1361,15 @@ Public Class MainFormRead
             formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
         End If
         If formType = "ENTRY FORM" Then
-            'Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
-            'If ctrl.Length > 0 Then
-            '    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-            '    Entytxt.Focus()
-            '    Entytxt.SelectAll()
-            'End If
+            If _FORMMODE = "EDIT" Then
+                Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+                If ctrl.Length > 0 Then
+                    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                    Entytxt.Focus()
+                    Entytxt.SelectAll()
+                End If
+            End If
+
 
         End If
         FormNameValue = _getformName()

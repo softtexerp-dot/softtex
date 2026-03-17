@@ -151,7 +151,7 @@ Friend Class MenuFormAdd
         AddHandler UC_Buttons1.ReportsClick, AddressOf UC_Buttons1_ReportsClick
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnView")
+        UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
     End Sub
     Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
@@ -670,6 +670,7 @@ Friend Class MenuFormAdd
         If _FORMMODE = "VIEW" Then
             _FORMMODE = "VIEW"
             Last_Focused_Btn = "VIEW"
+            View_Record()
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         End If
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
@@ -699,7 +700,8 @@ Friend Class MenuFormAdd
 
 #End Region
     Private Sub View_Record()
-        RS = "SELECT TOP 1  * FROM " & _TblName & " where 1=1 ORDER BY " & _KeyFieldName & " DESC"
+        'RS = "SELECT  MainId,MenuName,MenuPositionId,MainMenuPositionId,MenuOrderNo,ActiveStatus,MenuPosition,MenuSparate,MainMenuName,SelectedFormName,ShortCutKey,MenuType FROM " & _TblName & " ORDER BY " & _KeyFieldName & " ASC"
+        RS = "SELECT * FROM " & _TblName & " where 1=1 ORDER BY " & _KeyFieldName & " ASC"
         MenuDesign_QueryLoad()
         Dim tblTmp As DataTable
         tblTmp = DefaltSoftTable.Copy
@@ -707,6 +709,29 @@ Friend Class MenuFormAdd
         Dim Qty As String = ""
         If tblTmp.Rows.Count > 0 Then
             GridControl1.DataSource = tblTmp.Copy
+            For Each dc As DataColumn In tblTmp.Columns
+
+                Dim isEmptyOrZero As Boolean = True
+
+                For Each dr As DataRow In tblTmp.Rows
+
+                    If Not IsDBNull(dr(dc)) Then
+                        Dim val As String = dr(dc).ToString().Trim()
+
+                        ' 🔴 अगर कोई value meaningful है → column visible रहेगा
+                        If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
+                            isEmptyOrZero = False
+                            Exit For
+                        End If
+                    End If
+
+                Next
+
+                If isEmptyOrZero Then
+                    FirstStage.Columns(dc.ColumnName).Visible = False
+                End If
+
+            Next
             DevGridFitColumn(GridControl1, FirstStage)
             PnlGrdView.Visible = True
             FirstStage.BestFitColumns()
@@ -719,8 +744,8 @@ Friend Class MenuFormAdd
     End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
-        Dim _RptTiltle = " Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
-        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+        'Dim _RptTiltle = " Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
+        '_DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
