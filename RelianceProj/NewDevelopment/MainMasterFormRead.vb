@@ -1092,27 +1092,6 @@ Public Class MainMasterFormRead
                     _UniqueValues.Remove(existingItem)
                     _UniqueValues.Add(Tuple.Create(ctrl.Name, offMasterCode, codeValue))
                 End If
-
-
-                'ElseIf TypeOf ctrl Is FlexCell.Grid Then
-                '    Dim grd = DirectCast(ctrl, FlexCell.Grid)
-                '    'Call Fill_Sr_No_Item(grd, _DataTableGrid1)
-                '    If ctrl.Name = "Grid1" Then
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                '    ElseIf ctrl.Name = "Grid2" Then
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                '    ElseIf ctrl.Name = "Grid3" Then
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                '    ElseIf ctrl.Name = "Grid4" Then
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                '    ElseIf ctrl.Name = "Grid5" Then
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                '        grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                '    End If
             End If
         End If
 
@@ -1130,10 +1109,8 @@ Public Class MainMasterFormRead
         _strQuery = New StringBuilder
         Try
             If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
-                'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
                 strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             Else
-                'strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId='" & FormId & "'"
                 strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             End If
 

@@ -42,6 +42,7 @@ Friend Class MenuFormAdd
     Private Str_In_Process_Code As String = ""
     Private CurrentBackNumber As Integer = 0
     Private _MainmenupositionId As Integer = 0
+    Dim _FormCloseMode As Boolean = False
 #End Region
 
 #Region "QUERY SECTION"
@@ -155,19 +156,22 @@ Friend Class MenuFormAdd
     End Sub
     Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
+            If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
+                PnlGrdView.Visible = False
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                Exit Sub
+            ElseIf _FormCloseMode = False Then
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                _FormCloseMode = True
+                'Exit Sub
+            End If
             If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
                 _FrmLoad = True
-                If _FORMMODE = "" Then
+                If _FormCloseMode = True Then
                     Me.Close()
                     Dispose(True)
-                ElseIf _FORMMODE <> "" Then
-                    _FORMMODE = ""
-                    ObjCls_General.Blank_Object(Me)
-                    _KeyFieldValue = 0
-                    Call Ctrl_Visible_False(Me.Controls)
-                    'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    _FrmLoad = False
                 End If
             End If
         End If
@@ -470,6 +474,7 @@ Friend Class MenuFormAdd
     Private Sub UC_Buttons1_AddClick()
         _FORMMODE = "ADD"
         _FrmLoad = False
+        _FormCloseMode = False
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
@@ -488,6 +493,7 @@ Friend Class MenuFormAdd
     Private Sub UC_Buttons1_EditClick()
         Dim LASTCODE As String = ""
         _FORMMODE = "EDIT"
+        _FormCloseMode = False
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
@@ -512,6 +518,7 @@ Friend Class MenuFormAdd
 
     Private Sub UC_Buttons1_DeleteClick()
         _FrmLoad = True
+        _FormCloseMode = False
         Last_Focused_Btn = "DELETE"
         _FORMMODE = "DELETE"
         _FrmLoad = False
@@ -538,6 +545,7 @@ Friend Class MenuFormAdd
     End Sub
     Private Sub UC_Buttons1_BackClick()
         _FrmLoad = False
+        _FormCloseMode = False
         Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
             If Txt_MenuId.Text = "" Then
@@ -561,6 +569,7 @@ Friend Class MenuFormAdd
     End Sub
     Private Sub UC_Buttons1_NextClick()
         _FrmLoad = False
+        _FormCloseMode = False
         Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
             RS = "SELECT TOP 1  * FROM " & _TblName & " where " & _KeyFieldName & "=" & Txt_MenuId.Text & "  ORDER BY " & _KeyFieldName & " DESC"

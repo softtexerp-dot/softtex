@@ -354,7 +354,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuName.RegularExpression = Nothing
         Me.Txt_MenuName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuName.ShowMessage = False
-        Me.Txt_MenuName.Size = New System.Drawing.Size(396, 22)
+        Me.Txt_MenuName.Size = New System.Drawing.Size(470, 22)
         Me.Txt_MenuName.SpacerString = ""
         Me.Txt_MenuName.TabIndex = 2
         Me.Txt_MenuName.Tag = "MenuName"
@@ -481,7 +481,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuDisplayName.RegularExpression = Nothing
         Me.Txt_MenuDisplayName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuDisplayName.ShowMessage = False
-        Me.Txt_MenuDisplayName.Size = New System.Drawing.Size(396, 22)
+        Me.Txt_MenuDisplayName.Size = New System.Drawing.Size(470, 22)
         Me.Txt_MenuDisplayName.SpacerString = ""
         Me.Txt_MenuDisplayName.TabIndex = 11
         Me.Txt_MenuDisplayName.Tag = "SelectedFormName"
@@ -523,7 +523,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuShortCutKey.RegularExpression = Nothing
         Me.Txt_MenuShortCutKey.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuShortCutKey.ShowMessage = False
-        Me.Txt_MenuShortCutKey.Size = New System.Drawing.Size(396, 22)
+        Me.Txt_MenuShortCutKey.Size = New System.Drawing.Size(470, 22)
         Me.Txt_MenuShortCutKey.SpacerString = ""
         Me.Txt_MenuShortCutKey.TabIndex = 12
         Me.Txt_MenuShortCutKey.Tag = "ShortCutKey"
@@ -566,7 +566,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuUnderMenuName.RegularExpression = Nothing
         Me.Txt_MenuUnderMenuName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuUnderMenuName.ShowMessage = False
-        Me.Txt_MenuUnderMenuName.Size = New System.Drawing.Size(396, 22)
+        Me.Txt_MenuUnderMenuName.Size = New System.Drawing.Size(470, 22)
         Me.Txt_MenuUnderMenuName.SpacerString = ""
         Me.Txt_MenuUnderMenuName.TabIndex = 8
         Me.Txt_MenuUnderMenuName.Tag = "MainMenuName"
@@ -916,7 +916,7 @@ Partial Class MenuFormAdd
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(686, 461)
+        Me.ClientSize = New System.Drawing.Size(730, 461)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)
