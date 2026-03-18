@@ -85,6 +85,9 @@ Public Class MainMasterFormRead
     Public Property FormNameValue As String
     Dim tmptbl As New DataTable
 
+    Dim _FormCloseMode As Boolean = False
+
+
 
     Private Sub CreateButtonsControl()
 
@@ -109,7 +112,7 @@ Public Class MainMasterFormRead
         AddHandler UC_Buttons1.ReportsClick, AddressOf UC_Buttons1_ReportsClick
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
+        UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnDelete")
     End Sub
 #Region "Button Click"
     Private Sub UC_Buttons1_AddClick()
@@ -1183,9 +1186,25 @@ Public Class MainMasterFormRead
         If e.KeyCode = Keys.Escape Then
             If PropertyGrid1.Visible = True Then
                 PropertyGrid1.Visible = False
-            Else
-                Me.Close()
-                Me.Dispose()
+            End If
+
+
+            If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
+                PnlGrdView.Visible = False
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                Exit Sub
+            ElseIf _FormCloseMode = False Then
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                _FormCloseMode = True
+                Exit Sub
+            End If
+            If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+                If _FormCloseMode = True Then
+                    Me.Close()
+                    Me.Dispose(True)
+                End If
             End If
         ElseIf e.KeyCode = Keys.F6 Then
             btnmovecontrol.Visible = True

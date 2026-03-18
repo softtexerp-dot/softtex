@@ -2547,7 +2547,15 @@ Public Class MainFrmDesigner
 
                 GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text = NewCntrlId
                 GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = _ColumnType & NewCntrlId.ToString()
-
+            Else
+                If Not ColumnTypeCounter.ContainsKey(_ColumnType) Then
+                    ColumnTypeCounter(_ColumnType) = 1
+                Else
+                    ColumnTypeCounter(_ColumnType) += 1
+                End If
+                NewCntrlId = ColumnTypeCounter(_ColumnType)
+                GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text = NewCntrlId
+                GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = _ColumnType & NewCntrlId.ToString()
             End If
             Dim Masking As Integer = 0
             If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masking") + 1).Text = "" Then

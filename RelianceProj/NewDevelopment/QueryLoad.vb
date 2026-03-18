@@ -28,6 +28,10 @@ Public Class QueryLoad
         _FrmLoad = True
         TxtType.Text = "VIEW"
         Txt_Active.Text = "YES"
+        GetformName = MainFormRead._getformName()
+        If GetformName = "" Then
+            GetformName = MainMasterFormRead._getformName()
+        End If
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         CreateButtonsControl()
