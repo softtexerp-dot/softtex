@@ -693,6 +693,7 @@ Public Class MainMasterFormRead
                 Dim formType As String = ""
                 If _MainColumTbl.Rows.Count > 0 Then
                     formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+                    FormNameValue = _MainColumTbl.Rows(0)("Formname").ToString().Trim()
                 End If
                 If formType = "MASTER FORM" Then
                     strQuery = GetMaxCode()
