@@ -1286,8 +1286,8 @@ Public Class MainFormRead
         End If
     End Sub
     Public Sub CalculateDynamicColumnTotal(grd As FlexCell.Grid, dt As DataTable, tmptbl As DataTable)
-        Dim ViewQueryTotal As String = GetQuery(tmptbl, "GRIDCOLUMSUM", "VIEW")
-        'Dim ViewQueryTotal As String = GetQuery(tmptbl, "GRIDCOLUMSUM", "TOTAL COLUMN")
+        'Dim ViewQueryTotal As String = GetQuery(tmptbl, "GRIDCOLUMSUM", "VIEW")
+        Dim ViewQueryTotal As String = GetQuery(tmptbl, "GRIDCOLUMSUM", "TOTAL COLUMN")
 
         If String.IsNullOrWhiteSpace(ViewQueryTotal) Then Exit Sub
 
@@ -1371,8 +1371,8 @@ Public Class MainFormRead
     End Sub
     Private Sub ApplyGridFormula(grd As FlexCell.Grid, dt As DataTable)
 
-        Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "VIEW")
-        'Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "TOTAL COLUMN")
+        'Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "VIEW")
+        Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "TOTAL COLUMN")
         If String.IsNullOrWhiteSpace(formulaStr) Then Exit Sub
 
         ' 👉 Example: ADJAMT*AMOUNT_ADD=AMOUNT_LESS
