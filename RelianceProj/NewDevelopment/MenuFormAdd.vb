@@ -698,7 +698,7 @@ Friend Class MenuFormAdd
 
 #End Region
     Private Sub View_Record()
-        'RS = "SELECT  MainId,MenuName,MenuPositionId,MainMenuPositionId,MenuOrderNo,ActiveStatus,MenuPosition,MenuSparate,MainMenuName,SelectedFormName,ShortCutKey,MenuType FROM " & _TblName & " ORDER BY " & _KeyFieldName & " ASC"
+        'RS = "SELECT MenuName.MainId, MenuName.MenuName, MenuName.MenuPositionId, MenuName.MainMenuPositionId, MenuName.MenuOrderNo, MenuName.ActiveStatus, MenuName.MenuPosition, MenuSparate AS Expr1, MenuName.MainMenuName, MenuName.SelectedFormName, MenuName.ShortCutKey, MenuName.MenuType FROM " & _TblName & " ORDER BY " & _TblName & "." & _KeyFieldName & ";"
         RS = "SELECT * FROM " & _TblName & " where 1=1 ORDER BY " & _KeyFieldName & " ASC"
         MenuDesign_QueryLoad()
         Dim tblTmp As DataTable
