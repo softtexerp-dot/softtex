@@ -800,9 +800,9 @@ Partial Class MenuFormAdd
         Me.PnlGrdView.Controls.Add(Me.Btn_LayoutLoad)
         Me.PnlGrdView.Controls.Add(Me.BtnLayOutSave)
         Me.PnlGrdView.Controls.Add(Me.GridControl1)
-        Me.PnlGrdView.Location = New System.Drawing.Point(775, 8)
+        Me.PnlGrdView.Location = New System.Drawing.Point(782, 12)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(102, 175)
+        Me.PnlGrdView.Size = New System.Drawing.Size(86, 175)
         Me.PnlGrdView.TabIndex = 81938
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
@@ -841,7 +841,6 @@ Partial Class MenuFormAdd
         Me.BtnPrint.Size = New System.Drawing.Size(90, 35)
         Me.BtnPrint.TabIndex = 81964
         Me.BtnPrint.Text = "Print"
-        Me.BtnPrint.Visible = False
         '
         'Btn_LayoutLoad
         '
@@ -916,7 +915,7 @@ Partial Class MenuFormAdd
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(730, 461)
+        Me.ClientSize = New System.Drawing.Size(724, 461)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)

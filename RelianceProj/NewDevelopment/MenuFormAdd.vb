@@ -97,42 +97,31 @@ Friend Class MenuFormAdd
         UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
         _FrmLoad = False
-
-
         Dim x As Integer
         Dim y As Integer
         x = 200
         y = (Screen_Height - Screen_Height) + Main_MDI_Frm.MenuStrip1.Height + 55
         Me.Location = New Point(x, y)
-
         _FrmLoad = True
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         old_Me_text = Me.Text
         Ctrl_Visible_False(Me.Controls)
-
         _FrmLoad = False
-
         If Call_By_other = True Then
             Me.Location = New Drawing.Point((Me.Owner.Location.X + (Me.Owner.Width \ 2) - (Me.Width \ 2)), (Me.Owner.Location.Y + (Me.Owner.Height \ 2) - (Me.Height \ 2)))
             Me.Left = 177
             Me.Top = 80
         End If
-
-
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
         PnlGrdView.Location = New Point(0, 0)
-
         GridControl1.Width = PnlGrdView.Width - 25
         GridControl1.Height = PnlGrdView.Height - 100
         GridControl1.Location = New Point(3, 53)
-
     End Sub
     Private Sub CreateButtonsControl()
-
         UC_Buttons1 = New UC_Buttons()
-
         With UC_Buttons1
             .Name = "UC_Buttons1"
             .Dock = DockStyle.Bottom
@@ -719,27 +708,24 @@ Friend Class MenuFormAdd
         If tblTmp.Rows.Count > 0 Then
             GridControl1.DataSource = tblTmp.Copy
             For Each dc As DataColumn In tblTmp.Columns
-
                 Dim isEmptyOrZero As Boolean = True
-
+                If dc.ColumnName.ToUpper() = "ID" Then
+                    FirstStage.Columns(dc.ColumnName).Visible = False
+                    Continue For
+                End If
                 For Each dr As DataRow In tblTmp.Rows
-
                     If Not IsDBNull(dr(dc)) Then
                         Dim val As String = dr(dc).ToString().Trim()
-
                         ' 🔴 अगर कोई value meaningful है → column visible रहेगा
                         If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
                             isEmptyOrZero = False
                             Exit For
                         End If
                     End If
-
                 Next
-
                 If isEmptyOrZero Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
                 End If
-
             Next
             DevGridFitColumn(GridControl1, FirstStage)
             PnlGrdView.Visible = True
@@ -754,7 +740,8 @@ Friend Class MenuFormAdd
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         'Dim _RptTiltle = " Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
-        '_DevExpressPrintPrivew(_RptTiltle, FirstStage)
+        Dim _RptTiltle = " Report From : Menu Details "
+        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
