@@ -43,7 +43,7 @@ Partial Class HelpForm
         Me.AccordionControl1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.AccordionControl1.Name = "AccordionControl1"
         Me.AccordionControl1.ScrollBarMode = DevExpress.XtraBars.Navigation.ScrollBarMode.Touch
-        Me.AccordionControl1.Size = New System.Drawing.Size(200, 631)
+        Me.AccordionControl1.Size = New System.Drawing.Size(200, 621)
         Me.AccordionControl1.TabIndex = 6
         Me.AccordionControl1.ViewType = DevExpress.XtraBars.Navigation.AccordionControlViewType.HamburgerMenu
         '
@@ -80,25 +80,25 @@ Partial Class HelpForm
         '
         Me.RTbView.Location = New System.Drawing.Point(206, 12)
         Me.RTbView.Name = "RTbView"
-        Me.RTbView.Size = New System.Drawing.Size(1092, 609)
+        Me.RTbView.Size = New System.Drawing.Size(1003, 602)
         Me.RTbView.TabIndex = 7
         Me.RTbView.Text = ""
         Me.RTbView.Visible = False
         '
         'RTBPrint
         '
-        Me.RTBPrint.Location = New System.Drawing.Point(207, 12)
+        Me.RTBPrint.Location = New System.Drawing.Point(207, 13)
         Me.RTBPrint.Name = "RTBPrint"
-        Me.RTBPrint.Size = New System.Drawing.Size(1094, 609)
+        Me.RTBPrint.Size = New System.Drawing.Size(1003, 598)
         Me.RTBPrint.TabIndex = 8
         Me.RTBPrint.Text = ""
         Me.RTBPrint.Visible = False
         '
         'RTBTotalColumn
         '
-        Me.RTBTotalColumn.Location = New System.Drawing.Point(206, 13)
+        Me.RTBTotalColumn.Location = New System.Drawing.Point(207, 15)
         Me.RTBTotalColumn.Name = "RTBTotalColumn"
-        Me.RTBTotalColumn.Size = New System.Drawing.Size(1094, 609)
+        Me.RTBTotalColumn.Size = New System.Drawing.Size(1000, 598)
         Me.RTBTotalColumn.TabIndex = 9
         Me.RTBTotalColumn.Text = ""
         Me.RTBTotalColumn.Visible = False
@@ -107,7 +107,7 @@ Partial Class HelpForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1314, 631)
+        Me.ClientSize = New System.Drawing.Size(1216, 621)
         Me.Controls.Add(Me.RTBTotalColumn)
         Me.Controls.Add(Me.RTBPrint)
         Me.Controls.Add(Me.RTbView)

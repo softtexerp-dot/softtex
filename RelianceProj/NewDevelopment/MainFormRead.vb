@@ -96,6 +96,7 @@ Public Class MainFormRead
     Dim isRowBlank As Boolean = True
     Dim mandatoryCol As String = ""
     Private _PrevColIndex As Integer = -1
+    Dim lblTotalText As New Label()
 
 
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -457,6 +458,23 @@ Public Class MainFormRead
                         If Not isRowBlank Then
                             dt.Rows.Add(FieldDr)
                         End If
+                    Else
+                        Dim FieldDr As DataRow = dt.NewRow()
+                        Dim isRowBlank As Boolean = True
+                        For j As Integer = 1 To grd.Cols - 1
+                            Dim cellValue As String = grd.Cell(i, j).Text.Trim()
+                            If cellValue <> "" Then
+                                isRowBlank = False
+                            End If
+                            If dt.Columns(j - 1).DataType IsNot GetType(String) Then
+                                FieldDr(j - 1) = If(cellValue = "", DBNull.Value, Val(cellValue))
+                            Else
+                                FieldDr(j - 1) = cellValue
+                            End If
+                        Next
+                        If Not isRowBlank Then
+                            dt.Rows.Add(FieldDr)
+                        End If
                     End If
                 Next
             Next
@@ -469,7 +487,7 @@ Public Class MainFormRead
         Try
             _FieldNotVisibile = New StringBuilder()
             '------------------------ DETAILS Table --------------------------------
-            Dim strFilterString As String
+            Dim strFilterString As String = ""
             Dim QueryDetailTable As String = ""
             'Dim Query_Auto_Grid(_DataTableGrid1.Rows.Count, 4) As String
             Dim tables As New List(Of DataTable) From {
@@ -512,7 +530,9 @@ Public Class MainFormRead
                 Next
                 If rowIndex >= totalRows Then Exit For
             Next
-            strFilterString = mandatoryCol & ">0"
+            If mandatoryCol <> "" Then
+                strFilterString = mandatoryCol & ">0"
+            End If
             Dim _extrafielddatatable As New StringBuilder()
             Dim _extrafield_values_datatable As New StringBuilder()
             For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox' AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
@@ -758,7 +778,7 @@ Public Class MainFormRead
                 ' Col Type
                 Dim colInputType As String = dr("InputType").ToString().Trim().ToUpper()
                 'Dim colType As String = dr("ColumnType").ToString().Trim().ToUpper()
-                If colInputType = "Number" Then
+                If colInputType = "NUMERIC" Then
                     colType = "N"
                     If _Grid1ColType.Length > 0 Then
                         _Grid1ColType.Append(",")
@@ -768,7 +788,7 @@ Public Class MainFormRead
 
                 ' Masking
                 Dim prec As Integer = Val(dr("Masking"))
-                If colInputType = "Number" Then
+                If colInputType = "NUMERIC" Then
                     Dim maskVal As String = "NO-" & prec.ToString()
                     If _FieldMasking.Length > 0 Then
                         _FieldMasking.Append(",")
@@ -1132,32 +1152,6 @@ Public Class MainFormRead
     Private _PrevCol As Integer = -1
     Private Sub Grid_RowColChange(sender As Object, ByVal e As FlexCell.Grid.RowColChangeEventArgs)
         _ActivatedColName = Trim(UCase(sender.Cell(0, sender.ActiveCell.Col).TAG))
-
-        'Dim grd As FlexCell.Grid = CType(sender, FlexCell.Grid)
-
-        'Dim r As Integer = grd.ActiveCell.Row
-        'Dim c As Integer = grd.ActiveCell.Col
-
-        '' 👉 Previous cell reset
-        'If _PrevRow <> -1 AndAlso _PrevCol <> -1 Then
-        '    grd.Cell(_PrevRow, _PrevCol).BackColor = Color.White
-
-        '    grd.Cell(_PrevRow, _PrevCol).Border(FlexCell.EdgeEnum.Left) = FlexCell.LineStyleEnum.None
-        '    grd.Cell(_PrevRow, _PrevCol).Border(FlexCell.EdgeEnum.Right) = FlexCell.LineStyleEnum.None
-        '    grd.Cell(_PrevRow, _PrevCol).Border(FlexCell.EdgeEnum.Top) = FlexCell.LineStyleEnum.None
-        '    grd.Cell(_PrevRow, _PrevCol).Border(FlexCell.EdgeEnum.Bottom) = FlexCell.LineStyleEnum.None
-        'End If
-
-        '' 👉 Active cell highlight (red feel)
-        'grd.Cell(r, c).BackColor = Color.LightPink
-
-        'grd.Cell(r, c).Border(FlexCell.EdgeEnum.Left) = FlexCell.LineStyleEnum.Thick
-        'grd.Cell(r, c).Border(FlexCell.EdgeEnum.Right) = FlexCell.LineStyleEnum.Thick
-        'grd.Cell(r, c).Border(FlexCell.EdgeEnum.Top) = FlexCell.LineStyleEnum.Thick
-        'grd.Cell(r, c).Border(FlexCell.EdgeEnum.Bottom) = FlexCell.LineStyleEnum.Thick
-
-        '_PrevRow = r
-        '_PrevCol = c
     End Sub
 
     Private Sub EntryNoControl_KeyDown(sender As Object, e As KeyEventArgs)
@@ -1219,6 +1213,8 @@ Public Class MainFormRead
             ObjCls_General.Blank_Object(Me)
             Clear_Grid(grd, 2)
             CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
+            'UC_Buttons1._ButtonEnableDisable("LOAD")
+            'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
             'Ctrl_Visible_False(Me.Controls)
         End If
     End Sub
@@ -1235,15 +1231,9 @@ Public Class MainFormRead
                     grd.Rows = grd.Rows + 1
                     Call Fill_Sr_No_Item(grd, _DataTableGrid1)
                 End If
-
                 _savedefaultrowBlank(grd, _DataTableGrid1)
                 ApplyGridFormula(grd, _DataTableGrid1)
-
-                'CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
-
                 _GridColmTotal(grd, _DataTableGrid1)
-
-                'SetTotalObjectPosition("ADJAMT", _DataTableGrid1, grd, lbl_Pcs_Total, Label22)
                 RunActivatedColumnMasterSelection(_ActivatedColName, ActivetextName)
                 SendKeys.Send("{TAB}")
             Else
@@ -1263,6 +1253,10 @@ Public Class MainFormRead
             End If
         End If
     End Sub
+    Private Function IsNumericColumn(colName As String) As Boolean
+        Return _Grid1ColType.ToString().Contains(colName & ":N")
+    End Function
+
     Public Sub CalculateDynamicColumnTotal(grd As FlexCell.Grid, dt As DataTable, tmptbl As DataTable)
         'Dim ViewQueryTotal As String = GetQuery(tmptbl, "GRIDCOLUMSUM", "VIEW")
         Dim ViewQueryTotal As String = GetQuery(tmptbl, "GRIDCOLUMSUM", "TOTAL COLUMN")
@@ -1278,8 +1272,6 @@ Public Class MainFormRead
             End If
         Next
         _GridColmTotal(grd, dt)
-
-
     End Sub
 
     Private Sub _GridColmTotal(grd As FlexCell.Grid, dt As DataTable)
@@ -1292,7 +1284,7 @@ Public Class MainFormRead
             End If
         Next
         ' 👉 TOTAL text label
-        Dim lblTotalText As New Label()
+
         lblTotalText.Name = "lblTotal_Text"
         lblTotalText.Text = "Total"
         lblTotalText.Top = footerTop
@@ -1305,80 +1297,58 @@ Public Class MainFormRead
         Dim startLeft As Integer = grd.Left + 500
         Dim gap As Integer = 120
         Dim iCol As Integer = 0
-        For Each col As String In allowedTotalCols_Grid_1
-            total = 0   ' 🔥 yaha reset karo
-            Dim colIndex As Integer = dt.Columns.IndexOf(col)
-            If colIndex < 0 Then Continue For
-            Dim gridColIndex As Integer = colIndex + 1
-            ' 🔁 Total calculate
-            For i As Integer = 1 To grd.Rows - 1
-                Dim GetValuegval = Val(grd.Cell(i, gridColIndex).Text)
-                total += GetValuegval
+        Dim isAnyTotalAvailable As Boolean = False   ' 🔥 Flag
+
+        If allowedTotalCols_Grid_1 IsNot Nothing AndAlso allowedTotalCols_Grid_1.Count > 0 Then
+            For Each col As String In allowedTotalCols_Grid_1
+                total = 0   ' 🔥 yaha reset karo
+                Dim colIndex As Integer = dt.Columns.IndexOf(col)
+                If colIndex < 0 Then Continue For
+                Dim gridColIndex As Integer = colIndex + 1
+                ' 🔁 Total calculate
+                For i As Integer = 1 To grd.Rows - 1
+                    Dim GetValuegval = Val(grd.Cell(i, gridColIndex).Text)
+                    total += GetValuegval
+                Next
+                Dim lbl As New Label()
+                SetTotalObjectPosition(col, _DataTableGrid1, grd, lbl, lblTotalText)
+                lbl.Name = "lblTotal_" & col
+                lbl.Text = total.ToString("0.00")
+                lbl.Top = footerTop
+                lbl.Width = 80
+                lbl.TextAlign = ContentAlignment.MiddleRight
+                lbl.Font = New Font("Verdana", 9, FontStyle.Bold)
+                Me.Controls.Add(lbl)
+
+                If lbl.Text = 0 Then
+                    lbl.Visible = False
+                Else
+                    lbl.Visible = True
+                    isAnyTotalAvailable = True   ' 🔥 Important
+                End If
+                iCol += 1
             Next
-
-            ' ❌ Zero skip
-            'If total = 0 Then Continue For
-            Dim lbl As New Label()
-            SetTotalObjectPosition(col, _DataTableGrid1, grd, lbl, lblTotalText)
-
-            lbl.Name = "lblTotal_" & col
-            lbl.Text = total.ToString("0.00")
-            lbl.Top = footerTop
-            ' 👉 Position
-            'lbl.Left = startLeft + (iCol * gap)
-
-
-
-            lbl.Width = 80
-            lbl.TextAlign = ContentAlignment.MiddleRight
-            lbl.Font = New Font("Tahoma", 9, FontStyle.Bold)
-            Me.Controls.Add(lbl)
-            iCol += 1
-        Next
+            If isAnyTotalAvailable Then
+                lblTotalText.Visible = True
+                lblTotalText.Text = "Total"
+            Else
+                lblTotalText.Visible = False
+            End If
+        Else
+            lblTotalText.Text = ""
+            lblTotalText.Visible = False
+        End If
     End Sub
     Private Sub _savedefaultrowBlank(grd As FlexCell.Grid, dt As DataTable)
-
-        'Dim formulaStr As String = GetQuery(tmptbl, "SAVEMEDETORYCOLUMNNAME", "TOTAL COLUMN")
-        'If String.IsNullOrWhiteSpace(formulaStr) Then Exit Sub
-        'mandatoryCol = formulaStr.Trim().ToUpper()
-        'For r As Integer = 1 To grd.Rows - 1
-
-        '    ' 👉 check row blank
-        '    For c As Integer = 1 To grd.Cols - 1
-        '        Dim val As String = grd.Cell(r, c).Text.Trim()
-        '        If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
-        '            isRowBlank = False
-        '            Exit For
-        '        End If
-        '    Next
-        '    ' 👉 blank row skip
-        '    If isRowBlank Then Continue For
-        '    ' 👉 mandatory column blank ho to 0 set karo
-        '    For c As Integer = 1 To grd.Cols - 1
-        '        If grd.Cell(0, c).Text.ToUpper() = mandatoryCol Then
-        '            Dim val As String = grd.Cell(r, c).Text.Trim()
-        '            If val = "" Then
-        '                grd.Cell(r, c).Text = "0"
-        '            End If
-        '        End If
-        '    Next
-        'Next
         Dim formulaStr As String = GetQuery(tmptbl, "SAVEMEDETORYCOLUMNNAME", "TOTAL COLUMN")
-
         If String.IsNullOrWhiteSpace(formulaStr) Then Exit Sub
-
         mandatoryCol = formulaStr.Trim().ToUpper()
-
         If String.IsNullOrWhiteSpace(mandatoryCol) Then Exit Sub
-
         For r As Integer = 1 To grd.Rows - 1
-
             Dim isRowBlank As Boolean = True   ' 👉 yaha reset karo
-
             ' 👉 check row blank
             For c As Integer = 1 To grd.Cols - 1
                 Dim val As String = grd.Cell(r, c).Text.Trim()
-
                 If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
                     isRowBlank = False
                     Exit For
@@ -1386,66 +1356,110 @@ Public Class MainFormRead
             Next
             ' 👉 blank row skip
             If isRowBlank Then Continue For
-
             ' 👉 mandatory column blank ho to 0 set karo
             For c As Integer = 1 To grd.Cols - 1
                 If grd.Cell(0, c).Text.ToUpper() = mandatoryCol Then
-
                     Dim val As String = grd.Cell(r, c).Text.Trim()
-
                     If val = "" Then
                         grd.Cell(r, c).Text = "0"
                     End If
-
                 End If
             Next
-
         Next
-
     End Sub
+    'Private Sub ApplyGridFormula(grd As FlexCell.Grid, dt As DataTable)
+    '    'Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "VIEW")
+    '    Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "TOTAL COLUMN")
+    '    If String.IsNullOrWhiteSpace(formulaStr) Then Exit Sub
+    '    ' 👉 Example: ADJAMT*AMOUNT_ADD=AMOUNT_LESS
+    '    Dim parts() As String = formulaStr.Split("="c)
+    '    If parts.Length <> 3 Then Exit Sub
+    '    Dim leftPart As String = parts(0)
+    '    Dim resultColName As String = parts(1).Trim()
+    '    Dim operands() As String = leftPart.Split("*"c)
+    '    If operands.Length <> 3 Then Exit Sub
+    '    Dim col1Name As String = operands(0).Trim()
+    '    Dim col2Name As String = operands(1).Trim()
+    '    ' 👉 Column match (case-insensitive)
+    '    Dim col1 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col1Name.ToLower())
+    '    Dim col2 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col2Name.ToLower())
+    '    Dim colResult = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = resultColName.ToLower())
+    '    If col1 Is Nothing Or col2 Is Nothing Or colResult Is Nothing Then Exit Sub
+    '    ' 👉 FlexCell index
+    '    Dim colIndex1 As Integer = dt.Columns.IndexOf(col1.ColumnName) + 1
+    '    Dim colIndex2 As Integer = dt.Columns.IndexOf(col2.ColumnName) + 1
+    '    Dim colResultIndex As Integer = dt.Columns.IndexOf(colResult.ColumnName) + 1
+    '    Dim total As Double = 0
+
+    '    ' 🔁 Row-wise calculation
+    '    For i As Integer = 1 To grd.Rows - 1
+    '        Dim val1 As Double = 0
+    '        Dim val2 As Double = 0
+    '        Double.TryParse(grd.Cell(i, colIndex1).Text, val1)
+    '        Double.TryParse(grd.Cell(i, colIndex2).Text, val2)
+    '        Dim result As Double = val1 * val2
+    '        grd.Cell(i, colResultIndex).Text = result.ToString("")
+    '    Next
+    '    If total = 0 Then
+    '        grd.Cell(grd.Rows - 1, colResultIndex).Text = ""
+    '        grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
+    '    Else
+    '        grd.Cell(grd.Rows - 1, colResultIndex).Text = total.ToString("0.00")
+    '        grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
+    '    End If
+    '    'If colResultIndex > 1 Then
+    '    '    grd.Cell(grd.Rows - 1, colResultIndex - 1).Text = ""
+    '    'End If
+    'End Sub
     Private Sub ApplyGridFormula(grd As FlexCell.Grid, dt As DataTable)
-        'Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "VIEW")
         Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "TOTAL COLUMN")
         If String.IsNullOrWhiteSpace(formulaStr) Then Exit Sub
-        ' 👉 Example: ADJAMT*AMOUNT_ADD=AMOUNT_LESS
-        Dim parts() As String = formulaStr.Split("="c)
-        If parts.Length <> 2 Then Exit Sub
-        Dim leftPart As String = parts(0)
-        Dim resultColName As String = parts(1).Trim()
-        Dim operands() As String = leftPart.Split("*"c)
-        If operands.Length <> 2 Then Exit Sub
-        Dim col1Name As String = operands(0).Trim()
-        Dim col2Name As String = operands(1).Trim()
-        ' 👉 Column match (case-insensitive)
-        Dim col1 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col1Name.ToLower())
-        Dim col2 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col2Name.ToLower())
-        Dim colResult = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = resultColName.ToLower())
-        If col1 Is Nothing Or col2 Is Nothing Or colResult Is Nothing Then Exit Sub
-        ' 👉 FlexCell index
-        Dim colIndex1 As Integer = dt.Columns.IndexOf(col1.ColumnName) + 1
-        Dim colIndex2 As Integer = dt.Columns.IndexOf(col2.ColumnName) + 1
-        Dim colResultIndex As Integer = dt.Columns.IndexOf(colResult.ColumnName) + 1
-        Dim total As Double = 0
-
-        ' 🔁 Row-wise calculation
-        For i As Integer = 1 To grd.Rows - 1
-            Dim val1 As Double = 0
-            Dim val2 As Double = 0
-            Double.TryParse(grd.Cell(i, colIndex1).Text, val1)
-            Double.TryParse(grd.Cell(i, colIndex2).Text, val2)
-            Dim result As Double = val1 * val2
-            grd.Cell(i, colResultIndex).Text = result.ToString("")
+        ' 👉 Step 1: Multiple formulas split by comma
+        Dim formulas() As String = formulaStr.Split(","c)
+        ' 🔁 Loop all formulas
+        For Each formula As String In formulas
+            formula = formula.Trim()
+            If formula = "" Then Continue For
+            ' 👉 Example: ADJAMT*AMOUNT_ADD=AMOUNT_LESS
+            Dim parts() As String = formula.Split("="c)
+            If parts.Length <> 2 Then Continue For
+            Dim leftPart As String = parts(0).Trim()
+            Dim resultColName As String = parts(1).Trim()
+            ' 👉 Split operands (*)
+            Dim operands() As String = leftPart.Split("*"c)
+            If operands.Length <> 2 Then Continue For
+            Dim col1Name As String = operands(0).Trim()
+            Dim col2Name As String = operands(1).Trim()
+            ' 👉 Column match (case-insensitive)
+            Dim col1 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col1Name.ToLower())
+            Dim col2 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col2Name.ToLower())
+            Dim colResult = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = resultColName.ToLower())
+            If col1 Is Nothing Or col2 Is Nothing Or colResult Is Nothing Then Continue For
+            ' 👉 FlexCell index
+            Dim colIndex1 As Integer = dt.Columns.IndexOf(col1.ColumnName) + 1
+            Dim colIndex2 As Integer = dt.Columns.IndexOf(col2.ColumnName) + 1
+            Dim colResultIndex As Integer = dt.Columns.IndexOf(colResult.ColumnName) + 1
+            Dim total As Double = 0
+            ' 🔁 Row-wise calculation
+            For i As Integer = 1 To grd.Rows - 1
+                Dim val1 As Double = 0
+                Dim val2 As Double = 0
+                Double.TryParse(grd.Cell(i, colIndex1).Text, val1)
+                Double.TryParse(grd.Cell(i, colIndex2).Text, val2)
+                Dim result As Double = val1 * val2
+                grd.Cell(i, colResultIndex).Text = result.ToString("")
+                grd.Cell(i, colResultIndex).Locked = True
+            Next
+            ' 👉 Footer total
+            If total = 0 Then
+                grd.Cell(grd.Rows - 1, colResultIndex).Text = ""
+                grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
+            Else
+                grd.Cell(grd.Rows - 1, colResultIndex).Text = total.ToString("0.00")
+                grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
+            End If
+            grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
         Next
-        If total = 0 Then
-            grd.Cell(grd.Rows - 1, colResultIndex).Text = ""
-            grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
-        Else
-            grd.Cell(grd.Rows - 1, colResultIndex).Text = total.ToString("0.00")
-            grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
-        End If
-        'If colResultIndex > 1 Then
-        '    grd.Cell(grd.Rows - 1, colResultIndex - 1).Text = ""
-        'End If
     End Sub
     Private Sub RunActivatedColumnMasterSelection(ByVal ctrlmasterName As String, ByVal ActivetextName As String)
         For Each dr As DataRow In _MainColumTbl.Select("DataBaseColumn='" & ctrlmasterName & "'")
@@ -1531,6 +1545,7 @@ Public Class MainFormRead
             formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
             FormNameValue = _MainColumTbl.Rows(0)("FormName").ToString().Trim()
         End If
+        FormNameValue = _getformName()
         If formType = "ENTRY FORM" Then
             If _FORMMODE = "EDIT" Then
                 Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
@@ -1541,8 +1556,6 @@ Public Class MainFormRead
                 End If
             End If
         End If
-        FormNameValue = _getformName()
-
 
         If _FORMMODE = "VIEW" Then
             tmptbl = _GetFormQuery(FormNameValue, "VIEW")
