@@ -1,6 +1,5 @@
 ﻿Imports System.Text
 Imports DevExpress.CodeParser
-Imports DevExpress.Xpo.DB
 
 Public Class MainFrmDesigner
 
@@ -1892,33 +1891,33 @@ Public Class MainFrmDesigner
             End If
         ElseIf _ActivatedColName = "DATABASECOLUMN" Then
             If GrdItem.ActiveCell Is Nothing Then Exit Sub
-                Dim row As Integer = GrdItem.ActiveCell.Row
-                Dim col As Integer = GrdItem.ActiveCell.Col
-                Dim cellValue As String = GrdItem.Cell(row, col).Text.Trim()
-                If e.KeyCode = Keys.Enter And String.IsNullOrWhiteSpace(cellValue) Then
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim col As Integer = GrdItem.ActiveCell.Col
+            Dim cellValue As String = GrdItem.Cell(row, col).Text.Trim()
+            If e.KeyCode = Keys.Enter And String.IsNullOrWhiteSpace(cellValue) Then
                 View_RecordGridDetail(GrdItem, _DataTableGrid, "MULTY", _ActivatedColName)
             End If
 
 
-            ElseIf _ActivatedColName = "OPPMASTERCODE" Then
-                Dim row As Integer = GrdItem.ActiveCell.Row
-                Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
-                Dim currentValue As String = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
-                Dim colUseMaster As Integer = _DataTableGrid.Columns.IndexOf("USEMASTER") + 1
+        ElseIf _ActivatedColName = "OPPMASTERCODE" Then
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
+            Dim currentValue As String = GrdItem.Cell(row, colUseMasterKey).Text.Trim().ToUpper()
+            Dim colUseMaster As Integer = _DataTableGrid.Columns.IndexOf("USEMASTER") + 1
             Dim currentValueuse As String = GrdItem.Cell(row, colUseMaster).Text.Trim().ToUpper()
             If currentValueuse = "NO" Then
                 GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Locked = True
                 GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1).Locked = True
             Else
                 If GrdItem.ActiveCell Is Nothing Then Exit Sub
-                    Dim col As Integer = GrdItem.ActiveCell.Col
-                    Dim cellValue As String = GrdItem.Cell(row, col).Text.Trim()
-                    If e.KeyCode = Keys.Enter And String.IsNullOrWhiteSpace(cellValue) And currentValue = "N" Then
+                Dim col As Integer = GrdItem.ActiveCell.Col
+                Dim cellValue As String = GrdItem.Cell(row, col).Text.Trim()
+                If e.KeyCode = Keys.Enter And String.IsNullOrWhiteSpace(cellValue) And currentValue = "N" Then
                     View_RecordGridDetail(GrdItem, _DataTableGrid, "SINGLE", _ActivatedColName)
                 End If
-                End If
-            ElseIf _ActivatedColName = "SPACERSTRING" Then
-                If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
+            End If
+        ElseIf _ActivatedColName = "SPACERSTRING" Then
+            If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
                 GrdItem.Rows = GrdItem.Rows + 1
             End If
         End If
@@ -2224,6 +2223,9 @@ Public Class MainFrmDesigner
                     txtfrmtype.Focus()
                 End If
             ElseIf txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
+                Ctl_BookName.Text = ""
+                LoadFormDesign()
+            ElseIf txtfrmtype.Text.Trim = "REPORT" AndAlso Txt_FormId.Text.Trim > "" Then
                 Ctl_BookName.Text = ""
                 LoadFormDesign()
             End If
@@ -2838,8 +2840,14 @@ Public Class MainFrmDesigner
             ElseIf txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
                 Ctl_BookName.Text = ""
                 LoadFormDesign()
+            ElseIf txtfrmtype.Text.Trim = "REPORT" AndAlso Txt_FormId.Text.Trim > "" Then
+                Ctl_BookName.Text = ""
+                LoadFormDesign()
             Else
                 If txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
+                    Ctl_BookName.Text = ""
+                    LoadFormDesign()
+                ElseIf txtfrmtype.Text.Trim = "REPORT" AndAlso Txt_FormId.Text.Trim > "" Then
                     Ctl_BookName.Text = ""
                     LoadFormDesign()
                 Else

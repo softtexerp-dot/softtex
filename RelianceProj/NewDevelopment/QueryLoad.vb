@@ -165,6 +165,7 @@ Public Class QueryLoad
 
     Private Sub UC_Buttons1_SaveClick()
         GetformName = MainFormRead._getformName()
+        GetformName = ReportForm._getformName()
         If GetformName = "" Then
             GetformName = MainMasterFormRead._getformName()
         End If

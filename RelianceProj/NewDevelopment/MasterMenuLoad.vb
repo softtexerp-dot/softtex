@@ -219,6 +219,9 @@ Public Class MasterMenuLoad
                     If menuformname = "MASTER FORM" Then
                         MainMasterFormRead.MainMasterLoadFormName = Frm_Name_For_Active.ToString
                         MainMasterFormRead.Show()
+                    ElseIf menuformname = "REPORT" Then
+                        ReportForm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
+                        ReportForm.Show()
                     Else
                         MainFormRead.MainLoadFormName = Frm_Name_For_Active.ToString
                         MainFormRead.Show()

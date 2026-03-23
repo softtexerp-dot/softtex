@@ -1,14 +1,6 @@
 ﻿Imports System.Text
-Imports CrystalDecisions.ReportAppServer.DataDefModel
-Imports DevExpress.DataAccess.Sql
-Imports DevExpress.Utils.Extensions
-Imports DevExpress.Utils.Gesture
-Imports DevExpress.Utils.MVVM
-Imports DevExpress.Utils.VisualEffects
-Imports DevExpress.XtraBars.Customization
 Imports DevExpress.XtraEditors.TextEditController.Win32
 Imports DevExpress.XtraGrid.Views
-Imports DevExpress.XtraRichEdit.Model
 Imports FlexCell
 
 Public Class MainFormRead
@@ -962,7 +954,6 @@ Public Class MainFormRead
                                         EntryNo = _GetMaxEntryNo()
                                         txt.Text = EntryNo + 1
                                     End If
-
                                     AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
                                 End If
                                 If _InputType = "DateBox" Then

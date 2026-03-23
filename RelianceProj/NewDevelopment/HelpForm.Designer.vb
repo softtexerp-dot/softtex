@@ -23,7 +23,6 @@ Partial Class HelpForm
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HelpForm))
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.AccordionControl1 = New DevExpress.XtraBars.Navigation.AccordionControl()
         Me.OutstandingCalendar = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.TodayDueBill = New DevExpress.XtraBars.Navigation.AccordionControlElement()
@@ -123,8 +122,6 @@ Partial Class HelpForm
         Me.ResumeLayout(False)
 
     End Sub
-
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents AccordionControl1 As DevExpress.XtraBars.Navigation.AccordionControl
     Friend WithEvents OutstandingCalendar As DevExpress.XtraBars.Navigation.AccordionControlElement
     Friend WithEvents TodayDueBill As DevExpress.XtraBars.Navigation.AccordionControlElement

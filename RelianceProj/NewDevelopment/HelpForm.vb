@@ -49,6 +49,7 @@ ADJAMT
 
 [GRIDCOLUMMULTIPLY]-------Section Part
 ADJAMT*AMOUNT_ADD=AMOUNT_LESS
+,ADJAMT*AMOUNT_ADD=BROKERAGE
 
 [SAVEMEDETORYCOLUMNNAME]-------Section Part
 ADJAMT"
@@ -68,7 +69,7 @@ ADJAMT"
     End Sub
 
     Private Sub HelpForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        Me.Location = New Point(0, 0)
     End Sub
     Private Sub ColorSections(rtb As RichTextBox)
         Dim txt As String = rtb.Text

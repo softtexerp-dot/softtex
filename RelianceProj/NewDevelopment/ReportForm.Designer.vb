@@ -22,11 +22,17 @@ Partial Class ReportForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ReportForm))
         Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
         Me.FirstStage = New DevExpress.XtraGrid.Views.Grid.GridView()
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
+        Me.btnmovecontrol = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnUpdatepos = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnClose = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnView = New DevExpress.XtraEditors.SimpleButton()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -37,11 +43,11 @@ Partial Class ReportForm
         'GridControl1
         '
         Me.GridControl1.EmbeddedNavigator.Margin = New System.Windows.Forms.Padding(4)
-        Me.GridControl1.Location = New System.Drawing.Point(4, 6)
+        Me.GridControl1.Location = New System.Drawing.Point(4, 66)
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(883, 614)
+        Me.GridControl1.Size = New System.Drawing.Size(883, 552)
         Me.GridControl1.TabIndex = 81923
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
@@ -87,12 +93,77 @@ Partial Class ReportForm
         Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
         '
+        'PropertyGrid1
+        '
+        Me.PropertyGrid1.Location = New System.Drawing.Point(988, 74)
+        Me.PropertyGrid1.Name = "PropertyGrid1"
+        Me.PropertyGrid1.Size = New System.Drawing.Size(228, 546)
+        Me.PropertyGrid1.TabIndex = 81928
+        Me.PropertyGrid1.Visible = False
+        '
+        'btnmovecontrol
+        '
+        Me.btnmovecontrol.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnmovecontrol.Appearance.Options.UseFont = True
+        Me.btnmovecontrol.Enabled = False
+        Me.btnmovecontrol.ImageOptions.Image = CType(resources.GetObject("btnmovecontrol.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnmovecontrol.Location = New System.Drawing.Point(913, 12)
+        Me.btnmovecontrol.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btnmovecontrol.Name = "btnmovecontrol"
+        Me.btnmovecontrol.Size = New System.Drawing.Size(142, 39)
+        Me.btnmovecontrol.TabIndex = 81931
+        Me.btnmovecontrol.Text = "MoveControl"
+        Me.btnmovecontrol.Visible = False
+        '
+        'BtnUpdatepos
+        '
+        Me.BtnUpdatepos.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnUpdatepos.Appearance.Options.UseFont = True
+        Me.BtnUpdatepos.Enabled = False
+        Me.BtnUpdatepos.ImageOptions.Image = CType(resources.GetObject("BtnUpdatepos.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnUpdatepos.Location = New System.Drawing.Point(1058, 12)
+        Me.BtnUpdatepos.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.BtnUpdatepos.Name = "BtnUpdatepos"
+        Me.BtnUpdatepos.Size = New System.Drawing.Size(142, 39)
+        Me.BtnUpdatepos.TabIndex = 81930
+        Me.BtnUpdatepos.Text = "SavePosition"
+        Me.BtnUpdatepos.Visible = False
+        '
+        'btnClose
+        '
+        Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Appearance.Options.UseFont = True
+        Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnClose.Location = New System.Drawing.Point(746, 12)
+        Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(111, 39)
+        Me.btnClose.TabIndex = 4
+        Me.btnClose.Text = "Close"
+        '
+        'btnView
+        '
+        Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnView.Appearance.Options.UseFont = True
+        Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnView.Location = New System.Drawing.Point(627, 12)
+        Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btnView.Name = "btnView"
+        Me.btnView.Size = New System.Drawing.Size(111, 39)
+        Me.btnView.TabIndex = 3
+        Me.btnView.Text = "View"
+        '
         'ReportForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ClientSize = New System.Drawing.Size(1216, 621)
+        Me.Controls.Add(Me.btnClose)
+        Me.Controls.Add(Me.btnView)
+        Me.Controls.Add(Me.btnmovecontrol)
+        Me.Controls.Add(Me.BtnUpdatepos)
+        Me.Controls.Add(Me.PropertyGrid1)
         Me.Controls.Add(Me.GridControl1)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
@@ -114,4 +185,9 @@ Partial Class ReportForm
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents PropertyGrid1 As PropertyGrid
+    Friend WithEvents btnmovecontrol As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnUpdatepos As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnClose As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
 End Class
