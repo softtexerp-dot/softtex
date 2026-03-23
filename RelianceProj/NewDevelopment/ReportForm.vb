@@ -208,11 +208,11 @@ Public Class ReportForm
                             If txt.TabIndex = 1 Then
                                 txt.Focus()
                             End If
-                            If Tabindex = "1" Then
+                            If Tabindex = 1 Then
                                 txt.Text = Main_MDI_Frm.FINE_YEAR_START.Text
                                 Generate_Date_For_DataBase(txt)
 
-                            ElseIf Tabindex = "2" Then
+                            ElseIf Tabindex = 2 Then
                                 txt.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
                                 Generate_Date_For_DataBase(txt)
                             End If
