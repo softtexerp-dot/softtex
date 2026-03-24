@@ -28,7 +28,7 @@ Public Class ReportForm
         _LoadDefaultData()
         'GridControl1.Width = 974
         'GridControl1.Height = 595
-        GridControl1.Location = New Point(0, 60)
+        GridControl1.Location = New Point(5, 60)
     End Sub
     Private Sub _LoadDefaultData()
         View_Record()
@@ -50,9 +50,9 @@ Public Class ReportForm
     Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
         Generate_Date_For_DataBase(Txt_ViewFrom)
         Generate_Date_For_DataBase(Txt_ViewTO)
-        Dim FilterBookcode As String = " '" & _Bookcode & "' "
-        Dim FilterFrom As String = "'" & Txt_ViewFrom.Text & "'"
-        Dim FilterTO As String = " '" & Txt_ViewTO.Text & "'"
+        'Dim FilterBookcode As String = " '" & _Bookcode & "' "
+        Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+        Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
         ' 🔹 Queries Read
         Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
         If ViewQuery = "" Then
@@ -63,7 +63,7 @@ Public Class ReportForm
                 Exit Sub
             End If
         End If
-        ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
+        'ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
         ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
         ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
         sqL = ViewQuery
@@ -75,25 +75,25 @@ Public Class ReportForm
             GridControl1.DataSource = ResultTable.Copy
             DevGridFitColumn(GridControl1, FirstStage)
             FirstStage.OptionsView.ShowFooter = True
-            'Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
-            'Dim ColumnList As String = ViewQueryTotal
-            'Dim Columns() As String = ColumnList.Split(","c)
-            'For Each col As String In Columns
-            '    If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-            '        'Total
-            '        FirstStage.Columns(col).Summary.Clear()
-            '        FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
-            '    End If
-            'Next
-            'ViewQueryTotal = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
-            'ColumnList = ViewQueryTotal
-            'Dim HideColumns() As String = ColumnList.Split(","c)
-            'For Each col As String In HideColumns
-            '    If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-            '        'Hide
-            '        FirstStage.Columns(col).Visible = False
-            '    End If
-            'Next
+            Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
+            Dim ColumnList As String = ViewQueryTotal
+            Dim Columns() As String = ColumnList.Split(","c)
+            For Each col As String In Columns
+                If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+                    'Total
+                    FirstStage.Columns(col).Summary.Clear()
+                    FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
+                End If
+            Next
+            ViewQueryTotal = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
+            ColumnList = ViewQueryTotal
+            Dim HideColumns() As String = ColumnList.Split(","c)
+            For Each col As String In HideColumns
+                If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+                    'Hide
+                    FirstStage.Columns(col).Visible = False
+                End If
+            Next
             'PnlGrdView.Visible = True
             FirstStage.BestFitColumns()
             FirstStage.Focus()
@@ -210,16 +210,15 @@ Public Class ReportForm
                             End If
                             If Tabindex = 1 Then
                                 txt.Text = Main_MDI_Frm.FINE_YEAR_START.Text
-                                Generate_Date_For_DataBase(txt)
-
+                                'Generate_Date_For_DataBase(txt)
                             ElseIf Tabindex = 2 Then
                                 txt.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-                                Generate_Date_For_DataBase(txt)
+                                'Generate_Date_For_DataBase(txt)
                             End If
                             If formtype = "REPORT" Then
                                 If _InputType = "DateBox" Then
                                     txt.MaxLength = 10
-                                    '    '    txt.Text = Today.ToString("dd/MM/yyyy")
+                                    'txt.Text = Today.ToString("dd/MM/yyyy")
                                     AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
                                     AddHandler txt.Leave, AddressOf DateBox_Validate
                                 End If
@@ -425,7 +424,9 @@ Public Class ReportForm
     End Sub
 
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
-        LoadViewData(tmptbl, _Bookcode)
+        _FORMMODE = "VIEW"
+        _LoadDefaultData()
+        'LoadViewData(tmptbl, _Bookcode)
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
