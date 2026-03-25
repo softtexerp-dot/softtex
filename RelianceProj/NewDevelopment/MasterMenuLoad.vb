@@ -7,7 +7,9 @@ Public Class MasterMenuLoad
     Private previous_SubItem As ToolStripMenuItem
     Private countShow As Integer = 0
     Dim menuformname As String = ""
+    Private LastOpenedMenuPath As String = ""
     Private Sub MasterMenuLoad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         previous_SubItem = Nothing
 
 
@@ -217,16 +219,19 @@ Public Class MasterMenuLoad
                         menuformname = tbl.Rows(0)("FormType")
                     End If
                     If menuformname = "MASTER FORM" Then
-                        MainMasterFormRead.MainMasterLoadFormName = Frm_Name_For_Active.ToString
-                        MainMasterFormRead.Show()
-                    ElseIf menuformname = "REPORT" Then
-                        ReportForm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
-                        ReportForm.Show()
-                    Else
-                        MainFormRead.MainLoadFormName = Frm_Name_For_Active.ToString
-                        MainFormRead.Show()
-                    End If
+                        Dim Loadfrm As New MainMasterFormRead()
+                        Loadfrm.MainMasterLoadFormName = Frm_Name_For_Active.ToString()
+                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Loadfrm)
 
+                    ElseIf menuformname = "REPORT" Then
+                        Dim Reportfrm As New ReportForm()
+                        Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
+                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
+                    Else
+                        Dim Entryfrm As New MainFormRead()
+                        Entryfrm.MainLoadFormName = Frm_Name_For_Active.ToString
+                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)
+                    End If
                 End If
                 End If
         End If
@@ -335,4 +340,50 @@ Public Class MasterMenuLoad
         'frm.StartPosition = FormStartPosition.Manual
         frm.Show()
     End Sub
+#Region "Track Last Open Path"
+    Public Sub TrackMenuPath(menuItem As ToolStripMenuItem)
+        If menuItem Is Nothing Then Return
+
+        Dim path As New List(Of String)
+        Dim current As ToolStripItem = menuItem
+
+        While current IsNot Nothing
+            path.Insert(0, current.Text)
+            If TypeOf current.Owner Is ToolStripDropDownMenu Then
+                current = TryCast(current.OwnerItem, ToolStripItem)
+            Else
+                Exit While
+            End If
+        End While
+
+        LastOpenedMenuPath = String.Join(">", path)
+    End Sub
+    Public Sub RestoreMenuFocus(menuPath As String, menuStrip As MenuStrip)
+        If String.IsNullOrWhiteSpace(menuPath) Then Exit Sub
+
+        Dim pathParts = menuPath.Split(">"c)
+        Dim currentItems As ToolStripItemCollection = menuStrip.Items
+        Dim parentDropDown As ToolStripDropDownItem = Nothing
+        Dim lastItem As ToolStripItem = Nothing
+
+        For Each part As String In pathParts
+            Dim foundItem As ToolStripItem = currentItems.
+                OfType(Of ToolStripItem)().
+                FirstOrDefault(Function(item) item.Text = part)
+
+            If foundItem IsNot Nothing Then
+                lastItem = foundItem
+                If TypeOf foundItem Is ToolStripDropDownItem Then
+                    parentDropDown = CType(foundItem, ToolStripDropDownItem)
+                    parentDropDown.ShowDropDown()
+                    currentItems = parentDropDown.DropDownItems
+                    parentDropDown.Select()
+                Else
+                    foundItem.Select()
+                End If
+            End If
+        Next
+        LastOpenedMenuPath = ""
+    End Sub
+#End Region
 End Class

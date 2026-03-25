@@ -18,7 +18,8 @@ Public Class QueryLoad
     Private Change_Grid_Data As Boolean = True
     Private _FORMMODE As String = ""
     Dim txtMainId As Integer = 0
-    Dim GetformName As String = ""
+    'Dim GetformName As String = ""
+    Public Property GetformName As String
     Dim filePath As String
     Private CurrentBackNumber As Integer = 0
 
@@ -28,10 +29,10 @@ Public Class QueryLoad
         _FrmLoad = True
         TxtType.Text = "VIEW"
         Txt_Active.Text = "YES"
-        GetformName = MainFormRead._getformName()
-        If GetformName = "" Then
-            GetformName = MainMasterFormRead._getformName()
-        End If
+        'GetformName = MainFormRead._getformName()
+        'If GetformName = "" Then
+        '    GetformName = MainMasterFormRead._getformName()
+        'End If
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         CreateButtonsControl()
@@ -164,11 +165,11 @@ Public Class QueryLoad
     End Sub
 
     Private Sub UC_Buttons1_SaveClick()
-        GetformName = MainFormRead._getformName()
-        GetformName = ReportForm._getformName()
-        If GetformName = "" Then
-            GetformName = MainMasterFormRead._getformName()
-        End If
+        ' GetformName = MainFormRead._getformName()
+        'GetformName = ReportForm._getformName()
+        'If GetformName = "" Then
+        '    GetformName = MainMasterFormRead._getformName()
+        'End If
         If Validate_Form_Values() = False Then Exit Sub
         Dim SaveQuery As String = ""
         Dim LASTCODE As String = ""

@@ -43,11 +43,11 @@ Partial Class ReportForm
         'GridControl1
         '
         Me.GridControl1.EmbeddedNavigator.Margin = New System.Windows.Forms.Padding(4)
-        Me.GridControl1.Location = New System.Drawing.Point(4, 66)
+        Me.GridControl1.Location = New System.Drawing.Point(4, 54)
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(883, 552)
+        Me.GridControl1.Size = New System.Drawing.Size(420, 555)
         Me.GridControl1.TabIndex = 81923
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
@@ -107,7 +107,7 @@ Partial Class ReportForm
         Me.btnmovecontrol.Appearance.Options.UseFont = True
         Me.btnmovecontrol.Enabled = False
         Me.btnmovecontrol.ImageOptions.Image = CType(resources.GetObject("btnmovecontrol.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnmovecontrol.Location = New System.Drawing.Point(913, 12)
+        Me.btnmovecontrol.Location = New System.Drawing.Point(916, 6)
         Me.btnmovecontrol.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnmovecontrol.Name = "btnmovecontrol"
         Me.btnmovecontrol.Size = New System.Drawing.Size(142, 39)
@@ -121,7 +121,7 @@ Partial Class ReportForm
         Me.BtnUpdatepos.Appearance.Options.UseFont = True
         Me.BtnUpdatepos.Enabled = False
         Me.BtnUpdatepos.ImageOptions.Image = CType(resources.GetObject("BtnUpdatepos.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnUpdatepos.Location = New System.Drawing.Point(1058, 12)
+        Me.BtnUpdatepos.Location = New System.Drawing.Point(1061, 6)
         Me.BtnUpdatepos.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.BtnUpdatepos.Name = "BtnUpdatepos"
         Me.BtnUpdatepos.Size = New System.Drawing.Size(142, 39)
@@ -134,7 +134,7 @@ Partial Class ReportForm
         Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.Appearance.Options.UseFont = True
         Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnClose.Location = New System.Drawing.Point(746, 12)
+        Me.btnClose.Location = New System.Drawing.Point(848, 570)
         Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(111, 39)
@@ -146,7 +146,7 @@ Partial Class ReportForm
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(627, 12)
+        Me.btnView.Location = New System.Drawing.Point(719, 570)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(111, 39)

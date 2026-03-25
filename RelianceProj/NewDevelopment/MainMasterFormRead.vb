@@ -87,6 +87,7 @@ Public Class MainMasterFormRead
 
     Dim _FormCloseMode As Boolean = False
 
+    Dim GetformName As String = ""
 
 
     Private Sub CreateButtonsControl()
@@ -1187,14 +1188,19 @@ Public Class MainMasterFormRead
         ElseIf e.KeyCode = Keys.F6 Then
             btnmovecontrol.Visible = True
             BtnUpdatepos.Visible = True
-        End If
-        If e.KeyCode = Keys.F4 Then
+        ElseIf e.KeyCode = Keys.F4 Then
             PropertyGrid1.Visible = True
 
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
+        ElseIf e.KeyCode = Keys.F2 Then
+            Dim entryformname As New QueryLoad()
+            entryformname.GetformName = Me._getformName()
+            entryformname.Show()
+            'QueryLoad.Show()
         End If
+
     End Sub
 
     Private Sub MainMasterFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -1298,5 +1304,10 @@ Public Class MainMasterFormRead
 
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
+    End Sub
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            MasterMenuLoad.RestoreMenuFocus(Me.Tag, MasterMenuLoad.MenuStrip1)
+        End If
     End Sub
 End Class

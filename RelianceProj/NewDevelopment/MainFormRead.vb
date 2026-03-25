@@ -89,6 +89,8 @@ Public Class MainFormRead
     Dim mandatoryCol As String = ""
     Private _PrevColIndex As Integer = -1
     Dim lblTotalText As New Label()
+    Dim GetformName As String = ""
+
 
 
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -1588,6 +1590,11 @@ Public Class MainFormRead
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
+        ElseIf e.KeyCode = Keys.F2 Then
+            Dim entryformname As New QueryLoad()
+            entryformname.GetformName = Me._getformName()
+            entryformname.Show()
+            'QueryLoad.Show()
         End If
     End Sub
     Private Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String)
@@ -1937,4 +1944,9 @@ Public Class MainFormRead
         End If
         Return ""
     End Function
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            MasterMenuLoad.RestoreMenuFocus(Me.Tag, MasterMenuLoad.MenuStrip1)
+        End If
+    End Sub
 End Class
