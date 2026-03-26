@@ -386,6 +386,7 @@ Public Class MainFormRead
     Private Function getAlter_Form_EntryQuery(ByVal EntryNo As String) As String
         Dim leftJoin As String = ""
         Dim joinHeader As String = ""
+        Dim DisplayText As String = ""
         For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
             Dim _DatabaseHeaderName As String = dr("UserText").ToString()
             'Dim _DatabaseHeaderName As String = dr("Text").ToString()

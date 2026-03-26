@@ -1,5 +1,6 @@
 ﻿Public Class HelpForm
     Dim _FormCloseMode As Boolean = False
+    Public SelectedMasterName As String
     Private Sub TodayDueBill_Click(sender As Object, e As EventArgs) Handles TodayDueBill.Click
         RTbView.Visible = True
         RTbView.Text = "[VIEWQUERY]-------Section Part
@@ -110,6 +111,7 @@ ADJAMT"
         HighlightWord(rtb, "FilterFrom", Color.Purple)
         HighlightWord(rtb, "FilterTO", Color.Purple)
     End Sub
+
     Private Sub ColorSectionsTotal(rtb As RichTextBox)
         Dim txt As String = rtb.Text
         ' 👉 Default sab black
@@ -158,5 +160,30 @@ ADJAMT"
             rtb.SelectionColor = clr
             startIndex = index + word.Length
         End While
+    End Sub
+
+    Private Sub AccordionControlElement2_Click(sender As Object, e As EventArgs) Handles AccordionControlElement2.Click
+        RTBMasterList.Visible = True
+        Dim res As JoinResult = GetAccountMaster("", "", "GET_LIST")
+        Dim txt As String = "[MASTER NAME LIST]------ Selection Part" & vbCrLf & vbCrLf
+        Dim i As Integer = 1
+        For Each name As String In res.MasterList
+            txt &= i.ToString() & ". " & name & vbCrLf
+            i += 1
+        Next
+        RTBMasterList.Text = txt
+        RTbView.Visible = False
+        RTBPrint.Visible = False
+        RTBTotalColumn.Visible = False
+        RTBMasterList.ReadOnly = True
+        ColorSectionsMasterlist(RTBMasterList)
+    End Sub
+    Private Sub ColorSectionsMasterlist(rtb As RichTextBox)
+        ' 👉 Reset formatting
+        rtb.SelectAll()
+        rtb.SelectionColor = Color.DarkMagenta
+        'rtb.SelectionFont = New Font(rtb.Font, FontStyle.Regular)
+        ' 👉 Header highlight
+        HighlightHeader(rtb, "[MASTER NAME LIST]------ Selection Part", Color.DarkBlue)
     End Sub
 End Class

@@ -28,12 +28,7 @@ Public Class ReportQueryLoad
         Me.KeyPreview = True
         Me.Location = New Point(5, 0)
         _FrmLoad = True
-        'TxtType.Text = "VIEW"
-        'Txt_Active.Text = "YES"
-        'GetformName = ReportForm._getformName()
-
-        ' Yaha value use karo
-        MsgBox(_SeletedReportType)
+        'MsgBox(_SeletedReportType)
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         CreateButtonsControl()
@@ -109,7 +104,6 @@ Public Class ReportQueryLoad
         End If
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
         tblFormValues.Rows(0)(_KeyFormName) = GetformName
-        'tblFormValues.Rows(0)("Type") = ""
         tblFormValues.Rows(0)("Type") = _SeletedReportType
         tblFormValues.Rows(0)("QueryText") = RTBQuery.Text
         tblFormValues.Rows(0)("CreateDate") = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
@@ -154,18 +148,16 @@ Public Class ReportQueryLoad
             tblTmp = DefaltSoftTable.Copy
             If tblTmp.Rows.Count > 0 Then
                 If tblTmp.Rows(0).Item("FormName") = GetformName Then
-                    'MsgBox("This Form Name " & GetformName & " Type of " & TxtType.Text.Trim() & " Already Exist!")
-                    'TxtType.Focus()
-                    'Exit Function
-                    'Else
+                    MsgBox("This Form Name " & GetformName & " Type of " & _SeletedReportType & " Already Exist!")
+                    RTBQuery.Focus()
+                    Exit Function
+                Else
                     Validate_Form_Values = True
                 End If
             Else
                 Validate_Form_Values = True
             End If
         End If
-
-
     End Function
 #End Region
 #Region "QUERY SECTION"
@@ -187,8 +179,8 @@ Public Class ReportQueryLoad
         End If
     End Sub
     Public Function GetName() As String
-        'RS = "SELECT TOP 1 FormName FROM " & _TblName & "  WHERE  1=1 AND Type='" & TxtType.Text & "'" & " AND FormName='" & GetformName & "'"
-        RS = "SELECT TOP 1 FormName FROM " & _TblName & "  WHERE  1=1 AND FormName='" & GetformName & "'"
+        RS = "SELECT TOP 1 FormName FROM " & _TblName & "  WHERE  1=1 AND Type='" & _SeletedReportType & "'" & " AND FormName='" & GetformName & "'"
+        'RS = "SELECT TOP 1 FormName FROM " & _TblName & "  WHERE  1=1 AND FormName='" & GetformName & "'"
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             GetName = DefaltSoftTable.Rows(0).Item("FormName").ToString()

@@ -48,7 +48,7 @@ Partial Class ReportForm
         Me.GridControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.GridControl1.Name = "GridControl1"
         Me.GridControl1.Size = New System.Drawing.Size(420, 555)
-        Me.GridControl1.TabIndex = 81923
+        Me.GridControl1.TabIndex = 1
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
         'FirstStage
@@ -60,11 +60,9 @@ Partial Class ReportForm
         Me.FirstStage.OptionsBehavior.AlignGroupSummaryInGroupRow = DevExpress.Utils.DefaultBoolean.[False]
         Me.FirstStage.OptionsBehavior.Editable = False
         Me.FirstStage.OptionsEditForm.PopupEditFormWidth = 1067
-        Me.FirstStage.OptionsFind.AlwaysVisible = True
         Me.FirstStage.OptionsMenu.ShowGroupSummaryEditorItem = True
-        Me.FirstStage.OptionsView.ColumnAutoWidth = False
-        Me.FirstStage.OptionsView.ShowAutoFilterRow = True
         Me.FirstStage.OptionsView.ShowFooter = True
+        Me.FirstStage.OptionsView.ShowGroupPanel = False
         Me.FirstStage.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
         '
         'LayoutView1
@@ -167,7 +165,6 @@ Partial Class ReportForm
         Me.Controls.Add(Me.GridControl1)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "ReportForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

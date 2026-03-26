@@ -9,27 +9,17 @@ Public Class MasterMenuLoad
     Dim menuformname As String = ""
     Private LastOpenedMenuPath As String = ""
     Private Sub MasterMenuLoad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         previous_SubItem = Nothing
-
-
         Dim diffW As Integer = Me.Width - Me.ClientSize.Width
         Dim diffH As Integer = Me.Height - Me.ClientSize.Height
-
         Me.ClientSize = New Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height - diffH)
         Me.Location = New Point(-diffW / 2, 0)
-
-
         Dim n As Integer = Screen_Width - SidePanel.Width
         SidePanel.Height = Me.Height - 50
         SidePanel.Width = 316
         SidePanel.Location = New Point(n, Me.Location.Y + 33)
-
         GridControl1.Height = SidePanel.Height - 50
         GridControl1.Location = New Point(3, 43)
-
-
-
         MenuStrip1.Items.Clear()
         Dim _Query = New StringBuilder
         With _Query
@@ -55,13 +45,9 @@ Public Class MasterMenuLoad
         If MenuDesignConnection.State = ConnectionState.Closed Then
             MenuDesignConnection.Open()
         End If
-
         Using reader As OleDbDataReader = command.ExecuteReader()
-
             Dim menuDictionary As New Dictionary(Of Integer, ToolStripMenuItem)
-
             While reader.Read()
-
                 Dim menuID As Integer = Convert.ToInt32(reader("MainId"))
                 Dim parentMenuID As Object = If(IsDBNull(reader("MenuPositionId")), Nothing, Convert.ToInt32(reader("MenuPositionId")))
                 Dim menuName As String = reader("MenuName").ToString()
@@ -69,23 +55,16 @@ Public Class MasterMenuLoad
                 Dim SelectedFormName As String = reader("SelectedFormName").ToString()
                 'menuformname = reader("MenuName").ToString()
                 If isSeparator Then
-
                     Dim separator As New ToolStripSeparator()
-
                     If parentMenuID IsNot Nothing AndAlso menuDictionary.ContainsKey(CInt(parentMenuID)) Then
                         menuDictionary(CInt(parentMenuID)).DropDownItems.Add(separator)
                     End If
-
                 Else
-
                     Dim newMenuItem As New ToolStripMenuItem(menuName)
-
                     newMenuItem.Tag = SelectedFormName
                     'newMenuItem.Tag = SelectedFormName & ":" & menuName
                     menuDictionary(menuID) = newMenuItem
-
                     AddHandler newMenuItem.Click, AddressOf MenuItem_Click
-
                     If parentMenuID <> 0 Then
                         If menuDictionary.ContainsKey(CInt(parentMenuID)) Then
                             menuDictionary(CInt(parentMenuID)).DropDownItems.Add(newMenuItem)
@@ -93,16 +72,11 @@ Public Class MasterMenuLoad
                     Else
                         MenuStrip1.Items.Add(newMenuItem)
                     End If
-
                 End If
-
             End While
-
         End Using
-
         'Connection close kar do
         MenuDesignConnection.Close()
-
         ShortCutMenuLoad()
     End Sub
     Private Sub MenuItem_Click(sender As Object, e As EventArgs)
@@ -115,8 +89,6 @@ Public Class MasterMenuLoad
             If FirstStep_SubItem Is Nothing Then FirstStep_SubItem = sender
             Topprevious_SubItem = Nothing
         End If
-
-
         If Topprevious_SubItem Is Nothing Then Topprevious_SubItem = sender
         Dim mnuItem As ToolStripMenuItem
         mnuItem = sender
@@ -124,7 +96,6 @@ Public Class MasterMenuLoad
         If mnuItem.Tag <> "" Then
             Dim TagSplit As String()
             TagSplit = mnuItem.Tag.ToString.Split(":")
-
             Dim Frm_Name_For_Active As String = TagSplit(0)
             'Dim menuformname As String = TagSplit(1)
             Dim menuformname As String = ""
@@ -137,26 +108,20 @@ Public Class MasterMenuLoad
                     'frm.Show()
                 End If
             Next
-
-
             If Frm_Name_For_Active.ToString.ToUpper = "COMPANY_CHANGE" Or Frm_Name_For_Active.ToString.ToUpper = "YEAR_CHANGE" Then
             Else
                 frm.MdiParent = Me
             End If
-
             frm.MaximizeBox = False
             frm.MinimizeBox = False
-
             If Frm_Name_For_Active.ToString.ToUpper = "COMPANY_CHANGE" Or Frm_Name_For_Active.ToString.ToUpper = "YEAR_CHANGE" Then
                 frm.StartPosition = FormStartPosition.CenterScreen
             Else
                 frm.StartPosition = FormStartPosition.Manual
             End If
-
             If Frm_Name_For_Active.ToString = "QuitWithBackup" Then
                 Dim portfolioPath As String = My.Application.Info.DirectoryPath
                 Dim Cur_Date As String = ""
-
                 Dim Backup_Directory As String = Trim(Mid(portfolioPath, 1, 3)) + "SoftTex Agency Backup\" + Cur_Date
                 If Not Directory.Exists(Backup_Directory) Then
                     Directory.CreateDirectory(Backup_Directory)
@@ -166,13 +131,10 @@ Public Class MasterMenuLoad
                 SQLDBMENU_CONNECT()
                 Dim tbl As New DataTable
                 tbl = DefaltSoftTable.Copy
-
                 Dim Backup__OtherPcAddress As String = ""
                 Dim _OtherPcAddress As String = ""
-
                 For Each dr As DataRow In tbl.Select()
                     FILE_NAME = dr("Data_Folder_Name")
-
                     'Delete a file.  
                     If My.Computer.FileSystem.FileExists(Backup_Directory & "\" & FILE_NAME) Then
                         For i As Integer = 1 To 10
@@ -180,11 +142,9 @@ Public Class MasterMenuLoad
                             Exit For
                         Next
                     End If
-
                     sqL = ""
                     sqL = " backup database " & (dr("Data_Folder_Name") & "") & " to disk='" & Backup_Directory & "\" & (dr("Data_Folder_Name") & "") & "' "
                     sql_connect_slect()
-
                     If dr("COMP_CIN").ToString > Nothing Then
                         _OtherPcAddress = dr("COMP_CIN").ToString
                         Backup__OtherPcAddress = ((_OtherPcAddress)) + "SoftTex Agency Backup\"
@@ -199,8 +159,6 @@ Public Class MasterMenuLoad
                 'Wait_Window_Hide()
                 Close()
                 Me.Dispose(True)
-
-
             ElseIf Frm_Name_For_Active.ToString = "QuitWithoutBackup" Then
                 Close()
                 Me.Dispose(True)
@@ -249,19 +207,15 @@ Public Class MasterMenuLoad
         End With
         RS = _Query.ToString
         MenuDesign_QueryLoad()
-
         'GridView2.Columns.Clear()
         GridControl1.DataSource = DefaltSoftTable.Copy
         GridView2.Appearance.Row.Font = New Font("Tahoma", 10, FontStyle.Bold)
         GridView2.RowHeight = 29
         GridView2.OptionsView.ShowIndicator = False
-
         GridView2.BestFitColumns()
         GridView2.VertScrollVisibility = False
         GridView2.HorzScrollVisibility = False
         GridView2.OptionsMenu.EnableColumnMenu = False
-
-
         GridView2.Columns("MenuFormName").Visible = False
         For Each Col As DevExpress.XtraGrid.Columns.GridColumn In GridView2.Columns
             Col.AppearanceHeader.BackColor = Color.DarkGreen   'PrimaryDataGridViewColumnHeaderBackColor
@@ -283,7 +237,6 @@ Public Class MasterMenuLoad
                 Exit Sub
             End If
         End If
-
     End Sub
     Public Function Last_Focused_Control(ByVal frmObject As Form) As Control
         Dim ThisControl As Object
@@ -301,19 +254,16 @@ Public Class MasterMenuLoad
 
     Private Sub ExpandFullMenuPath(ByVal menuItem As ToolStripMenuItem)
         If menuItem Is Nothing Then Exit Sub
-
         ' Parent chain expand
         Dim parent As ToolStripMenuItem = TryCast(menuItem.OwnerItem, ToolStripMenuItem)
         If parent IsNot Nothing Then
             ExpandFullMenuPath(parent)
             parent.ShowDropDown()
         End If
-
         ' Finally show current item dropdown
         If menuItem.HasDropDownItems Then
             menuItem.ShowDropDown()
         End If
-
         menuItem.Select()
     End Sub
 
@@ -343,10 +293,8 @@ Public Class MasterMenuLoad
 #Region "Track Last Open Path"
     Public Sub TrackMenuPath(menuItem As ToolStripMenuItem)
         If menuItem Is Nothing Then Return
-
         Dim path As New List(Of String)
         Dim current As ToolStripItem = menuItem
-
         While current IsNot Nothing
             path.Insert(0, current.Text)
             If TypeOf current.Owner Is ToolStripDropDownMenu Then
@@ -355,7 +303,6 @@ Public Class MasterMenuLoad
                 Exit While
             End If
         End While
-
         LastOpenedMenuPath = String.Join(">", path)
     End Sub
     Public Sub RestoreMenuFocus(menuPath As String, menuStrip As MenuStrip)

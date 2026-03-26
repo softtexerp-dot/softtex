@@ -31,6 +31,9 @@ Partial Class HelpForm
         Me.RTbView = New System.Windows.Forms.RichTextBox()
         Me.RTBPrint = New System.Windows.Forms.RichTextBox()
         Me.RTBTotalColumn = New System.Windows.Forms.RichTextBox()
+        Me.AccordionControlElement1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement2 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.RTBMasterList = New System.Windows.Forms.RichTextBox()
         CType(Me.AccordionControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -48,7 +51,7 @@ Partial Class HelpForm
         '
         'OutstandingCalendar
         '
-        Me.OutstandingCalendar.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.TodayDueBill, Me.UnFoloOutstanding, Me.DiscountFoloOutstanding})
+        Me.OutstandingCalendar.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.TodayDueBill, Me.UnFoloOutstanding, Me.DiscountFoloOutstanding, Me.AccordionControlElement2})
         Me.OutstandingCalendar.Expanded = True
         Me.OutstandingCalendar.ImageOptions.Image = CType(resources.GetObject("OutstandingCalendar.ImageOptions.Image"), System.Drawing.Image)
         Me.OutstandingCalendar.Name = "OutstandingCalendar"
@@ -102,11 +105,35 @@ Partial Class HelpForm
         Me.RTBTotalColumn.Text = ""
         Me.RTBTotalColumn.Visible = False
         '
+        'AccordionControlElement1
+        '
+        Me.AccordionControlElement1.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement1.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement1.Name = "AccordionControlElement1"
+        Me.AccordionControlElement1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement1.Text = "Total Column"
+        '
+        'AccordionControlElement2
+        '
+        Me.AccordionControlElement2.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement2.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement2.Name = "AccordionControlElement2"
+        Me.AccordionControlElement2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement2.Text = "Master List"
+        '
+        'RTBMasterList
+        '
+        Me.RTBMasterList.Location = New System.Drawing.Point(206, 11)
+        Me.RTBMasterList.Name = "RTBMasterList"
+        Me.RTBMasterList.Size = New System.Drawing.Size(1000, 598)
+        Me.RTBMasterList.TabIndex = 10
+        Me.RTBMasterList.Text = ""
+        Me.RTBMasterList.Visible = False
+        '
         'HelpForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1216, 621)
+        Me.Controls.Add(Me.RTBMasterList)
         Me.Controls.Add(Me.RTBTotalColumn)
         Me.Controls.Add(Me.RTBPrint)
         Me.Controls.Add(Me.RTbView)
@@ -130,4 +157,7 @@ Partial Class HelpForm
     Friend WithEvents RTbView As RichTextBox
     Friend WithEvents RTBPrint As RichTextBox
     Friend WithEvents RTBTotalColumn As RichTextBox
+    Friend WithEvents AccordionControlElement2 As DevExpress.XtraBars.Navigation.AccordionControlElement
+    Friend WithEvents AccordionControlElement1 As DevExpress.XtraBars.Navigation.AccordionControlElement
+    Friend WithEvents RTBMasterList As RichTextBox
 End Class
