@@ -19,6 +19,7 @@ BOOKVNO,BOOKCODE
 "
         RTbView.ReadOnly = True
         RTBPrint.Visible = False
+        RTBMasterList.Visible = False
         RTBTotalColumn.Visible = False
         ColorSections(RTbView)
     End Sub
@@ -37,6 +38,7 @@ ORDER BY LoomNo"
 
         RTbView.Visible = False
         RTBTotalColumn.Visible = False
+        RTBMasterList.Visible = False
         RTBPrint.ReadOnly = True
         ColorSectionsPrint(RTBPrint)
     End Sub
@@ -56,6 +58,7 @@ ADJAMT*AMOUNT_ADD=AMOUNT_LESS
 ADJAMT"
         RTbView.Visible = False
         RTBPrint.Visible = False
+        RTBMasterList.Visible = False
         RTBTotalColumn.ReadOnly = True
         ColorSectionsTotal(RTBTotalColumn)
     End Sub

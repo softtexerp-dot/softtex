@@ -5,7 +5,7 @@ Imports DevExpress.XtraGrid.Views.Grid
 
 Public Class ReportsSelectionSettingForm
 
-    Public _SeletedFormName As String
+    Public _SelectedFormName As String
     Dim _ModiMAsterid As Int64 = 0
     Private Sub ReportsSelectionSettingForm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
@@ -73,7 +73,7 @@ Public Class ReportsSelectionSettingForm
             .Append(",MasterSelectionList")
             .Append(" FROM Reports ")
             .Append(" WHERE 1=1 ")
-            .Append(" AND ReportFormName = '" & _SeletedFormName & "' ")
+            .Append(" AND ReportFormName = '" & _SelectedFormName & "' ")
             .Append(" AND SettingType = 'ReportSelection' ")
             .Append(" ORDER by ReportsOrderNo ")
         End With
@@ -96,7 +96,7 @@ Public Class ReportsSelectionSettingForm
             .Append(",MSTYARNMASTER as MasterSelectionList")
             .Append(" FROM Vch_no ")
             .Append(" WHERE 1=1 ")
-            .Append(" AND MSTCUTMASTER = '" & _SeletedFormName & "' ")
+            .Append(" AND MSTCUTMASTER = '" & _SelectedFormName & "' ")
             .Append(" AND TRANSPORT_MASTER = 'ReportSelection' ")
             .Append(" ORDER by CAST(Main_account_master AS INT)  ")
         End With
@@ -215,14 +215,17 @@ Public Class ReportsSelectionSettingForm
             '    '    'Else
             '    '    '    Txt_QueryEdit.Text = ""
             '    '    'End If
+
+
             'Dim ReportQuery As New ReportQueryLoad()
             'ReportQuery.Show()
 
 
             'Dim valType As Object = GridView2.GetFocusedRowCellValue("Reports")
             'Dim reportloadquery As New ReportQueryLoad()
-            '    reportloadquery._SeletedReportType = Convert.ToString(valType)
-            'reportloadquery.GetformName = ReportForm._getformName
+            'reportloadquery._SeletedReportType = Convert.ToString(valType)
+            ''Dim reportformName As New ReportForm()
+            'reportloadquery.GetformName = reportloadquery.GetName
             'reportloadquery.ShowDialog()
 
         End If
@@ -329,7 +332,7 @@ Public Class ReportsSelectionSettingForm
 
     Private Sub _saveSelectedReportList()
 
-        sqL = "Delete from Vch_no where MSTCUTMASTER='" & _SeletedFormName & "' "
+        sqL = "Delete from Vch_no where MSTCUTMASTER='" & _SelectedFormName & "' "
         sql_Data_Save_Delete_Update()
 
         For i As Integer = 0 To GridView3.RowCount - 1
@@ -440,7 +443,7 @@ Public Class ReportsSelectionSettingForm
             End If
 
 
-            RS = "SELECT TOP 1  ReportsCountNo  FROM Reports WHERE 1=1 AND ReportFormName = '" & _SeletedFormName & "' ORDER BY ReportsCountNo DESC "
+            RS = "SELECT TOP 1  ReportsCountNo  FROM Reports WHERE 1=1 AND ReportFormName = '" & _SelectedFormName & "' ORDER BY ReportsCountNo DESC "
             Dim ReportsCountNo As New DataTable
             ReportsMenu_QueryLoad()
             ReportsCountNo = DefaltSoftTable.Copy
@@ -471,7 +474,7 @@ Public Class ReportsSelectionSettingForm
                 .Append(" ,'" & Txt_ReportTitalName.Text.Trim & "' ")
                 .Append(" ,'YES' ")
                 .Append(" ,'ReportSelection' ")
-                .Append(" ,'" & _SeletedFormName & "' ")
+                .Append(" ,'" & _SelectedFormName & "' ")
                 .Append(" ,'" & TxtReportFileName.Text.Trim & "' ")
                 '.Append(" ,'" & Txt_FileName.Text.Trim & "' ")
                 '.Append(" ,'" & Txt_FileName.Text.Trim & "' ")

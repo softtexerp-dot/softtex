@@ -94,9 +94,9 @@ Public Class MainFormRead
 
 
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         _FORMMODE = "LOAD"
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
-        Me.KeyPreview = True
         Me.Location = New POINT(0, 0)
         _FrmLoad = True
         CreateButtonsControl()
@@ -1575,7 +1575,7 @@ Public Class MainFormRead
                 UC_Buttons1._ButtonEnableDisable("LOAD")
                 UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                 _FormCloseMode = True
-                Exit Sub
+                'Exit Sub
             End If
             If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
                 If _FormCloseMode = True Then

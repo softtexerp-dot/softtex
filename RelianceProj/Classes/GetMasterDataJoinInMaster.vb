@@ -4,11 +4,47 @@ Module GetMasterDataJoinInMaster
     Public Class JoinResult
         Public Property LeftJoin As String
         Public Property JoinHeader As String
+        Public Property MasterList As List(Of String) ' 👈 NEW
     End Class
 
     Public Function GetAccountMaster(_DatabaseHeaderName As String, _OppositCode As String, _SelectionMastrName As String) As JoinResult
-
         Dim result As New JoinResult()
+        ' Master list help page par load niche wali list se hota h
+        If _SelectionMastrName = "GET_LIST" Then
+            result.MasterList = New List(Of String) From {
+            "ACCOUNT MASTER",
+            "AGENT MASTER",
+            "CITY MASTER",
+            "STATE MASTER",
+            "FABRIC ITEM MASTER",
+            "FABRIC DESIGN MASTER",
+            "FABRIC SHADE MASTER",
+            "FABRIC SELVEDGE MASTER",
+            "YARN MASTER",
+            "YARN SHADE MASTER",
+            "GENRAL ITEM MASTER",
+            "SUBITEM MASTER",
+            "SIZE MASTER",
+            "COLOR MASTER",
+            "REMARK MASTER",
+            "PROCESS MASTER",
+            "CUT MASTER",
+            "DEPARTMENT MASTER",
+            "POST MASTER",
+            "EMPLOYEE MASTER",
+            "FABRIC GROUP MASTER",
+            "GODOWN MASTER",
+            "GRADER MASTER",
+            "INSURANCE MASTER",
+            "LOOMNO MASTER",
+            "SALESMAN MASTER",
+            "TRANSPORT MASTER",
+            "BOOK MASTER"
+        }
+            Return result
+        End If
+
+
         If _SelectionMastrName = "ACCOUNT MASTER" Then
             result.JoinHeader = ",MstMasterAccount.Accountname as [" & _DatabaseHeaderName & "]"
             result.LeftJoin = " LEFT JOIN MstMasterAccount ON A." & _OppositCode & " = MstMasterAccount.ACCOUNTCODE"
@@ -90,6 +126,9 @@ Module GetMasterDataJoinInMaster
         ElseIf _SelectionMastrName = "TRANSPORT MASTER" Then
             result.JoinHeader = ",MstTransport.TRANSPORTNAME as [" & _DatabaseHeaderName & "]"
             result.LeftJoin = " LEFT JOIN MstTransport ON A." & _OppositCode & " = MstTransport.ID"
+        ElseIf _SelectionMastrName = "BOOK MASTER" Then
+            result.JoinHeader = ",MstBook.BOOKNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstBook ON A." & _OppositCode & " = MstBook.BookCode"
         End If
         Return result
     End Function

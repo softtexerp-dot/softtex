@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.Office.Drawing
 Imports DevExpress.XtraExport.Helpers
 Imports DevExpress.XtraGrid.Views.Grid
 Imports Microsoft.SqlServer.Management.Sdk.Sfc
@@ -22,14 +23,16 @@ Public Class ReportForm
     Dim Txt_ViewFrom As New ctl_TextBox.ctl_TextBox()
     Dim Txt_ViewTO As New ctl_TextBox.ctl_TextBox()
     Dim GetformName As String = ""
-    Public _SeletedFormName As String
+    Public Property _SeletedFormName As String
     Public _SeletedReportType As String
+
     Private Sub ReportForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+
         _LoadDefaultData()
         'GridControl1.Width = 974
         'GridControl1.Height = 595
@@ -46,7 +49,8 @@ Public Class ReportForm
         _SeletedFormName = _getformName()
         If formType = "REPORT" Then
             'If _FORMMODE = "VIEW" Then
-            tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+            'Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
+            'tmptbl = _GetFormQuery(FormNameValue, valtype)
             LoadViewData(tmptbl, _Bookcode)
             'End If
         End If
@@ -61,45 +65,42 @@ Public Class ReportForm
         'ReportsMenu_QueryLoad()
         _Tblclon = DefaltSoftTable.Copy
         GridControl1.DataSource = _Tblclon
-        FirstStage.Appearance.HeaderPanel.Font = New Font("Verdana", 9, FontStyle.Bold)
-        FirstStage.Appearance.Row.Font = New Font("Verdana", 8, FontStyle.Bold)
-        FirstStage.RowHeight = 25
-        'FirstStage.Columns("MainMasterId").Visible = False
-        'FirstStage.Columns("ReportsCountNo").Visible = False
-        'FirstStage.Columns("SettingType").Visible = False
-        'FirstStage.Columns("ActiveStatus").Visible = False
-        'FirstStage.Columns("ReportFormName").Visible = False
-        'FirstStage.Columns("ReportRptFileName").Visible = False
-        'FirstStage.Columns("QueryFileName").Visible = False
-        'FirstStage.Columns("QueryFullFileName").Visible = False
-        'FirstStage.Columns("MasterSelectionList").Visible = False
+        _FormGridSetting(FirstStage)
+    End Sub
+    Public Sub _FormGridSetting(ByVal gridView As DevExpress.XtraGrid.Views.Grid.GridView)
 
-        'FirstStage.Columns("MainMasterId").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("ReportsCountNo").OptionsColumn.AllowEdit = False
-        FirstStage.Columns("SrNo").OptionsColumn.AllowEdit = False
-        FirstStage.Columns("Reports").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("ActiveStatus").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("SettingType").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("ReportFormName").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("ReportRptFileName").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("QueryFileName").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("QueryFullFileName").OptionsColumn.AllowEdit = False
-        'FirstStage.Columns("MasterSelectionList").OptionsColumn.AllowEdit = False
-        FirstStage.BestFitColumns()
-        FirstStage.Columns("SrNo").Width = 10
-        FirstStage.Columns("Reports").Width = 180
-        FirstStage.Columns("SrNo").AppearanceHeader.BackColor = Color.Green
-        FirstStage.Columns("SrNo").AppearanceHeader.Options.UseBackColor = True
-        FirstStage.Columns("Reports").AppearanceHeader.BackColor = Color.Green
-        FirstStage.Columns("Reports").AppearanceHeader.Options.UseBackColor = True
+        gridView.Appearance.Row.Font = New Font("Verdana", 9, FontStyle.Bold)
+        gridView.RowHeight = 30
+        gridView.Columns("MainMasterId").Visible = False
+        gridView.Columns("ReportsCountNo").Visible = False
+        gridView.Columns("SettingType").Visible = False
+        gridView.Columns("ActiveStatus").Visible = False
+        gridView.Columns("ReportFormName").Visible = False
+        gridView.Columns("ReportRptFileName").Visible = False
+        gridView.Columns("QueryFileName").Visible = False
+        gridView.Columns("QueryFullFileName").Visible = False
+        gridView.Columns("MasterSelectionList").Visible = False
 
-        FirstStage.OptionsSelection.EnableAppearanceFocusedRow = True
-        FirstStage.OptionsSelection.EnableAppearanceFocusedCell = False
-        FirstStage.Appearance.FocusedRow.BackColor = Color.Orange
-        FirstStage.Appearance.FocusedRow.ForeColor = Color.Black
-        FirstStage.Appearance.FocusedRow.Options.UseBackColor = True
-        FirstStage.Appearance.FocusedRow.Options.UseForeColor = True
+        gridView.Columns("SrNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+        gridView.Columns("SrNo").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
 
+
+        For Each Col As DevExpress.XtraGrid.Columns.GridColumn In gridView.Columns
+            Col.AppearanceHeader.BackColor = Color.DarkGreen   'PrimaryDataGridViewColumnHeaderBackColor
+            Col.AppearanceHeader.BackColor2 = Color.DarkGreen
+            Col.AppearanceHeader.Options.UseForeColor = True
+            Col.AppearanceHeader.Options.UseBackColor = True
+            Col.AppearanceHeader.Font = New Font("Verdana", 9, FontStyle.Bold)
+        Next
+
+        gridView.Columns("SrNo").Width = 25
+        gridView.Columns("Reports").Width = 230
+        gridView.OptionsSelection.EnableAppearanceFocusedRow = True
+        gridView.OptionsSelection.EnableAppearanceFocusedCell = False
+        gridView.Appearance.FocusedRow.BackColor = Color.Orange
+        gridView.Appearance.FocusedRow.ForeColor = Color.Black
+        gridView.Appearance.FocusedRow.Options.UseBackColor = True
+        gridView.Appearance.FocusedRow.Options.UseForeColor = True
     End Sub
     Private Sub FirstStage_FocusedRowChanged(sender As Object, e As DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs) Handles FirstStage.FocusedRowChanged
         Dim rowHandle As Integer = FirstStage.FocusedRowHandle
@@ -109,36 +110,24 @@ Public Class ReportForm
     End Sub
     Public Function DefaltReportLoad()
         Dim _Query = New StringBuilder
-        'With _Query
-        '    .Append("SELECT ")
-        '    .Append(" MainMasterId")
-        '    .Append(",ReportsCountNo")
-        '    .Append(",ReportsOrderNo as SrNo")
-        '    .Append(",ReportMenuName as Reports")
-        '    .Append(",ActiveStatus ")
-        '    .Append(",SettingType ")
-        '    .Append(",ReportFormName ")
-        '    .Append(",ReportRptFileName")
-        '    .Append(",QueryFileName")
-        '    .Append(",QueryFullFileName")
-        '    .Append(",MasterSelectionList")
-        '    .Append(" FROM Reports ")
-        '    .Append(" WHERE 1=1 ")
-        '    .Append(" AND ReportFormName = '" & _SeletedFormName & "' ")
-        '    .Append(" AND SettingType = 'ReportSelection' ")
-        '    .Append(" ORDER by ReportsOrderNo ")
-        'End With
-
         With _Query
             .Append("SELECT ")
-            .Append("Main_account_master as SrNo")
+            .Append(" Schedule_id as MainMasterId")
+            .Append(",Group_master_finance as ReportsCountNo")
+            .Append(",Main_account_master as SrNo")
             .Append(",STATEMASTER as Reports")
-            '.Append(",CITYMASTER ")
+            .Append(",CITYMASTER as ActiveStatus ")
+            .Append(",TRANSPORT_MASTER as SettingType ")
+            .Append(",MSTCUTMASTER as ReportFormName ")
+            .Append(",MSTFABRICMASTER as ReportRptFileName")
+            .Append(",MSTFABRICHEAD as QueryFileName")
+            .Append(",MSTFABRICGROUP as QueryFullFileName")
+            .Append(",MSTYARNMASTER as MasterSelectionList")
             .Append(" FROM Vch_no ")
             .Append(" WHERE 1=1 ")
             .Append(" AND MSTCUTMASTER = '" & _SeletedFormName & "' ")
             .Append(" AND TRANSPORT_MASTER = 'ReportSelection' ")
-            .Append(" ORDER by Main_account_master ")
+            .Append(" ORDER by CAST(Main_account_master AS INT)  ")
         End With
         Return _Query.ToString
     End Function
@@ -150,9 +139,7 @@ Public Class ReportForm
             Dim View_Filter_Condition = " AND  FormName='" & ReportFormLoadFormName & "' "
             If ReportFormLoadFormName <> "" Then
                 If _MainColumTbl.Rows.Count > 0 Then
-                    'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
                     For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
-
                         Dim Name As String = dr("CntrlName").ToString()
                         RemoveControlIfExists(Name)
                         RemoveControlIfExists("Lbl_" & Name)
@@ -163,8 +150,6 @@ Public Class ReportForm
                     .Append("Select * FROM " & _DatabaseTableName & " WHERE 1=1 ")
                     .Append(View_Filter_Condition)
                 End With
-                'sqL = _strQuery.ToString
-                'sql_connect_slect1()
                 RS = _strQuery.ToString
                 MenuDesign_QueryLoad()
                 _MainColumTbl = DefaltSoftTable.Copy
@@ -190,9 +175,7 @@ Public Class ReportForm
                     Dim formtype As String = ""
                     formtype = dr("FormType").ToString().Trim()
                     If formtype = "REPORT" Then
-
                     Else
-
                     End If
                     Dim Tag As String = dr("DataBaseColumn").ToString()
                     Dim oppMasterCode As String = dr("OppMasterCode").ToString()
@@ -244,7 +227,7 @@ Public Class ReportForm
                             End If
                             Me.Controls.Add(txt)
                             If txt.TabIndex = 1 Then
-                                'txt.Focus()
+                                txt.Focus()
                                 GridControl1.Focus()
                             End If
                             If Tabindex = 1 Then
@@ -412,7 +395,7 @@ Public Class ReportForm
                 Exit Sub
             ElseIf _FormCloseMode = False Then
                 _FormCloseMode = True
-                Exit Sub
+                'Exit Sub
             End If
             If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
                 If _FormCloseMode = True Then
@@ -436,12 +419,14 @@ Public Class ReportForm
                 Exit Sub
             End If
             'ReportsSelectionSettingForm._SeletedFormName = Me.Name.ToString
-            ReportsSelectionSettingForm._SeletedFormName = Me._getformName()
+            ReportsSelectionSettingForm._SelectedFormName = Me._getformName()
             ReportsSelectionSettingForm.ShowDialog()
         End If
 
         'If e.KeyCode = Keys.F2 Then
-        'Dim reportloadquery As New ReportQueryLoad()
+        '    Dim valType As Object = FirstStage.GetFocusedRowCellValue("Reports")
+        '    Dim reportloadquery As New ReportQueryLoad()
+        '    reportloadquery._SeletedReportType = Convert.ToString(valType)
         '    reportloadquery.GetformName = Me._getformName()
         '    reportloadquery.Show()
         'End If
@@ -482,62 +467,62 @@ Public Class ReportForm
         _FORMMODE = "VIEW"
         '_LoadDefaultData()
 
-
-        'FirstStage.Columns("QueryFileName").Width = 50
+        'Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
+        'tmptbl = _GetFormQuery(FormNameValue, valtype)
         'Generate_Date_For_DataBase(Txt_ViewFrom)
         'Generate_Date_For_DataBase(Txt_ViewTO)
-        ''Dim FilterBookcode As String = " '" & _Bookcode & "' "
-        'Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
-        'Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
-        '' 🔹 Queries Read
-        'Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
-        'If ViewQuery = "" Then
+        ''dim filterbookcode as string = " '" & _bookcode & "' "
+        'Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+        'Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+        '' 🔹 queries read
+        'Dim viewquery As String = GetQuery(tmptbl, "VIEWQUERY", valtype)
+        'If viewquery = "" Then
         '    If ReportFormLoadFormName = "" Then
         '        Exit Sub
         '    Else
-        '        MsgBox("View Query Not Found")
+        '        MsgBox("view query not found")
         '        Exit Sub
         '    End If
         'End If
-        ''ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
-        'ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
-        'ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
-        'sqL = ViewQuery
+        ''viewquery = viewquery.replace("filterbookcode", filterbookcode)
+        'viewquery = viewquery.Replace("filterfrom", filterfrom)
+        'viewquery = viewquery.Replace("filterto", filterto)
+        'sqL = viewquery
         'sql_connect_slect()
-        'Dim ResultTable As New DataTable
-        'ResultTable = DefaltSoftTable.Copy
+        'Dim resulttable As New DataTable
+        'resulttable = DefaltSoftTable.Copy
         'FirstStage.Columns.Clear()
-        'If ResultTable.Rows.Count > 0 Then
-        '    GridControl1.DataSource = ResultTable.Copy
+        'If resulttable.Rows.Count > 0 Then
+        '    GridControl1.DataSource = resulttable.Copy
         '    DevGridFitColumn(GridControl1, FirstStage)
         '    FirstStage.OptionsView.ShowFooter = True
-        '    Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
-        '    Dim ColumnList As String = ViewQueryTotal
-        '    Dim Columns() As String = ColumnList.Split(","c)
-        '    For Each col As String In Columns
+        '    Dim viewquerytotal As String = GetQuery(tmptbl, "VIEWGRIDCOLUMNTOTAL", valtype)
+        '    Dim columnlist As String = viewquerytotal
+        '    Dim columns() As String = columnlist.Split(","c)
+        '    For Each col As String In columns
         '        If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-        '            'Total
+        '            'total
         '            FirstStage.Columns(col).Summary.Clear()
         '            FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
         '        End If
         '    Next
-        '    ViewQueryTotal = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
-        '    ColumnList = ViewQueryTotal
-        '    Dim HideColumns() As String = ColumnList.Split(","c)
-        '    For Each col As String In HideColumns
+        '    viewquerytotal = GetQuery(tmptbl, "viewgridcolumnhide", _SeletedReportType)
+        '    columnlist = viewquerytotal
+        '    Dim hidecolumns() As String = columnlist.Split(","c)
+        '    For Each col As String In hidecolumns
         '        If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-        '            'Hide
+        '            'hide
         '            FirstStage.Columns(col).Visible = False
         '        End If
         '    Next
-        '    'PnlGrdView.Visible = True
+        '    'pnlgrdview.visible = true
         '    FirstStage.BestFitColumns()
         '    FirstStage.Focus()
-        '    'PnlGrdView.BringToFront()
+        '    'pnlgrdview.bringtofront()
         '    GridControl1.BringToFront()
         'Else
-        '    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-        '    'txtFormName.Focus()
+        '    MsgBox("record not found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+        '    'txtformname.focus()
         'End If
     End Sub
 
@@ -553,11 +538,16 @@ Public Class ReportForm
 
     Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
         Dim valType As Object = FirstStage.GetFocusedRowCellValue("Reports")
-        If e.Control AndAlso e.KeyCode = Keys.Q Then
-            Dim reportloadquery As New ReportQueryLoad()
-            reportloadquery._SeletedReportType = Convert.ToString(valType)
-            reportloadquery.GetformName = Me._getformName()
-            reportloadquery.ShowDialog()
+        If valType <> "" Then
+            If e.Control AndAlso e.KeyCode = Keys.Q Then
+                Dim reportloadquery As New ReportQueryLoad()
+                reportloadquery._SeletedReportType = Convert.ToString(valType)
+                reportloadquery.GetformName = Me._getformName()
+                reportloadquery.ShowDialog()
+            End If
+        End If
+        If e.KeyCode = Keys.Enter Then
+
         End If
     End Sub
 End Class

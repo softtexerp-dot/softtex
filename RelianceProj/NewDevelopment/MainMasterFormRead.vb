@@ -1177,7 +1177,7 @@ Public Class MainMasterFormRead
                 UC_Buttons1._ButtonEnableDisable("LOAD")
                 UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                 _FormCloseMode = True
-                Exit Sub
+                'Exit Sub
             End If
             If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
                 If _FormCloseMode = True Then

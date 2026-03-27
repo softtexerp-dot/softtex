@@ -93,9 +93,9 @@ Partial Class ReportForm
         '
         'PropertyGrid1
         '
-        Me.PropertyGrid1.Location = New System.Drawing.Point(988, 74)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(988, 54)
         Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(228, 546)
+        Me.PropertyGrid1.Size = New System.Drawing.Size(228, 555)
         Me.PropertyGrid1.TabIndex = 81928
         Me.PropertyGrid1.Visible = False
         '
@@ -132,10 +132,10 @@ Partial Class ReportForm
         Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.Appearance.Options.UseFont = True
         Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnClose.Location = New System.Drawing.Point(848, 570)
+        Me.btnClose.Location = New System.Drawing.Point(823, 570)
         Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(111, 39)
+        Me.btnClose.Size = New System.Drawing.Size(80, 39)
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "Close"
         '
@@ -144,12 +144,12 @@ Partial Class ReportForm
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(719, 570)
+        Me.btnView.Location = New System.Drawing.Point(725, 570)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
-        Me.btnView.Size = New System.Drawing.Size(111, 39)
+        Me.btnView.Size = New System.Drawing.Size(80, 39)
         Me.btnView.TabIndex = 3
-        Me.btnView.Text = "View"
+        Me.btnView.Text = "Ok"
         '
         'ReportForm
         '

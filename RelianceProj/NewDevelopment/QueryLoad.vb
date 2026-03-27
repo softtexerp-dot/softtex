@@ -244,7 +244,7 @@ Public Class QueryLoad
     '    GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
     'End Function
     Private Sub _GetMaxId()
-        RS = "SELECT TOP 1  * FROM " & _TblName & "  ORDER BY " & _KeyFieldName & " DESC"
+        RS = "SELECT TOP 1  * FROM " & _TblName & " WHERE  1=1 AND FormName='" & GetformName & "' ORDER BY " & _KeyFieldName & " DESC"
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
@@ -269,7 +269,8 @@ Public Class QueryLoad
         _strQuery = New StringBuilder
         With _strQuery
             .Append(" SELECT A.* ")
-            .Append(" FROM " & _TblName & " A WHERE 1=1 AND " & _KeyFieldName & " =" & strKeyID & "")
+            .Append(" FROM " & _TblName & " A WHERE 1=1 AND FormName='" & GetformName & "' AND " & _KeyFieldName & " =" & strKeyID & "")
+            '.Append(" FROM " & _TblName & " A WHERE 1=1 AND " & _KeyFieldName & " =" & strKeyID & "")
         End With
         Return _strQuery.ToString
     End Function
@@ -376,7 +377,7 @@ Public Class QueryLoad
         Dim _entryNo As Integer = 0
         _strQuery = New StringBuilder
         With _strQuery
-            .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
+            .Append("DELETE FROM " & _TblName & " WHERE  FormName='" & GetformName & "' AND " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
         End With
         'sqL = _strQuery.ToString
         'sql_Data_Save_Delete_Update1()
