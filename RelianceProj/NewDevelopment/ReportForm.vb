@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevComponents.DotNetBar
 Imports DevExpress.Office.Drawing
 Imports DevExpress.XtraExport.Helpers
 Imports DevExpress.XtraGrid.Views.Grid
@@ -430,6 +431,8 @@ Public Class ReportForm
         '    reportloadquery.GetformName = Me._getformName()
         '    reportloadquery.Show()
         'End If
+
+        
     End Sub
 
     Private Sub btnmovecontrol_Click(sender As Object, e As EventArgs) Handles btnmovecontrol.Click
@@ -467,63 +470,65 @@ Public Class ReportForm
         _FORMMODE = "VIEW"
         '_LoadDefaultData()
 
-        'Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
-        'tmptbl = _GetFormQuery(FormNameValue, valtype)
-        'Generate_Date_For_DataBase(Txt_ViewFrom)
-        'Generate_Date_For_DataBase(Txt_ViewTO)
-        ''dim filterbookcode as string = " '" & _bookcode & "' "
+        Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
+        Dim valreportName As Object = FirstStage.GetFocusedRowCellValue("ReportRptFileName")
+        Dim valmasterlist As Object = FirstStage.GetFocusedRowCellValue("MasterSelectionList")
+
+        Dim str As String = valmasterlist.ToString()
+        Dim arr() As String = str.Split(","c)
+        For Each item As String In arr
+            'MsgBox(item.Trim())
+            item.Trim()
+        Next
+
+        tmptbl = _GetFormQuery(FormNameValue, valtype)
+        Generate_Date_For_DataBase(Txt_ViewFrom)
+        Generate_Date_For_DataBase(Txt_ViewTO)
+        'dim filterbookcode as string = " '" & _bookcode & "' "
         'Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
         'Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
-        '' 🔹 queries read
-        'Dim viewquery As String = GetQuery(tmptbl, "VIEWQUERY", valtype)
-        'If viewquery = "" Then
-        '    If ReportFormLoadFormName = "" Then
-        '        Exit Sub
-        '    Else
-        '        MsgBox("view query not found")
-        '        Exit Sub
-        '    End If
-        'End If
-        ''viewquery = viewquery.replace("filterbookcode", filterbookcode)
-        'viewquery = viewquery.Replace("filterfrom", filterfrom)
-        'viewquery = viewquery.Replace("filterto", filterto)
-        'sqL = viewquery
-        'sql_connect_slect()
-        'Dim resulttable As New DataTable
-        'resulttable = DefaltSoftTable.Copy
-        'FirstStage.Columns.Clear()
-        'If resulttable.Rows.Count > 0 Then
-        '    GridControl1.DataSource = resulttable.Copy
-        '    DevGridFitColumn(GridControl1, FirstStage)
-        '    FirstStage.OptionsView.ShowFooter = True
-        '    Dim viewquerytotal As String = GetQuery(tmptbl, "VIEWGRIDCOLUMNTOTAL", valtype)
-        '    Dim columnlist As String = viewquerytotal
-        '    Dim columns() As String = columnlist.Split(","c)
-        '    For Each col As String In columns
-        '        If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-        '            'total
-        '            FirstStage.Columns(col).Summary.Clear()
-        '            FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
-        '        End If
-        '    Next
-        '    viewquerytotal = GetQuery(tmptbl, "viewgridcolumnhide", _SeletedReportType)
-        '    columnlist = viewquerytotal
-        '    Dim hidecolumns() As String = columnlist.Split(","c)
-        '    For Each col As String In hidecolumns
-        '        If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-        '            'hide
-        '            FirstStage.Columns(col).Visible = False
-        '        End If
-        '    Next
-        '    'pnlgrdview.visible = true
-        '    FirstStage.BestFitColumns()
-        '    FirstStage.Focus()
-        '    'pnlgrdview.bringtofront()
-        '    GridControl1.BringToFront()
-        'Else
-        '    MsgBox("record not found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-        '    'txtformname.focus()
-        'End If
+        Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+        Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+
+        Dim filterMasterlist1 As String = " '" & arr(0).Trim() & "'"
+        Dim filterMasterlist2 As String = " '" & arr(1).Trim() & "'"
+        Dim filterMasterlist3 As String = " '" & arr(2).Trim() & "'"
+        Dim filterMasterlist4 As String = " '" & arr(3).Trim() & "'"
+        Dim filterMasterlist5 As String = " '" & arr(4).Trim() & "'"
+
+
+        ' 🔹 queries read
+        Dim viewquery As String = GetQuery(tmptbl, "VIEWQUERY", valtype)
+        If viewquery = "" Then
+            If ReportFormLoadFormName = "" Then
+                Exit Sub
+            Else
+                MsgBox("view query not found")
+                Exit Sub
+            End If
+        End If
+
+        'viewquery = viewquery.replace("filterbookcode", filterbookcode)
+        viewquery = viewquery.Replace("FilterFrom", filterfrom)
+        viewquery = viewquery.Replace("FilterTO", filterto)
+
+        viewquery = viewquery.Replace("FilterMasterlist1", filterMasterlist1)
+        viewquery = viewquery.Replace("FilterMasterlist2", filterMasterlist2)
+        viewquery = viewquery.Replace("FilterMasterlist3", filterMasterlist3)
+        viewquery = viewquery.Replace("FilterMasterlist4", filterMasterlist4)
+        viewquery = viewquery.Replace("FilterMasterlist5", filterMasterlist5)
+        sqL = viewquery
+        sql_connect_slect()
+        Dim resulttable As New DataTable
+        resulttable = DefaltSoftTable.Copy
+        If resulttable.Rows.Count > 0 Then
+            REPORT_RPT_FILE_NAME = valreportName
+            Dim RptTitle = valtype
+            Dim Date_Range = "Date From:" & Txt_ViewFrom.Text & " To:" & Txt_ViewTO.Text & " "
+            NewReportPrint(resulttable, RptTitle, Date_Range)
+        Else
+            MsgBox("record not found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+        End If
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click

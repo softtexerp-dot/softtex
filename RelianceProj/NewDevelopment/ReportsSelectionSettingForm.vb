@@ -1,13 +1,15 @@
-﻿Imports System.IO
+﻿Imports System.Globalization
+Imports System.IO
 Imports System.Text
 Imports DevExpress.XtraExport.Helpers
 Imports DevExpress.XtraGrid.Views.Grid
+Imports Newtonsoft.Json
 
 Public Class ReportsSelectionSettingForm
 
     Public _SelectedFormName As String
     Dim _ModiMAsterid As Int64 = 0
-    Private Sub ReportsSelectionSettingForm_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+    Private Sub ReportsSelectionSettingForm_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
             If PnlNewReports.Visible = True Then
                 PnlNewReports.Visible = False
@@ -144,7 +146,7 @@ Public Class ReportsSelectionSettingForm
         If _SaveTbl.Rows.Count > 0 Then
             For Each dr As DataRow In _SaveTbl.Select
                 '_UpdateeportIfModify(dr("MainMasterId").ToString, dr("Reports").ToString, dr("ReportRptFileName").ToString, dr("QueryFileName").ToString, dr("MasterSelectionList").ToString)
-                _UpdateeportIfModify(dr("MainMasterId").ToString, dr("Reports").ToString, dr("ReportRptFileName").ToString)
+                _UpdateeportIfModify(dr("MainMasterId").ToString, dr("Reports").ToString, dr("ReportRptFileName").ToString, dr("MasterSelectionList").ToString)
             Next
         End If
 #End Region
@@ -282,12 +284,12 @@ Public Class ReportsSelectionSettingForm
         Dim Reports As String = GridView2.GetFocusedRowCellValue("Reports").ToString
         Dim ReportRptFileName As String = GridView2.GetFocusedRowCellValue("ReportRptFileName").ToString
         'Dim QueryFileName As String = GridView2.GetFocusedRowCellValue("QueryFileName").ToString
-        'Dim MasterSelectionList As String = GridView2.GetFocusedRowCellValue("MasterSelectionList").ToString
+        Dim MasterSelectionList As String = GridView2.GetFocusedRowCellValue("MasterSelectionList").ToString
 
         Txt_ReportTitalName.Text = Reports
         TxtReportFileName.Text = ReportRptFileName
         'Txt_FileName.Text = QueryFileName
-        'Txt_MasterSelection.Text = MasterSelectionList
+        Txt_MasterSelection.Text = MasterSelectionList
 
         PnlNewReports.Visible = True
         Txt_ReportTitalName.Focus()
@@ -351,7 +353,7 @@ Public Class ReportsSelectionSettingForm
                         .Append(",MSTFABRICMASTER")
                         '.Append(",MSTFABRICHEAD")
                         '.Append(",MSTFABRICGROUP")
-                        '.Append(",MSTYARNMASTER")
+                        .Append(",MSTYARNMASTER")
                         .Append(" ) VALUES ( ")
                         .Append(" '" & GridView3.GetRowCellValue(i, "MainMasterId").ToString() & "' ")
                         .Append(",'" & GridView3.GetRowCellValue(i, "ReportsCountNo").ToString() & "' ")
@@ -363,7 +365,7 @@ Public Class ReportsSelectionSettingForm
                         .Append(",'" & GridView3.GetRowCellValue(i, "ReportRptFileName").ToString() & "' ")
                         '.Append(",'" & GridView3.GetRowCellValue(i, "QueryFileName").ToString() & "' ")
                         '.Append(",'" & GridView3.GetRowCellValue(i, "QueryFullFileName").ToString() & "' ")
-                        '.Append(",'" & GridView3.GetRowCellValue(i, "MasterSelectionList").ToString() & "' ")
+                        .Append(",'" & GridView3.GetRowCellValue(i, "MasterSelectionList").ToString() & "' ")
                         .Append(" ) ")
                     End With
                     sqL = _strQuery.ToString
@@ -385,7 +387,7 @@ Public Class ReportsSelectionSettingForm
     End Sub
 
     'Private Sub _UpdateeportIfModify(ByVal MainMasterId As Long, ByVal MenuName As String, ByVal RptFileName As String, ByVal QueryFileName As String, ByVal MasterSelectionList As String)
-    Private Sub _UpdateeportIfModify(ByVal MainMasterId As Long, ByVal MenuName As String, ByVal RptFileName As String)
+    Private Sub _UpdateeportIfModify(ByVal MainMasterId As Long, ByVal MenuName As String, ByVal RptFileName As String, ByVal MasterSelectionList As String)
 
         Dim _Query = New StringBuilder
         With _Query
@@ -394,7 +396,7 @@ Public Class ReportsSelectionSettingForm
             .Append(",ReportRptFileName='" & RptFileName & "' ")
             '.Append(",QueryFileName='" & QueryFileName & "'")
             '.Append(",QueryFullFileName='" & QueryFileName & "'")
-            '.Append(",MasterSelectionList='" & MasterSelectionList & "'")
+            .Append(",MasterSelectionList='" & MasterSelectionList & "'")
             .Append(" WHERE 1=1 ")
             .Append(" AND MainMasterId=" & MainMasterId & "")
         End With
@@ -404,9 +406,16 @@ Public Class ReportsSelectionSettingForm
     End Sub
 
     Private Sub BtnNewReportSave_Click(sender As Object, e As EventArgs) Handles BtnNewReportSave.Click
+        Dim txtValue As String = Txt_ReportTitalName.Text.Trim()
 
+        If Not String.IsNullOrEmpty(txtValue) Then
+            Dim ti As TextInfo = CultureInfo.CurrentCulture.TextInfo
+            txtValue = ti.ToTitleCase(txtValue.ToLower())
+        End If
+        Txt_ReportTitalName.Text = txtValue
         If _ModiMAsterid > 0 Then
 
+            'Txt_ReportTitalName.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Txt_ReportTitalName.Text.ToLower())
 
             Dim _Query = New StringBuilder
             With _Query
@@ -415,7 +424,7 @@ Public Class ReportsSelectionSettingForm
                 .Append(",MSTFABRICMASTER='" & TxtReportFileName.Text.Trim & "' ")
                 '.Append(",MSTFABRICHEAD='" & Txt_FileName.Text.Trim & "'")
                 '.Append(",MSTFABRICGROUP='" & Txt_FileName.Text.Trim & "'")
-                '.Append(",MSTYARNMASTER='" & Txt_MasterSelection.Text.Trim & "'")
+                .Append(",MSTYARNMASTER='" & Txt_MasterSelection.Text.Trim & "'")
                 .Append(" WHERE 1=1 ")
                 .Append(" AND Schedule_id='" & _ModiMAsterid & "'")
             End With
@@ -424,7 +433,7 @@ Public Class ReportsSelectionSettingForm
 
 
             '_UpdateeportIfModify(_ModiMAsterid, Txt_ReportTitalName.Text.Trim, TxtReportFileName.Text.Trim, Txt_FileName.Text.Trim, Txt_MasterSelection.Text.Trim)
-            _UpdateeportIfModify(_ModiMAsterid, Txt_ReportTitalName.Text.Trim, TxtReportFileName.Text.Trim)
+            _UpdateeportIfModify(_ModiMAsterid, Txt_ReportTitalName.Text.Trim, TxtReportFileName.Text.Trim, Txt_MasterSelection.Text.Trim)
             MsgBox("Report Update Success", MsgBoxStyle.Information, "Soft-Tex PRO")
             _LoadQuery()
         Else
@@ -466,7 +475,7 @@ Public Class ReportsSelectionSettingForm
                 .Append(",ReportRptFileName")
                 '.Append(",QueryFileName")
                 '.Append(",QueryFullFileName")
-                '.Append(",MasterSelectionList")
+                .Append(",MasterSelectionList")
                 .Append(") VALUES (")
                 .Append(" " & _MainMasterId & " ")
                 .Append(" ," & _ReportsCountNo & " ")
@@ -478,7 +487,7 @@ Public Class ReportsSelectionSettingForm
                 .Append(" ,'" & TxtReportFileName.Text.Trim & "' ")
                 '.Append(" ,'" & Txt_FileName.Text.Trim & "' ")
                 '.Append(" ,'" & Txt_FileName.Text.Trim & "' ")
-                '.Append(" ,'" & Txt_MasterSelection.Text.Trim & "' ")
+                .Append(" ,'" & Txt_MasterSelection.Text.Trim & "' ")
                 .Append(" )")
             End With
             RS = _Query.ToString
@@ -493,7 +502,7 @@ Public Class ReportsSelectionSettingForm
         GridView2.SelectAll()
         MainMenuDataselect()
         _saveSelectedReportList()
-        'Txt_MasterSelection.Text = ""
+        Txt_MasterSelection.Text = ""
         Txt_ReportTitalName.Text = ""
         TxtReportFileName.Text = ""
         'Txt_FileName.Text = ""
@@ -542,52 +551,51 @@ Public Class ReportsSelectionSettingForm
         gridView.Columns("Reports").Width = 230
 
     End Sub
-    Private Sub Txt_MasterSelection_KeyDown(sender As Object, e As KeyEventArgs)
+    Private Sub Txt_MasterSelection_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_MasterSelection.KeyDown
         If e.KeyCode = Keys.Enter Then
             MasterselectionTable()
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                'Txt_MasterSelection.Text = MULTY_SELECTION_COLOUM_3_DATA.Replace("(", "").Replace(")", "").Replace("'", "")
+            'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+            '    Txt_MasterSelection.Text = MULTY_SELECTION_COLOUM_3_DATA.Replace("(", "").Replace(")", "").Replace("'", "")
+            'End If
+            Dim rawData As String = MULTY_SELECTION_COLOUM_3_DATA
+            ' Clean string
+            rawData = rawData.Replace("(", "").Replace(")", "").Replace("'", "")
+            ' Split
+            Dim items As String() = rawData.Split(","c)
+            ' Trim items
+            Dim cleanItems = items.Select(Function(x) x.Trim()).ToArray()
+            ' 👉 Check count
+            If cleanItems.Length > 5 Then
+                MessageBox.Show("Maximum 5 selection allowed!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
+            ' 👉 Take only first 5
+            Dim topItems = cleanItems.Take(5).ToArray()
+            ' 👉 Set textbox
+            Txt_MasterSelection.Text = String.Join(",", topItems)
             SendKeys.Send("{TAB}")
         End If
     End Sub
     Public Sub MasterselectionTable()
         Dim HSNType As New DataTable
-        Dim HSN_Type = New DataColumn("MasterName", GetType(String))
-        Dim Remark = New DataColumn("Remark", GetType(String))
-        Dim HSN_Type1 = New DataColumn("MasterName1", GetType(String))
-        Dim HSN_Type2 = New DataColumn("MasterName2", GetType(String))
-        Dim HSN_Type3 = New DataColumn("MasterName3", GetType(String))
-
-        HSNType.Columns.Add(HSN_Type)
-        HSNType.Columns.Add(Remark)
-        HSNType.Columns.Add(HSN_Type1)
-        HSNType.Columns.Add(HSN_Type2)
-        HSNType.Columns.Add(HSN_Type3)
-
-
-        HSNType.Rows.Add("NONE", "", "NONE", "NONE", "NONE")
-        HSNType.Rows.Add("ACCOUNT MASTER", "", "ACCOUNT MASTER", "ACCOUNT MASTER", "ACCOUNT MASTER")
-        HSNType.Rows.Add("FABRIC ITEM", "", "FABRIC ITEM", "FABRIC ITEM", "FABRIC ITEM")
-        HSNType.Rows.Add("FABRIC DESIGN", "", "FABRIC DESIGN", "FABRIC DESIGN", "FABRIC DESIGN")
-        HSNType.Rows.Add("FABRIC SHADE", "", "FABRIC SHADE", "FABRIC SHADE", "FABRIC SHADE")
-        HSNType.Rows.Add("CUT MASTER", "", "CUT MASTER", "CUT MASTER", "CUT MASTER")
-
-
-        Party_selection_multy.dgw.DataSource = HSNType.Copy
+        HSNType.Columns.Add("MasterName", GetType(String))
+        HSNType.Columns.Add("Remark", GetType(String))
+        HSNType.Columns.Add("MasterName1", GetType(String))
+        HSNType.Columns.Add("MasterName2", GetType(String))
+        HSNType.Columns.Add("MasterName3", GetType(String))
+        Dim res As JoinResult = GetAccountMaster("", "", "GET_LIST")
+        For Each name As String In res.MasterList
+            HSNType.Rows.Add(name, "", name, name, name)
+        Next
+        Party_selection_multy.dgw.DataSource = HSNType
         Party_selection_multy.dgw.Columns("MasterName1").Visible = False
         Party_selection_multy.dgw.Columns("MasterName2").Visible = False
         Party_selection_multy.dgw.Columns("MasterName3").Visible = False
-
-
         Dim Chk As New DataGridViewCheckBoxColumn()
         Party_selection_multy.dgw.Columns.Add(Chk)
-
         Party_selection_multy.dgw.Columns(0).Width = 380
         Party_selection_multy.dgw.Columns(1).Width = 200
         Party_selection_multy.dgw.Columns(2).Width = 150
         Party_selection_multy.dgw.Columns(5).Width = 30
-
         Party_selection_multy.Width = 644
         obj_Party_Selection.SELECTION_LIST_FIRST_multy_SELECTION()
     End Sub

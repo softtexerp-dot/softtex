@@ -11,6 +11,12 @@ and  a.Bookcode= FilterBookcode --------Filter Replace
 and  a.Billdate>=FilterFrom --------Filter Replace
 and  a.Billdate<=FilterTO --------Filter Replace
 
+and  a.Masterlist=FilterMasterlist1 --------Filter Replace
+and  a.Masterlist=FilterMasterlist2 --------Filter Replace
+and  a.Masterlist=FilterMasterlist3 --------Filter Replace
+and  a.Masterlist=FilterMasterlist4 --------Filter Replace
+and  a.Masterlist=FilterMasterlist5 --------Filter Replace
+
 [ViewGridColumnTotal]-------Section Part
 ENTRYNO,ID
 
@@ -33,6 +39,12 @@ where 1=1
 and  Bookcode= FilterBookcode --------Filter Replace
 and  Billdate>=FilterFrom --------Filter Replace
 and  Billdate<=FilterTO --------Filter Replace
+
+and  Masterlist=FilterMasterlist1 --------Filter Replace
+and  Masterlist=FilterMasterlist2 --------Filter Replace
+and  Masterlist=FilterMasterlist3 --------Filter Replace
+and  Masterlist=FilterMasterlist4 --------Filter Replace
+and  Masterlist=FilterMasterlist5 --------Filter Replace
 
 ORDER BY LoomNo"
 
@@ -95,6 +107,14 @@ ADJAMT"
         HighlightWord(rtb, "FilterBookcode", Color.Purple)
         HighlightWord(rtb, "FilterFrom", Color.Purple)
         HighlightWord(rtb, "FilterTO", Color.Purple)
+
+
+        HighlightWord(rtb, "FilterMasterlist1", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist2", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist3", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist4", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist5", Color.Purple)
+
     End Sub
 
     Private Sub ColorSectionsPrint(rtb As RichTextBox)
@@ -113,6 +133,11 @@ ADJAMT"
         HighlightWord(rtb, "FilterBookcode", Color.Purple)
         HighlightWord(rtb, "FilterFrom", Color.Purple)
         HighlightWord(rtb, "FilterTO", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist1", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist2", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist3", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist4", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist5", Color.Purple)
     End Sub
 
     Private Sub ColorSectionsTotal(rtb As RichTextBox)

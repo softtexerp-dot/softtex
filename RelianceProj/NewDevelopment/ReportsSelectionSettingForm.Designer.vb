@@ -50,6 +50,9 @@ Partial Class ReportsSelectionSettingForm
         Me.Txt_QueryEdit = New System.Windows.Forms.RichTextBox()
         Me.BtnQueryPanelHide = New DevExpress.XtraEditors.SimpleButton()
         Me.Btn_QuerySave = New DevExpress.XtraEditors.SimpleButton()
+        Me.Txt_MasterSelection = New ctl_TextBox.ctl_TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
         CType(Me.GridControl2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -198,6 +201,9 @@ Partial Class ReportsSelectionSettingForm
         'PnlNewReports
         '
         Me.PnlNewReports.BackColor = System.Drawing.Color.CadetBlue
+        Me.PnlNewReports.Controls.Add(Me.Txt_MasterSelection)
+        Me.PnlNewReports.Controls.Add(Me.Label10)
+        Me.PnlNewReports.Controls.Add(Me.Label11)
         Me.PnlNewReports.Controls.Add(Me.TxtReportFileName)
         Me.PnlNewReports.Controls.Add(Me.Txt_ReportTitalName)
         Me.PnlNewReports.Controls.Add(Me.Label7)
@@ -322,7 +328,7 @@ Partial Class ReportsSelectionSettingForm
         Me.BtnReportNewClose.Appearance.Options.UseBackColor = True
         Me.BtnReportNewClose.Appearance.Options.UseFont = True
         Me.BtnReportNewClose.ImageOptions.Image = CType(resources.GetObject("BtnReportNewClose.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnReportNewClose.Location = New System.Drawing.Point(303, 163)
+        Me.BtnReportNewClose.Location = New System.Drawing.Point(297, 170)
         Me.BtnReportNewClose.Name = "BtnReportNewClose"
         Me.BtnReportNewClose.Size = New System.Drawing.Size(83, 33)
         Me.BtnReportNewClose.TabIndex = 42
@@ -335,7 +341,7 @@ Partial Class ReportsSelectionSettingForm
         Me.BtnNewReportSave.Appearance.Options.UseBackColor = True
         Me.BtnNewReportSave.Appearance.Options.UseFont = True
         Me.BtnNewReportSave.ImageOptions.Image = CType(resources.GetObject("BtnNewReportSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnNewReportSave.Location = New System.Drawing.Point(216, 163)
+        Me.BtnNewReportSave.Location = New System.Drawing.Point(210, 170)
         Me.BtnNewReportSave.Name = "BtnNewReportSave"
         Me.BtnNewReportSave.Size = New System.Drawing.Size(83, 33)
         Me.BtnNewReportSave.TabIndex = 41
@@ -420,6 +426,67 @@ Partial Class ReportsSelectionSettingForm
         Me.Btn_QuerySave.TabIndex = 31
         Me.Btn_QuerySave.Text = "Save"
         '
+        'Txt_MasterSelection
+        '
+        Me.Txt_MasterSelection._AllowSpace = True
+        Me.Txt_MasterSelection.AcceptsReturn = True
+        Me.Txt_MasterSelection.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.Txt_MasterSelection.BackColor = System.Drawing.Color.GhostWhite
+        Me.Txt_MasterSelection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_MasterSelection.Check_End_Date_Value_FY = "YES"
+        Me.Txt_MasterSelection.Check_Start_Date_Value_FY = "YES"
+        Me.Txt_MasterSelection.ClearField = True
+        Me.Txt_MasterSelection.CustomInputTypeString = Nothing
+        Me.Txt_MasterSelection.Date_for_Database = Nothing
+        Me.Txt_MasterSelection.Date_Tag = Nothing
+        Me.Txt_MasterSelection.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.Txt_MasterSelection.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.Txt_MasterSelection.ExtraValue = ""
+        Me.Txt_MasterSelection.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_MasterSelection.FontFocusColor = System.Drawing.Color.Blue
+        Me.Txt_MasterSelection.FontLeaveColor = System.Drawing.Color.Black
+        Me.Txt_MasterSelection.ForeColor = System.Drawing.Color.Black
+        Me.Txt_MasterSelection.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.Txt_MasterSelection.IsValidated = False
+        Me.Txt_MasterSelection.LeaveFocusColor = System.Drawing.Color.GhostWhite
+        Me.Txt_MasterSelection.Location = New System.Drawing.Point(181, 134)
+        Me.Txt_MasterSelection.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.Txt_MasterSelection.MandatoryField = False
+        Me.Txt_MasterSelection.MaxDate = Nothing
+        Me.Txt_MasterSelection.MinDate = Nothing
+        Me.Txt_MasterSelection.Name = "Txt_MasterSelection"
+        Me.Txt_MasterSelection.NormalBorderColor = System.Drawing.Color.GhostWhite
+        Me.Txt_MasterSelection.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.Txt_MasterSelection.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.Txt_MasterSelection.ReadOnly = True
+        Me.Txt_MasterSelection.RegularExpression = Nothing
+        Me.Txt_MasterSelection.RegularExpressionErrorMessage = Nothing
+        Me.Txt_MasterSelection.ShowMessage = False
+        Me.Txt_MasterSelection.Size = New System.Drawing.Size(300, 22)
+        Me.Txt_MasterSelection.SpacerString = ""
+        Me.Txt_MasterSelection.TabIndex = 36
+        Me.Txt_MasterSelection.Tag = "BOOKNAME"
+        Me.Txt_MasterSelection.TransparentBox = True
+        Me.Txt_MasterSelection.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(164, 137)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(12, 16)
+        Me.Label10.TabIndex = 45
+        Me.Label10.Text = ":"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(20, 135)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(128, 16)
+        Me.Label11.TabIndex = 44
+        Me.Label11.Text = "Master Selection"
+        '
         'ReportsSelectionSettingForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -485,4 +552,7 @@ Partial Class ReportsSelectionSettingForm
     Friend WithEvents Txt_QueryEdit As RichTextBox
     Friend WithEvents BtnQueryPanelHide As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents Btn_QuerySave As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Txt_MasterSelection As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Label11 As Label
 End Class
