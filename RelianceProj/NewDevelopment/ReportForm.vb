@@ -489,12 +489,13 @@ Public Class ReportForm
         'Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
         Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
         Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+        Dim filterMasterlist1 As String = ""
+        Dim filterMasterlist2 As String = ""
+        Dim filterMasterlist4 As String = ""
+        Dim filterMasterlist5 As String = ""
+        Dim filterMasterlist3 As String = ""
 
-        Dim filterMasterlist1 As String = " '" & arr(0).Trim() & "'"
-        Dim filterMasterlist2 As String = " '" & arr(1).Trim() & "'"
-        Dim filterMasterlist3 As String = " '" & arr(2).Trim() & "'"
-        Dim filterMasterlist4 As String = " '" & arr(3).Trim() & "'"
-        Dim filterMasterlist5 As String = " '" & arr(4).Trim() & "'"
+
 
 
         ' 🔹 queries read
@@ -511,12 +512,29 @@ Public Class ReportForm
         'viewquery = viewquery.replace("filterbookcode", filterbookcode)
         viewquery = viewquery.Replace("FilterFrom", filterfrom)
         viewquery = viewquery.Replace("FilterTO", filterto)
+        If arr(0).Trim() <> "" Then
+            filterMasterlist1 = " '" & arr(0).Trim() & "'"
+            viewquery = viewquery.Replace("FilterMasterlist1", filterMasterlist1)
+        End If
+        If arr(1).Trim() <> "" Then
+            filterMasterlist2 = " '" & arr(1).Trim() & "'"
+            viewquery = viewquery.Replace("FilterMasterlist2", filterMasterlist2)
 
-        viewquery = viewquery.Replace("FilterMasterlist1", filterMasterlist1)
-        viewquery = viewquery.Replace("FilterMasterlist2", filterMasterlist2)
-        viewquery = viewquery.Replace("FilterMasterlist3", filterMasterlist3)
-        viewquery = viewquery.Replace("FilterMasterlist4", filterMasterlist4)
-        viewquery = viewquery.Replace("FilterMasterlist5", filterMasterlist5)
+        End If
+        If arr(2).Trim() <> "" Then
+            filterMasterlist3 = " '" & arr(2).Trim() & "'"
+            viewquery = viewquery.Replace("FilterMasterlist3", filterMasterlist3)
+
+        End If
+        If arr(3).Trim() <> "" Then
+            filterMasterlist4 = " '" & arr(3).Trim() & "'"
+            viewquery = viewquery.Replace("FilterMasterlist4", filterMasterlist4)
+        End If
+        If arr(4).Trim() <> "" Then
+            filterMasterlist5 = " '" & arr(4).Trim() & "'"
+            viewquery = viewquery.Replace("FilterMasterlist5", filterMasterlist5)
+        End If
+
         sqL = viewquery
         sql_connect_slect()
         Dim resulttable As New DataTable
