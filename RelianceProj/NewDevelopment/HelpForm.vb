@@ -11,11 +11,11 @@ and  a.Bookcode= FilterBookcode --------Filter Replace
 and  a.Billdate>=FilterFrom --------Filter Replace
 and  a.Billdate<=FilterTO --------Filter Replace
 
-and  a.Masterlist=FilterMasterlist1 --------Filter Replace
-and  a.Masterlist=FilterMasterlist2 --------Filter Replace
-and  a.Masterlist=FilterMasterlist3 --------Filter Replace
-and  a.Masterlist=FilterMasterlist4 --------Filter Replace
-and  a.Masterlist=FilterMasterlist5 --------Filter Replace
+and  a.MasterCode In ('FilterMasterlist1') --------Filter Replace
+and  a.MasterCode In ('FilterMasterlist2') --------Filter Replace
+and  a.MasterCode In ('FilterMasterlist3') --------Filter Replace
+and  a.MasterCode In ('FilterMasterlist4') --------Filter Replace
+and  a.MasterCode In ('FilterMasterlist5') --------Filter Replace
 
 [ViewGridColumnTotal]-------Section Part
 ENTRYNO,ID
@@ -40,11 +40,11 @@ and  Bookcode= FilterBookcode --------Filter Replace
 and  Billdate>=FilterFrom --------Filter Replace
 and  Billdate<=FilterTO --------Filter Replace
 
-and  Masterlist=FilterMasterlist1 --------Filter Replace
-and  Masterlist=FilterMasterlist2 --------Filter Replace
-and  Masterlist=FilterMasterlist3 --------Filter Replace
-and  Masterlist=FilterMasterlist4 --------Filter Replace
-and  Masterlist=FilterMasterlist5 --------Filter Replace
+and  MasterCode In ('FilterMasterlist1') --------Filter Replace
+and  MasterCode In ('FilterMasterlist2') --------Filter Replace
+and  MasterCode In ('FilterMasterlist3') --------Filter Replace
+and  MasterCode In ('FilterMasterlist4') --------Filter Replace
+and  MasterCode In ('FilterMasterlist5') --------Filter Replace
 
 ORDER BY LoomNo"
 
@@ -174,7 +174,7 @@ ADJAMT"
         rtb.SelectionColor = clr
     End Sub
     Private Sub HighlightSQLKeywords(rtb As RichTextBox)
-        Dim keywords() As String = {"SELECT", "FROM", "AS", "WHERE", "AND", "OR", "ORDER BY"}
+        Dim keywords() As String = {"SELECT", "FROM", "AS", "WHERE", "AND", "OR", "ORDER BY", "IN"}
         For Each word In keywords
             HighlightWord(rtb, word, Color.Blue)
         Next
