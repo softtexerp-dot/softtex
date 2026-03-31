@@ -11,12 +11,6 @@ and  a.Bookcode= FilterBookcode --------Filter Replace
 and  a.Billdate>=FilterFrom --------Filter Replace
 and  a.Billdate<=FilterTO --------Filter Replace
 
-and  a.MasterCode In ('FilterMasterlist1') --------Filter Replace
-and  a.MasterCode In ('FilterMasterlist2') --------Filter Replace
-and  a.MasterCode In ('FilterMasterlist3') --------Filter Replace
-and  a.MasterCode In ('FilterMasterlist4') --------Filter Replace
-and  a.MasterCode In ('FilterMasterlist5') --------Filter Replace
-
 [ViewGridColumnTotal]-------Section Part
 ENTRYNO,ID
 
@@ -27,6 +21,7 @@ BOOKVNO,BOOKCODE
         RTBPrint.Visible = False
         RTBMasterList.Visible = False
         RTBTotalColumn.Visible = False
+        RTBReport.Visible = False
         ColorSections(RTbView)
     End Sub
 
@@ -40,17 +35,12 @@ and  Bookcode= FilterBookcode --------Filter Replace
 and  Billdate>=FilterFrom --------Filter Replace
 and  Billdate<=FilterTO --------Filter Replace
 
-and  MasterCode In ('FilterMasterlist1') --------Filter Replace
-and  MasterCode In ('FilterMasterlist2') --------Filter Replace
-and  MasterCode In ('FilterMasterlist3') --------Filter Replace
-and  MasterCode In ('FilterMasterlist4') --------Filter Replace
-and  MasterCode In ('FilterMasterlist5') --------Filter Replace
-
 ORDER BY LoomNo"
 
         RTbView.Visible = False
         RTBTotalColumn.Visible = False
         RTBMasterList.Visible = False
+        RTBReport.Visible = False
         RTBPrint.ReadOnly = True
         ColorSectionsPrint(RTBPrint)
     End Sub
@@ -71,6 +61,7 @@ ADJAMT"
         RTbView.Visible = False
         RTBPrint.Visible = False
         RTBMasterList.Visible = False
+        RTBReport.Visible = False
         RTBTotalColumn.ReadOnly = True
         ColorSectionsTotal(RTBTotalColumn)
     End Sub
@@ -179,6 +170,12 @@ ADJAMT"
             HighlightWord(rtb, word, Color.Blue)
         Next
     End Sub
+    Private Sub HighlightSQLKeywordsReport(rtb As RichTextBox)
+        Dim keywords() As String = {"SELECT", "FROM", "WHERE", "AND", "ORDER BY", "IN"}
+        For Each word In keywords
+            HighlightWord(rtb, word, Color.Blue)
+        Next
+    End Sub
     Private Sub HighlightWord(rtb As RichTextBox, word As String, clr As Color)
         Dim startIndex As Integer = 0
         While startIndex < rtb.TextLength
@@ -203,6 +200,7 @@ ADJAMT"
         RTbView.Visible = False
         RTBPrint.Visible = False
         RTBTotalColumn.Visible = False
+        RTBReport.Visible = False
         RTBMasterList.ReadOnly = True
         ColorSectionsMasterlist(RTBMasterList)
     End Sub
@@ -213,5 +211,49 @@ ADJAMT"
         'rtb.SelectionFont = New Font(rtb.Font, FontStyle.Regular)
         ' 👉 Header highlight
         HighlightHeader(rtb, "[MASTER NAME LIST]------ Selection Part", Color.DarkBlue)
+    End Sub
+
+    Private Sub AccordionControlElement3_Click(sender As Object, e As EventArgs) Handles AccordionControlElement3.Click
+        RTBReport.Visible = True
+        RTBReport.Text = "[REPORTQUERY]-------Section Part
+
+SELECT * FROM YourMainTable 
+where 1=1
+and  Billdate>=FilterFrom --------Filter Replace
+and  Billdate<=FilterTO --------Filter Replace
+
+and  MasterCode1 In ('FilterMasterlist1') --------Filter Replace
+and  MasterCode2 In ('FilterMasterlist2') --------Filter Replace
+and  MasterCode3 In ('FilterMasterlist3') --------Filter Replace
+and  MasterCode4 In ('FilterMasterlist4') --------Filter Replace
+and  MasterCode5 In ('FilterMasterlist5') --------Filter Replace
+"
+
+        RTbView.Visible = False
+        RTBTotalColumn.Visible = False
+        RTBMasterList.Visible = False
+        RTBPrint.Visible = False
+        RTBReport.ReadOnly = True
+        ColorSectionsReport(RTBReport)
+    End Sub
+    Private Sub ColorSectionsReport(rtb As RichTextBox)
+        Dim txt As String = rtb.Text
+        ' 👉 Default sab black
+        rtb.SelectAll()
+        rtb.SelectionColor = Color.Black
+        ' 👉 Section Headers
+        HighlightHeader(rtb, "[REPORTQUERY]", Color.DarkBlue)
+        ' 👉 Section Content
+        HighlightSectionContent(rtb, "[REPORTQUERY]", Color.DarkBlue)
+        ' 👉 SQL Keywords (sirf VIEWQUERY me)
+        HighlightSQLKeywordsReport(rtb)
+        ' 👉 Filters highlight
+        HighlightWord(rtb, "FilterFrom", Color.Purple)
+        HighlightWord(rtb, "FilterTO", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist1", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist2", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist3", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist4", Color.Purple)
+        HighlightWord(rtb, "FilterMasterlist5", Color.Purple)
     End Sub
 End Class
