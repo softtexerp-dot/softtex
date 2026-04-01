@@ -29,13 +29,13 @@ Partial Class HelpForm
         Me.UnFoloOutstanding = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.DiscountFoloOutstanding = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AccordionControlElement2 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.RTbView = New System.Windows.Forms.RichTextBox()
         Me.RTBPrint = New System.Windows.Forms.RichTextBox()
         Me.RTBTotalColumn = New System.Windows.Forms.RichTextBox()
         Me.AccordionControlElement1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.RTBMasterList = New System.Windows.Forms.RichTextBox()
         Me.RTBReport = New System.Windows.Forms.RichTextBox()
-        Me.AccordionControlElement3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         CType(Me.AccordionControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -87,6 +87,13 @@ Partial Class HelpForm
         Me.AccordionControlElement2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.AccordionControlElement2.Text = "Master List"
         '
+        'AccordionControlElement3
+        '
+        Me.AccordionControlElement3.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement3.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement3.Name = "AccordionControlElement3"
+        Me.AccordionControlElement3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement3.Text = "Report"
+        '
         'RTbView
         '
         Me.RTbView.Location = New System.Drawing.Point(206, 12)
@@ -132,19 +139,12 @@ Partial Class HelpForm
         '
         'RTBReport
         '
-        Me.RTBReport.Location = New System.Drawing.Point(202, 11)
+        Me.RTBReport.Location = New System.Drawing.Point(206, 11)
         Me.RTBReport.Name = "RTBReport"
         Me.RTBReport.Size = New System.Drawing.Size(1007, 598)
         Me.RTBReport.TabIndex = 11
         Me.RTBReport.Text = ""
         Me.RTBReport.Visible = False
-        '
-        'AccordionControlElement3
-        '
-        Me.AccordionControlElement3.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement3.ImageOptions.Image"), System.Drawing.Image)
-        Me.AccordionControlElement3.Name = "AccordionControlElement3"
-        Me.AccordionControlElement3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.AccordionControlElement3.Text = "Report"
         '
         'HelpForm
         '

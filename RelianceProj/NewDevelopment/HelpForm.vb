@@ -68,10 +68,10 @@ ADJAMT"
 
     Private Sub HelpForm_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
-            If _FormCloseMode = True Then
-                Me.Close()
-                Dispose(True)
-            End If
+            'If _FormCloseMode = True Then
+            Me.Close()
+            Dispose(True)
+            'End If
         End If
     End Sub
 
@@ -165,7 +165,7 @@ ADJAMT"
         rtb.SelectionColor = clr
     End Sub
     Private Sub HighlightSQLKeywords(rtb As RichTextBox)
-        Dim keywords() As String = {"SELECT", "FROM", "AS", "WHERE", "AND", "OR", "ORDER BY", "IN"}
+        Dim keywords() As String = {"SELECT", "FROM", "AS", "WHERE", "AND", "OR", "ORDER BY"}
         For Each word In keywords
             HighlightWord(rtb, word, Color.Blue)
         Next
@@ -228,7 +228,6 @@ and  MasterCode3 In ('FilterMasterlist3') --------Filter Replace
 and  MasterCode4 In ('FilterMasterlist4') --------Filter Replace
 and  MasterCode5 In ('FilterMasterlist5') --------Filter Replace
 "
-
         RTbView.Visible = False
         RTBTotalColumn.Visible = False
         RTBMasterList.Visible = False

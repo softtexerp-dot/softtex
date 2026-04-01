@@ -51,17 +51,17 @@ Public Class MainFormRead
 
 
     'Dim Grid1 As New FlexCell.Grid()
-    Private _DataTableGrid1 As New DataTable
+    'Private _DataTableGrid1 As New DataTable
     Private Grid1_Table_ColNames() As String
     Private _Grid1ColNames As New StringBuilder
     Private _Grid1LastColNo As Integer = 0
     Private _Grid1ColType As New StringBuilder
 
 
-    Private _DataTableGrid2 As New DataTable
-    Private _DataTableGrid3 As New DataTable
-    Private _DataTableGrid4 As New DataTable
-    Private _DataTableGrid5 As New DataTable
+    'Private _DataTableGrid2 As New DataTable
+    'Private _DataTableGrid3 As New DataTable
+    'Private _DataTableGrid4 As New DataTable
+    'Private _DataTableGrid5 As New DataTable
     Private _RowNo As Integer
     Private _ColNo As Integer
 
@@ -198,8 +198,10 @@ Public Class MainFormRead
             Dim txt As TextBox = DirectCast(ctrl, TextBox)
             Dim value As String = txt.Text.Trim().Trim("'"c)
             If _InputType = "DateBox" Then
-                value = Convert.ToDateTime(value).ToString("dd/MM/yyyy")
-                txt.Text = value
+                If value <> "" Then
+                    value = Convert.ToDateTime(value).ToString("dd/MM/yyyy")
+                    txt.Text = value
+                End If
             End If
 
             If UseMaster = "YES" Then
@@ -1064,6 +1066,10 @@ Public Class MainFormRead
     Private Sub DateBox_Validate(sender As Object, e As EventArgs)
         Dim txt As TextBox = DirectCast(sender, TextBox)
         Dim dt As DateTime
+        If String.IsNullOrWhiteSpace(txt.Text) Then
+            txt.Text = DateTime.Now.ToString("dd/MM/yyyy")
+            Exit Sub
+        End If
         If DateTime.TryParseExact(txt.Text, "dd/MM/yyyy", Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, dt) Then
             txt.Text = dt.ToString("dd/MM/yyyy")
         Else
@@ -1093,7 +1099,7 @@ Public Class MainFormRead
         End If
     End Sub
 #End Region
-    Private Function SetupFlexGrid(ByVal gridName As String, ByVal gridTable As DataTable, ByVal leftPos As Integer, ByVal topPos As Integer, ByVal width As Integer, ByVal height As Integer, ByVal tagValue As Object, ByVal TabIndex As Integer) As FlexCell.Grid
+    Public Function SetupFlexGrid(ByVal gridName As String, ByVal gridTable As DataTable, ByVal leftPos As Integer, ByVal topPos As Integer, ByVal width As Integer, ByVal height As Integer, ByVal tagValue As Object, ByVal TabIndex As Integer) As FlexCell.Grid
         If String.IsNullOrWhiteSpace(gridName) Then Return Nothing
         Dim grd As FlexCell.Grid = TryCast(Me.Controls(gridName), FlexCell.Grid)
         If grd Is Nothing Then
@@ -1462,7 +1468,7 @@ Public Class MainFormRead
             Dim ctrlNameStr As String = dr("CntrlName").ToString().Trim()
             Dim ctrl As Control = Me.Controls.Find(ctrlNameStr, True).FirstOrDefault()
             If offmastercode <> "" Then
-                HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName)
+                HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName, "SINGLE")
             End If
         Next
     End Sub
@@ -1597,271 +1603,6 @@ Public Class MainFormRead
             entryformname.Show()
             'QueryLoad.Show()
         End If
-    End Sub
-    Private Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String)
-        Select Case masterName
-            Case "ACCOUNT MASTER"
-                Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("AccountName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("AccountName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "AGENT MASTER"
-                Dim _LoadQuery = NewSelectionList.Bill_Agent_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("AgentName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("AgentName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "CITY MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_City_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("cityname") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("cityname").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "STATE MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_State_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("StateName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("StateName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "FABRIC ITEM MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_ITEM_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("ITENNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("ITENNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "FABRIC DESIGN MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_DESIGN_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("DesignName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("DesignName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "FABRIC SHADE MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_SHADE_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("ShadeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("ShadeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "FABRIC SELVEDGE MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_Selvedge_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("SelvedgeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("SelvedgeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "YARN MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_Yarn_Type_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("YarnType") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("YarnType").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "YARN SHADE MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_YarnItem_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("CountName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("CountName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "GENRAL ITEM MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_storeItem_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("ItemName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("ItemName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "SUBITEM MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("SubItemName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("SubItemName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "SIZE MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_size_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("SizeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("SizeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "COLOR MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_Color_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("ColorName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("ColorName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "REMARK MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_Remark_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("Remark") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("Remark").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "PROCESS MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_process_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("ACCOUNTNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("ACCOUNTNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "CUT MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("CUTNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("CUTNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "DEPARTMENT MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("DepName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("DepName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "POST MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_POST_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("Post") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("Post").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "EMPLOYEE MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_Employee_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("EmployeeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("EmployeeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "FABRIC GROUP MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_Fabric_Item_Group_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("GroupName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("GroupName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "GODOWN MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_Godown_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("GodownName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("GodownName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "GRADER MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_GRADER_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("GraderName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("GraderName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "INSURANCE MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("COMPANYNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("COMPANYNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "LOOMNO MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_LoomNo_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("LoomNo") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("LoomNo").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "SALESMAN MASTER"
-                Dim _LoadQuery = NewSelectionList.Single_SalesMan_Selection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("Saleman") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("Saleman").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "TRANSPORT MASTER"
-                Dim _LoadQuery = NewSelectionList.SINGLE_TRANSPORT_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("TransportName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("TransportName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-            Case "BOOK MASTER"
-                Dim _LoadQuery = NewSelectionList.MstBookSelection("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("BookName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
-                        SetGridValue(selected("BookName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                    End If
-                End If
-        End Select
-    End Sub
-    Private Sub SetGridValue(ByVal displayValue As String, ByVal codeValue As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal ctrl As Control)
-        If ctrl IsNot Nothing Then
-            If TypeOf ctrl Is TextBox Then
-                Dim txt As TextBox = DirectCast(ctrl, TextBox)
-                txt.Text = displayValue
-                txt.ReadOnly = True
-                Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase))
-                If existingItem Is Nothing Then
-                    _UniqueValues.Add(Tuple.Create(ctrl.Name, offMasterCode, codeValue))
-                Else
-                    ' 🔹 Agar value update karni ho to replace karo
-                    _UniqueValues.Remove(existingItem)
-                    _UniqueValues.Add(Tuple.Create(ctrl.Name, offMasterCode, codeValue))
-                End If
-            ElseIf TypeOf ctrl Is FlexCell.Grid Then
-                Dim grd = DirectCast(ctrl, FlexCell.Grid)
-                If ctrl.Name = "Grid1" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid2" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid3" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid4" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                ElseIf ctrl.Name = "Grid5" Then
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(activeColName) + 1).Text = displayValue
-                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
-                End If
-            End If
-        End If
-
-        'Dim listByControl = _UniqueValues.Where(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase)).ToList()
     End Sub
 #Region "FILL SR NO"
     Private Sub Fill_Sr_No_Item(ByVal GrdObj As FlexCell.Grid, ByVal Data_Table As DataTable)

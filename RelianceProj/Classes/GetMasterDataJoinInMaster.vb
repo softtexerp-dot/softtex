@@ -5,8 +5,19 @@ Module GetMasterDataJoinInMaster
         Public Property LeftJoin As String
         Public Property JoinHeader As String
         Public Property MasterList As List(Of String) ' 👈 NEW
-    End Class
 
+    End Class
+    Public Property masterListcode1 As New List(Of Tuple(Of String, String, String))
+    Public Property masterListcode2 As New List(Of Tuple(Of String, String, String))
+    Public Property masterListcode3 As New List(Of Tuple(Of String, String, String))
+    Public Property masterListcode4 As New List(Of Tuple(Of String, String, String))
+    Public Property masterListcode5 As New List(Of Tuple(Of String, String, String))
+    Public _UniqueValues As New List(Of Tuple(Of String, String, String))
+    Public _DataTableGrid1 As New DataTable
+    Public _DataTableGrid2 As New DataTable
+    Public _DataTableGrid3 As New DataTable
+    Public _DataTableGrid4 As New DataTable
+    Public _DataTableGrid5 As New DataTable
     Public Function GetAccountMaster(_DatabaseHeaderName As String, _OppositCode As String, _SelectionMastrName As String) As JoinResult
         Dim result As New JoinResult()
         ' Master list help page par load niche wali list se hota h
@@ -132,4 +143,590 @@ Module GetMasterDataJoinInMaster
         End If
         Return result
     End Function
+    Public Sub HandleMultipleMasterSelection(ByVal masterName As String, ByVal listtype As String)
+        Select Case masterName
+            Case "ACCOUNT MASTER"
+                Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTIPLE")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In list
+                        If dict.ContainsKey("AccountName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("AccountName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "AGENT MASTER"
+                Dim _LoadQuery = NewSelectionList.Bill_Agent_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In list
+                        If dict.ContainsKey("AgentName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("AgentName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "CITY MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_City_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In list
+                        If dict.ContainsKey("cityname") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("cityname").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "STATE MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_State_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In list
+                        If dict.ContainsKey("StateName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("StateName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "FABRIC ITEM MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_ITEM_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("ITENNAME") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("ITENNAME").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "FABRIC DESIGN MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_DESIGN_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("DesignName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("DesignName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "FABRIC SHADE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_SHADE_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("ShadeName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("ShadeName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "FABRIC SELVEDGE MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Selvedge_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("SelvedgeName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("SelvedgeName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "YARN MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Yarn_Type_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("YarnType") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("YarnType").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "YARN SHADE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_YarnItem_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("CountName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("CountName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "GENRAL ITEM MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_storeItem_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("ItemName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("ItemName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "SUBITEM MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("SubItemName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("SubItemName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "SIZE MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_size_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("SizeName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("SizeName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "COLOR MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Color_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("ColorName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("ColorName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "REMARK MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_Remark_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("Remark") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("Remark").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "PROCESS MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_process_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("ACCOUNTNAME") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("ACCOUNTNAME").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "CUT MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("CUTNAME") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("CUTNAME").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "DEPARTMENT MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("DepName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("DepName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "POST MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_POST_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("Post") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("Post").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "EMPLOYEE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_Employee_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("EmployeeName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("EmployeeName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "FABRIC GROUP MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Fabric_Item_Group_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("GroupName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("GroupName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "GODOWN MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Godown_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("GodownName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("GodownName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "GRADER MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_GRADER_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("GraderName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("GraderName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "INSURANCE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("COMPANYNAME") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("COMPANYNAME").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "LOOMNO MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_LoomNo_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("LoomNo") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("LoomNo").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "SALESMAN MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_SalesMan_Selection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("Saleman") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("Saleman").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "TRANSPORT MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_TRANSPORT_SELECTION("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("TransportName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("TransportName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+            Case "BOOK MASTER"
+                Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                If selected IsNot Nothing Then
+                    Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                    For Each dict In List
+                        If dict.ContainsKey("BookName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                            AddToMasterList(dict("BookName").ToString(), dict("ACCOUNTCODE").ToString(), masterName)
+                        End If
+                    Next
+                End If
+        End Select
+    End Sub
+    Public Sub AddToMasterList(name As String, code As String, masterName As String)
+        masterListcode1.Add(New Tuple(Of String, String, String)(code, name, masterName))
+        masterListcode2.Add(New Tuple(Of String, String, String)(code, name, masterName))
+        masterListcode3.Add(New Tuple(Of String, String, String)(code, name, masterName))
+        masterListcode4.Add(New Tuple(Of String, String, String)(code, name, masterName))
+        masterListcode5.Add(New Tuple(Of String, String, String)(code, name, masterName))
+    End Sub
+
+    Public Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String, ByVal listtype As String)
+        Select Case masterName
+            Case "ACCOUNT MASTER"
+                Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
+                'Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, "SINGLE")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("AccountName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("AccountName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "AGENT MASTER"
+                Dim _LoadQuery = NewSelectionList.Bill_Agent_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("AgentName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("AgentName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "CITY MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_City_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("cityname") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("cityname").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "STATE MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_State_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("StateName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("StateName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "FABRIC ITEM MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_ITEM_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ITENNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("ITENNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "FABRIC DESIGN MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_DESIGN_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("DesignName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("DesignName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "FABRIC SHADE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_SHADE_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ShadeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("ShadeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "FABRIC SELVEDGE MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Selvedge_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("SelvedgeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("SelvedgeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "YARN MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Yarn_Type_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("YarnType") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("YarnType").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "YARN SHADE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_YarnItem_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("CountName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("CountName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "GENRAL ITEM MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_storeItem_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ItemName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("ItemName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "SUBITEM MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("SubItemName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("SubItemName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "SIZE MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_size_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("SizeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("SizeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "COLOR MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Color_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ColorName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("ColorName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "REMARK MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_Remark_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("Remark") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("Remark").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "PROCESS MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_process_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ACCOUNTNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("ACCOUNTNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "CUT MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("CUTNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("CUTNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "DEPARTMENT MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("DepName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("DepName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "POST MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_POST_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("Post") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("Post").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "EMPLOYEE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_Employee_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("EmployeeName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("EmployeeName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "FABRIC GROUP MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Fabric_Item_Group_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("GroupName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("GroupName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "GODOWN MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_Godown_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("GodownName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("GodownName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "GRADER MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_GRADER_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("GraderName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("GraderName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "INSURANCE MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("COMPANYNAME") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("COMPANYNAME").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "LOOMNO MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_LoomNo_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("LoomNo") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("LoomNo").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "SALESMAN MASTER"
+                Dim _LoadQuery = NewSelectionList.Single_SalesMan_Selection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("Saleman") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("Saleman").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "TRANSPORT MASTER"
+                Dim _LoadQuery = NewSelectionList.SINGLE_TRANSPORT_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("TransportName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("TransportName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+            Case "BOOK MASTER"
+                Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("BookName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
+                        SetGridValue(selected("BookName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
+                    End If
+                End If
+        End Select
+    End Sub
+    Public Sub SetGridValue(ByVal displayValue As String, ByVal codeValue As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal ctrl As Control)
+        If ctrl IsNot Nothing Then
+            If TypeOf ctrl Is TextBox Then
+                Dim txt As TextBox = DirectCast(ctrl, TextBox)
+                txt.Text = displayValue
+                txt.ReadOnly = True
+                Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase))
+                If existingItem Is Nothing Then
+                    _UniqueValues.Add(Tuple.Create(ctrl.Name, offMasterCode, codeValue))
+                Else
+                    ' 🔹 Agar value update karni ho to replace karo
+                    _UniqueValues.Remove(existingItem)
+                    _UniqueValues.Add(Tuple.Create(ctrl.Name, offMasterCode, codeValue))
+                End If
+            ElseIf TypeOf ctrl Is FlexCell.Grid Then
+                Dim grd = DirectCast(ctrl, FlexCell.Grid)
+                If ctrl.Name = "Grid1" Then
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                ElseIf ctrl.Name = "Grid2" Then
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid2.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                ElseIf ctrl.Name = "Grid3" Then
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid3.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                ElseIf ctrl.Name = "Grid4" Then
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid4.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                ElseIf ctrl.Name = "Grid5" Then
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(activeColName) + 1).Text = displayValue
+                    grd.Cell(grd.ActiveCell.Row, _DataTableGrid5.Columns.IndexOf(offMasterCode) + 1).Text = codeValue
+                End If
+            End If
+        End If
+        Dim listByControl = _UniqueValues.Where(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase)).ToList()
+    End Sub
 End Module
