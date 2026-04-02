@@ -557,6 +557,7 @@ Public Class ReportsSelectionSettingForm
             'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
             '    Txt_MasterSelection.Text = MULTY_SELECTION_COLOUM_3_DATA.Replace("(", "").Replace(")", "").Replace("'", "")
             'End If
+
             Dim rawData As String = MULTY_SELECTION_COLOUM_3_DATA
             ' Clean string
             rawData = rawData.Replace("(", "").Replace(")", "").Replace("'", "")

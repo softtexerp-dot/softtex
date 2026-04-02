@@ -42,7 +42,7 @@ Public Class MainFormRead
 
     'Private _UniqueDisplayValues As New List(Of String)
     'Private _UniqueCodeValues As New List(Of String)
-    Private _UniqueValues As New List(Of Tuple(Of String, String, String))
+    'Private _UniqueValues As New List(Of Tuple(Of String, String, String))
     Dim FormId As String = "0"
     Dim Id As String = "0"
 
@@ -1597,7 +1597,7 @@ Public Class MainFormRead
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
-        ElseIf e.KeyCode = Keys.F2 Then
+        ElseIf e.Control AndAlso e.KeyCode = Keys.Q Then
             Dim entryformname As New QueryLoad()
             entryformname.GetformName = Me._getformName()
             entryformname.Show()

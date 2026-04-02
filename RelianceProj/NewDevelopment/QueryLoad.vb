@@ -25,7 +25,7 @@ Public Class QueryLoad
 
     Private Sub QueryLoad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        Me.Location = New Point(5, 0)
+        Me.Location = New Point(0, 60)
         _FrmLoad = True
         TxtType.Text = "VIEW"
         Txt_Active.Text = "YES"
@@ -408,4 +408,9 @@ Public Class QueryLoad
         End If
     End Sub
 #End Region
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
+        End If
+    End Sub
 End Class

@@ -727,6 +727,6 @@ Module GetMasterDataJoinInMaster
                 End If
             End If
         End If
-        Dim listByControl = _UniqueValues.Where(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase)).ToList()
+        'Dim listByControl = _UniqueValues.Where(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase)).ToList()
     End Sub
 End Module

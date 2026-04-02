@@ -511,7 +511,7 @@ Public Class ReportForm
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
             ' Master list display
             masterListcode1.Clear()
-            HandleMultipleMasterSelection(filterMasterlist1, "MULTIPLE")
+            HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
             Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             Dim inClausefilterMasterlist1 As String = String.Join(",", cleanListfilterMasterlist1)
             viewquery = viewquery.Replace("FilterMasterlist1", "(" & inClausefilterMasterlist1 & ")")
@@ -519,7 +519,7 @@ Public Class ReportForm
         If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
             filterMasterlist2 = arr(1).Replace("'", "").Trim()
             masterListcode2.Clear()
-            HandleMultipleMasterSelection(filterMasterlist2, "MULTIPLE")
+            HandleMultipleMasterSelection(filterMasterlist2, "MULTY")
             Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             Dim inClausefilterMasterlist2 As String = String.Join(",", cleanListfilterMasterlist2)
             viewquery = viewquery.Replace("FilterMasterlist2", "(" & inClausefilterMasterlist2 & ")")
@@ -527,7 +527,7 @@ Public Class ReportForm
         If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
             filterMasterlist3 = arr(2).Replace("'", "").Trim()
             masterListcode3.Clear()
-            HandleMultipleMasterSelection(filterMasterlist3, "MULTIPLE")
+            HandleMultipleMasterSelection(filterMasterlist3, "MULTY")
             Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             Dim inClausefilterMasterlist3 As String = String.Join(",", cleanListfilterMasterlist3)
             viewquery = viewquery.Replace("FilterMasterlist3", "(" & inClausefilterMasterlist3 & ")")
@@ -535,7 +535,7 @@ Public Class ReportForm
         If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
             filterMasterlist4 = arr(3).Replace("'", "").Trim()
             masterListcode4.Clear()
-            HandleMultipleMasterSelection(filterMasterlist4, "MULTIPLE")
+            HandleMultipleMasterSelection(filterMasterlist4, "MULTY")
             Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             Dim inClausefilterMasterlist4 As String = String.Join(",", cleanListfilterMasterlist4)
             viewquery = viewquery.Replace("FilterMasterlist4", "(" & inClausefilterMasterlist4 & ")")
@@ -543,7 +543,7 @@ Public Class ReportForm
         If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
             filterMasterlist5 = arr(4).Replace("'", "").Trim()
             masterListcode5.Clear()
-            HandleMultipleMasterSelection(filterMasterlist5, "MULTIPLE")
+            HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
             Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             Dim inClausefilterMasterlist5 As String = String.Join(",", cleanListfilterMasterlist5)
             viewquery = viewquery.Replace("FilterMasterlist5", "(" & inClausefilterMasterlist5 & ")")

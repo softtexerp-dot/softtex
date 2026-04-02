@@ -1112,31 +1112,19 @@ Public Class MainFrmDesigner
             Else
                 If _ColmName = "ID" Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
-                ElseIf _ColmName = "BOOKCODE" Then
+                End If
+                Dim baseLocationY As Integer = 10
+                If _ColmName = "BOOKCODE" OrElse _ColmName = "BOOKTRTYPE" OrElse _ColmName = "BOOKVNO" Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Text = "BOOKCODE"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Text = _ColmName
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Locked = True
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 10
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Locked = True
-
-
-                ElseIf _ColmName = "BOOKTRTYPE" Then
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Text = "BOOKTRTYPE"
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Locked = True
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 10
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Locked = True
-                ElseIf _ColmName = "BOOKVNO" Then
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "N"
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Text = "BOOKVNO"
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Locked = True
-                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = 10
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = baseLocationY
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Locked = True
                 Else
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
-
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = LocationY
+                    LocationY += 30
                 End If
-
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 100
@@ -1159,7 +1147,7 @@ Public Class MainFrmDesigner
             End If
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("READONLY") + 1).Text = "N"
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USEMASTERKEY") + 1).Text = "N"
-            LocationY += 30
+            'LocationY += 30
             _GetGrid.Rows = _GetGrid.Rows + 1
 
         End If
@@ -2555,9 +2543,11 @@ Public Class MainFrmDesigner
                 Else
                     ColumnTypeCounter(_ColumnType) += 1
                 End If
-                NewCntrlId = ColumnTypeCounter(_ColumnType)
-                GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text = NewCntrlId
-                GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = _ColumnType & NewCntrlId.ToString()
+                If _ColumnType <> "Grid" Then
+                    NewCntrlId = ColumnTypeCounter(_ColumnType)
+                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text = NewCntrlId
+                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = _ColumnType & NewCntrlId.ToString()
+                End If
             End If
             Dim Masking As Integer = 0
             If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masking") + 1).Text = "" Then

@@ -945,7 +945,7 @@ Public Class MainMasterFormRead
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
-        ElseIf e.KeyCode = Keys.F2 Then
+        ElseIf e.Control AndAlso e.KeyCode = Keys.Q Then
             Dim entryformname As New QueryLoad()
             entryformname.GetformName = Me._getformName()
             entryformname.Show()
