@@ -1,8 +1,5 @@
-﻿Imports System.Data.OleDb
-Imports System.Reflection
+﻿Imports System.Reflection
 Imports System.Text
-Imports DevExpress.CodeParser
-Imports DevExpress.XtraBars.Customization
 Friend Class MenuFormAdd
 
     Private obj_Party_Selection As New Multi_Selection_Master

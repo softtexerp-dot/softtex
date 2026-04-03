@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports DevExpress.XtraRichEdit.Commands
 
 Public Class QueryLoad
 

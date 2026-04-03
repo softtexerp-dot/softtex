@@ -1,12 +1,6 @@
 ﻿Imports System.Text
-Imports CrystalDecisions.ReportAppServer.DataDefModel
-Imports DevExpress.DataAccess.Sql
-Imports DevExpress.Utils.Gesture
-Imports DevExpress.Utils.VisualEffects
-Imports DevExpress.XtraBars.Customization
 Imports DevExpress.XtraEditors.TextEditController.Win32
 Imports DevExpress.XtraGrid.Views
-Imports DevExpress.XtraRichEdit.Model
 Imports FlexCell
 Public Class MainMasterFormRead
     Private _DatabaseTableName = "FormControl"

@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports DevExpress.XtraReports.Design
 
 Public Class NewSelectionListQuery
     Public _strQuery As StringBuilder

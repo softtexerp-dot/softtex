@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports DevExpress.XtraGrid
 
 Public Class PrintViewPage
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click

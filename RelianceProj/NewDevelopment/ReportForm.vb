@@ -1,9 +1,5 @@
 ﻿Imports System.Text
-Imports DevComponents.DotNetBar
-Imports DevExpress.Office.Drawing
-Imports DevExpress.XtraExport.Helpers
 Imports DevExpress.XtraGrid.Views.Grid
-Imports Microsoft.SqlServer.Management.Sdk.Sfc
 
 Public Class ReportForm
     Private _DatabaseTableName = "FormControl"
@@ -38,11 +34,11 @@ Public Class ReportForm
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = Main_MDI_Frm.FINE_YEAR_END.Text
         'Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-
         _LoadDefaultData()
         'GridControl1.Width = 974
         'GridControl1.Height = 595
         GridControl1.Location = New Point(5, 60)
+
     End Sub
     Private Sub _LoadDefaultData()
         View_Record()
@@ -234,7 +230,7 @@ Public Class ReportForm
                             Me.Controls.Add(txt)
                             If txt.TabIndex = 1 Then
                                 txt.Focus()
-                                GridControl1.Focus()
+                                'GridControl1.Focus()
                             End If
                             If formtype = "REPORT" Then
                                 If _InputType = "DateBox" Then
@@ -582,7 +578,8 @@ Public Class ReportForm
             End If
         End If
         If e.KeyCode = Keys.Enter Then
-
+            btnView.Focus()
         End If
     End Sub
+
 End Class

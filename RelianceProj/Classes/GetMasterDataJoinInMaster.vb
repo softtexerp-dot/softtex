@@ -1,5 +1,4 @@
-﻿Imports DevExpress.CodeParser
-
+﻿
 Module GetMasterDataJoinInMaster
     Public Class JoinResult
         Public Property LeftJoin As String

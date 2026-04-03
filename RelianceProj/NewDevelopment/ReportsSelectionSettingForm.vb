@@ -1,9 +1,6 @@
 ﻿Imports System.Globalization
-Imports System.IO
 Imports System.Text
-Imports DevExpress.XtraExport.Helpers
 Imports DevExpress.XtraGrid.Views.Grid
-Imports Newtonsoft.Json
 
 Public Class ReportsSelectionSettingForm
 
@@ -29,9 +26,6 @@ Public Class ReportsSelectionSettingForm
             _ModiMAsterid = 0
             Txt_ReportTitalName.Text = ""
             TxtReportFileName.Text = ""
-            'Txt_FileName.Text = ""
-
-
             Txt_ReportTitalName.Focus()
             Txt_ReportTitalName.SelectAll()
         End If
@@ -51,9 +45,6 @@ Public Class ReportsSelectionSettingForm
         PnlQueryEdit.Width = 1006
         PnlQueryEdit.Height = 626
         PnlQueryEdit.Location = New Point(0, 0)
-
-        '_SeletedFormName = ReportForm._getformName()
-
         _LoadQuery()
 
     End Sub
@@ -180,17 +171,8 @@ Public Class ReportsSelectionSettingForm
         GridView2.Columns("QueryFileName").OptionsColumn.AllowEdit = False
         GridView2.Columns("QueryFullFileName").OptionsColumn.AllowEdit = False
         GridView2.Columns("MasterSelectionList").OptionsColumn.AllowEdit = False
-        'GridView2.BestFitColumns()
-
         GridView2.Columns("SrNo").Width = 25
         GridView2.Columns("Reports").Width = 180
-        'GridView2.Columns("QueryFileName").Width = 50
-
-
-
-
-
-
     End Sub
     Private Sub BtnInsertMasterItem_Click(sender As Object, e As EventArgs) Handles BtnInsertMasterItem.Click
         MainMenuDataselect()
@@ -283,12 +265,10 @@ Public Class ReportsSelectionSettingForm
         _ModiMAsterid = GridView2.GetFocusedRowCellValue("MainMasterId")
         Dim Reports As String = GridView2.GetFocusedRowCellValue("Reports").ToString
         Dim ReportRptFileName As String = GridView2.GetFocusedRowCellValue("ReportRptFileName").ToString
-        'Dim QueryFileName As String = GridView2.GetFocusedRowCellValue("QueryFileName").ToString
         Dim MasterSelectionList As String = GridView2.GetFocusedRowCellValue("MasterSelectionList").ToString
 
         Txt_ReportTitalName.Text = Reports
         TxtReportFileName.Text = ReportRptFileName
-        'Txt_FileName.Text = QueryFileName
         Txt_MasterSelection.Text = MasterSelectionList
 
         PnlNewReports.Visible = True
@@ -351,8 +331,6 @@ Public Class ReportsSelectionSettingForm
                         .Append(",TRANSPORT_MASTER")
                         .Append(",MSTCUTMASTER")
                         .Append(",MSTFABRICMASTER")
-                        '.Append(",MSTFABRICHEAD")
-                        '.Append(",MSTFABRICGROUP")
                         .Append(",MSTYARNMASTER")
                         .Append(" ) VALUES ( ")
                         .Append(" '" & GridView3.GetRowCellValue(i, "MainMasterId").ToString() & "' ")
@@ -363,8 +341,6 @@ Public Class ReportsSelectionSettingForm
                         .Append(",'" & GridView3.GetRowCellValue(i, "SettingType").ToString() & "' ")
                         .Append(",'" & GridView3.GetRowCellValue(i, "ReportFormName").ToString() & "' ")
                         .Append(",'" & GridView3.GetRowCellValue(i, "ReportRptFileName").ToString() & "' ")
-                        '.Append(",'" & GridView3.GetRowCellValue(i, "QueryFileName").ToString() & "' ")
-                        '.Append(",'" & GridView3.GetRowCellValue(i, "QueryFullFileName").ToString() & "' ")
                         .Append(",'" & GridView3.GetRowCellValue(i, "MasterSelectionList").ToString() & "' ")
                         .Append(" ) ")
                     End With
@@ -386,7 +362,6 @@ Public Class ReportsSelectionSettingForm
         GridView3.Focus()
     End Sub
 
-    'Private Sub _UpdateeportIfModify(ByVal MainMasterId As Long, ByVal MenuName As String, ByVal RptFileName As String, ByVal QueryFileName As String, ByVal MasterSelectionList As String)
     Private Sub _UpdateeportIfModify(ByVal MainMasterId As Long, ByVal MenuName As String, ByVal RptFileName As String, ByVal MasterSelectionList As String)
 
         Dim _Query = New StringBuilder
@@ -394,8 +369,6 @@ Public Class ReportsSelectionSettingForm
             .Append("UPDATE Reports  SET ")
             .Append("ReportMenuName='" & MenuName & "' ")
             .Append(",ReportRptFileName='" & RptFileName & "' ")
-            '.Append(",QueryFileName='" & QueryFileName & "'")
-            '.Append(",QueryFullFileName='" & QueryFileName & "'")
             .Append(",MasterSelectionList='" & MasterSelectionList & "'")
             .Append(" WHERE 1=1 ")
             .Append(" AND MainMasterId=" & MainMasterId & "")
@@ -422,17 +395,12 @@ Public Class ReportsSelectionSettingForm
                 .Append("UPDATE Vch_no  SET ")
                 .Append("STATEMASTER='" & Txt_ReportTitalName.Text.Trim & "' ")
                 .Append(",MSTFABRICMASTER='" & TxtReportFileName.Text.Trim & "' ")
-                '.Append(",MSTFABRICHEAD='" & Txt_FileName.Text.Trim & "'")
-                '.Append(",MSTFABRICGROUP='" & Txt_FileName.Text.Trim & "'")
                 .Append(",MSTYARNMASTER='" & Txt_MasterSelection.Text.Trim & "'")
                 .Append(" WHERE 1=1 ")
                 .Append(" AND Schedule_id='" & _ModiMAsterid & "'")
             End With
             sqL = _Query.ToString
             sql_Data_Save_Delete_Update()
-
-
-            '_UpdateeportIfModify(_ModiMAsterid, Txt_ReportTitalName.Text.Trim, TxtReportFileName.Text.Trim, Txt_FileName.Text.Trim, Txt_MasterSelection.Text.Trim)
             _UpdateeportIfModify(_ModiMAsterid, Txt_ReportTitalName.Text.Trim, TxtReportFileName.Text.Trim, Txt_MasterSelection.Text.Trim)
             MsgBox("Report Update Success", MsgBoxStyle.Information, "Soft-Tex PRO")
             _LoadQuery()
@@ -473,8 +441,6 @@ Public Class ReportsSelectionSettingForm
                 .Append(",SettingType ")
                 .Append(",ReportFormName ")
                 .Append(",ReportRptFileName")
-                '.Append(",QueryFileName")
-                '.Append(",QueryFullFileName")
                 .Append(",MasterSelectionList")
                 .Append(") VALUES (")
                 .Append(" " & _MainMasterId & " ")
@@ -485,8 +451,6 @@ Public Class ReportsSelectionSettingForm
                 .Append(" ,'ReportSelection' ")
                 .Append(" ,'" & _SelectedFormName & "' ")
                 .Append(" ,'" & TxtReportFileName.Text.Trim & "' ")
-                '.Append(" ,'" & Txt_FileName.Text.Trim & "' ")
-                '.Append(" ,'" & Txt_FileName.Text.Trim & "' ")
                 .Append(" ,'" & Txt_MasterSelection.Text.Trim & "' ")
                 .Append(" )")
             End With
