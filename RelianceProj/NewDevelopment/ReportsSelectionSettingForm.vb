@@ -5,7 +5,8 @@ Imports DevExpress.XtraGrid.Views.Grid
 Public Class ReportsSelectionSettingForm
 
     Public _SelectedFormName As String
-    Dim _ModiMAsterid As Int64 = 0
+    Public _LoadFormName As String
+    Public _ModiMAsterid As Int64 = 0
     Private Sub ReportsSelectionSettingForm_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
             If PnlNewReports.Visible = True Then
@@ -185,7 +186,7 @@ Public Class ReportsSelectionSettingForm
 
             '    '    'PnlQueryEdit.Visible = True
             '    '    'Txt_QueryEdit.Focus()
-            '    '    '_ModiMAsterid = GridView2.GetFocusedRowCellValue("MainMasterId")
+
             '    '    'Dim QueryFullFileName As String = GridView2.GetFocusedRowCellValue("QueryFullFileName").ToString
             '    '    'Dim QueryFileName As String = GridView2.GetFocusedRowCellValue("QueryFileName").ToString
 
@@ -204,13 +205,15 @@ Public Class ReportsSelectionSettingForm
             'Dim ReportQuery As New ReportQueryLoad()
             'ReportQuery.Show()
 
-
-            'Dim valType As Object = GridView2.GetFocusedRowCellValue("Reports")
-            'Dim reportloadquery As New ReportQueryLoad()
-            'reportloadquery._SeletedReportType = Convert.ToString(valType)
-            ''Dim reportformName As New ReportForm()
-            'reportloadquery.GetformName = reportloadquery.GetName
-            'reportloadquery.ShowDialog()
+            _ModiMAsterid = GridView2.GetFocusedRowCellValue("MainMasterId")
+            Dim valType As Object = GridView2.GetFocusedRowCellValue("Reports")
+            Dim valformname As Object = GridView2.GetFocusedRowCellValue("ReportFormName")
+            Dim reportloadquery As New ReportQueryLoad()
+            reportloadquery._SeletedReportType = Convert.ToString(valType)
+            'Dim reportformName As New ReportForm()
+            _LoadFormName = Convert.ToString(valformname)
+            reportloadquery.GetformName = reportloadquery.GetName
+            reportloadquery.ShowDialog()
 
         End If
     End Sub

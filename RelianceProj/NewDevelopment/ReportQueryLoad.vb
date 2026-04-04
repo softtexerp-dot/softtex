@@ -32,8 +32,9 @@ Public Class ReportQueryLoad
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
         CreateButtonsControl()
-        Ctrl_Visible_False(Me.Controls)
-        UC_Buttons1._ButtonEnableDisable("LOAD")
+        'Ctrl_Visible_False(Me.Controls)
+        'UC_Buttons1._ButtonEnableDisable("LOAD")
+        Call Ctrl_Visible_True(Me.Controls)
         AttachButtonFocusEvents(Me)
         _FrmLoad = False
     End Sub
@@ -48,7 +49,7 @@ Public Class ReportQueryLoad
         End With
         Me.Controls.Add(UC_Buttons1)
         UC_Buttons1.BringToFront()
-        AddHandler UC_Buttons1.AddClick, AddressOf UC_Buttons1_AddClick
+        'AddHandler UC_Buttons1.AddClick, AddressOf UC_Buttons1_AddClick
         'AddHandler UC_Buttons1.EditClick, AddressOf UC_Buttons1_EditClick
         'AddHandler UC_Buttons1.BackClick, AddressOf UC_Buttons1_BackClick
         'AddHandler UC_Buttons1.NextClick, AddressOf UC_Buttons1_NextClick
@@ -57,7 +58,7 @@ Public Class ReportQueryLoad
         AddHandler UC_Buttons1.CloseClick, AddressOf UC_Buttons1_CloseClick
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        UC_Buttons1.HideButtons("BtnEdit", "BtnBack", "BtnNext", "BtnDelete", "BtnPrint", "BtnReports", "BtnView")
+        UC_Buttons1.HideButtons("BtnAdd", "BtnEdit", "BtnBack", "BtnNext", "BtnDelete", "BtnPrint", "BtnReports", "BtnView")
     End Sub
 #Region "TABLE FIELD DECLARE"
     Private Sub defineColName()
@@ -68,6 +69,7 @@ Public Class ReportQueryLoad
             .Append("QueryText,")
             .Append("CreateDate,")
             .Append("Status,")
+            .Append("MainMasterId,")
             .Append("CntrlName")
         End With
     End Sub
@@ -89,10 +91,13 @@ Public Class ReportQueryLoad
 
     Private Sub UC_Buttons1_SaveClick()
         'GetformName = ReportForm._getformName()
+        _FORMMODE = "ADD"
         If Validate_Form_Values() = False Then Exit Sub
         Dim SaveQuery As String = ""
         Dim LASTCODE As String = ""
         If _FORMMODE = "ADD" Then
+            RS = "Delete FROM " & _TblName & "  WHERE  1=1 AND MainMasterId=" & ReportsSelectionSettingForm._ModiMAsterid & " and FormName='" & ReportsSelectionSettingForm._LoadFormName.ToString() & "' "
+            MenuDesign_QuerySaveUpdateDelete()
             _GetMaxId()
             If DefaltSoftTable.Rows.Count > 0 Then
                 LASTCODE = Val(DefaltSoftTable.Rows(0).Item("MainId")) + 1
@@ -103,11 +108,16 @@ Public Class ReportQueryLoad
             LASTCODE = _KeyFieldValue
         End If
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
-        tblFormValues.Rows(0)(_KeyFormName) = GetformName
+        If String.IsNullOrEmpty(GetformName()) Then
+            tblFormValues.Rows(0)(_KeyFormName) = ReportsSelectionSettingForm._LoadFormName.ToString()
+        Else
+            tblFormValues.Rows(0)(_KeyFormName) = GetformName()
+        End If
         tblFormValues.Rows(0)("Type") = _SeletedReportType
         tblFormValues.Rows(0)("QueryText") = RTBQuery.Text
         tblFormValues.Rows(0)("CreateDate") = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         tblFormValues.Rows(0)("Status") = "Yes"
+        tblFormValues.Rows(0)("MainMasterId") = ReportsSelectionSettingForm._ModiMAsterid.ToString().Replace("'", "").Trim()
         tblFormValues.Rows(0)("CntrlName") = ""
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
@@ -115,11 +125,6 @@ Public Class ReportQueryLoad
         RS = SaveQuery.ToString
         MenuDesign_QuerySaveUpdateDelete()
         MessageBox.Show("Save Successfully")
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-        Call Ctrl_Visible_False(Me.Controls)
-        Clear()
-        'ObjCls_General.Blank_Object(Me)
     End Sub
     Private Sub Clear()
         'Txt_Active.Text = "YES"
@@ -141,23 +146,8 @@ Public Class ReportQueryLoad
     Private Function Validate_Form_Values() As Boolean
         Dim tblTmp As New DataTable
         Validate_Form_Values = False
-        If _FORMMODE = "EDIT" Then
-            Validate_Form_Values = True
-        Else
-            GetName()
-            tblTmp = DefaltSoftTable.Copy
-            If tblTmp.Rows.Count > 0 Then
-                If tblTmp.Rows(0).Item("FormName") = GetformName Then
-                    MsgBox("This Form Name " & GetformName & " Type of " & _SeletedReportType & " Already Exist!")
-                    RTBQuery.Focus()
-                    Exit Function
-                Else
-                    Validate_Form_Values = True
-                End If
-            Else
-                Validate_Form_Values = True
-            End If
-        End If
+
+        Validate_Form_Values = True
     End Function
 #End Region
 #Region "QUERY SECTION"
@@ -168,40 +158,25 @@ Public Class ReportQueryLoad
         RS = "SELECT TOP 1  * FROM " & _TblName & "  ORDER BY " & _KeyFieldName & " DESC"
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
-            If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
-                txtMainId = DefaltSoftTable.Rows(0).Item("MainId")
-                _KeyFieldValue = txtMainId
-            Else
-                txtMainId = DefaltSoftTable.Rows(0).Item("MainId") + 1
-            End If
+            txtMainId = DefaltSoftTable.Rows(0).Item("MainId") + 1
         Else
             txtMainId = 1
         End If
     End Sub
     Public Function GetName() As String
-        RS = "SELECT TOP 1 FormName FROM " & _TblName & "  WHERE  1=1 AND Type='" & _SeletedReportType & "'" & " AND FormName='" & GetformName & "'"
-        'RS = "SELECT TOP 1 FormName FROM " & _TblName & "  WHERE  1=1 AND FormName='" & GetformName & "'"
+        RS = "SELECT TOP 1 FormName,QueryText FROM " & _TblName & "  WHERE  1=1 AND Type='" & _SeletedReportType & "' and MainMasterId=" & ReportsSelectionSettingForm._ModiMAsterid & ""
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             GetName = DefaltSoftTable.Rows(0).Item("FormName").ToString()
+            RTBQuery.Text = DefaltSoftTable.Rows(0).Item("QueryText").ToString()
+            RTBQuery.Visible = True
         End If
         Return GetName
     End Function
-    'Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
-    '    _strQuery = New StringBuilder
-    '    With _strQuery
-    '        .Append(" SELECT A.* ")
-    '        .Append(" FROM " & _TblName & " A WHERE 1=1 AND " & _KeyFieldName & " =" & strKeyID & "")
-    '    End With
-    '    Return _strQuery.ToString
-    'End Function
+
     Private Function getSaveQuery()
         _strQuery = New StringBuilder
-        If _FORMMODE = "ADD" Then
-            _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
-        ElseIf _FORMMODE = "EDIT" Then
-            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
-        End If
+        _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
         getSaveQuery = _strQuery.ToString
     End Function
 

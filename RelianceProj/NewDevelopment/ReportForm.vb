@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraGrid.Views.Grid
+Imports DevExpress.XtraLayout.Customization
 
 Public Class ReportForm
     Private _DatabaseTableName = "FormControl"
@@ -53,13 +54,13 @@ Public Class ReportForm
             'If _FORMMODE = "VIEW" Then
             'Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
             'tmptbl = _GetFormQuery(FormNameValue, valtype)
-            LoadViewData(tmptbl, _Bookcode)
+            LoadViewData(tmptbl)
             'End If
         End If
         isMoveMode = False
         isDragging = False
     End Sub
-    Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
+    Public Sub LoadViewData(ByVal tmptbl As DataTable)
         'RS = DefaltReportLoad()
         Dim _Tblclon As New DataTable
         sqL = DefaltReportLoad()
@@ -392,10 +393,7 @@ Public Class ReportForm
             If PropertyGrid1.Visible = True Then
                 PropertyGrid1.Visible = False
             End If
-            If _FORMMODE = "VIEW" Then
-
-                Exit Sub
-            ElseIf _FormCloseMode = False Then
+            If _FormCloseMode = False Then
                 _FormCloseMode = True
                 'Exit Sub
             End If
@@ -405,7 +403,7 @@ Public Class ReportForm
                     Me.Dispose(True)
                 End If
             End If
-        ElseIf e.KeyCode = Keys.F6 Then
+            ElseIf e.KeyCode = Keys.F6 Then
             btnmovecontrol.Visible = True
             BtnUpdatepos.Visible = True
         ElseIf e.KeyCode = Keys.F4 Then
@@ -480,74 +478,74 @@ Public Class ReportForm
         Next
         tmptbl = _GetFormQuery(FormNameValue, valtype)
         Generate_Date_For_DataBase(Txt_ViewFrom)
-        Generate_Date_For_DataBase(Txt_ViewTO)
-        'dim filterbookcode as string = " '" & _bookcode & "' "
-        Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
-        Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
-        Dim filterMasterlist1 As String = ""
-        Dim filterMasterlist2 As String = ""
-        Dim filterMasterlist3 As String = ""
-        Dim filterMasterlist4 As String = ""
-        Dim filterMasterlist5 As String = ""
-        ' 🔹 queries read
-        Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
-        If viewquery = "" Then
-            If ReportFormLoadFormName = "" Then
-                Exit Sub
-            Else
-                MsgBox("view query not found")
-                Exit Sub
+            Generate_Date_For_DataBase(Txt_ViewTO)
+            'dim filterbookcode as string = " '" & _bookcode & "' "
+            Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+            Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+            Dim filterMasterlist1 As String = ""
+            Dim filterMasterlist2 As String = ""
+            Dim filterMasterlist3 As String = ""
+            Dim filterMasterlist4 As String = ""
+            Dim filterMasterlist5 As String = ""
+            ' 🔹 queries read
+            Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
+            If viewquery = "" Then
+                If ReportFormLoadFormName = "" Then
+                    Exit Sub
+                Else
+                    MsgBox("view query not found")
+                    Exit Sub
+                End If
             End If
-        End If
-        'viewquery = viewquery.replace("filterbookcode", filterbookcode)
-        viewquery = viewquery.Replace("FilterFrom", filterfrom)
-        viewquery = viewquery.Replace("FilterTO", filterto)
+            'viewquery = viewquery.replace("filterbookcode", filterbookcode)
+            viewquery = viewquery.Replace("FilterFrom", filterfrom)
+            viewquery = viewquery.Replace("FilterTO", filterto)
 
-        If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
-            filterMasterlist1 = arr(0).Replace("'", "").Trim()
-            ' Master list display
-            masterListcode1.Clear()
-            HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
-            Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist1 As String = String.Join(",", cleanListfilterMasterlist1)
-            viewquery = viewquery.Replace("FilterMasterlist1", "(" & inClausefilterMasterlist1 & ")")
-        End If
-        If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
-            filterMasterlist2 = arr(1).Replace("'", "").Trim()
-            masterListcode2.Clear()
-            HandleMultipleMasterSelection(filterMasterlist2, "MULTY")
-            Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist2 As String = String.Join(",", cleanListfilterMasterlist2)
-            viewquery = viewquery.Replace("FilterMasterlist2", "(" & inClausefilterMasterlist2 & ")")
-        End If
-        If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
-            filterMasterlist3 = arr(2).Replace("'", "").Trim()
-            masterListcode3.Clear()
-            HandleMultipleMasterSelection(filterMasterlist3, "MULTY")
-            Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist3 As String = String.Join(",", cleanListfilterMasterlist3)
-            viewquery = viewquery.Replace("FilterMasterlist3", "(" & inClausefilterMasterlist3 & ")")
-        End If
-        If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
-            filterMasterlist4 = arr(3).Replace("'", "").Trim()
-            masterListcode4.Clear()
-            HandleMultipleMasterSelection(filterMasterlist4, "MULTY")
-            Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist4 As String = String.Join(",", cleanListfilterMasterlist4)
-            viewquery = viewquery.Replace("FilterMasterlist4", "(" & inClausefilterMasterlist4 & ")")
-        End If
-        If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
-            filterMasterlist5 = arr(4).Replace("'", "").Trim()
-            masterListcode5.Clear()
-            HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
-            Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist5 As String = String.Join(",", cleanListfilterMasterlist5)
-            viewquery = viewquery.Replace("FilterMasterlist5", "(" & inClausefilterMasterlist5 & ")")
-        End If
-        sqL = viewquery
-        sql_connect_slect()
-        Dim resulttable As New DataTable
-        resulttable = DefaltSoftTable.Copy
+            If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
+                filterMasterlist1 = arr(0).Replace("'", "").Trim()
+                ' Master list display
+                masterListcode1.Clear()
+                HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
+                Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+                Dim inClausefilterMasterlist1 As String = String.Join(",", cleanListfilterMasterlist1)
+                viewquery = viewquery.Replace("FilterMasterlist1", "(" & inClausefilterMasterlist1 & ")")
+            End If
+            If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
+                filterMasterlist2 = arr(1).Replace("'", "").Trim()
+                masterListcode2.Clear()
+                HandleMultipleMasterSelection(filterMasterlist2, "MULTY")
+                Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+                Dim inClausefilterMasterlist2 As String = String.Join(",", cleanListfilterMasterlist2)
+                viewquery = viewquery.Replace("FilterMasterlist2", "(" & inClausefilterMasterlist2 & ")")
+            End If
+            If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
+                filterMasterlist3 = arr(2).Replace("'", "").Trim()
+                masterListcode3.Clear()
+                HandleMultipleMasterSelection(filterMasterlist3, "MULTY")
+                Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+                Dim inClausefilterMasterlist3 As String = String.Join(",", cleanListfilterMasterlist3)
+                viewquery = viewquery.Replace("FilterMasterlist3", "(" & inClausefilterMasterlist3 & ")")
+            End If
+            If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
+                filterMasterlist4 = arr(3).Replace("'", "").Trim()
+                masterListcode4.Clear()
+                HandleMultipleMasterSelection(filterMasterlist4, "MULTY")
+                Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+                Dim inClausefilterMasterlist4 As String = String.Join(",", cleanListfilterMasterlist4)
+                viewquery = viewquery.Replace("FilterMasterlist4", "(" & inClausefilterMasterlist4 & ")")
+            End If
+            If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
+                filterMasterlist5 = arr(4).Replace("'", "").Trim()
+                masterListcode5.Clear()
+                HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
+                Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+                Dim inClausefilterMasterlist5 As String = String.Join(",", cleanListfilterMasterlist5)
+                viewquery = viewquery.Replace("FilterMasterlist5", "(" & inClausefilterMasterlist5 & ")")
+            End If
+            sqL = viewquery
+            sql_connect_slect()
+            Dim resulttable As New DataTable
+            resulttable = DefaltSoftTable.Copy
         If resulttable.Rows.Count > 0 Then
             REPORT_RPT_FILE_NAME = valreportName
             Dim RptTitle = valtype
@@ -568,15 +566,15 @@ Public Class ReportForm
     End Sub
 
     Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
-        Dim valType As Object = FirstStage.GetFocusedRowCellValue("Reports")
-        If valType <> "" Then
-            If e.Control AndAlso e.KeyCode = Keys.Q Then
-                Dim reportloadquery As New ReportQueryLoad()
-                reportloadquery._SeletedReportType = Convert.ToString(valType)
-                reportloadquery.GetformName = Me._getformName()
-                reportloadquery.ShowDialog()
-            End If
-        End If
+        'Dim valType As Object = FirstStage.GetFocusedRowCellValue("Reports")
+        'If valType <> "" Then
+        '    If e.Control AndAlso e.KeyCode = Keys.Q Then
+        '        Dim reportloadquery As New ReportQueryLoad()
+        '        reportloadquery._SeletedReportType = Convert.ToString(valType)
+        '        reportloadquery.GetformName = Me._getformName()
+        '        reportloadquery.ShowDialog()
+        '    End If
+        'End If
         If e.KeyCode = Keys.Enter Then
             btnView.Focus()
         End If
