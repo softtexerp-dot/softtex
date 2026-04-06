@@ -29,4 +29,15 @@ Module QueryRead
         _tmptbl = DefaltSoftTable.Copy
         Return _tmptbl
     End Function
+    Public Function _GetFormQueryReport(ByVal _FormName As String, ByVal _Type As String, ByVal _MainmasterId As String)
+        Dim _tmptbl As New DataTable
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append("Select * FROM " & _TblName & " WHERE FormName='" & _FormName & "' and Type='" & _Type & "' and MainMasterId=" & _MainmasterId & "")
+        End With
+        RS = _strQuery.ToString
+        MenuDesign_QueryLoad()
+        _tmptbl = DefaltSoftTable.Copy
+        Return _tmptbl
+    End Function
 End Module

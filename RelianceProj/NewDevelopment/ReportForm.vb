@@ -316,8 +316,6 @@ Public Class ReportForm
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
             Dim ActivetextName As String = ctrl.Text
-            'RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
-            'Me.SelectNextControl(ctrl.Tag, True, True, True, True)
             Me.SelectNextControl(ctrl, True, True, True, True)
         ElseIf e.KeyCode = Keys.Up Then
             Dim ActivetextName As String = ctrl.Text
@@ -403,7 +401,7 @@ Public Class ReportForm
                     Me.Dispose(True)
                 End If
             End If
-            ElseIf e.KeyCode = Keys.F6 Then
+        ElseIf e.KeyCode = Keys.F6 Then
             btnmovecontrol.Visible = True
             BtnUpdatepos.Visible = True
         ElseIf e.KeyCode = Keys.F4 Then
@@ -418,20 +416,9 @@ Public Class ReportForm
                 MsgBox("Invalid Password.", MsgBoxStyle.Information, "Soft-Tex PRO")
                 Exit Sub
             End If
-            'ReportsSelectionSettingForm._SeletedFormName = Me.Name.ToString
             ReportsSelectionSettingForm._SelectedFormName = Me._getformName()
             ReportsSelectionSettingForm.ShowDialog()
         End If
-
-        'If e.KeyCode = Keys.F2 Then
-        '    Dim valType As Object = FirstStage.GetFocusedRowCellValue("Reports")
-        '    Dim reportloadquery As New ReportQueryLoad()
-        '    reportloadquery._SeletedReportType = Convert.ToString(valType)
-        '    reportloadquery.GetformName = Me._getformName()
-        '    reportloadquery.Show()
-        'End If
-
-        
     End Sub
 
     Private Sub btnmovecontrol_Click(sender As Object, e As EventArgs) Handles btnmovecontrol.Click
@@ -470,18 +457,19 @@ Public Class ReportForm
         Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
         Dim valreportName As Object = FirstStage.GetFocusedRowCellValue("ReportRptFileName")
         Dim valmasterlist As Object = FirstStage.GetFocusedRowCellValue("MasterSelectionList")
+        Dim valueMainmasterId As Integer = FirstStage.GetFocusedRowCellValue("MainMasterId")
         Dim str As String = valmasterlist.ToString()
         Dim arr() As String = str.Split(","c)
         For Each item As String In arr
             'MsgBox(item.Trim())
             item.Trim()
         Next
-        tmptbl = _GetFormQuery(FormNameValue, valtype)
+        'tmptbl = _GetFormQuery(FormNameValue, valtype)
+        tmptbl = _GetFormQueryReport(FormNameValue, valtype, valueMainmasterId)
         Generate_Date_For_DataBase(Txt_ViewFrom)
-            Generate_Date_For_DataBase(Txt_ViewTO)
-            'dim filterbookcode as string = " '" & _bookcode & "' "
-            Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
-            Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+        Generate_Date_For_DataBase(Txt_ViewTO)
+        Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+        Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
             Dim filterMasterlist1 As String = ""
             Dim filterMasterlist2 As String = ""
             Dim filterMasterlist3 As String = ""
@@ -497,11 +485,9 @@ Public Class ReportForm
                     Exit Sub
                 End If
             End If
-            'viewquery = viewquery.replace("filterbookcode", filterbookcode)
-            viewquery = viewquery.Replace("FilterFrom", filterfrom)
-            viewquery = viewquery.Replace("FilterTO", filterto)
-
-            If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
+        viewquery = viewquery.Replace("FilterFrom", filterfrom)
+        viewquery = viewquery.Replace("FilterTO", filterto)
+        If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
                 filterMasterlist1 = arr(0).Replace("'", "").Trim()
                 ' Master list display
                 masterListcode1.Clear()
@@ -566,15 +552,6 @@ Public Class ReportForm
     End Sub
 
     Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
-        'Dim valType As Object = FirstStage.GetFocusedRowCellValue("Reports")
-        'If valType <> "" Then
-        '    If e.Control AndAlso e.KeyCode = Keys.Q Then
-        '        Dim reportloadquery As New ReportQueryLoad()
-        '        reportloadquery._SeletedReportType = Convert.ToString(valType)
-        '        reportloadquery.GetformName = Me._getformName()
-        '        reportloadquery.ShowDialog()
-        '    End If
-        'End If
         If e.KeyCode = Keys.Enter Then
             btnView.Focus()
         End If
