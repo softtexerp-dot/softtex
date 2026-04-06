@@ -23,73 +23,22 @@ Partial Class ReportForm
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ReportForm))
-        Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
-        Me.FirstStage = New DevExpress.XtraGrid.Views.Grid.GridView()
-        Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
-        Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
-        Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
         Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
         Me.btnmovecontrol = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnUpdatepos = New DevExpress.XtraEditors.SimpleButton()
         Me.btnClose = New DevExpress.XtraEditors.SimpleButton()
         Me.btnView = New DevExpress.XtraEditors.SimpleButton()
-        CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SelectionGridControl = New DevExpress.XtraGrid.GridControl()
+        Me.SelectionGrid = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.LayoutView2 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
+        Me.LayoutViewCard2 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
+        Me.GridView1 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        CType(Me.SelectionGridControl, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SelectionGrid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LayoutViewCard2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'GridControl1
-        '
-        Me.GridControl1.EmbeddedNavigator.Margin = New System.Windows.Forms.Padding(4)
-        Me.GridControl1.Location = New System.Drawing.Point(4, 54)
-        Me.GridControl1.MainView = Me.FirstStage
-        Me.GridControl1.Margin = New System.Windows.Forms.Padding(4)
-        Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(420, 555)
-        Me.GridControl1.TabIndex = 1
-        Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
-        '
-        'FirstStage
-        '
-        Me.FirstStage.DetailHeight = 377
-        Me.FirstStage.GridControl = Me.GridControl1
-        Me.FirstStage.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
-        Me.FirstStage.Name = "FirstStage"
-        Me.FirstStage.OptionsBehavior.AlignGroupSummaryInGroupRow = DevExpress.Utils.DefaultBoolean.[False]
-        Me.FirstStage.OptionsBehavior.Editable = False
-        Me.FirstStage.OptionsEditForm.PopupEditFormWidth = 1067
-        Me.FirstStage.OptionsMenu.ShowGroupSummaryEditorItem = True
-        Me.FirstStage.OptionsView.ShowFooter = True
-        Me.FirstStage.OptionsView.ShowGroupPanel = False
-        Me.FirstStage.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
-        '
-        'LayoutView1
-        '
-        Me.LayoutView1.DetailHeight = 377
-        Me.LayoutView1.GridControl = Me.GridControl1
-        Me.LayoutView1.Name = "LayoutView1"
-        Me.LayoutView1.OptionsBehavior.Editable = False
-        Me.LayoutView1.OptionsFind.AlwaysVisible = True
-        Me.LayoutView1.TemplateCard = Me.LayoutViewCard1
-        '
-        'LayoutViewCard1
-        '
-        Me.LayoutViewCard1.HeaderButtonsLocation = DevExpress.Utils.GroupElementLocation.AfterText
-        Me.LayoutViewCard1.Name = "LayoutViewCard1"
-        '
-        'GridView2
-        '
-        Me.GridView2.DetailHeight = 377
-        Me.GridView2.GridControl = Me.GridControl1
-        Me.GridView2.GroupSummary.AddRange(New DevExpress.XtraGrid.GridSummaryItem() {New DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.None, "", Nothing, ""), New DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Count, "Shade", Nothing, ""), New DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Balance", Nothing, "Balance Stock :{0}")})
-        Me.GridView2.Name = "GridView2"
-        Me.GridView2.OptionsBehavior.Editable = False
-        Me.GridView2.OptionsEditForm.PopupEditFormWidth = 1067
-        Me.GridView2.OptionsFind.AlwaysVisible = True
-        Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
-        Me.GridView2.OptionsView.ShowAutoFilterRow = True
         '
         'PropertyGrid1
         '
@@ -151,40 +100,85 @@ Partial Class ReportForm
         Me.btnView.TabIndex = 3
         Me.btnView.Text = "Ok"
         '
+        'SelectionGridControl
+        '
+        Me.SelectionGridControl.Location = New System.Drawing.Point(1, 0)
+        Me.SelectionGridControl.MainView = Me.SelectionGrid
+        Me.SelectionGridControl.Name = "SelectionGridControl"
+        Me.SelectionGridControl.Size = New System.Drawing.Size(482, 621)
+        Me.SelectionGridControl.TabIndex = 1
+        Me.SelectionGridControl.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.SelectionGrid, Me.LayoutView2, Me.GridView1})
+        '
+        'SelectionGrid
+        '
+        Me.SelectionGrid.GridControl = Me.SelectionGridControl
+        Me.SelectionGrid.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+        Me.SelectionGrid.Name = "SelectionGrid"
+        Me.SelectionGrid.OptionsBehavior.AlignGroupSummaryInGroupRow = DevExpress.Utils.DefaultBoolean.[False]
+        Me.SelectionGrid.OptionsBehavior.Editable = False
+        Me.SelectionGrid.OptionsFind.AlwaysVisible = True
+        Me.SelectionGrid.OptionsMenu.ShowGroupSummaryEditorItem = True
+        Me.SelectionGrid.OptionsView.ColumnAutoWidth = False
+        Me.SelectionGrid.OptionsView.ShowAutoFilterRow = True
+        Me.SelectionGrid.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+        '
+        'LayoutView2
+        '
+        Me.LayoutView2.GridControl = Me.SelectionGridControl
+        Me.LayoutView2.Name = "LayoutView2"
+        Me.LayoutView2.OptionsBehavior.Editable = False
+        Me.LayoutView2.OptionsFind.AlwaysVisible = True
+        Me.LayoutView2.TemplateCard = Me.LayoutViewCard2
+        '
+        'LayoutViewCard2
+        '
+        Me.LayoutViewCard2.HeaderButtonsLocation = DevExpress.Utils.GroupElementLocation.AfterText
+        Me.LayoutViewCard2.Name = "LayoutViewCard1"
+        '
+        'GridView1
+        '
+        Me.GridView1.GridControl = Me.SelectionGridControl
+        Me.GridView1.GroupSummary.AddRange(New DevExpress.XtraGrid.GridSummaryItem() {New DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.None, "", Nothing, ""), New DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Count, "Shade", Nothing, ""), New DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Balance", Nothing, "Balance Stock :{0}")})
+        Me.GridView1.Name = "GridView1"
+        Me.GridView1.OptionsBehavior.Editable = False
+        Me.GridView1.OptionsFind.AlwaysVisible = True
+        Me.GridView1.OptionsMenu.ShowGroupSummaryEditorItem = True
+        Me.GridView1.OptionsView.ShowAutoFilterRow = True
+        '
         'ReportForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ClientSize = New System.Drawing.Size(1216, 621)
+        Me.Controls.Add(Me.SelectionGridControl)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.btnView)
         Me.Controls.Add(Me.btnmovecontrol)
         Me.Controls.Add(Me.BtnUpdatepos)
         Me.Controls.Add(Me.PropertyGrid1)
-        Me.Controls.Add(Me.GridControl1)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "ReportForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Report Form"
-        CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SelectionGridControl, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SelectionGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutView2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LayoutViewCard2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents GridControl1 As DevExpress.XtraGrid.GridControl
-    Friend WithEvents FirstStage As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
-    Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
-    Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents PropertyGrid1 As PropertyGrid
     Friend WithEvents btnmovecontrol As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnUpdatepos As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents btnClose As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents SelectionGridControl As DevExpress.XtraGrid.GridControl
+    Friend WithEvents SelectionGrid As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents LayoutView2 As DevExpress.XtraGrid.Views.Layout.LayoutView
+    Friend WithEvents LayoutViewCard2 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
+    Friend WithEvents GridView1 As DevExpress.XtraGrid.Views.Grid.GridView
 End Class

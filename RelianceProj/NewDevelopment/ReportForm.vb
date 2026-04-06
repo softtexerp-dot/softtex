@@ -23,6 +23,8 @@ Public Class ReportForm
     Dim GetformName As String = ""
     Public Property _SeletedFormName As String
     Public _SeletedReportType As String
+
+    Public Property GridViewType As String
     'Private masterListcode1 As New List(Of Tuple(Of String, String, String))
     'Private masterListcode2 As New List(Of Tuple(Of String, String, String))
     'Private masterListcode3 As New List(Of Tuple(Of String, String, String))
@@ -36,10 +38,6 @@ Public Class ReportForm
         Txt_ViewTO.Text = Main_MDI_Frm.FINE_YEAR_END.Text
         'Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         _LoadDefaultData()
-        'GridControl1.Width = 974
-        'GridControl1.Height = 595
-        GridControl1.Location = New Point(5, 60)
-
     End Sub
     Private Sub _LoadDefaultData()
         View_Record()
@@ -51,11 +49,7 @@ Public Class ReportForm
         FormNameValue = _getformName()
         _SeletedFormName = _getformName()
         If formType = "REPORT" Then
-            'If _FORMMODE = "VIEW" Then
-            'Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
-            'tmptbl = _GetFormQuery(FormNameValue, valtype)
             LoadViewData(tmptbl)
-            'End If
         End If
         isMoveMode = False
         isDragging = False
@@ -67,49 +61,52 @@ Public Class ReportForm
         sql_connect_slect()
         'ReportsMenu_QueryLoad()
         _Tblclon = DefaltSoftTable.Copy
-        GridControl1.DataSource = _Tblclon
-        _FormGridSetting(FirstStage)
+        SelectionGrid.Columns.Clear()
+        SelectionGridControl.DataSource = _Tblclon
+        _FormGridSetting()
     End Sub
-    Public Sub _FormGridSetting(ByVal gridView As DevExpress.XtraGrid.Views.Grid.GridView)
+    Private Sub _FormGridSetting()
+        Try
+            _DevGridColumSizeAutoAdjest(SelectionGridControl, SelectionGrid)
+            SelectionGrid.Appearance.Row.Font = New Font("Verdana", 9, FontStyle.Bold)
+            SelectionGrid.RowHeight = 30
+            SelectionGrid.Columns("MainMasterId").Visible = False
+            SelectionGrid.Columns("ReportsCountNo").Visible = False
+            SelectionGrid.Columns("SettingType").Visible = False
+            SelectionGrid.Columns("ActiveStatus").Visible = False
+            SelectionGrid.Columns("ReportFormName").Visible = False
+            SelectionGrid.Columns("ReportRptFileName").Visible = False
+            SelectionGrid.Columns("QueryFileName").Visible = False
+            SelectionGrid.Columns("QueryFullFileName").Visible = False
+            SelectionGrid.Columns("MasterSelectionList").Visible = False
+            SelectionGrid.Columns("SrNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+            SelectionGrid.Columns("SrNo").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
+            For Each Col As DevExpress.XtraGrid.Columns.GridColumn In SelectionGrid.Columns
+                Col.AppearanceHeader.BackColor = Color.DarkGreen   'PrimaryDataGridViewColumnHeaderBackColor
+                Col.AppearanceHeader.BackColor2 = Color.DarkGreen
+                Col.AppearanceHeader.Options.UseForeColor = True
+                Col.AppearanceHeader.Options.UseBackColor = True
+                Col.AppearanceHeader.Font = New Font("Verdana", 9, FontStyle.Bold)
+            Next
+            SelectionGrid.Columns("SrNo").Width = 25
+            SelectionGrid.Columns("Reports").Width = 230
+            SelectionGrid.OptionsSelection.EnableAppearanceFocusedRow = True
+            SelectionGrid.OptionsSelection.EnableAppearanceFocusedCell = False
+            SelectionGrid.Appearance.FocusedRow.BackColor = Color.Orange
+            SelectionGrid.Appearance.FocusedRow.ForeColor = Color.Black
+            SelectionGrid.Appearance.FocusedRow.Options.UseBackColor = True
+            SelectionGrid.Appearance.FocusedRow.Options.UseForeColor = True
 
-        gridView.Appearance.Row.Font = New Font("Verdana", 9, FontStyle.Bold)
-        gridView.RowHeight = 30
-        gridView.Columns("MainMasterId").Visible = False
-        gridView.Columns("ReportsCountNo").Visible = False
-        gridView.Columns("SettingType").Visible = False
-        gridView.Columns("ActiveStatus").Visible = False
-        gridView.Columns("ReportFormName").Visible = False
-        gridView.Columns("ReportRptFileName").Visible = False
-        gridView.Columns("QueryFileName").Visible = False
-        gridView.Columns("QueryFullFileName").Visible = False
-        gridView.Columns("MasterSelectionList").Visible = False
-
-        gridView.Columns("SrNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
-        gridView.Columns("SrNo").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
-
-
-        For Each Col As DevExpress.XtraGrid.Columns.GridColumn In gridView.Columns
-            Col.AppearanceHeader.BackColor = Color.DarkGreen   'PrimaryDataGridViewColumnHeaderBackColor
-            Col.AppearanceHeader.BackColor2 = Color.DarkGreen
-            Col.AppearanceHeader.Options.UseForeColor = True
-            Col.AppearanceHeader.Options.UseBackColor = True
-            Col.AppearanceHeader.Font = New Font("Verdana", 9, FontStyle.Bold)
-        Next
-
-        gridView.Columns("SrNo").Width = 25
-        gridView.Columns("Reports").Width = 230
-        gridView.OptionsSelection.EnableAppearanceFocusedRow = True
-        gridView.OptionsSelection.EnableAppearanceFocusedCell = False
-        gridView.Appearance.FocusedRow.BackColor = Color.Orange
-        gridView.Appearance.FocusedRow.ForeColor = Color.Black
-        gridView.Appearance.FocusedRow.Options.UseBackColor = True
-        gridView.Appearance.FocusedRow.Options.UseForeColor = True
-    End Sub
-    Private Sub FirstStage_FocusedRowChanged(sender As Object, e As DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs) Handles FirstStage.FocusedRowChanged
-        Dim rowHandle As Integer = FirstStage.FocusedRowHandle
-        ' 👉 Example: current row value
-        Dim val = FirstStage.GetRowCellValue(rowHandle, "Reports")
-
+            SelectionGrid.OptionsView.ShowIndicator = False
+            SelectionGrid.OptionsFind.AlwaysVisible = False
+            SelectionGrid.OptionsView.ShowGroupPanel = False
+            ' Column width auto fit करने के लिए:
+            SelectionGrid.OptionsView.ColumnAutoWidth = True
+            ' Horizontal scroll को disable करने के लिए:
+            SelectionGrid.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
     End Sub
     Public Function DefaltReportLoad()
         Dim _Query = New StringBuilder
@@ -217,7 +214,7 @@ Public Class ReportForm
                             'Dim txt As New TextBox()
                             Dim txt As New ctl_TextBox.ctl_TextBox()
                             txt.Name = Name
-                            txt.Left = leftPos + 100
+                            txt.Left = leftPos + 120
                             txt.Top = topPos
                             txt.Width = width
                             txt.Height = height
@@ -231,28 +228,52 @@ Public Class ReportForm
                             Me.Controls.Add(txt)
                             If txt.TabIndex = 1 Then
                                 txt.Focus()
-                                'GridControl1.Focus()
+                                SelectionGridControl.Focus()
                             End If
                             If formtype = "REPORT" Then
                                 If _InputType = "DateBox" Then
                                     If txt.Text.Trim() = "" Then
                                         If Tabindex = 1 Then
                                             txt.Text = Main_MDI_Frm.FINE_YEAR_START.Text
+                                            txt.ReadOnly = True
                                         ElseIf Tabindex = 2 Then
                                             txt.Text = Main_MDI_Frm.FINE_YEAR_END.Text
+                                            txt.ReadOnly = True
                                         End If
                                     End If
                                     txt.MaxLength = 10
                                     'txt.Text = Today.ToString("dd/MM/yyyy")
                                     AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
                                     AddHandler txt.Leave, AddressOf DateBox_Validate
+                                    AddHandler txt.MouseDown, AddressOf Control_MouseDown
+                                    AddHandler txt.MouseMove, AddressOf Control_MouseMove
+                                    AddHandler txt.MouseUp, AddressOf Control_MouseUp
+                                    AddHandler txt.KeyDown, AddressOf Control_KeyDown
+                                End If
+
+                                If _InputType = "Normal" Or _InputType = "Numeric" Then
+                                    If txt.Text.Trim() = "" Then
+                                        If Tabindex = 1 Then
+                                            txt.ReadOnly = True
+                                        ElseIf Tabindex = 2 Then
+                                            txt.ReadOnly = True
+                                        End If
+                                    End If
+                                    AddHandler txt.MouseDown, AddressOf Control_MouseDown
+                                    AddHandler txt.MouseMove, AddressOf Control_MouseMove
+                                    AddHandler txt.MouseUp, AddressOf Control_MouseUp
+                                    AddHandler txt.KeyDown, AddressOf Control_KeyDown
+                                End If
+
+                                If _InputType = "SpacerType" Then
+                                    If Tabindex = 3 Then
+                                        txt.Text = "YES"
+                                    End If
+                                    AddHandler txt.KeyDown, AddressOf Control_KeyDown
                                 End If
                             Else
                             End If
-                            AddHandler txt.MouseDown, AddressOf Control_MouseDown
-                            AddHandler txt.MouseMove, AddressOf Control_MouseMove
-                            AddHandler txt.MouseUp, AddressOf Control_MouseUp
-                            AddHandler txt.KeyDown, AddressOf Control_KeyDown
+
                         End If
                         topPos += 35
                     End If
@@ -323,6 +344,22 @@ Public Class ReportForm
         ElseIf e.KeyCode = Keys.Down Then
             Dim ActivetextName As String = ctrl.Text
             Me.SelectNextControl(ctrl, True, True, True, True)
+        ElseIf e.KeyCode = Keys.Space Then
+            Dim txt As ctl_TextBox.ctl_TextBox = TryCast(sender, ctl_TextBox.ctl_TextBox)
+            If txt Is Nothing Then Exit Sub
+            If ctrl.TabIndex = 3 Then
+
+                e.SuppressKeyPress = True
+
+                If txt.Text.Trim().ToUpper() = "YES" Then
+                    txt.Text = "NO"
+                Else
+                    txt.Text = "YES"
+                End If
+
+                Me.SelectNextControl(ctrl, True, True, True, True)
+
+            End If
         End If
     End Sub
     Private Sub RemoveControlIfExists(ctrlName As String)
@@ -359,7 +396,7 @@ Public Class ReportForm
     Private Sub SaveControlPosition(ctrl As Control)
 
         If ctrl Is Nothing Then Exit Sub
-        Dim leftPos As Integer = ctrl.Left - 100
+        Dim leftPos As Integer = ctrl.Left - 120
         Dim topPos As Integer = ctrl.Top
         Dim height As Integer = ctrl.Height
         Dim width As Integer = ctrl.Width
@@ -454,10 +491,10 @@ Public Class ReportForm
 
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
         _FORMMODE = "VIEW"
-        Dim valtype As Object = FirstStage.GetFocusedRowCellValue("Reports")
-        Dim valreportName As Object = FirstStage.GetFocusedRowCellValue("ReportRptFileName")
-        Dim valmasterlist As Object = FirstStage.GetFocusedRowCellValue("MasterSelectionList")
-        Dim valueMainmasterId As Integer = FirstStage.GetFocusedRowCellValue("MainMasterId")
+        Dim valtype As Object = SelectionGrid.GetFocusedRowCellValue("Reports")
+        Dim valreportName As Object = SelectionGrid.GetFocusedRowCellValue("ReportRptFileName")
+        Dim valmasterlist As Object = SelectionGrid.GetFocusedRowCellValue("MasterSelectionList")
+        Dim valueMainmasterId As Integer = SelectionGrid.GetFocusedRowCellValue("MainMasterId")
         Dim str As String = valmasterlist.ToString()
         Dim arr() As String = str.Split(","c)
         For Each item As String In arr
@@ -488,47 +525,75 @@ Public Class ReportForm
         viewquery = viewquery.Replace("FilterFrom", filterfrom)
         viewquery = viewquery.Replace("FilterTO", filterto)
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
-                filterMasterlist1 = arr(0).Replace("'", "").Trim()
-                ' Master list display
-                masterListcode1.Clear()
-                HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
-                Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-                Dim inClausefilterMasterlist1 As String = String.Join(",", cleanListfilterMasterlist1)
-                viewquery = viewquery.Replace("FilterMasterlist1", "(" & inClausefilterMasterlist1 & ")")
+            filterMasterlist1 = arr(0).Replace("'", "").Trim()
+            ' Master list display
+            masterListcode1.Clear()
+            HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
+            Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+            Dim inClausefilterMasterlist1 As String = String.Join(",", cleanListfilterMasterlist1)
+            If String.IsNullOrWhiteSpace(inClausefilterMasterlist1) Then
+                inClausefilterMasterlist1 = "()"
+                Exit Sub
             End If
-            If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
-                filterMasterlist2 = arr(1).Replace("'", "").Trim()
-                masterListcode2.Clear()
-                HandleMultipleMasterSelection(filterMasterlist2, "MULTY")
-                Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-                Dim inClausefilterMasterlist2 As String = String.Join(",", cleanListfilterMasterlist2)
-                viewquery = viewquery.Replace("FilterMasterlist2", "(" & inClausefilterMasterlist2 & ")")
+            viewquery = viewquery.Replace("FilterMasterlist1", "(" & inClausefilterMasterlist1 & ")")
+
+        End If
+
+                If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
+            filterMasterlist2 = arr(1).Replace("'", "").Trim()
+            masterListcode2.Clear()
+            HandleMultipleMasterSelection(filterMasterlist2, "MULTY")
+            Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+            Dim inClausefilterMasterlist2 As String = String.Join(",", cleanListfilterMasterlist2)
+
+            If String.IsNullOrWhiteSpace(inClausefilterMasterlist2) Then
+                inClausefilterMasterlist2 = "()"
+                Exit Sub
             End If
-            If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
-                filterMasterlist3 = arr(2).Replace("'", "").Trim()
-                masterListcode3.Clear()
-                HandleMultipleMasterSelection(filterMasterlist3, "MULTY")
-                Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-                Dim inClausefilterMasterlist3 As String = String.Join(",", cleanListfilterMasterlist3)
-                viewquery = viewquery.Replace("FilterMasterlist3", "(" & inClausefilterMasterlist3 & ")")
+            viewquery = viewquery.Replace("FilterMasterlist2", "(" & inClausefilterMasterlist2 & ")")
+        End If
+        If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
+            filterMasterlist3 = arr(2).Replace("'", "").Trim()
+            masterListcode3.Clear()
+            HandleMultipleMasterSelection(filterMasterlist3, "MULTY")
+            Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+            Dim inClausefilterMasterlist3 As String = String.Join(",", cleanListfilterMasterlist3)
+
+            If String.IsNullOrWhiteSpace(inClausefilterMasterlist3) Then
+                inClausefilterMasterlist3 = "()"
+                Exit Sub
             End If
-            If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
-                filterMasterlist4 = arr(3).Replace("'", "").Trim()
-                masterListcode4.Clear()
-                HandleMultipleMasterSelection(filterMasterlist4, "MULTY")
-                Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-                Dim inClausefilterMasterlist4 As String = String.Join(",", cleanListfilterMasterlist4)
-                viewquery = viewquery.Replace("FilterMasterlist4", "(" & inClausefilterMasterlist4 & ")")
+            viewquery = viewquery.Replace("FilterMasterlist3", "(" & inClausefilterMasterlist3 & ")")
+        End If
+
+        If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
+            filterMasterlist4 = arr(3).Replace("'", "").Trim()
+            masterListcode4.Clear()
+            HandleMultipleMasterSelection(filterMasterlist4, "MULTY")
+            Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+            Dim inClausefilterMasterlist4 As String = String.Join(",", cleanListfilterMasterlist4)
+
+            If String.IsNullOrWhiteSpace(inClausefilterMasterlist4) Then
+                inClausefilterMasterlist4 = "()"
+                Exit Sub
             End If
-            If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
-                filterMasterlist5 = arr(4).Replace("'", "").Trim()
-                masterListcode5.Clear()
-                HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
-                Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-                Dim inClausefilterMasterlist5 As String = String.Join(",", cleanListfilterMasterlist5)
-                viewquery = viewquery.Replace("FilterMasterlist5", "(" & inClausefilterMasterlist5 & ")")
+            viewquery = viewquery.Replace("FilterMasterlist4", "(" & inClausefilterMasterlist4 & ")")
+        End If
+        If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
+            filterMasterlist5 = arr(4).Replace("'", "").Trim()
+            masterListcode5.Clear()
+            HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
+            Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
+            Dim inClausefilterMasterlist5 As String = String.Join(",", cleanListfilterMasterlist5)
+
+            If String.IsNullOrWhiteSpace(inClausefilterMasterlist5) Then
+                inClausefilterMasterlist5 = "()"
+                Exit Sub
             End If
-            sqL = viewquery
+            viewquery = viewquery.Replace("FilterMasterlist5", "(" & inClausefilterMasterlist5 & ")")
+        End If
+
+        sqL = viewquery
             sql_connect_slect()
             Dim resulttable As New DataTable
             resulttable = DefaltSoftTable.Copy
@@ -551,10 +616,15 @@ Public Class ReportForm
         End If
     End Sub
 
-    Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
+    Private Sub SelectionGrid_KeyDown(sender As Object, e As KeyEventArgs) Handles SelectionGrid.KeyDown
         If e.KeyCode = Keys.Enter Then
             btnView.Focus()
         End If
     End Sub
 
+    Private Sub SelectionGrid_FocusedRowChanged(sender As Object, e As DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs) Handles SelectionGrid.FocusedRowChanged
+        Dim rowHandle As Integer = SelectionGrid.FocusedRowHandle
+        ' 👉 Example: current row value
+        Dim val = SelectionGrid.GetRowCellValue(rowHandle, "Reports")
+    End Sub
 End Class
