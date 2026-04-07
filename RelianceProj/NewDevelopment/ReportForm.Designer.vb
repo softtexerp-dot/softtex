@@ -81,7 +81,7 @@ Partial Class ReportForm
         Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.Appearance.Options.UseFont = True
         Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnClose.Location = New System.Drawing.Point(823, 570)
+        Me.btnClose.Location = New System.Drawing.Point(710, 570)
         Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(80, 39)
@@ -93,7 +93,7 @@ Partial Class ReportForm
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(725, 570)
+        Me.btnView.Location = New System.Drawing.Point(610, 570)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(80, 39)

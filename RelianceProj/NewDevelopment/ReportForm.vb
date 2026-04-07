@@ -33,11 +33,12 @@ Public Class ReportForm
     Private Sub ReportForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
-        AttachButtonFocusEvents(Me)
+
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = Main_MDI_Frm.FINE_YEAR_END.Text
         'Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         _LoadDefaultData()
+        AttachButtonFocusEvents(Me)
     End Sub
     Private Sub _LoadDefaultData()
         View_Record()
@@ -245,10 +246,7 @@ Public Class ReportForm
                                     'txt.Text = Today.ToString("dd/MM/yyyy")
                                     AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
                                     AddHandler txt.Leave, AddressOf DateBox_Validate
-                                    AddHandler txt.MouseDown, AddressOf Control_MouseDown
-                                    AddHandler txt.MouseMove, AddressOf Control_MouseMove
-                                    AddHandler txt.MouseUp, AddressOf Control_MouseUp
-                                    AddHandler txt.KeyDown, AddressOf Control_KeyDown
+
                                 End If
 
                                 If _InputType = "Normal" Or _InputType = "Numeric" Then
@@ -259,21 +257,19 @@ Public Class ReportForm
                                             txt.ReadOnly = True
                                         End If
                                     End If
-                                    AddHandler txt.MouseDown, AddressOf Control_MouseDown
-                                    AddHandler txt.MouseMove, AddressOf Control_MouseMove
-                                    AddHandler txt.MouseUp, AddressOf Control_MouseUp
-                                    AddHandler txt.KeyDown, AddressOf Control_KeyDown
                                 End If
 
                                 If _InputType = "SpacerType" Then
                                     If Tabindex = 3 Then
                                         txt.Text = "YES"
                                     End If
-                                    AddHandler txt.KeyDown, AddressOf Control_KeyDown
                                 End If
                             Else
                             End If
-
+                            AddHandler txt.MouseDown, AddressOf Control_MouseDown
+                            AddHandler txt.MouseMove, AddressOf Control_MouseMove
+                            AddHandler txt.MouseUp, AddressOf Control_MouseUp
+                            AddHandler txt.KeyDown, AddressOf Control_KeyDown
                         End If
                         topPos += 35
                     End If
@@ -333,10 +329,11 @@ Public Class ReportForm
 
     Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
         Dim ctrl As Control = TryCast(sender, Control)
+
         If ctrl Is Nothing Then Exit Sub
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
-            Dim ActivetextName As String = ctrl.Text
+            'Dim ActivetextName As String = ctrl.Text
             Me.SelectNextControl(ctrl, True, True, True, True)
         ElseIf e.KeyCode = Keys.Up Then
             Dim ActivetextName As String = ctrl.Text
@@ -345,20 +342,17 @@ Public Class ReportForm
             Dim ActivetextName As String = ctrl.Text
             Me.SelectNextControl(ctrl, True, True, True, True)
         ElseIf e.KeyCode = Keys.Space Then
+            Dim viewquery As String = ""
             Dim txt As ctl_TextBox.ctl_TextBox = TryCast(sender, ctl_TextBox.ctl_TextBox)
             If txt Is Nothing Then Exit Sub
             If ctrl.TabIndex = 3 Then
-
                 e.SuppressKeyPress = True
-
                 If txt.Text.Trim().ToUpper() = "YES" Then
                     txt.Text = "NO"
                 Else
                     txt.Text = "YES"
                 End If
-
                 Me.SelectNextControl(ctrl, True, True, True, True)
-
             End If
         End If
     End Sub
@@ -524,73 +518,85 @@ Public Class ReportForm
             End If
         viewquery = viewquery.Replace("FilterFrom", filterfrom)
         viewquery = viewquery.Replace("FilterTO", filterto)
+        Dim inClausefilterMasterlist1 As String = ""
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
             ' Master list display
             masterListcode1.Clear()
             HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
             Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist1 As String = String.Join(",", cleanListfilterMasterlist1)
+            inClausefilterMasterlist1 = String.Join(",", cleanListfilterMasterlist1)
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist1) Then
                 inClausefilterMasterlist1 = "()"
                 Exit Sub
             End If
             viewquery = viewquery.Replace("FilterMasterlist1", "(" & inClausefilterMasterlist1 & ")")
-
+        Else
+            viewquery = viewquery.Replace("FilterMasterlist1", "('" & inClausefilterMasterlist1 & "')")
         End If
-
-                If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
+        Dim inClausefilterMasterlist2 As String = ""
+        If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
             filterMasterlist2 = arr(1).Replace("'", "").Trim()
             masterListcode2.Clear()
             HandleMultipleMasterSelection(filterMasterlist2, "MULTY")
             Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist2 As String = String.Join(",", cleanListfilterMasterlist2)
+            inClausefilterMasterlist2 = String.Join(",", cleanListfilterMasterlist2)
 
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist2) Then
                 inClausefilterMasterlist2 = "()"
                 Exit Sub
             End If
             viewquery = viewquery.Replace("FilterMasterlist2", "(" & inClausefilterMasterlist2 & ")")
+        Else
+            viewquery = viewquery.Replace("FilterMasterlist2", "('" & inClausefilterMasterlist2 & "')")
         End If
+        Dim inClausefilterMasterlist3 As String = ""
         If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
             filterMasterlist3 = arr(2).Replace("'", "").Trim()
             masterListcode3.Clear()
             HandleMultipleMasterSelection(filterMasterlist3, "MULTY")
             Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist3 As String = String.Join(",", cleanListfilterMasterlist3)
+            inClausefilterMasterlist3 = String.Join(",", cleanListfilterMasterlist3)
 
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist3) Then
                 inClausefilterMasterlist3 = "()"
                 Exit Sub
             End If
             viewquery = viewquery.Replace("FilterMasterlist3", "(" & inClausefilterMasterlist3 & ")")
+        Else
+            viewquery = viewquery.Replace("FilterMasterlist3", "('" & inClausefilterMasterlist3 & "')")
         End If
-
+        Dim inClausefilterMasterlist4 As String = ""
         If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
             filterMasterlist4 = arr(3).Replace("'", "").Trim()
             masterListcode4.Clear()
             HandleMultipleMasterSelection(filterMasterlist4, "MULTY")
             Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist4 As String = String.Join(",", cleanListfilterMasterlist4)
+            inClausefilterMasterlist4 = String.Join(",", cleanListfilterMasterlist4)
 
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist4) Then
                 inClausefilterMasterlist4 = "()"
                 Exit Sub
             End If
             viewquery = viewquery.Replace("FilterMasterlist4", "(" & inClausefilterMasterlist4 & ")")
+        Else
+            viewquery = viewquery.Replace("FilterMasterlist4", "('" & inClausefilterMasterlist4 & "')")
         End If
+        Dim inClausefilterMasterlist5 As String = ""
         If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
             filterMasterlist5 = arr(4).Replace("'", "").Trim()
             masterListcode5.Clear()
             HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
             Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-            Dim inClausefilterMasterlist5 As String = String.Join(",", cleanListfilterMasterlist5)
+            inClausefilterMasterlist5 = String.Join(",", cleanListfilterMasterlist5)
 
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist5) Then
                 inClausefilterMasterlist5 = "()"
                 Exit Sub
             End If
             viewquery = viewquery.Replace("FilterMasterlist5", "(" & inClausefilterMasterlist5 & ")")
+        Else
+            viewquery = viewquery.Replace("FilterMasterlist5", "('" & inClausefilterMasterlist5 & "')")
         End If
 
         sqL = viewquery
