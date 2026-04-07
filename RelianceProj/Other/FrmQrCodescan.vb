@@ -71,33 +71,33 @@ Public Class FrmQrCodescan
 
     End Function
 
-    Private _isRunning As Boolean = True
+    'Private _isRunning As Boolean = True
 
-    Public Async Function StartChecking(gstin As String) As Task
-        While _isRunning
-            Try
-                Dim obj As JObject = Await GetRechargeStatus(gstin)
+    'Public Async Function StartChecking(gstin As String) As Task
+    '    While _isRunning
+    '        Try
+    '            Dim obj As JObject = Await GetRechargeStatus(gstin)
 
-                ' Yaha response handle karo
-                If obj IsNot Nothing Then
-                    ' Example
-                    Dim status = obj("status")?.ToString()
-                    If status = "Approved" Then
-                        _isRunning = False
-                        MessageBox.Show("Payment Completed")
-                        Exit While
-                    End If
-                End If
+    '            ' Yaha response handle karo
+    '            If obj IsNot Nothing Then
+    '                ' Example
+    '                Dim status = obj("status")?.ToString()
+    '                If status = "Approved" Then
+    '                    _isRunning = False
+    '                    MessageBox.Show("Payment Completed")
+    '                    Exit While
+    '                End If
+    '            End If
 
-            Catch ex As Exception
-                ' Error handle
-                Console.WriteLine(ex.Message)
-            End Try
+    '        Catch ex As Exception
+    '            ' Error handle
+    '            Console.WriteLine(ex.Message)
+    '        End Try
 
-            ' 1 second wait
-            Await Task.Delay(1000)
-        End While
-    End Function
+    '        ' 1 second wait
+    '        Await Task.Delay(1000)
+    '    End While
+    'End Function
 
     Private Async Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Try
