@@ -33,19 +33,21 @@ Partial Class FrmQrCodescan
         '
         'LablePymtQrcode
         '
-        Me.LablePymtQrcode.AutoSize = True
         Me.LablePymtQrcode.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LablePymtQrcode.ForeColor = System.Drawing.Color.DarkRed
-        Me.LablePymtQrcode.Location = New System.Drawing.Point(12, 37)
+        Me.LablePymtQrcode.Location = New System.Drawing.Point(2, 26)
         Me.LablePymtQrcode.Name = "LablePymtQrcode"
-        Me.LablePymtQrcode.Size = New System.Drawing.Size(0, 14)
+        Me.LablePymtQrcode.Size = New System.Drawing.Size(482, 38)
         Me.LablePymtQrcode.TabIndex = 81856
+        Me.LablePymtQrcode.Text = "Please Do Not Close The Payment Form Manually It Will Close Automatically After T" &
+    "he Payment Is Completed."
+        Me.LablePymtQrcode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'RecharheQrCode
         '
-        Me.RecharheQrCode.Location = New System.Drawing.Point(26, 76)
+        Me.RecharheQrCode.Location = New System.Drawing.Point(79, 66)
         Me.RecharheQrCode.Name = "RecharheQrCode"
-        Me.RecharheQrCode.Size = New System.Drawing.Size(446, 815)
+        Me.RecharheQrCode.Size = New System.Drawing.Size(285, 516)
         Me.RecharheQrCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.RecharheQrCode.TabIndex = 81855
         Me.RecharheQrCode.TabStop = False
@@ -56,16 +58,18 @@ Partial Class FrmQrCodescan
         'lblStatus
         '
         Me.lblStatus.AutoSize = True
-        Me.lblStatus.Location = New System.Drawing.Point(188, 911)
+        Me.lblStatus.Font = New System.Drawing.Font("Verdana", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStatus.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblStatus.Location = New System.Drawing.Point(12, 590)
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(55, 16)
+        Me.lblStatus.Size = New System.Drawing.Size(90, 25)
         Me.lblStatus.TabIndex = 81857
         Me.lblStatus.Text = "lblmsg"
         '
         'Lblcompany
         '
         Me.Lblcompany.AutoSize = True
-        Me.Lblcompany.Location = New System.Drawing.Point(150, 9)
+        Me.Lblcompany.Location = New System.Drawing.Point(170, 9)
         Me.Lblcompany.Name = "Lblcompany"
         Me.Lblcompany.Size = New System.Drawing.Size(156, 16)
         Me.Lblcompany.TabIndex = 81858
@@ -75,8 +79,8 @@ Partial Class FrmQrCodescan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.ClientSize = New System.Drawing.Size(484, 961)
+        Me.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.ClientSize = New System.Drawing.Size(484, 621)
         Me.Controls.Add(Me.Lblcompany)
         Me.Controls.Add(Me.lblStatus)
         Me.Controls.Add(Me.LablePymtQrcode)
@@ -84,6 +88,7 @@ Partial Class FrmQrCodescan
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "FrmQrCodescan"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Payment QR Code"
         CType(Me.RecharheQrCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

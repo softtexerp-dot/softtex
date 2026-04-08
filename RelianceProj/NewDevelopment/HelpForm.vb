@@ -222,11 +222,11 @@ where 1=1
 and  Billdate>=FilterFrom --------Filter Replace
 and  Billdate<=FilterTO --------Filter Replace
 
-and  MasterCode1 In ('FilterMasterlist1') --------Filter Replace
-and  MasterCode2 In ('FilterMasterlist2') --------Filter Replace
-and  MasterCode3 In ('FilterMasterlist3') --------Filter Replace
-and  MasterCode4 In ('FilterMasterlist4') --------Filter Replace
-and  MasterCode5 In ('FilterMasterlist5') --------Filter Replace
+and  MasterCode1 In FilterMasterlist1 --------Filter Replace
+and  MasterCode2 In FilterMasterlist2 --------Filter Replace
+and  MasterCode3 In FilterMasterlist3 --------Filter Replace
+and  MasterCode4 In FilterMasterlist4 --------Filter Replace
+and  MasterCode5 In FilterMasterlist5 --------Filter Replace
 "
         RTbView.Visible = False
         RTBTotalColumn.Visible = False
