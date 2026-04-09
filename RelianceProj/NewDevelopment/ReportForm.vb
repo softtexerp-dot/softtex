@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraGrid.Views.Grid
 Imports DevExpress.XtraLayout.Customization
+Imports FlexCell
 
 Public Class ReportForm
     Private _DatabaseTableName = "FormControl"
@@ -20,11 +21,14 @@ Public Class ReportForm
     Dim _FormCloseMode As Boolean = False
     Dim Txt_ViewFrom As New ctl_TextBox.ctl_TextBox()
     Dim Txt_ViewTO As New ctl_TextBox.ctl_TextBox()
+    Dim Txt_EntryNo As New ctl_TextBox.ctl_TextBox()
     Dim GetformName As String = ""
     Public Property _SeletedFormName As String
     Public _SeletedReportType As String
 
     Public Property GridViewType As String
+
+
     'Private masterListcode1 As New List(Of Tuple(Of String, String, String))
     'Private masterListcode2 As New List(Of Tuple(Of String, String, String))
     'Private masterListcode3 As New List(Of Tuple(Of String, String, String))
@@ -227,17 +231,17 @@ Public Class ReportForm
                                 txt.ReadOnly = False
                             End If
                             Me.Controls.Add(txt)
-                            If txt.TabIndex = 1 Then
-                                txt.Focus()
-                                SelectionGridControl.Focus()
-                            End If
+                            'If txt.TabIndex = 1 Then
+                            '    txt.Focus()
+                            '    SelectionGridControl.Focus()
+                            'End If
                             If formtype = "REPORT" Then
                                 If _InputType = "DateBox" Then
                                     If txt.Text.Trim() = "" Then
-                                        If Tabindex = 1 Then
+                                        If HeaderName.ToUpper().Contains("FROM") Then
                                             txt.Text = Main_MDI_Frm.FINE_YEAR_START.Text
                                             txt.ReadOnly = True
-                                        ElseIf Tabindex = 2 Then
+                                        ElseIf HeaderName.ToUpper().Contains("TO") Then
                                             txt.Text = Main_MDI_Frm.FINE_YEAR_END.Text
                                             txt.ReadOnly = True
                                         End If
@@ -251,18 +255,19 @@ Public Class ReportForm
 
                                 If _InputType = "Normal" Or _InputType = "Numeric" Then
                                     If txt.Text.Trim() = "" Then
-                                        If Tabindex = 1 Then
-                                            txt.ReadOnly = True
-                                        ElseIf Tabindex = 2 Then
-                                            txt.ReadOnly = True
+                                        If HeaderName.ToUpper().Contains("ENTRYNO") Then
+                                            'txt.Text = Txt_EntryNo.Text
+                                            'txt.ReadOnly = True
                                         End If
                                     End If
                                 End If
 
                                 If _InputType = "SpacerType" Then
-                                    If Tabindex = 3 Then
-                                        txt.Text = "YES"
-                                    End If
+                                    'If Tabindex = 3 Then
+                                    txt.InputType = 10 '"SpacerType"
+                                        txt.SpacerString = dr("SpacerString").ToString().ToUpper
+                                    'txt.Text = "YES"
+                                    'End If
                                 End If
                             Else
                             End If
@@ -329,11 +334,10 @@ Public Class ReportForm
 
     Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
         Dim ctrl As Control = TryCast(sender, Control)
-
         If ctrl Is Nothing Then Exit Sub
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
-            'Dim ActivetextName As String = ctrl.Text
+            Dim ActivetextName As String = ctrl.Text
             Me.SelectNextControl(ctrl, True, True, True, True)
         ElseIf e.KeyCode = Keys.Up Then
             Dim ActivetextName As String = ctrl.Text
@@ -341,19 +345,6 @@ Public Class ReportForm
         ElseIf e.KeyCode = Keys.Down Then
             Dim ActivetextName As String = ctrl.Text
             Me.SelectNextControl(ctrl, True, True, True, True)
-        ElseIf e.KeyCode = Keys.Space Then
-            Dim viewquery As String = ""
-            Dim txt As ctl_TextBox.ctl_TextBox = TryCast(sender, ctl_TextBox.ctl_TextBox)
-            If txt Is Nothing Then Exit Sub
-            If ctrl.TabIndex = 3 Then
-                e.SuppressKeyPress = True
-                If txt.Text.Trim().ToUpper() = "YES" Then
-                    txt.Text = "NO"
-                Else
-                    txt.Text = "YES"
-                End If
-                Me.SelectNextControl(ctrl, True, True, True, True)
-            End If
         End If
     End Sub
     Private Sub RemoveControlIfExists(ctrlName As String)
@@ -501,23 +492,26 @@ Public Class ReportForm
         Generate_Date_For_DataBase(Txt_ViewTO)
         Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
         Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
-            Dim filterMasterlist1 As String = ""
+        'Dim Entryno As Integer = " " & Txt_EntryNo.Text & "  "
+        Dim filterMasterlist1 As String = ""
             Dim filterMasterlist2 As String = ""
             Dim filterMasterlist3 As String = ""
             Dim filterMasterlist4 As String = ""
             Dim filterMasterlist5 As String = ""
             ' 🔹 queries read
             Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
-            If viewquery = "" Then
-                If ReportFormLoadFormName = "" Then
-                    Exit Sub
-                Else
-                    MsgBox("view query not found")
-                    Exit Sub
-                End If
+        If viewquery = "" Then
+            If ReportFormLoadFormName = "" Then
+                Exit Sub
+            Else
+                MsgBox("view query not found")
+                Exit Sub
             End If
+        End If
+
         viewquery = viewquery.Replace("FilterFrom", filterfrom)
         viewquery = viewquery.Replace("FilterTO", filterto)
+        'viewquery = viewquery.Replace("EntryNo", Entryno)
         Dim inClausefilterMasterlist1 As String = ""
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
@@ -602,8 +596,12 @@ Public Class ReportForm
         sqL = viewquery
             sql_connect_slect()
             Dim resulttable As New DataTable
-            resulttable = DefaltSoftTable.Copy
+        resulttable = DefaltSoftTable.Copy
+        Dim txt As New ctl_TextBox.ctl_TextBox()
         If resulttable.Rows.Count > 0 Then
+            If TabIndex = 1 Then
+                txt.Text = resulttable.Rows(0)("EntryNo").ToString()
+            End If
             REPORT_RPT_FILE_NAME = valreportName
             Dim RptTitle = valtype
             Dim Date_Range = "Date From:" & Txt_ViewFrom.Text & " To:" & Txt_ViewTO.Text & " "

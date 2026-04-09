@@ -1139,6 +1139,12 @@ Public Class MainFrmDesigner
             If _DataType = "datetime" Then
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("InputType") + 1).Text = "DateBox"
             End If
+            If _DataType = "SPACERTYPE" Then
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("READONLY") + 1).Text = "Y"
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("READONLY") + 1).Locked = True
+            Else
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("READONLY") + 1).Text = "N"
+            End If
             Dim currentValue As String = _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USEMASTER") + 1).Text.Trim().ToUpper()
             If currentValue = "YES" Then
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USEMASTER") + 1).Text = "YES"
@@ -1905,6 +1911,8 @@ Public Class MainFrmDesigner
                 End If
             End If
         ElseIf _ActivatedColName = "SPACERSTRING" Then
+            GrdItem.ActiveCell.Text = GrdItem.ActiveCell.Text.ToUpper()
+            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "Y"
             If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
                 GrdItem.Rows = GrdItem.Rows + 1
             End If

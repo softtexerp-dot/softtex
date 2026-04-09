@@ -42,9 +42,9 @@ Partial Class ReportForm
         '
         'PropertyGrid1
         '
-        Me.PropertyGrid1.Location = New System.Drawing.Point(988, 54)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(988, 57)
         Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(228, 555)
+        Me.PropertyGrid1.Size = New System.Drawing.Size(228, 626)
         Me.PropertyGrid1.TabIndex = 81928
         Me.PropertyGrid1.Visible = False
         '
@@ -85,7 +85,7 @@ Partial Class ReportForm
         Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(80, 39)
-        Me.btnClose.TabIndex = 4
+        Me.btnClose.TabIndex = 6
         Me.btnClose.Text = "Close"
         '
         'btnView
@@ -97,7 +97,7 @@ Partial Class ReportForm
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(80, 39)
-        Me.btnView.TabIndex = 3
+        Me.btnView.TabIndex = 5
         Me.btnView.Text = "Ok"
         '
         'SelectionGridControl
