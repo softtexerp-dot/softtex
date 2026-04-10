@@ -221,7 +221,7 @@ SELECT * FROM YourMainTable
 where 1=1
 and  Billdate>=FilterFrom --------Filter Replace
 and  Billdate<=FilterTO --------Filter Replace
-and  EntryNo=EntryNo --------Filter Replace
+and  EntryNo=FilterEntryNo --------Filter Replace
 
 and  MasterCode1 In FilterMasterlist1 --------Filter Replace
 and  MasterCode2 In FilterMasterlist2 --------Filter Replace

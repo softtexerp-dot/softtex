@@ -28,7 +28,7 @@ Public Class ReportForm
 
     Public Property GridViewType As String
 
-
+    Dim EntryNo As Integer = "0"
     'Private masterListcode1 As New List(Of Tuple(Of String, String, String))
     'Private masterListcode2 As New List(Of Tuple(Of String, String, String))
     'Private masterListcode3 As New List(Of Tuple(Of String, String, String))
@@ -37,7 +37,6 @@ Public Class ReportForm
     Private Sub ReportForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
-
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = Main_MDI_Frm.FINE_YEAR_END.Text
         'Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
@@ -139,7 +138,7 @@ Public Class ReportForm
 
     Private Sub View_Record()
         Try
-            Dim EntryNo As Integer = 1
+
             Dim _Grid1ColNames = New StringBuilder()
             Dim View_Filter_Condition = " AND  FormName='" & ReportFormLoadFormName & "' "
             If ReportFormLoadFormName <> "" Then
@@ -231,10 +230,6 @@ Public Class ReportForm
                                 txt.ReadOnly = False
                             End If
                             Me.Controls.Add(txt)
-                            'If txt.TabIndex = 1 Then
-                            '    txt.Focus()
-                            '    SelectionGridControl.Focus()
-                            'End If
                             If formtype = "REPORT" Then
                                 If _InputType = "DateBox" Then
                                     If txt.Text.Trim() = "" Then
@@ -247,27 +242,24 @@ Public Class ReportForm
                                         End If
                                     End If
                                     txt.MaxLength = 10
-                                    'txt.Text = Today.ToString("dd/MM/yyyy")
                                     AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
                                     AddHandler txt.Leave, AddressOf DateBox_Validate
-
                                 End If
-
-                                If _InputType = "Normal" Or _InputType = "Numeric" Then
+                                If _InputType = "SpacerType" Then
+                                    txt.InputType = 10 '"SpacerType"
+                                    txt.SpacerString = dr("SpacerString").ToString().ToUpper
+                                End If
+                                If _InputType = "Normal" Then
                                     If txt.Text.Trim() = "" Then
-                                        If HeaderName.ToUpper().Contains("ENTRYNO") Then
-                                            'txt.Text = Txt_EntryNo.Text
-                                            'txt.ReadOnly = True
-                                        End If
                                     End If
                                 End If
-
-                                If _InputType = "SpacerType" Then
-                                    'If Tabindex = 3 Then
-                                    txt.InputType = 10 '"SpacerType"
-                                        txt.SpacerString = dr("SpacerString").ToString().ToUpper
-                                    'txt.Text = "YES"
-                                    'End If
+                                If _InputType = "Numeric" Then
+                                    If txt.Text.Trim() = "" Then
+                                        If HeaderName.ToUpper().Contains("ENTRYNO") Then
+                                            AddHandler txt.KeyPress, AddressOf Control_KeyPress
+                                            AddHandler txt.TextChanged, AddressOf Control_TextChanged
+                                        End If
+                                    End If
                                 End If
                             Else
                             End If
@@ -293,7 +285,17 @@ Public Class ReportForm
         Finally
         End Try
     End Sub
-
+    Private Sub Control_KeyPress(sender As Object, e As KeyPressEventArgs)
+        ' Allow only digits and Backspace
+        If Not Char.IsDigit(e.KeyChar) AndAlso Asc(e.KeyChar) <> 8 Then
+            e.Handled = True
+        End If
+    End Sub
+    Private Sub Control_TextChanged(sender As Object, e As EventArgs)
+        Dim ctrl As Control = TryCast(sender, Control)
+        If ctrl Is Nothing Then Exit Sub
+        Txt_EntryNo.Text = ctrl.Text
+    End Sub
     Private Sub DateBox_KeyPress(sender As Object, e As KeyPressEventArgs)
         Dim txt As TextBox = DirectCast(sender, TextBox)
         ' Sirf digit allow
@@ -331,20 +333,21 @@ Public Class ReportForm
             txt.Focus()
         End If
     End Sub
-
     Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
         Dim ctrl As Control = TryCast(sender, Control)
         If ctrl Is Nothing Then Exit Sub
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
-            Dim ActivetextName As String = ctrl.Text
-            Me.SelectNextControl(ctrl, True, True, True, True)
+            e.Handled = True
+            Txt_EntryNo.Text = ctrl.Text
         ElseIf e.KeyCode = Keys.Up Then
-            Dim ActivetextName As String = ctrl.Text
-            Me.SelectNextControl(DirectCast(sender, Control), False, True, True, True)
+            e.SuppressKeyPress = True
+            e.Handled = True
+            'Me.SelectNextControl(ctrl, False, True, True, True)
         ElseIf e.KeyCode = Keys.Down Then
-            Dim ActivetextName As String = ctrl.Text
-            Me.SelectNextControl(ctrl, True, True, True, True)
+            e.SuppressKeyPress = True
+            e.Handled = True
+            'Me.SelectNextControl(ctrl, True, True, True, True)
         End If
     End Sub
     Private Sub RemoveControlIfExists(ctrlName As String)
@@ -463,7 +466,7 @@ Public Class ReportForm
 
     Private Sub BtnUpdatepos_Click(sender As Object, e As EventArgs) Handles BtnUpdatepos.Click
         For Each ctrl As Control In Me.Controls
-            ' sirf required controls
+            'sirf required controls
             If TypeOf ctrl Is Label OrElse TypeOf ctrl Is TextBox Then
                 SaveControlPosition(ctrl)
             End If
@@ -492,14 +495,17 @@ Public Class ReportForm
         Generate_Date_For_DataBase(Txt_ViewTO)
         Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
         Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
-        'Dim Entryno As Integer = " " & Txt_EntryNo.Text & "  "
+        Dim FilterEntryno As Integer
+        If Not Integer.TryParse(Txt_EntryNo.Text.Trim(), FilterEntryno) Then
+            'Exit Sub
+        End If
         Dim filterMasterlist1 As String = ""
-            Dim filterMasterlist2 As String = ""
-            Dim filterMasterlist3 As String = ""
-            Dim filterMasterlist4 As String = ""
-            Dim filterMasterlist5 As String = ""
-            ' 🔹 queries read
-            Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
+        Dim filterMasterlist2 As String = ""
+        Dim filterMasterlist3 As String = ""
+        Dim filterMasterlist4 As String = ""
+        Dim filterMasterlist5 As String = ""
+        ' 🔹 queries read
+        Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
         If viewquery = "" Then
             If ReportFormLoadFormName = "" Then
                 Exit Sub
@@ -508,10 +514,17 @@ Public Class ReportForm
                 Exit Sub
             End If
         End If
-
-        viewquery = viewquery.Replace("FilterFrom", filterfrom)
-        viewquery = viewquery.Replace("FilterTO", filterto)
-        'viewquery = viewquery.Replace("EntryNo", Entryno)
+        If filterfrom <> "" Then
+            viewquery = viewquery.Replace("FilterFrom", filterfrom)
+        End If
+        If filterto <> "" Then
+            viewquery = viewquery.Replace("FilterTO", filterto)
+        End If
+        If FilterEntryno <> "0" Then
+            viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
+        Else
+            viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
+        End If
         Dim inClausefilterMasterlist1 As String = ""
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
@@ -583,7 +596,6 @@ Public Class ReportForm
             HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
             Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             inClausefilterMasterlist5 = String.Join(",", cleanListfilterMasterlist5)
-
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist5) Then
                 inClausefilterMasterlist5 = "()"
                 Exit Sub
@@ -592,16 +604,11 @@ Public Class ReportForm
         Else
             viewquery = viewquery.Replace("FilterMasterlist5", "('" & inClausefilterMasterlist5 & "')")
         End If
-
         sqL = viewquery
             sql_connect_slect()
             Dim resulttable As New DataTable
         resulttable = DefaltSoftTable.Copy
-        Dim txt As New ctl_TextBox.ctl_TextBox()
         If resulttable.Rows.Count > 0 Then
-            If TabIndex = 1 Then
-                txt.Text = resulttable.Rows(0)("EntryNo").ToString()
-            End If
             REPORT_RPT_FILE_NAME = valreportName
             Dim RptTitle = valtype
             Dim Date_Range = "Date From:" & Txt_ViewFrom.Text & " To:" & Txt_ViewTO.Text & " "
