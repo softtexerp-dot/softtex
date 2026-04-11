@@ -223,6 +223,13 @@ and  Billdate>=FilterFrom --------Filter Replace
 and  Billdate<=FilterTO --------Filter Replace
 and  EntryNo=FilterEntryNo --------Filter Replace
 
+and  FilterCond_1=_WhereFilterCond_1 --------Filter Replace
+and  FilterCond_2=_WhereFilterCond_2 --------Filter Replace
+and  FilterCond_3=_WhereFilterCond_3 --------Filter Replace
+and  FilterCond_4=_WhereFilterCond_4 --------Filter Replace
+and  FilterCond_5=_WhereFilterCond_5 --------Filter Replace
+and  FilterCond_6=_WhereFilterCond_6 --------Filter Replace
+
 and  MasterCode1 In FilterMasterlist1 --------Filter Replace
 and  MasterCode2 In FilterMasterlist2 --------Filter Replace
 and  MasterCode3 In FilterMasterlist3 --------Filter Replace
@@ -250,6 +257,15 @@ and  MasterCode5 In FilterMasterlist5 --------Filter Replace
         ' 👉 Filters highlight
         HighlightWord(rtb, "FilterFrom", Color.Purple)
         HighlightWord(rtb, "FilterTO", Color.Purple)
+        HighlightWord(rtb, "FilterEntryNo", Color.Purple)
+
+        HighlightWord(rtb, "_WhereFilterCond_1", Color.Purple)
+        HighlightWord(rtb, "_WhereFilterCond_2", Color.Purple)
+        HighlightWord(rtb, "_WhereFilterCond_3", Color.Purple)
+        HighlightWord(rtb, "_WhereFilterCond_4", Color.Purple)
+        HighlightWord(rtb, "_WhereFilterCond_5", Color.Purple)
+        HighlightWord(rtb, "_WhereFilterCond_6", Color.Purple)
+
         HighlightWord(rtb, "FilterMasterlist1", Color.Purple)
         HighlightWord(rtb, "FilterMasterlist2", Color.Purple)
         HighlightWord(rtb, "FilterMasterlist3", Color.Purple)

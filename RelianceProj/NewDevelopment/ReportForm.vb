@@ -1,7 +1,4 @@
 ﻿Imports System.Text
-Imports DevExpress.XtraGrid.Views.Grid
-Imports DevExpress.XtraLayout.Customization
-Imports FlexCell
 
 Public Class ReportForm
     Private _DatabaseTableName = "FormControl"
@@ -29,11 +26,23 @@ Public Class ReportForm
     Public Property GridViewType As String
 
     Dim EntryNo As Integer = "0"
-    'Private masterListcode1 As New List(Of Tuple(Of String, String, String))
-    'Private masterListcode2 As New List(Of Tuple(Of String, String, String))
-    'Private masterListcode3 As New List(Of Tuple(Of String, String, String))
-    'Private masterListcode4 As New List(Of Tuple(Of String, String, String))
-    'Private masterListcode5 As New List(Of Tuple(Of String, String, String))
+
+
+    Public _WhereFilterCond_1 As String = ""
+    Public _WhereFilterCond_2 As String = ""
+    Public _WhereFilterCond_3 As String = ""
+    Public _WhereFilterCond_4 As String = ""
+    Public _WhereFilterCond_5 As String = ""
+    Public _WhereFilterCond_6 As String = ""
+
+
+
+
+    'Private masterListcode1 As New List(Of Tuple(Of String, String))
+    'Private masterListcode2 As New List(Of Tuple(Of String, String))
+    'Private masterListcode3 As New List(Of Tuple(Of String, String))
+    'Private masterListcode4 As New List(Of Tuple(Of String, String))
+    'Private masterListcode5 As New List(Of Tuple(Of String, String))
     Private Sub ReportForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
@@ -222,8 +231,9 @@ Public Class ReportForm
                             txt.Top = topPos
                             txt.Width = width
                             txt.Height = height
-                            txt.Tag = Tag
+                            txt.Tag = HeaderName
                             txt.TabIndex = Tabindex
+
                             If _Readonly = "Y" Then
                                 txt.ReadOnly = True
                             Else
@@ -491,10 +501,65 @@ Public Class ReportForm
         Next
         'tmptbl = _GetFormQuery(FormNameValue, valtype)
         tmptbl = _GetFormQueryReport(FormNameValue, valtype, valueMainmasterId)
-        Generate_Date_For_DataBase(Txt_ViewFrom)
-        Generate_Date_For_DataBase(Txt_ViewTO)
-        Dim filterfrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
-        Dim filterto As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+
+        Dim _GetVale As Int64 = 1
+
+        Dim txt As New ctl_TextBox.ctl_TextBox()
+
+
+        For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+            Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
+            Dim colType As String = dr("ColumnType").ToString()
+            Dim Name As String = dr("CntrlName").ToString()
+            Dim HeaderName As String = dr("UserText").ToString()
+            If colType = "TextBox" Then
+                txt = TryCast(Me.Controls.Find(Name, True).FirstOrDefault(), ctl_TextBox.ctl_TextBox)
+                'txt.Name = Name
+                If _GetVale = 1 Then
+                    _WhereFilterCond_1 = txt.Text
+                    If _InputType = "DateBox" Then
+                        Generate_Date_For_DataBase(txt)
+                        _WhereFilterCond_1 = txt.Date_for_Database
+                        'ElseIf _InputType = "Numeric" Then
+                        'ElseIf _InputType = "Normal" Then
+                    End If
+                ElseIf _GetVale = 2 Then
+                    _WhereFilterCond_2 = txt.Text
+                    If _InputType = "DateBox" Then
+                        Generate_Date_For_DataBase(txt)
+                        _WhereFilterCond_2 = txt.Date_for_Database
+                    End If
+                ElseIf _GetVale = 3 Then
+                    _WhereFilterCond_3 = txt.Text
+                    If _InputType = "DateBox" Then
+                        Generate_Date_For_DataBase(txt)
+                        _WhereFilterCond_3 = txt.Date_for_Database
+                    End If
+                ElseIf _GetVale = 4 Then
+                    _WhereFilterCond_4 = txt.Text
+                    If _InputType = "DateBox" Then
+                        Generate_Date_For_DataBase(txt)
+                        _WhereFilterCond_4 = txt.Date_for_Database
+                    End If
+                ElseIf _GetVale = 5 Then
+                    _WhereFilterCond_5 = txt.Text
+                    If _InputType = "DateBox" Then
+                        Generate_Date_For_DataBase(txt)
+                        _WhereFilterCond_5 = txt.Date_for_Database
+                    End If
+                ElseIf _GetVale = 6 Then
+                    _WhereFilterCond_6 = txt.Text
+                    If _InputType = "DateBox" Then
+                        Generate_Date_For_DataBase(txt)
+                        _WhereFilterCond_6 = txt.Date_for_Database
+                    End If
+                End If
+
+                _GetVale += 1
+            End If
+
+        Next
+
         Dim FilterEntryno As Integer
         If Not Integer.TryParse(Txt_EntryNo.Text.Trim(), FilterEntryno) Then
             'Exit Sub
@@ -514,17 +579,21 @@ Public Class ReportForm
                 Exit Sub
             End If
         End If
-        If filterfrom <> "" Then
-            viewquery = viewquery.Replace("FilterFrom", filterfrom)
-        End If
-        If filterto <> "" Then
-            viewquery = viewquery.Replace("FilterTO", filterto)
-        End If
-        If FilterEntryno <> "0" Then
-            viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
-        Else
-            viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
-        End If
+
+        viewquery = viewquery.Replace("FilterCond_1", _WhereFilterCond_1)
+        viewquery = viewquery.Replace("FilterCond_2", _WhereFilterCond_2)
+        viewquery = viewquery.Replace("FilterCond_3", _WhereFilterCond_3)
+        viewquery = viewquery.Replace("FilterCond_4", _WhereFilterCond_4)
+        viewquery = viewquery.Replace("FilterCond_5", _WhereFilterCond_5)
+        viewquery = viewquery.Replace("FilterCond_6", _WhereFilterCond_6)
+
+        'If FilterEntryno <> "0" Then
+        '    viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
+        'Else
+        '    viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
+        'End If
+
+
         Dim inClausefilterMasterlist1 As String = ""
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
@@ -604,9 +673,25 @@ Public Class ReportForm
         Else
             viewquery = viewquery.Replace("FilterMasterlist5", "('" & inClausefilterMasterlist5 & "')")
         End If
+
+        Dim paramName As String = ""
+        Dim paramNameText As String = ""
+        For Each ctrl As Control In Me.Controls
+            If TypeOf ctrl Is TextBox Then
+                If ctrl.Tag IsNot Nothing Then
+                    paramName = ctrl.Tag.ToString().Trim
+                    paramName = "Filter" & paramName.Replace(" ", "")
+                    paramNameText = ctrl.Text.ToString().Trim
+                    viewquery = viewquery.Replace(paramName & "Value", paramNameText).Replace("$", "'")
+                    'viewquery = viewquery.Replace("$" & paramName & "$", paramNameText)
+                End If
+            End If
+        Next
+        viewquery = viewquery.Replace("$", "'")
+
         sqL = viewquery
-            sql_connect_slect()
-            Dim resulttable As New DataTable
+        sql_connect_slect()
+        Dim resulttable As New DataTable
         resulttable = DefaltSoftTable.Copy
         If resulttable.Rows.Count > 0 Then
             REPORT_RPT_FILE_NAME = valreportName
@@ -617,6 +702,7 @@ Public Class ReportForm
             MsgBox("record not found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
         End If
     End Sub
+
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
         Me.Dispose()
@@ -630,6 +716,14 @@ Public Class ReportForm
     Private Sub SelectionGrid_KeyDown(sender As Object, e As KeyEventArgs) Handles SelectionGrid.KeyDown
         If e.KeyCode = Keys.Enter Then
             btnView.Focus()
+            For Each ctrl As Control In Me.Controls
+                If TypeOf ctrl Is ctl_TextBox.ctl_TextBox Then
+                    If ctrl.TabIndex = 1 Then
+                        ctrl.Focus()
+                        Exit For
+                    End If
+                End If
+            Next
         End If
     End Sub
 
