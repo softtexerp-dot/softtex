@@ -540,6 +540,7 @@ Public Class ReportsSelectionSettingForm
             Dim topItems = cleanItems.Take(5).ToArray()
             ' 👉 Set textbox
             Txt_MasterSelection.Text = String.Join(",", topItems)
+            Txt_MasterSelection.ReadOnly = True
             SendKeys.Send("{TAB}")
         End If
     End Sub
