@@ -593,6 +593,7 @@ Public Class ReportForm
         Dim filterMasterlist4 As String = ""
         Dim filterMasterlist5 As String = ""
         ' 🔹 queries read
+        'Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
         Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY1", valtype)
         If viewquery = "" Then
             If ReportFormLoadFormName = "" Then
