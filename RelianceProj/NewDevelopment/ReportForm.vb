@@ -568,6 +568,53 @@ Public Class ReportForm
             End If
         End If
 
+        'date control
+        If String.IsNullOrEmpty(_WhereFilterCond_1) Then
+            viewquery = viewquery.Replace("_WhereFilterCond_1", "''")
+        Else
+            viewquery = viewquery.Replace("_WhereFilterCond_1", "'" & _WhereFilterCond_1 & "'")
+        End If
+        If String.IsNullOrEmpty(_WhereFilterCond_2) Then
+            viewquery = viewquery.Replace("_WhereFilterCond_2", "''")
+        Else
+            viewquery = viewquery.Replace("_WhereFilterCond_2", "'" & _WhereFilterCond_2 & "'")
+        End If
+        If String.IsNullOrEmpty(_WhereFilterCond_3) Then
+            viewquery = viewquery.Replace("_WhereFilterCond_3", "''")
+        Else
+            viewquery = viewquery.Replace("_WhereFilterCond_3", "'" & _WhereFilterCond_3 & "'")
+        End If
+
+        If String.IsNullOrEmpty(_WhereFilterCond_4) Then
+            viewquery = viewquery.Replace("_WhereFilterCond_4", "''")
+        Else
+            viewquery = viewquery.Replace("_WhereFilterCond_4", "'" & _WhereFilterCond_4 & "'")
+        End If
+        If String.IsNullOrEmpty(_WhereFilterCond_5) Then
+            viewquery = viewquery.Replace("_WhereFilterCond_5", "''")
+        Else
+            viewquery = viewquery.Replace("_WhereFilterCond_5", "'" & _WhereFilterCond_5 & "'")
+        End If
+        If String.IsNullOrEmpty(_WhereFilterCond_6) Then
+            viewquery = viewquery.Replace("_WhereFilterCond_6", "''")
+        Else
+            viewquery = viewquery.Replace("_WhereFilterCond_6", "'" & _WhereFilterCond_6 & "'")
+        End If
+        ' Tag control set 
+        Dim paramName As String = ""
+        Dim paramNameText As String = ""
+        For Each ctrl As Control In Me.Controls
+            If TypeOf ctrl Is TextBox Then
+                If ctrl.Tag IsNot Nothing Then
+                    paramName = ctrl.Tag.ToString().Trim
+                    paramName = "Filter" & paramName.Replace(" ", "")
+                    paramNameText = ctrl.Text.ToString().Trim
+                    viewquery = viewquery.Replace(paramName & "Value", "'" & paramNameText & "'")
+                End If
+            End If
+        Next
+        viewquery = viewquery.Replace("$", "'")
+        'Master list 
         Dim inClausefilterMasterlist1 As String = ""
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
@@ -649,50 +696,6 @@ Public Class ReportForm
             viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist5)", " ")
         End If
 
-        If String.IsNullOrEmpty(_WhereFilterCond_1) Then
-            viewquery = viewquery.Replace("_WhereFilterCond_1", "''")
-        Else
-            viewquery = viewquery.Replace("_WhereFilterCond_1", "'" & _WhereFilterCond_1 & "'")
-        End If
-        If String.IsNullOrEmpty(_WhereFilterCond_2) Then
-            viewquery = viewquery.Replace("_WhereFilterCond_2", "''")
-        Else
-            viewquery = viewquery.Replace("_WhereFilterCond_2", "'" & _WhereFilterCond_2 & "'")
-        End If
-        If String.IsNullOrEmpty(_WhereFilterCond_3) Then
-            viewquery = viewquery.Replace("_WhereFilterCond_3", "''")
-        Else
-            viewquery = viewquery.Replace("_WhereFilterCond_3", "'" & _WhereFilterCond_3 & "'")
-        End If
-
-        If String.IsNullOrEmpty(_WhereFilterCond_4) Then
-            viewquery = viewquery.Replace("_WhereFilterCond_4", "''")
-        Else
-            viewquery = viewquery.Replace("_WhereFilterCond_4", "'" & _WhereFilterCond_4 & "'")
-        End If
-        If String.IsNullOrEmpty(_WhereFilterCond_5) Then
-            viewquery = viewquery.Replace("_WhereFilterCond_5", "''")
-        Else
-            viewquery = viewquery.Replace("_WhereFilterCond_5", "'" & _WhereFilterCond_5 & "'")
-        End If
-        If String.IsNullOrEmpty(_WhereFilterCond_6) Then
-            viewquery = viewquery.Replace("_WhereFilterCond_6", "''")
-        Else
-            viewquery = viewquery.Replace("_WhereFilterCond_6", "'" & _WhereFilterCond_6 & "'")
-        End If
-        Dim paramName As String = ""
-        Dim paramNameText As String = ""
-        For Each ctrl As Control In Me.Controls
-            If TypeOf ctrl Is TextBox Then
-                If ctrl.Tag IsNot Nothing Then
-                    paramName = ctrl.Tag.ToString().Trim
-                    paramName = "Filter" & paramName.Replace(" ", "")
-                    paramNameText = ctrl.Text.ToString().Trim
-                    viewquery = viewquery.Replace(paramName & "Value", "'" & paramNameText & "'")
-                End If
-            End If
-        Next
-        viewquery = viewquery.Replace("$", "'")
 
         sqL = viewquery
         sql_connect_slect()
