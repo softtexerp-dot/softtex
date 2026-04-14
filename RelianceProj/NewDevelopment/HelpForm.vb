@@ -217,11 +217,12 @@ ADJAMT"
         RTBReport.Visible = True
         RTBReport.Text = "[REPORTQUERY]-------Section Part
 
-SELECT * FROM YourMainTable 
+SELECT *,CASE WHEN FilterUnitSelectionValue= $YES$ THEN a.FINREMARK ELSE $$ END as remark
+ FROM YourMainTable 
 where 1=1
-and  Billdate>=FilterFrom --------Filter Replace
-and  Billdate<=FilterTO --------Filter Replace
-and  EntryNo=FilterEntryNo --------Filter Replace
+and  Billdate>=_WhereFilterCond_1 --------Filter Replace
+and  Billdate<=_WhereFilterCond_2 --------Filter Replace
+and  (ISNULL(FilterEntryNoValue, 0) = 0 OR EntryNo =FilterEntryNoValue) --------Filter Replace
 
 and  FilterCond_1=_WhereFilterCond_1 --------Filter Replace
 and  FilterCond_2=_WhereFilterCond_2 --------Filter Replace

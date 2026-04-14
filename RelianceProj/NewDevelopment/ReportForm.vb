@@ -305,7 +305,6 @@ Public Class ReportForm
     Private Sub Control_TextChanged(sender As Object, e As EventArgs)
         Dim ctrl As Control = TryCast(sender, Control)
         If ctrl Is Nothing Then Exit Sub
-        Txt_EntryNo.Text = ctrl.Text
     End Sub
     Private Sub DateBox_KeyPress(sender As Object, e As KeyPressEventArgs)
         Dim txt As TextBox = DirectCast(sender, TextBox)
@@ -350,7 +349,6 @@ Public Class ReportForm
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
             e.Handled = True
-            Txt_EntryNo.Text = ctrl.Text
         ElseIf e.KeyCode = Keys.Up Then
             e.SuppressKeyPress = True
             e.Handled = True
@@ -502,12 +500,8 @@ Public Class ReportForm
         Next
         'tmptbl = _GetFormQuery(FormNameValue, valtype)
         tmptbl = _GetFormQueryReport(FormNameValue, valtype, valueMainmasterId)
-
         Dim _GetVale As Int64 = 1
-
         Dim txt As New ctl_TextBox.ctl_TextBox()
-
-
         For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
             Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
             Dim colType As String = dr("ColumnType").ToString()
@@ -521,60 +515,36 @@ Public Class ReportForm
                         _WhereFilterCond_1 = txt.Text
                         Generate_Date_For_DataBase(txt)
                         _WhereFilterCond_1 = txt.Date_for_Database
-                        'ElseIf _InputType = "Numeric" Then
-                        '    _WhereFilterCond_1 = txt.Text
-                        'ElseIf _InputType = "Normal" Then
-                        '    _WhereFilterCond_1 = txt.Text
                     End If
                 ElseIf _GetVale = 2 Then
                     If _InputType = "DateBox" Then
                         _WhereFilterCond_2 = txt.Text
                         Generate_Date_For_DataBase(txt)
                         _WhereFilterCond_2 = txt.Date_for_Database
-                        'ElseIf _InputType = "Numeric" Then
-                        '    _WhereFilterCond_2 = txt.Text
-                        'ElseIf _InputType = "Normal" Then
-                        '    _WhereFilterCond_2 = txt.Text
                     End If
                 ElseIf _GetVale = 3 Then
                     If _InputType = "DateBox" Then
                         _WhereFilterCond_3 = txt.Text
                         Generate_Date_For_DataBase(txt)
                         _WhereFilterCond_3 = txt.Date_for_Database
-                        'ElseIf _InputType = "Numeric" Then
-                        '    _WhereFilterCond_3 = txt.Text
-                        'ElseIf _InputType = "Normal" Then
-                        '    _WhereFilterCond_3 = txt.Text
                     End If
                 ElseIf _GetVale = 4 Then
                     If _InputType = "DateBox" Then
                         _WhereFilterCond_4 = txt.Text
                         Generate_Date_For_DataBase(txt)
                         _WhereFilterCond_4 = txt.Date_for_Database
-                        'ElseIf _InputType = "Numeric" Then
-                        '    _WhereFilterCond_4 = txt.Text
-                        'ElseIf _InputType = "Normal" Then
-                        '    _WhereFilterCond_4 = txt.Text
                     End If
                 ElseIf _GetVale = 5 Then
                     If _InputType = "DateBox" Then
                         _WhereFilterCond_5 = txt.Text
                         Generate_Date_For_DataBase(txt)
                         _WhereFilterCond_5 = txt.Date_for_Database
-                        'ElseIf _InputType = "Numeric" Then
-                        '    _WhereFilterCond_5 = txt.Text
-                        'ElseIf _InputType = "Normal" Then
-                        '    _WhereFilterCond_5 = txt.Text
                     End If
                 ElseIf _GetVale = 6 Then
                     If _InputType = "DateBox" Then
                         _WhereFilterCond_6 = txt.Text
                         Generate_Date_For_DataBase(txt)
                         _WhereFilterCond_6 = txt.Date_for_Database
-                        'ElseIf _InputType = "Numeric" Then
-                        '    _WhereFilterCond_6 = txt.Text
-                        'ElseIf _InputType = "Normal" Then
-                        '    _WhereFilterCond_6 = txt.Text
                     End If
                 End If
 
@@ -582,19 +552,13 @@ Public Class ReportForm
             End If
 
         Next
-
-        Dim FilterEntryno As Integer
-        If Not Integer.TryParse(Txt_EntryNo.Text.Trim(), FilterEntryno) Then
-            'Exit Sub
-        End If
         Dim filterMasterlist1 As String = ""
         Dim filterMasterlist2 As String = ""
         Dim filterMasterlist3 As String = ""
         Dim filterMasterlist4 As String = ""
         Dim filterMasterlist5 As String = ""
         ' 🔹 queries read
-        'Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
-        Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY1", valtype)
+        Dim viewquery As String = GetQuery(tmptbl, "REPORTQUERY", valtype)
         If viewquery = "" Then
             If ReportFormLoadFormName = "" Then
                 Exit Sub
@@ -605,110 +569,86 @@ Public Class ReportForm
         End If
 
         Dim inClausefilterMasterlist1 As String = ""
-        'If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
-        '    filterMasterlist1 = arr(0).Replace("'", "").Trim()
-        '    ' Master list display
-        '    masterListcode1.Clear()
-        '    HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
-        '    Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
-        '    inClausefilterMasterlist1 = String.Join(",", cleanListfilterMasterlist1)
-        '    If String.IsNullOrWhiteSpace(inClausefilterMasterlist1) Then
-        '        inClausefilterMasterlist1 = "()"
-        '        Exit Sub
-        '    End If
-        '    viewquery = viewquery.Replace("FilterMasterlist1", "(" & inClausefilterMasterlist1 & ")")
-        'Else
-        '    viewquery = viewquery.Replace("FilterMasterlist1", "('" & inClausefilterMasterlist1 & "')")
-        'End If
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
             masterListcode1.Clear()
             HandleMultipleMasterSelection(filterMasterlist1, "MULTY")
-            ' 👉 sirf values lo, quotes mat lagao
-            Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) t.Item1.Replace("'", "").Trim()).Where(Function(x) x <> "")
-            ' 👉 comma separated string
+            Dim cleanListfilterMasterlist1 = masterListcode1.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             inClausefilterMasterlist1 = String.Join(",", cleanListfilterMasterlist1)
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist1) Then
-                viewquery = viewquery.Replace("FilterMasterlist1", "NULL")
-                'Exit Sub
+                viewquery = viewquery.Replace("FilterMasterlist1", "''")
+                Exit Sub
             Else
-                viewquery = viewquery.Replace("FilterMasterlist1", "'" & inClausefilterMasterlist1 & "'")
+                viewquery = viewquery.Replace("FilterMasterlist1", inClausefilterMasterlist1)
             End If
         Else
-            viewquery = viewquery.Replace("FilterMasterlist1", "NULL")
+            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist1)", " ")
         End If
         Dim inClausefilterMasterlist2 As String = ""
         If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
             filterMasterlist2 = arr(1).Replace("'", "").Trim()
             masterListcode2.Clear()
             HandleMultipleMasterSelection(filterMasterlist2, "MULTY")
-            Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) t.Item1.Replace("'", "").Trim()).Where(Function(x) x <> "")
+            Dim cleanListfilterMasterlist2 = masterListcode2.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             inClausefilterMasterlist2 = String.Join(",", cleanListfilterMasterlist2)
-
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist2) Then
-                viewquery = viewquery.Replace("FilterMasterlist2", "NULL")
-                'Exit Sub
+                viewquery = viewquery.Replace("FilterMasterlist2", "''")
+                Exit Sub
             Else
-                viewquery = viewquery.Replace("FilterMasterlist2", "'" & inClausefilterMasterlist2 & "'")
+                viewquery = viewquery.Replace("FilterMasterlist2", inClausefilterMasterlist2)
             End If
         Else
-            viewquery = viewquery.Replace("FilterMasterlist2", "NULL")
+            viewquery = viewquery.Replace("AND a.agentcode IN (FilterMasterlist2)", " ")
         End If
         Dim inClausefilterMasterlist3 As String = ""
         If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
             filterMasterlist3 = arr(2).Replace("'", "").Trim()
             masterListcode3.Clear()
             HandleMultipleMasterSelection(filterMasterlist3, "MULTY")
-            Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) t.Item1.Replace("'", "").Trim()).Where(Function(x) x <> "")
+            Dim cleanListfilterMasterlist3 = masterListcode3.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             inClausefilterMasterlist3 = String.Join(",", cleanListfilterMasterlist3)
-
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist3) Then
-                viewquery = viewquery.Replace("FilterMasterlist3", "NULL")
-                'Exit Sub
+                viewquery = viewquery.Replace("FilterMasterlist3", "''")
+                Exit Sub
             Else
-                viewquery = viewquery.Replace("FilterMasterlist3", "'" & inClausefilterMasterlist3 & "'")
+                viewquery = viewquery.Replace("FilterMasterlist3", inClausefilterMasterlist3)
             End If
         Else
-            viewquery = viewquery.Replace("FilterMasterlist3", "NULL")
+            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist3)", " ")
         End If
         Dim inClausefilterMasterlist4 As String = ""
         If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
             filterMasterlist4 = arr(3).Replace("'", "").Trim()
             masterListcode4.Clear()
             HandleMultipleMasterSelection(filterMasterlist4, "MULTY")
-            Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) t.Item1.Replace("'", "").Trim()).Where(Function(x) x <> "")
+            Dim cleanListfilterMasterlist4 = masterListcode4.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             inClausefilterMasterlist4 = String.Join(",", cleanListfilterMasterlist4)
-
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist4) Then
-                viewquery = viewquery.Replace("FilterMasterlist4", "NULL")
-                'Exit Sub
+                viewquery = viewquery.Replace("FilterMasterlist4", "''")
+                Exit Sub
             Else
-                viewquery = viewquery.Replace("FilterMasterlist4", "'" & inClausefilterMasterlist4 & "'")
+                viewquery = viewquery.Replace("FilterMasterlist4", inClausefilterMasterlist4)
             End If
         Else
-            viewquery = viewquery.Replace("FilterMasterlist4", "NULL")
+            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist4)", " ")
         End If
         Dim inClausefilterMasterlist5 As String = ""
         If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
             filterMasterlist5 = arr(4).Replace("'", "").Trim()
             masterListcode5.Clear()
             HandleMultipleMasterSelection(filterMasterlist5, "MULTY")
-            Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) t.Item1.Replace("'", "").Trim()).Where(Function(x) x <> "")
+            Dim cleanListfilterMasterlist5 = masterListcode5.Select(Function(t) "'" & t.Item1.Replace("'", "").Trim() & "'").Where(Function(x) x <> "''")
             inClausefilterMasterlist5 = String.Join(",", cleanListfilterMasterlist5)
             If String.IsNullOrWhiteSpace(inClausefilterMasterlist5) Then
-                viewquery = viewquery.Replace("FilterMasterlist5", "NULL")
-                'Exit Sub
+                viewquery = viewquery.Replace("FilterMasterlist5", "''")
+                Exit Sub
             Else
-                viewquery = viewquery.Replace("FilterMasterlist5", "'" & inClausefilterMasterlist5 & "'")
+                viewquery = viewquery.Replace("FilterMasterlist5", inClausefilterMasterlist5)
             End If
         Else
-            viewquery = viewquery.Replace("FilterMasterlist5", "NULL")
+            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist5)", " ")
         End If
 
-
-        'viewquery = viewquery.Replace("FilterFrom", FilterFrom)
-        'viewquery = viewquery.Replace("FilterTO", FilterTO)
-        'viewquery = viewquery.Replace("_WhereFilterCond_1", _WhereFilterCond_1)
         If String.IsNullOrEmpty(_WhereFilterCond_1) Then
             viewquery = viewquery.Replace("_WhereFilterCond_1", "''")
         Else
@@ -725,32 +665,21 @@ Public Class ReportForm
             viewquery = viewquery.Replace("_WhereFilterCond_3", "'" & _WhereFilterCond_3 & "'")
         End If
 
-        'viewquery = viewquery.Replace("_WhereFilterCond_4", _WhereFilterCond_4)
         If String.IsNullOrEmpty(_WhereFilterCond_4) Then
             viewquery = viewquery.Replace("_WhereFilterCond_4", "''")
         Else
             viewquery = viewquery.Replace("_WhereFilterCond_4", "'" & _WhereFilterCond_4 & "'")
         End If
-        'viewquery = viewquery.Replace("_WhereFilterCond_5", _WhereFilterCond_5)
         If String.IsNullOrEmpty(_WhereFilterCond_5) Then
             viewquery = viewquery.Replace("_WhereFilterCond_5", "''")
         Else
             viewquery = viewquery.Replace("_WhereFilterCond_5", "'" & _WhereFilterCond_5 & "'")
         End If
-        'viewquery = viewquery.Replace("_WhereFilterCond_6", _WhereFilterCond_6)
         If String.IsNullOrEmpty(_WhereFilterCond_6) Then
             viewquery = viewquery.Replace("_WhereFilterCond_6", "''")
         Else
             viewquery = viewquery.Replace("_WhereFilterCond_6", "'" & _WhereFilterCond_6 & "'")
         End If
-
-        If FilterEntryno <> "0" Then
-            viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
-        Else
-            viewquery = viewquery.Replace("FilterEntryNo", FilterEntryno)
-        End If
-
-
         Dim paramName As String = ""
         Dim paramNameText As String = ""
         For Each ctrl As Control In Me.Controls
@@ -759,7 +688,6 @@ Public Class ReportForm
                     paramName = ctrl.Tag.ToString().Trim
                     paramName = "Filter" & paramName.Replace(" ", "")
                     paramNameText = ctrl.Text.ToString().Trim
-                    'viewquery = viewquery.Replace(paramName & "Value", paramNameText).Replace("$", "'")
                     viewquery = viewquery.Replace(paramName & "Value", "'" & paramNameText & "'")
                 End If
             End If
@@ -774,8 +702,12 @@ Public Class ReportForm
         If resulttable.Rows.Count > 0 Then
             REPORT_RPT_FILE_NAME = valreportName
             Dim RptTitle = valtype
-            Date_Range = "Date From:" & Txt_ViewFrom.Text & " To:" & Txt_ViewTO.Text & " "
-
+            'Date_Range = "Date From:" & _WhereFilterCond_2 & " To:" & _WhereFilterCond_3 & " "    'date formate dd-MMM-YYYY like 01-Jan-2026
+            Dim dtFrom As DateTime
+            Dim dtTo As DateTime
+            If DateTime.TryParse(_WhereFilterCond_2, dtFrom) AndAlso DateTime.TryParse(_WhereFilterCond_3, dtTo) Then
+                Date_Range = "Date From: " & dtFrom.ToString("dd/MM/yyyy") & " To: " & dtTo.ToString("dd/MM/yyyy")
+            End If
             NewReportPrint(resulttable, RptTitle, Date_Range)
         Else
             MsgBox("record not found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
