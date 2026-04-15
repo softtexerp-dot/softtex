@@ -217,19 +217,19 @@ ADJAMT"
         RTBReport.Visible = True
         RTBReport.Text = "[REPORTQUERY]-------Section Part
 
-SELECT *,CASE WHEN FilterUnitSelectionValue= $YES$ THEN a.FINREMARK ELSE $$ END as remark
+SELECT *,CASE WHEN FilterUnitSelectionValue= $YES$ THEN FINREMARK ELSE $$ END as remark
  FROM YourMainTable 
 where 1=1
-and  Billdate>=_WhereFilterCond_1 --------Filter Replace
-and  Billdate<=_WhereFilterCond_2 --------Filter Replace
+and  Billdate>=_WhereFilterCond_1 --------Date Filter Replace
+and  Billdate<=_WhereFilterCond_2 --------Date Filter Replace
 and  (ISNULL(FilterEntryNoValue, 0) = 0 OR EntryNo =FilterEntryNoValue) --------Filter Replace
 
-and  FilterCond_1=_WhereFilterCond_1 --------Filter Replace
-and  FilterCond_2=_WhereFilterCond_2 --------Filter Replace
-and  FilterCond_3=_WhereFilterCond_3 --------Filter Replace
-and  FilterCond_4=_WhereFilterCond_4 --------Filter Replace
-and  FilterCond_5=_WhereFilterCond_5 --------Filter Replace
-and  FilterCond_6=_WhereFilterCond_6 --------Filter Replace
+and  FilterCond_1=_WhereFilterCond_1 --------Date Filter Replace
+and  FilterCond_2=_WhereFilterCond_2 --------Date Filter Replace
+and  FilterCond_3=_WhereFilterCond_3 --------Date Filter Replace
+and  FilterCond_4=_WhereFilterCond_4 --------Date Filter Replace
+and  FilterCond_5=_WhereFilterCond_5 --------Date Filter Replace
+and  FilterCond_6=_WhereFilterCond_6 --------Date Filter Replace
 
 and  MasterCode1 In FilterMasterlist1 --------Filter Replace
 and  MasterCode2 In FilterMasterlist2 --------Filter Replace
@@ -258,7 +258,7 @@ and  MasterCode5 In FilterMasterlist5 --------Filter Replace
         ' 👉 Filters highlight
         HighlightWord(rtb, "FilterFrom", Color.Purple)
         HighlightWord(rtb, "FilterTO", Color.Purple)
-        HighlightWord(rtb, "FilterEntryNo", Color.Purple)
+        HighlightWord(rtb, "FilterEntryNoValue", Color.Purple)
 
         HighlightWord(rtb, "_WhereFilterCond_1", Color.Purple)
         HighlightWord(rtb, "_WhereFilterCond_2", Color.Purple)

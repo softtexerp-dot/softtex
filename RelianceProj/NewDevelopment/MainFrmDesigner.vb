@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports DevExpress.CodeParser
+Imports RestSharp.Extensions
 
 Public Class MainFrmDesigner
 
@@ -139,24 +140,18 @@ Public Class MainFrmDesigner
             .Append(",Masking")
             .Append(",Managebook")
             .Append(",FormType")
-
         End With
-
         _GridColType = New StringBuilder
         With _GridColType
             .Append("OrderNo:N")
             .Append(",Tabindex:N")
-
         End With
-
         _GridColValidate = New StringBuilder
         With _GridColValidate
         End With
-
         _GridCol_FocusByPass = New StringBuilder
         With _GridCol_FocusByPass
         End With
-
         _FieldHeader = New StringBuilder
         With _FieldHeader
             .Append("CntrlName:GridName")
@@ -182,7 +177,6 @@ Public Class MainFrmDesigner
             .Append(",SaveYN:Save Y/N")
             .Append(",Masking:Decimal Value")
         End With
-
         _FieldHeaderAlignment = New StringBuilder
         With _FieldHeaderAlignment
             .Append("ColumnType:L")
@@ -207,7 +201,6 @@ Public Class MainFrmDesigner
             .Append(",SaveYN:L")
             .Append(",Masking:L")
         End With
-
         _FieldAlignMent = New StringBuilder
         With _FieldAlignMent
             .Append("ColumnType:L")
@@ -232,7 +225,6 @@ Public Class MainFrmDesigner
             .Append(",SaveYN:L")
             .Append(",Masking:L")
         End With
-
         _FieldNotVisibile = New StringBuilder
         With _FieldNotVisibile
             .Append("ID:N")
@@ -287,14 +279,10 @@ Public Class MainFrmDesigner
             .Append(",Managebook:N")
             .Append(",FormType:N")
         End With
-
-
-
         _FieldNotRequiredForSave = New StringBuilder
         With _FieldNotRequiredForSave
             .Append("ID:N")
         End With
-
         _FieldWidthSet = New StringBuilder
         With _FieldWidthSet
             .Append("ColumnType:8")
@@ -320,7 +308,6 @@ Public Class MainFrmDesigner
             .Append(",SaveYN:8")
             .Append(",Masking:10")
         End With
-
         _FieldDefaultValues = New StringBuilder
         With _FieldDefaultValues
             .Append("OrderNo:0")
@@ -336,7 +323,6 @@ Public Class MainFrmDesigner
             .Append(",SaveYN:Y")
             .Append(",Visible:N")
         End With
-
         _FieldLocked = New StringBuilder
         With _FieldLocked
             .Append("ColumnType:Y")
@@ -350,7 +336,6 @@ Public Class MainFrmDesigner
             .Append(",TextAlign:Y")
             .Append(",SaveYN:Y")
         End With
-
         _FieldMasking = New StringBuilder
         With _FieldMasking
             '.Append("GMTR:NO-2,")
@@ -361,10 +346,8 @@ Public Class MainFrmDesigner
             .Append(",SizeHeight:NO-0")
             .Append(",Tabindex:NO-0")
         End With
-
         With _FieldNameSameValueCopy
         End With
-
         _FieldNameColmType = New StringBuilder
         With _FieldNameColmType
             '.Append("DataBaseColumn:CMB")
@@ -479,21 +462,17 @@ Public Class MainFrmDesigner
             .Append(",Managebook")
             .Append(",FormType")
         End With
-
         Detail_GridColType = New StringBuilder
         With Detail_GridColType
             .Append("OrderNo:N")
             .Append(",Tabindex:N")
         End With
-
         Detail_GridColValidate = New StringBuilder
         With Detail_GridColValidate
         End With
-
         Detail_GridCol_FocusByPass = New StringBuilder
         With Detail_GridCol_FocusByPass
         End With
-
         Detail_FieldHeader = New StringBuilder
         With Detail_FieldHeader
             .Append("CntrlName:GridName")
@@ -519,7 +498,6 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:Spacer String")
             .Append(",Masking:Decimal Value")
         End With
-
         Detail_FieldHeaderAlignment = New StringBuilder
         With Detail_FieldHeaderAlignment
             .Append("ColumnType:L")
@@ -545,7 +523,6 @@ Public Class MainFrmDesigner
             .Append(",DataBaseColumn:L")
             .Append(",Masking:R")
         End With
-
         Detail_FieldAlignMent = New StringBuilder
         With Detail_FieldAlignMent
             .Append("ColumnType:L")
@@ -571,7 +548,6 @@ Public Class MainFrmDesigner
             .Append(",DataBaseColumn:L")
             .Append(",Masking:R")
         End With
-
         Detail_FieldNotVisibile = New StringBuilder
         With Detail_FieldNotVisibile
             .Append("ID:N")
@@ -627,14 +603,10 @@ Public Class MainFrmDesigner
             .Append(",Managebook:N")
             .Append(",FormType:N")
         End With
-
-
-
         Detail_FieldNotRequiredForSave = New StringBuilder
         With Detail_FieldNotRequiredForSave
             .Append("ID:N")
         End With
-
         Detail_FieldWidthSet = New StringBuilder
         With Detail_FieldWidthSet
             .Append("ColumnType:8")
@@ -660,14 +632,12 @@ Public Class MainFrmDesigner
             .Append(",OppMasterCode:8")
             .Append(",Masking:10")
         End With
-
         Detail_FieldDefaultValues = New StringBuilder
         With Detail_FieldDefaultValues
             .Append("OrderNo:0")
             .Append(",Tabindex:0")
             .Append(",Masking:0")
         End With
-
         Detail_FieldLocked = New StringBuilder
         With Detail_FieldLocked
             .Append("ColumnType:Y")
@@ -680,17 +650,14 @@ Public Class MainFrmDesigner
             .Append(",UseMaster:Y")
             .Append(",TextAlign:Y")
         End With
-
         Detail_FieldMasking = New StringBuilder
         With Detail_FieldMasking
             .Append("Masking:NO-0")
             .Append(",OrderNo:NO-0")
             .Append(",SizeWidth:NO-0")
         End With
-
         With Detail_FieldNameSameValueCopy
         End With
-
         Detail_FieldNameColmType = New StringBuilder
         With Detail_FieldNameColmType
             '.Append("DataBaseColumn:CMB")
@@ -1089,13 +1056,15 @@ Public Class MainFrmDesigner
 
         Dim _BaseName As String = _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text
         If _ActiverownoHeader > 0 Then
-
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text = _BaseName.ToString()
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DATABASECOLUMN") + 1).Text = _ColmName
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
-            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationX") + 1).Text = 10
+            If txtfrmtype.Text.Trim() = "REPORT" Then
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationX") + 1).Text = 500
+            Else
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationX") + 1).Text = 10
+            End If
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = LocationY
-
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("OrderNo") + 1).Text = _ActiverownoHeader
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("Tabindex") + 1).Text = _ActiverownoHeader
             If _GetGrid.Name = "Grid1" Then
@@ -1147,6 +1116,7 @@ Public Class MainFrmDesigner
             End If
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("READONLY") + 1).Text = "N"
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USEMASTERKEY") + 1).Text = "N"
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Text = StrConv(_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("USERTEXT") + 1).Text, VbStrConv.ProperCase)
             'LocationY += 30
             _GetGrid.Rows = _GetGrid.Rows + 1
         End If
@@ -1155,25 +1125,19 @@ Public Class MainFrmDesigner
     Private Sub View_RecordGridDetail(ByVal _gridName As FlexCell.Grid, ByVal Datatable As DataTable, ByVal _SelectionType As String, ByVal _ActivatedColName As String)
         Dim selectedCols As New List(Of String)
         selectedCols.AddRange(GetSelectedColumnsFromGrid(_gridName, Datatable, _ActivatedColName))
-
-
         If _gridName.Name = "GrdItem" Then
             selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName))
         ElseIf _gridName.Name = "Grid1" Then
             selectedCols.AddRange(GetSelectedColumnsFromGrid(GrdItem, _DataTableGrid, _ActivatedColName))
         End If
-
         selectedCols = selectedCols.Distinct().ToList()
         Dim whereCondition As String = ""
-
         If selectedCols.Count > 0 Then
             Dim inClause As String = "'" & String.Join("','", selectedCols.Select(Function(x) x.Replace("'", "''"))) & "'"
-
             whereCondition = " AND COLUMN_NAME NOT IN (" & inClause & ") "
         End If
         _strQuery = New StringBuilder
         Dim _TblName As String = CmbTableName.Text
-
         With _strQuery
             .Append(" SELECT ")
             .Append(" 'False' as TickMark ")
@@ -1188,20 +1152,14 @@ Public Class MainFrmDesigner
             End If
             .Append(" ORDER BY COLUMN_NAME ")
         End With
-
         sqL = _strQuery.ToString
         sql_connect_slect()
-
         Dim COLUMN_NAME As String = ""
         Dim DATATYPE As String = ""
         Dim _LoadQuery = _strQuery.ToString
-
         If _SelectionType = "MULTY" Then
-
             Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType([Nothing]), "", _SelectionType)
-
             If selectedList IsNot Nothing Then
-
                 For Each rowDict As Dictionary(Of String, Object) In selectedList
                     If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ColumnName") Then
                         If COLUMN_NAME <> "" Then COLUMN_NAME &= ","
@@ -1221,9 +1179,7 @@ Public Class MainFrmDesigner
                     _ActiverownoHeader += 1
                 Next
             End If
-
         Else
-
             Dim _ActiveText As String =
             _gridName.Cell(_gridName.ActiveCell.Row,
             Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text
@@ -1232,11 +1188,8 @@ Public Class MainFrmDesigner
                 _gridName.Cell(_gridName.ActiveCell.Row, Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text = selected("ColumnName").ToString()
                 _gridName.Cell(_gridName.ActiveCell.Row, Datatable.Columns.IndexOf("InputType") + 1).Text = selected("DataType").ToString()
             End If
-
         End If
-
         _gridName.Focus()
-
     End Sub
     Private Function GetSelectedColumnsFromGrid(ByVal grd As FlexCell.Grid, ByVal dt As DataTable, ByVal colName As String) As List(Of String)
         Dim list As New List(Of String)
@@ -1250,14 +1203,10 @@ Public Class MainFrmDesigner
         Next
         Return list
     End Function
-
 #End Region
 #End Region
-
-
     Private Sub MainFrmDesigner_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-
         '_addcoloum()
         txtfrmtype.Text = "MASTER FORM"
         Ctl_Managebybook.Text = "YES"
@@ -1745,10 +1694,18 @@ Public Class MainFrmDesigner
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "DateBox"
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "DateBox" Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "SpacerType"
+                    If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "SpacerType" Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "Y"
+                    Else
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
+                    End If
+
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "SpacerType" Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Numeric"
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Numeric" Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Normal"
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
                 End If
             End If
 
@@ -1905,7 +1862,6 @@ Public Class MainFrmDesigner
             End If
         ElseIf _ActivatedColName = "SPACERSTRING" Then
             GrdItem.ActiveCell.Text = GrdItem.ActiveCell.Text.ToUpper()
-            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "Y"
             If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
                 GrdItem.Rows = GrdItem.Rows + 1
             End If
@@ -2504,13 +2460,31 @@ Public Class MainFrmDesigner
         'Header Grid Save
         For i As Int16 = 1 To GrdItem.Rows - 1
             If _FORMMODE <> "EDIT" Then
-                Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.Trim()
+                Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
                 If textValue <> "" Then
                     ' 🔹 Fix value for these 3 fields
                     If textValue = "BOOKCODE" Or textValue = "BOOKTRTYPE" Or textValue = "BOOKVNO" Or textValue = "BOOKNAME" Then
                         GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = 10
                     Else
                         ' 🔹 Increment for other fields
+
+                        If CurrentLocationY = 0 Then
+                            CurrentLocationY = 10
+                        Else
+                            CurrentLocationY += 30
+                        End If
+                        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = CurrentLocationY
+                    End If
+                End If
+            Else
+                Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
+                If textValue <> "" Then
+                    ' 🔹 Fix value for these 3 fields
+                    If textValue = "BOOKCODE" Or textValue = "BOOKTRTYPE" Or textValue = "BOOKVNO" Or textValue = "BOOKNAME" Then
+                        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = 10
+                    Else
+                        ' 🔹 Increment for other fields
+
                         If CurrentLocationY = 0 Then
                             CurrentLocationY = 10
                         Else
@@ -2521,13 +2495,13 @@ Public Class MainFrmDesigner
                 End If
             End If
             _ColumnType = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ColumnType") + 1).Text
+            GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text = StrConv(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text, VbStrConv.ProperCase)
             If Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text) = 0 Then
                 If Not ColumnTypeCounter.ContainsKey(_ColumnType) Then
                     ColumnTypeCounter(_ColumnType) = 1
                 Else
                     ColumnTypeCounter(_ColumnType) += 1
                 End If
-
                 ' 🔴 Grid limit check
                 If _ColumnType = "Grid" AndAlso ColumnTypeCounter(_ColumnType) > 5 Then
                     MessageBox.Show("Grid type maximum 5 hi allowed hai.", "Limit Reached",
@@ -2682,7 +2656,7 @@ Public Class MainFrmDesigner
             If columnType = "Grid" Then
                 Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = "Grid1"
             End If
-
+            Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text = StrConv(Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text, VbStrConv.ProperCase)
             Dim sb As New StringBuilder
             sb.Append("INSERT INTO " & _DatabaseTableNameItem & " (")
             sb.Append("CntrlType,ColumnType,")

@@ -547,10 +547,8 @@ Public Class ReportForm
                         _WhereFilterCond_6 = txt.Date_for_Database
                     End If
                 End If
-
                 _GetVale += 1
             End If
-
         Next
         Dim filterMasterlist1 As String = ""
         Dim filterMasterlist2 As String = ""
@@ -568,7 +566,7 @@ Public Class ReportForm
             End If
         End If
 
-        'date control
+        ' 🔹 date control
         If String.IsNullOrEmpty(_WhereFilterCond_1) Then
             viewquery = viewquery.Replace("_WhereFilterCond_1", "''")
         Else
@@ -600,7 +598,7 @@ Public Class ReportForm
         Else
             viewquery = viewquery.Replace("_WhereFilterCond_6", "'" & _WhereFilterCond_6 & "'")
         End If
-        ' Tag control set 
+        ' 🔹 Tag control set 
         Dim paramName As String = ""
         Dim paramNameText As String = ""
         For Each ctrl As Control In Me.Controls
@@ -614,7 +612,7 @@ Public Class ReportForm
             End If
         Next
         viewquery = viewquery.Replace("$", "'")
-        'Master list 
+        '  🔹 Master list 
         Dim inClausefilterMasterlist1 As String = ""
         If arr.Length > 0 AndAlso arr(0).Trim() <> "" Then
             filterMasterlist1 = arr(0).Replace("'", "").Trim()
@@ -628,8 +626,6 @@ Public Class ReportForm
             Else
                 viewquery = viewquery.Replace("FilterMasterlist1", inClausefilterMasterlist1)
             End If
-        Else
-            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist1)", " ")
         End If
         Dim inClausefilterMasterlist2 As String = ""
         If arr.Length > 1 AndAlso arr(1).Trim() <> "" Then
@@ -644,8 +640,6 @@ Public Class ReportForm
             Else
                 viewquery = viewquery.Replace("FilterMasterlist2", inClausefilterMasterlist2)
             End If
-        Else
-            viewquery = viewquery.Replace("AND a.agentcode IN (FilterMasterlist2)", " ")
         End If
         Dim inClausefilterMasterlist3 As String = ""
         If arr.Length > 2 AndAlso arr(2).Trim() <> "" Then
@@ -660,8 +654,7 @@ Public Class ReportForm
             Else
                 viewquery = viewquery.Replace("FilterMasterlist3", inClausefilterMasterlist3)
             End If
-        Else
-            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist3)", " ")
+
         End If
         Dim inClausefilterMasterlist4 As String = ""
         If arr.Length > 3 AndAlso arr(3).Trim() <> "" Then
@@ -676,8 +669,7 @@ Public Class ReportForm
             Else
                 viewquery = viewquery.Replace("FilterMasterlist4", inClausefilterMasterlist4)
             End If
-        Else
-            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist4)", " ")
+
         End If
         Dim inClausefilterMasterlist5 As String = ""
         If arr.Length > 4 AndAlso arr(4).Trim() <> "" Then
@@ -692,10 +684,7 @@ Public Class ReportForm
             Else
                 viewquery = viewquery.Replace("FilterMasterlist5", inClausefilterMasterlist5)
             End If
-        Else
-            viewquery = viewquery.Replace("AND a.accountcode IN (FilterMasterlist5)", " ")
         End If
-
 
         sqL = viewquery
         sql_connect_slect()
