@@ -589,11 +589,16 @@ Friend Class MenuFormAdd
         End If
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
         tblFormValues.Rows(0)("MenuName") = Txt_MenuName.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
-        If Txt_MenuType.Text.Trim = "PARENT1" Then
-            tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
+        If _FORMMODE = "ADD" Then
+            tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
+            If Txt_MenuType.Text.Trim = "PARENT1" Then
+                tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
+            Else
+                tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
+            End If
         Else
-            tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
+            Txt_UnderMenuPositionId.Text = DefaltSoftTable.Rows(0)("MenuPositionId")
+            Txt_UnderMenuPositionId.Text = DefaltSoftTable.Rows(0)("MainMenuPositionId")
         End If
         tblFormValues.Rows(0)("MenuOrderNo") = Val(Txt_MenuOrder.Text)
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
