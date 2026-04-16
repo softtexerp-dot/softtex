@@ -17,9 +17,6 @@ Public Class ReportForm
     Dim dragOffset As Point
     Public ReportFormLoadFormName As String = ""
     Dim _FormCloseMode As Boolean = False
-    Dim Txt_ViewFrom As New ctl_TextBox.ctl_TextBox()
-    Dim Txt_ViewTO As New ctl_TextBox.ctl_TextBox()
-    Dim Txt_EntryNo As New ctl_TextBox.ctl_TextBox()
     Dim GetformName As String = ""
     Public Property _SeletedFormName As String
     Public _SeletedReportType As String
@@ -47,9 +44,6 @@ Public Class ReportForm
     Private Sub ReportForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
-        Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
-        Txt_ViewTO.Text = Main_MDI_Frm.FINE_YEAR_END.Text
-        'Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         _LoadDefaultData()
         AttachButtonFocusEvents(Me)
     End Sub

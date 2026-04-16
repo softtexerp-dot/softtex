@@ -35,6 +35,7 @@ Public Class MasterMenuLoad
             .Append(",SelectedFormName")
             .Append(" FROM MENUNAME ")
             .Append(" WHERE 1=1 ")
+            .Append(" And ActiveStatus='YES' ")
             .Append("order by MenuPositionId,MenuOrderNo ")
         End With
         RS = _Query.ToString
@@ -209,7 +210,7 @@ Public Class MasterMenuLoad
         MenuDesign_QueryLoad()
         'GridView2.Columns.Clear()
         GridControl1.DataSource = DefaltSoftTable.Copy
-        GridView2.Appearance.Row.Font = New Font("Tahoma", 10, FontStyle.Bold)
+        GridView2.Appearance.Row.Font = New Font("Verdana", 10, FontStyle.Bold)
         GridView2.RowHeight = 29
         GridView2.OptionsView.ShowIndicator = False
         GridView2.BestFitColumns()

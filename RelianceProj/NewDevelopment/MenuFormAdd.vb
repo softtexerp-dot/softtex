@@ -259,10 +259,12 @@ Friend Class MenuFormAdd
                 Txt_MenuPosition.Text = 1
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
-                RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
+                'RS = "SELECT MAX(ISNULL(A.MenuOrderNo, 0)) AS MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " "
+                'RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
+                RS = "SELECT MAX(A.MenuOrderNo) AS MenuOrderNo FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " "
                 MenuDesign_QueryLoad()
-                If DefaltSoftTable.Rows.Count > 0 Then
-                    Txt_MenuOrder.Text = DefaltSoftTable.Rows(0).Item("MenuOrderNo") + 1
+                If Not IsDBNull(DefaltSoftTable.Rows(0)("MenuOrderNo")) AndAlso Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) > 0 Then
+                    Txt_MenuOrder.Text = Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) + 1
                 Else
                     Txt_MenuOrder.Text = 1
                 End If
@@ -284,6 +286,7 @@ Friend Class MenuFormAdd
             Qry.Append(" WHERE 1=1 ")
             'Qry.Append(" AND A.MenuPositionId=0 ")
             Qry.Append(" AND A.MainMenuPositionId=0 ")
+            Qry.Append(" AND A.ActiveStatus='YES' ")
             Qry.Append(" ORDER BY A.MenuName ")
             RS = Qry.ToString
             MenuDesign_QueryLoad()
@@ -585,10 +588,13 @@ Friend Class MenuFormAdd
                 LASTCODE = "1"
             End If
         Else
-            LASTCODE = _KeyFieldValue
+            LASTCODE = DefaltSoftTable.Rows(0)("MainId")
+            _KeyFieldValue = LASTCODE
         End If
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
-        tblFormValues.Rows(0)("MenuName") = Txt_MenuName.Text.Replace("'", "''")
+        Dim txtmenuname As String = Txt_MenuName.Text.Trim().ToLower()
+        Dim properText As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmenuname)
+        tblFormValues.Rows(0)("MenuName") = properText.Replace("'", "''")
         If _FORMMODE = "ADD" Then
             tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
             If Txt_MenuType.Text.Trim = "PARENT1" Then
@@ -597,23 +603,30 @@ Friend Class MenuFormAdd
                 tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
             End If
         Else
-            Txt_UnderMenuPositionId.Text = DefaltSoftTable.Rows(0)("MenuPositionId")
-            Txt_UnderMenuPositionId.Text = DefaltSoftTable.Rows(0)("MainMenuPositionId")
+            Txt_UnderMenuPositionId.Text = tblFormValues.Rows(0)("MenuPositionId")
+            Txt_UnderMenuPositionId.Text = tblFormValues.Rows(0)("MainMenuPositionId")
         End If
         tblFormValues.Rows(0)("MenuOrderNo") = Val(Txt_MenuOrder.Text)
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
         tblFormValues.Rows(0)("MenuPosition") = Val(Txt_MenuPosition.Text)
         tblFormValues.Rows(0)("MenuIsSparate") = Txt_MenuSepartor.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("MainMenuName") = Txt_MenuUnderMenuName.Text.Replace("'", "''")
+        Dim txtmainmenuname As String = Txt_MenuName.Text.Trim().ToLower()
+        Dim properTextmainmenu As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmainmenuname)
+        tblFormValues.Rows(0)("MainMenuName") = properTextmainmenu.Replace("'", "''")
         tblFormValues.Rows(0)("SelectedFormName") = Txt_MenuDisplayName.Text.Replace("'", "''")
         tblFormValues.Rows(0)("ShortCutKey") = Txt_MenuShortCutKey.Text.Replace("'", "''")
         tblFormValues.Rows(0)("MenuType") = Txt_MenuType.Text.Replace("'", "''")
-        ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
+        'ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
         SaveQuery = getSaveQuery()
         RS = SaveQuery.ToString
         MenuDesign_QuerySaveUpdateDelete()
-        MessageBox.Show("Save Successfully")
+        If _FORMMODE = "ADD" Then
+            MessageBox.Show("Save Successfully")
+        Else
+            MessageBox.Show("Update Successfully")
+        End If
+
         Call Ctrl_Visible_False(Me.Controls)
         Clear()
         _FrmLoad = False
