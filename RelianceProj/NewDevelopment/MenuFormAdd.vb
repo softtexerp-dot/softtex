@@ -249,8 +249,10 @@ Friend Class MenuFormAdd
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
             ElseIf Txt_MenuType.Text.Trim = "PARENT1" Then
+                'Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_MenuPosition.Text = 2
                 'Txt_UnderMenuPositionId.Text = 2
+                '_MainmenupositionId = 1
                 _MainmenupositionId = 2
             ElseIf Txt_MenuType.Text.Trim = "PARENT2" Then
                 Txt_MenuPosition.Text = 3
@@ -259,9 +261,8 @@ Friend Class MenuFormAdd
                 Txt_MenuPosition.Text = 1
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
-                'RS = "SELECT MAX(ISNULL(A.MenuOrderNo, 0)) AS MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " "
                 'RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
-                RS = "SELECT MAX(A.MenuOrderNo) AS MenuOrderNo FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " "
+                RS = "SELECT MAX(A.MenuOrderNo) AS MenuOrderNo FROM " & _TblName & " AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " "
                 MenuDesign_QueryLoad()
                 If Not IsDBNull(DefaltSoftTable.Rows(0)("MenuOrderNo")) AndAlso Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) > 0 Then
                     Txt_MenuOrder.Text = Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) + 1
@@ -282,7 +283,7 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MainId ")
             Qry.Append(" ,A.MainId ")
             Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM MenuName AS A ")
+            Qry.Append(" FROM " & _TblName & " AS A ")
             Qry.Append(" WHERE 1=1 ")
             'Qry.Append(" AND A.MenuPositionId=0 ")
             Qry.Append(" AND A.MainMenuPositionId=0 ")
@@ -318,7 +319,7 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MainId ")
             Qry.Append(" ,A.MainId ")
             Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM MenuName AS A ")
+            Qry.Append(" FROM " & _TblName & " AS A ")
             Qry.Append(" WHERE 1=1 ")
             'Qry.Append(" AND A.MenuPositionId=1 ")
             Qry.Append(" AND A.MainMenuPositionId=1 ")
@@ -354,7 +355,7 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MainId ")
             Qry.Append(" ,A.MainId ")
             Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM MenuName AS A ")
+            Qry.Append(" FROM " & _TblName & " AS A ")
             Qry.Append(" WHERE 1=1 ")
             'Qry.Append(" AND A.MenuPositionId=2 ")
             Qry.Append(" AND A.MainMenuPositionId=2 ")
@@ -610,7 +611,7 @@ Friend Class MenuFormAdd
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
         tblFormValues.Rows(0)("MenuPosition") = Val(Txt_MenuPosition.Text)
         tblFormValues.Rows(0)("MenuIsSparate") = Txt_MenuSepartor.Text.Replace("'", "''")
-        Dim txtmainmenuname As String = Txt_MenuName.Text.Trim().ToLower()
+        Dim txtmainmenuname As String = Txt_MenuUnderMenuName.Text.Trim().ToLower()
         Dim properTextmainmenu As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmainmenuname)
         tblFormValues.Rows(0)("MainMenuName") = properTextmainmenu.Replace("'", "''")
         tblFormValues.Rows(0)("SelectedFormName") = Txt_MenuDisplayName.Text.Replace("'", "''")
