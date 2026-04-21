@@ -249,16 +249,16 @@ Friend Class MenuFormAdd
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
             ElseIf Txt_MenuType.Text.Trim = "PARENT1" Then
-                'Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_MenuPosition.Text = 2
-                'Txt_UnderMenuPositionId.Text = 2
-                '_MainmenupositionId = 1
                 _MainmenupositionId = 2
+                'Txt_MenuPosition.Text = 1
+                '_MainmenupositionId = 1
             ElseIf Txt_MenuType.Text.Trim = "PARENT2" Then
                 Txt_MenuPosition.Text = 3
             Else
                 'If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
                 Txt_MenuPosition.Text = 1
+                _MainmenupositionId = 1
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
                 'RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
@@ -323,6 +323,14 @@ Friend Class MenuFormAdd
             Qry.Append(" WHERE 1=1 ")
             'Qry.Append(" AND A.MenuPositionId=1 ")
             Qry.Append(" AND A.MainMenuPositionId=1 ")
+            Qry.Append(" AND A.ActiveStatus='YES' ")
+            ' Negative numeric values (-1,-2,-3...) hide karne ke liye
+            ' Text values show rahenge
+            Qry.Append(" AND ( ")
+            Qry.Append("     IsNumeric(A.MenuName) = False ")
+            Qry.Append("     OR Val(A.MenuName) >= 0 ")
+            Qry.Append(" ) ")
+
             Qry.Append(" ORDER BY A.MenuName ")
             RS = Qry.ToString
             MenuDesign_QueryLoad()
@@ -359,6 +367,14 @@ Friend Class MenuFormAdd
             Qry.Append(" WHERE 1=1 ")
             'Qry.Append(" AND A.MenuPositionId=2 ")
             Qry.Append(" AND A.MainMenuPositionId=2 ")
+            Qry.Append(" AND A.ActiveStatus='YES' ")
+            ' Negative numeric values (-1,-2,-3...) hide karne ke liye
+            ' Text values show rahenge
+            Qry.Append(" AND ( ")
+            Qry.Append("     IsNumeric(A.MenuName) = False ")
+            Qry.Append("     OR Val(A.MenuName) >= 0 ")
+            Qry.Append(" ) ")
+
             Qry.Append(" ORDER BY A.MenuName ")
             RS = Qry.ToString
             MenuDesign_QueryLoad()
@@ -599,6 +615,8 @@ Friend Class MenuFormAdd
         If _FORMMODE = "ADD" Then
             tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
             If Txt_MenuType.Text.Trim = "PARENT1" Then
+                tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
+            ElseIf Txt_MenuType.Text.Trim = "SUB MENU" Then
                 tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
             Else
                 tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
