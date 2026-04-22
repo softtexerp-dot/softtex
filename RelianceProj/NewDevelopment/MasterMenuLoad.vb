@@ -181,12 +181,11 @@ Public Class MasterMenuLoad
                         Dim Loadfrm As New MainMasterFormRead()
                         Loadfrm.MainMasterLoadFormName = Frm_Name_For_Active.ToString()
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Loadfrm)
-
                     ElseIf menuformname = "REPORT" Then
                         Dim Reportfrm As New ReportForm()
                         Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
-                    Else
+                    ElseIf menuformname = "ENTRY FORM" Then
                         Dim Entryfrm As New MainFormRead()
                         Entryfrm.MainLoadFormName = Frm_Name_For_Active.ToString
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)

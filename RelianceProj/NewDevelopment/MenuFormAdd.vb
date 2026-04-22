@@ -612,19 +612,19 @@ Friend Class MenuFormAdd
         Dim txtmenuname As String = Txt_MenuName.Text.Trim().ToLower()
         Dim properText As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmenuname)
         tblFormValues.Rows(0)("MenuName") = properText.Replace("'", "''")
-        If _FORMMODE = "ADD" Then
-            tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
-            If Txt_MenuType.Text.Trim = "PARENT1" Then
+        tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
+        'If _FORMMODE = "ADD" Then
+        If Txt_MenuType.Text.Trim = "PARENT1" Then
                 tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
             ElseIf Txt_MenuType.Text.Trim = "SUB MENU" Then
                 tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
             Else
                 tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
             End If
-        Else
-            Txt_UnderMenuPositionId.Text = tblFormValues.Rows(0)("MenuPositionId")
-            Txt_UnderMenuPositionId.Text = tblFormValues.Rows(0)("MainMenuPositionId")
-        End If
+        'Else
+        '    Txt_UnderMenuPositionId.Text = tblFormValues.Rows(0)("MenuPositionId")
+        '    'Txt_UnderMenuPositionId.Text= tblFormValues.Rows(0)("MainMenuPositionId")
+        'End If
         tblFormValues.Rows(0)("MenuOrderNo") = Val(Txt_MenuOrder.Text)
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
         tblFormValues.Rows(0)("MenuPosition") = Val(Txt_MenuPosition.Text)
