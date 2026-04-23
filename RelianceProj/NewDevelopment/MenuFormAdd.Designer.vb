@@ -915,7 +915,7 @@ Partial Class MenuFormAdd
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(724, 461)
+        Me.ClientSize = New System.Drawing.Size(724, 439)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)
