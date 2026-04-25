@@ -44,6 +44,10 @@ Partial Class Main_MDI_Frm
         Me.QueryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuLoadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QrcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ScanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -87,7 +91,7 @@ Partial Class Main_MDI_Frm
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem, Me.LogbookToolStripMenuItem, Me.ReadMadeStockReportToolStripMenuItem, Me.GetChallanDetailsToolStripMenuItem, Me.ComplaintdetailToolStripMenuItem, Me.CostdetailToolStripMenuItem, Me.CostdetailnewToolStripMenuItem, Me.SundaryTypeToolStripMenuItem, Me.BlankRateUpdateToolStripMenuItem, Me.OfferWiseBeamStockreportToolStripMenuItem, Me.TableformToolStripMenuItem, Me.TableDetailToolStripMenuItem, Me.MasterFormDetailToolStripMenuItem, Me.QueryToolStripMenuItem, Me.MenuMasterToolStripMenuItem, Me.MenuLoadToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem, Me.LogbookToolStripMenuItem, Me.ReadMadeStockReportToolStripMenuItem, Me.GetChallanDetailsToolStripMenuItem, Me.ComplaintdetailToolStripMenuItem, Me.CostdetailToolStripMenuItem, Me.CostdetailnewToolStripMenuItem, Me.SundaryTypeToolStripMenuItem, Me.BlankRateUpdateToolStripMenuItem, Me.OfferWiseBeamStockreportToolStripMenuItem, Me.TableformToolStripMenuItem, Me.TableDetailToolStripMenuItem, Me.MasterFormDetailToolStripMenuItem, Me.QueryToolStripMenuItem, Me.MenuMasterToolStripMenuItem, Me.MenuLoadToolStripMenuItem, Me.DToolStripMenuItem, Me.QrcodeToolStripMenuItem, Me.ScanToolStripMenuItem, Me.TestToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -169,12 +173,14 @@ Partial Class Main_MDI_Frm
         Me.TableDetailToolStripMenuItem.Name = "TableDetailToolStripMenuItem"
         Me.TableDetailToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.TableDetailToolStripMenuItem.Text = "EntryFormDetail"
+        Me.TableDetailToolStripMenuItem.Visible = False
         '
         'MasterFormDetailToolStripMenuItem
         '
         Me.MasterFormDetailToolStripMenuItem.Name = "MasterFormDetailToolStripMenuItem"
         Me.MasterFormDetailToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.MasterFormDetailToolStripMenuItem.Text = "MasterFormDetail"
+        Me.MasterFormDetailToolStripMenuItem.Visible = False
         '
         'QueryToolStripMenuItem
         '
@@ -193,6 +199,31 @@ Partial Class Main_MDI_Frm
         Me.MenuLoadToolStripMenuItem.Name = "MenuLoadToolStripMenuItem"
         Me.MenuLoadToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.MenuLoadToolStripMenuItem.Text = "MenuLoad"
+        '
+        'DToolStripMenuItem
+        '
+        Me.DToolStripMenuItem.Name = "DToolStripMenuItem"
+        Me.DToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.DToolStripMenuItem.Text = "Help"
+        '
+        'QrcodeToolStripMenuItem
+        '
+        Me.QrcodeToolStripMenuItem.Name = "QrcodeToolStripMenuItem"
+        Me.QrcodeToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.QrcodeToolStripMenuItem.Text = "Qrcode"
+        '
+        'ScanToolStripMenuItem
+        '
+        Me.ScanToolStripMenuItem.Name = "ScanToolStripMenuItem"
+        Me.ScanToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.ScanToolStripMenuItem.Text = "scan"
+        Me.ScanToolStripMenuItem.Visible = False
+        '
+        'TestToolStripMenuItem
+        '
+        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
+        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.TestToolStripMenuItem.Text = "MenuAssignSQLDB"
         '
         'Main_MDI_Frm
         '
@@ -239,4 +270,8 @@ Partial Class Main_MDI_Frm
     Friend WithEvents QueryToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MenuMasterToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MenuLoadToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents QrcodeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ScanToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TestToolStripMenuItem As ToolStripMenuItem
 End Class

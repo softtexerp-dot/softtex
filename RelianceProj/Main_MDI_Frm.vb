@@ -105,13 +105,13 @@
         MainFrmDesigner.Show()
     End Sub
 
-    Private Sub TableDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TableDetailToolStripMenuItem.Click
-        MainFormRead.Show()
-    End Sub
+    'Private Sub TableDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TableDetailToolStripMenuItem.Click
+    '    MainFormRead.Show()
+    'End Sub
 
-    Private Sub MasterFormDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterFormDetailToolStripMenuItem.Click
-        MainMasterFormRead.Show()
-    End Sub
+    'Private Sub MasterFormDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MasterFormDetailToolStripMenuItem.Click
+    '    MainMasterFormRead.Show()
+    'End Sub
 
     Private Sub QueryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QueryToolStripMenuItem.Click
         QueryLoad.Show()
@@ -122,8 +122,30 @@
     End Sub
 
     Private Sub MenuLoadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MenuLoadToolStripMenuItem.Click
-        MasterMenuLoad.Show()
+        'MasterMenuLoad.Show()
+        UserMenuForm.Show()
     End Sub
+
+    Private Sub DToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DToolStripMenuItem.Click
+        HelpForm.Show()
+    End Sub
+
+    Private Sub QrcodeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QrcodeToolStripMenuItem.Click
+        GstApiLoginDetail.Show()
+    End Sub
+
+    Private Sub ScanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScanToolStripMenuItem.Click
+        'FrmQrCodescan.Show()
+    End Sub
+
+    Private Sub TestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TestToolStripMenuItem.Click
+        'test.Show()
+        SqlDBMenudesign.Show()
+    End Sub
+
+    'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
+    '    'ReportsSelectionSettingForm.Show()
+    'End Sub
 
 #End Region
 End Class
