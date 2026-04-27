@@ -24,39 +24,51 @@ Public Class UserMenuForm
         MenuStrip1.Items.Clear()
         Dim _Query = New StringBuilder
         With _Query
-            .Append("SELECT ")
-            .Append("MainId")
-            .Append(",MenuPositionId")
-            .Append(",MenuName")
-            .Append(",MenuOrderNo ")
-            .Append(",ActiveStatus ")
-            .Append(",MenuPosition ")
-            .Append(",MenuIsSparate")
-            .Append(",MainMenuName")
-            .Append(",SelectedFormName")
-            .Append(" FROM MenuTable ")
+            .Append("SELECT DISTINCT ")
+            .Append("MenuTable.MenuId")
+            .Append(",MenuTable.SUBID")
+            .Append(",MenuTable.MenuPositionId")
+            .Append(",MenuTable.Menu")
+            .Append(",MenuTable.OrderNo ")
+            .Append(",MenuTable.Active_Status ")
+            .Append(",MenuTable.MenuPosition ")
+            .Append(",MenuTable.MenuIsSparate")
+            .Append(",MenuTable.MainMenuName")
+            .Append(",MenuTable.SelectForm")
+            .Append(",UserMenu.MenuID As UsernMenuId")
+            .Append(",MstUser.UserName")
+            .Append(" FROM ( MenuTable")
+            .Append(" Inner join UserMenu on MenuTable.MenuId=UserMenu.MenuId)")
+            .Append(" Inner join MstUser on UserMenu.UserID=MstUser.User_ID")
             .Append(" WHERE 1=1 ")
-            .Append(" And Active_Status='Y' ")
-            '.Append("order by MenuPositionId,MenuOrderNo ")
+            .Append(" And MenuTable.Active_Status='Y' ")
+            .Append(" And UserMenu.UserID =1")
+            .Append(" And MenuTable.Menu<>'-' ")
+            .Append("order by MenuPositionId,OrderNo ")
         End With
         RS = _Query.ToString
         'MenuDesign_QueryLoad()
         SQLDBMENU_CONNECT()
-        '_newconnectionOpen()
-        'Dim command As New OleDbCommand(RS, NewDbConnection)
-        Dim command As New OleDb.OleDbCommand(RS, MenuDesignConnection)
-        If MenuDesignConnection.State = ConnectionState.Closed Then
-            MenuDesignConnection.Open()
+
+        'Dim command As New OleDb.OleDbCommand(RS, MenuDesignConnection)
+        'If MenuDesignConnection.State = ConnectionState.Closed Then
+        '    MenuDesignConnection.Open()
+        'End If
+        Dim command As New OleDb.OleDbCommand(RS, MSA_CONN)
+        If MSA_CONN.State = ConnectionState.Closed Then
+            MSA_CONN.Open()
         End If
         Using reader As OleDbDataReader = command.ExecuteReader()
             Dim menuDictionary As New Dictionary(Of Integer, ToolStripMenuItem)
             While reader.Read()
-                Dim menuID As Integer = Convert.ToInt32(reader("MainId"))
+                'Dim menuID As Integer = Convert.ToInt32(reader("MainId"))
+                Dim menuID As Integer = Convert.ToInt32(reader("MenuId"))
                 Dim parentMenuID As Object = If(IsDBNull(reader("MenuPositionId")), Nothing, Convert.ToInt32(reader("MenuPositionId")))
-                Dim menuName As String = reader("MenuName").ToString()
+                'Dim menuName As String = reader("MenuName").ToString()
+                Dim menuName As String = reader("Menu").ToString()
                 Dim isSeparator As Boolean = Convert.ToBoolean(reader("MenuIsSparate"))
-                Dim SelectedFormName As String = reader("SelectedFormName").ToString()
-                'menuformname = reader("MenuName").ToString()
+                'Dim SelectedFormName As String = reader("SelectedFormName").ToString()
+                Dim SelectedFormName As String = reader("SelectForm").ToString()
                 If isSeparator Then
                     Dim separator As New ToolStripSeparator()
                     If parentMenuID IsNot Nothing AndAlso menuDictionary.ContainsKey(CInt(parentMenuID)) Then
@@ -79,7 +91,8 @@ Public Class UserMenuForm
             End While
         End Using
         'Connection close kar do
-        MenuDesignConnection.Close()
+        'MenuDesignConnection.Close()
+        MSA_CONN.Close()
         'ShortCutMenuLoad()
     End Sub
     Private Sub MenuItem_Click(sender As Object, e As EventArgs)
@@ -169,27 +182,27 @@ Public Class UserMenuForm
                 If Frm_Name_For_Active.ToString.ToUpper = "COMPANY_CHANGE" Or Frm_Name_For_Active.ToString.ToUpper = "YEAR_CHANGE" Then
                     frm.ShowDialog()
                 Else
-                    'sqL = "SELECT Distinct(FormType) As FormType FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
-                    'RS = sqL.ToString
-                    'MenuDesign_QueryLoad()
-                    'Dim tbl As New DataTable
-                    'tbl = DefaltSoftTable.Copy
-                    'If tbl.Rows.Count > 0 Then
-                    '    menuformname = tbl.Rows(0)("FormType")
-                    'End If
-                    'If menuformname = "MASTER FORM" Then
-                    '    Dim Loadfrm As New MainMasterFormRead()
-                    '    Loadfrm.MainMasterLoadFormName = Frm_Name_For_Active.ToString()
-                    '    ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Loadfrm)
-                    'ElseIf menuformname = "REPORT" Then
-                    '    Dim Reportfrm As New ReportForm()
-                    '    Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
-                    '    ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
-                    'ElseIf menuformname = "ENTRY FORM" Then
-                    '    Dim Entryfrm As New MainFormRead()
-                    '    Entryfrm.MainLoadFormName = Frm_Name_For_Active.ToString
-                    '    ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)
-                    'End If
+                    sqL = "SELECT Distinct(FormType) As FormType FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
+                    RS = sqL.ToString
+                    MenuDesign_QueryLoad()
+                    Dim tbl As New DataTable
+                    tbl = DefaltSoftTable.Copy
+                    If tbl.Rows.Count > 0 Then
+                        menuformname = tbl.Rows(0)("FormType")
+                    End If
+                    If menuformname = "MASTER FORM" Then
+                        Dim Loadfrm As New MainMasterFormRead()
+                        Loadfrm.MainMasterLoadFormName = Frm_Name_For_Active.ToString()
+                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Loadfrm)
+                    ElseIf menuformname = "REPORT" Then
+                        Dim Reportfrm As New ReportForm()
+                        Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
+                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
+                    ElseIf menuformname = "ENTRY FORM" Then
+                        Dim Entryfrm As New MainFormRead()
+                        Entryfrm.MainLoadFormName = Frm_Name_For_Active.ToString
+                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)
+                    End If
                 End If
             End If
         End If

@@ -78,6 +78,8 @@ Public Class SqlDBMenudesign
                 SQLDBMENU_Save_Delete_Update()
             Next
         End If
+
+
         'UserMenu Data
         RS = " SELECT MenuID,UserID,Active_Status,* FROM UserMenu WHERE 1=1 "
         SQLDBMENU_CONNECT()
@@ -96,18 +98,57 @@ Public Class SqlDBMenudesign
         FnlTbl = DataMenuName.Clone
         'menu master data
         'For Each dr1 As DataRow In DataMenuName.Select("ActiveStatus='YES'")
+
+
+        Dim _TmpSqlMenutbla As New DataTable
+        _TmpSqlMenutbla = Datamenutable.Clone
+        For Each dr1 As DataRow In Datamenutable.Select("SUBID = '0' and MENU <> '-'")
+            _TmpSqlMenutbla.ImportRow(dr1)
+        Next
+
+
+        Dim _TmpSqlSubMenutbla As New DataTable
+        _TmpSqlSubMenutbla = Datamenutable.Clone
+        For Each dr1 As DataRow In Datamenutable.Select("SUBID <> '0' and MENU <> '-'")
+            _TmpSqlSubMenutbla.ImportRow(dr1)
+        Next
+
+
+
+        RS = "delete from MenuTable "
+        SQLDBMENU_Save_Delete_Update()
+
+
+
+
         For Each dr1 As DataRow In DataMenuName.Select()
-            Dim isMatch As Boolean = Datamenutable.Select("ID='" & dr1("MainId") & "' OR SUBID='" & dr1("MenuPositionId") & "'").Length > 0
-            Dim exists As Boolean = FnlTbl.Select("ID='" & dr1("ID") & "'").Length > 0
-            If isMatch = False AndAlso exists = False Then
-                'FnlTbl.ImportRow(dr1)
+            'Dim isMatch As Boolean = Datamenutable.Select("ID='" & dr1("MainId") & "' OR SUBID='" & dr1("MenuPositionId") & "'").Length > 0
+            'Dim isMatch As Boolean = _TmpSqlMenutbla.Select("ID='" & dr1("MainId") & "'").Length > 0
+            'Dim exists As Boolean = FnlTbl.Select("ID='" & dr1("ID") & "'").Length > 0
+            For Each dr As DataRow In _TmpSqlMenutbla.Select("id='" & dr1("MainId") & "'")
                 Dim _ActiveStatus As String = If(dr1("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
                 RS = "Insert into MenuTable(MenuId,Menu,SUBID,ORDERNO,MenuPosition,SELECTFORM,MenuPositionId,MainMenuPositionId,MenuIsSparate,MainMenuName,ShortCutKey,IconPath,Tooltip,MenuType,Active_Status,OP10) Values(" & dr1("MainId") & ",'" & dr1("MenuName") & "','" & dr1("MenuPositionId") & "'," & dr1("MenuOrderNo") & "," & dr1("MenuPosition") & ",'" & dr1("SelectedFormName") & "'," & dr1("MenuPositionId") & "," & dr1("MainMenuPositionId") & ",'" & dr1("MenuIsSparate") & "','" & dr1("MainMenuName") & "','" & dr1("ShortCutKey") & "','" & dr1("IconPath") & "','" & dr1("Tooltip") & "','" & dr1("MenuType") & "','" & _ActiveStatus & "','New Menu')"
                 SQLDBMENU_Save_Delete_Update()
-            ElseIf isMatch = True Then
-                RS = "UPDATE MenuTable SET MenuID =" & dr1("MainId") & ", SELECTFORM='" & dr1("SelectedFormName") & "',MenuPosition=" & dr1("MenuOrderNo") & ",MenuPositionId=" & dr1("MenuPositionId") & ",MainMenuPositionId=" & dr1("MainMenuPositionId") & ",MenuIsSparate='" & dr1("MenuIsSparate") & "',MainMenuName='" & dr1("MainMenuName") & "',ShortCutKey='" & dr1("ShortCutKey") & "',IconPath='" & dr1("IconPath") & "',Tooltip='" & dr1("Tooltip") & "',MenuType='" & dr1("MenuType") & "' where ID=" & dr1("MainId") & ""
+            Next
+
+            For Each dr As DataRow In _TmpSqlMenutbla.Select("id='" & dr1("MainMenuPositionId") & "'")
+                Dim _ActiveStatus As String = If(dr1("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+                RS = "Insert into MenuTable(MenuId,Menu,SUBID,ORDERNO,MenuPosition,SELECTFORM,MenuPositionId,MainMenuPositionId,MenuIsSparate,MainMenuName,ShortCutKey,IconPath,Tooltip,MenuType,Active_Status,OP10) Values(" & dr1("MainId") & ",'" & dr1("MenuName") & "','" & dr1("MenuPositionId") & "'," & dr1("MenuOrderNo") & "," & dr1("MenuPosition") & ",'" & dr1("SelectedFormName") & "'," & dr1("MenuPositionId") & "," & dr1("MainMenuPositionId") & ",'" & dr1("MenuIsSparate") & "','" & dr1("MainMenuName") & "','" & dr1("ShortCutKey") & "','" & dr1("IconPath") & "','" & dr1("Tooltip") & "','" & dr1("MenuType") & "','" & _ActiveStatus & "','New Menu')"
                 SQLDBMENU_Save_Delete_Update()
-            End If
+            Next
+
+
+
+            'If isMatch = False AndAlso exists = False Then
+            'FnlTbl.ImportRow(dr1)
+            'Dim _ActiveStatus As String = If(dr1("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+            '    RS = "Insert into MenuTable(MenuId,Menu,SUBID,ORDERNO,MenuPosition,SELECTFORM,MenuPositionId,MainMenuPositionId,MenuIsSparate,MainMenuName,ShortCutKey,IconPath,Tooltip,MenuType,Active_Status,OP10) Values(" & dr1("MainId") & ",'" & dr1("MenuName") & "','" & dr1("MenuPositionId") & "'," & dr1("MenuOrderNo") & "," & dr1("MenuPosition") & ",'" & dr1("SelectedFormName") & "'," & dr1("MenuPositionId") & "," & dr1("MainMenuPositionId") & ",'" & dr1("MenuIsSparate") & "','" & dr1("MainMenuName") & "','" & dr1("ShortCutKey") & "','" & dr1("IconPath") & "','" & dr1("Tooltip") & "','" & dr1("MenuType") & "','" & _ActiveStatus & "','New Menu')"
+            '    SQLDBMENU_Save_Delete_Update()
+            'ElseIf isMatch = True Then
+            '    Dim _ActiveStatus As String = If(dr1("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+            '    RS = "UPDATE MenuTable SET MenuID =" & dr1("MainId") & ", SELECTFORM='" & dr1("SelectedFormName") & "',OrderNo=" & dr1("MenuOrderNo") & ",MenuPosition=" & dr1("MenuPosition") & ",MenuPositionId=" & dr1("MenuPositionId") & ",MainMenuPositionId=" & dr1("MainMenuPositionId") & ",MenuIsSparate='" & dr1("MenuIsSparate") & "',MainMenuName='" & dr1("MainMenuName") & "',ShortCutKey='" & dr1("ShortCutKey") & "',IconPath='" & dr1("IconPath") & "',Tooltip='" & dr1("Tooltip") & "',MenuType='" & dr1("MenuType") & "',Active_Status='" & _ActiveStatus & "' where ID=" & dr1("MainId") & ""
+            '    SQLDBMENU_Save_Delete_Update()
+            'End If
         Next
 
         'user master data
@@ -121,22 +162,48 @@ Public Class SqlDBMenudesign
 
         Dim _USerWIseMEnuTbl As New DataTable
         _USerWIseMEnuTbl = DataMenuName.Clone
+        'Dim startSubMenuId As Integer = 8
+        'Dim endSubMenuId As Integer = 23
+        'For Each dr As DataRow In DataMstUser.Select()
+        '    'Har USER_ID ke liye _submenuid ko 8 se start karo
+        '    For _submenuid As Integer = startSubMenuId To endSubMenuId
+        '        For Each dr1 As DataRow In DatauserMenu.Select("USERID='" & dr("USER_ID") & "'")
+        '            If dr1("MENUID") = _submenuid Then
+        '                For Each dr2 As DataRow In DataMenuName.Select("MenuPositionId='" & _submenuid & "' and ActiveStatus='YES'")
+        '                    '_USerWIseMEnuTbl.ImportRow(dr2)
+        '                    Dim _ActiveStatus As String = If(dr2("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+        '                    RS = "Insert into UserMenu(menuId,userId,Active_Status) Values(" & dr2("MainId") & "," & dr("USER_ID") & ",'" & _ActiveStatus & "')"
+        '                    SQLDBMENU_Save_Delete_Update()
+        '                Next
+        '            End If
+        '        Next
+        '    Next
+        'Next
         Dim startSubMenuId As Integer = 8
         Dim endSubMenuId As Integer = 23
         For Each dr As DataRow In DataMstUser.Select()
-            'Har USER_ID ke liye _submenuid ko 8 se start karo
+            'Step 1 : Header range (8 to 23) ke liye
             For _submenuid As Integer = startSubMenuId To endSubMenuId
                 For Each dr1 As DataRow In DatauserMenu.Select("USERID='" & dr("USER_ID") & "'")
                     If dr1("MENUID") = _submenuid Then
-                        For Each dr2 As DataRow In DataMenuName.Select("MenuPositionId='" & _submenuid & "' and ActiveStatus='YES'")
-                            '_USerWIseMEnuTbl.ImportRow(dr2)
+                        For Each dr2 As DataRow In DataMenuName.Select("MainMenuPositionId='" & _submenuid & "' AND ActiveStatus='YES'")
                             Dim _ActiveStatus As String = If(dr2("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
-                            RS = "Insert into UserMenu(menuId,userId,Active_Status) Values(" & dr2("MainId") & "," & dr("USER_ID") & ",'" & _ActiveStatus & "')"
+                            RS = "INSERT INTO UserMenu (MenuId, UserId, Active_Status) VALUES (" & dr2("MainId") & "," & dr("USER_ID") & ",'" & _ActiveStatus & "')"
                             SQLDBMENU_Save_Delete_Update()
                         Next
                     End If
                 Next
             Next
+            'Step 2 : Range ke alawa bhi baki entries save karni hain
+            'For Each dr2 As DataRow In DataMenuName.Select("ActiveStatus='YES'")
+            '    Dim menuPosId As Integer = Val(dr2("MenuPositionId"))
+            '    'Jo 8 to 23 ke andar nahi hai sirf wahi
+            '    If menuPosId < startSubMenuId OrElse menuPosId > endSubMenuId Then
+            '        Dim _ActiveStatus As String = If(dr2("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+            '        RS = "INSERT INTO UserMenu (MenuId, UserId, Active_Status) VALUES (" & dr2("MainId") & "," & dr("USER_ID") & ",'" & _ActiveStatus & "')"
+            '        SQLDBMENU_Save_Delete_Update()
+            '    End If
+            'Next
         Next
     End Sub
 End Class
