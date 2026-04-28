@@ -310,93 +310,93 @@ Friend Class MenuFormAdd
         ElseIf e.KeyCode = Keys.Delete Then
             Txt_MenuUnderMenuName.Text = ""
         End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
-            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
-            Dim Qry As New StringBuilder()
-            Qry.Append(" SELECT ")
-            Qry.Append(" A.MenuName ")
-            Qry.Append(" ,'' AS Remark ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM " & _TblName & " AS A ")
-            Qry.Append(" WHERE 1=1 ")
-            'Qry.Append(" AND A.MenuPositionId=1 ")
-            Qry.Append(" AND A.MainMenuPositionId=1 ")
-            Qry.Append(" AND A.ActiveStatus='YES' ")
-            ' Negative numeric values (-1,-2,-3...) hide karne ke liye
-            ' Text values show rahenge
-            Qry.Append(" AND ( ")
-            Qry.Append("     IsNumeric(A.MenuName) = False ")
-            Qry.Append("     OR Val(A.MenuName) >= 0 ")
-            Qry.Append(" ) ")
+        'If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
+        '    Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
+        '    Dim Qry As New StringBuilder()
+        '    Qry.Append(" SELECT ")
+        '    Qry.Append(" A.MenuName ")
+        '    Qry.Append(" ,'' AS Remark ")
+        '    Qry.Append(" ,A.MainId ")
+        '    Qry.Append(" ,A.MainId ")
+        '    Qry.Append(" ,A.MainId ")
+        '    Qry.Append(" FROM " & _TblName & " AS A ")
+        '    Qry.Append(" WHERE 1=1 ")
+        '    'Qry.Append(" AND A.MenuPositionId=1 ")
+        '    Qry.Append(" AND A.MainMenuPositionId=1 ")
+        '    Qry.Append(" AND A.ActiveStatus='YES' ")
+        '    ' Negative numeric values (-1,-2,-3...) hide karne ke liye
+        '    ' Text values show rahenge
+        '    Qry.Append(" AND ( ")
+        '    Qry.Append("     IsNumeric(A.MenuName) = False ")
+        '    Qry.Append("     OR Val(A.MenuName) >= 0 ")
+        '    Qry.Append(" ) ")
 
-            Qry.Append(" ORDER BY A.MenuName ")
-            RS = Qry.ToString
-            MenuDesign_QueryLoad()
+        '    Qry.Append(" ORDER BY A.MenuName ")
+        '    RS = Qry.ToString
+        '    MenuDesign_QueryLoad()
 
-            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
-            Party_selection.dgw.Columns(2).Visible = False
-            Party_selection.dgw.Columns(3).Visible = False
-            Party_selection.dgw.Columns(0).Width = 280
-            Party_selection.dgw.Columns(1).Width = 200
-            Party_selection.Width = 506
-            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
-            row.Height = 30
-            obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
+        '    Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+        '    Party_selection.dgw.Columns(2).Visible = False
+        '    Party_selection.dgw.Columns(3).Visible = False
+        '    Party_selection.dgw.Columns(0).Width = 280
+        '    Party_selection.dgw.Columns(1).Width = 200
+        '    Party_selection.Width = 506
+        '    Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
+        '    row.Height = 30
+        '    obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
 
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
-            End If
-            _MenuPositiomset()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuUnderMenuName.Text = ""
-        End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
-            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
-            Dim Qry As New StringBuilder()
-            Qry.Append(" SELECT ")
-            Qry.Append(" A.MenuName ")
-            Qry.Append(" ,'' AS Remark ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM " & _TblName & " AS A ")
-            Qry.Append(" WHERE 1=1 ")
-            'Qry.Append(" AND A.MenuPositionId=2 ")
-            Qry.Append(" AND A.MainMenuPositionId=2 ")
-            Qry.Append(" AND A.ActiveStatus='YES' ")
-            ' Negative numeric values (-1,-2,-3...) hide karne ke liye
-            ' Text values show rahenge
-            Qry.Append(" AND ( ")
-            Qry.Append("     IsNumeric(A.MenuName) = False ")
-            Qry.Append("     OR Val(A.MenuName) >= 0 ")
-            Qry.Append(" ) ")
+        '    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+        '        Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
+        '        Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
+        '    End If
+        '    _MenuPositiomset()
+        '    SendKeys.Send("{TAB}")
+        'ElseIf e.KeyCode = Keys.Delete Then
+        '    Txt_MenuUnderMenuName.Text = ""
+        'End If
+        'If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
+        '    Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
+        '    Dim Qry As New StringBuilder()
+        '    Qry.Append(" SELECT ")
+        '    Qry.Append(" A.MenuName ")
+        '    Qry.Append(" ,'' AS Remark ")
+        '    Qry.Append(" ,A.MainId ")
+        '    Qry.Append(" ,A.MainId ")
+        '    Qry.Append(" ,A.MainId ")
+        '    Qry.Append(" FROM " & _TblName & " AS A ")
+        '    Qry.Append(" WHERE 1=1 ")
+        '    'Qry.Append(" AND A.MenuPositionId=2 ")
+        '    Qry.Append(" AND A.MainMenuPositionId=2 ")
+        '    Qry.Append(" AND A.ActiveStatus='YES' ")
+        '    ' Negative numeric values (-1,-2,-3...) hide karne ke liye
+        '    ' Text values show rahenge
+        '    Qry.Append(" AND ( ")
+        '    Qry.Append("     IsNumeric(A.MenuName) = False ")
+        '    Qry.Append("     OR Val(A.MenuName) >= 0 ")
+        '    Qry.Append(" ) ")
 
-            Qry.Append(" ORDER BY A.MenuName ")
-            RS = Qry.ToString
-            MenuDesign_QueryLoad()
-            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
-            Party_selection.dgw.Columns(2).Visible = False
-            Party_selection.dgw.Columns(3).Visible = False
-            Party_selection.dgw.Columns(0).Width = 280
-            Party_selection.dgw.Columns(1).Width = 200
-            Party_selection.Width = 506
-            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
-            row.Height = 30
-            obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
+        '    Qry.Append(" ORDER BY A.MenuName ")
+        '    RS = Qry.ToString
+        '    MenuDesign_QueryLoad()
+        '    Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+        '    Party_selection.dgw.Columns(2).Visible = False
+        '    Party_selection.dgw.Columns(3).Visible = False
+        '    Party_selection.dgw.Columns(0).Width = 280
+        '    Party_selection.dgw.Columns(1).Width = 200
+        '    Party_selection.Width = 506
+        '    Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
+        '    row.Height = 30
+        '    obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
 
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
-            End If
-            _MenuPositiomset()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuUnderMenuName.Text = ""
-        End If
+        '    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+        '        Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
+        '        Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
+        '    End If
+        '    _MenuPositiomset()
+        '    SendKeys.Send("{TAB}")
+        'ElseIf e.KeyCode = Keys.Delete Then
+        '    Txt_MenuUnderMenuName.Text = ""
+        'End If
 
     End Sub
 
@@ -408,20 +408,20 @@ Friend Class MenuFormAdd
         ElseIf e.KeyCode = Keys.Delete Then
             Txt_MenuDisplayName.Text = ""
         End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
-            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
-            GetAllFormsAsDataTable()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuDisplayName.Text = ""
-        End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
-            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
-            GetAllFormsAsDataTable()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuDisplayName.Text = ""
-        End If
+        'If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
+        '    Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
+        '    GetAllFormsAsDataTable()
+        '    SendKeys.Send("{TAB}")
+        'ElseIf e.KeyCode = Keys.Delete Then
+        '    Txt_MenuDisplayName.Text = ""
+        'End If
+        'If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
+        '    Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
+        '    GetAllFormsAsDataTable()
+        '    SendKeys.Send("{TAB}")
+        'ElseIf e.KeyCode = Keys.Delete Then
+        '    Txt_MenuDisplayName.Text = ""
+        'End If
     End Sub
     Private Sub GetAllFormsAsDataTable()
         Dim dt As New DataTable()
