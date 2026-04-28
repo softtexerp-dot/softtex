@@ -31,52 +31,21 @@ Public Class SqlDBMenudesign
         SQLDBMENU_CONNECT()
         If DefaltSoftTable IsNot Nothing Then
             Datamenutable = DefaltSoftTable.Copy
-            Dim columnQueries As New List(Of String)
-
-            If Not DefaltSoftTable.Columns.Contains("MenuId") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN MenuID Number")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("MenuPosition") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN MenuPosition Number")
-            End If
 
             If Not DefaltSoftTable.Columns.Contains("MenuPositionId") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN MenuPositionId Number")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("MainMenuPositionId") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN MainMenuPositionId Number")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("MenuIsSparate") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN MenuIsSparate TEXT(20)")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("MainMenuName") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN MainMenuName TEXT(255)")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("ShortCutKey") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN ShortCutKey TEXT(50)")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("IconPath") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN IconPath TEXT(50)")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("Tooltip") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN Tooltip TEXT(50)")
-            End If
-
-            If Not DefaltSoftTable.Columns.Contains("MenuType") Then
-                columnQueries.Add("ALTER TABLE MenuTable ADD COLUMN MenuType TEXT(255)")
-            End If
-
-            For Each query As String In columnQueries
-                RS = query
+                RS = "ALTER TABLE MenuTable " &
+     "ADD COLUMN MenuID Number, " &
+     "MenuPosition Number, " &
+     "MenuPositionId Number, " &
+     "MainMenuPositionId Number, " &
+     "MenuIsSparate TEXT(20), " &
+     "MainMenuName TEXT(255), " &
+     "ShortCutKey TEXT(50), " &
+     "IconPath TEXT(50), " &
+     "Tooltip TEXT(50), " &
+     "MenuType TEXT(255)"
                 SQLDBMENU_Save_Delete_Update()
-            Next
+            End If
         End If
 
 
@@ -113,13 +82,8 @@ Public Class SqlDBMenudesign
             _TmpSqlSubMenutbla.ImportRow(dr1)
         Next
 
-
-
         RS = "delete from MenuTable "
         SQLDBMENU_Save_Delete_Update()
-
-
-
 
         For Each dr1 As DataRow In DataMenuName.Select()
             'Dim isMatch As Boolean = Datamenutable.Select("ID='" & dr1("MainId") & "' OR SUBID='" & dr1("MenuPositionId") & "'").Length > 0
@@ -162,23 +126,6 @@ Public Class SqlDBMenudesign
 
         Dim _USerWIseMEnuTbl As New DataTable
         _USerWIseMEnuTbl = DataMenuName.Clone
-        'Dim startSubMenuId As Integer = 8
-        'Dim endSubMenuId As Integer = 23
-        'For Each dr As DataRow In DataMstUser.Select()
-        '    'Har USER_ID ke liye _submenuid ko 8 se start karo
-        '    For _submenuid As Integer = startSubMenuId To endSubMenuId
-        '        For Each dr1 As DataRow In DatauserMenu.Select("USERID='" & dr("USER_ID") & "'")
-        '            If dr1("MENUID") = _submenuid Then
-        '                For Each dr2 As DataRow In DataMenuName.Select("MenuPositionId='" & _submenuid & "' and ActiveStatus='YES'")
-        '                    '_USerWIseMEnuTbl.ImportRow(dr2)
-        '                    Dim _ActiveStatus As String = If(dr2("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
-        '                    RS = "Insert into UserMenu(menuId,userId,Active_Status) Values(" & dr2("MainId") & "," & dr("USER_ID") & ",'" & _ActiveStatus & "')"
-        '                    SQLDBMENU_Save_Delete_Update()
-        '                Next
-        '            End If
-        '        Next
-        '    Next
-        'Next
         Dim startSubMenuId As Integer = 8
         Dim endSubMenuId As Integer = 23
         For Each dr As DataRow In DataMstUser.Select()
