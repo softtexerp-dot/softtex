@@ -531,7 +531,21 @@ Module Genral
         End If
         Return Nothing
     End Function
-
+    Public Function SingleAccountSelectionFormaccess(loadQuery As String, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String) As Dictionary(Of String, Object)
+        Dim frm As New AccessNewSelectionList()
+        'Access DB query pass karo
+        frm.LoadQuery = loadQuery
+        frm.F2MasterFormType = masterFormType
+        frm.GridViewType = GridViewType
+        If Not String.IsNullOrEmpty(prefillSearch) Then
+            frm.txtSearch.Text = prefillSearch
+        End If
+        'Access DB se data load hoga form ke Load event me
+        If frm.ShowDialog() = DialogResult.OK Then
+            Return frm.SelectedRowValues
+        End If
+        Return Nothing
+    End Function
     Public Function FlexGridSelectionForm(loadQuery As String, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String) As Dictionary(Of String, Object)
         Dim frm As New NewFlexCellSelection()
         frm.LoadQuery = loadQuery
@@ -1277,7 +1291,8 @@ Module Genral
 
             ' Show form with menu path
             With formToShow
-                .MdiParent = Main_MDI_Frm
+                '.MdiParent = Main_MDI_Frm
+                .MdiParent = MasterMenuLoad
                 .Tag = menuPath
                 .Show()
             End With
@@ -1291,7 +1306,8 @@ Module Genral
     Public Sub ShowFormMDI_NewCloseFunction(WhichForm As Form, LastOpenedMenuPath As String)
         Try
             With WhichForm
-                .MdiParent = Main_MDI_Frm
+                '.MdiParent = Main_MDI_Frm
+                .MdiParent = MasterMenuLoad
                 .Tag = LastOpenedMenuPath
                 .Show()
 
@@ -3161,5 +3177,22 @@ Module Genral
         link.CreateDocument()
         link.ShowPreview()
     End Sub
-
+    Public Function _CompanyDatabaseSettingLoad(ByVal _SettingType As String, ByVal _SettingColumName As String)
+        Dim _StText As String = ""
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append(" SELECT ")
+            .Append("sms_password AS SettingText")
+            .Append(" FROM SMSInfo ")
+            .Append(" WHERE 1=1 ")
+            .Append(" AND sms_url='" & _SettingType & "'")
+            .Append(" AND sms_userid='" & _SettingColumName & "'")
+        End With
+        sqL = _strQuery.ToString
+        PaymentFolo_QueryLoad()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            _StText = DefaltSoftTable.Rows(0).Item("SettingText").ToString
+        End If
+        Return _StText
+    End Function
 End Module

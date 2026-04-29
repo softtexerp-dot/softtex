@@ -136,6 +136,7 @@
 
     Private Sub ScanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScanToolStripMenuItem.Click
         'FrmQrCodescan.Show()
+        MenuAllotment.Show()
     End Sub
 
     Private Sub TestToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TestToolStripMenuItem.Click

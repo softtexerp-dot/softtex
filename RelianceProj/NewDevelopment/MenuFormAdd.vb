@@ -38,7 +38,7 @@ Friend Class MenuFormAdd
     Private Str_In_Sales_Party_Code As String = ""
     Private Str_In_Process_Code As String = ""
     Private CurrentBackNumber As Integer = 0
-    Private _MainmenupositionId As Integer = 0
+    Private _MenupositionId As Integer = 0
     Dim _FormCloseMode As Boolean = False
 #End Region
 
@@ -248,21 +248,11 @@ Friend Class MenuFormAdd
                 Txt_MenuPosition.Text = 0
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
-            ElseIf Txt_MenuType.Text.Trim = "PARENT1" Then
-                Txt_MenuPosition.Text = 2
-                _MainmenupositionId = 2
-                'Txt_MenuPosition.Text = 1
-                '_MainmenupositionId = 1
-            ElseIf Txt_MenuType.Text.Trim = "PARENT2" Then
-                Txt_MenuPosition.Text = 3
             Else
-                'If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
-                Txt_MenuPosition.Text = 1
-                _MainmenupositionId = 1
+                If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
-                'RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
-                RS = "SELECT MAX(A.MenuOrderNo) AS MenuOrderNo FROM " & _TblName & " AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " "
+                RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
                 MenuDesign_QueryLoad()
                 If Not IsDBNull(DefaltSoftTable.Rows(0)("MenuOrderNo")) AndAlso Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) > 0 Then
                     Txt_MenuOrder.Text = Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) + 1
@@ -279,143 +269,35 @@ Friend Class MenuFormAdd
             Dim Qry As New StringBuilder()
             Qry.Append(" SELECT ")
             Qry.Append(" A.MenuName ")
-            Qry.Append(" ,'' AS Remark ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
+            Qry.Append(" ,A.MainId AS MainId ")
+            Qry.Append(" ,A.MenuPositionId ")
             Qry.Append(" FROM " & _TblName & " AS A ")
-            Qry.Append(" WHERE 1=1 ")
-            'Qry.Append(" AND A.MenuPositionId=0 ")
-            Qry.Append(" AND A.MainMenuPositionId=0 ")
-            Qry.Append(" AND A.ActiveStatus='YES' ")
-            Qry.Append(" ORDER BY A.MenuName ")
+            Qry.Append(" ORDER BY A.MenuPositionId ")
+
             RS = Qry.ToString
             MenuDesign_QueryLoad()
-            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
-            Party_selection.dgw.Columns(2).Visible = False
-            Party_selection.dgw.Columns(3).Visible = False
-            Party_selection.dgw.Columns(0).Width = 280
-            Party_selection.dgw.Columns(1).Width = 200
-            Party_selection.Width = 506
-            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
-            row.Height = 30
-            obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
+            Dim selected = SingleAccountSelectionFormaccess(RS, GetType(MenuFormAdd), Txt_MenuUnderMenuName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("MenuName") Then
+                    Txt_MenuUnderMenuName.Text = selected("MenuName").ToString()
+                End If
 
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
+                If selected.ContainsKey("MainId") Then
+                    Txt_UnderMenuPositionId.Text = selected("MainId").ToString()
+                End If
+                If selected.ContainsKey("MenuPositionId") Then
+                    _menupositionId = selected("MenuPositionId").ToString()
+                End If
             End If
             _MenuPositiomset()
             SendKeys.Send("{TAB}")
         ElseIf e.KeyCode = Keys.Delete Then
             Txt_MenuUnderMenuName.Text = ""
         End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
-            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
-            Dim Qry As New StringBuilder()
-            Qry.Append(" SELECT ")
-            Qry.Append(" A.MenuName ")
-            Qry.Append(" ,'' AS Remark ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM " & _TblName & " AS A ")
-            Qry.Append(" WHERE 1=1 ")
-            'Qry.Append(" AND A.MenuPositionId=1 ")
-            Qry.Append(" AND A.MainMenuPositionId=0 ")
-            Qry.Append(" AND A.ActiveStatus='YES' ")
-            ' Negative numeric values (-1,-2,-3...) hide karne ke liye
-            ' Text values show rahenge
-            Qry.Append(" AND ( ")
-            Qry.Append("     IsNumeric(A.MenuName) = False ")
-            Qry.Append("     OR Val(A.MenuName) >= 0 ")
-            Qry.Append(" ) ")
-
-            Qry.Append(" ORDER BY A.MenuName ")
-            RS = Qry.ToString
-            MenuDesign_QueryLoad()
-
-            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
-            Party_selection.dgw.Columns(2).Visible = False
-            Party_selection.dgw.Columns(3).Visible = False
-            Party_selection.dgw.Columns(0).Width = 280
-            Party_selection.dgw.Columns(1).Width = 200
-            Party_selection.Width = 506
-            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
-            row.Height = 30
-            obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
-
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
-            End If
-            _MenuPositiomset()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuUnderMenuName.Text = ""
-        End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
-            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
-            Dim Qry As New StringBuilder()
-            Qry.Append(" SELECT ")
-            Qry.Append(" A.MenuName ")
-            Qry.Append(" ,'' AS Remark ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" ,A.MainId ")
-            Qry.Append(" FROM " & _TblName & " AS A ")
-            Qry.Append(" WHERE 1=1 ")
-            'Qry.Append(" AND A.MenuPositionId=2 ")
-            Qry.Append(" AND A.MainMenuPositionId=0 ")
-            Qry.Append(" AND A.ActiveStatus='YES' ")
-            ' Negative numeric values (-1,-2,-3...) hide karne ke liye
-            ' Text values show rahenge
-            Qry.Append(" AND ( ")
-            Qry.Append("     IsNumeric(A.MenuName) = False ")
-            Qry.Append("     OR Val(A.MenuName) >= 0 ")
-            Qry.Append(" ) ")
-
-            Qry.Append(" ORDER BY A.MenuName ")
-            RS = Qry.ToString
-            MenuDesign_QueryLoad()
-            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
-            Party_selection.dgw.Columns(2).Visible = False
-            Party_selection.dgw.Columns(3).Visible = False
-            Party_selection.dgw.Columns(0).Width = 280
-            Party_selection.dgw.Columns(1).Width = 200
-            Party_selection.Width = 506
-            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
-            row.Height = 30
-            obj_Party_Selection.SELECTION_LIST_FIRST_SELECTION()
-
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                Txt_MenuUnderMenuName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                Txt_UnderMenuPositionId.Text = MULTY_SELECTION_COLOUM_3_DATA
-            End If
-            _MenuPositiomset()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuUnderMenuName.Text = ""
-        End If
-
     End Sub
 
     Private Sub Txt_MenuDisplayName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_MenuDisplayName.KeyDown
         If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text = "SUB MENU" Then
-            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
-            GetAllFormsAsDataTable()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuDisplayName.Text = ""
-        End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
-            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
-            GetAllFormsAsDataTable()
-            SendKeys.Send("{TAB}")
-        ElseIf e.KeyCode = Keys.Delete Then
-            Txt_MenuDisplayName.Text = ""
-        End If
-        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
             Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
             GetAllFormsAsDataTable()
             SendKeys.Send("{TAB}")
@@ -612,15 +494,8 @@ Friend Class MenuFormAdd
         Dim txtmenuname As String = Txt_MenuName.Text.Trim().ToLower()
         Dim properText As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmenuname)
         tblFormValues.Rows(0)("MenuName") = properText.Replace("'", "''")
-        tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
-        'If Txt_MenuType.Text.Trim = "PARENT1" Then
-        '    '    tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
-        '    'ElseIf Txt_MenuType.Text.Trim = "SUB MENU" Then
-        '    '    tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MainmenupositionId)
-        '    'Else
-        '    tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
-        'End If
-        tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text)
+        tblFormValues.Rows(0)("MenuPositionId") = Val(_MenupositionId)
+        tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
         tblFormValues.Rows(0)("MenuOrderNo") = Val(Txt_MenuOrder.Text)
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
         tblFormValues.Rows(0)("MenuPosition") = Val(Txt_MenuPosition.Text)

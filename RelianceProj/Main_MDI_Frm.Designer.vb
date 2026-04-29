@@ -217,7 +217,6 @@ Partial Class Main_MDI_Frm
         Me.ScanToolStripMenuItem.Name = "ScanToolStripMenuItem"
         Me.ScanToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.ScanToolStripMenuItem.Text = "scan"
-        Me.ScanToolStripMenuItem.Visible = False
         '
         'TestToolStripMenuItem
         '
