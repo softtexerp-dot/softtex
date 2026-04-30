@@ -248,13 +248,14 @@ Friend Class MenuFormAdd
                 Txt_MenuPosition.Text = 0
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
+                _MenupositionId = 0
             Else
                 If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
                 RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
                 MenuDesign_QueryLoad()
-                If Not IsDBNull(DefaltSoftTable.Rows(0)("MenuOrderNo")) AndAlso Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) > 0 Then
+                If DefaltSoftTable.Rows.Count > 0 AndAlso Not IsDBNull(DefaltSoftTable.Rows(0)("MenuOrderNo")) AndAlso Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) > 0 Then
                     Txt_MenuOrder.Text = Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) + 1
                 Else
                     Txt_MenuOrder.Text = 1
@@ -273,7 +274,6 @@ Friend Class MenuFormAdd
             Qry.Append(" ,A.MenuPositionId ")
             Qry.Append(" FROM " & _TblName & " AS A ")
             Qry.Append(" ORDER BY A.MenuPositionId ")
-
             RS = Qry.ToString
             MenuDesign_QueryLoad()
             Dim selected = SingleAccountSelectionFormaccess(RS, GetType(MenuFormAdd), Txt_MenuUnderMenuName.Text, "SINGLE")
@@ -281,7 +281,6 @@ Friend Class MenuFormAdd
                 If selected.ContainsKey("MenuName") Then
                     Txt_MenuUnderMenuName.Text = selected("MenuName").ToString()
                 End If
-
                 If selected.ContainsKey("MainId") Then
                     Txt_UnderMenuPositionId.Text = selected("MainId").ToString()
                 End If
@@ -294,10 +293,80 @@ Friend Class MenuFormAdd
         ElseIf e.KeyCode = Keys.Delete Then
             Txt_MenuUnderMenuName.Text = ""
         End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text = "PARENT1" Then
+            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
+            Dim Qry As New StringBuilder()
+            Qry.Append(" SELECT ")
+            Qry.Append(" A.MenuName ")
+            Qry.Append(" ,A.MainId AS MainId ")
+            Qry.Append(" ,A.MenuPositionId ")
+            Qry.Append(" FROM " & _TblName & " AS A ")
+            Qry.Append(" ORDER BY A.MenuPositionId ")
+            RS = Qry.ToString
+            MenuDesign_QueryLoad()
+            Dim selected = SingleAccountSelectionFormaccess(RS, GetType(MenuFormAdd), Txt_MenuUnderMenuName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("MenuName") Then
+                    Txt_MenuUnderMenuName.Text = selected("MenuName").ToString()
+                End If
+                If selected.ContainsKey("MainId") Then
+                    Txt_UnderMenuPositionId.Text = selected("MainId").ToString()
+                End If
+                If selected.ContainsKey("MenuPositionId") Then
+                    _MenupositionId = selected("MenuPositionId").ToString()
+                End If
+            End If
+            _MenuPositiomset()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuUnderMenuName.Text = ""
+        End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text = "PARENT2" Then
+            Party_selection.txtSearch.Text = Txt_MenuUnderMenuName.Text
+            Dim Qry As New StringBuilder()
+            Qry.Append(" SELECT ")
+            Qry.Append(" A.MenuName ")
+            Qry.Append(" ,A.MainId AS MainId ")
+            Qry.Append(" ,A.MenuPositionId ")
+            Qry.Append(" FROM " & _TblName & " AS A ")
+            Qry.Append(" ORDER BY A.MenuPositionId ")
+            RS = Qry.ToString
+            MenuDesign_QueryLoad()
+            Dim selected = SingleAccountSelectionFormaccess(RS, GetType(MenuFormAdd), Txt_MenuUnderMenuName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("MenuName") Then
+                    Txt_MenuUnderMenuName.Text = selected("MenuName").ToString()
+                End If
+                If selected.ContainsKey("MainId") Then
+                    Txt_UnderMenuPositionId.Text = selected("MainId").ToString()
+                End If
+                If selected.ContainsKey("MenuPositionId") Then
+                    _MenupositionId = selected("MenuPositionId").ToString()
+                End If
+            End If
+            _MenuPositiomset()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuUnderMenuName.Text = ""
+        End If
     End Sub
 
     Private Sub Txt_MenuDisplayName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_MenuDisplayName.KeyDown
         If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text = "SUB MENU" Then
+            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
+            GetAllFormsAsDataTable()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuDisplayName.Text = ""
+        End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT1" Then
+            Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
+            GetAllFormsAsDataTable()
+            SendKeys.Send("{TAB}")
+        ElseIf e.KeyCode = Keys.Delete Then
+            Txt_MenuDisplayName.Text = ""
+        End If
+        If e.KeyCode = Keys.Enter AndAlso Txt_MenuType.Text.Trim = "PARENT2" Then
             Party_selection.txtSearch.Text = Txt_MenuDisplayName.Text
             GetAllFormsAsDataTable()
             SendKeys.Send("{TAB}")
@@ -494,8 +563,8 @@ Friend Class MenuFormAdd
         Dim txtmenuname As String = Txt_MenuName.Text.Trim().ToLower()
         Dim properText As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmenuname)
         tblFormValues.Rows(0)("MenuName") = properText.Replace("'", "''")
-        tblFormValues.Rows(0)("MenuPositionId") = Val(_MenupositionId)
-        tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
+        tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
+        tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MenupositionId)
         tblFormValues.Rows(0)("MenuOrderNo") = Val(Txt_MenuOrder.Text)
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
         tblFormValues.Rows(0)("MenuPosition") = Val(Txt_MenuPosition.Text)

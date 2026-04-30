@@ -44,8 +44,8 @@ Public Class UserMenuForm
             .Append(" WHERE 1=1 ")
             .Append(" And MenuTable.Active_Status='Y' ")
             .Append(" And UserMenu.UserID =1")
-            .Append(" And MenuTable.Menu<>'-' ")
-            .Append("order by MenuTable.MenuPositionId,MenuTable.OrderNo ")
+            .Append(" And MenuTable.Menu<>'-'")
+            .Append(" order by MenuTable.MenuPositionId,MenuTable.OrderNo ")
         End With
         RS = _Query.ToString
         'MenuDesign_QueryLoad()
@@ -65,7 +65,6 @@ Public Class UserMenuForm
                 'Dim menuID As Integer = Convert.ToInt32(reader("MainId"))
                 Dim menuID As Integer = Convert.ToInt32(reader("MenuId"))
                 Dim parentMenuID As Object = If(IsDBNull(reader("MenuPositionId")), Nothing, Convert.ToInt32(reader("MenuPositionId")))
-                'Dim parentMenuID As Object = If(IsDBNull(reader("MainMenuPositionId")), Nothing, Convert.ToInt32(reader("MainMenuPositionId")))
                 'Dim menuName As String = reader("MenuName").ToString()
                 Dim menuName As String = reader("Menu").ToString()
                 Dim isSeparator As Boolean = Convert.ToBoolean(reader("MenuIsSparate"))

@@ -194,8 +194,10 @@ Public Class SqlDBMenudesign
                     Next
                 Next
             Next
-            MSA_CONN.Close()
-            MessageBox.Show("Bulk Save Successfully")
+            If MSA_CONN.State = ConnectionState.Open Then
+                MSA_CONN.Close()
+            End If
+            MessageBox.Show("Save Successfully")
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         Finally

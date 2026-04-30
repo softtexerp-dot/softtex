@@ -10,6 +10,7 @@ Public Class MenuAllotment
     Public SelectedRowValuesList As New List(Of Dictionary(Of String, Object))()
     Public DataMenuName As DataTable
     Dim DataUserMenu As New DataTable
+    Public DataMstUser As DataTable
     Public Property GridViewType As String
     Private Sub MenuAllotment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim x As Integer = 0
@@ -24,8 +25,8 @@ Public Class MenuAllotment
 
             With _Query
                 .Append("SELECT ")
-                .Append(" MainId")
-                .Append(" ,MenuName")
+                .Append(" MenuName")
+                .Append(" ,MainId")
                 .Append(" ,MenuPositionId")
                 .Append(" ,MainMenuPositionId")
                 .Append(" ,MenuOrderNo ")
@@ -82,8 +83,7 @@ Public Class MenuAllotment
             End If
             For i As Integer = 0 To DataMenuName.Rows.Count - 1
                 DataMenuName.Rows(i)("SrNo") = i + 1
-                Dim isMatch As Boolean =
-                    DataUserMenu.Select("Menu='" & DataMenuName.Rows(i)("MenuName").ToString().Replace("'", "''") & "'").Length > 0
+                Dim isMatch As Boolean = DataUserMenu.Select("Menu='" & DataMenuName.Rows(i)("MenuName").ToString().Replace("'", "''") & "'").Length > 0
                 If isMatch Then
                     DataMenuName.Rows(i)("IsMatched") = "Y"
                     DataMenuName.Rows(i)("IsChecked") = True
@@ -94,26 +94,13 @@ Public Class MenuAllotment
             Next
             SelectionGrid.Columns.Clear()
             SelectionGridControl.DataSource = DataMenuName
+
             Dim repositoryCheckEdit1 As DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit = TryCast(SelectionGridControl.RepositoryItems.Add("CheckEdit"), DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit)
             repositoryCheckEdit1.ValueChecked = True
             repositoryCheckEdit1.ValueUnchecked = False
             repositoryCheckEdit1.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked
-            If SelectionGrid.Columns("IsChecked") IsNot Nothing Then
-                With SelectionGrid.Columns("IsChecked")
-                    .Caption = "Check"
-                    .VisibleIndex = 0
-                    .Width = 20
-                    .ColumnEdit = repositoryCheckEdit1
-                End With
-            End If
 
-            If SelectionGrid.Columns("SrNo") IsNot Nothing Then
-                With SelectionGrid.Columns("SrNo")
-                    .VisibleIndex = 1
-                    .Caption = "Sr No"
-                    .Width = 20
-                End With
-            End If
+
             AddHandler SelectionGrid.RowStyle,
                 Sub(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs)
                     Dim view = CType(sender, DevExpress.XtraGrid.Views.Grid.GridView)
@@ -130,16 +117,30 @@ Public Class MenuAllotment
             Else
                 _DevGridColumSizeAutoAdjest(SelectionGridControl, SelectionGrid)
             End If
-
+            SelectionGrid.OptionsView.ColumnAutoWidth = True
+            SelectionGrid.BestFitColumns()
+            If SelectionGrid.Columns("IsChecked") IsNot Nothing Then
+                With SelectionGrid.Columns("IsChecked")
+                    .Caption = "Check"
+                    .VisibleIndex = 0
+                    .Width = 60
+                    .ColumnEdit = repositoryCheckEdit1
+                    .OptionsColumn.FixedWidth = True
+                End With
+            End If
+            If SelectionGrid.Columns("SrNo") IsNot Nothing Then
+                With SelectionGrid.Columns("SrNo")
+                    .VisibleIndex = 1
+                    .Caption = "SrNo"
+                    .Width = 60
+                    .OptionsColumn.FixedWidth = True
+                End With
+            End If
             HideColumnsByName()
 
             SelectionGrid.OptionsView.ShowIndicator = False
             SelectionGrid.OptionsFind.AlwaysVisible = False
             SelectionGrid.OptionsView.ShowGroupPanel = False
-            SelectionGrid.OptionsView.ColumnAutoWidth = True
-
-            SelectionGrid.HorzScrollVisibility =
-                DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never
 
             With SelectionGrid.Appearance
                 .FocusedRow.ForeColor = Color.Empty
@@ -171,7 +172,7 @@ Public Class MenuAllotment
                 _TickMarkClm = "MainId"
             End If
 
-            Dim columnsToHide As String() = {"MenuPositionId", "MenuOrderNo", "MenuPosition", _TickMarkClm, "BlackList", "MainMenuName", "SelectedFormName", "MainId", "IsMatched"}
+            Dim columnsToHide As String() = {"MainId", "MenuPositionId", "MainMenuPositionId", "MenuOrderNo", "MenuPosition", _TickMarkClm, "BlackList", "MainMenuName", "SelectedFormName", "IsMatched", "ActiveStatus"}
 
             For Each colName In columnsToHide
                 Dim col = SelectionGrid.Columns.ColumnByFieldName(colName)
@@ -180,22 +181,6 @@ Public Class MenuAllotment
                 End If
             Next
 
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
-    End Sub
-
-    Private Sub FocusGridRowBySearchText()
-        Try
-            Dim view As DevExpress.XtraGrid.Views.Grid.GridView = SelectionGrid
-            Dim firstCol As DevExpress.XtraGrid.Columns.GridColumn = view.VisibleColumns.FirstOrDefault()
-            If firstCol IsNot Nothing Then
-                For i As Integer = 0 To view.RowCount - 1
-                    Dim cellValue As String = view.GetRowCellValue(i, firstCol).ToString().ToLower()
-                    view.FocusedRowHandle = i
-                    Exit For
-                Next
-            End If
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
@@ -213,6 +198,8 @@ Public Class MenuAllotment
                     End If
                     If isChecked = False Then
                         SelectionGrid.SetRowCellValue(rowHandle, "IsChecked", True)
+                    Else
+                        SelectionGrid.SetRowCellValue(rowHandle, "IsChecked", False)
                     End If
                 End If
                 e.Handled = True
@@ -244,24 +231,19 @@ Public Class MenuAllotment
                 If MSA_CONN.State = ConnectionState.Closed Then
                     MSA_CONN.Open()
                 End If
-
                 Dim deleteCommand As New OleDb.OleDbCommand("", MSA_CONN)
-
                 deleteCommand.CommandText = "DELETE FROM MenuTable WHERE MenuId = ?"
                 deleteCommand.Parameters.Clear()
                 deleteCommand.Parameters.AddWithValue("@MenuId", dr("MainId"))
                 deleteCommand.ExecuteNonQuery()
                 deleteCommand.Dispose()
-
                 Dim command As New OleDb.OleDbCommand("", MSA_CONN)
                 command.CommandText =
                     "INSERT INTO MenuTable " &
                     "(MenuId, Menu, SUBID, ORDERNO, MenuPosition, SELECTFORM, " &
                     "MenuPositionId, MainMenuPositionId, MainMenuName, Active_Status, OP10) " &
                     "VALUES (?,?,?,?,?,?,?,?,?,?,?)"
-
                 command.Parameters.Clear()
-
                 command.Parameters.AddWithValue("@MenuId", dr("MainId"))
                 command.Parameters.AddWithValue("@Menu", dr("MenuName").ToString())
                 command.Parameters.AddWithValue("@SUBID", dr("MenuPositionId"))
@@ -273,14 +255,59 @@ Public Class MenuAllotment
                 command.Parameters.AddWithValue("@MainMenuName", dr("MainMenuName").ToString())
                 command.Parameters.AddWithValue("@Active_Status", _ActiveStatus)
                 command.Parameters.AddWithValue("@OP10", "New Menu")
-
                 command.ExecuteNonQuery()
                 command.Dispose()
-
             End If
-
         Next
 
+
+        ''MstUser Data
+        'RS = " SELECT User_Id,ActiveStatus,* FROM MstUser WHERE 1=1 ORDER BY Id"
+        'SQLDBMENU_CONNECT()
+        'If DefaltSoftTable IsNot Nothing AndAlso DefaltSoftTable.Rows.Count > 0 Then
+        '    DataMstUser = DefaltSoftTable.Copy
+        'End If
+
+        ''user master data
+        'Dim Fnlmenutbl As DataTable
+        'Fnlmenutbl = DataUserMenu.Clone
+        'For Each dr As DataRow In DataUserMenu.Select
+        '    For Each dr1 As DataRow In DataMenuName.Select("MainId='" & dr("MenuId") & "' ")
+        '        Fnlmenutbl.ImportRow(dr1)
+        '    Next
+        'Next
+
+        'Dim _USerWIseMEnuTbl As New DataTable
+        '_USerWIseMEnuTbl = DataMenuName.Clone
+        'Dim startSubMenuId As Integer = 8
+        'Dim endSubMenuId As Integer = 23
+        'For Each dr As DataRow In DataMstUser.Select()
+        '    'Step 1 : Header range (8 to 23) ke liye
+        '    For _submenuid As Integer = startSubMenuId To endSubMenuId
+        '        For Each dr1 As DataRow In DataUserMenu.Select("USERID='" & dr("USER_ID") & "'")
+        '            If Val(dr1("MENUID")) = _submenuid Then
+        '                For Each dr2 As DataRow In DataMenuName.Select("MainMenuPositionId='" & _submenuid & "' AND ActiveStatus='YES'")
+        '                    Dim _ActiveStatus As String =
+        '                            If(dr2("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+        '                    If MSA_CONN.State = ConnectionState.Closed Then
+        '                        MSA_CONN.Open()
+        '                    End If
+        '                    Dim command As New OleDb.OleDbCommand(RS, MSA_CONN)
+        '                    command.CommandText =
+        '                            "INSERT INTO UserMenu " &
+        '                            "(MenuId, UserId, Active_Status) " &
+        '                            "VALUES (?,?,?)"
+        '                    command.Parameters.Clear()
+        '                    command.Parameters.AddWithValue("@MenuId", dr2("MainId"))
+        '                    command.Parameters.AddWithValue("@UserId", dr("USER_ID"))
+        '                    command.Parameters.AddWithValue("@Active_Status", _ActiveStatus)
+        '                    command.ExecuteNonQuery()
+        '                    command.Dispose()
+        '                Next
+        '            End If
+        '        Next
+        '    Next
+        'Next
         If MSA_CONN.State = ConnectionState.Open Then
             MSA_CONN.Close()
         End If

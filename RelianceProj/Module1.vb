@@ -5,7 +5,8 @@ Imports CrystalDecisions.CrystalReports.Engine
 
 
 Module Module2
-    Public databaseconnecton As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts24_342025104153;Integrated Security=SSPI;persist security info=True"
+    'Public databaseconnecton As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts24_342025104153;Integrated Security=SSPI;persist security info=True"
+    Public databaseconnecton As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts36_142025104653;Integrated Security=SSPI;persist security info=True"
     'Public databaseconnecton As String = "Data Source=DESKTOP-JJFE5D4;database=Accounts24_342025104153;Integrated Security=SSPI;persist security info=True"
 
     Public _UserReportPassword As String = "SOFTTEXMS"
@@ -416,14 +417,14 @@ Module Module2
     End Sub
     Public Sub ReportsMenuConn()
 
-        Dim appPath As String = ""
-        If _CheckServerPcs = True Then
-            appPath = (System.Windows.Forms.Application.StartupPath)
-        Else
-            appPath = _ServerPcPath
-        End If
+        'Dim appPath As String = ""
+        'If _CheckServerPcs = True Then
+        '    appPath = (System.Windows.Forms.Application.StartupPath)
+        'Else
+        '    appPath = _ServerPcPath
+        'End If
 
-        'Dim appPath As String = My.Application.Info.DirectoryPath
+        Dim appPath As String = My.Application.Info.DirectoryPath
         ReportsConnection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & appPath + "\Reports.dll;Jet OLEDB:Database Password={M#~Softex&$@*"
         ReportsConnection.Open()
     End Sub
@@ -720,6 +721,7 @@ Module Module2
         End Try
     End Sub
 
+
     Public Sub SQLDBMENU_Save_Delete_Update()
         Try
             DB_CONNECT()
@@ -733,6 +735,7 @@ Module Module2
         Finally
         End Try
     End Sub
+
     Public Function sql_connect_slect()
         Try
             DefaltSoftTable.Reset()
