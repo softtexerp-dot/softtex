@@ -121,7 +121,7 @@ Public Class MenuAllotment
             SelectionGrid.BestFitColumns()
             If SelectionGrid.Columns("IsChecked") IsNot Nothing Then
                 With SelectionGrid.Columns("IsChecked")
-                    .Caption = "Check"
+                    .Caption = "Checked"
                     .VisibleIndex = 0
                     .Width = 60
                     .ColumnEdit = repositoryCheckEdit1
