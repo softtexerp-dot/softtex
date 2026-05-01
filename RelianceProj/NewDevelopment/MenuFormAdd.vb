@@ -253,7 +253,8 @@ Friend Class MenuFormAdd
                 If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
             End If
             If Txt_UnderMenuPositionId.Text.Trim > "" Then
-                RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
+                'RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
+                RS = "SELECT Max(A.MenuOrderNo) As MenuOrderNo FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " "
                 MenuDesign_QueryLoad()
                 If DefaltSoftTable.Rows.Count > 0 AndAlso Not IsDBNull(DefaltSoftTable.Rows(0)("MenuOrderNo")) AndAlso Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) > 0 Then
                     Txt_MenuOrder.Text = Val(DefaltSoftTable.Rows(0)("MenuOrderNo")) + 1
@@ -285,7 +286,7 @@ Friend Class MenuFormAdd
                     Txt_UnderMenuPositionId.Text = selected("MainId").ToString()
                 End If
                 If selected.ContainsKey("MenuPositionId") Then
-                    _menupositionId = selected("MenuPositionId").ToString()
+                    _MenupositionId = selected("MenuPositionId").ToString()
                 End If
             End If
             _MenuPositiomset()
@@ -556,7 +557,8 @@ Friend Class MenuFormAdd
                 LASTCODE = "1"
             End If
         Else
-            LASTCODE = DefaltSoftTable.Rows(0)("MainId")
+            'LASTCODE = DefaltSoftTable.Rows(0)("MainId")
+            LASTCODE = Txt_MenuId.Text
             _KeyFieldValue = LASTCODE
         End If
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
@@ -677,7 +679,6 @@ Friend Class MenuFormAdd
         MenuDesign_QueryLoad()
         Dim tblTmp As DataTable
         tblTmp = DefaltSoftTable.Copy
-        FirstStage.Columns.Clear()
         Dim Qty As String = ""
         If tblTmp.Rows.Count > 0 Then
             GridControl1.DataSource = tblTmp.Copy
@@ -701,12 +702,29 @@ Friend Class MenuFormAdd
                     FirstStage.Columns(dc.ColumnName).Visible = False
                 End If
             Next
+            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+                col.OptionsColumn.AllowEdit = False
+            Next
+
+            ' Step 2: Sirf required columns editable
+            'FirstStage.Columns("MenuName").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("MenuOrderNo").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("MenuPositionId").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("MainMenuPositionId").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("MenuPosition").OptionsColumn.AllowEdit = True
+            'FirstStage.Columns("MenuIsSparate").OptionsColumn.AllowEdit = True
+            'FirstStage.Columns("ActiveStatus").OptionsColumn.AllowEdit = True
+
             DevGridFitColumn(GridControl1, FirstStage)
             PnlGrdView.Visible = True
+
             FirstStage.BestFitColumns()
             FirstStage.Focus()
             PnlGrdView.BringToFront()
             GridControl1.BringToFront()
+            FirstStage.OptionsBehavior.Editable = True
+            FirstStage.OptionsBehavior.ReadOnly = False
+            FirstStage.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click
         Else
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
         End If
@@ -720,5 +738,71 @@ Friend Class MenuFormAdd
 
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
+    End Sub
+
+    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles SimpleButton1.Click
+        Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
+        'If MSA_CONN.State = ConnectionState.Closed Then
+        '    MSA_CONN.Open()
+        'End If
+        For Each dr As DataRow In dt.Rows
+            If dr.RowState = DataRowState.Modified Then
+                Dim cmd As New OleDb.OleDbCommand(RS, MenuDesignConnection)
+                cmd.CommandText =
+                    "UPDATE " & _TblName & " SET " &
+                    "MenuName = ?, " &
+                    "MenuPostionId = ?, " &
+                    "MenuOrderNo = ?, " &
+                    "MenuPosition = ?, " &
+                    "SelectedFormName = ?, " &
+                    "MenuPositionId = ?, " &
+                    "MainMenuPositionId = ?, " &
+                    "MainMenuName = ?, " &
+                    "ActiveStatus = ? " &
+                    "WHERE MainId = ?"
+                cmd.Parameters.Clear()
+                cmd.Parameters.AddWithValue("", dr("MenuName").ToString())
+                cmd.Parameters.AddWithValue("", dr("MenuPostionId"))
+                cmd.Parameters.AddWithValue("", dr("MenuOrderNo"))
+                cmd.Parameters.AddWithValue("", dr("MenuPosition"))
+                cmd.Parameters.AddWithValue("", dr("SelectedFormName").ToString())
+                cmd.Parameters.AddWithValue("", dr("MenuPositionId"))
+                cmd.Parameters.AddWithValue("", dr("MainMenuPositionId"))
+                cmd.Parameters.AddWithValue("", dr("MainMenuName").ToString())
+                cmd.Parameters.AddWithValue("", dr("ActiveStatus").ToString())
+                ' WHERE condition
+                cmd.Parameters.AddWithValue("", dr("MainId"))
+                cmd.ExecuteNonQuery()
+                cmd.Dispose()
+            End If
+        Next
+        MessageBox.Show("Data Updated Successfully")
+    End Sub
+    Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles FirstStage.KeyDown, GridControl1.KeyDown
+        If e.KeyCode = Keys.Space Then
+            If FirstStage.FocusedColumn.FieldName = "ActiveStatus" Then
+                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("ActiveStatus").ToString().ToUpper()
+                If currentValue = "YES" Then
+                    FirstStage.SetFocusedRowCellValue("ActiveStatus", "NO")
+                Else
+                    FirstStage.SetFocusedRowCellValue("ActiveStatus", "YES")
+                End If
+
+                e.Handled = True
+            End If
+        End If
+        If FirstStage.FocusedColumn.FieldName = "MenuIsSparate" Then
+
+            Dim currentValue As Boolean = False
+
+            If Not IsDBNull(FirstStage.GetFocusedRowCellValue("MenuIsSparate")) Then
+                currentValue = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("MenuIsSparate"))
+            End If
+
+            FirstStage.SetFocusedRowCellValue("MenuIsSparate", Not currentValue)
+
+            e.Handled = True
+        End If
+
     End Sub
 End Class

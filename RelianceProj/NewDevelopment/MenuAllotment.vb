@@ -9,6 +9,8 @@ Public Class MenuAllotment
     ' Multi Row Selection Result
     Public SelectedRowValuesList As New List(Of Dictionary(Of String, Object))()
     Public DataMenuName As DataTable
+    Public DataMenuNameMain As DataTable
+
     Dim DataUserMenu As New DataTable
     Public DataMstUser As DataTable
     Public Property GridViewType As String
@@ -21,6 +23,24 @@ Public Class MenuAllotment
     Private Sub LoadDataFromQuery()
         Try
             Dim dt As New DataTable()
+            Dim _QueryMain As New StringBuilder()
+
+            With _QueryMain
+                .Append("SELECT * ")
+                .Append(" FROM MenuName ")
+                .Append(" WHERE 1=1 ")
+                .Append(" AND MenuName<>'-' ")
+                .Append(" AND ActiveStatus='YES' ")
+                .Append(" ORDER BY MainId ")
+            End With
+
+            RS = _QueryMain.ToString()
+            MenuDesign_QueryLoad()
+
+            If DefaltSoftTable.Rows.Count > 0 Then
+                DataMenuNameMain = DefaltSoftTable.Copy()
+            End If
+
             Dim _Query As New StringBuilder()
 
             With _Query
@@ -86,7 +106,8 @@ Public Class MenuAllotment
                 Dim isMatch As Boolean = DataUserMenu.Select("Menu='" & DataMenuName.Rows(i)("MenuName").ToString().Replace("'", "''") & "'").Length > 0
                 If isMatch Then
                     DataMenuName.Rows(i)("IsMatched") = "Y"
-                    DataMenuName.Rows(i)("IsChecked") = True
+                    'DataMenuName.Rows(i)("IsChecked") = True
+                    DataMenuName.Rows(i)("IsChecked") = False
                 Else
                     DataMenuName.Rows(i)("IsMatched") = "N"
                     DataMenuName.Rows(i)("IsChecked") = False
@@ -219,95 +240,44 @@ Public Class MenuAllotment
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-
-
         For Each dr As DataRow In DataMenuName.Rows
-            'Sirf checked rows save hongi
             If Convert.ToBoolean(dr("IsChecked")) = True Then
-
-                Dim _ActiveStatus As String =
-                    If(dr("IsMatched").ToString() = "Y", "Y", "N")
-
-                If MSA_CONN.State = ConnectionState.Closed Then
-                    MSA_CONN.Open()
-                End If
-                Dim deleteCommand As New OleDb.OleDbCommand("", MSA_CONN)
-                deleteCommand.CommandText = "DELETE FROM MenuTable WHERE MenuId = ?"
-                deleteCommand.Parameters.Clear()
-                deleteCommand.Parameters.AddWithValue("@MenuId", dr("MainId"))
-                deleteCommand.ExecuteNonQuery()
-                deleteCommand.Dispose()
-                Dim command As New OleDb.OleDbCommand("", MSA_CONN)
-                command.CommandText =
-                    "INSERT INTO MenuTable " &
-                    "(MenuId, Menu, SUBID, ORDERNO, MenuPosition, SELECTFORM, " &
-                    "MenuPositionId, MainMenuPositionId, MainMenuName, Active_Status, OP10) " &
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?)"
-                command.Parameters.Clear()
-                command.Parameters.AddWithValue("@MenuId", dr("MainId"))
-                command.Parameters.AddWithValue("@Menu", dr("MenuName").ToString())
-                command.Parameters.AddWithValue("@SUBID", dr("MenuPositionId"))
-                command.Parameters.AddWithValue("@ORDERNO", dr("MenuOrderNo"))
-                command.Parameters.AddWithValue("@MenuPosition", dr("MenuPosition"))
-                command.Parameters.AddWithValue("@SELECTFORM", dr("SelectedFormName").ToString())
-                command.Parameters.AddWithValue("@MenuPositionId", dr("MenuPositionId"))
-                command.Parameters.AddWithValue("@MainMenuPositionId", dr("MainMenuPositionId"))
-                command.Parameters.AddWithValue("@MainMenuName", dr("MainMenuName").ToString())
-                command.Parameters.AddWithValue("@Active_Status", _ActiveStatus)
-                command.Parameters.AddWithValue("@OP10", "New Menu")
-                command.ExecuteNonQuery()
-                command.Dispose()
+                'Dim _ActiveStatus As String =
+                'If(dr("IsMatched").ToString() = "Y", "Y", "N")
+                For Each dr1 As DataRow In DataMenuNameMain.Select("MainID='" & dr("MainId") & "' OR MainMenuPositionId='" & dr("MainId") & "' ")
+                    Dim _ActiveStatus As String = If(dr1("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+                    Dim command As New OleDb.OleDbCommand(RS, MSA_CONN)
+                    If MSA_CONN.State = ConnectionState.Closed Then
+                        MSA_CONN.Open()
+                    End If
+                    command.CommandText =
+                "INSERT INTO MenuTable " &
+                "(MenuId,Menu,SUBID,ORDERNO,MenuPosition,SELECTFORM," &
+                "MenuPositionId,MainMenuPositionId,MenuIsSparate," &
+                "MainMenuName,ShortCutKey,IconPath,Tooltip," &
+                "MenuType,Active_Status,OP10) " &
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                    command.Parameters.AddWithValue("@MenuId", dr1("MainId"))
+                    command.Parameters.AddWithValue("@Menu", dr1("MenuName").ToString())
+                    command.Parameters.AddWithValue("@SUBID", dr1("MenuPositionId"))
+                    command.Parameters.AddWithValue("@ORDERNO", dr1("MenuOrderNo"))
+                    command.Parameters.AddWithValue("@MenuPosition", dr1("MenuPosition"))
+                    command.Parameters.AddWithValue("@SELECTFORM", dr1("SelectedFormName").ToString())
+                    command.Parameters.AddWithValue("@MenuPositionId", dr1("MenuPositionId"))
+                    command.Parameters.AddWithValue("@MainMenuPositionId", dr1("MainMenuPositionId"))
+                    command.Parameters.AddWithValue("@MenuIsSparate", dr1("MenuIsSparate").ToString())
+                    command.Parameters.AddWithValue("@MainMenuName", dr1("MainMenuName").ToString())
+                    command.Parameters.AddWithValue("@ShortCutKey", dr1("ShortCutKey").ToString())
+                    command.Parameters.AddWithValue("@IconPath", dr1("IconPath").ToString())
+                    command.Parameters.AddWithValue("@Tooltip", dr1("Tooltip").ToString())
+                    command.Parameters.AddWithValue("@MenuType", dr1("MenuType").ToString())
+                    command.Parameters.AddWithValue("@Active_Status", _ActiveStatus)
+                    command.Parameters.AddWithValue("@OP10", "New Menu")
+                    command.ExecuteNonQuery()
+                Next
             End If
         Next
 
-
-        ''MstUser Data
-        'RS = " SELECT User_Id,ActiveStatus,* FROM MstUser WHERE 1=1 ORDER BY Id"
-        'SQLDBMENU_CONNECT()
-        'If DefaltSoftTable IsNot Nothing AndAlso DefaltSoftTable.Rows.Count > 0 Then
-        '    DataMstUser = DefaltSoftTable.Copy
-        'End If
-
-        ''user master data
-        'Dim Fnlmenutbl As DataTable
-        'Fnlmenutbl = DataUserMenu.Clone
-        'For Each dr As DataRow In DataUserMenu.Select
-        '    For Each dr1 As DataRow In DataMenuName.Select("MainId='" & dr("MenuId") & "' ")
-        '        Fnlmenutbl.ImportRow(dr1)
-        '    Next
-        'Next
-
-        'Dim _USerWIseMEnuTbl As New DataTable
-        '_USerWIseMEnuTbl = DataMenuName.Clone
-        'Dim startSubMenuId As Integer = 8
-        'Dim endSubMenuId As Integer = 23
-        'For Each dr As DataRow In DataMstUser.Select()
-        '    'Step 1 : Header range (8 to 23) ke liye
-        '    For _submenuid As Integer = startSubMenuId To endSubMenuId
-        '        For Each dr1 As DataRow In DataUserMenu.Select("USERID='" & dr("USER_ID") & "'")
-        '            If Val(dr1("MENUID")) = _submenuid Then
-        '                For Each dr2 As DataRow In DataMenuName.Select("MainMenuPositionId='" & _submenuid & "' AND ActiveStatus='YES'")
-        '                    Dim _ActiveStatus As String =
-        '                            If(dr2("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
-        '                    If MSA_CONN.State = ConnectionState.Closed Then
-        '                        MSA_CONN.Open()
-        '                    End If
-        '                    Dim command As New OleDb.OleDbCommand(RS, MSA_CONN)
-        '                    command.CommandText =
-        '                            "INSERT INTO UserMenu " &
-        '                            "(MenuId, UserId, Active_Status) " &
-        '                            "VALUES (?,?,?)"
-        '                    command.Parameters.Clear()
-        '                    command.Parameters.AddWithValue("@MenuId", dr2("MainId"))
-        '                    command.Parameters.AddWithValue("@UserId", dr("USER_ID"))
-        '                    command.Parameters.AddWithValue("@Active_Status", _ActiveStatus)
-        '                    command.ExecuteNonQuery()
-        '                    command.Dispose()
-        '                Next
-        '            End If
-        '        Next
-        '    Next
-        'Next
         If MSA_CONN.State = ConnectionState.Open Then
             MSA_CONN.Close()
         End If

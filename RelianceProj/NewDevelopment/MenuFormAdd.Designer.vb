@@ -57,6 +57,7 @@ Partial Class MenuFormAdd
         Me.Txt_UnderMenuPositionId = New ctl_TextBox.ctl_TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.PnlGrdView = New System.Windows.Forms.GroupBox()
+        Me.SimpleButton1 = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.SimpleButton2 = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
@@ -794,27 +795,40 @@ Partial Class MenuFormAdd
         'PnlGrdView
         '
         Me.PnlGrdView.BackColor = System.Drawing.Color.LightCyan
+        Me.PnlGrdView.Controls.Add(Me.SimpleButton1)
         Me.PnlGrdView.Controls.Add(Me.BtnExport)
         Me.PnlGrdView.Controls.Add(Me.SimpleButton2)
         Me.PnlGrdView.Controls.Add(Me.BtnPrint)
         Me.PnlGrdView.Controls.Add(Me.Btn_LayoutLoad)
         Me.PnlGrdView.Controls.Add(Me.BtnLayOutSave)
         Me.PnlGrdView.Controls.Add(Me.GridControl1)
-        Me.PnlGrdView.Location = New System.Drawing.Point(782, 12)
+        Me.PnlGrdView.Location = New System.Drawing.Point(138, 4)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(86, 175)
+        Me.PnlGrdView.Size = New System.Drawing.Size(898, 175)
         Me.PnlGrdView.TabIndex = 81938
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
+        '
+        'SimpleButton1
+        '
+        Me.SimpleButton1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SimpleButton1.Appearance.Options.UseFont = True
+        Me.SimpleButton1.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
+        Me.SimpleButton1.Location = New System.Drawing.Point(382, 11)
+        Me.SimpleButton1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.SimpleButton1.Name = "SimpleButton1"
+        Me.SimpleButton1.Size = New System.Drawing.Size(96, 34)
+        Me.SimpleButton1.TabIndex = 81993
+        Me.SimpleButton1.Text = "Update"
         '
         'BtnExport
         '
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(581, 10)
+        Me.BtnExport.Location = New System.Drawing.Point(581, 11)
         Me.BtnExport.Name = "BtnExport"
-        Me.BtnExport.Size = New System.Drawing.Size(90, 35)
+        Me.BtnExport.Size = New System.Drawing.Size(90, 34)
         Me.BtnExport.TabIndex = 81965
         Me.BtnExport.Text = "Export"
         '
@@ -823,7 +837,7 @@ Partial Class MenuFormAdd
         Me.SimpleButton2.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SimpleButton2.Appearance.Options.UseFont = True
         Me.SimpleButton2.ImageOptions.Image = CType(resources.GetObject("SimpleButton2.ImageOptions.Image"), System.Drawing.Image)
-        Me.SimpleButton2.Location = New System.Drawing.Point(414, 9)
+        Me.SimpleButton2.Location = New System.Drawing.Point(310, 11)
         Me.SimpleButton2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.SimpleButton2.Name = "SimpleButton2"
         Me.SimpleButton2.Size = New System.Drawing.Size(64, 34)
@@ -836,9 +850,9 @@ Partial Class MenuFormAdd
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(485, 9)
+        Me.BtnPrint.Location = New System.Drawing.Point(485, 11)
         Me.BtnPrint.Name = "BtnPrint"
-        Me.BtnPrint.Size = New System.Drawing.Size(90, 35)
+        Me.BtnPrint.Size = New System.Drawing.Size(90, 34)
         Me.BtnPrint.TabIndex = 81964
         Me.BtnPrint.Text = "Print"
         '
@@ -915,7 +929,7 @@ Partial Class MenuFormAdd
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(724, 439)
+        Me.ClientSize = New System.Drawing.Size(1091, 650)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)
@@ -1013,4 +1027,5 @@ Partial Class MenuFormAdd
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents SimpleButton1 As DevExpress.XtraEditors.SimpleButton
 End Class

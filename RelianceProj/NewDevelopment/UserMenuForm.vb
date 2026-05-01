@@ -48,13 +48,7 @@ Public Class UserMenuForm
             .Append(" order by MenuTable.MenuPositionId,MenuTable.OrderNo ")
         End With
         RS = _Query.ToString
-        'MenuDesign_QueryLoad()
         SQLDBMENU_CONNECT()
-
-        'Dim command As New OleDb.OleDbCommand(RS, MenuDesignConnection)
-        'If MenuDesignConnection.State = ConnectionState.Closed Then
-        '    MenuDesignConnection.Open()
-        'End If
         Dim command As New OleDb.OleDbCommand(RS, MSA_CONN)
         If MSA_CONN.State = ConnectionState.Closed Then
             MSA_CONN.Open()
@@ -62,13 +56,10 @@ Public Class UserMenuForm
         Using reader As OleDbDataReader = command.ExecuteReader()
             Dim menuDictionary As New Dictionary(Of Integer, ToolStripMenuItem)
             While reader.Read()
-                'Dim menuID As Integer = Convert.ToInt32(reader("MainId"))
                 Dim menuID As Integer = Convert.ToInt32(reader("MenuId"))
                 Dim parentMenuID As Object = If(IsDBNull(reader("MenuPositionId")), Nothing, Convert.ToInt32(reader("MenuPositionId")))
-                'Dim menuName As String = reader("MenuName").ToString()
                 Dim menuName As String = reader("Menu").ToString()
                 Dim isSeparator As Boolean = Convert.ToBoolean(reader("MenuIsSparate"))
-                'Dim SelectedFormName As String = reader("SelectedFormName").ToString()
                 Dim SelectedFormName As String = reader("SelectForm").ToString()
                 If isSeparator Then
                     Dim separator As New ToolStripSeparator()
@@ -194,15 +185,15 @@ Public Class UserMenuForm
                     If menuformname = "MASTER FORM" Then
                         Dim Loadfrm As New MainMasterFormRead()
                         Loadfrm.MainMasterLoadFormName = Frm_Name_For_Active.ToString()
-                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Loadfrm)
+                        ShowFormFromMenuUser(TryCast(sender, ToolStripMenuItem), Loadfrm)
                     ElseIf menuformname = "REPORT" Then
                         Dim Reportfrm As New ReportForm()
                         Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
-                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
+                        ShowFormFromMenuUser(TryCast(sender, ToolStripMenuItem), Reportfrm)
                     ElseIf menuformname = "ENTRY FORM" Then
                         Dim Entryfrm As New MainFormRead()
                         Entryfrm.MainLoadFormName = Frm_Name_For_Active.ToString
-                        ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)
+                        ShowFormFromMenuUser(TryCast(sender, ToolStripMenuItem), Entryfrm)
                     End If
                 End If
             End If
