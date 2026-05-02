@@ -140,7 +140,7 @@ Friend Class MenuFormAdd
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
     End Sub
-    Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
+    Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
             If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
                 PnlGrdView.Visible = False
@@ -202,7 +202,7 @@ Friend Class MenuFormAdd
             If tblTmp.Rows.Count = 0 Then
                 ObjCls_General.Blank_Object(Me)
                 Txt_MenuType.Text = "SUB MENU"
-                Txt_MenuActive.Text = "NO"
+                Txt_MenuActive.Text = "YES"
                 Txt_MenuSepartor.Text = "False"
                 UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
                 MsgBox("Record Not Found")
@@ -248,7 +248,6 @@ Friend Class MenuFormAdd
                 Txt_MenuPosition.Text = 0
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
-                _MenupositionId = 0
             Else
                 If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
             End If
@@ -300,7 +299,7 @@ Friend Class MenuFormAdd
             Qry.Append(" SELECT ")
             Qry.Append(" A.MenuName ")
             Qry.Append(" ,A.MainId AS MainId ")
-            Qry.Append(" ,A.MenuPositionId ")
+            Qry.Append(" ,A.MainMenuPositionId ")
             Qry.Append(" FROM " & _TblName & " AS A ")
             Qry.Append(" ORDER BY A.MenuPositionId ")
             RS = Qry.ToString
@@ -313,8 +312,8 @@ Friend Class MenuFormAdd
                 If selected.ContainsKey("MainId") Then
                     Txt_UnderMenuPositionId.Text = selected("MainId").ToString()
                 End If
-                If selected.ContainsKey("MenuPositionId") Then
-                    _MenupositionId = selected("MenuPositionId").ToString()
+                If selected.ContainsKey("MainMenuPositionId") Then
+                    _MenupositionId = selected("MainMenuPositionId").ToString()
                 End If
             End If
             _MenuPositiomset()
@@ -328,7 +327,7 @@ Friend Class MenuFormAdd
             Qry.Append(" SELECT ")
             Qry.Append(" A.MenuName ")
             Qry.Append(" ,A.MainId AS MainId ")
-            Qry.Append(" ,A.MenuPositionId ")
+            Qry.Append(" ,A.MainMenuPositionId ")
             Qry.Append(" FROM " & _TblName & " AS A ")
             Qry.Append(" ORDER BY A.MenuPositionId ")
             RS = Qry.ToString
@@ -341,8 +340,8 @@ Friend Class MenuFormAdd
                 If selected.ContainsKey("MainId") Then
                     Txt_UnderMenuPositionId.Text = selected("MainId").ToString()
                 End If
-                If selected.ContainsKey("MenuPositionId") Then
-                    _MenupositionId = selected("MenuPositionId").ToString()
+                If selected.ContainsKey("MainMenuPositionId") Then
+                    _MenupositionId = selected("MainMenuPositionId").ToString()
                 End If
             End If
             _MenuPositiomset()
@@ -440,7 +439,7 @@ Friend Class MenuFormAdd
             'Call Command_Button_Visibility("BTNADD")
             Call Ctrl_Visible_True(Me.Controls)
             Txt_MenuType.Text = "SUB MENU"
-            Txt_MenuActive.Text = "NO"
+            Txt_MenuActive.Text = "YES"
             Txt_MenuSepartor.Text = "False"
             _GetMaxId()
             Txt_MenuName.Focus()
@@ -566,7 +565,15 @@ Friend Class MenuFormAdd
         Dim properText As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmenuname)
         tblFormValues.Rows(0)("MenuName") = properText.Replace("'", "''")
         tblFormValues.Rows(0)("MenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
-        tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MenupositionId)
+        If Txt_MenuType.Text.Trim = "PARENT1" Then
+            tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MenupositionId)
+        ElseIf Txt_MenuType.Text = "PARENT2" Then
+            tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MenupositionId)
+        Else
+            tblFormValues.Rows(0)("MainMenuPositionId") = Val(Txt_UnderMenuPositionId.Text.Replace("'", ""))
+        End If
+
+        'tblFormValues.Rows(0)("MainMenuPositionId") = Val(_MenupositionId)
         tblFormValues.Rows(0)("MenuOrderNo") = Val(Txt_MenuOrder.Text)
         tblFormValues.Rows(0)("ActiveStatus") = Txt_MenuActive.Text
         tblFormValues.Rows(0)("MenuPosition") = Val(Txt_MenuPosition.Text)
@@ -598,7 +605,7 @@ Friend Class MenuFormAdd
         Txt_MenuId.Text = ""
         Txt_MenuName.Text = ""
         Txt_MenuType.Text = "SUB MENU"
-        Txt_MenuActive.Text = "NO"
+        Txt_MenuActive.Text = "YES"
         Txt_MenuSepartor.Text = "False"
         Txt_MenuPosition.Text = ""
         Txt_MenuUnderMenuName.Text = ""
@@ -707,14 +714,12 @@ Friend Class MenuFormAdd
             Next
 
             ' Step 2: Sirf required columns editable
-            'FirstStage.Columns("MenuName").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("MenuName").OptionsColumn.AllowEdit = True
             FirstStage.Columns("MenuOrderNo").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("MenuPositionId").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("MainMenuPositionId").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("MenuPosition").OptionsColumn.AllowEdit = True
-            'FirstStage.Columns("MenuIsSparate").OptionsColumn.AllowEdit = True
-            'FirstStage.Columns("ActiveStatus").OptionsColumn.AllowEdit = True
-
+            'FirstStage.Columns("MenuPositionId").OptionsColumn.AllowEdit = True
+            'FirstStage.Columns("MainMenuPositionId").OptionsColumn.AllowEdit = True
+            'FirstStage.Columns("MenuPosition").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("MainMenuName").OptionsColumn.AllowEdit = True
             DevGridFitColumn(GridControl1, FirstStage)
             PnlGrdView.Visible = True
 
@@ -740,45 +745,7 @@ Friend Class MenuFormAdd
         _DevExpressExcelExport(GridControl1)
     End Sub
 
-    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles SimpleButton1.Click
-        Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
-        'If MSA_CONN.State = ConnectionState.Closed Then
-        '    MSA_CONN.Open()
-        'End If
-        For Each dr As DataRow In dt.Rows
-            If dr.RowState = DataRowState.Modified Then
-                Dim cmd As New OleDb.OleDbCommand(RS, MenuDesignConnection)
-                cmd.CommandText =
-                    "UPDATE " & _TblName & " SET " &
-                    "MenuName = ?, " &
-                    "MenuPostionId = ?, " &
-                    "MenuOrderNo = ?, " &
-                    "MenuPosition = ?, " &
-                    "SelectedFormName = ?, " &
-                    "MenuPositionId = ?, " &
-                    "MainMenuPositionId = ?, " &
-                    "MainMenuName = ?, " &
-                    "ActiveStatus = ? " &
-                    "WHERE MainId = ?"
-                cmd.Parameters.Clear()
-                cmd.Parameters.AddWithValue("", dr("MenuName").ToString())
-                cmd.Parameters.AddWithValue("", dr("MenuPostionId"))
-                cmd.Parameters.AddWithValue("", dr("MenuOrderNo"))
-                cmd.Parameters.AddWithValue("", dr("MenuPosition"))
-                cmd.Parameters.AddWithValue("", dr("SelectedFormName").ToString())
-                cmd.Parameters.AddWithValue("", dr("MenuPositionId"))
-                cmd.Parameters.AddWithValue("", dr("MainMenuPositionId"))
-                cmd.Parameters.AddWithValue("", dr("MainMenuName").ToString())
-                cmd.Parameters.AddWithValue("", dr("ActiveStatus").ToString())
-                ' WHERE condition
-                cmd.Parameters.AddWithValue("", dr("MainId"))
-                cmd.ExecuteNonQuery()
-                cmd.Dispose()
-            End If
-        Next
-        MessageBox.Show("Data Updated Successfully")
-    End Sub
-    Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles FirstStage.KeyDown, GridControl1.KeyDown
+    Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "ActiveStatus" Then
                 Dim currentValue As String = FirstStage.GetFocusedRowCellValue("ActiveStatus").ToString().ToUpper()
@@ -804,5 +771,43 @@ Friend Class MenuFormAdd
             e.Handled = True
         End If
 
+    End Sub
+
+    Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
+        Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
+        'If MSA_CONN.State = ConnectionState.Closed Then
+        '    MSA_CONN.Open()
+        'End If
+        For Each dr As DataRow In dt.Rows
+            If dr.RowState = DataRowState.Modified Then
+                Dim cmd As New OleDb.OleDbCommand(RS, MenuDesignConnection)
+                If MenuDesignConnection.State = ConnectionState.Closed Then
+                    MenuDesignConnection.Open()
+                End If
+                cmd.CommandText =
+                    "UPDATE " & _TblName & " SET " &
+                    "MenuName = ?, " &
+                    "MenuOrderNo = ?, " &
+                    "MainMenuName = ?, " &
+                    "MenuIsSparate = ?, " &
+                    "ActiveStatus = ? " &
+                    "WHERE MainId = ?"
+                cmd.Parameters.Clear()
+                cmd.Parameters.AddWithValue("", dr("MenuName").ToString())
+                cmd.Parameters.AddWithValue("", dr("MenuOrderNo"))
+                'cmd.Parameters.AddWithValue("", dr("MenuPosition"))
+                'cmd.Parameters.AddWithValue("", dr("MenuPositionId"))
+                'cmd.Parameters.AddWithValue("", dr("MainMenuPositionId"))
+                cmd.Parameters.AddWithValue("", dr("MainMenuName").ToString())
+                cmd.Parameters.AddWithValue("", dr("MenuIsSparate").ToString())
+                cmd.Parameters.AddWithValue("", dr("ActiveStatus").ToString())
+                ' WHERE condition
+                cmd.Parameters.AddWithValue("", dr("MainId"))
+                cmd.ExecuteNonQuery()
+                cmd.Dispose()
+            End If
+        Next
+        MenuDesignConnection.Close()
+        MessageBox.Show("Data Updated Successfully")
     End Sub
 End Class

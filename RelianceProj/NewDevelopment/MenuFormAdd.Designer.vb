@@ -57,7 +57,7 @@ Partial Class MenuFormAdd
         Me.Txt_UnderMenuPositionId = New ctl_TextBox.ctl_TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.PnlGrdView = New System.Windows.Forms.GroupBox()
-        Me.SimpleButton1 = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnviewupdate = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.SimpleButton2 = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
@@ -795,31 +795,31 @@ Partial Class MenuFormAdd
         'PnlGrdView
         '
         Me.PnlGrdView.BackColor = System.Drawing.Color.LightCyan
-        Me.PnlGrdView.Controls.Add(Me.SimpleButton1)
+        Me.PnlGrdView.Controls.Add(Me.btnviewupdate)
         Me.PnlGrdView.Controls.Add(Me.BtnExport)
         Me.PnlGrdView.Controls.Add(Me.SimpleButton2)
         Me.PnlGrdView.Controls.Add(Me.BtnPrint)
         Me.PnlGrdView.Controls.Add(Me.Btn_LayoutLoad)
         Me.PnlGrdView.Controls.Add(Me.BtnLayOutSave)
         Me.PnlGrdView.Controls.Add(Me.GridControl1)
-        Me.PnlGrdView.Location = New System.Drawing.Point(138, 4)
+        Me.PnlGrdView.Location = New System.Drawing.Point(964, 12)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(898, 175)
+        Me.PnlGrdView.Size = New System.Drawing.Size(230, 175)
         Me.PnlGrdView.TabIndex = 81938
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
         '
-        'SimpleButton1
+        'btnviewupdate
         '
-        Me.SimpleButton1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SimpleButton1.Appearance.Options.UseFont = True
-        Me.SimpleButton1.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
-        Me.SimpleButton1.Location = New System.Drawing.Point(382, 11)
-        Me.SimpleButton1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.SimpleButton1.Name = "SimpleButton1"
-        Me.SimpleButton1.Size = New System.Drawing.Size(96, 34)
-        Me.SimpleButton1.TabIndex = 81993
-        Me.SimpleButton1.Text = "Update"
+        Me.btnviewupdate.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnviewupdate.Appearance.Options.UseFont = True
+        Me.btnviewupdate.ImageOptions.Image = CType(resources.GetObject("btnviewupdate.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnviewupdate.Location = New System.Drawing.Point(382, 11)
+        Me.btnviewupdate.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btnviewupdate.Name = "btnviewupdate"
+        Me.btnviewupdate.Size = New System.Drawing.Size(96, 34)
+        Me.btnviewupdate.TabIndex = 81993
+        Me.btnviewupdate.Text = "Update"
         '
         'BtnExport
         '
@@ -883,7 +883,7 @@ Partial Class MenuFormAdd
         Me.GridControl1.Location = New System.Drawing.Point(6, 48)
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(888, 562)
+        Me.GridControl1.Size = New System.Drawing.Size(178, 121)
         Me.GridControl1.TabIndex = 81992
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
@@ -929,7 +929,7 @@ Partial Class MenuFormAdd
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1091, 650)
+        Me.ClientSize = New System.Drawing.Size(1216, 621)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)
@@ -1027,5 +1027,5 @@ Partial Class MenuFormAdd
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents SimpleButton1 As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnviewupdate As DevExpress.XtraEditors.SimpleButton
 End Class

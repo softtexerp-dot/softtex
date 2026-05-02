@@ -317,4 +317,47 @@ Public Class AccessNewSelectionList
             MsgBox(ex.ToString)
         End Try
     End Sub
+
+    Private Sub frmAccountSelect_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        Try
+            If e.KeyCode = Keys.F2 AndAlso F2MasterFormType IsNot Nothing Then
+                Me.Enabled = False
+
+                Dim frmMaster As Form = CType(Activator.CreateInstance(F2MasterFormType), Form)
+                frmMaster.StartPosition = FormStartPosition.CenterParent
+                _callByOtherFrom = True
+                Dim dialogResult = frmMaster.ShowDialog(Me)
+
+                Me.Enabled = True
+                Me.BringToFront()
+
+                ' Refresh grid
+                If Not String.IsNullOrEmpty(LoadQuery) Then
+                    LoadDataFromQuery()
+                End If
+
+                If dialogResult = DialogResult.OK Then
+                    ' Try to get the CreatedAccountName using reflection
+                    Dim prop = frmMaster.GetType().GetProperty("CreatedAccountName")
+                    If prop IsNot Nothing Then
+                        Dim newAccount As String = CStr(prop.GetValue(frmMaster, Nothing))
+                        If Not String.IsNullOrWhiteSpace(newAccount) Then
+                            txtSearch.Text = newAccount
+                            txtSearch.Focus()
+                            txtSearch.SelectAll()
+
+                            Application.DoEvents()
+                            SendKeys.Flush()
+                        End If
+                    End If
+                End If
+
+            ElseIf e.KeyCode = Keys.Escape Then
+                Me.Close()
+                Me.Dispose(True)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+    End Sub
 End Class

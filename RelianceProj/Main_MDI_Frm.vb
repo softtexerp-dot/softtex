@@ -122,8 +122,8 @@
     End Sub
 
     Private Sub MenuLoadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MenuLoadToolStripMenuItem.Click
-        'MasterMenuLoad.Show()
-        UserMenuForm.Show()
+        MasterMenuLoad.Show()
+
     End Sub
 
     Private Sub DToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DToolStripMenuItem.Click
@@ -131,10 +131,12 @@
     End Sub
 
     Private Sub QrcodeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QrcodeToolStripMenuItem.Click
-        GstApiLoginDetail.Show()
+        'GstApiLoginDetail.Show()
+        UserMenuForm.Show()
     End Sub
 
     Private Sub ScanToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScanToolStripMenuItem.Click
+        'QRCode
         'FrmQrCodescan.Show()
         MenuAllotment.Show()
     End Sub
@@ -143,6 +145,13 @@
         'test.Show()
         SqlDBMenudesign.Show()
     End Sub
+
+
+    Private Sub UserMenuUpdateToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles UserMenuUpdateToolStripMenuItem1.Click
+        UserMenuupdate.Show()
+    End Sub
+
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()

@@ -53,6 +53,11 @@ Public Class MenuAllotment
                 .Append(" ,MenuPosition ")
                 .Append(" ,MainMenuName")
                 .Append(" ,SelectedFormName")
+                .Append(" ,MenuIsSparate")
+                .Append(" ,ShortCutKey")
+                .Append(" ,IconPath")
+                .Append(" ,Tooltip")
+                .Append(" ,MenuType")
                 .Append(" ,ActiveStatus")
                 .Append(" FROM MenuName ")
                 .Append(" WHERE 1=1 ")
@@ -193,7 +198,7 @@ Public Class MenuAllotment
                 _TickMarkClm = "MainId"
             End If
 
-            Dim columnsToHide As String() = {"MainId", "MenuPositionId", "MainMenuPositionId", "MenuOrderNo", "MenuPosition", _TickMarkClm, "BlackList", "MainMenuName", "SelectedFormName", "IsMatched", "ActiveStatus"}
+            Dim columnsToHide As String() = {"MainId", "MenuPositionId", "MainMenuPositionId", "MenuOrderNo", "MenuPosition", _TickMarkClm, "BlackList", "MainMenuName", "SelectedFormName", "MenuIsSparate", "ShortCutKey", "IconPath", "Tooltip", "MenuType", "IsMatched", "ActiveStatus"}
 
             For Each colName In columnsToHide
                 Dim col = SelectionGrid.Columns.ColumnByFieldName(colName)
@@ -240,48 +245,100 @@ Public Class MenuAllotment
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        'If DataUserMenu.Rows.Count > 0 Then
+        '    Dim idList As String = String.Join(",", DataUserMenu.AsEnumerable().Select(Function(r) r("MenuId").ToString()))
+
+        '    Dim cmd As New OleDb.OleDbCommand("DELETE FROM MenuTable WHERE MenuId NOT IN (" & idList & ")", MSA_CONN)
+        '    cmd.ExecuteNonQuery()
+        '    cmd.Dispose()
+        'End If
+
+        Dim softIdSet As New HashSet(Of String)
+
+        If DataMenuName.Columns.Contains("IsChecked") Then
+            softIdSet = New HashSet(Of String)(DataMenuName.AsEnumerable().Where(Function(r) Not IsDBNull(r("IsChecked")) AndAlso Convert.ToBoolean(r("IsChecked"))).Select(Function(r) r("MainId").ToString()))
+        End If
+        ' ✅ Correct join
+        Dim softIdList As String = String.Join(",", softIdSet)
+
+        Dim _UserQuery As New StringBuilder()
+        With _UserQuery
+            .Append("SELECT ")
+            .Append(" MenuId")
+            .Append(" ,Menu")
+            .Append(" ,MenuPositionId")
+            .Append(" ,MainMenuPositionId")
+            .Append(" ,OrderNo ")
+            .Append(" ,MenuPosition ")
+            .Append(" ,MainMenuName")
+            .Append(" ,SelectForm")
+            .Append(" FROM MenuTable ")
+            .Append(" WHERE 1=1 ")
+
+            If softIdList <> "" Then
+                .Append(" AND (MainMenuPositionId IN (" & softIdList & ")  or MenuId IN (" & softIdList & ") )")
+            End If
+        End With
+
+        RS = _UserQuery.ToString()
+        SQLDBMENU_CONNECT()
+        Dim _SqlAllIdDataTbl As New DataTable
+        If DefaltSoftTable.Rows.Count > 0 Then
+            _SqlAllIdDataTbl = DefaltSoftTable.Copy()
+        End If
+        Dim NewTTable As DataTable = DataMenuName.Clone()
         For Each dr As DataRow In DataMenuName.Rows
             If Convert.ToBoolean(dr("IsChecked")) = True Then
-                'Dim _ActiveStatus As String =
-                'If(dr("IsMatched").ToString() = "Y", "Y", "N")
                 For Each dr1 As DataRow In DataMenuNameMain.Select("MainID='" & dr("MainId") & "' OR MainMenuPositionId='" & dr("MainId") & "' ")
-                    Dim _ActiveStatus As String = If(dr1("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
-                    Dim command As New OleDb.OleDbCommand(RS, MSA_CONN)
-                    If MSA_CONN.State = ConnectionState.Closed Then
-                        MSA_CONN.Open()
-                    End If
-                    command.CommandText =
+                    NewTTable.ImportRow(dr1)
+                Next
+            End If
+        Next
+        ' Step 1: SQL table ke MenuId ka set bana lo
+        Dim sqlIdSet As New HashSet(Of String)(_SqlAllIdDataTbl.AsEnumerable().Select(Function(r) r("MenuId").ToString()))
+        ' Step 2: Result table
+        Dim ResultTable As DataTable = NewTTable.Clone()
+        ' Step 3: Compare & filter
+        For Each dr As DataRow In NewTTable.Rows
+            Dim mainId As String = dr("MainId").ToString()
+            If Not sqlIdSet.Contains(mainId) Then
+                ResultTable.ImportRow(dr)
+            End If
+        Next
+        For Each dr1 As DataRow In ResultTable.Rows
+            Dim _ActiveStatus As String = If(dr1("ActiveStatus").ToString().Trim().ToUpper() = "YES", "Y", "N")
+            Dim command As New OleDb.OleDbCommand(RS, MSA_CONN)
+            If MSA_CONN.State = ConnectionState.Closed Then
+                MSA_CONN.Open()
+            End If
+            command.CommandText =
                 "INSERT INTO MenuTable " &
                 "(MenuId,Menu,SUBID,ORDERNO,MenuPosition,SELECTFORM," &
                 "MenuPositionId,MainMenuPositionId,MenuIsSparate," &
                 "MainMenuName,ShortCutKey,IconPath,Tooltip," &
                 "MenuType,Active_Status,OP10) " &
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-                    command.Parameters.AddWithValue("@MenuId", dr1("MainId"))
-                    command.Parameters.AddWithValue("@Menu", dr1("MenuName").ToString())
-                    command.Parameters.AddWithValue("@SUBID", dr1("MenuPositionId"))
-                    command.Parameters.AddWithValue("@ORDERNO", dr1("MenuOrderNo"))
-                    command.Parameters.AddWithValue("@MenuPosition", dr1("MenuPosition"))
-                    command.Parameters.AddWithValue("@SELECTFORM", dr1("SelectedFormName").ToString())
-                    command.Parameters.AddWithValue("@MenuPositionId", dr1("MenuPositionId"))
-                    command.Parameters.AddWithValue("@MainMenuPositionId", dr1("MainMenuPositionId"))
-                    command.Parameters.AddWithValue("@MenuIsSparate", dr1("MenuIsSparate").ToString())
-                    command.Parameters.AddWithValue("@MainMenuName", dr1("MainMenuName").ToString())
-                    command.Parameters.AddWithValue("@ShortCutKey", dr1("ShortCutKey").ToString())
-                    command.Parameters.AddWithValue("@IconPath", dr1("IconPath").ToString())
-                    command.Parameters.AddWithValue("@Tooltip", dr1("Tooltip").ToString())
-                    command.Parameters.AddWithValue("@MenuType", dr1("MenuType").ToString())
-                    command.Parameters.AddWithValue("@Active_Status", _ActiveStatus)
-                    command.Parameters.AddWithValue("@OP10", "New Menu")
-                    command.ExecuteNonQuery()
-                Next
-            End If
+            command.Parameters.AddWithValue("@MenuId", dr1("MainId"))
+            command.Parameters.AddWithValue("@Menu", dr1("MenuName").ToString())
+            command.Parameters.AddWithValue("@SUBID", dr1("MenuPositionId"))
+            command.Parameters.AddWithValue("@ORDERNO", dr1("MenuOrderNo"))
+            command.Parameters.AddWithValue("@MenuPosition", dr1("MenuPosition"))
+            command.Parameters.AddWithValue("@SelectedFormName", dr1("SelectedFormName").ToString())
+            command.Parameters.AddWithValue("@MenuPositionId", dr1("MenuPositionId"))
+            command.Parameters.AddWithValue("@MainMenuPositionId", dr1("MainMenuPositionId"))
+            command.Parameters.AddWithValue("@MenuIsSparate", dr1("MenuIsSparate").ToString())
+            command.Parameters.AddWithValue("@MainMenuName", dr1("MainMenuName").ToString())
+            command.Parameters.AddWithValue("@ShortCutKey", dr1("ShortCutKey").ToString())
+            command.Parameters.AddWithValue("@IconPath", dr1("IconPath").ToString())
+            command.Parameters.AddWithValue("@Tooltip", dr1("Tooltip").ToString())
+            command.Parameters.AddWithValue("@MenuType", dr1("MenuType").ToString())
+            command.Parameters.AddWithValue("@Active_Status", _ActiveStatus)
+            command.Parameters.AddWithValue("@OP10", "New Menu")
+            command.ExecuteNonQuery()
         Next
-
         If MSA_CONN.State = ConnectionState.Open Then
             MSA_CONN.Close()
         End If
-
         MessageBox.Show("Selected Menu Saved Successfully")
     End Sub
 End Class
