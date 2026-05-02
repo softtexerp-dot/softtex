@@ -1301,6 +1301,37 @@ Module Genral
             MsgBox(ex.ToString)
         End Try
     End Sub
+    Public Sub ShowFormFromMenuUser(menuItem As ToolStripMenuItem, formToShow As Form)
+        If menuItem Is Nothing OrElse formToShow Is Nothing Then Return
+
+        Try
+            ' Build menu path
+            Dim path As New List(Of String)
+            Dim current As ToolStripItem = menuItem
+
+            While current IsNot Nothing
+                path.Insert(0, current.Text)
+                If TypeOf current.Owner Is ToolStripDropDownMenu Then
+                    current = TryCast(current.OwnerItem, ToolStripItem)
+                Else
+                    Exit While
+                End If
+            End While
+
+            Dim menuPath As String = String.Join(">", path)
+
+            ' Show form with menu path
+            With formToShow
+                '.MdiParent = Main_MDI_Frm
+                .MdiParent = UserMenuForm
+                .Tag = menuPath
+                .Show()
+            End With
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+    End Sub
 
 
     Public Sub ShowFormMDI_NewCloseFunction(WhichForm As Form, LastOpenedMenuPath As String)
