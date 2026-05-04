@@ -1101,7 +1101,7 @@ Public Class MainFrmDesigner
             End If
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TEXTALIGN") + 1).Text = "L"
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SAVEYN") + 1).Text = "Y"
-            If _DataType = "numeric" Then
+            If _DataType = "Numeric" Then
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("InputType") + 1).Text = _DataType
             Else
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("InputType") + 1).Text = "Normal"
@@ -1149,7 +1149,7 @@ Public Class MainFrmDesigner
             .Append(" WHERE TABLE_NAME = N'" & _TblName & "' ")
             .Append(whereCondition)
             If _SelectionType = "SINGLE" Then
-                .Append(" and DATA_TYPE not in ('numeric','datetime') ")
+                .Append(" and DATA_TYPE not in ('Numeric','datetime') ")
             End If
             .Append(" ORDER BY COLUMN_NAME ")
         End With
