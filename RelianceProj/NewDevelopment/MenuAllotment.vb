@@ -138,11 +138,7 @@ Public Class MenuAllotment
                         End If
                     End If
                 End Sub
-            If GridViewType = "SINGLE" Then
-                DevGridFitColumnWiotScroll(SelectionGridControl, SelectionGrid)
-            Else
-                _DevGridColumSizeAutoAdjest(SelectionGridControl, SelectionGrid)
-            End If
+            _DevGridColumSizeAutoAdjest(SelectionGridControl, SelectionGrid)
             SelectionGrid.OptionsView.ColumnAutoWidth = True
             SelectionGrid.BestFitColumns()
             If SelectionGrid.Columns("IsChecked") IsNot Nothing Then
@@ -193,13 +189,8 @@ Public Class MenuAllotment
         Try
 
             Dim _TickMarkClm As String = ""
-
-            If GridViewType = "SINGLE" Then
-                _TickMarkClm = "MainId"
-            End If
-
+            _TickMarkClm = "MainId"
             Dim columnsToHide As String() = {"MainId", "MenuPositionId", "MainMenuPositionId", "MenuOrderNo", "MenuPosition", _TickMarkClm, "BlackList", "MainMenuName", "SelectedFormName", "MenuIsSparate", "ShortCutKey", "IconPath", "Tooltip", "MenuType", "IsMatched", "ActiveStatus"}
-
             For Each colName In columnsToHide
                 Dim col = SelectionGrid.Columns.ColumnByFieldName(colName)
                 If col IsNot Nothing Then
@@ -252,9 +243,7 @@ Public Class MenuAllotment
         '    cmd.ExecuteNonQuery()
         '    cmd.Dispose()
         'End If
-
         Dim softIdSet As New HashSet(Of String)
-
         If DataMenuName.Columns.Contains("IsChecked") Then
             softIdSet = New HashSet(Of String)(DataMenuName.AsEnumerable().Where(Function(r) Not IsDBNull(r("IsChecked")) AndAlso Convert.ToBoolean(r("IsChecked"))).Select(Function(r) r("MainId").ToString()))
         End If
