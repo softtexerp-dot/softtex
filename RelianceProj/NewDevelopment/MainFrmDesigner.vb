@@ -1075,7 +1075,7 @@ Public Class MainFrmDesigner
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "GRID DETAIL DESIGN"
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 10
-            ElseIf _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text = "Grid" Then
+            ElseIf _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text = "Grid" AndAlso _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN" Then
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationX") + 1).Text = -127
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 310
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 1193
