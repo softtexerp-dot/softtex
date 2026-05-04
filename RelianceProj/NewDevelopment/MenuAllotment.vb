@@ -197,7 +197,6 @@ Public Class MenuAllotment
                     col.Visible = False
                 End If
             Next
-
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
@@ -235,21 +234,12 @@ Public Class MenuAllotment
     End Sub
 
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        'If DataUserMenu.Rows.Count > 0 Then
-        '    Dim idList As String = String.Join(",", DataUserMenu.AsEnumerable().Select(Function(r) r("MenuId").ToString()))
-
-        '    Dim cmd As New OleDb.OleDbCommand("DELETE FROM MenuTable WHERE MenuId NOT IN (" & idList & ")", MSA_CONN)
-        '    cmd.ExecuteNonQuery()
-        '    cmd.Dispose()
-        'End If
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles BtnAllot.Click
         Dim softIdSet As New HashSet(Of String)
         If DataMenuName.Columns.Contains("IsChecked") Then
             softIdSet = New HashSet(Of String)(DataMenuName.AsEnumerable().Where(Function(r) Not IsDBNull(r("IsChecked")) AndAlso Convert.ToBoolean(r("IsChecked"))).Select(Function(r) r("MainId").ToString()))
         End If
-        ' ✅ Correct join
         Dim softIdList As String = String.Join(",", softIdSet)
-
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
             .Append("SELECT ")
@@ -263,12 +253,10 @@ Public Class MenuAllotment
             .Append(" ,SelectForm")
             .Append(" FROM MenuTable ")
             .Append(" WHERE 1=1 ")
-
             If softIdList <> "" Then
                 .Append(" AND (MainMenuPositionId IN (" & softIdList & ")  or MenuId IN (" & softIdList & ") )")
             End If
         End With
-
         RS = _UserQuery.ToString()
         SQLDBMENU_CONNECT()
         Dim _SqlAllIdDataTbl As New DataTable
@@ -329,5 +317,32 @@ Public Class MenuAllotment
             MSA_CONN.Close()
         End If
         MessageBox.Show("Selected Menu Saved Successfully")
+    End Sub
+
+    Private Sub BtnDelete_Click(sender As Object, e As EventArgs) Handles BtnDelete.Click
+        Dim softIdSet As New HashSet(Of String)
+        If DataMenuName.Columns.Contains("IsChecked") Then
+            softIdSet = New HashSet(Of String)(DataMenuName.AsEnumerable().Where(Function(r) Not IsDBNull(r("IsChecked")) AndAlso Convert.ToBoolean(r("IsChecked"))).Select(Function(r) r("MainId").ToString()))
+        End If
+        If softIdSet.Count = 0 Then Exit Sub
+        Dim idList As String = String.Join(",", softIdSet)
+        Dim _UserQuery As New StringBuilder()
+        With _UserQuery
+            .Append("SELECT ")
+            .Append(" MenuId, Menu, MenuPositionId, MainMenuPositionId, ")
+            .Append(" OrderNo, MenuPosition, MainMenuName, SelectForm ")
+            .Append(" FROM MenuTable ")
+            .Append(" WHERE (MainMenuPositionId IN (" & idList & ") ")
+            .Append(" OR MenuId IN (" & idList & ")) ")
+        End With
+        RS = _UserQuery.ToString()
+        SQLDBMENU_CONNECT()
+        Dim _SqlAllIdDataTbl As New DataTable
+        If DefaltSoftTable.Rows.Count > 0 Then
+            _SqlAllIdDataTbl = DefaltSoftTable.Copy()
+        End If
+        Dim deleteQuery As String = "DELETE FROM MenuTable WHERE MainMenuPositionId IN (" & idList & ") OR MenuId IN (" & idList & ")"
+        RS = deleteQuery
+        SQLDBMENU_Save_Delete_Update()
     End Sub
 End Class

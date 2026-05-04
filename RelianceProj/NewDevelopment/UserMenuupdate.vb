@@ -70,9 +70,6 @@ Public Class UserMenuupdate
             ' Step 2: Sirf required columns editable
             FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
             FirstStage.Columns("OrderNo").OptionsColumn.AllowEdit = True
-            'FirstStage.Columns("MenuPositionId").OptionsColumn.AllowEdit = True
-            'FirstStage.Columns("MainMenuPositionId").OptionsColumn.AllowEdit = True
-            'FirstStage.Columns("MenuPosition").OptionsColumn.AllowEdit = True
             FirstStage.Columns("MainMenuName").OptionsColumn.AllowEdit = True
             DevGridFitColumn(GridControl1, FirstStage)
             FirstStage.BestFitColumns()
@@ -105,9 +102,6 @@ Public Class UserMenuupdate
                 cmd.Parameters.Clear()
                 cmd.Parameters.AddWithValue("", dr("Menu").ToString())
                 cmd.Parameters.AddWithValue("", dr("OrderNo"))
-                'cmd.Parameters.AddWithValue("", dr("MenuPosition"))
-                'cmd.Parameters.AddWithValue("", dr("MenuPositionId"))
-                'cmd.Parameters.AddWithValue("", dr("MainMenuPositionId"))
                 cmd.Parameters.AddWithValue("", dr("MainMenuName").ToString())
                 cmd.Parameters.AddWithValue("", dr("MenuIsSparate").ToString())
                 cmd.Parameters.AddWithValue("", dr("ActiveStatus").ToString())
@@ -129,22 +123,16 @@ Public Class UserMenuupdate
                 Else
                     FirstStage.SetFocusedRowCellValue("ActiveStatus", "Y")
                 End If
-
+                e.Handled = True
+            End If
+            If FirstStage.FocusedColumn.FieldName = "MenuIsSparate" Then
+                Dim currentValue As Boolean = False
+                If Not IsDBNull(FirstStage.GetFocusedRowCellValue("MenuIsSparate")) Then
+                    currentValue = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("MenuIsSparate"))
+                End If
+                FirstStage.SetFocusedRowCellValue("MenuIsSparate", Not currentValue)
                 e.Handled = True
             End If
         End If
-        If FirstStage.FocusedColumn.FieldName = "MenuIsSparate" Then
-
-            Dim currentValue As Boolean = False
-
-            If Not IsDBNull(FirstStage.GetFocusedRowCellValue("MenuIsSparate")) Then
-                currentValue = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("MenuIsSparate"))
-            End If
-
-            FirstStage.SetFocusedRowCellValue("MenuIsSparate", Not currentValue)
-
-            e.Handled = True
-        End If
-
     End Sub
 End Class

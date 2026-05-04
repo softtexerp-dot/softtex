@@ -27,7 +27,8 @@ Partial Class MenuAllotment
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.BtnAllot = New System.Windows.Forms.Button()
+        Me.BtnDelete = New System.Windows.Forms.Button()
         CType(Me.SelectionGridControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SelectionGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,21 +81,31 @@ Partial Class MenuAllotment
         Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
         '
-        'Button1
+        'BtnAllot
         '
-        Me.Button1.Location = New System.Drawing.Point(74, 563)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(231, 39)
-        Me.Button1.TabIndex = 15
-        Me.Button1.Text = "Menu Allot"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.BtnAllot.Location = New System.Drawing.Point(4, 563)
+        Me.BtnAllot.Name = "BtnAllot"
+        Me.BtnAllot.Size = New System.Drawing.Size(231, 39)
+        Me.BtnAllot.TabIndex = 15
+        Me.BtnAllot.Text = "Menu Allot"
+        Me.BtnAllot.UseVisualStyleBackColor = True
+        '
+        'BtnDelete
+        '
+        Me.BtnDelete.Location = New System.Drawing.Point(241, 563)
+        Me.BtnDelete.Name = "BtnDelete"
+        Me.BtnDelete.Size = New System.Drawing.Size(231, 39)
+        Me.BtnDelete.TabIndex = 16
+        Me.BtnDelete.Text = "Menu Delete"
+        Me.BtnDelete.UseVisualStyleBackColor = True
         '
         'MenuAllotment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(501, 614)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.BtnDelete)
+        Me.Controls.Add(Me.BtnAllot)
         Me.Controls.Add(Me.SelectionGridControl)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -114,5 +125,6 @@ Partial Class MenuAllotment
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents Button1 As Button
+    Friend WithEvents BtnAllot As Button
+    Friend WithEvents BtnDelete As Button
 End Class

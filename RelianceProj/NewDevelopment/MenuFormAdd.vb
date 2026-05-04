@@ -754,30 +754,21 @@ Friend Class MenuFormAdd
                 Else
                     FirstStage.SetFocusedRowCellValue("ActiveStatus", "YES")
                 End If
-
+                e.Handled = True
+            End If
+            If FirstStage.FocusedColumn.FieldName = "MenuIsSparate" Then
+                Dim currentValue As Boolean = False
+                If Not IsDBNull(FirstStage.GetFocusedRowCellValue("MenuIsSparate")) Then
+                    currentValue = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("MenuIsSparate"))
+                End If
+                FirstStage.SetFocusedRowCellValue("MenuIsSparate", Not currentValue)
                 e.Handled = True
             End If
         End If
-        If FirstStage.FocusedColumn.FieldName = "MenuIsSparate" Then
-
-            Dim currentValue As Boolean = False
-
-            If Not IsDBNull(FirstStage.GetFocusedRowCellValue("MenuIsSparate")) Then
-                currentValue = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("MenuIsSparate"))
-            End If
-
-            FirstStage.SetFocusedRowCellValue("MenuIsSparate", Not currentValue)
-
-            e.Handled = True
-        End If
-
     End Sub
 
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
-        'If MSA_CONN.State = ConnectionState.Closed Then
-        '    MSA_CONN.Open()
-        'End If
         For Each dr As DataRow In dt.Rows
             If dr.RowState = DataRowState.Modified Then
                 Dim cmd As New OleDb.OleDbCommand(RS, MenuDesignConnection)

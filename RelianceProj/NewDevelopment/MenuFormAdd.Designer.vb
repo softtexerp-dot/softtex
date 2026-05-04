@@ -545,7 +545,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuUnderMenuName.Date_for_Database = Nothing
         Me.Txt_MenuUnderMenuName.Date_Tag = Nothing
         Me.Txt_MenuUnderMenuName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.Txt_MenuUnderMenuName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.Txt_MenuUnderMenuName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
         Me.Txt_MenuUnderMenuName.ExtraValue = ""
         Me.Txt_MenuUnderMenuName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Txt_MenuUnderMenuName.FontFocusColor = System.Drawing.Color.Blue
@@ -802,9 +802,9 @@ Partial Class MenuFormAdd
         Me.PnlGrdView.Controls.Add(Me.Btn_LayoutLoad)
         Me.PnlGrdView.Controls.Add(Me.BtnLayOutSave)
         Me.PnlGrdView.Controls.Add(Me.GridControl1)
-        Me.PnlGrdView.Location = New System.Drawing.Point(964, 12)
+        Me.PnlGrdView.Location = New System.Drawing.Point(733, 12)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(230, 175)
+        Me.PnlGrdView.Size = New System.Drawing.Size(482, 597)
         Me.PnlGrdView.TabIndex = 81938
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
@@ -883,7 +883,7 @@ Partial Class MenuFormAdd
         Me.GridControl1.Location = New System.Drawing.Point(6, 48)
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(178, 121)
+        Me.GridControl1.Size = New System.Drawing.Size(465, 543)
         Me.GridControl1.TabIndex = 81992
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
