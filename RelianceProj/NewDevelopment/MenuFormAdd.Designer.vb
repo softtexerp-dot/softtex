@@ -460,7 +460,7 @@ Partial Class MenuFormAdd
         Me.Txt_MenuDisplayName.Date_for_Database = Nothing
         Me.Txt_MenuDisplayName.Date_Tag = Nothing
         Me.Txt_MenuDisplayName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.Txt_MenuDisplayName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.Txt_MenuDisplayName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
         Me.Txt_MenuDisplayName.ExtraValue = ""
         Me.Txt_MenuDisplayName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Txt_MenuDisplayName.FontFocusColor = System.Drawing.Color.Blue

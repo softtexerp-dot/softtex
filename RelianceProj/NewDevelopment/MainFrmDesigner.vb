@@ -1,6 +1,5 @@
 ﻿Imports System.Text
 Imports DevExpress.CodeParser
-Imports RestSharp.Extensions
 
 Public Class MainFrmDesigner
 
