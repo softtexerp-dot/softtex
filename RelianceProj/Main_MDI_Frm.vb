@@ -151,6 +151,14 @@
         UserMenuupdate.Show()
     End Sub
 
+    Private Sub RequisitionToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RequisitionToolStripMenuItem1.Click
+        StoresRequisition.Show()
+    End Sub
+
+    Private Sub QuotationToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles QuotationToolStripMenuItem1.Click
+        QuotationEntry.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click

@@ -44,11 +44,14 @@ Partial Class Main_MDI_Frm
         Me.QueryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuLoadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QrcodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserMenuUpdateToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FiberProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RequisitionToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QuotationToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -83,7 +86,7 @@ Partial Class Main_MDI_Frm
         'MenuStrip1
         '
         Me.MenuStrip1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.FiberProductionToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1200, 24)
@@ -201,12 +204,6 @@ Partial Class Main_MDI_Frm
         Me.MenuLoadToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.MenuLoadToolStripMenuItem.Text = "MasterMenuLoad"
         '
-        'TestToolStripMenuItem
-        '
-        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
-        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
-        Me.TestToolStripMenuItem.Text = "MenuAssignSQLDB"
-        '
         'DToolStripMenuItem
         '
         Me.DToolStripMenuItem.Name = "DToolStripMenuItem"
@@ -225,11 +222,36 @@ Partial Class Main_MDI_Frm
         Me.ScanToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
         Me.ScanToolStripMenuItem.Text = "UserMenuAllot"
         '
+        'TestToolStripMenuItem
+        '
+        Me.TestToolStripMenuItem.Name = "TestToolStripMenuItem"
+        Me.TestToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.TestToolStripMenuItem.Text = "MenuAssignSQLDB"
+        '
         'UserMenuUpdateToolStripMenuItem1
         '
         Me.UserMenuUpdateToolStripMenuItem1.Name = "UserMenuUpdateToolStripMenuItem1"
         Me.UserMenuUpdateToolStripMenuItem1.Size = New System.Drawing.Size(272, 22)
         Me.UserMenuUpdateToolStripMenuItem1.Text = "UserMenuUpdate"
+        '
+        'FiberProductionToolStripMenuItem
+        '
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequisitionToolStripMenuItem1, Me.QuotationToolStripMenuItem1})
+        Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
+        Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
+        Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
+        '
+        'RequisitionToolStripMenuItem1
+        '
+        Me.RequisitionToolStripMenuItem1.Name = "RequisitionToolStripMenuItem1"
+        Me.RequisitionToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.RequisitionToolStripMenuItem1.Text = "Requisition"
+        '
+        'QuotationToolStripMenuItem1
+        '
+        Me.QuotationToolStripMenuItem1.Name = "QuotationToolStripMenuItem1"
+        Me.QuotationToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.QuotationToolStripMenuItem1.Text = "Quotation"
         '
         'Main_MDI_Frm
         '
@@ -281,4 +303,7 @@ Partial Class Main_MDI_Frm
     Friend WithEvents ScanToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents TestToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UserMenuUpdateToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents FiberProductionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RequisitionToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents QuotationToolStripMenuItem1 As ToolStripMenuItem
 End Class
