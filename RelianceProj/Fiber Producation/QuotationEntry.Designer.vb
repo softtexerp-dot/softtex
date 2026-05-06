@@ -51,6 +51,9 @@ Partial Class QuotationEntry
         Me.txtHeader_Remark = New ctl_TextBox.ctl_TextBox()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.PNL_View = New System.Windows.Forms.GroupBox()
+        Me.btnView = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.Btn_LayoutLoad = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnLayOutSave = New DevExpress.XtraEditors.SimpleButton()
         Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
@@ -58,9 +61,6 @@ Partial Class QuotationEntry
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
-        Me.btn_View_Ok = New System.Windows.Forms.Button()
-        Me.Btn_Export_Excel = New System.Windows.Forms.Button()
-        Me.btn_View_Print = New System.Windows.Forms.Button()
         Me.lbl_To = New System.Windows.Forms.Label()
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
@@ -621,22 +621,57 @@ Partial Class QuotationEntry
         '
         'PNL_View
         '
+        Me.PNL_View.Controls.Add(Me.btnView)
+        Me.PNL_View.Controls.Add(Me.BtnExport)
+        Me.PNL_View.Controls.Add(Me.BtnPrint)
         Me.PNL_View.Controls.Add(Me.Btn_LayoutLoad)
         Me.PNL_View.Controls.Add(Me.BtnLayOutSave)
         Me.PNL_View.Controls.Add(Me.GridControl1)
-        Me.PNL_View.Controls.Add(Me.btn_View_Ok)
-        Me.PNL_View.Controls.Add(Me.Btn_Export_Excel)
-        Me.PNL_View.Controls.Add(Me.btn_View_Print)
         Me.PNL_View.Controls.Add(Me.lbl_To)
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(209, 218)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(455, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(379, 84)
         Me.PNL_View.TabIndex = 82163
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
+        '
+        'btnView
+        '
+        Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnView.Appearance.Options.UseFont = True
+        Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnView.Location = New System.Drawing.Point(444, 17)
+        Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btnView.Name = "btnView"
+        Me.btnView.Size = New System.Drawing.Size(68, 32)
+        Me.btnView.TabIndex = 81969
+        Me.btnView.Text = "Ok"
+        Me.btnView.Visible = False
+        '
+        'BtnExport
+        '
+        Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnExport.Appearance.Options.UseFont = True
+        Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnExport.Location = New System.Drawing.Point(605, 18)
+        Me.BtnExport.Name = "BtnExport"
+        Me.BtnExport.Size = New System.Drawing.Size(90, 32)
+        Me.BtnExport.TabIndex = 81971
+        Me.BtnExport.Text = "Export"
+        '
+        'BtnPrint
+        '
+        Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPrint.Appearance.Options.UseFont = True
+        Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnPrint.Location = New System.Drawing.Point(521, 17)
+        Me.BtnPrint.Name = "BtnPrint"
+        Me.BtnPrint.Size = New System.Drawing.Size(78, 32)
+        Me.BtnPrint.TabIndex = 81970
+        Me.BtnPrint.Text = "Print"
         '
         'Btn_LayoutLoad
         '
@@ -705,48 +740,6 @@ Partial Class QuotationEntry
         Me.GridView2.OptionsFind.AlwaysVisible = True
         Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
-        '
-        'btn_View_Ok
-        '
-        Me.btn_View_Ok.BackColor = System.Drawing.SystemColors.Menu
-        Me.btn_View_Ok.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_View_Ok.ForeColor = System.Drawing.Color.Black
-        Me.btn_View_Ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_View_Ok.Location = New System.Drawing.Point(441, 19)
-        Me.btn_View_Ok.Name = "btn_View_Ok"
-        Me.btn_View_Ok.Size = New System.Drawing.Size(74, 35)
-        Me.btn_View_Ok.TabIndex = 81777
-        Me.btn_View_Ok.Text = "Ok"
-        Me.btn_View_Ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_View_Ok.UseVisualStyleBackColor = False
-        '
-        'Btn_Export_Excel
-        '
-        Me.Btn_Export_Excel.BackColor = System.Drawing.SystemColors.Menu
-        Me.Btn_Export_Excel.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Export_Excel.ForeColor = System.Drawing.Color.Black
-        Me.Btn_Export_Excel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Btn_Export_Excel.Location = New System.Drawing.Point(608, 18)
-        Me.Btn_Export_Excel.Name = "Btn_Export_Excel"
-        Me.Btn_Export_Excel.Size = New System.Drawing.Size(90, 37)
-        Me.Btn_Export_Excel.TabIndex = 81779
-        Me.Btn_Export_Excel.Text = "Export"
-        Me.Btn_Export_Excel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Btn_Export_Excel.UseVisualStyleBackColor = False
-        '
-        'btn_View_Print
-        '
-        Me.btn_View_Print.BackColor = System.Drawing.SystemColors.Menu
-        Me.btn_View_Print.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_View_Print.ForeColor = System.Drawing.Color.Black
-        Me.btn_View_Print.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_View_Print.Location = New System.Drawing.Point(521, 18)
-        Me.btn_View_Print.Name = "btn_View_Print"
-        Me.btn_View_Print.Size = New System.Drawing.Size(81, 36)
-        Me.btn_View_Print.TabIndex = 81778
-        Me.btn_View_Print.Text = "Print"
-        Me.btn_View_Print.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_View_Print.UseVisualStyleBackColor = False
         '
         'lbl_To
         '
@@ -975,7 +968,7 @@ Partial Class QuotationEntry
         Me.Txt_Fright.Size = New System.Drawing.Size(152, 22)
         Me.Txt_Fright.SpacerString = ""
         Me.Txt_Fright.TabIndex = 51
-        Me.Txt_Fright.Tag = "HEADERREMARK"
+        Me.Txt_Fright.Tag = "OP16"
         Me.Txt_Fright.TransparentBox = True
         Me.Txt_Fright.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1018,7 +1011,7 @@ Partial Class QuotationEntry
         Me.Txt_Deli.Size = New System.Drawing.Size(152, 22)
         Me.Txt_Deli.SpacerString = ""
         Me.Txt_Deli.TabIndex = 52
-        Me.Txt_Deli.Tag = "HEADERREMARK"
+        Me.Txt_Deli.Tag = "OP17"
         Me.Txt_Deli.TransparentBox = True
         Me.Txt_Deli.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1061,7 +1054,7 @@ Partial Class QuotationEntry
         Me.Txt_Delivery.Size = New System.Drawing.Size(152, 22)
         Me.Txt_Delivery.SpacerString = ""
         Me.Txt_Delivery.TabIndex = 53
-        Me.Txt_Delivery.Tag = "HEADERREMARK"
+        Me.Txt_Delivery.Tag = "OP18"
         Me.Txt_Delivery.TransparentBox = True
         Me.Txt_Delivery.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1104,7 +1097,7 @@ Partial Class QuotationEntry
         Me.Txt_PaymentTerms.Size = New System.Drawing.Size(152, 22)
         Me.Txt_PaymentTerms.SpacerString = ""
         Me.Txt_PaymentTerms.TabIndex = 54
-        Me.Txt_PaymentTerms.Tag = "HEADERREMARK"
+        Me.Txt_PaymentTerms.Tag = "OP19"
         Me.Txt_PaymentTerms.TransparentBox = True
         Me.Txt_PaymentTerms.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1208,9 +1201,6 @@ Partial Class QuotationEntry
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents btn_View_Ok As Button
-    Friend WithEvents Btn_Export_Excel As Button
-    Friend WithEvents btn_View_Print As Button
     Friend WithEvents lbl_To As Label
     Friend WithEvents lbl_From As Label
     Friend WithEvents txt_To As ctl_TextBox.ctl_TextBox
@@ -1227,4 +1217,7 @@ Partial Class QuotationEntry
     Friend WithEvents Txt_Deli As ctl_TextBox.ctl_TextBox
     Friend WithEvents Txt_Delivery As ctl_TextBox.ctl_TextBox
     Friend WithEvents Txt_PaymentTerms As ctl_TextBox.ctl_TextBox
+    Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
 End Class

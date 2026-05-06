@@ -24,6 +24,9 @@ Partial Class StoresRequisition
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(StoresRequisition))
         Me.PNL_View = New System.Windows.Forms.GroupBox()
+        Me.btnView = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.Btn_LayoutLoad = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnLayOutSave = New DevExpress.XtraEditors.SimpleButton()
         Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
@@ -31,9 +34,6 @@ Partial Class StoresRequisition
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
-        Me.btn_View_Ok = New System.Windows.Forms.Button()
-        Me.Btn_Export_Excel = New System.Windows.Forms.Button()
-        Me.btn_View_Print = New System.Windows.Forms.Button()
         Me.lbl_To = New System.Windows.Forms.Label()
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
@@ -50,7 +50,7 @@ Partial Class StoresRequisition
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.txtBookName = New ctl_TextBox.ctl_TextBox()
+        Me.txtGodownName = New ctl_TextBox.ctl_TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.txtChallanDate = New ctl_TextBox.ctl_TextBox()
@@ -59,6 +59,9 @@ Partial Class StoresRequisition
         Me.txtEntryNo = New ctl_TextBox.ctl_TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label41 = New System.Windows.Forms.Label()
+        Me.Txt_BookName = New ctl_TextBox.ctl_TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,22 +72,57 @@ Partial Class StoresRequisition
         '
         'PNL_View
         '
+        Me.PNL_View.Controls.Add(Me.btnView)
+        Me.PNL_View.Controls.Add(Me.BtnExport)
+        Me.PNL_View.Controls.Add(Me.BtnPrint)
         Me.PNL_View.Controls.Add(Me.Btn_LayoutLoad)
         Me.PNL_View.Controls.Add(Me.BtnLayOutSave)
         Me.PNL_View.Controls.Add(Me.GridControl1)
-        Me.PNL_View.Controls.Add(Me.btn_View_Ok)
-        Me.PNL_View.Controls.Add(Me.Btn_Export_Excel)
-        Me.PNL_View.Controls.Add(Me.btn_View_Print)
         Me.PNL_View.Controls.Add(Me.lbl_To)
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
-        Me.PNL_View.Location = New System.Drawing.Point(211, 214)
+        Me.PNL_View.Location = New System.Drawing.Point(100, 214)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(327, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(861, 84)
         Me.PNL_View.TabIndex = 82203
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
+        '
+        'btnView
+        '
+        Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnView.Appearance.Options.UseFont = True
+        Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnView.Location = New System.Drawing.Point(442, 19)
+        Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btnView.Name = "btnView"
+        Me.btnView.Size = New System.Drawing.Size(68, 32)
+        Me.btnView.TabIndex = 81966
+        Me.btnView.Text = "Ok"
+        Me.btnView.Visible = False
+        '
+        'BtnExport
+        '
+        Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnExport.Appearance.Options.UseFont = True
+        Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnExport.Location = New System.Drawing.Point(603, 20)
+        Me.BtnExport.Name = "BtnExport"
+        Me.BtnExport.Size = New System.Drawing.Size(90, 32)
+        Me.BtnExport.TabIndex = 81968
+        Me.BtnExport.Text = "Export"
+        '
+        'BtnPrint
+        '
+        Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPrint.Appearance.Options.UseFont = True
+        Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnPrint.Location = New System.Drawing.Point(519, 19)
+        Me.BtnPrint.Name = "BtnPrint"
+        Me.BtnPrint.Size = New System.Drawing.Size(78, 32)
+        Me.BtnPrint.TabIndex = 81967
+        Me.BtnPrint.Text = "Print"
         '
         'Btn_LayoutLoad
         '
@@ -153,48 +191,6 @@ Partial Class StoresRequisition
         Me.GridView2.OptionsFind.AlwaysVisible = True
         Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
-        '
-        'btn_View_Ok
-        '
-        Me.btn_View_Ok.BackColor = System.Drawing.SystemColors.Menu
-        Me.btn_View_Ok.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_View_Ok.ForeColor = System.Drawing.Color.Black
-        Me.btn_View_Ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_View_Ok.Location = New System.Drawing.Point(441, 19)
-        Me.btn_View_Ok.Name = "btn_View_Ok"
-        Me.btn_View_Ok.Size = New System.Drawing.Size(74, 32)
-        Me.btn_View_Ok.TabIndex = 81777
-        Me.btn_View_Ok.Text = "Ok"
-        Me.btn_View_Ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_View_Ok.UseVisualStyleBackColor = False
-        '
-        'Btn_Export_Excel
-        '
-        Me.Btn_Export_Excel.BackColor = System.Drawing.SystemColors.Menu
-        Me.Btn_Export_Excel.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_Export_Excel.ForeColor = System.Drawing.Color.Black
-        Me.Btn_Export_Excel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Btn_Export_Excel.Location = New System.Drawing.Point(608, 18)
-        Me.Btn_Export_Excel.Name = "Btn_Export_Excel"
-        Me.Btn_Export_Excel.Size = New System.Drawing.Size(90, 32)
-        Me.Btn_Export_Excel.TabIndex = 81779
-        Me.Btn_Export_Excel.Text = "Export"
-        Me.Btn_Export_Excel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.Btn_Export_Excel.UseVisualStyleBackColor = False
-        '
-        'btn_View_Print
-        '
-        Me.btn_View_Print.BackColor = System.Drawing.SystemColors.Menu
-        Me.btn_View_Print.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_View_Print.ForeColor = System.Drawing.Color.Black
-        Me.btn_View_Print.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_View_Print.Location = New System.Drawing.Point(521, 18)
-        Me.btn_View_Print.Name = "btn_View_Print"
-        Me.btn_View_Print.Size = New System.Drawing.Size(81, 32)
-        Me.btn_View_Print.TabIndex = 81778
-        Me.btn_View_Print.Text = "Print"
-        Me.btn_View_Print.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_View_Print.UseVisualStyleBackColor = False
         '
         'lbl_To
         '
@@ -352,7 +348,7 @@ Partial Class StoresRequisition
         Me.txtHeader_Remark.ShowMessage = False
         Me.txtHeader_Remark.Size = New System.Drawing.Size(168, 22)
         Me.txtHeader_Remark.SpacerString = ""
-        Me.txtHeader_Remark.TabIndex = 82178
+        Me.txtHeader_Remark.TabIndex = 6
         Me.txtHeader_Remark.Tag = "HEADERREMARK"
         Me.txtHeader_Remark.TransparentBox = True
         Me.txtHeader_Remark.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -450,7 +446,7 @@ Partial Class StoresRequisition
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 387)
-        Me.GrdItem.TabIndex = 82179
+        Me.GrdItem.TabIndex = 82178
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -458,7 +454,7 @@ Partial Class StoresRequisition
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(127, 57)
+        Me.Label3.Location = New System.Drawing.Point(127, 87)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(12, 14)
         Me.Label3.TabIndex = 82191
@@ -488,7 +484,7 @@ Partial Class StoresRequisition
         Me.txtChallanNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtChallanNo.IsValidated = False
         Me.txtChallanNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtChallanNo.Location = New System.Drawing.Point(140, 56)
+        Me.txtChallanNo.Location = New System.Drawing.Point(140, 86)
         Me.txtChallanNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtChallanNo.MandatoryField = False
         Me.txtChallanNo.MaxDate = Nothing
@@ -502,7 +498,7 @@ Partial Class StoresRequisition
         Me.txtChallanNo.ShowMessage = False
         Me.txtChallanNo.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanNo.SpacerString = ""
-        Me.txtChallanNo.TabIndex = 82174
+        Me.txtChallanNo.TabIndex = 4
         Me.txtChallanNo.Tag = "EntryNo"
         Me.txtChallanNo.TransparentBox = True
         Me.txtChallanNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -512,55 +508,55 @@ Partial Class StoresRequisition
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.Black
-        Me.Label4.Location = New System.Drawing.Point(8, 56)
+        Me.Label4.Location = New System.Drawing.Point(8, 86)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(54, 14)
         Me.Label4.TabIndex = 82190
         Me.Label4.Text = "Req No"
         '
-        'txtBookName
+        'txtGodownName
         '
-        Me.txtBookName._AllowSpace = True
-        Me.txtBookName.AcceptsReturn = True
-        Me.txtBookName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtBookName.BackColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBookName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtBookName.Check_End_Date_Value_FY = "YES"
-        Me.txtBookName.Check_Start_Date_Value_FY = "YES"
-        Me.txtBookName.ClearField = True
-        Me.txtBookName.CustomInputTypeString = Nothing
-        Me.txtBookName.Date_for_Database = Nothing
-        Me.txtBookName.Date_Tag = Nothing
-        Me.txtBookName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.txtBookName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
-        Me.txtBookName.ExtraValue = ""
-        Me.txtBookName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBookName.FontFocusColor = System.Drawing.Color.Blue
-        Me.txtBookName.FontLeaveColor = System.Drawing.Color.Black
-        Me.txtBookName.ForeColor = System.Drawing.Color.Black
-        Me.txtBookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
-        Me.txtBookName.IsValidated = False
-        Me.txtBookName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.Location = New System.Drawing.Point(140, 5)
-        Me.txtBookName.MandatoryColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.MandatoryField = False
-        Me.txtBookName.MaxDate = Nothing
-        Me.txtBookName.MinDate = Nothing
-        Me.txtBookName.Name = "txtBookName"
-        Me.txtBookName.NormalBorderColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.txtBookName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.txtBookName.ReadOnly = True
-        Me.txtBookName.RegularExpression = Nothing
-        Me.txtBookName.RegularExpressionErrorMessage = Nothing
-        Me.txtBookName.ShowMessage = False
-        Me.txtBookName.Size = New System.Drawing.Size(202, 22)
-        Me.txtBookName.SpacerString = ""
-        Me.txtBookName.TabIndex = 82172
-        Me.txtBookName.Tag = "BOOKNAME"
-        Me.txtBookName.TransparentBox = True
-        Me.txtBookName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.txtGodownName._AllowSpace = True
+        Me.txtGodownName.AcceptsReturn = True
+        Me.txtGodownName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtGodownName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtGodownName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtGodownName.Check_End_Date_Value_FY = "YES"
+        Me.txtGodownName.Check_Start_Date_Value_FY = "YES"
+        Me.txtGodownName.ClearField = True
+        Me.txtGodownName.CustomInputTypeString = Nothing
+        Me.txtGodownName.Date_for_Database = Nothing
+        Me.txtGodownName.Date_Tag = Nothing
+        Me.txtGodownName.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtGodownName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.txtGodownName.ExtraValue = ""
+        Me.txtGodownName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGodownName.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtGodownName.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtGodownName.ForeColor = System.Drawing.Color.Black
+        Me.txtGodownName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtGodownName.IsValidated = False
+        Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.Location = New System.Drawing.Point(140, 4)
+        Me.txtGodownName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.MandatoryField = False
+        Me.txtGodownName.MaxDate = Nothing
+        Me.txtGodownName.MinDate = Nothing
+        Me.txtGodownName.Name = "txtGodownName"
+        Me.txtGodownName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtGodownName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtGodownName.ReadOnly = True
+        Me.txtGodownName.RegularExpression = Nothing
+        Me.txtGodownName.RegularExpressionErrorMessage = Nothing
+        Me.txtGodownName.ShowMessage = False
+        Me.txtGodownName.Size = New System.Drawing.Size(202, 22)
+        Me.txtGodownName.SpacerString = ""
+        Me.txtGodownName.TabIndex = 1
+        Me.txtGodownName.Tag = "BOOKNAME"
+        Me.txtGodownName.TransparentBox = True
+        Me.txtGodownName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
         'Label50
         '
@@ -577,7 +573,7 @@ Partial Class StoresRequisition
         '
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(127, 32)
+        Me.Label20.Location = New System.Drawing.Point(127, 62)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(12, 14)
         Me.Label20.TabIndex = 82187
@@ -607,7 +603,7 @@ Partial Class StoresRequisition
         Me.txtChallanDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txtChallanDate.IsValidated = False
         Me.txtChallanDate.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtChallanDate.Location = New System.Drawing.Point(140, 83)
+        Me.txtChallanDate.Location = New System.Drawing.Point(532, 6)
         Me.txtChallanDate.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtChallanDate.MandatoryField = False
         Me.txtChallanDate.MaxDate = Nothing
@@ -622,7 +618,7 @@ Partial Class StoresRequisition
         Me.txtChallanDate.ShowMessage = False
         Me.txtChallanDate.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanDate.SpacerString = ""
-        Me.txtChallanDate.TabIndex = 82175
+        Me.txtChallanDate.TabIndex = 5
         Me.txtChallanDate.Tag = "ChallanDate"
         Me.txtChallanDate.Text = "  /  /    "
         Me.txtChallanDate.TransparentBox = True
@@ -632,7 +628,7 @@ Partial Class StoresRequisition
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(8, 85)
+        Me.Label1.Location = New System.Drawing.Point(401, 8)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(38, 14)
         Me.Label1.TabIndex = 82185
@@ -642,7 +638,7 @@ Partial Class StoresRequisition
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(127, 84)
+        Me.Label2.Location = New System.Drawing.Point(509, 9)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 82186
@@ -672,7 +668,7 @@ Partial Class StoresRequisition
         Me.txtEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtEntryNo.IsValidated = False
         Me.txtEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtEntryNo.Location = New System.Drawing.Point(140, 31)
+        Me.txtEntryNo.Location = New System.Drawing.Point(140, 61)
         Me.txtEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtEntryNo.MandatoryField = False
         Me.txtEntryNo.MaxDate = Nothing
@@ -686,7 +682,7 @@ Partial Class StoresRequisition
         Me.txtEntryNo.ShowMessage = False
         Me.txtEntryNo.Size = New System.Drawing.Size(98, 22)
         Me.txtEntryNo.SpacerString = ""
-        Me.txtEntryNo.TabIndex = 82173
+        Me.txtEntryNo.TabIndex = 3
         Me.txtEntryNo.Tag = "EntryNo"
         Me.txtEntryNo.TransparentBox = True
         Me.txtEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -696,7 +692,7 @@ Partial Class StoresRequisition
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.Black
-        Me.Label7.Location = New System.Drawing.Point(8, 31)
+        Me.Label7.Location = New System.Drawing.Point(8, 61)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(68, 14)
         Me.Label7.TabIndex = 82184
@@ -712,12 +708,80 @@ Partial Class StoresRequisition
         Me.Label41.TabIndex = 82189
         Me.Label41.Text = ":"
         '
+        'Txt_BookName
+        '
+        Me.Txt_BookName._AllowSpace = True
+        Me.Txt_BookName.AcceptsReturn = True
+        Me.Txt_BookName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.Txt_BookName.BackColor = System.Drawing.Color.LightCyan
+        Me.Txt_BookName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Txt_BookName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.Txt_BookName.Check_End_Date_Value_FY = "YES"
+        Me.Txt_BookName.Check_Start_Date_Value_FY = "YES"
+        Me.Txt_BookName.ClearField = True
+        Me.Txt_BookName.CustomInputTypeString = Nothing
+        Me.Txt_BookName.Date_for_Database = Nothing
+        Me.Txt_BookName.Date_Tag = Nothing
+        Me.Txt_BookName.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.Txt_BookName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.Txt_BookName.ExtraValue = ""
+        Me.Txt_BookName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txt_BookName.FontFocusColor = System.Drawing.Color.Blue
+        Me.Txt_BookName.FontLeaveColor = System.Drawing.Color.Black
+        Me.Txt_BookName.ForeColor = System.Drawing.Color.Black
+        Me.Txt_BookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.Txt_BookName.IsValidated = False
+        Me.Txt_BookName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.Txt_BookName.Location = New System.Drawing.Point(141, 32)
+        Me.Txt_BookName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.Txt_BookName.MandatoryField = False
+        Me.Txt_BookName.MaxDate = Nothing
+        Me.Txt_BookName.MinDate = Nothing
+        Me.Txt_BookName.Name = "Txt_BookName"
+        Me.Txt_BookName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.Txt_BookName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.Txt_BookName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.Txt_BookName.ReadOnly = True
+        Me.Txt_BookName.RegularExpression = Nothing
+        Me.Txt_BookName.RegularExpressionErrorMessage = Nothing
+        Me.Txt_BookName.ShowMessage = False
+        Me.Txt_BookName.Size = New System.Drawing.Size(202, 22)
+        Me.Txt_BookName.SpacerString = ""
+        Me.Txt_BookName.TabIndex = 2
+        Me.Txt_BookName.Tag = "BOOKNAME"
+        Me.Txt_BookName.TransparentBox = True
+        Me.Txt_BookName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.Black
+        Me.Label5.Location = New System.Drawing.Point(8, 33)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(82, 14)
+        Me.Label5.TabIndex = 82205
+        Me.Label5.Text = "Book Name"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(128, 33)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(12, 14)
+        Me.Label6.TabIndex = 82206
+        Me.Label6.Text = ":"
+        '
         'StoresRequisition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.Controls.Add(Me.Txt_BookName)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.PNL_View)
         Me.Controls.Add(Me.Label24)
         Me.Controls.Add(Me.txtHeader_Remark)
@@ -731,7 +795,7 @@ Partial Class StoresRequisition
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txtChallanNo)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.txtBookName)
+        Me.Controls.Add(Me.txtGodownName)
         Me.Controls.Add(Me.Label50)
         Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.txtChallanDate)
@@ -767,9 +831,6 @@ Partial Class StoresRequisition
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents btn_View_Ok As Button
-    Friend WithEvents Btn_Export_Excel As Button
-    Friend WithEvents btn_View_Print As Button
     Friend WithEvents lbl_To As Label
     Friend WithEvents lbl_From As Label
     Friend WithEvents txt_To As ctl_TextBox.ctl_TextBox
@@ -786,7 +847,7 @@ Partial Class StoresRequisition
     Friend WithEvents Label3 As Label
     Friend WithEvents txtChallanNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label4 As Label
-    Friend WithEvents txtBookName As ctl_TextBox.ctl_TextBox
+    Friend WithEvents txtGodownName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label50 As Label
     Friend WithEvents Label20 As Label
     Friend WithEvents txtChallanDate As ctl_TextBox.ctl_TextBox
@@ -795,4 +856,10 @@ Partial Class StoresRequisition
     Friend WithEvents txtEntryNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label41 As Label
+    Friend WithEvents Txt_BookName As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
 End Class

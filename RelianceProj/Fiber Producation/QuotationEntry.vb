@@ -115,7 +115,7 @@ Friend Class QuotationEntry
             .Append("CUT_MTR,") ' GROSS RATE
             .Append("RDVALUE,") 'dis%
             .Append("WEIGHT,") 'dis amount
-            .Append("RATE,")
+            .Append("RATE,")   'Payment terms
             .Append("AMOUNT,")
             .Append("ROWREMARK,")
             .Append("PIECE_ID,")
@@ -123,6 +123,10 @@ Friend Class QuotationEntry
             .Append("Y_DELV_ACCOUNTCODE,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
+            .Append("OP16,") 'gst
+            .Append("OP17,") 'Fright
+            .Append("OP18")  'Delivery
+            .Append("OP19,") 'Payment terms
             .Append("DESPATCHCODE")
         End With
 
@@ -251,7 +255,12 @@ Friend Class QuotationEntry
             .Append("AMOUNT:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
+            .Append("OP16:N,")  'gst
+            .Append("OP17:N,")  'Fright
+            .Append("OP18:N,")  'Delivery
+            .Append("OP19:N,")  'Payment terms
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
+
         End With
 
         _FieldNotRequiredForSave = New StringBuilder
@@ -827,6 +836,10 @@ Friend Class QuotationEntry
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
+            .Append("OP16,")
+            .Append("OP17,")
+            .Append("OP18,")
+            .Append("OP19,")
             .Append("HeaderRemark")
         End With
 
@@ -843,6 +856,10 @@ Friend Class QuotationEntry
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(_GodownCode & ",")
+            .Append(Txt_Fright.Text & ",")
+            .Append(Txt_Deli.Text & ",")
+            .Append(Txt_Delivery.Text & ",")
+            .Append(Txt_PaymentTerms.Text & ",")
             .Append(txtHeader_Remark.Text)
         End With
 
@@ -1738,25 +1755,12 @@ Friend Class QuotationEntry
     Private Sub Ctl_TextBox2_KeyDown(sender As Object, e As KeyEventArgs) Handles Ctl_TextBox2.KeyDown
         If e.KeyCode = Keys.Enter Then
             MasterselectionTable()
-            'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-            '    Txt_MasterSelection.Text = MULTY_SELECTION_COLOUM_3_DATA.Replace("(", "").Replace(")", "").Replace("'", "")
-            'End If
-
-            Dim rawData As String = MULTY_SELECTION_COLOUM_3_DATA
-            ' Clean string
+            'Dim rawData As String = MULTY_SELECTION_COLOUM_3_DATA
+            Dim rawData As String = MULTY_SELECTION_COLOUM_1_DATA
             rawData = rawData.Replace("(", "").Replace(")", "").Replace("'", "")
-            ' Split
             Dim items As String() = rawData.Split(","c)
-            ' Trim items
             Dim cleanItems = items.Select(Function(x) x.Trim()).ToArray()
-            ' 👉 Check count
-            If cleanItems.Length > 5 Then
-                'MessageBox.Show("Maximum 5 selection allowed!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            End If
-            ' 👉 Take only first 5
-            Dim topItems = cleanItems.Take(5).ToArray()
-            ' 👉 Set textbox
-            Ctl_TextBox2.Text = String.Join(",", topItems)
+            Ctl_TextBox2.Text = String.Join(",", cleanItems)
             Ctl_TextBox2.ReadOnly = True
             SendKeys.Send("{TAB}")
         End If
@@ -1765,18 +1769,15 @@ Friend Class QuotationEntry
         Dim HSNType As New DataTable
         HSNType.Columns.Add("PACK_SLIP_NO", GetType(String))
         HSNType.Columns.Add("Remark", GetType(String))
-        HSNType.Columns.Add("MasterName1", GetType(String))
-        HSNType.Columns.Add("MasterName2", GetType(String))
-        HSNType.Columns.Add("MasterName3", GetType(String))
-
-        Dim query As String = "SELECT Distinct(PACK_SLIP_NO) As PACK_SLIP_NO,'' AS Remark,'' As MasterName1,'' As MasterName2,'' As MasterName3 FROM TrnPackingSlip WHERE Bookcode='RQSS-000000001'"
-
+        HSNType.Columns.Add("Bookcode1", GetType(String))
+        HSNType.Columns.Add("Bookcode2", GetType(String))
+        HSNType.Columns.Add("Bookcode3", GetType(String))
+        Dim query As String = "SELECT Distinct(PACK_SLIP_NO) As PACK_SLIP_NO,'' AS Remark,Bookcode As Bookcode1,Bookcode As Bookcode2,Bookcode As Bookcode3 FROM TrnPackingSlip WHERE Bookcode='RQSS-000000001'"
         sqL = query.ToString
         sql_connect_slect()
         Dim tblTmp As New DataTable
         tblTmp = DefaltSoftTable.Copy
         For Each dr As DataRow In tblTmp.Rows
-            'HSNType.Rows.Add(dr("PACK_SLIP_NO").ToString(), "", "", "", "")
             Dim packNo As String = ""
             If Not IsDBNull(dr("PACK_SLIP_NO")) Then
                 packNo = Convert.ToInt32(dr("PACK_SLIP_NO")).ToString()
@@ -1784,21 +1785,26 @@ Friend Class QuotationEntry
             HSNType.Rows.Add(packNo, "", "", "", "")
         Next
         Party_selection_multy.dgw.DataSource = tblTmp
-        Party_selection_multy.dgw.Columns("MasterName1").Visible = False
-        Party_selection_multy.dgw.Columns("MasterName2").Visible = False
-        Party_selection_multy.dgw.Columns("MasterName3").Visible = False
-
+        Party_selection_multy.dgw.Columns("Bookcode1").Visible = False
+        Party_selection_multy.dgw.Columns("Bookcode2").Visible = False
+        Party_selection_multy.dgw.Columns("Bookcode3").Visible = False
         Dim Chk As New DataGridViewCheckBoxColumn()
         Party_selection_multy.dgw.Columns.Add(Chk)
-
         Party_selection_multy.dgw.Columns(0).Width = 380
         Party_selection_multy.dgw.Columns(1).Width = 200
         Party_selection_multy.dgw.Columns(2).Width = 150
         Party_selection_multy.dgw.Columns(5).Width = 30
-
         Party_selection_multy.Width = 644
-
         obj_Party_Selection.SELECTION_LIST_FIRST_multy_SELECTION()
+    End Sub
+
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = "Quotation Entry Details"
+        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+    End Sub
+
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
+        _DevExpressExcelExport(GridControl1)
     End Sub
 #End Region
 End Class
