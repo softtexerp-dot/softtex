@@ -1,13 +1,52 @@
 ﻿Imports System.Text
-Imports DevExpress.LookAndFeel
-Imports DevExpress.XtraBars.Customization
 
-Public Class RequisitionPrint
+Public Class QuotationEntryPrint
     Dim _Selectionbutton As String
     Private WithEvents txtgodowncode As New TextBox
     Private _GodownCode As String = ""
     Private _BookCode As String = ""
     Private _BookTrType As String = ""
+    Private Sub txtunitName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtunitName.KeyPress
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+
+            Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
+            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtunitName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then txtgodowncode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("BookName") Then txtunitName.Text = selected("BookName").ToString()
+            End If
+            _GodownCode = txtgodowncode.Text
+            'e.Handled = True
+            'Me.SelectNextControl(ActiveControl, True, True, True, True)
+            SendKeys.Send("{TAB}")
+        End If
+    End Sub
+
+    Private Sub txtBookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtBookName.KeyPress
+
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+            Dim selected = StoresRequisition.SelectBookType(txtBookName.Text)
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then
+                    _BookCode = selected("ACCOUNTCODE").ToString()
+                End If
+                If selected.ContainsKey("BookName") Then
+                    txtBookName.Text = selected("BookName").ToString()
+                End If
+            End If
+            Select Case _BookCode
+                Case "RQSS-000000001"
+                    _BookTrType = "RQSS1"
+                Case "RQSS-000000002"
+                    _BookTrType = "RQSS2"
+                Case "RQSS-000000003"
+                    _BookTrType = "RQSS3"
+            End Select
+            SendKeys.Send("{TAB}")
+        End If
+    End Sub
+
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
         View_Log_Book()
     End Sub
@@ -68,11 +107,11 @@ Public Class RequisitionPrint
                 Txt_FromEntryNo.Text = Tmp_Data_Table.Rows(0)("EntryNo")
                 Txt_ToEntryNo.Text = Tmp_Data_Table.Rows(0)("EntryNo")
                 'Dim Date_Range = "Audit Report  From : " & txt_From.Text & " TO " & txt_To.Text
-                Dim RptTitle = "Stores Requisition Report"
+                Dim RptTitle = "Quotation Entry Report"
                 Dim Date_Range = ""
                 If But_ok.Enabled = True Then
                     If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                        REPORT_RPT_FILE_NAME = "StoresRequisitionReport_" & Ctl_RptType.Text & ""
+                        REPORT_RPT_FILE_NAME = "QuotationEntryReport_" & Ctl_RptType.Text & ""
                         NewReportPrint(Tmp_Data_Table, RptTitle, Date_Range)
                         _ButtonEnable(True)
                         _TextboxEnable(False)
@@ -80,7 +119,7 @@ Public Class RequisitionPrint
                     End If
                 End If
             Else
-                    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
                 _ButtonEnable(True)
                 _TextboxEnable(False)
                 _ButtonFocus()
@@ -110,19 +149,6 @@ Public Class RequisitionPrint
         End If
     End Sub
 
-    Private Sub RequisitionPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'View_Log_Book()
-        Me.Location = New Point(0, 0)
-        AttachButtonFocusEvents(Me)
-        _ButtonEnable(True)
-        _TextboxEnable(False)
-        txtunitName.ReadOnly = True
-        txtBookName.ReadOnly = True
-        Txt_FromEntryNo.ReadOnly = True
-        Txt_ToEntryNo.ReadOnly = True
-        Ctl_RptType.ReadOnly = True
-    End Sub
-
     Private Sub BtnItem_Click(sender As Object, e As EventArgs) Handles BtnItem.Click
         _Selectionbutton = "Entry No"
         'REPORT_RPT_FILE_NAME = "ReadyMadeStockReport_1"
@@ -136,44 +162,16 @@ Public Class RequisitionPrint
     Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles BtnClose.Click
         Me.Close()
     End Sub
-    Private Sub txtunitName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtunitName.KeyPress
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
 
-            Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
-            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
-            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtunitName.Text, "SINGLE")
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then txtgodowncode.Text = selected("ACCOUNTCODE").ToString()
-                If selected.ContainsKey("BookName") Then txtunitName.Text = selected("BookName").ToString()
-            End If
-            _GodownCode = txtgodowncode.Text
-            'e.Handled = True
-            'Me.SelectNextControl(ActiveControl, True, True, True, True)
-            SendKeys.Send("{TAB}")
-        End If
-    End Sub
-
-    Private Sub txtBookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtBookName.KeyPress
-
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = StoresRequisition.SelectBookType(txtBookName.Text)
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    _BookCode = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("BookName") Then
-                    txtBookName.Text = selected("BookName").ToString()
-                End If
-            End If
-            Select Case _BookCode
-                Case "RQSS-000000001"
-                    _BookTrType = "RQSS1"
-                Case "RQSS-000000002"
-                    _BookTrType = "RQSS2"
-                Case "RQSS-000000003"
-                    _BookTrType = "RQSS3"
-            End Select
-            SendKeys.Send("{TAB}")
-        End If
+    Private Sub QuotationEntryPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Location = New Point(0, 0)
+        AttachButtonFocusEvents(Me)
+        _ButtonEnable(True)
+        _TextboxEnable(False)
+        txtunitName.ReadOnly = True
+        txtBookName.ReadOnly = True
+        Txt_FromEntryNo.ReadOnly = True
+        Txt_ToEntryNo.ReadOnly = True
+        Ctl_RptType.ReadOnly = True
     End Sub
 End Class

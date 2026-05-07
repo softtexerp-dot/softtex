@@ -538,7 +538,7 @@ Partial Class StoresRequisition
         Me.txtGodownName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtGodownName.IsValidated = False
         Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtGodownName.Location = New System.Drawing.Point(140, 4)
+        Me.txtGodownName.Location = New System.Drawing.Point(140, 3)
         Me.txtGodownName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtGodownName.MandatoryField = False
         Me.txtGodownName.MaxDate = Nothing
@@ -732,7 +732,7 @@ Partial Class StoresRequisition
         Me.Txt_BookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_BookName.IsValidated = False
         Me.Txt_BookName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_BookName.Location = New System.Drawing.Point(141, 32)
+        Me.Txt_BookName.Location = New System.Drawing.Point(140, 28)
         Me.Txt_BookName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_BookName.MandatoryField = False
         Me.Txt_BookName.MaxDate = Nothing
@@ -767,7 +767,7 @@ Partial Class StoresRequisition
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(128, 33)
+        Me.Label6.Location = New System.Drawing.Point(127, 32)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 14)
         Me.Label6.TabIndex = 82206

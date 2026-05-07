@@ -61,11 +61,12 @@ Partial Class RequisitionPrint
         'BtnItem
         '
         Me.BtnItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.BtnItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnItem.ForeColor = System.Drawing.Color.Black
-        Me.BtnItem.Location = New System.Drawing.Point(3, 27)
+        Me.BtnItem.Location = New System.Drawing.Point(3, 26)
         Me.BtnItem.Name = "BtnItem"
         Me.BtnItem.Size = New System.Drawing.Size(219, 36)
-        Me.BtnItem.TabIndex = 13
+        Me.BtnItem.TabIndex = 1
         Me.BtnItem.Tag = "Entry No"
         Me.BtnItem.Text = "&1. Entry No"
         Me.BtnItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -87,7 +88,7 @@ Partial Class RequisitionPrint
         Me.But_ok.Location = New System.Drawing.Point(324, 211)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(67, 37)
-        Me.But_ok.TabIndex = 22
+        Me.But_ok.TabIndex = 7
         Me.But_ok.Text = "Ok"
         '
         'Txt_FromEntryNo
@@ -128,7 +129,7 @@ Partial Class RequisitionPrint
         Me.Txt_FromEntryNo.ShowMessage = False
         Me.Txt_FromEntryNo.Size = New System.Drawing.Size(60, 22)
         Me.Txt_FromEntryNo.SpacerString = ""
-        Me.Txt_FromEntryNo.TabIndex = 19
+        Me.Txt_FromEntryNo.TabIndex = 4
         Me.Txt_FromEntryNo.Tag = "EntryNo"
         Me.Txt_FromEntryNo.TransparentBox = True
         Me.Txt_FromEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -150,7 +151,7 @@ Partial Class RequisitionPrint
         Me.BtnClose.Location = New System.Drawing.Point(395, 211)
         Me.BtnClose.Name = "BtnClose"
         Me.BtnClose.Size = New System.Drawing.Size(78, 37)
-        Me.BtnClose.TabIndex = 17
+        Me.BtnClose.TabIndex = 8
         Me.BtnClose.Text = "&Close"
         '
         'Label1
@@ -205,7 +206,7 @@ Partial Class RequisitionPrint
         Me.Txt_ToEntryNo.ShowMessage = False
         Me.Txt_ToEntryNo.Size = New System.Drawing.Size(60, 22)
         Me.Txt_ToEntryNo.SpacerString = ""
-        Me.Txt_ToEntryNo.TabIndex = 20
+        Me.Txt_ToEntryNo.TabIndex = 5
         Me.Txt_ToEntryNo.Tag = "EntryNo"
         Me.Txt_ToEntryNo.TransparentBox = True
         Me.Txt_ToEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -258,7 +259,7 @@ Partial Class RequisitionPrint
         Me.Ctl_RptType.ShowMessage = False
         Me.Ctl_RptType.Size = New System.Drawing.Size(60, 22)
         Me.Ctl_RptType.SpacerString = "1,2,3"
-        Me.Ctl_RptType.TabIndex = 21
+        Me.Ctl_RptType.TabIndex = 6
         Me.Ctl_RptType.Tag = "Type"
         Me.Ctl_RptType.Text = "1"
         Me.Ctl_RptType.TransparentBox = True
@@ -311,7 +312,7 @@ Partial Class RequisitionPrint
         Me.txtunitName.ShowMessage = False
         Me.txtunitName.Size = New System.Drawing.Size(125, 22)
         Me.txtunitName.SpacerString = ""
-        Me.txtunitName.TabIndex = 17
+        Me.txtunitName.TabIndex = 2
         Me.txtunitName.Tag = "EntryNo"
         Me.txtunitName.TransparentBox = True
         Me.txtunitName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -319,7 +320,7 @@ Partial Class RequisitionPrint
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(249, 31)
+        Me.Label6.Location = New System.Drawing.Point(246, 31)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(91, 16)
         Me.Label6.TabIndex = 25
@@ -363,7 +364,7 @@ Partial Class RequisitionPrint
         Me.txtBookName.ShowMessage = False
         Me.txtBookName.Size = New System.Drawing.Size(125, 22)
         Me.txtBookName.SpacerString = ""
-        Me.txtBookName.TabIndex = 18
+        Me.txtBookName.TabIndex = 3
         Me.txtBookName.Tag = "EntryNo"
         Me.txtBookName.TransparentBox = True
         Me.txtBookName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -371,7 +372,7 @@ Partial Class RequisitionPrint
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(249, 56)
+        Me.Label7.Location = New System.Drawing.Point(246, 56)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(98, 16)
         Me.Label7.TabIndex = 27
@@ -400,6 +401,8 @@ Partial Class RequisitionPrint
         Me.Controls.Add(Me.Label1)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "RequisitionPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "RequisitionPrint"

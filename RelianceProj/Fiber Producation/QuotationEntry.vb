@@ -125,8 +125,10 @@ Friend Class QuotationEntry
             .Append("GODOWNCODE,")
             .Append("OP16,") 'gst
             .Append("OP17,") 'Fright
-            .Append("OP18")  'Delivery
+            .Append("OP18,")  'Delivery
             .Append("OP19,") 'Payment terms
+            .Append("OP20,") 'BookName
+            .Append("OP21,") 'Selected Req No
             .Append("DESPATCHCODE")
         End With
 
@@ -259,6 +261,8 @@ Friend Class QuotationEntry
             .Append("OP17:N,")  'Fright
             .Append("OP18:N,")  'Delivery
             .Append("OP19:N,")  'Payment terms
+            .Append("OP20:N,") 'BookName
+            .Append("OP21:N,") 'Selected Req No
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -393,7 +397,7 @@ Friend Class QuotationEntry
 
         If _BookCode.Trim = "" Then
             MsgBox("Invalid Book Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-            txtBookName.Focus()
+            txtUnitName.Focus()
             Exit Function
         ElseIf txtAccount_Code.Text = "" Or txtAccountName.Text = "" Then
             MsgBox("Invalid Party Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
@@ -458,9 +462,9 @@ Friend Class QuotationEntry
         'txtBookCode.Text = "CURC-000000101"
         '_BookTrType = "CURC1"
         '_BookCode = txtBookCode.Text
-        txtBookCode.Text = "QESS-000000001"
-        _BookTrType = "QESS1"
-        _BookCode = txtBookCode.Text
+        'txtBookCode.Text = "QESS-000000001"
+        '_BookTrType = "QESS1"
+        '_BookCode = txtBookCode.Text
 
         If _isCallerByOther = True Then
             UC_Buttons1._ButtonEnableDisable("EDIT")
@@ -587,9 +591,9 @@ Friend Class QuotationEntry
         Label_Value_Nil_Rest()
         'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
-        txtBookName.Visible = True
-        txtBookName.Focus()
-        txtBookName.Select()
+        txtUnitName.Visible = True
+        txtUnitName.Focus()
+        txtUnitName.Select()
 
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
@@ -600,9 +604,9 @@ Friend Class QuotationEntry
         Label_Value_Nil_Rest()
         'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
-        txtBookName.Visible = True
-        txtBookName.Focus()
-        txtBookName.Select()
+        txtUnitName.Visible = True
+        txtUnitName.Focus()
+        txtUnitName.Select()
     End Sub
     Private Sub UC_Buttons1_DeleteClick() Handles UC_Buttons1.DeleteClick
         _FORMMODE = "DELETE"
@@ -611,9 +615,9 @@ Friend Class QuotationEntry
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
         'GetMaxEntryNo()
-        txtBookName.Visible = True
-        txtBookName.Focus()
-        txtBookName.Select()
+        txtUnitName.Visible = True
+        txtUnitName.Focus()
+        txtUnitName.Select()
     End Sub
     Private Sub UC_Buttons1_BackClick() Handles UC_Buttons1.BackClick
         _FrmLoad = False
@@ -649,25 +653,19 @@ Friend Class QuotationEntry
     Private Sub UC_Buttons1_ViewClick() Handles UC_Buttons1.ViewClick
         _FORMMODE = "VIEW"
         _FrmLoad = False
-
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-
-
-
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-
-
-        txtBookName.Visible = True
-        txtBookName.Focus()
-        txtBookName.Select()
+        txtUnitName.Visible = True
+        txtUnitName.Focus()
+        txtUnitName.Select()
     End Sub
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-
+        QuotationEntryPrint.Show()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
@@ -840,6 +838,8 @@ Friend Class QuotationEntry
             .Append("OP17,")
             .Append("OP18,")
             .Append("OP19,")
+            .Append("OP20,")
+            .Append("OP21,")
             .Append("HeaderRemark")
         End With
 
@@ -860,6 +860,8 @@ Friend Class QuotationEntry
             .Append(Txt_Deli.Text & ",")
             .Append(Txt_Delivery.Text & ",")
             .Append(Txt_PaymentTerms.Text & ",")
+            .Append(Txt_BookName.Text & ",")
+            .Append(TxtSelectReqNo.Text & ",")
             .Append(txtHeader_Remark.Text)
         End With
 
@@ -1137,7 +1139,7 @@ Friend Class QuotationEntry
             .Append(" Mst_Acof_Supply.AC_NAME AS AcOfName, ")
             .Append(" E.SIZENAME AS SIZENAME, ")
             .Append(" F.ColorName AS COLORNAME,  ")
-            .Append(" K.COMPANYNAME  AS COMPANYNAME ")
+            .Append(" K.subItemName  AS COMPANYNAME ")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -1188,7 +1190,11 @@ Friend Class QuotationEntry
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         'txtGR_Date.Text = tblTmp.Rows(0)("F_GR_DATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
-
+        Txt_Fright.Text = tblTmp.Rows(0)("OP16").ToString
+        Txt_Deli.Text = tblTmp.Rows(0)("OP17").ToString
+        Txt_Delivery.Text = tblTmp.Rows(0)("OP18").ToString
+        Txt_PaymentTerms.Text = tblTmp.Rows(0)("OP19").ToString
+        TxtSelectReqNo.Text = tblTmp.Rows(0)("OP21").ToString
 
         Generate_Date_For_DataBase(txtChallanDate)
         'Generate_Date_For_DataBase(txtGR_Date)
@@ -1254,7 +1260,7 @@ Friend Class QuotationEntry
 #End Region
 
 #Region "Txt Book Name Events Code "
-    Private Sub txtBookName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtBookName.KeyPress
+    Private Sub txtUnitName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtUnitName.KeyPress
         If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
 
         DispList = False
@@ -1274,14 +1280,14 @@ Friend Class QuotationEntry
 
             Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
             Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
-            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtBookName.Text, "SINGLE")
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtUnitName.Text, "SINGLE")
             If selected IsNot Nothing Then
                 If selected.ContainsKey("ACCOUNTCODE") Then txtBookCode.Text = selected("ACCOUNTCODE").ToString()
-                If selected.ContainsKey("BookName") Then txtBookName.Text = selected("BookName").ToString()
+                If selected.ContainsKey("BookName") Then txtUnitName.Text = selected("BookName").ToString()
             End If
 
             _GodownCode = txtBookCode.Text
-            Book_Name = txtBookName.Text
+            'Book_Name = txtUnitName.Text
             SendKeys.Send("{TAB}")
 
             '_BookCode = txtBookCode.Text
@@ -1321,116 +1327,15 @@ Friend Class QuotationEntry
             GrdItem.Column(0).Visible = False
             GrdItem.Row(0).Height = 31
             GrdItem.DefaultRowHeight = 28
-
-        End If
-        e.Handled = True
-    End Sub
-    Private Sub txtBookName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtBookName.Validated
-        If _FrmLoad = True Then Exit Sub
-
-        If txtBookCode.Text = "" Or _BookCode = "" Then
-            txtBookName.Focus()
-            txtBookName.Select()
-            Exit Sub
-        Else
-            Dim TmpTbl As New DataTable
-            'AcCode_Filter_String = Book_Row("GROUP_CODE_FILTER_STRING").ToString  'TmpTbl(0)("group_code_filter_string").ToString
-            '_BookTrType = Book_Row("BOOKTRTYPE").ToString
-
             Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
-
-
-            _strQuery = New StringBuilder
-            With _strQuery
-                .Append(" SELECT TOP 1 A.*, ")
-                .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy') AS F_CHALLANDATE, ")
-                .Append(" B.ACCOUNTNAME,C.AC_NAME AS ACOFNAME,F.ACCOUNTNAME AS AGENTNAME,")
-                .Append(" D.TRANSPORTNAME,E.CITYNAME AS DESPATCH ")
-                .Append(" FROM TrnPackingSlip AS A ")
-                .Append(" LEFT JOIN MstMasterAccount AS B ON A.ACCOUNTCODE = B.ACCOUNTCODE ")
-                .Append(" LEFT JOIN MstMasterAccount AS F ON B.AGENTCODE = F.ACCOUNTCODE ")
-                .Append(" LEFT JOIN Mst_Acof_Supply AS C ON A.ACOFCODE = C.ID ")
-                .Append(" LEFT JOIN MSTTRANSPORT AS D ON A.TRANSPORTCODE = D.ID ")
-                .Append(" LEFT JOIN MSTCITY AS E ON A.DESPATCHCODE = E.CITYCODE ")
-                .Append(" WHERE 1=1 ")
-                .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
-                .Append(_UNiteWiseCode)
-                .Append(" ORDER BY A.ENTRYNO DESC ")
-            End With
-
-            Dim Str_Qry As String = _strQuery.ToString
-            Dim TblTmp As New DataTable
-            sqL = Str_Qry
-            sql_connect_slect()
-            TblTmp = DefaltSoftTable.Copy
-
-            Dim Last_Entry_No As Integer = 0
-            If TblTmp.Rows.Count > 0 Then
-                Last_Entry_No = Val(TblTmp(0)("ENTRYNO").ToString)
-            End If
-
-            If _FORMMODE = "ADD" Then
-                txtEntryNo.Text = Last_Entry_No + 1
-                If Last_Entry_No > 0 Then
-                    'ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, TblTmp)
-
-                    txtAccountName.Text = TblTmp(0)("ACCOUNTNAME").ToString
-                    txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
-
-                    txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
-                    txtAcOfCode.Text = TblTmp(0)("ACOFCODE").ToString
-                    txtDespatch_code.Text = TblTmp(0)("DESPATCHCODE").ToString
-                    txtTr_code.Text = TblTmp(0)("TRANSPORTCODE").ToString
-                    txtEntryNo.Text = Last_Entry_No + 1
-
-                    'If Book_Row("NATURE").ToString <> "SALES" Then
-                    '    txtChallanNo.Text = ""
-                    '    txtAccount_Code.Text = ""
-                    '    txtAccountName.Text = ""
-                    'End If
-                Else
-                    txtChallanDate.Text = ObjCls_General.GetTodayDate_British
-                    txtEntryNo.Text = "1"
-                End If
-
-
-                'If _dateSelection = "LAST DATE" Then
-                '    txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
-                'Else
-                txtChallanDate.Text = ObjCls_General.GetTodayDate_British
-                'End If
-
-
-                Generate_Date_For_DataBase(txtChallanDate)
-                'Generate_Date_For_DataBase(txtGR_Date)
-                GrdItem.Rows = 2
-                GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                txtEntryNo.Focus()
-                txtEntryNo.Select()
-            ElseIf _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
-                If Last_Entry_No = 0 Then
-                    MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                    txtBookName.Focus()
-                    txtBookName.Select()
-                    Exit Sub
-                Else
-                    txtEntryNo.Text = Last_Entry_No
-                    Last_Saved_Entry_No = Last_Entry_No
-                    Generate_Date_For_DataBase(txtChallanDate)
-                    txtEntryNo.Focus()
-                    txtEntryNo.Select()
-                End If
-            ElseIf _FORMMODE = "VIEW" Then
-                If Last_Entry_No = 0 Then
-                    MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                    txtBookName.Focus()
-                    txtBookName.Select()
-                Else
-                    View_Record()
-                End If
-            End If
         End If
+        'e.Handled = True
     End Sub
+    Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
+        Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+
+    End Sub
+
 #End Region
 
 #Region "Account Name Txt Box Events "
@@ -1752,7 +1657,7 @@ Friend Class QuotationEntry
         End If
     End Sub
 
-    Private Sub Ctl_TextBox2_KeyDown(sender As Object, e As KeyEventArgs) Handles Ctl_TextBox2.KeyDown
+    Private Sub TxtSelectReqNo_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtSelectReqNo.KeyDown
         If e.KeyCode = Keys.Enter Then
             MasterselectionTable()
             'Dim rawData As String = MULTY_SELECTION_COLOUM_3_DATA
@@ -1760,27 +1665,27 @@ Friend Class QuotationEntry
             rawData = rawData.Replace("(", "").Replace(")", "").Replace("'", "")
             Dim items As String() = rawData.Split(","c)
             Dim cleanItems = items.Select(Function(x) x.Trim()).ToArray()
-            Ctl_TextBox2.Text = String.Join(",", cleanItems)
-            Ctl_TextBox2.ReadOnly = True
+            TxtSelectReqNo.Text = String.Join(",", cleanItems)
+            TxtSelectReqNo.ReadOnly = True
             SendKeys.Send("{TAB}")
         End If
     End Sub
     Public Sub MasterselectionTable()
         Dim HSNType As New DataTable
-        HSNType.Columns.Add("PACK_SLIP_NO", GetType(String))
+        HSNType.Columns.Add("Slipno", GetType(String))
         HSNType.Columns.Add("Remark", GetType(String))
         HSNType.Columns.Add("Bookcode1", GetType(String))
         HSNType.Columns.Add("Bookcode2", GetType(String))
         HSNType.Columns.Add("Bookcode3", GetType(String))
-        Dim query As String = "SELECT Distinct(PACK_SLIP_NO) As PACK_SLIP_NO,'' AS Remark,Bookcode As Bookcode1,Bookcode As Bookcode2,Bookcode As Bookcode3 FROM TrnPackingSlip WHERE Bookcode='RQSS-000000001'"
+        Dim query As String = "SELECT Distinct(PACK_SLIP_NO) As PACKSLIPNO,'' AS Remark,Bookcode As Bookcode1,Bookcode As Bookcode2,Bookcode As Bookcode3 FROM TrnPackingSlip WHERE Bookcode='" & _BookCode & "'"
         sqL = query.ToString
         sql_connect_slect()
         Dim tblTmp As New DataTable
         tblTmp = DefaltSoftTable.Copy
         For Each dr As DataRow In tblTmp.Rows
             Dim packNo As String = ""
-            If Not IsDBNull(dr("PACK_SLIP_NO")) Then
-                packNo = Convert.ToInt32(dr("PACK_SLIP_NO")).ToString()
+            If Not IsDBNull(dr("PACKSLIPNO")) Then
+                packNo = dr("PACKSLIPNO").ToString()
             End If
             HSNType.Rows.Add(packNo, "", "", "", "")
         Next
@@ -1805,6 +1710,148 @@ Friend Class QuotationEntry
 
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
+    End Sub
+
+    Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+            Dim selected = StoresRequisition.SelectBookType(Txt_BookName.Text)
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then
+                    _BookCode = selected("ACCOUNTCODE").ToString()
+                End If
+                If selected.ContainsKey("BookName") Then
+                    Txt_BookName.Text = selected("BookName").ToString()
+                End If
+            End If
+            Select Case _BookCode
+                'Case "DESS-000000001"
+                '    _BookTrType = "DESS1"
+                'Case "DESS-000000002"
+                '    _BookTrType = "DESS2"
+                'Case "DESS-000000003"
+                '    _BookTrType = "DESS3"
+                Case "RQSS-000000001"
+                    _BookTrType = "RQSS1"
+                Case "RQSS-000000002"
+                    _BookTrType = "RQSS2"
+                Case "RQSS-000000003"
+                    _BookTrType = "RQSS3"
+            End Select
+            SendKeys.Send("{TAB}")
+        End If
+    End Sub
+
+    Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
+        _Validated()
+    End Sub
+    Private Sub _Validated()
+
+        If _FrmLoad = True Then Exit Sub
+
+        'If txtBookCode.Text = "" Or _BookCode = "" Then
+        '    txtBookName.Focus()
+        '    txtBookName.Select()
+        '    Exit Sub
+        'Else
+        Dim TmpTbl As New DataTable
+        'AcCode_Filter_String = Book_Row("GROUP_CODE_FILTER_STRING").ToString  'TmpTbl(0)("group_code_filter_string").ToString
+        '_BookTrType = Book_Row("BOOKTRTYPE").ToString
+
+        Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+
+
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append(" SELECT TOP 1 A.*, ")
+            .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy') AS F_CHALLANDATE, ")
+            .Append(" B.ACCOUNTNAME,C.AC_NAME AS ACOFNAME,F.ACCOUNTNAME AS AGENTNAME,")
+            .Append(" D.TRANSPORTNAME,E.CITYNAME AS DESPATCH ")
+            .Append(" FROM TrnPackingSlip AS A ")
+            .Append(" LEFT JOIN MstMasterAccount AS B ON A.ACCOUNTCODE = B.ACCOUNTCODE ")
+            .Append(" LEFT JOIN MstMasterAccount AS F ON B.AGENTCODE = F.ACCOUNTCODE ")
+            .Append(" LEFT JOIN Mst_Acof_Supply AS C ON A.ACOFCODE = C.ID ")
+            .Append(" LEFT JOIN MSTTRANSPORT AS D ON A.TRANSPORTCODE = D.ID ")
+            .Append(" LEFT JOIN MSTCITY AS E ON A.DESPATCHCODE = E.CITYCODE ")
+            .Append(" WHERE 1=1 ")
+            .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
+            .Append(" AND A.GODOWNCODE='" & _GodownCode & "'" & " ")
+            .Append(" ORDER BY A.ENTRYNO DESC ")
+        End With
+
+        Dim Str_Qry As String = _strQuery.ToString
+        Dim TblTmp As New DataTable
+        sqL = Str_Qry
+        sql_connect_slect()
+        TblTmp = DefaltSoftTable.Copy
+
+        Dim Last_Entry_No As Integer = 0
+        If TblTmp.Rows.Count > 0 Then
+            Last_Entry_No = Val(TblTmp(0)("ENTRYNO").ToString)
+        End If
+
+        If _FORMMODE = "ADD" Then
+            txtEntryNo.Text = Last_Entry_No + 1
+            If Last_Entry_No > 0 Then
+                'ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, TblTmp)
+
+                txtAccountName.Text = TblTmp(0)("ACCOUNTNAME").ToString
+                txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
+
+                txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
+                txtAcOfCode.Text = TblTmp(0)("ACOFCODE").ToString
+                txtDespatch_code.Text = TblTmp(0)("DESPATCHCODE").ToString
+                txtTr_code.Text = TblTmp(0)("TRANSPORTCODE").ToString
+                txtEntryNo.Text = Last_Entry_No + 1
+
+                'If Book_Row("NATURE").ToString <> "SALES" Then
+                '    txtChallanNo.Text = ""
+                '    txtAccount_Code.Text = ""
+                '    txtAccountName.Text = ""
+                'End If
+            Else
+                txtChallanDate.Text = ObjCls_General.GetTodayDate_British
+                txtEntryNo.Text = "1"
+            End If
+
+
+            'If _dateSelection = "LAST DATE" Then
+            '    txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
+            'Else
+            txtChallanDate.Text = ObjCls_General.GetTodayDate_British
+            'End If
+
+
+            Generate_Date_For_DataBase(txtChallanDate)
+            'Generate_Date_For_DataBase(txtGR_Date)
+            GrdItem.Rows = 2
+            GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
+            txtEntryNo.Focus()
+            txtEntryNo.Select()
+        ElseIf _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
+            If Last_Entry_No = 0 Then
+                MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                'txtEntryNo.Focus()
+                'txtEntryNo.Select()
+                Txt_BookName.Focus()
+                Txt_BookName.Select()
+                Exit Sub
+            Else
+                txtEntryNo.Text = Last_Entry_No
+                Last_Saved_Entry_No = Last_Entry_No
+                Generate_Date_For_DataBase(txtChallanDate)
+                txtEntryNo.Focus()
+                txtEntryNo.Select()
+            End If
+        ElseIf _FORMMODE = "VIEW" Then
+            If Last_Entry_No = 0 Then
+                MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                Txt_BookName.Focus()
+                Txt_BookName.Select()
+            Else
+                View_Record()
+            End If
+        End If
+        'End If
     End Sub
 #End Region
 End Class

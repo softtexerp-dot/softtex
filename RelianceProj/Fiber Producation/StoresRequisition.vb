@@ -1307,7 +1307,6 @@ Friend Class StoresRequisition
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
             .Append(" AND A.GODOWNCODE='" & txtgodowncode.Text & "'" & " ")
-
             .Append(" ORDER BY A.Id DESC ")
         End With
 
@@ -1653,41 +1652,38 @@ Friend Class StoresRequisition
 
     Private Sub Ctl_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
         If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
-
         DispList = False
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim _LoadQuery As String = "SELECT 'RQSS-000000001' AS ACCOUNTCODE, 'GENERAL' AS BookName " &
-    "UNION ALL SELECT 'RQSS-000000002','PARTY WISE' " &
-    "UNION ALL SELECT 'RQSS-000000003','AGENT WISE'"
-            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, Txt_BookName.Text, "SINGLE")
-
+            Dim selected = SelectBookType(Txt_BookName.Text)
             If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then _BookCode = selected("ACCOUNTCODE").ToString()
-                If selected.ContainsKey("BookName") Then Txt_BookName.Text = selected("BookName").ToString()
+                If selected.ContainsKey("ACCOUNTCODE") Then
+                    _BookCode = selected("ACCOUNTCODE").ToString()
+                End If
+                If selected.ContainsKey("BookName") Then
+                    Txt_BookName.Text = selected("BookName").ToString()
+                End If
             End If
-            'Book_Name = txtgodownBookName.Text
-            If _BookCode = "RQSS-000000001" Then
-                _BookTrType = "RQSS1"
-            ElseIf _BookCode = "RQSS-000000002" Then
-                _BookTrType = "RQSS2"
-            ElseIf _BookCode = "RQSS-000000003" Then
-                _BookTrType = "RQSS3"
-            End If
-
-
+            Select Case _BookCode
+                Case "RQSS-000000001"
+                    _BookTrType = "RQSS1"
+                Case "RQSS-000000002"
+                    _BookTrType = "RQSS2"
+                Case "RQSS-000000003"
+                    _BookTrType = "RQSS3"
+            End Select
             SendKeys.Send("{TAB}")
 
             Call defineGridColName()
-                Call GenerateTable(_DataTableGrid, GrdItem)
-                Call GridFormatting(_DataTableGrid, GrdItem)
+            Call GenerateTable(_DataTableGrid, GrdItem)
+            Call GridFormatting(_DataTableGrid, GrdItem)
 
-                GrdItem.Rows = 2
-                GrdItem.Column(0).Visible = False
-                GrdItem.Row(0).Height = 31
-                GrdItem.DefaultRowHeight = 28
+            GrdItem.Rows = 2
+            GrdItem.Column(0).Visible = False
+            GrdItem.Row(0).Height = 31
+            GrdItem.DefaultRowHeight = 28
 
-            End If
-        e.Handled = True
+        End If
+        'e.Handled = True
     End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
@@ -1700,6 +1696,13 @@ Friend Class StoresRequisition
     End Sub
 
 
-
+    Public Function SelectBookType(ByVal SearchText As String) As Dictionary(Of String, Object)
+        Dim _LoadQuery As String =
+            "SELECT 'RQSS-000000001' AS ACCOUNTCODE, 'GENERAL' AS BookName " &
+            "UNION ALL SELECT 'RQSS-000000002','PARTY WISE' " &
+            "UNION ALL SELECT 'RQSS-000000003','AGENT WISE'"
+        Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
+        Return selected
+    End Function
 #End Region
 End Class
