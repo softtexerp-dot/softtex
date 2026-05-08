@@ -40,7 +40,7 @@ Public Class RequisitionPrint
         Try
             Dim View_Filter_Condition As String = ""
             If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "' and A.OP20='" & txtBookName.Text & "'"
+                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "'"
             End If
             _strQuery = New StringBuilder()
             With _strQuery

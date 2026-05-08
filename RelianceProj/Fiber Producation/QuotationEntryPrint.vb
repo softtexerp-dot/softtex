@@ -18,8 +18,6 @@ Public Class QuotationEntryPrint
                 If selected.ContainsKey("BookName") Then txtunitName.Text = selected("BookName").ToString()
             End If
             _GodownCode = txtgodowncode.Text
-            'e.Handled = True
-            'Me.SelectNextControl(ActiveControl, True, True, True, True)
             SendKeys.Send("{TAB}")
         End If
     End Sub
@@ -121,7 +119,7 @@ Public Class QuotationEntryPrint
                 .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
                 .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
                 .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
-                .Append(" LEFT JOIN MstBook G  ON  A.GodownCode=G.BookCode ")
+                .Append(" LEFT JOIN MstBook G  ON  A.BookCode=G.BookCode ")
                 .Append(" WHERE 1=1  ")
                 .Append(View_Filter_Condition)
                 .Append(" ORDER BY  A.Id Desc ")
@@ -194,7 +192,6 @@ Public Class QuotationEntryPrint
     End Sub
 
     Private Sub QuotationEntryPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _ButtonEnable(True)
         _TextboxEnable(False)
