@@ -1,6 +1,4 @@
 ﻿Imports System.Text
-Imports DevExpress.LookAndFeel
-Imports DevExpress.XtraBars.Customization
 
 Public Class RequisitionPrint
     Dim _Selectionbutton As String
@@ -8,8 +6,35 @@ Public Class RequisitionPrint
     Private _GodownCode As String = ""
     Private _BookCode As String = ""
     Private _BookTrType As String = ""
+    Dim _CheckFormLoad As Boolean = True
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
         View_Log_Book()
+    End Sub
+    Private Sub CheckMaxEntry()
+
+        Dim View_Filter_Condition As String = ""
+
+        View_Filter_Condition = " And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "' "
+
+        _strQuery = New StringBuilder()
+        With _strQuery
+            .Append(" SELECT TOP 1 ")
+            .Append(" A.ENTRYNO")
+            .Append(" FROM  ")
+            .Append(" TrnPackingSlip AS A  ")
+            .Append(" WHERE 1=1  ")
+            .Append(View_Filter_Condition)
+            .Append(" order by A.entryno DESC  ")
+        End With
+
+        sqL = _strQuery.ToString
+        sql_connect_slect()
+
+        If DefaltSoftTable.Rows.Count > 0 Then
+            Txt_FromEntryNo.Text = DefaltSoftTable.Rows(0).Item("entryno").ToString
+            Txt_ToEntryNo.Text = Txt_FromEntryNo.Text
+        End If
+
     End Sub
     Private Sub View_Log_Book()
         Try
@@ -30,7 +55,8 @@ Public Class RequisitionPrint
                 .Append(" MstFabricItem.ITENNAME as [Item Name], ")
                 .Append(" K.subItemName  AS [Sub Item], ")
                 .Append(" E.DEPARTMENTNAME  AS DEPARTMENT, ")
-                .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
+                '.Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
+                .Append(" A.MTR_WEIGHT as [Quantity], ")
                 .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
                 .Append("  A.AMOUNT as [Amount],")
                 .Append(" MstTransport.TransportName as [Transport], ")
@@ -108,11 +134,12 @@ Public Class RequisitionPrint
         If _Selectionbutton = "Entry No" Then
             BtnItem.Focus()
         End If
+        _CheckFormLoad = False
     End Sub
 
     Private Sub RequisitionPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'View_Log_Book()
-        Me.Location = New Point(0, 0)
+        'Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _ButtonEnable(True)
         _TextboxEnable(False)
@@ -125,8 +152,7 @@ Public Class RequisitionPrint
 
     Private Sub BtnItem_Click(sender As Object, e As EventArgs) Handles BtnItem.Click
         _Selectionbutton = "Entry No"
-        'REPORT_RPT_FILE_NAME = "ReadyMadeStockReport_1"
-        View_Log_Book()
+        _CheckFormLoad = True
         _TextboxEnable(True)
         Txt_FromEntryNo.ReadOnly = False
         Txt_ToEntryNo.ReadOnly = False
@@ -174,6 +200,20 @@ Public Class RequisitionPrint
                     _BookTrType = "RQSS3"
             End Select
             SendKeys.Send("{TAB}")
+            CheckMaxEntry()
+        End If
+    End Sub
+
+    Private Sub RequisitionPrint_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            If _CheckFormLoad = True Then
+                _ButtonEnable(True)
+                _TextboxEnable(False)
+                _ButtonFocus()
+            Else
+                Me.Close()
+                Me.Dispose(True)
+            End If
         End If
     End Sub
 End Class

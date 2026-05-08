@@ -23,8 +23,6 @@ Partial Class RequisitionPrint
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RequisitionPrint))
-        Me.RecentlyUsedItemsComboBox1 = New DevExpress.XtraReports.UserDesigner.RecentlyUsedItemsComboBox()
-        Me.DesignRepositoryItemComboBox1 = New DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox()
         Me.BtnItem = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.But_ok = New DevExpress.XtraEditors.SimpleButton()
@@ -40,30 +38,19 @@ Partial Class RequisitionPrint
         Me.Label6 = New System.Windows.Forms.Label()
         Me.txtBookName = New ctl_TextBox.ctl_TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
-        CType(Me.RecentlyUsedItemsComboBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DesignRepositoryItemComboBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
-        '
-        'RecentlyUsedItemsComboBox1
-        '
-        Me.RecentlyUsedItemsComboBox1.AppearanceDropDown.Font = New System.Drawing.Font("Tahoma", 11.25!)
-        Me.RecentlyUsedItemsComboBox1.AppearanceDropDown.Options.UseFont = True
-        Me.RecentlyUsedItemsComboBox1.AutoHeight = False
-        Me.RecentlyUsedItemsComboBox1.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.RecentlyUsedItemsComboBox1.Name = "RecentlyUsedItemsComboBox1"
-        '
-        'DesignRepositoryItemComboBox1
-        '
-        Me.DesignRepositoryItemComboBox1.AutoHeight = False
-        Me.DesignRepositoryItemComboBox1.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.DesignRepositoryItemComboBox1.Name = "DesignRepositoryItemComboBox1"
         '
         'BtnItem
         '
         Me.BtnItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.BtnItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnItem.ForeColor = System.Drawing.Color.Black
-        Me.BtnItem.Location = New System.Drawing.Point(3, 26)
+        Me.BtnItem.Location = New System.Drawing.Point(0, 26)
         Me.BtnItem.Name = "BtnItem"
         Me.BtnItem.Size = New System.Drawing.Size(219, 36)
         Me.BtnItem.TabIndex = 1
@@ -75,9 +62,9 @@ Partial Class RequisitionPrint
         'Label3
         '
         Me.Label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label3.Location = New System.Drawing.Point(227, 27)
+        Me.Label3.Location = New System.Drawing.Point(218, 27)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(1, 283)
+        Me.Label3.Size = New System.Drawing.Size(1, 252)
         Me.Label3.TabIndex = 21
         '
         'But_ok
@@ -85,7 +72,7 @@ Partial Class RequisitionPrint
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(324, 211)
+        Me.But_ok.Location = New System.Drawing.Point(336, 215)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(67, 37)
         Me.But_ok.TabIndex = 7
@@ -115,7 +102,7 @@ Partial Class RequisitionPrint
         Me.Txt_FromEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_FromEntryNo.IsValidated = False
         Me.Txt_FromEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(371, 80)
+        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(371, 86)
         Me.Txt_FromEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_FromEntryNo.MandatoryField = False
         Me.Txt_FromEntryNo.MaxDate = Nothing
@@ -137,18 +124,18 @@ Partial Class RequisitionPrint
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(246, 83)
+        Me.Label2.Location = New System.Drawing.Point(225, 88)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(120, 16)
+        Me.Label2.Size = New System.Drawing.Size(111, 16)
         Me.Label2.TabIndex = 18
-        Me.Label2.Text = "From Entry No :"
+        Me.Label2.Text = "From Entry No"
         '
         'BtnClose
         '
         Me.BtnClose.Appearance.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnClose.Appearance.Options.UseFont = True
         Me.BtnClose.ImageOptions.ImageUri.Uri = "Close"
-        Me.BtnClose.Location = New System.Drawing.Point(395, 211)
+        Me.BtnClose.Location = New System.Drawing.Point(407, 215)
         Me.BtnClose.Name = "BtnClose"
         Me.BtnClose.Size = New System.Drawing.Size(78, 37)
         Me.BtnClose.TabIndex = 8
@@ -161,9 +148,9 @@ Partial Class RequisitionPrint
         Me.Label1.Enabled = False
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Black
-        Me.Label1.Location = New System.Drawing.Point(1, 1)
+        Me.Label1.Location = New System.Drawing.Point(-1, 1)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(509, 26)
+        Me.Label1.Size = New System.Drawing.Size(513, 26)
         Me.Label1.TabIndex = 16
         Me.Label1.Text = "Stores Requisition Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -192,7 +179,7 @@ Partial Class RequisitionPrint
         Me.Txt_ToEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_ToEntryNo.IsValidated = False
         Me.Txt_ToEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(371, 110)
+        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(371, 114)
         Me.Txt_ToEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_ToEntryNo.MandatoryField = False
         Me.Txt_ToEntryNo.MaxDate = Nothing
@@ -214,11 +201,11 @@ Partial Class RequisitionPrint
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(246, 111)
+        Me.Label4.Location = New System.Drawing.Point(225, 114)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(99, 16)
+        Me.Label4.Size = New System.Drawing.Size(90, 16)
         Me.Label4.TabIndex = 22
-        Me.Label4.Text = "To Entry No :"
+        Me.Label4.Text = "To Entry No"
         '
         'Ctl_RptType
         '
@@ -244,7 +231,7 @@ Partial Class RequisitionPrint
         Me.Ctl_RptType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Ctl_RptType.IsValidated = False
         Me.Ctl_RptType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Ctl_RptType.Location = New System.Drawing.Point(371, 135)
+        Me.Ctl_RptType.Location = New System.Drawing.Point(371, 141)
         Me.Ctl_RptType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_RptType.MandatoryField = False
         Me.Ctl_RptType.MaxDate = Nothing
@@ -268,11 +255,11 @@ Partial Class RequisitionPrint
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(249, 136)
+        Me.Label5.Location = New System.Drawing.Point(228, 141)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(81, 16)
+        Me.Label5.Size = New System.Drawing.Size(72, 16)
         Me.Label5.TabIndex = 24
-        Me.Label5.Text = "RPT Type :"
+        Me.Label5.Text = "RPT Type"
         '
         'txtunitName
         '
@@ -298,7 +285,7 @@ Partial Class RequisitionPrint
         Me.txtunitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtunitName.IsValidated = False
         Me.txtunitName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtunitName.Location = New System.Drawing.Point(371, 30)
+        Me.txtunitName.Location = New System.Drawing.Point(371, 36)
         Me.txtunitName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtunitName.MandatoryField = False
         Me.txtunitName.MaxDate = Nothing
@@ -320,11 +307,11 @@ Partial Class RequisitionPrint
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(246, 31)
+        Me.Label6.Location = New System.Drawing.Point(225, 36)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(91, 16)
+        Me.Label6.Size = New System.Drawing.Size(82, 16)
         Me.Label6.TabIndex = 25
-        Me.Label6.Text = "Unit Name :"
+        Me.Label6.Text = "Unit Name"
         '
         'txtBookName
         '
@@ -350,7 +337,7 @@ Partial Class RequisitionPrint
         Me.txtBookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtBookName.IsValidated = False
         Me.txtBookName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.Location = New System.Drawing.Point(371, 55)
+        Me.txtBookName.Location = New System.Drawing.Point(371, 61)
         Me.txtBookName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtBookName.MandatoryField = False
         Me.txtBookName.MaxDate = Nothing
@@ -372,11 +359,56 @@ Partial Class RequisitionPrint
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(246, 56)
+        Me.Label7.Location = New System.Drawing.Point(225, 61)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(98, 16)
+        Me.Label7.Size = New System.Drawing.Size(89, 16)
         Me.Label7.TabIndex = 27
-        Me.Label7.Text = "Book Name :"
+        Me.Label7.Text = "Book Name"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(353, 36)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(12, 16)
+        Me.Label8.TabIndex = 28
+        Me.Label8.Text = ":"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(353, 67)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(12, 16)
+        Me.Label9.TabIndex = 29
+        Me.Label9.Text = ":"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(353, 88)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(12, 16)
+        Me.Label10.TabIndex = 30
+        Me.Label10.Text = ":"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(353, 114)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(12, 16)
+        Me.Label11.TabIndex = 31
+        Me.Label11.Text = ":"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(353, 147)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(12, 16)
+        Me.Label12.TabIndex = 32
+        Me.Label12.Text = ":"
         '
         'RequisitionPrint
         '
@@ -384,6 +416,11 @@ Partial Class RequisitionPrint
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(511, 274)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.txtBookName)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.txtunitName)
@@ -400,21 +437,20 @@ Partial Class RequisitionPrint
         Me.Controls.Add(Me.BtnClose)
         Me.Controls.Add(Me.Label1)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "RequisitionPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "RequisitionPrint"
-        CType(Me.RecentlyUsedItemsComboBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DesignRepositoryItemComboBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Text = "Requisition Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents RecentlyUsedItemsComboBox1 As DevExpress.XtraReports.UserDesigner.RecentlyUsedItemsComboBox
-    Friend WithEvents DesignRepositoryItemComboBox1 As DevExpress.XtraReports.UserDesigner.DesignRepositoryItemComboBox
+
     Friend WithEvents BtnItem As Button
     Friend WithEvents Label3 As Label
     Friend WithEvents But_ok As DevExpress.XtraEditors.SimpleButton
@@ -430,4 +466,9 @@ Partial Class RequisitionPrint
     Friend WithEvents Label6 As Label
     Friend WithEvents txtBookName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label7 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label12 As Label
 End Class

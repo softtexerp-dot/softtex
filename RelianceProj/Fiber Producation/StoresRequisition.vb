@@ -1698,9 +1698,9 @@ Friend Class StoresRequisition
 
     Public Function SelectBookType(ByVal SearchText As String) As Dictionary(Of String, Object)
         Dim _LoadQuery As String =
-            "SELECT 'RQSS-000000001' AS ACCOUNTCODE, 'GENERAL' AS BookName " &
-            "UNION ALL SELECT 'RQSS-000000002','PARTY WISE' " &
-            "UNION ALL SELECT 'RQSS-000000003','AGENT WISE'"
+            "SELECT 'RQSS-000000001' AS ACCOUNTCODE, 'STORE' AS BookName " &
+            "UNION ALL SELECT 'RQSS-000000002','RAW MATERIALS' " &
+            "UNION ALL SELECT 'RQSS-000000003','PET BOTTELS'"
         Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
         Return selected
     End Function

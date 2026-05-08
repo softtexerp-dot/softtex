@@ -6,6 +6,7 @@ Public Class QuotationEntryPrint
     Private _GodownCode As String = ""
     Private _BookCode As String = ""
     Private _BookTrType As String = ""
+    Dim _CheckFormLoad As Boolean = True
     Private Sub txtunitName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtunitName.KeyPress
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
 
@@ -44,17 +45,46 @@ Public Class QuotationEntryPrint
                     _BookTrType = "RQSS3"
             End Select
             SendKeys.Send("{TAB}")
+
+            CheckMaxEntry()
+
         End If
     End Sub
 
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
         View_Log_Book()
     End Sub
+    Private Sub CheckMaxEntry()
+
+        Dim View_Filter_Condition As String = ""
+
+        View_Filter_Condition = "  and A.Bookcode='" & _GodownCode & "' "
+
+        _strQuery = New StringBuilder()
+        With _strQuery
+            .Append(" SELECT TOP 1 ")
+            .Append(" A.ENTRYNO")
+            .Append(" FROM  ")
+            .Append(" TrnPackingSlip AS A  ")
+            .Append(" WHERE 1=1  ")
+            .Append(View_Filter_Condition)
+            .Append(" order by A.entryno DESC  ")
+        End With
+
+        sqL = _strQuery.ToString
+        sql_connect_slect()
+
+        If DefaltSoftTable.Rows.Count > 0 Then
+            Txt_FromEntryNo.Text = DefaltSoftTable.Rows(0).Item("entryno").ToString
+            Txt_ToEntryNo.Text = Txt_FromEntryNo.Text
+        End If
+
+    End Sub
     Private Sub View_Log_Book()
         Try
             Dim View_Filter_Condition As String = ""
             If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "' and A.OP20='" & txtBookName.Text & "'"
+                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _GodownCode & "'  "
             End If
             _strQuery = New StringBuilder()
             With _strQuery
@@ -93,7 +123,6 @@ Public Class QuotationEntryPrint
                 .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
                 .Append(" LEFT JOIN MstBook G  ON  A.GodownCode=G.BookCode ")
                 .Append(" WHERE 1=1  ")
-                '.Append(" And A.Bookcode='" & _BookCode & "' ")
                 .Append(View_Filter_Condition)
                 .Append(" ORDER BY  A.Id Desc ")
             End With
@@ -147,12 +176,13 @@ Public Class QuotationEntryPrint
         If _Selectionbutton = "Entry No" Then
             BtnItem.Focus()
         End If
+
+        _CheckFormLoad = False
     End Sub
 
     Private Sub BtnItem_Click(sender As Object, e As EventArgs) Handles BtnItem.Click
         _Selectionbutton = "Entry No"
-        'REPORT_RPT_FILE_NAME = "ReadyMadeStockReport_1"
-        View_Log_Book()
+        _CheckFormLoad = True
         _TextboxEnable(True)
         Txt_FromEntryNo.ReadOnly = False
         Txt_ToEntryNo.ReadOnly = False
@@ -164,7 +194,7 @@ Public Class QuotationEntryPrint
     End Sub
 
     Private Sub QuotationEntryPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Location = New Point(0, 0)
+        'Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _ButtonEnable(True)
         _TextboxEnable(False)
@@ -173,5 +203,18 @@ Public Class QuotationEntryPrint
         Txt_FromEntryNo.ReadOnly = True
         Txt_ToEntryNo.ReadOnly = True
         Ctl_RptType.ReadOnly = True
+    End Sub
+
+    Private Sub QuotationEntryPrint_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            If _CheckFormLoad = True Then
+                _ButtonEnable(True)
+                _TextboxEnable(False)
+                _ButtonFocus()
+            Else
+                Me.Close()
+                Me.Dispose(True)
+            End If
+        End If
     End Sub
 End Class
