@@ -1644,9 +1644,7 @@ Friend Class QuotationEntry
         '_Validated()
     End Sub
     Private Sub _Validated()
-
         If _FrmLoad = True Then Exit Sub
-
         Dim TmpTbl As New DataTable
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
         _strQuery = New StringBuilder
