@@ -1159,7 +1159,7 @@ Friend Class QuotationEntry
 
 #Region "ALTER FORM"
     Private Sub Alter_Form(ByVal strKeyID As String)
-        _FrmLoad = True
+        _FrmLoad = False
 
         Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
         Dim tblTmp As New DataTable

@@ -425,20 +425,14 @@ Friend Class StoresRequisition
     End Sub
     Private Sub SamplerRateContract_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Location = New Point(0, 0)
-
         PNL_View.Width = Me.Width
         PNL_View.Height = Me.Height
         PNL_View.Location = New Point(0, 0)
-
         GridControl1.Width = PNL_View.Width - 25
         GridControl1.Height = PNL_View.Height - 100
         GridControl1.Location = New Point(3, 53)
-
-
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")
-
-
         Call defineGridColName()
         Call GenerateTable(_DataTableGrid, GrdItem)
         Call GridFormatting(_DataTableGrid, GrdItem)
@@ -448,11 +442,6 @@ Friend Class StoresRequisition
         GrdItem.Row(0).Height = 31
         GrdItem.DefaultRowHeight = 28
         _old_Me_text = Me.Text
-
-
-
-
-
         If _isCallerByOther = True Then
             UC_Buttons1._ButtonEnableDisable("EDIT")
             'Call Alter_Form(_KeyFieldValue)
@@ -574,7 +563,6 @@ Friend Class StoresRequisition
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-        'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtGodownName.Visible = True
         txtGodownName.Focus()
@@ -587,7 +575,6 @@ Friend Class StoresRequisition
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-        'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtGodownName.Visible = True
         txtGodownName.Focus()
@@ -599,7 +586,6 @@ Friend Class StoresRequisition
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-        'GetMaxEntryNo()
         txtGodownName.Visible = True
         txtGodownName.Focus()
         txtGodownName.Select()
@@ -630,7 +616,6 @@ Friend Class StoresRequisition
     End Sub
 
     Private Sub UC_Buttons1_CloseClick() Handles UC_Buttons1.CloseClick
-
         Me.Close()
         Me.Dispose(True)
     End Sub
@@ -638,17 +623,11 @@ Friend Class StoresRequisition
     Private Sub UC_Buttons1_ViewClick() Handles UC_Buttons1.ViewClick
         _FORMMODE = "VIEW"
         _FrmLoad = False
-
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-
-
-
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-
-
         txtGodownName.Visible = True
         txtGodownName.Focus()
         txtGodownName.Select()
@@ -657,22 +636,10 @@ Friend Class StoresRequisition
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
         RequisitionPrint.Show()
-        '_FrmLoad = False
-
-        'UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        'ObjCls_General.Blank_Object(Me)
-        'Label_Value_Nil_Rest()
-
-        'txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
-        'txt_To.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-
-        'Dim _RptTiltle = " Store Requisition Details"
-        '_DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
         _FORMMODE = "REPORTS"
-
     End Sub
 
 #End Region
@@ -694,11 +661,8 @@ Friend Class StoresRequisition
         Try
             sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
             sql_Data_Save_Delete_Update()
-
-
             _KeyFieldValue = 0
             _FORMMODE = "ADD"
-
             _LastEntryNo = 0
             MsgBox("Entry Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
             Old_Date = txtChallanDate.Text
@@ -728,14 +692,6 @@ Friend Class StoresRequisition
             GrdItem.Select()
             Exit Sub
         End If
-
-        'If LblBillNo.Text > "" Then
-        '    MsgBox("Bill Generated Can't Modify", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-        '    Exit Sub
-        'End If
-
-
-
         If txtAcOfCode.Text = "" Then
             txtAcOfCode.Text = "0000-000000001"
         End If
@@ -743,28 +699,19 @@ Friend Class StoresRequisition
         If txtUnitCode.Text = "" Then txtUnitCode.Text = "0001-000000091"
         If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0001-000000091"
         _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
-
-
         Generate_Date_For_DataBase(txtChallanDate)
-
         Call Fill_Grid_Records_Into_DataTables()
-
         Dim _LastID As Integer = -1
         Try
             _LastID = SAVE_INTO_DATABASE_SQL()
-
-            'If _LastID > 0 Then
             Old_Date = txtChallanDate.Text
             Call Label_Value_Nil_Rest()
             _Last_Saved_Entry_No = Val(txtEntryNo.Text)
             MsgBox("Record Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
 
-
             ObjCls_General.Blank_Object(Me)
             txtChallanDate.Text = Old_Date
-            'txtGR_Date.Text = Old_Date
             Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
-
             GrdItem.BoldFixedCell = False
             Clear_Grid(GrdItem, 2)
 
@@ -1074,12 +1021,6 @@ Friend Class StoresRequisition
             ElseIf _FORMMODE = "DELETE" Then
                 _FrmLoad = True
                 Call Alter_Form(Book_Vno)
-
-                'If LblBillNo.Text > "" Then
-                '    MsgBox("Bill Generated Can't Delete", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-                '    Exit Sub
-                'End If
-
                 If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
                     Call Delete_Entry_SQL()
                 End If
@@ -1102,8 +1043,6 @@ Friend Class StoresRequisition
                 If _BookCode = "0001-000000153" Then
                     If _FORMMODE = "ADD" Then
                         txtChallanNo.Text = txtEntryNo.Text
-                        'txtChallanDate.Text = txtGR_Date.Text
-                        'txtGR_No.Text = txtEntryNo.Text
                         Generate_Date_For_DataBase(txtChallanDate)
                     End If
                 End If
@@ -1146,42 +1085,27 @@ Friend Class StoresRequisition
             .Append(" ORDER BY  A.SRNO ")
         End With
         Return strQuery.ToString
-
-        'Return obj_Party_Selection.EntryData_General_Challan_Entry_getAlter_Form_Query_Details(strKeyID)
     End Function
 #End Region
 
 #Region "ALTER FORM"
     Private Sub Alter_Form(ByVal strKeyID As String)
-        _FrmLoad = True
-
+        _FrmLoad = False
         Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
         Dim tblTmp As New DataTable
         strQuery = getAlter_Form_Query_Details(strKeyID)
         sqL = strQuery
         sql_connect_slect()
         tblTmp = DefaltSoftTable.Copy
-
-        'ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
-
-        'txtGR_No.Text = tblTmp.Rows(0)("GR_NO").ToString
-        'txtGR_Date.Text = tblTmp.Rows(0)("F_GR_DATE").ToString
-        'txtAccountName.Text = tblTmp.Rows(0)("ACCOUNTNAME").ToString
         txtChallanNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
-
         txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
         txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
-        'txtGR_Date.Text = tblTmp.Rows(0)("F_GR_DATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
-
-
         Generate_Date_For_DataBase(txtChallanDate)
-        'Generate_Date_For_DataBase(txtGR_Date)
-
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
         Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
@@ -1192,22 +1116,6 @@ Friend Class StoresRequisition
         For i As Int16 = 1 To GrdItem.Rows - 1
             GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = i
         Next
-
-
-
-        'LblBillNo.Text = ""
-        'sqL = " SELECT TOP 1 BILLNO FROM TRNINVOICEDETAIL WHERE CHALLANBOOKVNO='" & tblTmp.Rows(0)("BOOKVNO").ToString & "' ORDER BY BOOKVNO DESC "
-        'sql_connect_slect()
-        'If DefaltSoftTable.Rows.Count > 0 Then
-        '    LblBillNo.Text = DefaltSoftTable(0).Item("BILLNO").ToString
-        '    If LblBillNo.Text.Trim.Length > 0 Then
-        '        LblBillNo.Text = "Bill No : " & LblBillNo.Text
-        '        LblBillNo.Visible = True
-        '    End If
-        'End If
-
-
-
         Total_Upto_All_Grid_All_Row()
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
         _FrmLoad = False
@@ -1253,8 +1161,6 @@ Friend Class StoresRequisition
             Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
             Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtGodownName.Text, "SINGLE")
             If selected IsNot Nothing Then
-                'If selected.ContainsKey("ACCOUNTCODE") Then txtgodowncode.Text = selected("ACCOUNTCODE").ToString()
-                'If selected.ContainsKey("ACCOUNTCODE") Then txtBookCode.Text = selected("ACCOUNTCODE").ToString()
                 If selected.ContainsKey("ACCOUNTCODE") Then txtgodowncode.Text = selected("ACCOUNTCODE").ToString()
                 If selected.ContainsKey("BookName") Then txtGodownName.Text = selected("BookName").ToString()
             End If
@@ -1325,37 +1231,19 @@ Friend Class StoresRequisition
             txtEntryNo.Text = Last_Entry_No + 1
             If Last_Entry_No > 0 Then
                 txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
-
                 txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
                 txtAcOfCode.Text = TblTmp(0)("ACOFCODE").ToString
                 txtDespatch_code.Text = TblTmp(0)("DESPATCHCODE").ToString
                 txtTr_code.Text = TblTmp(0)("TRANSPORTCODE").ToString
                 txtEntryNo.Text = Last_Entry_No + 1
-
-                'If Book_Row("NATURE").ToString <> "SALES" Then
-                '    txtChallanNo.Text = ""
-                '    txtAccount_Code.Text = ""
-                '    'txtAccountName.Text = ""
-                'End If
             Else
                 txtChallanDate.Text = ObjCls_General.GetTodayDate_British
                 txtEntryNo.Text = "1"
             End If
-
-
-            'If _dateSelection = "LAST DATE" Then
-            '    txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
-            'Else
             txtChallanDate.Text = ObjCls_General.GetTodayDate_British
-            'End If
-
-
             Generate_Date_For_DataBase(txtChallanDate)
-            'Generate_Date_For_DataBase(txtGR_Date)
             GrdItem.Rows = 2
             GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-            'txtEntryNo.Focus()
-            'txtEntryNo.Select()
             txtEntryNo.Focus()
             txtEntryNo.Select()
         ElseIf _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
@@ -1388,7 +1276,6 @@ Friend Class StoresRequisition
                 View_Record()
             End If
         End If
-        'End If
     End Sub
 #End Region
 
@@ -1413,10 +1300,6 @@ Friend Class StoresRequisition
         If _ActivatedColName = "TAX_PER" Then
             'MsgBox("GOPAL")
         End If
-
-
-
-
         If _ActivatedColName = "QTY" Or _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "AMOUNT" Then
             Calc_Net_Rate()
         End If
@@ -1672,18 +1555,14 @@ Friend Class StoresRequisition
                     _BookTrType = "RQSS3"
             End Select
             SendKeys.Send("{TAB}")
-
             Call defineGridColName()
             Call GenerateTable(_DataTableGrid, GrdItem)
             Call GridFormatting(_DataTableGrid, GrdItem)
-
             GrdItem.Rows = 2
             GrdItem.Column(0).Visible = False
             GrdItem.Row(0).Height = 31
             GrdItem.DefaultRowHeight = 28
-
         End If
-        'e.Handled = True
     End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
