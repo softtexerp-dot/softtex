@@ -80,7 +80,6 @@ Public Class RequisitionPrint
                 .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
                 .Append(" LEFT JOIN MstBook G  ON  A.GodownCode=G.BookCode ")
                 .Append(" WHERE 1=1  ")
-                '.Append(" And A.Bookcode='" & _BookCode & "' ")
                 .Append(View_Filter_Condition)
                 .Append(" ORDER BY  A.Id Desc ")
             End With
@@ -91,8 +90,6 @@ Public Class RequisitionPrint
             Tmp_Data_Table = DefaltSoftTable.Copy
 
             If Tmp_Data_Table.Rows.Count > 0 Then
-                Txt_FromEntryNo.Text = Tmp_Data_Table.Rows(0)("EntryNo")
-                Txt_ToEntryNo.Text = Tmp_Data_Table.Rows(0)("EntryNo")
                 'Dim Date_Range = "Audit Report  From : " & txt_From.Text & " TO " & txt_To.Text
                 Dim RptTitle = "Stores Requisition Report"
                 Dim Date_Range = ""
@@ -106,7 +103,7 @@ Public Class RequisitionPrint
                     End If
                 End If
             Else
-                    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
                 _ButtonEnable(True)
                 _TextboxEnable(False)
                 _ButtonFocus()
@@ -138,8 +135,6 @@ Public Class RequisitionPrint
     End Sub
 
     Private Sub RequisitionPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'View_Log_Book()
-        'Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _ButtonEnable(True)
         _TextboxEnable(False)
@@ -173,8 +168,6 @@ Public Class RequisitionPrint
                 If selected.ContainsKey("BookName") Then txtunitName.Text = selected("BookName").ToString()
             End If
             _GodownCode = txtgodowncode.Text
-            'e.Handled = True
-            'Me.SelectNextControl(ActiveControl, True, True, True, True)
             SendKeys.Send("{TAB}")
         End If
     End Sub

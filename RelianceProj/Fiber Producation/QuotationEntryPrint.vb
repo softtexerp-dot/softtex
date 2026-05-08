@@ -131,8 +131,6 @@ Public Class QuotationEntryPrint
             Tmp_Data_Table = DefaltSoftTable.Copy
 
             If Tmp_Data_Table.Rows.Count > 0 Then
-                Txt_FromEntryNo.Text = Tmp_Data_Table.Rows(0)("EntryNo")
-                Txt_ToEntryNo.Text = Tmp_Data_Table.Rows(0)("EntryNo")
                 'Dim Date_Range = "Audit Report  From : " & txt_From.Text & " TO " & txt_To.Text
                 Dim RptTitle = "Quotation Entry Report"
                 Dim Date_Range = ""
