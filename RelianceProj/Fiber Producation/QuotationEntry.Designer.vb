@@ -42,7 +42,7 @@ Partial Class QuotationEntry
         Me.Label9 = New System.Windows.Forms.Label()
         Me.TxtSelectReqNo = New ctl_TextBox.ctl_TextBox()
         Me.GrdItem = New FlexCell.Grid()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()
@@ -634,9 +634,9 @@ Partial Class QuotationEntry
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
-        Me.PNL_View.Location = New System.Drawing.Point(209, 218)
+        Me.PNL_View.Location = New System.Drawing.Point(66, 202)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(313, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(331, 84)
         Me.PNL_View.TabIndex = 82163
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
@@ -681,7 +681,7 @@ Partial Class QuotationEntry
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(825, 20)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(825, 18)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
         Me.Btn_LayoutLoad.TabIndex = 81908
@@ -692,7 +692,7 @@ Partial Class QuotationEntry
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(702, 20)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(702, 18)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
         Me.BtnLayOutSave.TabIndex = 81907

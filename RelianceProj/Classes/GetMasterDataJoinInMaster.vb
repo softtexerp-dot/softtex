@@ -1,4 +1,6 @@
 ﻿
+Imports System.Text
+
 Module GetMasterDataJoinInMaster
     Public Class JoinResult
         Public Property LeftJoin As String
@@ -727,5 +729,29 @@ Module GetMasterDataJoinInMaster
             End If
         End If
         'Dim listByControl = _UniqueValues.Where(Function(x) String.Equals(x.Item1, ctrl.Name, StringComparison.OrdinalIgnoreCase)).ToList()
+    End Sub
+    Public Sub LoadShadeSelection(ByVal ReqBookvnorawData As String, ByVal _ReqBookCode As String, ByVal GrdItem As Object, ByVal _DataTableGrid As DataTable)
+        Dim _StrQuery As New StringBuilder
+        With _StrQuery
+            .Append(" SELECT ")
+            .Append(" DISTINCT B.SUBITEMNAME AS COMPANYNAME, ")
+            .Append(" A.SHADECODE AS SHADECODE ")
+            .Append(" FROM TrnPackingSlip AS A ")
+            .Append(" LEFT JOIN MstStoreSubItem AS B ")
+            .Append(" ON A.SHADECODE = B.SUBITEMCODE ")
+            .Append(" WHERE 1=1 ")
+            '.Append(" AND A.Bookcode = '" & _ReqBookCode & "' ")
+            .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
+        End With
+        Dim _LoadQuery As String = _StrQuery.ToString()
+        Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+        If selected IsNot Nothing Then
+            If selected.ContainsKey("SHADECODE") Then
+                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("SHADECODE").ToString()
+            End If
+            If selected.ContainsKey("COMPANYNAME") Then
+                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("COMPANYNAME").ToString()
+            End If
+        End If
     End Sub
 End Module

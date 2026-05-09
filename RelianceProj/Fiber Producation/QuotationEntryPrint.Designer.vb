@@ -23,8 +23,6 @@ Partial Class QuotationEntryPrint
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(QuotationEntryPrint))
-        Me.txtBookName = New ctl_TextBox.ctl_TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.txtunitName = New ctl_TextBox.ctl_TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Ctl_RptType = New ctl_TextBox.ctl_TextBox()
@@ -41,61 +39,8 @@ Partial Class QuotationEntryPrint
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
-        '
-        'txtBookName
-        '
-        Me.txtBookName._AllowSpace = True
-        Me.txtBookName.AcceptsReturn = True
-        Me.txtBookName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtBookName.BackColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBookName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtBookName.Check_End_Date_Value_FY = "YES"
-        Me.txtBookName.Check_Start_Date_Value_FY = "YES"
-        Me.txtBookName.ClearField = True
-        Me.txtBookName.CustomInputTypeString = Nothing
-        Me.txtBookName.Date_for_Database = Nothing
-        Me.txtBookName.Date_Tag = Nothing
-        Me.txtBookName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.txtBookName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
-        Me.txtBookName.ExtraValue = ""
-        Me.txtBookName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBookName.FontFocusColor = System.Drawing.Color.Blue
-        Me.txtBookName.FontLeaveColor = System.Drawing.Color.Black
-        Me.txtBookName.ForeColor = System.Drawing.Color.Black
-        Me.txtBookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
-        Me.txtBookName.IsValidated = False
-        Me.txtBookName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.Location = New System.Drawing.Point(368, 70)
-        Me.txtBookName.MandatoryColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.MandatoryField = False
-        Me.txtBookName.MaxDate = Nothing
-        Me.txtBookName.MinDate = Nothing
-        Me.txtBookName.Name = "txtBookName"
-        Me.txtBookName.NormalBorderColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.txtBookName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.txtBookName.RegularExpression = Nothing
-        Me.txtBookName.RegularExpressionErrorMessage = Nothing
-        Me.txtBookName.ShowMessage = False
-        Me.txtBookName.Size = New System.Drawing.Size(125, 22)
-        Me.txtBookName.SpacerString = ""
-        Me.txtBookName.TabIndex = 30
-        Me.txtBookName.Tag = "EntryNo"
-        Me.txtBookName.TransparentBox = True
-        Me.txtBookName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(229, 70)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(89, 16)
-        Me.Label7.TabIndex = 42
-        Me.Label7.Text = "Book Name"
         '
         'txtunitName
         '
@@ -121,7 +66,7 @@ Partial Class QuotationEntryPrint
         Me.txtunitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtunitName.IsValidated = False
         Me.txtunitName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtunitName.Location = New System.Drawing.Point(368, 44)
+        Me.txtunitName.Location = New System.Drawing.Point(368, 50)
         Me.txtunitName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtunitName.MandatoryField = False
         Me.txtunitName.MaxDate = Nothing
@@ -143,7 +88,7 @@ Partial Class QuotationEntryPrint
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(229, 45)
+        Me.Label6.Location = New System.Drawing.Point(229, 51)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(82, 16)
         Me.Label6.TabIndex = 41
@@ -173,7 +118,7 @@ Partial Class QuotationEntryPrint
         Me.Ctl_RptType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Ctl_RptType.IsValidated = False
         Me.Ctl_RptType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Ctl_RptType.Location = New System.Drawing.Point(368, 151)
+        Me.Ctl_RptType.Location = New System.Drawing.Point(368, 135)
         Me.Ctl_RptType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_RptType.MandatoryField = False
         Me.Ctl_RptType.MaxDate = Nothing
@@ -188,7 +133,7 @@ Partial Class QuotationEntryPrint
         Me.Ctl_RptType.ShowMessage = False
         Me.Ctl_RptType.Size = New System.Drawing.Size(60, 22)
         Me.Ctl_RptType.SpacerString = "1,2,3"
-        Me.Ctl_RptType.TabIndex = 33
+        Me.Ctl_RptType.TabIndex = 32
         Me.Ctl_RptType.Tag = "Type"
         Me.Ctl_RptType.Text = "1"
         Me.Ctl_RptType.TransparentBox = True
@@ -197,7 +142,7 @@ Partial Class QuotationEntryPrint
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(232, 151)
+        Me.Label5.Location = New System.Drawing.Point(232, 135)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(72, 16)
         Me.Label5.TabIndex = 40
@@ -227,7 +172,7 @@ Partial Class QuotationEntryPrint
         Me.Txt_ToEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_ToEntryNo.IsValidated = False
         Me.Txt_ToEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(368, 122)
+        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(368, 106)
         Me.Txt_ToEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_ToEntryNo.MandatoryField = False
         Me.Txt_ToEntryNo.MaxDate = Nothing
@@ -241,7 +186,7 @@ Partial Class QuotationEntryPrint
         Me.Txt_ToEntryNo.ShowMessage = False
         Me.Txt_ToEntryNo.Size = New System.Drawing.Size(60, 22)
         Me.Txt_ToEntryNo.SpacerString = ""
-        Me.Txt_ToEntryNo.TabIndex = 32
+        Me.Txt_ToEntryNo.TabIndex = 31
         Me.Txt_ToEntryNo.Tag = "EntryNo"
         Me.Txt_ToEntryNo.TransparentBox = True
         Me.Txt_ToEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -249,7 +194,7 @@ Partial Class QuotationEntryPrint
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(229, 123)
+        Me.Label4.Location = New System.Drawing.Point(229, 107)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(90, 16)
         Me.Label4.TabIndex = 39
@@ -285,7 +230,7 @@ Partial Class QuotationEntryPrint
         Me.But_ok.Location = New System.Drawing.Point(332, 226)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(67, 37)
-        Me.But_ok.TabIndex = 34
+        Me.But_ok.TabIndex = 33
         Me.But_ok.Text = "Ok"
         '
         'Txt_FromEntryNo
@@ -312,7 +257,7 @@ Partial Class QuotationEntryPrint
         Me.Txt_FromEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_FromEntryNo.IsValidated = False
         Me.Txt_FromEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(368, 95)
+        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(368, 79)
         Me.Txt_FromEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_FromEntryNo.MandatoryField = False
         Me.Txt_FromEntryNo.MaxDate = Nothing
@@ -326,7 +271,7 @@ Partial Class QuotationEntryPrint
         Me.Txt_FromEntryNo.ShowMessage = False
         Me.Txt_FromEntryNo.Size = New System.Drawing.Size(60, 22)
         Me.Txt_FromEntryNo.SpacerString = ""
-        Me.Txt_FromEntryNo.TabIndex = 31
+        Me.Txt_FromEntryNo.TabIndex = 30
         Me.Txt_FromEntryNo.Tag = "EntryNo"
         Me.Txt_FromEntryNo.TransparentBox = True
         Me.Txt_FromEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -334,7 +279,7 @@ Partial Class QuotationEntryPrint
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(229, 95)
+        Me.Label2.Location = New System.Drawing.Point(229, 79)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(111, 16)
         Me.Label2.TabIndex = 37
@@ -348,7 +293,7 @@ Partial Class QuotationEntryPrint
         Me.BtnClose.Location = New System.Drawing.Point(403, 226)
         Me.BtnClose.Name = "BtnClose"
         Me.BtnClose.Size = New System.Drawing.Size(78, 37)
-        Me.BtnClose.TabIndex = 35
+        Me.BtnClose.TabIndex = 34
         Me.BtnClose.Text = "&Close"
         '
         'Label1
@@ -368,7 +313,7 @@ Partial Class QuotationEntryPrint
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(346, 151)
+        Me.Label10.Location = New System.Drawing.Point(346, 135)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(12, 16)
         Me.Label10.TabIndex = 43
@@ -377,7 +322,7 @@ Partial Class QuotationEntryPrint
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(346, 123)
+        Me.Label8.Location = New System.Drawing.Point(346, 107)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(12, 16)
         Me.Label8.TabIndex = 44
@@ -386,25 +331,16 @@ Partial Class QuotationEntryPrint
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(346, 95)
+        Me.Label9.Location = New System.Drawing.Point(346, 78)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(12, 16)
         Me.Label9.TabIndex = 45
         Me.Label9.Text = ":"
         '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(346, 70)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(12, 16)
-        Me.Label11.TabIndex = 46
-        Me.Label11.Text = ":"
-        '
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(346, 48)
+        Me.Label12.Location = New System.Drawing.Point(346, 52)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(12, 16)
         Me.Label12.TabIndex = 47
@@ -417,12 +353,9 @@ Partial Class QuotationEntryPrint
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(511, 285)
         Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.txtBookName)
-        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.txtunitName)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Ctl_RptType)
@@ -449,9 +382,6 @@ Partial Class QuotationEntryPrint
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents txtBookName As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Label7 As Label
     Friend WithEvents txtunitName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Ctl_RptType As ctl_TextBox.ctl_TextBox
@@ -468,6 +398,5 @@ Partial Class QuotationEntryPrint
     Friend WithEvents Label10 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents Label9 As Label
-    Friend WithEvents Label11 As Label
     Friend WithEvents Label12 As Label
 End Class

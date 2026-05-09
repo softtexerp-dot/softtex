@@ -19,33 +19,7 @@ Public Class QuotationEntryPrint
             End If
             _GodownCode = txtgodowncode.Text
             SendKeys.Send("{TAB}")
-        End If
-    End Sub
-
-    Private Sub txtBookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtBookName.KeyPress
-
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = StoresRequisition.SelectBookType(txtBookName.Text)
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    _BookCode = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("BookName") Then
-                    txtBookName.Text = selected("BookName").ToString()
-                End If
-            End If
-            Select Case _BookCode
-                Case "RQSS-000000001"
-                    _BookTrType = "RQSS1"
-                Case "RQSS-000000002"
-                    _BookTrType = "RQSS2"
-                Case "RQSS-000000003"
-                    _BookTrType = "RQSS3"
-            End Select
-            SendKeys.Send("{TAB}")
-
             CheckMaxEntry()
-
         End If
     End Sub
 
@@ -162,7 +136,6 @@ Public Class QuotationEntryPrint
     End Sub
     Private Sub _TextboxEnable(ByVal _GetEnable As Boolean)
         txtunitName.Enabled = _GetEnable
-        txtBookName.Enabled = _GetEnable
         Txt_FromEntryNo.Enabled = _GetEnable
         Txt_ToEntryNo.Enabled = _GetEnable
         Ctl_RptType.Enabled = _GetEnable
@@ -197,7 +170,6 @@ Public Class QuotationEntryPrint
         _ButtonEnable(True)
         _TextboxEnable(False)
         txtunitName.ReadOnly = True
-        txtBookName.ReadOnly = True
         Txt_FromEntryNo.ReadOnly = True
         Txt_ToEntryNo.ReadOnly = True
         Ctl_RptType.ReadOnly = True
