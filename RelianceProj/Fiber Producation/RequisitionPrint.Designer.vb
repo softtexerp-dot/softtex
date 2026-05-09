@@ -377,7 +377,7 @@ Partial Class RequisitionPrint
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(353, 67)
+        Me.Label9.Location = New System.Drawing.Point(353, 60)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(12, 16)
         Me.Label9.TabIndex = 29
