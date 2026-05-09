@@ -159,6 +159,10 @@
         QuotationEntry.Show()
     End Sub
 
+    Private Sub ComparisonToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ComparisonToolStripMenuItem.Click
+        ComparisonEntry.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click

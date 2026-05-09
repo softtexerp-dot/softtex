@@ -52,6 +52,7 @@ Partial Class Main_MDI_Frm
         Me.FiberProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RequisitionToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuotationToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ComparisonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -236,7 +237,7 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequisitionToolStripMenuItem1, Me.QuotationToolStripMenuItem1})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequisitionToolStripMenuItem1, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
@@ -252,6 +253,12 @@ Partial Class Main_MDI_Frm
         Me.QuotationToolStripMenuItem1.Name = "QuotationToolStripMenuItem1"
         Me.QuotationToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.QuotationToolStripMenuItem1.Text = "Quotation"
+        '
+        'ComparisonToolStripMenuItem
+        '
+        Me.ComparisonToolStripMenuItem.Name = "ComparisonToolStripMenuItem"
+        Me.ComparisonToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ComparisonToolStripMenuItem.Text = "Comparison"
         '
         'Main_MDI_Frm
         '
@@ -306,4 +313,5 @@ Partial Class Main_MDI_Frm
     Friend WithEvents FiberProductionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents RequisitionToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents QuotationToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ComparisonToolStripMenuItem As ToolStripMenuItem
 End Class
