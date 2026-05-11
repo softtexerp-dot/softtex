@@ -84,7 +84,7 @@ Partial Class StoresRequisition
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(140, 202)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(402, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(913, 84)
         Me.PNL_View.TabIndex = 82203
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
@@ -98,9 +98,8 @@ Partial Class StoresRequisition
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(68, 32)
-        Me.btnView.TabIndex = 81966
+        Me.btnView.TabIndex = 3
         Me.btnView.Text = "Ok"
-        Me.btnView.Visible = False
         '
         'BtnExport
         '
@@ -110,7 +109,7 @@ Partial Class StoresRequisition
         Me.BtnExport.Location = New System.Drawing.Point(603, 16)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 32)
-        Me.BtnExport.TabIndex = 81968
+        Me.BtnExport.TabIndex = 5
         Me.BtnExport.Text = "Export"
         '
         'BtnPrint
@@ -121,7 +120,7 @@ Partial Class StoresRequisition
         Me.BtnPrint.Location = New System.Drawing.Point(519, 15)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(78, 32)
-        Me.BtnPrint.TabIndex = 81967
+        Me.BtnPrint.TabIndex = 4
         Me.BtnPrint.Text = "Print"
         '
         'Btn_LayoutLoad
@@ -132,7 +131,7 @@ Partial Class StoresRequisition
         Me.Btn_LayoutLoad.Location = New System.Drawing.Point(825, 16)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
-        Me.Btn_LayoutLoad.TabIndex = 81908
+        Me.Btn_LayoutLoad.TabIndex = 7
         Me.Btn_LayoutLoad.Text = "Load Report"
         '
         'BtnLayOutSave
@@ -143,7 +142,7 @@ Partial Class StoresRequisition
         Me.BtnLayOutSave.Location = New System.Drawing.Point(702, 16)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
-        Me.BtnLayOutSave.TabIndex = 81907
+        Me.BtnLayOutSave.TabIndex = 6
         Me.BtnLayOutSave.Text = "Save Report"
         '
         'GridControl1
@@ -250,7 +249,7 @@ Partial Class StoresRequisition
         Me.txt_To.ShowMessage = False
         Me.txt_To.Size = New System.Drawing.Size(95, 22)
         Me.txt_To.SpacerString = ""
-        Me.txt_To.TabIndex = 81378
+        Me.txt_To.TabIndex = 2
         Me.txt_To.Tag = "BOOKNAME"
         Me.txt_To.Text = "  /  /    "
         Me.txt_To.TransparentBox = True
@@ -294,7 +293,7 @@ Partial Class StoresRequisition
         Me.txt_From.ShowMessage = False
         Me.txt_From.Size = New System.Drawing.Size(95, 22)
         Me.txt_From.SpacerString = ""
-        Me.txt_From.TabIndex = 81377
+        Me.txt_From.TabIndex = 1
         Me.txt_From.Tag = "BOOKNAME"
         Me.txt_From.Text = "  /  /    "
         Me.txt_From.TransparentBox = True

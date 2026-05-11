@@ -695,9 +695,9 @@ Friend Class StoresRequisition
         If txtAcOfCode.Text = "" Then
             txtAcOfCode.Text = "0000-000000001"
         End If
-        If txtTr_code.Text = "" Then txtTr_code.Text = "0001-000000091"
+        If txtTr_code.Text = "" Then txtTr_code.Text = "0000-000000001"
         If txtUnitCode.Text = "" Then txtUnitCode.Text = "0001-000000091"
-        If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0001-000000091"
+        If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0000-000000001"
         _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
         Generate_Date_For_DataBase(txtChallanDate)
         Call Fill_Grid_Records_Into_DataTables()
@@ -1382,15 +1382,36 @@ Friend Class StoresRequisition
 
         If _ActivatedColName = "CUTNAME" Then
             If e.KeyCode = Keys.Enter Then
-                txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
-                txt_Code_For_Grid_Selection.Text = ""
-                Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                obj_Party_Selection.SINGLE_Cut_SELECTION(" AND CATEGORY='STORE' ")
-                If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
-                    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
+                'txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
+                'txt_Code_For_Grid_Selection.Text = ""
+                'Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+                'obj_Party_Selection.SINGLE_Cut_SELECTION(" AND CATEGORY='STORE' ")
+                'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+                '    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
+                '    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+                '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
+                '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
+                'End If
+                Dim _StrQuery As New StringBuilder
+                With _StrQuery
+                    .Append(" SELECT ")
+                    .Append(" B.CUTNAME AS UOM, ")
+                    .Append(" '' as Remark, ")
+                    .Append(" A.CUTCODE AS ACCOUNTCODE ")
+                    .Append(" FROM TrnPackingSlip AS A ")
+                    .Append(" LEFT JOIN MstCutMaster AS B ON A.CUTCODE = B.ID ")
+                    .Append(" WHERE 1=1 ")
+                    .Append(" AND A.Bookcode = '" & _BookCode & "' ")
+                End With
+                Dim _LoadQuery As String = _StrQuery.ToString()
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ACCOUNTCODE") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                    End If
+                    If selected.ContainsKey("UOM") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("UOM").ToString()
+                    End If
                 End If
             End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then
@@ -1398,12 +1419,15 @@ Friend Class StoresRequisition
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
                 txt_Code_For_Grid_Selection.Text = ""
                 Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                obj_Party_Selection.SINGLE_store_Sub_Item_SELECTION()
-                If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
-                    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = txt_Code_For_Grid_Selection.Text
+                Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ACCOUNTCODE") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                    End If
+                    If selected.ContainsKey("COMPANYNAME") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("COMPANYNAME").ToString()
+                    End If
                 End If
             End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
@@ -1411,17 +1435,37 @@ Friend Class StoresRequisition
                 If Change_Grid_Data = True Then
                     Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
                     txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
-                    txt_Code_For_Grid_Selection.Text = ""
-                    Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                    obj_Party_Selection.SINGLE_ITEM_SELECTION()
-                    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
-                    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+                    'txt_Code_For_Grid_Selection.Text = ""
+                    'Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+                    'obj_Party_Selection.SINGLE_ITEM_SELECTION()
+                    'txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
+                    'txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+                    ''End If
+                    'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
+                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
                     'End If
-                    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
-                    End If
+                    Dim _StrQuery As New StringBuilder
+                    With _StrQuery
+                        .Append(" SELECT ")
+                        .Append(" B.ITENNAME AS ItemName, ")
+                        .Append(" A.ITEMCODE AS ACCOUNTCODE ")
+                        .Append(" FROM TrnPackingSlip AS A ")
+                        .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
+                        .Append(" WHERE 1=1 ")
+                        .Append(" AND A.Bookcode = '" & _BookCode & "'")
+                    End With
+                    Dim _LoadQuery As String = _StrQuery.ToString()
+                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                    If selected IsNot Nothing Then
+                        If selected.ContainsKey("ACCOUNTCODE") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                        End If
 
+                        If selected.ContainsKey("ItemName") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
+                        End If
+                    End If
                     txt_Name_For_Grid_Selection.Text = ""
                 End If
                 txt_Name_For_Grid_Selection.Text = ""
@@ -1430,17 +1474,38 @@ Friend Class StoresRequisition
             If e.KeyCode = Keys.Enter Then
                 If Change_Grid_Data = True Then
                     txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text
-                    txt_Code_For_Grid_Selection.Text = ""
-                    Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                    obj_Party_Selection.Single_STORE_DEPARTMENT_Selection()
-                    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
-                    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+                    'txt_Code_For_Grid_Selection.Text = ""
+                    'Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+                    'obj_Party_Selection.Single_STORE_DEPARTMENT_Selection()
+                    'txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
+                    'txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+                    ''End If
+                    'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text = txt_Name_For_Grid_Selection.Text
+                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
                     'End If
-                    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text = txt_Name_For_Grid_Selection.Text
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
-                    End If
+                    Dim _StrQuery As New StringBuilder
+                    With _StrQuery
+                        .Append(" SELECT ")
+                        .Append(" B.Departmentname as [Dep. Name],")
+                        .Append(" B.Descr as Remark, ")
+                        .Append(" A.DesignCode AS ACCOUNTCODE ")
+                        .Append(" FROM TrnPackingSlip AS A ")
+                        .Append(" LEFT JOIN MstDepartment AS B ON A.DesignCode = B.Departmentcode ")
+                        .Append(" WHERE 1=1 ")
+                        .Append(" AND A.Bookcode = '" & _BookCode & "'")
+                    End With
+                    Dim _LoadQuery As String = _StrQuery.ToString()
+                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                    If selected IsNot Nothing Then
+                        If selected.ContainsKey("ACCOUNTCODE") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                        End If
 
+                        If selected.ContainsKey("Dep. Name") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text = selected("Dep. Name").ToString()
+                        End If
+                    End If
                     txt_Name_For_Grid_Selection.Text = ""
                 End If
                 txt_Name_For_Grid_Selection.Text = ""
@@ -1583,5 +1648,9 @@ Friend Class StoresRequisition
         Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
         Return selected
     End Function
+
+    Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
+        View_Record()
+    End Sub
 #End Region
 End Class

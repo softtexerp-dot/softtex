@@ -118,7 +118,7 @@ Friend Class QuotationEntry
             .Append("CUT_MTR,") ' GROSS RATE
             .Append("RDVALUE,") 'dis%
             .Append("WEIGHT,") 'dis amount
-            .Append("RATE,")   'Payment terms
+            .Append("RATE,")   'Amount
             .Append("AMOUNT,")
             .Append("ROWREMARK,")
             .Append("PIECE_ID,")
@@ -132,7 +132,11 @@ Friend Class QuotationEntry
             .Append("OP19,") 'Payment terms
             .Append("OP20,") 'BookName
             .Append("OP21,") 'Selected Req No
-            .Append("OP22,") 'Selected Req No
+            .Append("OP22,") 'Selected Code No
+            .Append("OP23,") 'Terms1
+            .Append("OP24,") 'Terms2
+            .Append("OP25,") 'Terms3
+            .Append("OP26,") 'Terms4
             .Append("DESPATCHCODE")
         End With
 
@@ -177,6 +181,10 @@ Friend Class QuotationEntry
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
+            .Append("OP16:Gst,") 'gst
+            .Append("OP17:Fright,") 'Fright
+            .Append("OP18:Delivery,")  'Delivery
+            .Append("OP19:Payment terms,") 'Payment terms
             .Append("ROWREMARK:Remark")
         End With
 
@@ -197,6 +205,10 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP16:L,") 'gst
+            .Append("OP17:L,") 'Fright
+            .Append("OP18:L,")  'Delivery
+            .Append("OP19:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -218,6 +230,10 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP16:L,") 'gst
+            .Append("OP17:L,") 'Fright
+            .Append("OP18:L,")  'Delivery
+            .Append("OP19:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -248,7 +264,7 @@ Friend Class QuotationEntry
             .Append("CUTNAME:Y,")
             .Append("DESCR:N,")
             .Append("RDVALUE:Y,")
-            .Append("WEIGHT:Y,")
+            .Append("WEIGHT:N,")
             .Append("SIZENAME:N,")
             .Append("COLORNAME:N,")
             .Append("COMPANYNAME:Y,")
@@ -261,13 +277,17 @@ Friend Class QuotationEntry
             .Append("AMOUNT:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
-            .Append("OP16:N,")  'gst
-            .Append("OP17:N,")  'Fright
-            .Append("OP18:N,")  'Delivery
-            .Append("OP19:N,")  'Payment terms
+            .Append("OP16:Y,")  'gst
+            .Append("OP17:Y,")  'Fright
+            .Append("OP18:Y,")  'Delivery
+            .Append("OP19:Y,")  'Payment terms
             .Append("OP20:N,") 'BookName
             .Append("OP21:N,") 'Selected Req No
             .Append("OP22:N,") 'Selected Req No
+            .Append("OP23:N,") 'Terms1
+            .Append("OP24:N,") 'Terms2
+            .Append("OP25:N,") 'Terms3
+            .Append("OP26:N,") 'Terms4
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -301,6 +321,10 @@ Friend Class QuotationEntry
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
+            .Append("OP16:8,") 'gst
+            .Append("OP17:8,") 'Fright
+            .Append("OP18:8,")  'Delivery
+            .Append("OP19:12,") 'Payment terms
             .Append("ROWREMARK:12")
         End With
 
@@ -319,7 +343,8 @@ Friend Class QuotationEntry
         With _FieldLocked
             .Append("SRNO:Y,")
             .Append("MTR_WEIGHT:Y,")
-            .Append("AMOUNT:Y")
+            .Append("AMOUNT:Y,")
+            .Append("Rate:Y")
         End With
 
         _FieldMasking = New StringBuilder
@@ -733,19 +758,16 @@ Friend Class QuotationEntry
             Exit Sub
         End If
 
-        'If LblBillNo.Text > "" Then
-        '    MsgBox("Bill Generated Can't Modify", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-        '    Exit Sub
-        'End If
 
 
 
-        If txtAcOfCode.Text = "" Then
-            txtAcOfCode.Text = "0000-000000001"
-        End If
-        If txtTr_code.Text = "" Then txtTr_code.Text = "0001-000000091"
+
+        If txtAcOfCode.Text = "" Then txtAcOfCode.Text = "0000-000000001"
+        If txtTr_code.Text = "" Then txtTr_code.Text = "0000-000000001"
         If txtUnitCode.Text = "" Then txtUnitCode.Text = "0001-000000091"
-        If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0001-000000091"
+        If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0000-000000001"
+
+
         _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
 
 
@@ -844,13 +866,13 @@ Friend Class QuotationEntry
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP16,")
-            .Append("OP17,")
-            .Append("OP18,")
-            .Append("OP19,")
             .Append("OP20,")
             .Append("OP21,")
             .Append("OP22,")
+            .Append("OP23,")
+            .Append("OP24,")
+            .Append("OP25,")
+            .Append("OP26,")
             .Append("HeaderRemark")
         End With
 
@@ -867,13 +889,13 @@ Friend Class QuotationEntry
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
-            .Append(Txt_Fright.Text & ",")
-            .Append(Txt_Deli.Text & ",")
-            .Append(Txt_Delivery.Text & ",")
-            .Append(Txt_PaymentTerms.Text & ",")
             .Append(Txt_BookName.Text & ",")
             .Append(_ReqNnovalue & ",")
             .Append(ReqBookvnorawData & ",")
+            .Append(Txt_Terms1.Text & ",")
+            .Append(Txt_Terms2.Text & ",")
+            .Append(Txt_Terms3.Text & ",")
+            .Append(Txt_Terms4.Text & ",")
             .Append(txtHeader_Remark.Text)
         End With
 
@@ -952,6 +974,10 @@ Friend Class QuotationEntry
             .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
             '.Append("  A.RDVALUE as [Tax %],")
             .Append("  A.AMOUNT as [Amount],")
+            .Append("  A.OP16,")
+            .Append("  A.OP17,")
+            .Append("  A.OP18,")
+            .Append("  A.OP19,")
             .Append(" MstTransport.TransportName as [Transport], ")
             .Append(" C.accountname as [Agent Name], ")
             .Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
@@ -1173,13 +1199,12 @@ Friend Class QuotationEntry
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
-        Txt_Fright.Text = tblTmp.Rows(0)("OP16").ToString
-        Txt_Deli.Text = tblTmp.Rows(0)("OP17").ToString
-        Txt_Delivery.Text = tblTmp.Rows(0)("OP18").ToString
-        Txt_PaymentTerms.Text = tblTmp.Rows(0)("OP19").ToString
         TxtSelectReqNo.Text = tblTmp.Rows(0)("OP21").ToString
         Txt_BookName.Text = tblTmp.Rows(0)("OP20").ToString
-
+        Txt_Terms1.Text = tblTmp.Rows(0)("OP23").ToString
+        Txt_Terms2.Text = tblTmp.Rows(0)("OP24").ToString
+        Txt_Terms3.Text = tblTmp.Rows(0)("OP25").ToString
+        Txt_Terms4.Text = tblTmp.Rows(0)("OP26").ToString
         TxtSelectReqNo.Text = TxtSelectReqNo.Text.Replace("#", ",")
 
         Generate_Date_For_DataBase(txtChallanDate)
@@ -1205,12 +1230,51 @@ Friend Class QuotationEntry
     Private Sub Total_Upto_All_Grid_All_Row()
         If _FrmLoad = True Then Exit Sub
 
+        'Dim Tot_Mtr_Weight As Double = 0
+        'Dim Tot_Amt As Double = 0
+
+        'For j As Int16 = 1 To GrdItem.Rows - 1
+        '    Tot_Mtr_Weight = Tot_Mtr_Weight + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+        '    Dim CutMtr As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
+        '    Dim RdValue As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
+
+        '    Dim Rate As Double = CutMtr - (CutMtr * RdValue / 100)
+
+        '    GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("Rate") + 1).Text = Format(Rate, "0.00")
+        '    Tot_Amt = Tot_Mtr_Weight * Rate
+
+        '    Tot_Amt = Tot_Amt + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text)
+        'Next
+
+        'If Tot_Mtr_Weight > 0 Then
+        '    Lbl_Tot_Mtr_Weight.Text = FormatNumber(Tot_Mtr_Weight, 2, TriState.True, TriState.False, TriState.True)
+        'Else
+        '    Lbl_Tot_Mtr_Weight.Text = "0.00"
+        'End If
+
+        'If Tot_Amt > 0 Then
+        '    lbl_Tot_Amt.Text = FormatNumber(Tot_Amt, 2, TriState.True, TriState.False, TriState.True)
+        'Else
+        '    lbl_Tot_Amt.Text = "0.00"
+        'End If
+
         Dim Tot_Mtr_Weight As Double = 0
         Dim Tot_Amt As Double = 0
-
         For j As Int16 = 1 To GrdItem.Rows - 1
-            Tot_Mtr_Weight = Tot_Mtr_Weight + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-            Tot_Amt = Tot_Amt + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text)
+            Dim MtrWeight As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+            Dim CutMtr As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
+            Dim RdValue As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
+            ' Rate Calculate
+            Dim Rate As Double = CutMtr - (CutMtr * RdValue / 100)
+            ' Set Rate
+            GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("Rate") + 1).Text = Format(Rate, "0.00")
+            ' Amount Calculate
+            Dim Amount As Double = MtrWeight * Rate
+            ' Set Amount
+            GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = Format(Amount, "0.00")
+            ' Total
+            Tot_Mtr_Weight += MtrWeight
+            Tot_Amt += Amount
         Next
 
         If Tot_Mtr_Weight > 0 Then
@@ -1224,7 +1288,6 @@ Friend Class QuotationEntry
         Else
             lbl_Tot_Amt.Text = "0.00"
         End If
-
     End Sub
 #End Region
 
@@ -1338,13 +1401,6 @@ Friend Class QuotationEntry
     Private Sub grdItem_LeaveCell(ByVal Sender As Object, ByVal e As FlexCell.Grid.LeaveCellEventArgs) Handles GrdItem.LeaveCell
         If _FrmLoad = True Then Exit Sub
         If _AllowMoveFromCell = False Then e.Cancel = True
-
-        If _ActivatedColName = "TAX_PER" Then
-            'MsgBox("GOPAL")
-        End If
-        If _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "AMOUNT" Then
-            Calc_Net_Rate()
-        End If
     End Sub
 
     Private Sub grdItem_EnterRow(ByVal Sender As Object, ByVal e As FlexCell.Grid.EnterRowEventArgs) Handles GrdItem.EnterRow
@@ -1370,31 +1426,12 @@ Friend Class QuotationEntry
     End Sub
 
     Private Sub grdItem_LeaveRow(ByVal Sender As Object, ByVal e As FlexCell.Grid.LeaveRowEventArgs) Handles GrdItem.LeaveRow
-
         If _FrmLoad = True Then Exit Sub
         _LastRow = Sender.ActiveCell.Row
-
-        Dim CUTCODE As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
-        Dim ITEMCODE As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text
-        Dim ITEMGROUPCODE As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
-        Dim QTY As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
     End Sub
 
     Private Sub grditem_KeyPress(ByVal Sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles GrdItem.KeyPress
         If _FrmLoad = True Then Exit Sub
-    End Sub
-
-    Private Sub Calc_Net_Rate()
-        Dim Commu_Net_Rate As Double = 0
-        Dim GROSS_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
-        Dim TAX_PER As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
-        Dim QTY As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-
-        Dim AMOUNT As Double = Math.Round(QTY * GROSS_RATE, 2, MidpointRounding.AwayFromZero)
-        Dim _GstTAxAmt As Double = AMOUNT * TAX_PER / 100
-        AMOUNT = AMOUNT + _GstTAxAmt
-        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = AMOUNT
-        Call Total_Upto_All_Grid_All_Row()
     End Sub
 
     Private Sub grditem_KeyDown(ByVal Sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles GrdItem.KeyDown
@@ -1415,13 +1452,12 @@ Friend Class QuotationEntry
                 Dim _StrQuery As New StringBuilder
                 With _strQuery
                     .Append(" SELECT ")
-                    .Append(" B.CUTNAME AS CUTNAME, ")
-                    .Append(" B.ID AS CUTCODE, ")
+                    .Append(" B.CUTNAME AS UOM, ")
+                    .Append(" '' as Remark, ")
                     .Append(" A.CUTCODE AS ACCOUNTCODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
                     .Append(" LEFT JOIN MstCutMaster AS B ON A.CUTCODE = B.ID ")
                     .Append(" WHERE 1=1 ")
-                    '.Append(" AND A.Bookcode = 'RQSS-000000001' ")
                     .Append(" AND A.Bookcode = '" & _ReqBookCode & "' ")
                     .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
                 End With
@@ -1431,16 +1467,39 @@ Friend Class QuotationEntry
                     If selected.ContainsKey("ACCOUNTCODE") Then
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
                     End If
-                    If selected.ContainsKey("CUTNAME") Then
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("CUTNAME").ToString()
+                    If selected.ContainsKey("UOM") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("UOM").ToString()
                     End If
                 End If
             End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then
             If e.KeyCode = Keys.Enter Then
-                txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
-                LoadShadeSelection(ReqBookvnorawData, _ReqBookCode, GrdItem, _DataTableGrid)
-
+                'txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
+                'LoadShadeSelection(ReqBookvnorawData, _ReqBookCode, GrdItem, _DataTableGrid)
+                If e.KeyCode = Keys.Enter Then
+                    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
+                    'txt_Code_For_Grid_Selection.Text = ""
+                    'Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+                    'obj_Party_Selection.SINGLE_store_Sub_Item_SELECTION()
+                    'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+                    '    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
+                    '    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
+                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = txt_Code_For_Grid_Selection.Text
+                    'End If
+                    txt_Code_For_Grid_Selection.Text = ""
+                    Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+                    Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
+                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                    If selected IsNot Nothing Then
+                        If selected.ContainsKey("ACCOUNTCODE") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                        End If
+                        If selected.ContainsKey("COMPANYNAME") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("COMPANYNAME").ToString()
+                        End If
+                    End If
+                End If
             End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
             'Or _ActivatedColName = "QTY"
@@ -1481,11 +1540,8 @@ Friend Class QuotationEntry
 
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
-                If _ActivatedColName = "GROSS_RATE" Then
-                    If Val(GrdItem.ActiveCell.Text) = 0 And Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) <> 0 Then
-                        'Rate_Display()
-                    End If
-                End If
+                Call Total_Upto_All_Grid_All_Row()
+
             End If
         ElseIf _ActivatedColName = "ROWREMARK" Then
             If e.KeyCode = 13 Then
@@ -1587,7 +1643,7 @@ Friend Class QuotationEntry
         Dim strQuery = New StringBuilder
         With strQuery
             .Append(" SELECT DISTINCT ")
-            .Append(" A.PACK_SLIP_NO AS PACKSLIPNO, ")
+            .Append(" A.PACK_SLIP_NO AS [Req No], ")
             .Append(" '' AS Remark, ")
             .Append(" A.BookVno AS Bookcode1, ")
             .Append(" A.BookVno AS Bookcode2,  ")
@@ -1735,6 +1791,10 @@ Friend Class QuotationEntry
                 View_Record()
             End If
         End If
+    End Sub
+
+    Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
+        View_Record()
     End Sub
 #End Region
 End Class

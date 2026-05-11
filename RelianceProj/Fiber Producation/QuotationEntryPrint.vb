@@ -71,7 +71,7 @@ Public Class QuotationEntryPrint
                 .Append(" MstFabricItem.ITENNAME as [Item Name], ")
                 .Append(" K.subItemName  AS [Sub Item], ")
                 .Append(" E.DEPARTMENTNAME  AS DEPARTMENT, ")
-                .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
+                .Append(" A.MTR_WEIGHT as [Quantity], ")
                 .Append(" FORMAT( A.RATE,'0.00') as [Net Rate], ")
                 .Append("  A.AMOUNT as [Amount],")
                 .Append("  A.CUT_MTR as [Gross Rate],")

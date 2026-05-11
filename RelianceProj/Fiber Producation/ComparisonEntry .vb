@@ -88,14 +88,15 @@ Public Class ComparisonEntry
             .Append("BOOKTRTYPE,")
             .Append("BOOKVNO,")
             .Append("BOOKCODE,")
-            .Append("PACK_SLIP_NO,")
-            .Append("PACK_SLIP_DATE,")
             .Append("OFFERBOOKVNO,")
             .Append("ACCOUNTCODE,")
             .Append("TRANSPORTCODE,")
             .Append("Y_LOTNO,")
             .Append("HEADERREMARK,")
             .Append("SRNO,")
+            .Append("OP27,")
+            .Append("OP28,")
+            .Append("AccountName,")
             .Append("OFFERNO,")
             .Append("GROUPNAME,")
             .Append("ITEMNAME,")
@@ -128,6 +129,10 @@ Public Class ComparisonEntry
             .Append("OP20,") 'BookName
             .Append("OP21,") 'Selected Req No
             .Append("OP22,") 'Selected Req No
+            .Append("OP23,") 'Terms1
+            .Append("OP24,") 'Terms2
+            .Append("OP25,") 'Terms3
+            .Append("OP26,") 'Terms4
             .Append("DESPATCHCODE")
         End With
 
@@ -158,6 +163,9 @@ Public Class ComparisonEntry
         _FieldHeader = New StringBuilder
         With _FieldHeader
             .Append("SRNO:S.No,")
+            .Append("OP27:Quotation No,")
+            .Append("OP28:Date,")
+            .Append("AccountName:Account Name,")
             .Append("OFFERNO:Off.No,")
             .Append("GROUPNAME:Group,")
             .Append("ITEMNAME:Item Name,")
@@ -172,12 +180,19 @@ Public Class ComparisonEntry
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
+            .Append("OP16:Gst,")  'gst
+            .Append("OP17:Fright,")  'Fright
+            .Append("OP18:Delivery,")  'Delivery
+            .Append("OP19:Payment terms,")  'Payment terms
             .Append("ROWREMARK:Remark")
         End With
 
         _FieldHeaderAlignment = New StringBuilder
         With _FieldHeaderAlignment
             .Append("SRNO:L,")
+            .Append("OP27:R,")
+            .Append("OP28:L,")
+            .Append("AccountName:L,")
             .Append("OFFERNO:L,")
             .Append("ITEMNAME:L,")
             .Append("SIZENAME:L,")
@@ -192,6 +207,10 @@ Public Class ComparisonEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP16:L,") 'gst
+            .Append("OP17:L,") 'Fright
+            .Append("OP18:L,")  'Delivery
+            .Append("OP19:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -199,6 +218,9 @@ Public Class ComparisonEntry
         _FieldAlignMent = New StringBuilder
         With _FieldAlignMent
             .Append("SRNO:L,")
+            .Append("OP27:R,")
+            .Append("OP28:L,")
+            .Append("AccountName:L,")
             .Append("OFFERNO:L,")
             .Append("ITEMNAME:L,")
             .Append("SIZENAME:L,")
@@ -213,6 +235,10 @@ Public Class ComparisonEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP16:L,") 'gst
+            .Append("OP17:L,") 'Fright
+            .Append("OP18:L,")  'Delivery
+            .Append("OP19:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -224,8 +250,9 @@ Public Class ComparisonEntry
             .Append("BOOKTRTYPE:N,")
             .Append("BOOKVNO:N,")
             .Append("BOOKCODE:N,")
-            .Append("PACK_SLIP_NO:N,")
-            .Append("PACK_SLIP_DATE:N,")
+            .Append("OP27:Y,")
+            .Append("OP28:Y,")
+            .Append("AccountName:Y,")
             .Append("OFFERNO:N,")
             .Append("GROUPNAME:N,")
             .Append("OFFERBOOKVNO:N,")
@@ -243,7 +270,7 @@ Public Class ComparisonEntry
             .Append("CUTNAME:Y,")
             .Append("DESCR:N,")
             .Append("RDVALUE:Y,")
-            .Append("WEIGHT:Y,")
+            .Append("WEIGHT:N,")
             .Append("SIZENAME:N,")
             .Append("COLORNAME:N,")
             .Append("COMPANYNAME:Y,")
@@ -256,13 +283,17 @@ Public Class ComparisonEntry
             .Append("AMOUNT:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
-            .Append("OP16:N,")  'gst
-            .Append("OP17:N,")  'Fright
-            .Append("OP18:N,")  'Delivery
-            .Append("OP19:N,")  'Payment terms
+            .Append("OP16:Y,")  'gst
+            .Append("OP17:Y,")  'Fright
+            .Append("OP18:Y,")  'Delivery
+            .Append("OP19:Y,")  'Payment terms
             .Append("OP20:N,") 'BookName
             .Append("OP21:N,") 'Selected Req No
             .Append("OP22:N,") 'Selected Req No
+            .Append("OP23:N,") 'Terms1
+            .Append("OP24:N,") 'Terms2
+            .Append("OP25:N,") 'Terms3
+            .Append("OP26:N,") 'Terms4
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -274,6 +305,7 @@ Public Class ComparisonEntry
             .Append("SIZENAME:N,")
             .Append("GROUPNAME:N,")
             .Append("COMPANYNAME:N,")
+            .Append("AccountName:N,")
             .Append("CUTNAME:N,")
             .Append("COLORNAME:N")
         End With
@@ -282,6 +314,9 @@ Public Class ComparisonEntry
         _FieldWidthSet = New StringBuilder
         With _FieldWidthSet
             .Append("SRNO:4,")
+            .Append("OP27:9,")
+            .Append("OP28:8,")
+            .Append("AccountName:8,")
             .Append("OFFERNO:6,")
             .Append("GROUPNAME:9,")
             .Append("ITEMNAME:15,")
@@ -296,6 +331,10 @@ Public Class ComparisonEntry
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
+            .Append("OP16:8,") 'gst
+            .Append("OP17:8,") 'Fright
+            .Append("OP18:8,")  'Delivery
+            .Append("OP19:12,") 'Payment terms
             .Append("ROWREMARK:12")
         End With
 
@@ -736,9 +775,12 @@ Public Class ComparisonEntry
         If txtAcOfCode.Text = "" Then
             txtAcOfCode.Text = "0000-000000001"
         End If
-        If txtTr_code.Text = "" Then txtTr_code.Text = "0001-000000091"
+        If txtTr_code.Text = "" Then txtTr_code.Text = "0000-000000001"
         If txtUnitCode.Text = "" Then txtUnitCode.Text = "0001-000000091"
+        'If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0000-000000001"
+
         _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
+
 
 
         Generate_Date_For_DataBase(txtChallanDate)
@@ -835,12 +877,16 @@ Public Class ComparisonEntry
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP16,")
-            .Append("OP17,")
-            .Append("OP18,")
-            .Append("OP19,")
+            '.Append("OP16,")
+            '.Append("OP17,")
+            '.Append("OP18,")
+            '.Append("OP19,")
             .Append("OP21,")
             .Append("OP22,")
+            .Append("OP23,")
+            .Append("OP24,")
+            .Append("OP25,")
+            .Append("OP26,")
             .Append("HeaderRemark")
         End With
 
@@ -856,12 +902,12 @@ Public Class ComparisonEntry
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
-            .Append(Txt_Fright.Text & ",")
-            .Append(Txt_Deli.Text & ",")
-            .Append(Txt_Delivery.Text & ",")
-            .Append(Txt_PaymentTerms.Text & ",")
             .Append(_ReqNnovalue & ",")
             .Append(ReqBookvnorawData & ",")
+            .Append(Txt_Terms1.Text & ",")
+            .Append(Txt_Terms2.Text & ",")
+            .Append(Txt_Terms3.Text & ",")
+            .Append(Txt_Terms4.Text & ",")
             .Append(txtHeader_Remark.Text)
         End With
 
@@ -1130,7 +1176,7 @@ Public Class ComparisonEntry
             .Append(" LEFT JOIN MstMasterAccount AS C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE   ")
             .Append(" LEFT JOIN Mst_Acof_Supply ON  A.ACOFCODE=Mst_Acof_Supply.ID   ")
             .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
-            .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
+            .Append(" LEFT JOIN MstStoreSubItem K  ON  A.DESIGNCODE = K.subItemCode ")
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1  ")
@@ -1158,12 +1204,11 @@ Public Class ComparisonEntry
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
-        Txt_Fright.Text = tblTmp.Rows(0)("OP16").ToString
-        Txt_Deli.Text = tblTmp.Rows(0)("OP17").ToString
-        Txt_Delivery.Text = tblTmp.Rows(0)("OP18").ToString
-        Txt_PaymentTerms.Text = tblTmp.Rows(0)("OP19").ToString
         TxtSelectReqNo.Text = tblTmp.Rows(0)("OP21").ToString
-
+        Txt_Terms1.Text = tblTmp.Rows(0)("OP23").ToString
+        Txt_Terms2.Text = tblTmp.Rows(0)("OP24").ToString
+        Txt_Terms3.Text = tblTmp.Rows(0)("OP25").ToString
+        Txt_Terms4.Text = tblTmp.Rows(0)("OP26").ToString
         TxtSelectReqNo.Text = TxtSelectReqNo.Text.Replace("#", ",")
 
         Generate_Date_For_DataBase(txtChallanDate)
@@ -1294,6 +1339,8 @@ Public Class ComparisonEntry
             Calc_Net_Rate()
         ElseIf _ActivatedColName = "ITEMNAME" Then
             Calc_Net_Rate()
+        ElseIf _ActivatedColName = "OP27" Then
+            Calc_Net_Rate()
         End If
     End Sub
 
@@ -1390,14 +1437,17 @@ Public Class ComparisonEntry
             '        txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
             '        LoadShadeSelection(ReqBookvnorawData, _ReqBookCode, GrdItem, _DataTableGrid)
             '    End If
-        ElseIf _ActivatedColName = "ITEMNAME" Then
+        ElseIf _ActivatedColName = "OP27" Then
             If e.KeyCode = Keys.Enter Then
                 If Change_Grid_Data = True Then
-                    Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
-                    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
+                    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP27") + 1).Text
                     Dim _StrQuery As New StringBuilder
                     With _StrQuery
                         .Append(" SELECT ")
+                        .Append(" A.PACK_SLIP_NO AS QuotationNo, ")
+                        .Append(" A.PACK_SLIP_DATE AS Date, ")
+                        .Append(" E.AccountName AS AccountName ,")
+                        .Append(" A.AccountCode AS Supplycode ,")
                         .Append(" B.ITENNAME AS ItemName, ")
                         .Append(" B.HSNCODE AS HsnCode, ")
                         .Append(" A.Mtr_weight AS Qty, ")
@@ -1409,11 +1459,16 @@ Public Class ComparisonEntry
                         .Append(" C.subItemName AS COMPANYNAME, ")
                         .Append(" D.CUTNAME AS CUTNAME, ")
                         .Append(" A.CUTCODE AS CUTCODE ,")
+                        .Append("A.OP16 As gst,")
+                        .Append("A.OP17 As Fright,")
+                        .Append("A.OP18 As Delivery,")
+                        .Append("A.OP19 As [Payment terms],")
                         .Append(" A.ITEMCODE AS ACCOUNTCODE ")
                         .Append(" FROM TrnPackingSlip AS A ")
                         .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
-                        .Append(" LEFT JOIN MstStoreSubItem AS C ON A.ShadeCode = C.subItemCode ")
+                        .Append(" LEFT JOIN MstStoreSubItem AS C ON A.DESIGNCODE = C.subItemCode ")
                         .Append(" LEFT JOIN MstCutMaster AS D ON A.CUTCODE = D.ID ")
+                        .Append(" LEFT JOIN MstMasterAccount AS E ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
                         .Append(" WHERE 1=1 ")
                         '.Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
                         .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
@@ -1421,6 +1476,18 @@ Public Class ComparisonEntry
                     Dim _LoadQuery As String = _StrQuery.ToString()
                     Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
                     If selected IsNot Nothing Then
+                        If selected.ContainsKey("QuotationNo") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP27") + 1).Text = selected("QuotationNo").ToString()
+                        End If
+                        If selected.ContainsKey("Date") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP28") + 1).Text = selected("Date").ToString()
+                        End If
+                        If selected.ContainsKey("AccountName") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AccountName") + 1).Text = selected("AccountName").ToString()
+                        End If
+                        If selected.ContainsKey("Supplycode") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AccountCode") + 1).Text = selected("Supplycode").ToString()
+                        End If
                         If selected.ContainsKey("ACCOUNTCODE") Then
                             GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
                         End If
@@ -1454,9 +1521,91 @@ Public Class ComparisonEntry
                         If selected.ContainsKey("CUTNAME") Then
                             GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("CUTNAME").ToString()
                         End If
+                        If selected.ContainsKey("gst") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP16") + 1).Text = selected("gst").ToString()
+                        End If
+                        If selected.ContainsKey("Fright") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP17") + 1).Text = selected("Fright").ToString()
+                        End If
+                        If selected.ContainsKey("Delivery") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP18") + 1).Text = selected("Delivery").ToString()
+                        End If
+                        If selected.ContainsKey("Payment terms") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP19") + 1).Text = selected("Payment terms").ToString()
+                        End If
                     End If
                 End If
+
             End If
+        ElseIf _ActivatedColName = "ITEMNAME" Then
+            'If e.KeyCode = Keys.Enter Then
+            '    If Change_Grid_Data = True Then
+            '        Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
+            '        txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
+            '        Dim _StrQuery As New StringBuilder
+            '        With _StrQuery
+            '            .Append(" SELECT ")
+            '            .Append(" B.ITENNAME AS ItemName, ")
+            '            .Append(" B.HSNCODE AS HsnCode, ")
+            '            .Append(" A.Mtr_weight AS Qty, ")
+            '            .Append(" A.CUT_MTR AS GROSSRATE, ")
+            '            .Append(" A.RDVALUE AS Dis, ")
+            '            .Append(" A.WEIGHT AS disamount, ")
+            '            .Append(" A.RATE AS NetRate, ")
+            '            .Append(" A.Amount AS Amount, ")
+            '            .Append(" C.subItemName AS COMPANYNAME, ")
+            '            .Append(" D.CUTNAME AS CUTNAME, ")
+            '            .Append(" A.CUTCODE AS CUTCODE ,")
+            '            .Append(" E.AccountName AS AccountName ,")
+            '            .Append(" A.ITEMCODE AS ACCOUNTCODE ")
+            '            .Append(" FROM TrnPackingSlip AS A ")
+            '            .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
+            '            .Append(" LEFT JOIN MstStoreSubItem AS C ON A.ShadeCode = C.subItemCode ")
+            '            .Append(" LEFT JOIN MstCutMaster AS D ON A.CUTCODE = D.ID ")
+            '            .Append(" LEFT JOIN MstMasterAccount AS E ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
+            '            .Append(" WHERE 1=1 ")
+            '            '.Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
+            '            .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
+            '        End With
+            '        Dim _LoadQuery As String = _StrQuery.ToString()
+            '        Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+            '        If selected IsNot Nothing Then
+            '            If selected.ContainsKey("ACCOUNTCODE") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+            '            End If
+            '            If selected.ContainsKey("ItemName") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
+            '            End If
+            '            If selected.ContainsKey("Qty") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = selected("Qty").ToString()
+            '            End If
+            '            If selected.ContainsKey("GROSSRATE") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text = selected("GROSSRATE").ToString()
+            '            End If
+            '            If selected.ContainsKey("Dis") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text = selected("Dis").ToString()
+            '            End If
+            '            If selected.ContainsKey("disamount") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("WEIGHT") + 1).Text = selected("disamount").ToString()
+            '            End If
+            '            If selected.ContainsKey("NetRate") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = selected("NetRate").ToString()
+            '            End If
+            '            If selected.ContainsKey("Amount") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Amount") + 1).Text = selected("Amount").ToString()
+            '            End If
+            '            If selected.ContainsKey("COMPANYNAME") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("COMPANYNAME").ToString()
+            '            End If
+            '            If selected.ContainsKey("CUTCODE") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("CUTCODE").ToString()
+            '            End If
+            '            If selected.ContainsKey("CUTNAME") Then
+            '                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("CUTNAME").ToString()
+            '            End If
+            '        End If
+            '    End If
+            'End If
 
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
@@ -1565,7 +1714,7 @@ Public Class ComparisonEntry
         Dim strQuery = New StringBuilder
         With strQuery
             .Append(" SELECT DISTINCT ")
-            .Append(" A.PACK_SLIP_NO AS PACKSLIPNO, ")
+            .Append(" A.PACK_SLIP_NO AS [Quotation No], ")
             .Append(" '' AS Remark, ")
             .Append(" A.BookVno AS Bookcode1, ")
             .Append(" A.BookVno AS Bookcode2,  ")
@@ -1708,6 +1857,10 @@ Public Class ComparisonEntry
 
     Private Sub txtHeader_Remark_OnVaidationError(_ErrorMsg As String) Handles txtHeader_Remark.OnVaidationError
 
+    End Sub
+
+    Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
+        View_Record()
     End Sub
 #End Region
 End Class
