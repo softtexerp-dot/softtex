@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 
-Public Class QuotationEntryPrint
+Public Class ComparisonPrint
     Dim _Selectionbutton As String
     Private WithEvents txtgodowncode As New TextBox
     Private _GodownCode As String = ""
@@ -30,7 +30,7 @@ Public Class QuotationEntryPrint
 
         Dim View_Filter_Condition As String = ""
 
-        View_Filter_Condition = " and a.BookTrtype='QESS1' and A.godowncode='" & _GodownCode & "' "
+        View_Filter_Condition = " and a.BookTrtype='CESS1' and A.godowncode='" & _GodownCode & "' "
 
         _strQuery = New StringBuilder()
         With _strQuery
@@ -56,7 +56,7 @@ Public Class QuotationEntryPrint
         Try
             Dim View_Filter_Condition As String = ""
             If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' and a.BookTrtype='QESS1' And A.godowncode='" & _GodownCode & "'  "
+                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' and a.BookTrtype='CESS1' And A.godowncode='" & _GodownCode & "'  "
             End If
             _strQuery = New StringBuilder()
             With _strQuery
@@ -109,11 +109,11 @@ Public Class QuotationEntryPrint
 
             If Tmp_Data_Table.Rows.Count > 0 Then
                 'Dim Date_Range = "Audit Report  From : " & txt_From.Text & " TO " & txt_To.Text
-                Dim RptTitle = "Quotation Entry Report"
+                Dim RptTitle = "Comparison Entry Report"
                 Dim Date_Range = ""
                 If But_ok.Enabled = True Then
                     If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                        REPORT_RPT_FILE_NAME = "QuotationEntryReport_" & Ctl_RptType.Text & ""
+                        REPORT_RPT_FILE_NAME = "ComparisonEntryReport_" & Ctl_RptType.Text & ""
                         NewReportPrint(Tmp_Data_Table, RptTitle, Date_Range)
                         _ButtonEnable(True)
                         _TextboxEnable(False)

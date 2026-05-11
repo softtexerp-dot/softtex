@@ -664,7 +664,7 @@ Public Class ComparisonEntry
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-        QuotationEntryPrint.Show()
+        ComparisonPrint.Show()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
