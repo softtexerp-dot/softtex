@@ -94,8 +94,8 @@ Public Class ComparisonEntry
             .Append("Y_LOTNO,")
             .Append("HEADERREMARK,")
             .Append("SRNO,")
-            .Append("OP27,")
-            .Append("OP28,")
+            .Append("PACK_SLIP_NO,")
+            .Append("PACK_SLIP_DATE,")
             .Append("AccountName,")
             .Append("OFFERNO,")
             .Append("GROUPNAME,")
@@ -163,8 +163,8 @@ Public Class ComparisonEntry
         _FieldHeader = New StringBuilder
         With _FieldHeader
             .Append("SRNO:S.No,")
-            .Append("OP27:Quotation No,")
-            .Append("OP28:Date,")
+            .Append("PACK_SLIP_NO:Quotation No,")
+            .Append("PACK_SLIP_DATE:Date,")
             .Append("AccountName:Account Name,")
             .Append("OFFERNO:Off.No,")
             .Append("GROUPNAME:Group,")
@@ -190,8 +190,8 @@ Public Class ComparisonEntry
         _FieldHeaderAlignment = New StringBuilder
         With _FieldHeaderAlignment
             .Append("SRNO:L,")
-            .Append("OP27:R,")
-            .Append("OP28:L,")
+            .Append("PACK_SLIP_NO:R,")
+            .Append("PACK_SLIP_DATE:L,")
             .Append("AccountName:L,")
             .Append("OFFERNO:L,")
             .Append("ITEMNAME:L,")
@@ -218,8 +218,8 @@ Public Class ComparisonEntry
         _FieldAlignMent = New StringBuilder
         With _FieldAlignMent
             .Append("SRNO:L,")
-            .Append("OP27:R,")
-            .Append("OP28:L,")
+            .Append("PACK_SLIP_NO:R,")
+            .Append("PACK_SLIP_DATE:L,")
             .Append("AccountName:L,")
             .Append("OFFERNO:L,")
             .Append("ITEMNAME:L,")
@@ -250,8 +250,8 @@ Public Class ComparisonEntry
             .Append("BOOKTRTYPE:N,")
             .Append("BOOKVNO:N,")
             .Append("BOOKCODE:N,")
-            .Append("OP27:Y,")
-            .Append("OP28:Y,")
+            .Append("PACK_SLIP_NO:Y,")
+            .Append("PACK_SLIP_DATE:Y,")
             .Append("AccountName:Y,")
             .Append("OFFERNO:N,")
             .Append("GROUPNAME:N,")
@@ -314,8 +314,8 @@ Public Class ComparisonEntry
         _FieldWidthSet = New StringBuilder
         With _FieldWidthSet
             .Append("SRNO:4,")
-            .Append("OP27:9,")
-            .Append("OP28:8,")
+            .Append("PACK_SLIP_NO:9,")
+            .Append("PACK_SLIP_DATE:8,")
             .Append("AccountName:8,")
             .Append("OFFERNO:6,")
             .Append("GROUPNAME:9,")
@@ -1339,7 +1339,7 @@ Public Class ComparisonEntry
             Calc_Net_Rate()
         ElseIf _ActivatedColName = "ITEMNAME" Then
             Calc_Net_Rate()
-        ElseIf _ActivatedColName = "OP27" Then
+        ElseIf _ActivatedColName = "PACK_SLIP_NO" Then
             Calc_Net_Rate()
         End If
     End Sub
@@ -1437,10 +1437,10 @@ Public Class ComparisonEntry
             '        txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
             '        LoadShadeSelection(ReqBookvnorawData, _ReqBookCode, GrdItem, _DataTableGrid)
             '    End If
-        ElseIf _ActivatedColName = "OP27" Then
+        ElseIf _ActivatedColName = "PACK_SLIP_NO" Then
             If e.KeyCode = Keys.Enter Then
                 If Change_Grid_Data = True Then
-                    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP27") + 1).Text
+                    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("PACK_SLIP_NO") + 1).Text
                     Dim _StrQuery As New StringBuilder
                     With _StrQuery
                         .Append(" SELECT ")
@@ -1477,10 +1477,10 @@ Public Class ComparisonEntry
                     Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
                     If selected IsNot Nothing Then
                         If selected.ContainsKey("QuotationNo") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP27") + 1).Text = selected("QuotationNo").ToString()
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("PACK_SLIP_NO") + 1).Text = selected("QuotationNo").ToString()
                         End If
                         If selected.ContainsKey("Date") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP28") + 1).Text = selected("Date").ToString()
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("PACK_SLIP_DATE") + 1).Text = selected("Date").ToString()
                         End If
                         If selected.ContainsKey("AccountName") Then
                             GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AccountName") + 1).Text = selected("AccountName").ToString()
