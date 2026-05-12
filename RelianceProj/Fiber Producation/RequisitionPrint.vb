@@ -175,7 +175,7 @@ Public Class RequisitionPrint
     Private Sub txtBookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtBookName.KeyPress
 
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = StoresRequisition.SelectBookType(txtBookName.Text)
+            Dim selected = SelectBookType(txtBookName.Text)
             If selected IsNot Nothing Then
                 If selected.ContainsKey("ACCOUNTCODE") Then
                     _BookCode = selected("ACCOUNTCODE").ToString()

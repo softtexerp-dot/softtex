@@ -101,6 +101,7 @@ Friend Class QuotationEntry
             .Append("Y_LOTNO,")
             .Append("HEADERREMARK,")
             .Append("SRNO,")
+            .Append("OP6,") 'Selected Req No
             .Append("OFFERNO,")
             .Append("GROUPNAME,")
             .Append("ITEMNAME,")
@@ -126,17 +127,17 @@ Friend Class QuotationEntry
             .Append("Y_DELV_ACCOUNTCODE,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP16,") 'gst
-            .Append("OP17,") 'Fright
-            .Append("OP18,")  'Delivery
-            .Append("OP19,") 'Payment terms
-            .Append("OP20,") 'BookName
-            .Append("OP21,") 'Selected Req No
-            .Append("OP22,") 'Selected Code No
-            .Append("OP23,") 'Terms1
-            .Append("OP24,") 'Terms2
-            .Append("OP25,") 'Terms3
-            .Append("OP26,") 'Terms4
+            .Append("OP1,") 'gst
+            .Append("OP2,") 'Fright
+            .Append("OP3,")  'Delivery
+            .Append("OP4,") 'Payment terms
+            .Append("OP5,") 'BookName
+
+            .Append("OP7,") 'Selected Code No
+            .Append("OP8,") 'Terms1
+            .Append("OP9,") 'Terms2
+            .Append("OP10,") 'Terms3
+            .Append("OP16,") 'Terms4
             .Append("DESPATCHCODE")
         End With
 
@@ -168,6 +169,7 @@ Friend Class QuotationEntry
         With _FieldHeader
             .Append("SRNO:S.No,")
             .Append("OFFERNO:Off.No,")
+            .Append("OP6:ReqNo,")
             .Append("GROUPNAME:Group,")
             .Append("ITEMNAME:Item Name,")
             .Append("COMPANYNAME:Brand,")
@@ -181,16 +183,17 @@ Friend Class QuotationEntry
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
-            .Append("OP16:Gst,") 'gst
-            .Append("OP17:Fright,") 'Fright
-            .Append("OP18:Delivery,")  'Delivery
-            .Append("OP19:Payment terms,") 'Payment terms
+            .Append("OP1:Gst,") 'gst
+            .Append("OP2:Fright,") 'Fright
+            .Append("OP3:Delivery,")  'Delivery
+            .Append("OP4:Payment terms,") 'Payment terms
             .Append("ROWREMARK:Remark")
         End With
 
         _FieldHeaderAlignment = New StringBuilder
         With _FieldHeaderAlignment
             .Append("SRNO:L,")
+            .Append("OP6:R,")
             .Append("OFFERNO:L,")
             .Append("ITEMNAME:L,")
             .Append("SIZENAME:L,")
@@ -205,10 +208,10 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP16:L,") 'gst
-            .Append("OP17:L,") 'Fright
-            .Append("OP18:L,")  'Delivery
-            .Append("OP19:L,") 'Payment terms
+            .Append("OP1:L,") 'gst
+            .Append("OP2:L,") 'Fright
+            .Append("OP3:L,")  'Delivery
+            .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -216,6 +219,7 @@ Friend Class QuotationEntry
         _FieldAlignMent = New StringBuilder
         With _FieldAlignMent
             .Append("SRNO:L,")
+            .Append("OP6:R,")
             .Append("OFFERNO:L,")
             .Append("ITEMNAME:L,")
             .Append("SIZENAME:L,")
@@ -230,10 +234,10 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP16:L,") 'gst
-            .Append("OP17:L,") 'Fright
-            .Append("OP18:L,")  'Delivery
-            .Append("OP19:L,") 'Payment terms
+            .Append("OP1:L,") 'gst
+            .Append("OP2:L,") 'Fright
+            .Append("OP3:L,")  'Delivery
+            .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -259,6 +263,7 @@ Friend Class QuotationEntry
             .Append("SHADECODE:N,")
             .Append("CUT_MTR:Y,")
             .Append("SRNO:Y,")
+            .Append("OP6:Y,") 'Selected Req No
             .Append("ITEMNAME:Y,")
             .Append("ITEMCODE:N,")
             .Append("CUTNAME:Y,")
@@ -277,17 +282,16 @@ Friend Class QuotationEntry
             .Append("AMOUNT:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
-            .Append("OP16:Y,")  'gst
-            .Append("OP17:Y,")  'Fright
-            .Append("OP18:Y,")  'Delivery
-            .Append("OP19:Y,")  'Payment terms
-            .Append("OP20:N,") 'BookName
-            .Append("OP21:N,") 'Selected Req No
-            .Append("OP22:N,") 'Selected Req No
-            .Append("OP23:N,") 'Terms1
-            .Append("OP24:N,") 'Terms2
-            .Append("OP25:N,") 'Terms3
-            .Append("OP26:N,") 'Terms4
+            .Append("OP1:Y,")  'gst
+            .Append("OP2:Y,")  'Fright
+            .Append("OP3:Y,")  'Delivery
+            .Append("OP4:Y,")  'Payment terms
+            .Append("OP5:N,") 'BookName
+            .Append("OP7:N,") 'Selected Req No
+            .Append("OP8:N,") 'Terms1
+            .Append("OP9:N,") 'Terms2
+            .Append("OP10:N,") 'Terms3
+            .Append("OP16:N,") 'Terms4
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -321,10 +325,10 @@ Friend Class QuotationEntry
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("OP16:8,") 'gst
-            .Append("OP17:8,") 'Fright
-            .Append("OP18:8,")  'Delivery
-            .Append("OP19:12,") 'Payment terms
+            .Append("OP1:8,") 'gst
+            .Append("OP2:8,") 'Fright
+            .Append("OP3:8,")  'Delivery
+            .Append("OP4:12,") 'Payment terms
             .Append("ROWREMARK:12")
         End With
 
@@ -342,6 +346,8 @@ Friend Class QuotationEntry
         _FieldLocked = New StringBuilder
         With _FieldLocked
             .Append("SRNO:Y,")
+            .Append("ITEMNAME:Y,")
+            .Append("OP6:Y,")
             .Append("MTR_WEIGHT:Y,")
             .Append("AMOUNT:Y,")
             .Append("Rate:Y")
@@ -566,8 +572,17 @@ Friend Class QuotationEntry
                     _FrmLoad = True
 
                         GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                        UC_Buttons1.BtnSave.Focus()
+                    Txt_Terms1.Focus()
+                    'UC_Buttons1.BtnSave.Focus()
                     ''End If
+                Case "Txt_Terms1"
+                    UC_Buttons1.BtnSave.Focus()
+                Case "Txt_Terms2"
+                    UC_Buttons1.BtnSave.Focus()
+                Case "Txt_Terms3"
+                    UC_Buttons1.BtnSave.Focus()
+                Case "Txt_Terms4"
+                    UC_Buttons1.BtnSave.Focus()
                 Case "BTNSAVE"
                     txtEntryNo.Focus()
                 Case Else
@@ -846,8 +861,8 @@ Friend Class QuotationEntry
         Dim Query_Auto_Grid(_DataTableGrid.Rows.Count, 4) As String
 
 
-        ReqBookvnorawData = ReqBookvnorawData.Replace(",", "#")
-        Dim _ReqNnovalue As String = TxtSelectReqNo.Text.Replace(",", "#")
+        'ReqBookvnorawData = ReqBookvnorawData.Replace(",", "#")
+        'Dim _ReqNnovalue As String = TxtSelectReqNo.Text.Replace(",", "#")
 
 
 
@@ -866,13 +881,13 @@ Friend Class QuotationEntry
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP20,")
-            .Append("OP21,")
-            .Append("OP22,")
-            .Append("OP23,")
-            .Append("OP24,")
-            .Append("OP25,")
-            .Append("OP26,")
+            .Append("OP5,")
+            '.Append("OP6,")
+            '.Append("OP7,")
+            .Append("OP8,")
+            .Append("OP9,")
+            .Append("OP10,")
+            .Append("OP16,")
             .Append("HeaderRemark")
         End With
 
@@ -890,8 +905,8 @@ Friend Class QuotationEntry
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
             .Append(Txt_BookName.Text & ",")
-            .Append(_ReqNnovalue & ",")
-            .Append(ReqBookvnorawData & ",")
+            '.Append(_ReqNnovalue & ",")
+            '.Append(ReqBookvnorawData & ",")
             .Append(Txt_Terms1.Text & ",")
             .Append(Txt_Terms2.Text & ",")
             .Append(Txt_Terms3.Text & ",")
@@ -974,10 +989,10 @@ Friend Class QuotationEntry
             .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
             '.Append("  A.RDVALUE as [Tax %],")
             .Append("  A.AMOUNT as [Amount],")
-            .Append("  A.OP16,")
-            .Append("  A.OP17,")
-            .Append("  A.OP18,")
-            .Append("  A.OP19,")
+            .Append("  A.OP1,")
+            .Append("  A.OP2,")
+            .Append("  A.OP3,")
+            .Append("  A.OP4,")
             .Append(" MstTransport.TransportName as [Transport], ")
             .Append(" C.accountname as [Agent Name], ")
             .Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
@@ -1199,13 +1214,13 @@ Friend Class QuotationEntry
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
-        TxtSelectReqNo.Text = tblTmp.Rows(0)("OP21").ToString
-        Txt_BookName.Text = tblTmp.Rows(0)("OP20").ToString
-        Txt_Terms1.Text = tblTmp.Rows(0)("OP23").ToString
-        Txt_Terms2.Text = tblTmp.Rows(0)("OP24").ToString
-        Txt_Terms3.Text = tblTmp.Rows(0)("OP25").ToString
-        Txt_Terms4.Text = tblTmp.Rows(0)("OP26").ToString
-        TxtSelectReqNo.Text = TxtSelectReqNo.Text.Replace("#", ",")
+        'TxtSelectReqNo.Text = tblTmp.Rows(0)("OP6").ToString
+        Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
+        Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
+        Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
+        Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
+        Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+        'TxtSelectReqNo.Text = TxtSelectReqNo.Text.Replace("#", ",")
 
         Generate_Date_For_DataBase(txtChallanDate)
 
@@ -1459,7 +1474,7 @@ Friend Class QuotationEntry
                     .Append(" LEFT JOIN MstCutMaster AS B ON A.CUTCODE = B.ID ")
                     .Append(" WHERE 1=1 ")
                     .Append(" AND A.Bookcode = '" & _ReqBookCode & "' ")
-                    .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
+                    '.Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
                 End With
                 Dim _LoadQuery As String = _strQuery.ToString()
                 Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
@@ -1472,79 +1487,147 @@ Friend Class QuotationEntry
                     End If
                 End If
             End If
+        ElseIf _ActivatedColName = "OP6" Then
+            If e.KeyCode = Keys.Enter Then
+                Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
+                txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text
+                Dim _StrQuery As New StringBuilder
+                With _StrQuery
+                    .Append(" SELECT ")
+                    .Append(" 'False' AS TickMark, ")
+                    .Append(" A.PACK_SLIP_NO AS [Req No], ")
+                    .Append(" B.ITENNAME AS ItemName, ")
+                    .Append(" B.HSNCODE AS HsnCode, ")
+                    .Append(" A.Mtr_weight AS Qty, ")
+                    .Append(" A.ITEMCODE AS ACCOUNTCODE, ")
+                    .Append(" A.ITEMCODE AS ItemCode ")
+                    .Append(" FROM TrnPackingSlip AS A ")
+                    .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
+                    .Append(" WHERE 1=1 ")
+                    .Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
+                    .Append(" AND A.BookTrType = '" & _ReqBookTrType & "'")
+                    .Append("  AND NOT EXISTS ")
+                    .Append("  (   ")
+                    .Append(" SELECT 1  ")
+                    .Append(" FROM TrnPackingSlip AS B  ")
+                    .Append(" WHERE ")
+                    .Append(" B.OP6 = A.BookVno ")
+                    .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                    .Append("  )")
+
+                End With
+                'Dim _LoadQuery As String = _StrQuery.ToString()
+                'Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                'If selected IsNot Nothing Then
+                '    If selected.ContainsKey("Req No") Then
+                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = selected("Req No").ToString()
+                '    End If
+                '    If selected.ContainsKey("ACCOUNTCODE") Then
+                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                '    End If
+                '    If selected.ContainsKey("ItemName") Then
+                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
+                '    End If
+                '    If selected.ContainsKey("Qty") Then
+                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = selected("Qty").ToString()
+                '    End If
+
+                'End If
+                Dim _LoadQuery = _StrQuery.ToString()
+                Dim _FItemcodeilter As String = ""
+                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTY")
+                If selectedList1 IsNot Nothing Then
+                    Dim RowNo As Integer = GrdItem.ActiveCell.Row
+                    For Each rowDict As Dictionary(Of String, Object) In selectedList1
+                        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ACCOUNTCODE") Then
+                            _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
+                            Dim BookVno As String = rowDict("ItemCode").ToString()
+                            '================ GRID VALUE =================
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = rowDict("Req No").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = rowDict("ItemName").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = rowDict("Qty").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
+                            '================ NEXT ROW =================
+                            If RowNo >= GrdItem.Rows - 1 Then
+                                GrdItem.Rows += 1
+                            End If
+                            RowNo += 1
+                        End If
+                    Next
+                End If
+            End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then
-            If e.KeyCode = Keys.Enter Then
-                'txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
-                'LoadShadeSelection(ReqBookvnorawData, _ReqBookCode, GrdItem, _DataTableGrid)
                 If e.KeyCode = Keys.Enter Then
-                    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
-                    'txt_Code_For_Grid_Selection.Text = ""
-                    'Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                    'obj_Party_Selection.SINGLE_store_Sub_Item_SELECTION()
-                    'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                    '    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
-                    '    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
-                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
-                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = txt_Code_For_Grid_Selection.Text
+                    'txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
+                    'LoadShadeSelection(ReqBookvnorawData, _ReqBookCode, GrdItem, _DataTableGrid)
+                    If e.KeyCode = Keys.Enter Then
+                        txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
+                        'txt_Code_For_Grid_Selection.Text = ""
+                        'Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+                        'obj_Party_Selection.SINGLE_store_Sub_Item_SELECTION()
+                        'If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+                        '    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
+                        '    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+                        '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
+                        '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = txt_Code_For_Grid_Selection.Text
+                        'End If
+                        txt_Code_For_Grid_Selection.Text = ""
+                        Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+                        Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
+                        Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                        If selected IsNot Nothing Then
+                            If selected.ContainsKey("ACCOUNTCODE") Then
+                                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                            End If
+                            If selected.ContainsKey("COMPANYNAME") Then
+                                GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("COMPANYNAME").ToString()
+                            End If
+                        End If
+                    End If
+                End If
+            ElseIf _ActivatedColName = "ITEMNAME" Then
+                'Or _ActivatedColName = "QTY"
+                If e.KeyCode = Keys.Enter Then
+
+                    'Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
+                    '    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
+                    '    Dim _StrQuery As New StringBuilder
+                    '    With _StrQuery
+                    '        .Append(" SELECT ")
+                    '        .Append(" B.ITENNAME AS ItemName, ")
+                    '        .Append(" B.HSNCODE AS HsnCode, ")
+                    '        .Append(" A.Mtr_weight AS Qty, ")
+                    '        .Append(" A.ITEMCODE AS ACCOUNTCODE ")
+                    '        .Append(" FROM TrnPackingSlip AS A ")
+                    '        .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
+                    '        .Append(" WHERE 1=1 ")
+                    '        '.Append(" AND A.Bookcode = 'RQSS-000000001'")
+                    '        .Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
+                    '        .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
+                    '    End With
+                    '    Dim _LoadQuery As String = _StrQuery.ToString()
+                    '    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                    'If selected IsNot Nothing Then
+                    '    If selected.ContainsKey("ACCOUNTCODE") Then
+                    '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
+                    '    End If
+                    '    If selected.ContainsKey("ItemName") Then
+                    '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
+                    '    End If
+                    '    If selected.ContainsKey("Qty") Then
+                    '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = selected("Qty").ToString()
+                    '    End If
+
                     'End If
-                    txt_Code_For_Grid_Selection.Text = ""
-                    Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                    Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
-                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
-                    If selected IsNot Nothing Then
-                        If selected.ContainsKey("ACCOUNTCODE") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()
-                        End If
-                        If selected.ContainsKey("COMPANYNAME") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("COMPANYNAME").ToString()
-                        End If
-                    End If
                 End If
-            End If
-        ElseIf _ActivatedColName = "ITEMNAME" Then
-            'Or _ActivatedColName = "QTY"
-            If e.KeyCode = Keys.Enter Then
-                If Change_Grid_Data = True Then
-                    Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
-                    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
-                    Dim _StrQuery As New StringBuilder
-                    With _StrQuery
-                        .Append(" SELECT ")
-                        .Append(" B.ITENNAME AS ItemName, ")
-                        .Append(" B.HSNCODE AS HsnCode, ")
-                        .Append(" A.Mtr_weight AS Qty, ")
-                        .Append(" A.ITEMCODE AS ACCOUNTCODE ")
-                        .Append(" FROM TrnPackingSlip AS A ")
-                        .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
-                        .Append(" WHERE 1=1 ")
-                        '.Append(" AND A.Bookcode = 'RQSS-000000001'")
-                        .Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
-                        .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
-                    End With
-                    Dim _LoadQuery As String = _StrQuery.ToString()
-                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
-                    If selected IsNot Nothing Then
-                        If selected.ContainsKey("ACCOUNTCODE") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
-                        End If
-                        If selected.ContainsKey("ItemName") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
-                        End If
-                        If selected.ContainsKey("Qty") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = selected("Qty").ToString()
-                        End If
 
-                    End If
+            ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "RDVALUE" Then
+                If e.KeyCode = Keys.Enter Then
+                    Call Total_Upto_All_Grid_All_Row()
+
                 End If
-            End If
-
-        ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "RDVALUE" Then
-            If e.KeyCode = Keys.Enter Then
-                Call Total_Upto_All_Grid_All_Row()
-
-            End If
-        ElseIf _ActivatedColName = "ROWREMARK" Then
-            If e.KeyCode = 13 Then
+            ElseIf _ActivatedColName = "ROWREMARK" Then
+                If e.KeyCode = 13 Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
                 Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
                 Dim ITEMNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
@@ -1624,13 +1707,76 @@ Friend Class QuotationEntry
 
     Private Sub TxtSelectReqNo_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtSelectReqNo.KeyDown
         If e.KeyCode = Keys.Enter Then
-            MasterselectionTable()
-            ReqBookvnorawData = MULTY_SELECTION_COLOUM_3_DATA
-            Dim rawData As String = MULTY_SELECTION_COLOUM_1_DATA
-            rawData = rawData.Replace("(", "").Replace(")", "").Replace("'", "")
-            Dim items As String() = rawData.Split(","c)
-            Dim cleanItems = items.Select(Function(x) x.Trim()).ToArray()
-            TxtSelectReqNo.Text = String.Join(",", cleanItems)
+            'MasterselectionTable()
+            'ReqBookvnorawData = MULTY_SELECTION_COLOUM_3_DATA
+            'Dim rawData As String = MULTY_SELECTION_COLOUM_1_DATA
+            'rawData = rawData.Replace("(", "").Replace(")", "").Replace("'", "")
+            'Dim items As String() = rawData.Split(","c)
+            'Dim cleanItems = items.Select(Function(x) x.Trim()).ToArray()
+            'TxtSelectReqNo.Text = String.Join(",", cleanItems)
+            'TxtSelectReqNo.ReadOnly = True
+
+
+            Dim _filterBookvno As String = ""
+
+            Dim strQuery As New StringBuilder
+
+            With strQuery
+                .Append(" SELECT DISTINCT ")
+                .Append(" 'False' AS TickMark, ")
+                .Append(" A.PACK_SLIP_NO AS [Req No], ")
+                .Append(" '' AS Remark, ")
+                .Append(" A.BookVno AS ACCOUNTCODE, ")
+                .Append(" A.BookVno AS ItemCode ")
+                .Append(" FROM  ")
+                .Append(" TrnPackingSlip AS A ")
+                .Append(" WHERE  ")
+                .Append(" A.Bookcode = '" & _ReqBookCode & "' ")
+                .Append("  AND NOT EXISTS ")
+                .Append("  (   ")
+                .Append(" SELECT 1  ")
+                .Append(" FROM TrnPackingSlip AS B  ")
+                .Append(" WHERE ")
+                .Append(" B.Bookcode = '" & _BookCode & "' ")
+                .Append(" AND B.OP7 LIKE '%''' + A.BookVno + '''%'")
+                .Append("  )")
+            End With
+            Dim _LoadQuery As String = strQuery.ToString()
+
+            Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTY")
+
+            Dim BookVnoList As New List(Of String)
+
+            Dim QuotationList As New List(Of String)
+
+            If selected IsNot Nothing Then
+
+                For Each row As Dictionary(Of String, Object) In selected
+                    If row.ContainsKey("ACCOUNTCODE") Then
+                        BookVnoList.Add("'" & row("ACCOUNTCODE").ToString() & "'")
+                    End If
+                    If row.ContainsKey("Req No") Then
+
+                        Dim rawData As String = row("Req No").ToString()
+                        rawData = rawData.Replace("(", "")
+                        rawData = rawData.Replace(")", "")
+                        rawData = rawData.Replace("'", "")
+
+                        Dim items As String() =
+                rawData.Split(","c)
+
+                        For Each itm As String In items
+
+                            If itm.Trim() <> "" Then
+
+                                QuotationList.Add(itm.Trim())
+                            End If
+                        Next
+                    End If
+                Next
+            End If
+            ReqBookvnorawData = "(" & String.Join(",", BookVnoList) & ")"
+            TxtSelectReqNo.Text = String.Join(",", QuotationList)
             TxtSelectReqNo.ReadOnly = True
             SendKeys.Send("{TAB}")
         ElseIf e.KeyCode = Keys.Delete Then
@@ -1638,49 +1784,49 @@ Friend Class QuotationEntry
             ReqBookvnorawData = ""
         End If
     End Sub
-    Public Sub MasterselectionTable()
+    'Public Sub MasterselectionTable()
 
-        Dim strQuery = New StringBuilder
-        With strQuery
-            .Append(" SELECT DISTINCT ")
-            .Append(" A.PACK_SLIP_NO AS [Req No], ")
-            .Append(" '' AS Remark, ")
-            .Append(" A.BookVno AS Bookcode1, ")
-            .Append(" A.BookVno AS Bookcode2,  ")
-            .Append("  A.BookVno AS Bookcode3")
-            .Append(" FROM  ")
-            .Append(" TrnPackingSlip AS A ")
-            .Append(" WHERE  ")
-            .Append(" A.Bookcode = '" & _ReqBookCode & "' ")
-            .Append("  AND NOT EXISTS ")
-            .Append("  (   ")
-            .Append(" SELECT 1  ")
-            .Append(" FROM TrnPackingSlip AS B  ")
-            .Append(" WHERE ")
-            .Append(" B.Bookcode = '" & _BookCode & "' ")
-            .Append(" AND B.OP22 LIKE '%''' + A.BookVno + '''%'")
-            .Append("  )")
-        End With
-        Dim query As String = strQuery.ToString
+    '    Dim strQuery = New StringBuilder
+    '    With strQuery
+    '        .Append(" SELECT DISTINCT ")
+    '        .Append(" A.PACK_SLIP_NO AS [Req No], ")
+    '        .Append(" '' AS Remark, ")
+    '        .Append(" A.BookVno AS Bookcode1, ")
+    '        .Append(" A.BookVno AS Bookcode2,  ")
+    '        .Append("  A.BookVno AS Bookcode3")
+    '        .Append(" FROM  ")
+    '        .Append(" TrnPackingSlip AS A ")
+    '        .Append(" WHERE  ")
+    '        .Append(" A.Bookcode = '" & _ReqBookCode & "' ")
+    '        .Append("  AND NOT EXISTS ")
+    '        .Append("  (   ")
+    '        .Append(" SELECT 1  ")
+    '        .Append(" FROM TrnPackingSlip AS B  ")
+    '        .Append(" WHERE ")
+    '        .Append(" B.Bookcode = '" & _BookCode & "' ")
+    '        .Append(" AND B.OP7 LIKE '%''' + A.BookVno + '''%'")
+    '        .Append("  )")
+    '    End With
+    '    Dim query As String = strQuery.ToString
 
-        sqL = query.ToString
-        sql_connect_slect()
-        Dim tblTmp As New DataTable
-        tblTmp = DefaltSoftTable.Copy
+    '    sqL = query.ToString
+    '    sql_connect_slect()
+    '    Dim tblTmp As New DataTable
+    '    tblTmp = DefaltSoftTable.Copy
 
-        Party_selection_multy.dgw.DataSource = tblTmp
-        Party_selection_multy.dgw.Columns("Bookcode1").Visible = False
-        Party_selection_multy.dgw.Columns("Bookcode2").Visible = False
-        Party_selection_multy.dgw.Columns("Bookcode3").Visible = False
-        Dim Chk As New DataGridViewCheckBoxColumn()
-        Party_selection_multy.dgw.Columns.Add(Chk)
-        Party_selection_multy.dgw.Columns(0).Width = 380
-        Party_selection_multy.dgw.Columns(1).Width = 200
-        Party_selection_multy.dgw.Columns(2).Width = 150
-        Party_selection_multy.dgw.Columns(5).Width = 30
-        Party_selection_multy.Width = 644
-        obj_Party_Selection.SELECTION_LIST_FIRST_multy_SELECTION()
-    End Sub
+    '    Party_selection_multy.dgw.DataSource = tblTmp
+    '    Party_selection_multy.dgw.Columns("Bookcode1").Visible = False
+    '    Party_selection_multy.dgw.Columns("Bookcode2").Visible = False
+    '    Party_selection_multy.dgw.Columns("Bookcode3").Visible = False
+    '    Dim Chk As New DataGridViewCheckBoxColumn()
+    '    Party_selection_multy.dgw.Columns.Add(Chk)
+    '    Party_selection_multy.dgw.Columns(0).Width = 380
+    '    Party_selection_multy.dgw.Columns(1).Width = 200
+    '    Party_selection_multy.dgw.Columns(2).Width = 150
+    '    Party_selection_multy.dgw.Columns(5).Width = 30
+    '    Party_selection_multy.Width = 644
+    '    obj_Party_Selection.SELECTION_LIST_FIRST_multy_SELECTION()
+    'End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = "Quotation Entry Details"
@@ -1693,7 +1839,7 @@ Friend Class QuotationEntry
 
     Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = StoresRequisition.SelectBookType(Txt_BookName.Text)
+            Dim selected = SelectBookType(Txt_BookName.Text)
             If selected IsNot Nothing Then
                 If selected.ContainsKey("ACCOUNTCODE") Then
                     _ReqBookCode = selected("ACCOUNTCODE").ToString()

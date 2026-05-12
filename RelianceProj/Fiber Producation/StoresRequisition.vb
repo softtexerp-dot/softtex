@@ -1640,14 +1640,14 @@ Friend Class StoresRequisition
     End Sub
 
 
-    Public Function SelectBookType(ByVal SearchText As String) As Dictionary(Of String, Object)
-        Dim _LoadQuery As String =
-            "SELECT 'RQSS-000000001' AS ACCOUNTCODE, 'STORE' AS BookName " &
-            "UNION ALL SELECT 'RQSS-000000002','RAW MATERIALS' " &
-            "UNION ALL SELECT 'RQSS-000000003','PET BOTTELS'"
-        Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
-        Return selected
-    End Function
+    'Public Function SelectBookType(ByVal SearchText As String) As Dictionary(Of String, Object)
+    '    Dim _LoadQuery As String =
+    '        "SELECT 'RQSS-000000001' AS ACCOUNTCODE, 'STORE' AS BookName " &
+    '        "UNION ALL SELECT 'RQSS-000000002','RAW MATERIALS' " &
+    '        "UNION ALL SELECT 'RQSS-000000003','PET BOTTELS'"
+    '    Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
+    '    Return selected
+    'End Function
 
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
         View_Record()

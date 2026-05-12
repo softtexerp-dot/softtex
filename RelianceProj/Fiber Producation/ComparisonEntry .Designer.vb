@@ -59,9 +59,6 @@ Partial Class ComparisonEntry
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
-        Me.TxtSelectReqNo = New ctl_TextBox.ctl_TextBox()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Txt_Terms4 = New ctl_TextBox.ctl_TextBox()
@@ -337,7 +334,7 @@ Partial Class ComparisonEntry
         Me.txtHeader_Remark.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtHeader_Remark.IsValidated = False
         Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtHeader_Remark.Location = New System.Drawing.Point(524, 41)
+        Me.txtHeader_Remark.Location = New System.Drawing.Point(539, 6)
         Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtHeader_Remark.MandatoryField = False
         Me.txtHeader_Remark.MaxDate = Nothing
@@ -360,7 +357,7 @@ Partial Class ComparisonEntry
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(393, 45)
+        Me.Label23.Location = New System.Drawing.Point(408, 10)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(58, 14)
         Me.Label23.TabIndex = 82238
@@ -370,7 +367,7 @@ Partial Class ComparisonEntry
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(511, 45)
+        Me.Label24.Location = New System.Drawing.Point(526, 10)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(12, 14)
         Me.Label24.TabIndex = 82239
@@ -720,69 +717,6 @@ Partial Class ComparisonEntry
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
-        'TxtSelectReqNo
-        '
-        Me.TxtSelectReqNo._AllowSpace = True
-        Me.TxtSelectReqNo.AcceptsReturn = True
-        Me.TxtSelectReqNo.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.TxtSelectReqNo.BackColor = System.Drawing.Color.LightCyan
-        Me.TxtSelectReqNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtSelectReqNo.Check_End_Date_Value_FY = "YES"
-        Me.TxtSelectReqNo.Check_Start_Date_Value_FY = "YES"
-        Me.TxtSelectReqNo.ClearField = True
-        Me.TxtSelectReqNo.CustomInputTypeString = Nothing
-        Me.TxtSelectReqNo.Date_for_Database = Nothing
-        Me.TxtSelectReqNo.Date_Tag = Nothing
-        Me.TxtSelectReqNo.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.TxtSelectReqNo.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
-        Me.TxtSelectReqNo.ExtraValue = ""
-        Me.TxtSelectReqNo.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtSelectReqNo.FontFocusColor = System.Drawing.Color.Blue
-        Me.TxtSelectReqNo.FontLeaveColor = System.Drawing.Color.Black
-        Me.TxtSelectReqNo.ForeColor = System.Drawing.Color.Black
-        Me.TxtSelectReqNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
-        Me.TxtSelectReqNo.IsValidated = False
-        Me.TxtSelectReqNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtSelectReqNo.Location = New System.Drawing.Point(524, 13)
-        Me.TxtSelectReqNo.MandatoryColor = System.Drawing.Color.LightCyan
-        Me.TxtSelectReqNo.MandatoryField = False
-        Me.TxtSelectReqNo.MaxDate = Nothing
-        Me.TxtSelectReqNo.MinDate = Nothing
-        Me.TxtSelectReqNo.Name = "TxtSelectReqNo"
-        Me.TxtSelectReqNo.NormalBorderColor = System.Drawing.Color.LightCyan
-        Me.TxtSelectReqNo.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.TxtSelectReqNo.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.TxtSelectReqNo.ReadOnly = True
-        Me.TxtSelectReqNo.RegularExpression = Nothing
-        Me.TxtSelectReqNo.RegularExpressionErrorMessage = Nothing
-        Me.TxtSelectReqNo.ShowMessage = False
-        Me.TxtSelectReqNo.Size = New System.Drawing.Size(475, 22)
-        Me.TxtSelectReqNo.SpacerString = ""
-        Me.TxtSelectReqNo.TabIndex = 82213
-        Me.TxtSelectReqNo.Tag = "OP21"
-        Me.TxtSelectReqNo.TransparentBox = True
-        Me.TxtSelectReqNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(392, 15)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(118, 14)
-        Me.Label8.TabIndex = 82231
-        Me.Label8.Text = "Selected Qty. No"
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(511, 15)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(12, 14)
-        Me.Label9.TabIndex = 82232
-        Me.Label9.Text = ":"
-        '
         'Label22
         '
         Me.Label22.AutoSize = True
@@ -1097,9 +1031,6 @@ Partial Class ComparisonEntry
         Me.Controls.Add(Me.lbl_Grid_Header)
         Me.Controls.Add(Me.UC_Buttons1)
         Me.Controls.Add(Me.GrdItem)
-        Me.Controls.Add(Me.TxtSelectReqNo)
-        Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.Label9)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
@@ -1154,9 +1085,6 @@ Partial Class ComparisonEntry
     Friend WithEvents lbl_Grid_Header As Label
     Friend WithEvents UC_Buttons1 As UC_Buttons
     Friend WithEvents GrdItem As FlexCell.Grid
-    Friend WithEvents TxtSelectReqNo As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Label8 As Label
-    Friend WithEvents Label9 As Label
     Friend WithEvents Label22 As Label
     Friend WithEvents Label21 As Label
     Friend WithEvents Txt_Terms4 As ctl_TextBox.ctl_TextBox
