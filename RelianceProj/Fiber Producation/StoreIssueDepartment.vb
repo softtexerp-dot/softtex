@@ -1,10 +1,7 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraGrid
 
-
-Friend Class QuotationEntry
-
-
+Public Class StoreIssueDepartment
     Private obj_Party_Selection As New Multi_Selection_Master
     Private ObjCls_General As New cls_FrmHandle.cls_frmHandle
     Private UnitName As String = ""
@@ -505,8 +502,8 @@ Friend Class QuotationEntry
         _old_Me_text = Me.Text
 
 
-        txtBookCode.Text = "QESS-000000001"
-        _BookTrType = "QESS1"
+        txtBookCode.Text = "IDSS-000000001"
+        _BookTrType = "IDSS1"
         _BookCode = txtBookCode.Text
 
         If _isCallerByOther = True Then
@@ -566,22 +563,9 @@ Friend Class QuotationEntry
         ElseIf e.KeyCode = Keys.F1 Then
             Select Case _STRTRNOBJECT
                 Case "GRDITEM"
-                    'Dim Total_Valid_Rows As Integer = 0
-                    'For I As Int16 = 1 To GrdItem.Rows - 1
-                    '    If Val(GrdItem.Cell(I, _DataTableGrid.Columns.IndexOf("PROCESS_NET_RATE") + 1).Text) <> 0 Then
-                    '        Total_Valid_Rows = Total_Valid_Rows + 1
-                    '    End If
-                    'Next
-                    'If Total_Valid_Rows = 0 Then
-                    '    MsgBox("Blank Item Detail, Can't Save", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                    '    Exit Sub
-                    'Else
                     _FrmLoad = True
-
                     GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
                     Txt_Terms1.Focus()
-                    'UC_Buttons1.BtnSave.Focus()
-                    ''End If
                 Case "TXT_TERMS1"
                     UC_Buttons1.BtnSave.Focus()
                 Case "TXT_TERMS2"
@@ -643,7 +627,6 @@ Friend Class QuotationEntry
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-        'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtUnitName.Visible = True
         txtUnitName.Focus()
@@ -656,7 +639,6 @@ Friend Class QuotationEntry
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-        'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtUnitName.Visible = True
         txtUnitName.Focus()
@@ -668,7 +650,6 @@ Friend Class QuotationEntry
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Label_Value_Nil_Rest()
-        'GetMaxEntryNo()
         txtUnitName.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
@@ -751,7 +732,6 @@ Friend Class QuotationEntry
         Dim _LastID As Integer = 0
 
         Try
-            'sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
             sqL = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
             sql_Data_Save_Delete_Update()
 
@@ -919,7 +899,7 @@ Friend Class QuotationEntry
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP5,")
+            '.Append("OP5,")
             '.Append("OP6,")
             '.Append("OP7,")
             .Append("OP8,")
@@ -942,7 +922,7 @@ Friend Class QuotationEntry
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
-            .Append(Txt_BookName.Text & ",")
+            '.Append(Txt_BookName.Text & ",")
             '.Append(_ReqNnovalue & ",")
             '.Append(ReqBookvnorawData & ",")
             .Append(Txt_Terms1.Text & ",")
@@ -1267,7 +1247,7 @@ Friend Class QuotationEntry
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
         'TxtSelectReqNo.Text = tblTmp.Rows(0)("OP6").ToString
-        Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
+        'Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
         Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
         Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
         Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
@@ -1440,12 +1420,11 @@ Friend Class QuotationEntry
         If Asc(e.KeyChar) = 27 Then Exit Sub
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
             Dim _FilterAccountcode As String = ""
-
-            Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
+            Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection(_FilterAccountcode)
             Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtAccountName.Text, "SINGLE")
             If selected IsNot Nothing Then
                 If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
-                If selected.ContainsKey("AccountName") Then txtAccountName.Text = selected("AccountName").ToString()
+                If selected.ContainsKey("DepName") Then txtAccountName.Text = selected("DepName").ToString()
             End If
             SendKeys.Send("{tab}")
         End If
@@ -1583,8 +1562,8 @@ Friend Class QuotationEntry
                     .Append(" LEFT JOIN MstCutMaster AS D ")
                     .Append(" ON A.CUTCODE = D.ID ")
                     .Append(" WHERE 1=1 ")
-                    .Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
-                    .Append(" AND A.BookTrType = '" & _ReqBookTrType & "'")
+                    .Append(" AND A.Bookcode = 'RQSS-000000001'")
+                    .Append(" AND A.BookTrType = 'RQSS1'")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
@@ -1594,7 +1573,6 @@ Friend Class QuotationEntry
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
                     .Append("  )")
                 End With
-
                 Dim _LoadQuery = _StrQuery.ToString()
                 Dim _FItemcodeilter As String = ""
                 Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTY")
@@ -1678,11 +1656,11 @@ Friend Class QuotationEntry
 
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "CUT_MTR" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
-                    Call Total_Upto_All_Grid_All_Row()
+                Call Total_Upto_All_Grid_All_Row()
 
-                End If
-            ElseIf _ActivatedColName = "ROWREMARK" Then
-                If e.KeyCode = 13 Then
+            End If
+        ElseIf _ActivatedColName = "ROWREMARK" Then
+            If e.KeyCode = 13 Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
                 Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
                 Dim ITEMNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
@@ -1764,33 +1742,6 @@ Friend Class QuotationEntry
 
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
-    End Sub
-
-    Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = SelectBookType(Txt_BookName.Text)
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    _ReqBookCode = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("BookName") Then
-                    Txt_BookName.Text = selected("BookName").ToString()
-                End If
-            End If
-            Select Case _ReqBookCode
-                Case "RQSS-000000001"
-                    _ReqBookTrType = "RQSS1"
-                Case "RQSS-000000002"
-                    _ReqBookTrType = "RQSS2"
-                Case "RQSS-000000003"
-                    _ReqBookTrType = "RQSS3"
-            End Select
-            SendKeys.Send("{TAB}")
-        End If
-    End Sub
-
-    Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
-        '_Validated()
     End Sub
     Private Sub _Validated()
         If _FrmLoad = True Then Exit Sub

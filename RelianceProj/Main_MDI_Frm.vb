@@ -163,6 +163,10 @@
         ComparisonEntry.Show()
     End Sub
 
+    Private Sub IssueToDepartmentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IssueToDepartmentToolStripMenuItem.Click
+        StoreIssueDepartment.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
