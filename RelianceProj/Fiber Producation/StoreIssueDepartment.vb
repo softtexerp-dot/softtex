@@ -785,7 +785,7 @@ Public Class StoreIssueDepartment
         If txtAcOfCode.Text = "" Then txtAcOfCode.Text = "0000-000000001"
         If txtTr_code.Text = "" Then txtTr_code.Text = "0000-000000001"
         If txtUnitCode.Text = "" Then txtUnitCode.Text = "0001-000000091"
-        If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0000-000000001"
+        'If txtAccount_Code.Text = "" Then txtAccount_Code.Text = "0000-000000001"
 
 
         _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
@@ -1012,22 +1012,17 @@ Public Class StoreIssueDepartment
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Quotation No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
-            .Append(" MstMasterAccount.accountname as [Party Name], ")
             .Append("  A.SRNO as [Sno], ")
-            '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
             .Append(" MstFabricItem.ITENNAME as [Item Name], ")
             .Append(" K.subItemName  AS [Sub Item], ")
             .Append(" E.DEPARTMENTNAME  AS DEPARTMENT, ")
-            '.Append(" F.ColorName AS Color,  ")
             .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
-            '.Append(" MstCutMaster.cutname as [Unit], ")
             .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            '.Append("  A.RDVALUE as [Tax %],")
             .Append("  A.AMOUNT as [Amount],")
-            .Append("  A.OP1,")
-            .Append("  A.OP2,")
-            .Append("  A.OP3,")
-            .Append("  A.OP4,")
+            .Append("  A.OP1 As [Terms 1] ,")
+            .Append("  A.OP2 As [Terms 2],")
+            .Append("  A.OP3 as [Terms 3],")
+            .Append("  A.OP4 as [Terms 4],")
             .Append("  A.OP6 AS [Req. NO],")
             .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
             .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
