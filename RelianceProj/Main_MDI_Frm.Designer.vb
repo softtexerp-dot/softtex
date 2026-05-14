@@ -54,6 +54,7 @@ Partial Class Main_MDI_Frm
         Me.QuotationToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ComparisonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IssueToDepartmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StoreApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -238,7 +239,7 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequisitionToolStripMenuItem1, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.IssueToDepartmentToolStripMenuItem})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequisitionToolStripMenuItem1, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
@@ -266,6 +267,12 @@ Partial Class Main_MDI_Frm
         Me.IssueToDepartmentToolStripMenuItem.Name = "IssueToDepartmentToolStripMenuItem"
         Me.IssueToDepartmentToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
         Me.IssueToDepartmentToolStripMenuItem.Text = "IssueToDepartment"
+        '
+        'StoreApprovalToolStripMenuItem
+        '
+        Me.StoreApprovalToolStripMenuItem.Name = "StoreApprovalToolStripMenuItem"
+        Me.StoreApprovalToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.StoreApprovalToolStripMenuItem.Text = "StoreApproval"
         '
         'Main_MDI_Frm
         '
@@ -322,4 +329,5 @@ Partial Class Main_MDI_Frm
     Friend WithEvents QuotationToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents ComparisonToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents IssueToDepartmentToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents StoreApprovalToolStripMenuItem As ToolStripMenuItem
 End Class

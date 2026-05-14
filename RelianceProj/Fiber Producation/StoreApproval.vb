@@ -1,0 +1,163 @@
+﻿Imports System.Text
+
+Public Class StoreApproval
+    Private _TblName As String = "TrnPackingSlip"
+    Private _KeyFieldName As String = "Id"
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = " Report From : Approval By Plant Head Details "
+        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+    End Sub
+
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
+        _DevExpressExcelExport(GridControl1)
+    End Sub
+
+    Private Sub StoreApproval_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Location = New Point(0, 0)
+        txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
+        txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
+        Generate_Date_For_DataBase(txt_From)
+        Generate_Date_For_DataBase(txt_To)
+        View_Record()
+    End Sub
+    Private Sub View_Record()
+        Dim dateFilter As String = ""
+        If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
+            ' Double single-quotes for dynamic SQL
+            dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
+        End If
+        Dim _UserQuery As New StringBuilder()
+        With _UserQuery
+            .Append(" SELECT   A.ENTRYNO As [Entry NO],")
+            .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
+            .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
+            .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
+            .Append(" A.PACK_SLIP_NO AS [Req. No],")
+            .Append(" CASE WHEN A.MODYFIDATE = '1900-01-01 00:00:00.000' THEN '' ")
+            .Append(" ELSE FORMAT(A.MODYFIDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Modify Date],")
+            .Append(" A.ITEMCODE,")  'Modify date
+            .Append(" A.BOOKVNO,")  'BookVNO
+            .Append(" MstFabricItem.ITENNAME AS ITEMNAME, ")
+            .Append(" MstCutMaster.CUTNAME As UOM, ")  'UOM
+            .Append(" A.MTR_WEIGHT AS Qty,")  'Qty
+            .Append("  CASE WHEN UPPER(A.OP19) = 'YES' THEN 'YES' ELSE 'NO' END AS Status")
+            .Append(" FROM  ")
+            .Append(" " & _TblName & " AS A  ")
+            .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
+            .Append(" LEFT JOIN MstFabricItem ON A.ITEMCODE=MstFabricItem.ID   ")
+            .Append(" LEFT JOIN MstMasterAccount ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
+            .Append(" LEFT JOIN MSTTRANSPORT  ON A.TRANSPORTCODE=MSTTRANSPORT.ID   ")
+            .Append(" LEFT JOIN MstMasterAccount AS C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE   ")
+            .Append(" LEFT JOIN Mst_Acof_Supply ON  A.ACOFCODE=Mst_Acof_Supply.ID   ")
+            .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
+            .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
+            .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
+            .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
+            .Append(" WHERE 1=1  ")
+            .Append(dateFilter)
+        End With
+        Dim tblTmp As DataTable
+        'sqL = _UserQuery.ToString()
+        Dim Str_Qry As String = _UserQuery.ToString
+        sqL = Str_Qry
+        sql_connect_slect()
+        tblTmp = DefaltSoftTable.Copy
+        Dim Qty As String = ""
+        If tblTmp.Rows.Count > 0 Then
+            GridControl1.DataSource = tblTmp.Copy
+            For Each dc As DataColumn In tblTmp.Columns
+                Dim isEmptyOrZero As Boolean = True
+                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Then
+                    FirstStage.Columns(dc.ColumnName).Visible = False
+                    Continue For
+                End If
+
+                If dc.ColumnName.ToUpper() = "ENTRY DATE" Then
+                    FirstStage.Columns(dc.ColumnName).Visible = True
+                    Continue For
+                End If
+                If dc.ColumnName.ToUpper() = "MODIFY DATE" Then
+                    FirstStage.Columns(dc.ColumnName).Visible = True
+                    Continue For
+                End If
+                For Each dr As DataRow In tblTmp.Rows
+                    If Not IsDBNull(dr(dc)) Then
+                        Dim val As String = dr(dc).ToString().Trim()
+                        ' 🔴 अगर कोई value meaningful है → column visible रहेगा
+                        If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
+                            isEmptyOrZero = False
+                            Exit For
+                        End If
+                    End If
+                Next
+                If isEmptyOrZero Then
+                    FirstStage.Columns(dc.ColumnName).Visible = False
+                End If
+            Next
+            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+                col.OptionsColumn.AllowEdit = False
+            Next
+
+            ' Step 2: Sirf required columns editable
+            'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
+            DevGridFitColumn(GridControl1, FirstStage)
+            FirstStage.BestFitColumns()
+            FirstStage.Focus()
+            GridControl1.BringToFront()
+            FirstStage.OptionsBehavior.Editable = True
+            FirstStage.OptionsBehavior.ReadOnly = False
+            FirstStage.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click
+        Else
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+        End If
+    End Sub
+
+    Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
+        Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
+        ConnDB()
+        If conn.State = ConnectionState.Closed Then
+            conn.Open()
+        End If
+        For Each dr As DataRow In dt.Rows
+            If dr.RowState = DataRowState.Modified Then
+                Dim cmd As New SqlClient.SqlCommand()
+                cmd.Connection = conn
+                cmd.CommandType = CommandType.Text
+                cmd.CommandTimeout = 420
+                cmd.CommandText =
+            "UPDATE " & _TblName & " SET " &
+            "OP19 = @OP19, " &
+            "MODYFIDATE = @MODYFIDATE " &
+            "WHERE BOOKVNO = @BOOKVNO " &
+            "AND ITEMCODE = @ITEMCODE"
+                cmd.Parameters.Clear()
+                'cmd.Parameters.AddWithValue("@OP19", dr("OP19").ToString())
+                cmd.Parameters.AddWithValue("@OP19", dr("STATUS").ToString())
+                cmd.Parameters.AddWithValue("@MODYFIDATE", Now)
+                cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
+                cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
+                cmd.ExecuteNonQuery()
+                cmd.Dispose()
+            End If
+        Next
+        conn.Close()
+        MessageBox.Show("Data Updated Successfully")
+    End Sub
+    Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
+        If e.KeyCode = Keys.Space Then
+            If FirstStage.FocusedColumn.FieldName = "Status" Then
+                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
+                If currentValue = "YES" Then
+                    FirstStage.SetFocusedRowCellValue("Status", "NO")
+                Else
+                    FirstStage.SetFocusedRowCellValue("Status", "YES")
+                End If
+                e.Handled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
+        View_Record()
+    End Sub
+End Class

@@ -15,7 +15,7 @@ Friend Class StoresRequisition
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
     Dim _UserID As Integer = 1
-
+    Dim _lblEntryDate As String
 #Region "GRID STRING BUILDER VARIABLE "
     Private _GridColNames As New StringBuilder
     Private _GridColType As New StringBuilder
@@ -127,7 +127,7 @@ Friend Class StoresRequisition
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,") 'GodOwnCode
             .Append("OP20,") 'BookName
-            .Append("OP18,") 'UserId
+            .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
             .Append("USEBY,")
             .Append("ENTRYDATE,")
@@ -264,7 +264,7 @@ Friend Class StoresRequisition
             .Append("OP20:N,") 'BookName
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
-            .Append("OP18:N,") 'UserId
+            .Append("OP21:N,") 'UserId
             .Append("OP19:N,") 'Approve status
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
         End With
@@ -517,7 +517,7 @@ Friend Class StoresRequisition
                 Case "GRDITEM"
                     Dim Total_Valid_Rows As Integer = 0
                     For I As Int16 = 1 To GrdItem.Rows - 1
-                        If Val(GrdItem.Cell(I, _DataTableGrid.Columns.IndexOf("PROCESS_NET_RATE") + 1).Text) <> 0 Then
+                        If Val(GrdItem.Cell(I, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) <> 0 Then
                             Total_Valid_Rows = Total_Valid_Rows + 1
                         End If
                     Next
@@ -629,7 +629,7 @@ Friend Class StoresRequisition
 
     Private Sub UC_Buttons1_SaveClick() Handles UC_Buttons1.SaveClick
         _FrmLoad = False
-        _FORMMODE = "SAVE"
+        '_FORMMODE = "SAVE"
         SaveRecord()
     End Sub
 
@@ -836,10 +836,12 @@ Friend Class StoresRequisition
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
             .Append("OP20,")
-            .Append("OP18,")
+            .Append("OP21,")
+            'If _FORMMODE = "SAVE" Then
             If _FORMMODE = "ADD" Then
                 .Append("ENTRYDATE,")
             ElseIf _FORMMODE = "EDIT" Then
+                .Append("ENTRYDATE,")
                 .Append("MODYFIDATE,")
             End If
             .Append("HeaderRemark")
@@ -860,11 +862,13 @@ Friend Class StoresRequisition
             .Append(_GodownCode & ",")
             .Append(Txt_BookName.Text & ",")
             .Append(_UserID & ",")
+            'If _FORMMODE = "SAVE" Then
             If _FORMMODE = "ADD" Then
-                .Append("'" & Format(Now, "dd/MM/yyyy HH:mm:ss") & "',")
-                '.Append("'" & Format(Now, "yyyy-MM-dd HH:mm:ss") & "',")
+                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             ElseIf _FORMMODE = "EDIT" Then
-                .Append("'" & Format(Now, "dd/MM/yyyy HH:mm:ss") & "',")
+                .Append(_lblEntryDate & ",")
+                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
+
             End If
             .Append(txtHeader_Remark.Text)
         End With
@@ -938,11 +942,14 @@ Friend Class StoresRequisition
             .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
             '.Append(" MstCutMaster.cutname as [Unit], ")
             .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
+            .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
+            .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             '.Append("  A.RDVALUE as [Tax %],")
             .Append("  A.AMOUNT as [Amount],")
             .Append(" MstTransport.TransportName as [Transport], ")
             .Append(" C.accountname as [Agent Name], ")
             .Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
+            .Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
             .Append("  A.HeaderRemark as [Remark] ")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
@@ -1147,6 +1154,8 @@ Friend Class StoresRequisition
             .Append(" Mst_Acof_Supply.AC_NAME AS AcOfName, ")
             .Append(" E.DEPARTMENTNAME AS DEPARTMENT, ")
             .Append(" F.ColorName AS COLORNAME,  ")
+            .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS F_ENTRYDATE,  ")
+            .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             .Append(" K.subItemName  AS COMPANYNAME ")
             .Append(" ,IIF(ISNULL(G.USEBOOKVNO,'')='','NO','YES') AS USEBY")
 
@@ -1176,6 +1185,7 @@ Friend Class StoresRequisition
 #Region "ALTER FORM"
     Private Sub Alter_Form(ByVal strKeyID As String)
         _FrmLoad = False
+
         Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
         Dim tblTmp As New DataTable
         strQuery = getAlter_Form_Query_Details(strKeyID)
@@ -1190,6 +1200,8 @@ Friend Class StoresRequisition
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
+        Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
+        _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
         Generate_Date_For_DataBase(txtChallanDate)
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
@@ -1489,15 +1501,10 @@ Friend Class StoresRequisition
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 Dim _StrQuery As New StringBuilder
                 With _StrQuery
-                    .Append(" SELECT ")
-                    '.Append(" 'False' AS TickMark, ")
-                    .Append(" B.CUTNAME AS UOM, ")
+                    .Append(" Select CUTM.CUTNAME AS UOM,")
                     .Append(" '' as Remark, ")
-                    .Append(" A.CUTCODE AS ACCOUNTCODE ")
-                    .Append(" FROM TrnPackingSlip AS A ")
-                    .Append(" LEFT JOIN MstCutMaster AS B ON A.CUTCODE = B.ID ")
-                    .Append(" WHERE 1=1 ")
-                    .Append(" AND A.Bookcode = '" & _BookCode & "' ")
+                    .Append(" CUTM.ID AS ACCOUNTCODE ")
+                    .Append(" from MstCutMaster As CUTM where 1=1 AND CATEGORY='STORE' ORDER BY CAST(CUTM.ORDERNO As INT)  ")
                 End With
                 Dim _LoadQuery As String = _StrQuery.ToString()
                 Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
@@ -1529,33 +1536,34 @@ Friend Class StoresRequisition
             End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
-                If Change_Grid_Data = True Then
-                    Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
+
+                Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
                     txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
+                    Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
                     Dim _StrQuery As New StringBuilder
                     With _StrQuery
                         .Append(" SELECT ")
-                        .Append(" B.ITENNAME AS ItemName, ")
-                        .Append(" A.ITEMCODE AS ACCOUNTCODE ")
-                        .Append(" FROM TrnPackingSlip AS A ")
-                        .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
+                        .Append(" A.ITENNAME as ItemName,")
+                        .Append(" A.HSNCODE,")
+                        .Append(" A.ID ACCOUNTCODE ")
+                        .Append(" FROM MstFabricItem A ")
                         .Append(" WHERE 1=1 ")
-                        .Append(" AND A.Bookcode = '" & _BookCode & "'")
+                        .Append(" AND ISNULL(A.OP10,'YES')<>'NO'")
+                        .Append(" ORDER BY A.ITENNAME")
                     End With
+
                     Dim _LoadQuery As String = _StrQuery.ToString()
                     Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
-                    If selected IsNot Nothing Then
-                        If selected.ContainsKey("ACCOUNTCODE") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
-                        End If
-
-                        If selected.ContainsKey("ItemName") Then
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
-                        End If
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ACCOUNTCODE") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
                     End If
-                    txt_Name_For_Grid_Selection.Text = ""
+
+                    If selected.ContainsKey("ItemName") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
+                        txt_Name_For_Grid_Selection.Text = selected("ItemName").ToString()
+                    End If
                 End If
-                txt_Name_For_Grid_Selection.Text = ""
             End If
         ElseIf _ActivatedColName = "DEPARTMENT" Then
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
@@ -1563,14 +1571,11 @@ Friend Class StoresRequisition
                     txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text
                     Dim _StrQuery As New StringBuilder
                     With _StrQuery
-                        .Append(" SELECT ")
-                        .Append(" B.Departmentname as [Dep. Name],")
-                        .Append(" B.Descr as Remark, ")
-                        .Append(" A.DesignCode AS ACCOUNTCODE ")
-                        .Append(" FROM TrnPackingSlip AS A ")
-                        .Append(" LEFT JOIN MstDepartment AS B ON A.DesignCode = B.Departmentcode ")
-                        .Append(" WHERE 1=1 ")
-                        .Append(" AND A.Bookcode = '" & _BookCode & "'")
+                        .Append("  SELECT a.Departmentname as [Dep. Name],")
+                        .Append(" a.Descr as Remark,")
+                        .Append(" A.Departmentcode As ACCOUNTCODE")
+
+                        .Append(" FROM MstDepartment AS A ORDER BY Departmentname")
                     End With
                     Dim _LoadQuery As String = _StrQuery.ToString()
                     Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")

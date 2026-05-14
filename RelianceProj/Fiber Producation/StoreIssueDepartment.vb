@@ -12,8 +12,8 @@ Public Class StoreIssueDepartment
 
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
-
-
+    Dim _UserID As Integer = 1
+    Dim _lblEntryDate As String
 #Region "GRID STRING BUILDER VARIABLE "
     Private _GridColNames As New StringBuilder
     Private _GridColType As New StringBuilder
@@ -138,6 +138,10 @@ Public Class StoreIssueDepartment
             .Append("OP10,") 'Terms3
             .Append("OP16,") 'Terms4
             .Append("USEBY,")
+            .Append("OP21,") 'UserId
+            .Append("OP19,") 'Approve status
+            .Append("ENTRYDATE,")
+            .Append("MODYFIDATE,")
             .Append("DESPATCHCODE")
         End With
 
@@ -293,6 +297,10 @@ Public Class StoreIssueDepartment
             .Append("OP10:N,") 'Terms3
             .Append("OP16:N,") 'Terms4
             .Append("USEBY:N,")
+            .Append("OP21:N,") 'UserId
+            .Append("OP19:N,") 'Approve status
+            .Append("ENTRYDATE:N,")
+            .Append("MODYFIDATE:N,")
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -343,6 +351,7 @@ Public Class StoreIssueDepartment
             .Append("CUT_MTR:0,")
             .Append("WEIGHT:0,")
             .Append("PIECE_ID:0,")
+            .Append("OP19:NO,") 'Approve status
             .Append("AMOUNT:0")
         End With
         _FieldLocked = New StringBuilder
@@ -675,7 +684,7 @@ Public Class StoreIssueDepartment
 
     Private Sub UC_Buttons1_SaveClick() Handles UC_Buttons1.SaveClick
         _FrmLoad = False
-        _FORMMODE = "SAVE"
+        '_FORMMODE = "SAVE"
         SaveRecord()
     End Sub
 
@@ -899,13 +908,17 @@ Public Class StoreIssueDepartment
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            '.Append("OP5,")
-            '.Append("OP6,")
-            '.Append("OP7,")
             .Append("OP8,")
             .Append("OP9,")
             .Append("OP10,")
             .Append("OP16,")
+            .Append("OP21,")
+            If _FORMMODE = "ADD" Then
+                .Append("ENTRYDATE,")
+            ElseIf _FORMMODE = "EDIT" Then
+                .Append("ENTRYDATE,")
+                .Append("MODYFIDATE,")
+            End If
             .Append("HeaderRemark")
         End With
 
@@ -922,13 +935,17 @@ Public Class StoreIssueDepartment
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
-            '.Append(Txt_BookName.Text & ",")
-            '.Append(_ReqNnovalue & ",")
-            '.Append(ReqBookvnorawData & ",")
             .Append(Txt_Terms1.Text & ",")
             .Append(Txt_Terms2.Text & ",")
             .Append(Txt_Terms3.Text & ",")
             .Append(Txt_Terms4.Text & ",")
+            .Append(_UserID & ",")
+            If _FORMMODE = "ADD" Then
+                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss") & ",")
+            ElseIf _FORMMODE = "EDIT" Then
+                .Append(_lblEntryDate & ",")
+                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
+            End If
             .Append(txtHeader_Remark.Text)
         End With
 
@@ -1011,6 +1028,10 @@ Public Class StoreIssueDepartment
             .Append("  A.OP2,")
             .Append("  A.OP3,")
             .Append("  A.OP4,")
+            .Append("  A.OP6 AS [Req. NO],")
+            .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
+            .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
+            .Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
             .Append(" MstTransport.TransportName as [Transport], ")
             .Append(" C.accountname as [Agent Name], ")
             .Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
@@ -1202,7 +1223,10 @@ Public Class StoreIssueDepartment
             .Append(" C.accountname as agentname, ")
             .Append(" MstCutMaster.CUTNAME, ")
             .Append(" Mst_Acof_Supply.AC_NAME AS AcOfName, ")
+            .Append(" H.DEPARTMENTNAME  AS DEPARTMENT, ")
             .Append(" E.SIZENAME AS SIZENAME, ")
+            .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS F_ENTRYDATE,  ")
+            .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             .Append(" F.ColorName AS COLORNAME,  ")
             .Append(" K.subItemName  AS COMPANYNAME ")
             .Append(" ,IIF(ISNULL(G.USEBOOKVNO,'')='','NO','YES') AS USEBY")
@@ -1218,6 +1242,7 @@ Public Class StoreIssueDepartment
             .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
+            .Append(" LEFT JOIN MstDepartment H  ON A.DESIGNCODE=H.Departmentcode ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
@@ -1237,7 +1262,7 @@ Public Class StoreIssueDepartment
         sqL = strQuery
         sql_connect_slect()
         tblTmp = DefaltSoftTable.Copy
-        txtAccountName.Text = tblTmp.Rows(0)("ACCOUNTNAME").ToString
+        txtAccountName.Text = tblTmp.Rows(0)("DEPARTMENT").ToString
         txtChallanNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
@@ -1246,6 +1271,8 @@ Public Class StoreIssueDepartment
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
+        Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
+        _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
         'TxtSelectReqNo.Text = tblTmp.Rows(0)("OP6").ToString
         'Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
         Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
@@ -1551,7 +1578,7 @@ Public Class StoreIssueDepartment
                     .Append(" A.ACCOUNTCODE AS ACCOUNTCODE, ")
                     .Append(" A.BOOKVNO As ID, ")
                     .Append(" C.subItemName AS COMPANYNAME, ")
-                    .Append(" C.ID AS GROUPCODE, ")
+                    .Append(" C.subItemCode AS GROUPCODE, ")
                     .Append(" D.CUTNAME AS CUTNAME, ")
                     .Append(" A.CUTCODE AS CountCode, ")
                     .Append(" A.ITEMCODE AS ItemCode ")

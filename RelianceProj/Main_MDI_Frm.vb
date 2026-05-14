@@ -167,6 +167,10 @@
         StoreIssueDepartment.Show()
     End Sub
 
+    Private Sub StoreApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StoreApprovalToolStripMenuItem.Click
+        StoreApproval.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
