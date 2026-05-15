@@ -960,8 +960,7 @@ Public Class StoreIssueDepartment
 
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
-            'strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
-            strQuery = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
+            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
 
             sqL = strQuery
             sql_Data_Save_Delete_Update()
@@ -1041,7 +1040,7 @@ Public Class StoreIssueDepartment
             .Append(" LEFT JOIN Mst_Acof_Supply ON  A.ACOFCODE=Mst_Acof_Supply.ID   ")
             .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
             .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
-            .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
+            .Append(" LEFT JOIN MstDepartment E  ON A.ACCOUNTCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1 ")
             .Append(_UNiteWiseCode)
@@ -1237,7 +1236,7 @@ Public Class StoreIssueDepartment
             .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
-            .Append(" LEFT JOIN MstDepartment H  ON A.DESIGNCODE=H.Departmentcode ")
+            .Append(" LEFT JOIN MstDepartment H  ON A.ACCOUNTCODE=H.Departmentcode ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
@@ -1774,6 +1773,7 @@ Public Class StoreIssueDepartment
             .Append(" SELECT TOP 1 A.*, ")
             .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy') AS F_CHALLANDATE, ")
             .Append(" B.ACCOUNTNAME,C.AC_NAME AS ACOFNAME,F.ACCOUNTNAME AS AGENTNAME,")
+            .Append(" G.DEPARTMENTNAME  AS DEPARTMENT, ")
             .Append(" D.TRANSPORTNAME,E.CITYNAME AS DESPATCH ")
             .Append(" FROM TrnPackingSlip AS A ")
             .Append(" LEFT JOIN MstMasterAccount AS B ON A.ACCOUNTCODE = B.ACCOUNTCODE ")
@@ -1781,6 +1781,7 @@ Public Class StoreIssueDepartment
             .Append(" LEFT JOIN Mst_Acof_Supply AS C ON A.ACOFCODE = C.ID ")
             .Append(" LEFT JOIN MSTTRANSPORT AS D ON A.TRANSPORTCODE = D.ID ")
             .Append(" LEFT JOIN MSTCITY AS E ON A.DESPATCHCODE = E.CITYCODE ")
+            .Append(" LEFT JOIN MstDepartment G  ON A.ACCOUNTCODE=G.Departmentcode ")
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
             .Append(" ORDER BY A.ENTRYNO DESC ")
@@ -1800,7 +1801,7 @@ Public Class StoreIssueDepartment
         If _FORMMODE = "ADD" Then
             txtEntryNo.Text = Last_Entry_No + 1
             If Last_Entry_No > 0 Then
-                txtAccountName.Text = TblTmp(0)("ACCOUNTNAME").ToString
+                txtAccountName.Text = TblTmp(0)("DEPARTMENT").ToString
                 txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
                 txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
                 txtAcOfCode.Text = TblTmp(0)("ACOFCODE").ToString
