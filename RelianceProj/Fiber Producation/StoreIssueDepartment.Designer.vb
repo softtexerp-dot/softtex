@@ -93,6 +93,7 @@ Partial Class StoreIssueDepartment
         Me.Label22.Size = New System.Drawing.Size(12, 14)
         Me.Label22.TabIndex = 82251
         Me.Label22.Text = ":"
+        Me.Label22.Visible = False
         '
         'Txt_Terms4
         '
@@ -136,6 +137,7 @@ Partial Class StoreIssueDepartment
         Me.Txt_Terms4.Tag = "OP19"
         Me.Txt_Terms4.TransparentBox = True
         Me.Txt_Terms4.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.Txt_Terms4.Visible = False
         '
         'Txt_Terms3
         '
@@ -179,6 +181,7 @@ Partial Class StoreIssueDepartment
         Me.Txt_Terms3.Tag = "OP18"
         Me.Txt_Terms3.TransparentBox = True
         Me.Txt_Terms3.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.Txt_Terms3.Visible = False
         '
         'Txt_Terms2
         '
@@ -222,6 +225,7 @@ Partial Class StoreIssueDepartment
         Me.Txt_Terms2.Tag = "OP17"
         Me.Txt_Terms2.TransparentBox = True
         Me.Txt_Terms2.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.Txt_Terms2.Visible = False
         '
         'Txt_Terms1
         '
@@ -265,6 +269,7 @@ Partial Class StoreIssueDepartment
         Me.Txt_Terms1.Tag = "OP16"
         Me.Txt_Terms1.TransparentBox = True
         Me.Txt_Terms1.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.Txt_Terms1.Visible = False
         '
         'Label17
         '
@@ -275,6 +280,7 @@ Partial Class StoreIssueDepartment
         Me.Label17.Size = New System.Drawing.Size(12, 14)
         Me.Label17.TabIndex = 82247
         Me.Label17.Text = ":"
+        Me.Label17.Visible = False
         '
         'Label16
         '
@@ -285,6 +291,7 @@ Partial Class StoreIssueDepartment
         Me.Label16.Size = New System.Drawing.Size(12, 14)
         Me.Label16.TabIndex = 82246
         Me.Label16.Text = ":"
+        Me.Label16.Visible = False
         '
         'Label15
         '
@@ -295,6 +302,7 @@ Partial Class StoreIssueDepartment
         Me.Label15.Size = New System.Drawing.Size(12, 14)
         Me.Label15.TabIndex = 82245
         Me.Label15.Text = ":"
+        Me.Label15.Visible = False
         '
         'BtnExport
         '
@@ -316,6 +324,7 @@ Partial Class StoreIssueDepartment
         Me.Label21.Size = New System.Drawing.Size(143, 14)
         Me.Label21.TabIndex = 82250
         Me.Label21.Text = "Terms And Condition"
+        Me.Label21.Visible = False
         '
         'FirstStage
         '
@@ -372,6 +381,7 @@ Partial Class StoreIssueDepartment
         Me.Label14.Size = New System.Drawing.Size(12, 14)
         Me.Label14.TabIndex = 82244
         Me.Label14.Text = ":"
+        Me.Label14.Visible = False
         '
         'Label13
         '
@@ -382,6 +392,7 @@ Partial Class StoreIssueDepartment
         Me.Label13.Size = New System.Drawing.Size(61, 14)
         Me.Label13.TabIndex = 82243
         Me.Label13.Text = "Terms 4"
+        Me.Label13.Visible = False
         '
         'Label12
         '
@@ -392,6 +403,7 @@ Partial Class StoreIssueDepartment
         Me.Label12.Size = New System.Drawing.Size(61, 14)
         Me.Label12.TabIndex = 82242
         Me.Label12.Text = "Terms 3"
+        Me.Label12.Visible = False
         '
         'Label11
         '
@@ -402,6 +414,7 @@ Partial Class StoreIssueDepartment
         Me.Label11.Size = New System.Drawing.Size(61, 14)
         Me.Label11.TabIndex = 82241
         Me.Label11.Text = "Terms 2"
+        Me.Label11.Visible = False
         '
         'Label10
         '
@@ -412,6 +425,7 @@ Partial Class StoreIssueDepartment
         Me.Label10.Size = New System.Drawing.Size(61, 14)
         Me.Label10.TabIndex = 82240
         Me.Label10.Text = "Terms 1"
+        Me.Label10.Visible = False
         '
         'btnView
         '
@@ -783,9 +797,9 @@ Partial Class StoreIssueDepartment
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.Location = New System.Drawing.Point(407, 11)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(126, 14)
+        Me.Label5.Size = New System.Drawing.Size(127, 14)
         Me.Label5.TabIndex = 82230
-        Me.Label5.Text = "DepartMent Name"
+        Me.Label5.Text = "Department Name"
         '
         'Label6
         '
@@ -857,9 +871,9 @@ Partial Class StoreIssueDepartment
         Me.Label4.ForeColor = System.Drawing.Color.Black
         Me.Label4.Location = New System.Drawing.Point(9, 61)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(94, 14)
+        Me.Label4.Size = New System.Drawing.Size(78, 14)
         Me.Label4.TabIndex = 82228
-        Me.Label4.Text = "Quotation No"
+        Me.Label4.Text = "Challan No"
         '
         'Label41
         '

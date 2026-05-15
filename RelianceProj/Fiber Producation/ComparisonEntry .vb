@@ -14,7 +14,7 @@ Public Class ComparisonEntry
 
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
-    Dim _UserID As Integer = 1
+    'Dim _UserID As Integer = 1
     Dim _lblEntryDate As String
 #Region "GRID STRING BUILDER VARIABLE "
     Private _GridColNames As New StringBuilder
@@ -130,9 +130,9 @@ Public Class ComparisonEntry
             .Append("Y_DELV_ACCOUNTCODE,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP1,") 'gst
-            .Append("OP2,") 'Fright
-            .Append("OP3,")  'Delivery
+            .Append("OP11,") 'gst
+            .Append("OP12,") 'Fright
+            .Append("OP13,")  'Delivery
             .Append("OP4,") 'Payment terms
             .Append("OP5,") 'BookName
 
@@ -194,9 +194,9 @@ Public Class ComparisonEntry
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
-            .Append("OP1:Gst,")  'gst
-            .Append("OP2:Fright,")  'Fright
-            .Append("OP3:Delivery,")  'Delivery
+            .Append("OP11:Gst,")  'gst
+            .Append("OP12:Fright,")  'Fright
+            .Append("OP13:Delivery,")  'Delivery
             .Append("OP4:Payment terms,")  'Payment terms
             .Append("ROWREMARK:Remark")
         End With
@@ -221,9 +221,9 @@ Public Class ComparisonEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP1:L,") 'gst
-            .Append("OP2:L,") 'Fright
-            .Append("OP3:L,")  'Delivery
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
             .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
@@ -249,9 +249,9 @@ Public Class ComparisonEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP1:L,") 'gst
-            .Append("OP2:L,") 'Fright
-            .Append("OP3:L,")  'Delivery
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
             .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
@@ -299,9 +299,9 @@ Public Class ComparisonEntry
             .Append("AMOUNT:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
-            .Append("OP1:Y,")  'gst
-            .Append("OP2:Y,")  'Fright
-            .Append("OP3:Y,")  'Delivery
+            .Append("OP11:Y,")  'gst
+            .Append("OP12:Y,")  'Fright
+            .Append("OP13:Y,")  'Delivery
             .Append("OP4:Y,")  'Payment terms
             .Append("OP5:N,") 'BookName
             '.Append("OP6:N,") 'Selected Req No
@@ -354,9 +354,9 @@ Public Class ComparisonEntry
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("OP1:8,") 'gst
-            .Append("OP2:8,") 'Fright
-            .Append("OP3:8,")  'Delivery
+            .Append("OP11:8,") 'gst
+            .Append("OP12:8,") 'Fright
+            .Append("OP13:8,")  'Delivery
             .Append("OP4:12,") 'Payment terms
             .Append("ROWREMARK:12")
         End With
@@ -371,6 +371,9 @@ Public Class ComparisonEntry
             .Append("WEIGHT:0,")
             .Append("PIECE_ID:0,")
             .Append("OP19:NO,") 'Approve status
+            .Append("OP11:0,") 'gst
+            .Append("OP12:0,") 'Fright
+            .Append("OP13:0,")  'Delivery
             .Append("AMOUNT:0")
         End With
         _FieldLocked = New StringBuilder
@@ -388,9 +391,9 @@ Public Class ComparisonEntry
             .Append("OP18:Y,")
             .Append("AccountName:Y,")
             .Append("OFFERNO:Y,")
-            .Append("OP1:Y,") 'gst
-            .Append("OP2:Y,") 'Fright
-            .Append("OP3:Y,")  'Delivery
+            .Append("OP11:Y,") 'gst
+            .Append("OP12:Y,") 'Fright
+            .Append("OP13:Y,")  'Delivery
             .Append("OP4:Y,") 'Payment terms
             .Append("ITEMNAME:Y")
         End With
@@ -402,6 +405,9 @@ Public Class ComparisonEntry
             .Append("RDVALUE:NO-2,")
             .Append("WEIGHT:NO-2,")
             .Append("CUT_MTR:NO-2,")
+            .Append("OP11:NO-2,") 'gst
+            .Append("OP12:NO-2,") 'Fright
+            .Append("OP13:NO-2,")  'Delivery
             .Append("AMOUNT:NO-2")
         End With
 
@@ -767,8 +773,10 @@ Public Class ComparisonEntry
         Try
             sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
             sql_Data_Save_Delete_Update()
-
-
+#Region "Edit Log Save"
+            Dim _EntryType As String = "Delete"
+            _EditLog(_EntryType)
+#End Region
             _KeyFieldValue = 0
             _FORMMODE = "ADD"
 
@@ -840,7 +848,15 @@ Public Class ComparisonEntry
         Dim _LastID As Integer = -1
         Try
             _LastID = SAVE_INTO_DATABASE_SQL()
-
+#Region "Edit Log Save"
+            Dim _EntryType As String = ""
+            If _FORMMODE = "ADD" Then
+                _EntryType = "Add"
+            ElseIf _FORMMODE = "EDIT" Then
+                _EntryType = "Edit"
+            End If
+            _EditLog(_EntryType)
+#End Region
             Old_Date = txtChallanDate.Text
             Call Label_Value_Nil_Rest()
             _Last_Saved_Entry_No = Val(txtEntryNo.Text)
@@ -861,7 +877,38 @@ Public Class ComparisonEntry
             MsgBox(ex.Message)
         End Try
     End Sub
+    Private Sub _EditLog(ByVal _EntryType As String)
+        Dim BookType As String = "Store Comparison"
+        Dim _Item As String = ""
+        Dim _Rate As String = ""
+        Dim _qty As String = ""
+        Dim _Rateon As String = ""
+        Dim _ItemDetail As String = ""
+        Dim _BarcodeNo As String = ""
 
+        Dim _EditReason As String = ""
+        Dim _PartyGstinno As String = ""
+        _SaveUserEditLog(txtBookCode.Text,
+                            "Store Comparison",
+                            BookType,
+                            txtEntryNo.Text,
+                            txtChallanNo.Text,
+                            CDate(Date.Now).ToString(),
+                            "",'txtAccountName.Text
+                            "",'txtAccount_Code.Text
+                            "",'txtDespatch.Text
+                            0.00,
+                            _USERNAME,
+                            _EntryType,
+                            _EditReason,
+                            CDate(Date.Now).ToString("yyyy-MM-dd"),
+                            _BookVNo,
+                            _ItemDetail,
+                            txtChallanDate.Text,
+                            Lbl_Tot_Mtr_Weight.Text,
+                            _PartyGstinno
+                            )
+    End Sub
     Private Sub Fill_Grid_Records_Into_DataTables()
         Dim FieldDr As DataRow
         '--- Fill Items Grid Records -----------
@@ -951,9 +998,9 @@ Public Class ComparisonEntry
             .Append(Txt_Terms2.Text & ",")
             .Append(Txt_Terms3.Text & ",")
             .Append(Txt_Terms4.Text & ",")
-            .Append(_UserID & ",")
+            .Append(USER_ID & ",")
             If _FORMMODE = "ADD" Then
-                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss") & ",")
+                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             ElseIf _FORMMODE = "EDIT" Then
                 .Append(_lblEntryDate & ",")
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
@@ -1534,7 +1581,7 @@ Public Class ComparisonEntry
 
                 Dim _LoadQuery = _StrQuery.ToString
                 Dim _FItemcodeilter As String = ""
-                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTY")
+                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 If selectedList1 IsNot Nothing Then
 
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
@@ -1548,7 +1595,7 @@ Public Class ComparisonEntry
                                 .Append(" A.PACK_SLIP_NO AS QuotationNo, ")
                                 .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy')  AS Date, ")
                                 .Append(" E.AccountName AS AccountName, ")
-                                .Append(" A.AccountCode AS Supplycode, ")
+                                .Append(" A.AccountCode, ")
                                 .Append(" B.ITENNAME AS ItemName, ")
                                 .Append(" B.HSNCODE AS HsnCode, ")
                                 .Append(" A.Mtr_weight AS Qty, ")
@@ -1560,11 +1607,11 @@ Public Class ComparisonEntry
                                 .Append(" C.subItemName AS COMPANYNAME, ")
                                 .Append(" D.CUTNAME AS CUTNAME, ")
                                 .Append(" A.CUTCODE AS CUTCODE, ")
-                                .Append(" A.OP1 As gst, ")
-                                .Append(" A.OP2 As Fright, ")
-                                .Append(" A.OP3 As Delivery, ")
+                                .Append(" A.OP11 As gst, ")
+                                .Append(" A.OP12 As Fright, ")
+                                .Append(" A.OP13 As Delivery, ")
                                 .Append(" A.OP4 As [Payment terms], ")
-                                .Append(" A.ITEMCODE AS ACCOUNTCODE, ")
+                                .Append(" A.ITEMCODE, ")
                                 .Append(" A.BOOKVNO ")
                                 .Append(" FROM TrnPackingSlip AS A ")
                                 .Append(" LEFT JOIN MstFabricItem AS B ")
@@ -1591,8 +1638,8 @@ Public Class ComparisonEntry
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = dr("QuotationNo").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP18") + 1).Text = dr("Date").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("AccountName") + 1).Text = dr("AccountName").ToString()
-                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("AccountCode") + 1).Text = dr("Supplycode").ToString()
-                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = dr("ACCOUNTCODE").ToString()
+                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("AccountCode") + 1).Text = dr("AccountCode").ToString()
+                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = dr("ITEMCODE").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = dr("ItemName").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = dr("Qty").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text = dr("GROSSRATE").ToString()
@@ -1603,9 +1650,9 @@ Public Class ComparisonEntry
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = dr("COMPANYNAME").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = dr("CUTCODE").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = dr("CUTNAME").ToString()
-                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP1") + 1).Text = dr("gst").ToString()
-                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP2") + 1).Text = dr("Fright").ToString()
-                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP3") + 1).Text = dr("Delivery").ToString()
+                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP11") + 1).Text = dr("gst").ToString()
+                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP12") + 1).Text = dr("Fright").ToString()
+                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP13") + 1).Text = dr("Delivery").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno

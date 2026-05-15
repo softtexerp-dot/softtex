@@ -16,7 +16,8 @@ Friend Class QuotationEntry
 
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
-    Dim _UserID As Integer = 1
+    'Dim _UserID As Integer = 1
+
     Dim _lblEntryDate As String
 #Region "GRID STRING BUILDER VARIABLE "
     Private _GridColNames As New StringBuilder
@@ -130,9 +131,9 @@ Friend Class QuotationEntry
             .Append("Y_DELV_ACCOUNTCODE,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP1,") 'gst
-            .Append("OP2,") 'Fright
-            .Append("OP3,")  'Delivery
+            .Append("OP11,") 'gst
+            .Append("OP12,") 'Fright
+            .Append("OP13,")  'Delivery
             .Append("OP4,") 'Payment terms
             .Append("OP5,") 'BookName
 
@@ -191,9 +192,9 @@ Friend Class QuotationEntry
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
-            .Append("OP1:Gst,") 'gst
-            .Append("OP2:Fright,") 'Fright
-            .Append("OP3:Delivery,")  'Delivery
+            .Append("OP11:Gst,") 'gst
+            .Append("OP12:Fright,") 'Fright
+            .Append("OP13:Delivery,")  'Delivery
             .Append("OP4:Payment terms,") 'Payment terms
             .Append("ROWREMARK:Remark")
         End With
@@ -216,9 +217,9 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP1:L,") 'gst
-            .Append("OP2:L,") 'Fright
-            .Append("OP3:L,")  'Delivery
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
             .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
@@ -242,9 +243,9 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP1:L,") 'gst
-            .Append("OP2:L,") 'Fright
-            .Append("OP3:L,")  'Delivery
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
             .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
@@ -290,9 +291,9 @@ Friend Class QuotationEntry
             .Append("AMOUNT:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
-            .Append("OP1:Y,")  'gst
-            .Append("OP2:Y,")  'Fright
-            .Append("OP3:Y,")  'Delivery
+            .Append("OP11:Y,")  'gst
+            .Append("OP12:Y,")  'Fright
+            .Append("OP13:Y,")  'Delivery
             .Append("OP4:Y,")  'Payment terms
             .Append("OP5:N,") 'BookName
             .Append("OP7:N,") 'Selected Req No
@@ -339,9 +340,9 @@ Friend Class QuotationEntry
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("OP1:8,") 'gst
-            .Append("OP2:8,") 'Fright
-            .Append("OP3:8,")  'Delivery
+            .Append("OP11:8,") 'gst
+            .Append("OP12:8,") 'Fright
+            .Append("OP13:8,")  'Delivery
             .Append("OP4:12,") 'Payment terms
             .Append("ROWREMARK:12")
         End With
@@ -355,6 +356,9 @@ Friend Class QuotationEntry
             .Append("CUT_MTR:0,")
             .Append("WEIGHT:0,")
             .Append("PIECE_ID:0,")
+            .Append("OP11:0,") 'Gst
+            .Append("OP12:0,") 'Fright
+            .Append("OP13:0,") 'Delivery
             .Append("OP19:NO,") 'Approve status
             .Append("AMOUNT:0")
         End With
@@ -377,6 +381,9 @@ Friend Class QuotationEntry
             .Append("RDVALUE:NO-2,")
             .Append("WEIGHT:NO-2,")
             .Append("CUT_MTR:NO-2,")
+            .Append("OP11:NO-2,") 'Gst
+            .Append("OP12:NO-2,") 'Fright
+            .Append("OP13:NO-2,") 'Delivery
             .Append("AMOUNT:NO-2")
         End With
 
@@ -764,8 +771,10 @@ Friend Class QuotationEntry
             'sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
             sqL = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
             sql_Data_Save_Delete_Update()
-
-
+#Region "Edit Log Save"
+            Dim _EntryType As String = "Delete"
+            _EditLog(_EntryType)
+#End Region
             _KeyFieldValue = 0
             _FORMMODE = "ADD"
 
@@ -841,7 +850,15 @@ Friend Class QuotationEntry
         Dim _LastID As Integer = -1
         Try
             _LastID = SAVE_INTO_DATABASE_SQL()
-
+#Region "Edit Log Save"
+            Dim _EntryType As String = ""
+            If _FORMMODE = "ADD" Then
+                _EntryType = "Add"
+            ElseIf _FORMMODE = "EDIT" Then
+                _EntryType = "Edit"
+            End If
+            _EditLog(_EntryType)
+#End Region
             Old_Date = txtChallanDate.Text
             Call Label_Value_Nil_Rest()
             _Last_Saved_Entry_No = Val(txtEntryNo.Text)
@@ -862,7 +879,38 @@ Friend Class QuotationEntry
             MsgBox(ex.Message)
         End Try
     End Sub
+    Private Sub _EditLog(ByVal _EntryType As String)
+        Dim BookType As String = "Quotation Entry"
+        Dim _Item As String = ""
+        Dim _Rate As String = ""
+        Dim _qty As String = ""
+        Dim _Rateon As String = ""
+        Dim _ItemDetail As String = ""
+        Dim _BarcodeNo As String = ""
 
+        Dim _EditReason As String = ""
+        Dim _PartyGstinno As String = ""
+        _SaveUserEditLog(txtBookCode.Text,
+                            Txt_BookName.Text,
+                            BookType,
+                            txtEntryNo.Text,
+                            txtChallanNo.Text,
+                            CDate(Date.Now).ToString(),
+                            txtAccountName.Text,'txtAccountName.Text
+                            txtAccount_Code.Text,'txtAccount_Code.Text
+                            "",'txtDespatch.Text
+                            0.00,
+                            _USERNAME,
+                            _EntryType,
+                            _EditReason,
+                            CDate(Date.Now).ToString("yyyy-MM-dd"),
+                            _BookVNo,
+                            _ItemDetail,
+                            txtChallanDate.Text,
+                            Lbl_Tot_Mtr_Weight.Text,
+                            _PartyGstinno
+                            )
+    End Sub
     Private Sub Fill_Grid_Records_Into_DataTables()
         Dim FieldDr As DataRow
         '--- Fill Items Grid Records -----------
@@ -886,36 +934,22 @@ Friend Class QuotationEntry
 
     Private Function GridDetailsSaveQuery(ByRef arr_object(,) As String) As String
         '------------------------ DETAILS Table --------------------------------
-
         If txtSalesman_code.Text = "" Then
             txtSalesman_code.Text = "0000-000000001"
         End If
-
         If txtSelvCode.Text = "" Then
             txtSelvCode.Text = "0000-000000001"
         End If
-
         If txtLoomTypeCode.Text = "" Then
             txtLoomTypeCode.Text = "0000-000000001"
         End If
-
         If txtWeaveTypeCode.Text = "" Then
             txtWeaveTypeCode.Text = "0000-000000001"
         End If
-
         Dim strFilterString As String
         Dim QueryDetailTable As String = ""
-
         Dim Query_Auto_Grid(_DataTableGrid.Rows.Count, 4) As String
-
-
-        'ReqBookvnorawData = ReqBookvnorawData.Replace(",", "#")
-        'Dim _ReqNnovalue As String = TxtSelectReqNo.Text.Replace(",", "#")
-
-
-
         strFilterString = "MTR_WEIGHT>0 "
-
         _ExtraFieldDataTable = New StringBuilder
         With _ExtraFieldDataTable
             .Append("DESPATCHCODE,")
@@ -943,7 +977,6 @@ Friend Class QuotationEntry
             End If
             .Append("HeaderRemark")
         End With
-
         _ExtraField_Values_DataTable = New StringBuilder
         With _ExtraField_Values_DataTable
             .Append(txtDespatch_code.Text & ",")
@@ -962,7 +995,7 @@ Friend Class QuotationEntry
             .Append(Txt_Terms2.Text & ",")
             .Append(Txt_Terms3.Text & ",")
             .Append(Txt_Terms4.Text & ",")
-            .Append(_UserID & ",")
+            .Append(USER_ID & ",")
             If _FORMMODE = "ADD" Then
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             ElseIf _FORMMODE = "EDIT" Then
@@ -971,7 +1004,6 @@ Friend Class QuotationEntry
             End If
             .Append(txtHeader_Remark.Text)
         End With
-
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
         GridDetailsSaveQuery = QueryDetailTable & ";"
         arr_object = Query_Auto_Grid
@@ -980,15 +1012,12 @@ Friend Class QuotationEntry
         Dim strQuery As String = ""
         Dim affected As Integer = 0
         Dim I As Integer = 0
-
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
             'strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
             strQuery = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
-
             sqL = strQuery
             sql_Data_Save_Delete_Update()
-
             Dim Array_Opening(0, 4) As String
             '------ INSERT RECORDS SALES INVOICE -------------------------------
             GridDetailsSaveQuery(Array_Opening)
@@ -1010,7 +1039,6 @@ Friend Class QuotationEntry
 
 
 #Region "VIEW RECORD "
-
     Private Sub btn_View_Ok_Click_1(sender As Object, e As EventArgs)
         View_Record()
     End Sub
@@ -1035,7 +1063,7 @@ Friend Class QuotationEntry
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Quotation No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
-            .Append(" MstMasterAccount.accountname as [Party Name], ")
+            .Append(" MstMasterAccount.accountname as [Supplier Name], ")
             .Append("  A.SRNO as [Sno], ")
             '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
             .Append(" MstFabricItem.ITENNAME as [Item Name], ")
@@ -1047,9 +1075,9 @@ Friend Class QuotationEntry
             .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
             '.Append("  A.RDVALUE as [Tax %],")
             .Append("  A.AMOUNT as [Amount],")
-            .Append("  A.OP1,")
-            .Append("  A.OP2,")
-            .Append("  A.OP3,")
+            .Append("  A.OP11,")
+            .Append("  A.OP12,")
+            .Append("  A.OP13,")
             .Append("  A.OP4,")
             .Append("  A.OP6 AS [Req. NO],")
             .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
@@ -1276,7 +1304,6 @@ Friend Class QuotationEntry
 #Region "ALTER FORM"
     Private Sub Alter_Form(ByVal strKeyID As String)
         _FrmLoad = False
-
         Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
         Dim tblTmp As New DataTable
         strQuery = getAlter_Form_Query_Details(strKeyID)
@@ -1294,26 +1321,18 @@ Friend Class QuotationEntry
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
         Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
         _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
-        'TxtSelectReqNo.Text = tblTmp.Rows(0)("OP6").ToString
         Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
         Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
         Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
         Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
         Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
-        'TxtSelectReqNo.Text = TxtSelectReqNo.Text.Replace("#", ",")
-
         Generate_Date_For_DataBase(txtChallanDate)
-
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
         Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
 
         GrdItem.Refresh()
         GrdItem.Visible = True
-
-        'For i As Int16 = 1 To GrdItem.Rows - 1
-        '    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = i
-        'Next
         For j As Int16 = 1 To GrdItem.Rows - 1
             GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = j
             If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
@@ -1587,7 +1606,7 @@ Friend Class QuotationEntry
             '    End If
             'End If
         ElseIf _ActivatedColName = "OP6" Then
-            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
+            If e.KeyCode = Keys.Enter Then  'AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES"
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text
                 Dim _StrQuery As New StringBuilder
@@ -1626,7 +1645,7 @@ Friend Class QuotationEntry
 
                 Dim _LoadQuery = _StrQuery.ToString()
                 Dim _FItemcodeilter As String = ""
-                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTY")
+                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 If selectedList1 IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
@@ -1654,13 +1673,13 @@ Friend Class QuotationEntry
                 End If
             End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then
-            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
+            If e.KeyCode = Keys.Enter Then  'AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" 
                 If e.KeyCode = Keys.Enter Then
                     txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
                     txt_Code_For_Grid_Selection.Text = ""
                     Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
                     Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
-                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text, "SINGLE")
                     If selected IsNot Nothing Then
                         If selected.ContainsKey("ACCOUNTCODE") Then
                             GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()

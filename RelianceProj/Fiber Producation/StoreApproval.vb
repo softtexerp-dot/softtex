@@ -23,19 +23,18 @@ Public Class StoreApproval
     Private Sub View_Record()
         Dim dateFilter As String = ""
         If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
-            ' Double single-quotes for dynamic SQL
             dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
         End If
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
             .Append(" SELECT   A.ENTRYNO As [Entry NO],")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
-            .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
-            .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
+            '.Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
+            '.Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
             .Append(" A.PACK_SLIP_NO AS [Req. No],")
-            .Append(" CASE WHEN A.MODYFIDATE = '1900-01-01 00:00:00.000' THEN '' ")
-            .Append(" ELSE FORMAT(A.MODYFIDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Modify Date],")
-            .Append(" A.ITEMCODE,")  'Modify date
+            '.Append(" CASE WHEN A.MODYFIDATE = '1900-01-01 00:00:00.000' THEN '' ")
+            '.Append(" ELSE FORMAT(A.MODYFIDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Modify Date],")
+            .Append(" A.ITEMCODE,")  'OP22 Modify datetime
             .Append(" A.BOOKVNO,")  'BookVNO
             .Append(" MstFabricItem.ITENNAME AS ITEMNAME, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")  'UOM
@@ -57,9 +56,7 @@ Public Class StoreApproval
             .Append(dateFilter)
         End With
         Dim tblTmp As DataTable
-        'sqL = _UserQuery.ToString()
-        Dim Str_Qry As String = _UserQuery.ToString
-        sqL = Str_Qry
+        sqL = _UserQuery.ToString()
         sql_connect_slect()
         tblTmp = DefaltSoftTable.Copy
         Dim Qty As String = ""
@@ -69,15 +66,6 @@ Public Class StoreApproval
                 Dim isEmptyOrZero As Boolean = True
                 If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
-                    Continue For
-                End If
-
-                If dc.ColumnName.ToUpper() = "ENTRY DATE" Then
-                    FirstStage.Columns(dc.ColumnName).Visible = True
-                    Continue For
-                End If
-                If dc.ColumnName.ToUpper() = "MODIFY DATE" Then
-                    FirstStage.Columns(dc.ColumnName).Visible = True
                     Continue For
                 End If
                 For Each dr As DataRow In tblTmp.Rows
@@ -114,7 +102,6 @@ Public Class StoreApproval
 
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
-        ConnDB()
         If conn.State = ConnectionState.Closed Then
             conn.Open()
         End If
@@ -127,13 +114,12 @@ Public Class StoreApproval
                 cmd.CommandText =
             "UPDATE " & _TblName & " SET " &
             "OP19 = @OP19, " &
-            "MODYFIDATE = @MODYFIDATE " &
+            "OP22 = @MODYFIDATE " &
             "WHERE BOOKVNO = @BOOKVNO " &
             "AND ITEMCODE = @ITEMCODE"
                 cmd.Parameters.Clear()
-                'cmd.Parameters.AddWithValue("@OP19", dr("OP19").ToString())
                 cmd.Parameters.AddWithValue("@OP19", dr("STATUS").ToString())
-                cmd.Parameters.AddWithValue("@MODYFIDATE", Now)
+                cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
                 cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
                 cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
                 cmd.ExecuteNonQuery()

@@ -12,7 +12,7 @@ Public Class StoreIssueDepartment
 
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
-    Dim _UserID As Integer = 1
+    'Dim _UserID As Integer = 1
     Dim _lblEntryDate As String
 #Region "GRID STRING BUILDER VARIABLE "
     Private _GridColNames As New StringBuilder
@@ -126,9 +126,9 @@ Public Class StoreIssueDepartment
             .Append("Y_DELV_ACCOUNTCODE,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP1,") 'gst
-            .Append("OP2,") 'Fright
-            .Append("OP3,")  'Delivery
+            .Append("OP11,") 'gst
+            .Append("OP12,") 'Fright
+            .Append("OP13,")  'Delivery
             .Append("OP4,") 'Payment terms
             .Append("OP5,") 'BookName
 
@@ -187,9 +187,9 @@ Public Class StoreIssueDepartment
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
-            .Append("OP1:Gst,") 'gst
-            .Append("OP2:Fright,") 'Fright
-            .Append("OP3:Delivery,")  'Delivery
+            .Append("OP11:Gst,") 'gst
+            .Append("OP12:Fright,") 'Fright
+            .Append("OP13:Delivery,")  'Delivery
             .Append("OP4:Payment terms,") 'Payment terms
             .Append("ROWREMARK:Remark")
         End With
@@ -212,9 +212,9 @@ Public Class StoreIssueDepartment
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP1:L,") 'gst
-            .Append("OP2:L,") 'Fright
-            .Append("OP3:L,")  'Delivery
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
             .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
@@ -238,9 +238,9 @@ Public Class StoreIssueDepartment
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
-            .Append("OP1:L,") 'gst
-            .Append("OP2:L,") 'Fright
-            .Append("OP3:L,")  'Delivery
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
             .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
@@ -265,15 +265,15 @@ Public Class StoreIssueDepartment
             .Append("DESPATCHCODE:N,")
             .Append("ACOFCODE:N,")
             .Append("SHADECODE:N,")
-            .Append("CUT_MTR:Y,")
+            .Append("CUT_MTR:N,") 'Gross Rate
             .Append("SRNO:Y,")
             .Append("OP6:Y,") 'Selected Req No
             .Append("ITEMNAME:Y,")
             .Append("ITEMCODE:N,")
             .Append("CUTNAME:Y,")
             .Append("DESCR:N,")
-            .Append("RDVALUE:Y,")
-            .Append("WEIGHT:N,")
+            .Append("RDVALUE:N,") 'Dis%
+            .Append("WEIGHT:N,")  'Dis Amt
             .Append("SIZENAME:N,")
             .Append("COLORNAME:N,")
             .Append("COMPANYNAME:Y,")
@@ -282,14 +282,14 @@ Public Class StoreIssueDepartment
             .Append("CUTCODE:N,")
             .Append("PIECE_ID:N,")
             .Append("MTR_WEIGHT:Y,")
-            .Append("RATE:Y,")
-            .Append("AMOUNT:Y,")
+            .Append("RATE:N,")  'Net Rate
+            .Append("AMOUNT:N,") 'Amount
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
-            .Append("OP1:Y,")  'gst
-            .Append("OP2:Y,")  'Fright
-            .Append("OP3:Y,")  'Delivery
-            .Append("OP4:Y,")  'Payment terms
+            .Append("OP11:N,")  'gst
+            .Append("OP12:N,")  'Fright
+            .Append("OP13:N,")  'Delivery
+            .Append("OP4:N,")  'Payment terms
             .Append("OP5:N,") 'BookName
             .Append("OP7:N,") 'Selected Req No
             .Append("OP8:N,") 'Terms1
@@ -335,9 +335,9 @@ Public Class StoreIssueDepartment
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("OP1:8,") 'gst
-            .Append("OP2:8,") 'Fright
-            .Append("OP3:8,")  'Delivery
+            .Append("OP11:8,") 'gst
+            .Append("OP12:8,") 'Fright
+            .Append("OP13:8,")  'Delivery
             .Append("OP4:12,") 'Payment terms
             .Append("ROWREMARK:12")
         End With
@@ -352,6 +352,9 @@ Public Class StoreIssueDepartment
             .Append("WEIGHT:0,")
             .Append("PIECE_ID:0,")
             .Append("OP19:NO,") 'Approve status
+            .Append("OP11:0,") 'gst
+            .Append("OP12:0,") 'Fright
+            .Append("OP13:0,")  'Delivery
             .Append("AMOUNT:0")
         End With
         _FieldLocked = New StringBuilder
@@ -373,6 +376,9 @@ Public Class StoreIssueDepartment
             .Append("RDVALUE:NO-2,")
             .Append("WEIGHT:NO-2,")
             .Append("CUT_MTR:NO-2,")
+            .Append("OP11:NO-2,") 'gst
+            .Append("OP12:NO-2,") 'Fright
+            .Append("OP13:NO-2,")  'Delivery
             .Append("AMOUNT:NO-2")
         End With
 
@@ -743,8 +749,10 @@ Public Class StoreIssueDepartment
         Try
             sqL = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
             sql_Data_Save_Delete_Update()
-
-
+#Region "Edit Log Save"
+            Dim _EntryType As String = "Delete"
+            _EditLog(_EntryType)
+#End Region
             _KeyFieldValue = 0
             _FORMMODE = "ADD"
 
@@ -820,7 +828,15 @@ Public Class StoreIssueDepartment
         Dim _LastID As Integer = -1
         Try
             _LastID = SAVE_INTO_DATABASE_SQL()
-
+#Region "Edit Log Save"
+            Dim _EntryType As String = ""
+            If _FORMMODE = "ADD" Then
+                _EntryType = "Add"
+            ElseIf _FORMMODE = "EDIT" Then
+                _EntryType = "Edit"
+            End If
+            _EditLog(_EntryType)
+#End Region
             Old_Date = txtChallanDate.Text
             Call Label_Value_Nil_Rest()
             _Last_Saved_Entry_No = Val(txtEntryNo.Text)
@@ -841,7 +857,38 @@ Public Class StoreIssueDepartment
             MsgBox(ex.Message)
         End Try
     End Sub
+    Private Sub _EditLog(ByVal _EntryType As String)
+        Dim BookType As String = "Store Issue Department"
+        Dim _Item As String = ""
+        Dim _Rate As String = ""
+        Dim _qty As String = ""
+        Dim _Rateon As String = ""
+        Dim _ItemDetail As String = ""
+        Dim _BarcodeNo As String = ""
 
+        Dim _EditReason As String = ""
+        Dim _PartyGstinno As String = ""
+        _SaveUserEditLog(txtBookCode.Text,
+                            "Store Issue Department",
+                            BookType,
+                            txtEntryNo.Text,
+                            txtChallanNo.Text,
+                            CDate(Date.Now).ToString(),
+                            txtAccountName.Text,'txtAccountName.Text
+                            txtAccount_Code.Text,'txtAccount_Code.Text
+                            "",'txtDespatch.Text
+                            0.00,
+                            _USERNAME,
+                            _EntryType,
+                            _EditReason,
+                            CDate(Date.Now).ToString("yyyy-MM-dd"),
+                            _BookVNo,
+                            _ItemDetail,
+                            txtChallanDate.Text,
+                            Lbl_Tot_Mtr_Weight.Text,
+                            _PartyGstinno
+                            )
+    End Sub
     Private Sub Fill_Grid_Records_Into_DataTables()
         Dim FieldDr As DataRow
         '--- Fill Items Grid Records -----------
@@ -939,9 +986,9 @@ Public Class StoreIssueDepartment
             .Append(Txt_Terms2.Text & ",")
             .Append(Txt_Terms3.Text & ",")
             .Append(Txt_Terms4.Text & ",")
-            .Append(_UserID & ",")
+            .Append(USER_ID & ",")
             If _FORMMODE = "ADD" Then
-                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss") & ",")
+                .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             ElseIf _FORMMODE = "EDIT" Then
                 .Append(_lblEntryDate & ",")
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
@@ -1018,10 +1065,14 @@ Public Class StoreIssueDepartment
             .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
             .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
             .Append("  A.AMOUNT as [Amount],")
-            .Append("  A.OP1 As [Terms 1] ,")
-            .Append("  A.OP2 As [Terms 2],")
-            .Append("  A.OP3 as [Terms 3],")
-            .Append("  A.OP4 as [Terms 4],")
+            .Append("  A.OP11 As Gst ,")
+            .Append("  A.OP12 As Fright,")
+            .Append("  A.OP13 as Delivery,")
+            .Append("  A.OP4 as [Payment Terms],")
+            .Append("  A.OP8 As [Terms 1] ,")
+            .Append("  A.OP9 As [Terms 2],")
+            .Append("  A.OP10 as [Terms 3],")
+            .Append("  A.OP11 as [Terms 4],")
             .Append("  A.OP6 AS [Req. NO],")
             .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
             .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
@@ -1267,26 +1318,16 @@ Public Class StoreIssueDepartment
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
         Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
         _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
-        'TxtSelectReqNo.Text = tblTmp.Rows(0)("OP6").ToString
-        'Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
         Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
         Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
         Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
         Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
-        'TxtSelectReqNo.Text = TxtSelectReqNo.Text.Replace("#", ",")
-
         Generate_Date_For_DataBase(txtChallanDate)
-
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
         Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
-
         GrdItem.Refresh()
         GrdItem.Visible = True
-
-        'For i As Int16 = 1 To GrdItem.Rows - 1
-        '    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = i
-        'Next
         For j As Int16 = 1 To GrdItem.Rows - 1
             GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = j
             If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
@@ -1295,7 +1336,6 @@ Public Class StoreIssueDepartment
                 GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).ForeColor = Color.Red
                 _CheckDispath = True
             End If
-
             If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 If _DispathRowEdit = True Then
                     GrdItem.Row(j).Locked = False
@@ -1303,7 +1343,6 @@ Public Class StoreIssueDepartment
                     GrdItem.Row(j).Locked = True
                 End If
             End If
-
         Next
         Total_Upto_All_Grid_All_Row()
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
@@ -1532,31 +1571,7 @@ Public Class StoreIssueDepartment
         Dim Col_Text As String = GrdItem.ActiveCell.Text
 
         If _ActivatedColName = "CUTNAME" Then
-            'If e.KeyCode = Keys.Enter Then
-            '    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
-            '    Dim _StrQuery As New StringBuilder
-            '    With _StrQuery
-            '        .Append(" SELECT ")
-            '        .Append(" B.CUTNAME AS UOM, ")
-            '        .Append(" '' as Remark, ")
-            '        .Append(" A.CUTCODE AS ACCOUNTCODE ")
-            '        .Append(" FROM TrnPackingSlip AS A ")
-            '        .Append(" LEFT JOIN MstCutMaster AS B ON A.CUTCODE = B.ID ")
-            '        .Append(" WHERE 1=1 ")
-            '        .Append(" AND A.Bookcode = '" & _ReqBookCode & "' ")
-            '        .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
-            '    End With
-            '    Dim _LoadQuery As String = _StrQuery.ToString()
-            '    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
-            '    If selected IsNot Nothing Then
-            '        If selected.ContainsKey("ACCOUNTCODE") Then
-            '            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
-            '        End If
-            '        If selected.ContainsKey("UOM") Then
-            '            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("UOM").ToString()
-            '        End If
-            '    End If
-            'End If
+
         ElseIf _ActivatedColName = "OP6" Then
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
@@ -1642,38 +1657,7 @@ Public Class StoreIssueDepartment
                 End If
             End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
-            If e.KeyCode = Keys.Enter Then
-                'Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
-                '    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
-                '    Dim _StrQuery As New StringBuilder
-                '    With _StrQuery
-                '        .Append(" SELECT ")
-                '        .Append(" B.ITENNAME AS ItemName, ")
-                '        .Append(" B.HSNCODE AS HsnCode, ")
-                '        .Append(" A.Mtr_weight AS Qty, ")
-                '        .Append(" A.ITEMCODE AS ACCOUNTCODE ")
-                '        .Append(" FROM TrnPackingSlip AS A ")
-                '        .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
-                '        .Append(" WHERE 1=1 ")
-                '        '.Append(" AND A.Bookcode = 'RQSS-000000001'")
-                '        .Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
-                '        .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
-                '    End With
-                '    Dim _LoadQuery As String = _StrQuery.ToString()
-                '    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
-                'If selected IsNot Nothing Then
-                '    If selected.ContainsKey("ACCOUNTCODE") Then
-                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
-                '    End If
-                '    If selected.ContainsKey("ItemName") Then
-                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
-                '    End If
-                '    If selected.ContainsKey("Qty") Then
-                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = selected("Qty").ToString()
-                '    End If
 
-                'End If
-            End If
 
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "CUT_MTR" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
