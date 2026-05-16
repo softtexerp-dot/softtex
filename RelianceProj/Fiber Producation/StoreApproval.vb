@@ -17,20 +17,47 @@ Public Class StoreApproval
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         Generate_Date_For_DataBase(txt_From)
+        txt_To.Text = Now.ToString("dd/MM/yyyy")
         Generate_Date_For_DataBase(txt_To)
         View_Record()
     End Sub
     Private Sub View_Record()
         Dim dateFilter As String = ""
+        Dim StatusFilter As String = ""
+        Dim TypeFilter As String = ""
         If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
             dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
+        End If
+        If Not String.IsNullOrEmpty(txt_Status.Text) Then
+            If UCase(txt_Status.Text.Trim) = "ALL" Then
+                ' ALL = YES + NO dono
+                StatusFilter = " AND UPPER(A.OP19) IN ('YES','NO') "
+            ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
+                StatusFilter = " AND UPPER(A.OP19) = 'YES' "
+            ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
+                StatusFilter = " AND UPPER(A.OP19) = 'NO' "
+            End If
+        End If
+        If Not String.IsNullOrEmpty(TxtType.Text) Then
+            If UCase(TxtType.Text.Trim) = "ALL" Then
+                ' APPROVE + PENDING dono
+                TypeFilter = " AND ( " &
+                     " (A.OP22 >= '" & txt_From.Date_for_Database & "' AND A.OP22 <= '" & txt_To.Date_for_Database & "') " &
+                     " OR " &
+                     " (A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "') " &
+                     " ) "
+            ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
+                TypeFilter = " AND A.OP22 >= '" & txt_From.Date_for_Database & "' AND A.OP22 <= '" & txt_To.Date_for_Database & "' "
+            ElseIf UCase(TxtType.Text.Trim) = "PENDING" Then
+                TypeFilter = " AND A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "' "
+            End If
         End If
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
             .Append(" SELECT   A.ENTRYNO As [Entry NO],")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
-            '.Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
-            '.Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
+            .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
+            .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
             .Append(" A.PACK_SLIP_NO AS [Req. No],")
             '.Append(" CASE WHEN A.MODYFIDATE = '1900-01-01 00:00:00.000' THEN '' ")
             '.Append(" ELSE FORMAT(A.MODYFIDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Modify Date],")
@@ -39,6 +66,7 @@ Public Class StoreApproval
             .Append(" MstFabricItem.ITENNAME AS ITEMNAME, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")  'UOM
             .Append(" A.MTR_WEIGHT AS Qty,")  'Qty
+            .Append(" A.OP22,")  'Approval Date
             .Append("  CASE WHEN UPPER(A.OP19) = 'YES' THEN 'YES' ELSE 'NO' END AS Status")
             .Append(" FROM  ")
             .Append(" " & _TblName & " AS A  ")
@@ -53,7 +81,18 @@ Public Class StoreApproval
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1  ")
+            .Append(" And A.BOOKCODE='RQSS-000000001'  ")
+            .Append("  AND NOT EXISTS ")
+            .Append("  (   ")
+            .Append(" SELECT 1  ")
+            .Append(" FROM TrnPackingSlip AS B  ")
+            .Append(" WHERE ")
+            .Append(" B.OP7 = A.BookVno ")
+            .Append(" And B.ITEMCODE = A.ITEMCODE ")
+            .Append("  )")
             .Append(dateFilter)
+            .Append(StatusFilter)
+            .Append(" Order By A.EntryNo ")
         End With
         Dim tblTmp As DataTable
         sqL = _UserQuery.ToString()
@@ -64,7 +103,11 @@ Public Class StoreApproval
             GridControl1.DataSource = tblTmp.Copy
             For Each dc As DataColumn In tblTmp.Columns
                 Dim isEmptyOrZero As Boolean = True
-                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Then
+                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP22" Then
+                    FirstStage.Columns(dc.ColumnName).Visible = False
+                    Continue For
+                End If
+                If dc.ColumnName.Equals("Entry Date", StringComparison.OrdinalIgnoreCase) Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
                     Continue For
                 End If

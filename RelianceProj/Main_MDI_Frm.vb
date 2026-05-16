@@ -171,6 +171,10 @@
         StoreApproval.Show()
     End Sub
 
+    Private Sub IndentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IndentToolStripMenuItem.Click
+        StoreIndentEntry.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click

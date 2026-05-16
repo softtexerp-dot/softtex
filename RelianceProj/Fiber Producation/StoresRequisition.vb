@@ -553,6 +553,12 @@ Friend Class StoresRequisition
             End Select
         ElseIf e.KeyCode = Keys.F4 Then
             _DispathRowEdit = True
+
+            For j As Int16 = 1 To GrdItem.Rows - 1
+                GrdItem.Row(j).Locked = False
+            Next
+
+
         ElseIf e.KeyCode = Keys.PageUp Then
             If _FORMMODE = "EDIT" And Val(txtEntryNo.Text) > 1 And Last_Saved_Entry_No > 0 Then
                 txtEntryNo.Text = Val(txtEntryNo.Text) - 1
@@ -1268,6 +1274,10 @@ Friend Class StoresRequisition
 
         For j As Int16 = 1 To GrdItem.Rows - 1
             GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = j
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP19") + 1).Text = "YES" Then
+                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP19") + 1).Text
+                'GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP19") + 1).Text
+            End If
             If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
                 GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).ForeColor = Color.Red
                 GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).ForeColor = Color.Red
@@ -1275,12 +1285,10 @@ Friend Class StoresRequisition
                 _CheckDispath = True
             End If
 
-            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
-                If _DispathRowEdit = True Then
-                    GrdItem.Row(j).Locked = False
-                Else
-                    GrdItem.Row(j).Locked = True
-                End If
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+                GrdItem.Row(j).Locked = True
+            Else
+                GrdItem.Row(j).Locked = False
             End If
 
         Next
@@ -1313,8 +1321,10 @@ Friend Class StoresRequisition
 
         If Tot_Amt > 0 Then
             lbl_Tot_Amt.Text = FormatNumber(Tot_Amt, 2, TriState.True, TriState.False, TriState.True)
+            lbl_Tot_Amt.Visible = False
         Else
             lbl_Tot_Amt.Text = "0.00"
+            lbl_Tot_Amt.Visible = False
         End If
 
     End Sub

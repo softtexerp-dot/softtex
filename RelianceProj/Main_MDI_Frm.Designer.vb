@@ -51,10 +51,11 @@ Partial Class Main_MDI_Frm
         Me.UserMenuUpdateToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.FiberProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RequisitionToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.QuotationToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ComparisonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IssueToDepartmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StoreApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QuotationToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ComparisonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.IndentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -239,7 +240,7 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequisitionToolStripMenuItem1, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
@@ -249,6 +250,18 @@ Partial Class Main_MDI_Frm
         Me.RequisitionToolStripMenuItem1.Name = "RequisitionToolStripMenuItem1"
         Me.RequisitionToolStripMenuItem1.Size = New System.Drawing.Size(218, 22)
         Me.RequisitionToolStripMenuItem1.Text = "Requisition"
+        '
+        'IssueToDepartmentToolStripMenuItem
+        '
+        Me.IssueToDepartmentToolStripMenuItem.Name = "IssueToDepartmentToolStripMenuItem"
+        Me.IssueToDepartmentToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.IssueToDepartmentToolStripMenuItem.Text = "IssueToDepartment"
+        '
+        'StoreApprovalToolStripMenuItem
+        '
+        Me.StoreApprovalToolStripMenuItem.Name = "StoreApprovalToolStripMenuItem"
+        Me.StoreApprovalToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.StoreApprovalToolStripMenuItem.Text = "StoreApproval"
         '
         'QuotationToolStripMenuItem1
         '
@@ -262,17 +275,11 @@ Partial Class Main_MDI_Frm
         Me.ComparisonToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
         Me.ComparisonToolStripMenuItem.Text = "Comparison"
         '
-        'IssueToDepartmentToolStripMenuItem
+        'IndentToolStripMenuItem
         '
-        Me.IssueToDepartmentToolStripMenuItem.Name = "IssueToDepartmentToolStripMenuItem"
-        Me.IssueToDepartmentToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
-        Me.IssueToDepartmentToolStripMenuItem.Text = "IssueToDepartment"
-        '
-        'StoreApprovalToolStripMenuItem
-        '
-        Me.StoreApprovalToolStripMenuItem.Name = "StoreApprovalToolStripMenuItem"
-        Me.StoreApprovalToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
-        Me.StoreApprovalToolStripMenuItem.Text = "StoreApproval"
+        Me.IndentToolStripMenuItem.Name = "IndentToolStripMenuItem"
+        Me.IndentToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.IndentToolStripMenuItem.Text = "Indent"
         '
         'Main_MDI_Frm
         '
@@ -330,4 +337,5 @@ Partial Class Main_MDI_Frm
     Friend WithEvents ComparisonToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents IssueToDepartmentToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StoreApprovalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents IndentToolStripMenuItem As ToolStripMenuItem
 End Class

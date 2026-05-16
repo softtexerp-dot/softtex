@@ -133,10 +133,6 @@ Public Class StoreIssueDepartment
             .Append("OP5,") 'BookName
 
             .Append("OP7,") 'Selected Code No
-            .Append("OP8,") 'Terms1
-            .Append("OP9,") 'Terms2
-            .Append("OP10,") 'Terms3
-            .Append("OP16,") 'Terms4
             .Append("USEBY,")
             .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
@@ -292,10 +288,6 @@ Public Class StoreIssueDepartment
             .Append("OP4:N,")  'Payment terms
             .Append("OP5:N,") 'BookName
             .Append("OP7:N,") 'Selected Req No
-            .Append("OP8:N,") 'Terms1
-            .Append("OP9:N,") 'Terms2
-            .Append("OP10:N,") 'Terms3
-            .Append("OP16:N,") 'Terms4
             .Append("USEBY:N,")
             .Append("OP21:N,") 'UserId
             .Append("OP19:N,") 'Approve status
@@ -323,7 +315,7 @@ Public Class StoreIssueDepartment
             .Append("SRNO:4,")
             .Append("OFFERNO:6,")
             .Append("GROUPNAME:9,")
-            .Append("ITEMNAME:15,")
+            .Append("ITEMNAME:25,")
             .Append("SIZENAME:5,")
             .Append("RDVALUE:5,")
             .Append("COLORNAME:6,")
@@ -339,7 +331,7 @@ Public Class StoreIssueDepartment
             .Append("OP12:8,") 'Fright
             .Append("OP13:8,")  'Delivery
             .Append("OP4:12,") 'Payment terms
-            .Append("ROWREMARK:12")
+            .Append("ROWREMARK:40")
         End With
 
         _FieldDefaultValues = New StringBuilder
@@ -580,14 +572,6 @@ Public Class StoreIssueDepartment
                 Case "GRDITEM"
                     _FrmLoad = True
                     GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                    Txt_Terms1.Focus()
-                Case "TXT_TERMS1"
-                    UC_Buttons1.BtnSave.Focus()
-                Case "TXT_TERMS2"
-                    UC_Buttons1.BtnSave.Focus()
-                Case "TXT_TERMS3"
-                    UC_Buttons1.BtnSave.Focus()
-                Case "TXT_TERMS4"
                     UC_Buttons1.BtnSave.Focus()
                 Case "BTNSAVE"
                     txtEntryNo.Focus()
@@ -955,10 +939,6 @@ Public Class StoreIssueDepartment
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP8,")
-            .Append("OP9,")
-            .Append("OP10,")
-            .Append("OP16,")
             .Append("OP21,")
             If _FORMMODE = "ADD" Then
                 .Append("ENTRYDATE,")
@@ -982,10 +962,7 @@ Public Class StoreIssueDepartment
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
-            .Append(Txt_Terms1.Text & ",")
-            .Append(Txt_Terms2.Text & ",")
-            .Append(Txt_Terms3.Text & ",")
-            .Append(Txt_Terms4.Text & ",")
+
             .Append(USER_ID & ",")
             If _FORMMODE = "ADD" Then
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
@@ -1069,10 +1046,6 @@ Public Class StoreIssueDepartment
             .Append("  A.OP12 As Fright,")
             .Append("  A.OP13 as Delivery,")
             .Append("  A.OP4 as [Payment Terms],")
-            .Append("  A.OP8 As [Terms 1] ,")
-            .Append("  A.OP9 As [Terms 2],")
-            .Append("  A.OP10 as [Terms 3],")
-            .Append("  A.OP11 as [Terms 4],")
             .Append("  A.OP6 AS [Req. NO],")
             .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
             .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
@@ -1318,10 +1291,6 @@ Public Class StoreIssueDepartment
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
         Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
         _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
-        Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
-        Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
-        Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
-        Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
         Generate_Date_For_DataBase(txtChallanDate)
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
@@ -1409,9 +1378,9 @@ Public Class StoreIssueDepartment
         End If
 
         If Tot_Amt > 0 Then
-            lbl_Tot_Amt.Text = FormatNumber(Tot_Amt, 2, TriState.True, TriState.False, TriState.True)
+            'lbl_Tot_Amt.Text = FormatNumber(Tot_Amt, 2, TriState.True, TriState.False, TriState.True)
         Else
-            lbl_Tot_Amt.Text = "0.00"
+            'lbl_Tot_Amt.Text = "0.00"
         End If
     End Sub
 #End Region
@@ -1586,9 +1555,9 @@ Public Class StoreIssueDepartment
                     .Append(" A.Mtr_weight AS Qty, ")
                     .Append(" A.ACCOUNTCODE AS ACCOUNTCODE, ")
                     .Append(" A.BOOKVNO As ID, ")
-                    .Append(" C.subItemName AS COMPANYNAME, ")
+                    .Append(" C.subItemName AS CompanyName, ")
                     .Append(" C.subItemCode AS GROUPCODE, ")
-                    .Append(" D.CUTNAME AS CUTNAME, ")
+                    .Append(" D.CUTNAME AS CutName, ")
                     .Append(" A.CUTCODE AS CountCode, ")
                     .Append(" A.ITEMCODE AS ItemCode ")
                     .Append(" FROM TrnPackingSlip AS A ")
@@ -1611,7 +1580,7 @@ Public Class StoreIssueDepartment
                 End With
                 Dim _LoadQuery = _StrQuery.ToString()
                 Dim _FItemcodeilter As String = ""
-                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTY")
+                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 If selectedList1 IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
@@ -1623,10 +1592,10 @@ Public Class StoreIssueDepartment
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = rowDict("ItemName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = rowDict("Qty").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = rowDict("ItemCode").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("COMPANYNAME").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("CompanyName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = rowDict("GROUPCODE").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = rowDict("CountCode").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = rowDict("CUTNAME").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = rowDict("CutName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = rowDict("ID").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
                             '================ NEXT ROW =================
@@ -1645,7 +1614,7 @@ Public Class StoreIssueDepartment
                     txt_Code_For_Grid_Selection.Text = ""
                     Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
                     Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
-                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
+                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text, "SINGLE")
                     If selected IsNot Nothing Then
                         If selected.ContainsKey("ACCOUNTCODE") Then
                             GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()
