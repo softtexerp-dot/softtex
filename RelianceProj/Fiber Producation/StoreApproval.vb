@@ -92,6 +92,7 @@ Public Class StoreApproval
             .Append("  )")
             .Append(dateFilter)
             .Append(StatusFilter)
+            .Append(TypeFilter)
             .Append(" Order By A.EntryNo ")
         End With
         Dim tblTmp As DataTable
