@@ -287,7 +287,7 @@ Friend Class StoresRequisition
             .Append("SRNO:4,")
             .Append("OFFERNO:6,")
             .Append("GROUPNAME:9,")
-            .Append("ITEMNAME:15,")
+            .Append("ITEMNAME:20,")
             .Append("DEPARTMENT:10,")
             .Append("RDVALUE:5,")
             .Append("COLORNAME:6,")
@@ -299,7 +299,7 @@ Friend Class StoresRequisition
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("ROWREMARK:40")
+            .Append("ROWREMARK:44")
         End With
 
         _FieldDefaultValues = New StringBuilder
@@ -992,8 +992,8 @@ Friend Class StoresRequisition
             .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
             '.Append(" MstCutMaster.cutname as [Unit], ")
             .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
-            .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
+            '.Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
+            '.Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             '.Append("  A.RDVALUE as [Tax %],")
             .Append("  A.AMOUNT as [Amount],")
             .Append(" MstTransport.TransportName as [Transport], ")

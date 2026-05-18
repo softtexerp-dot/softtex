@@ -40,16 +40,11 @@ Public Class StoreApproval
         End If
         If Not String.IsNullOrEmpty(TxtType.Text) Then
             If UCase(TxtType.Text.Trim) = "ALL" Then
-                ' APPROVE + PENDING dono
-                TypeFilter = " AND ( " &
-                     " (A.OP22 >= '" & txt_From.Date_for_Database & "' AND A.OP22 <= '" & txt_To.Date_for_Database & "') " &
-                     " OR " &
-                     " (A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "') " &
-                     " ) "
+                TypeFilter = " AND ( " & " (ISDATE(A.OP22)=1 AND CAST(A.OP22 AS DATETIME) >= '" & txt_From.Date_for_Database & "' " & " AND CAST(A.OP22 AS DATETIME) <= '" & txt_To.Date_for_Database & "') " & " OR " & " (A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' " & " AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "') " & " ) " & " AND UPPER(A.OP19) IN ('YES','NO') "
             ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
-                TypeFilter = " AND A.OP22 >= '" & txt_From.Date_for_Database & "' AND A.OP22 <= '" & txt_To.Date_for_Database & "' "
+                TypeFilter = " AND ISDATE(A.OP22)=1 " & " AND CAST(A.OP22 AS DATETIME) >= '" & txt_From.Date_for_Database & "' " & " AND CAST(A.OP22 AS DATETIME) <= '" & txt_To.Date_for_Database & "' " & " AND UPPER(A.OP19) = 'YES' "
             ElseIf UCase(TxtType.Text.Trim) = "PENDING" Then
-                TypeFilter = " AND A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "' "
+                TypeFilter = " AND A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' " & " AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "' " & " AND UPPER(A.OP19) = 'NO' "
             End If
         End If
         Dim _UserQuery As New StringBuilder()
@@ -66,7 +61,7 @@ Public Class StoreApproval
             .Append(" MstFabricItem.ITENNAME AS ITEMNAME, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")  'UOM
             .Append(" A.MTR_WEIGHT AS Qty,")  'Qty
-            .Append(" A.OP22,")  'Approval Date
+            .Append(" CASE WHEN ISDATE(A.OP22) = 1 THEN CONVERT(VARCHAR(10), CAST(A.OP22 AS DATETIME), 103)  ELSE '' END AS OP22,")  'Approval Date
             .Append("  CASE WHEN UPPER(A.OP19) = 'YES' THEN 'YES' ELSE 'NO' END AS Status")
             .Append(" FROM  ")
             .Append(" " & _TblName & " AS A  ")
@@ -82,14 +77,14 @@ Public Class StoreApproval
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1  ")
             .Append(" And A.BOOKCODE='RQSS-000000001'  ")
-            .Append("  AND NOT EXISTS ")
-            .Append("  (   ")
-            .Append(" SELECT 1  ")
-            .Append(" FROM TrnPackingSlip AS B  ")
-            .Append(" WHERE ")
-            .Append(" B.OP7 = A.BookVno ")
-            .Append(" And B.ITEMCODE = A.ITEMCODE ")
-            .Append("  )")
+            '.Append("  AND NOT EXISTS ")
+            '.Append("  (   ")
+            '.Append(" SELECT 1  ")
+            '.Append(" FROM TrnPackingSlip AS B  ")
+            '.Append(" WHERE ")
+            '.Append(" B.OP7 = A.BookVno ")
+            '.Append(" And B.ITEMCODE = A.ITEMCODE ")
+            '.Append("  )")
             .Append(dateFilter)
             .Append(StatusFilter)
             .Append(TypeFilter)

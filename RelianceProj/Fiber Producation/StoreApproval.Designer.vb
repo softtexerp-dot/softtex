@@ -60,7 +60,7 @@ Partial Class StoreApproval
         Me.btnviewupdate.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnviewupdate.Name = "btnviewupdate"
         Me.btnviewupdate.Size = New System.Drawing.Size(96, 34)
-        Me.btnviewupdate.TabIndex = 5
+        Me.btnviewupdate.TabIndex = 6
         Me.btnviewupdate.Text = "Update"
         '
         'BtnExport
@@ -71,7 +71,7 @@ Partial Class StoreApproval
         Me.BtnExport.Location = New System.Drawing.Point(1108, 6)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(96, 34)
-        Me.BtnExport.TabIndex = 7
+        Me.BtnExport.TabIndex = 8
         Me.BtnExport.Text = "Export"
         '
         'BtnPrint
@@ -82,7 +82,7 @@ Partial Class StoreApproval
         Me.BtnPrint.Location = New System.Drawing.Point(1006, 6)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(96, 34)
-        Me.BtnPrint.TabIndex = 6
+        Me.BtnPrint.TabIndex = 7
         Me.BtnPrint.Text = "Print"
         '
         'GridControl1
@@ -269,7 +269,7 @@ Partial Class StoreApproval
         Me.But_ok.Location = New System.Drawing.Point(802, 6)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(96, 34)
-        Me.But_ok.TabIndex = 4
+        Me.But_ok.TabIndex = 5
         Me.But_ok.Text = "OK"
         '
         'txt_Status
@@ -400,9 +400,9 @@ Partial Class StoreApproval
         Me.TxtType.ShowMessage = False
         Me.TxtType.Size = New System.Drawing.Size(93, 22)
         Me.TxtType.SpacerString = "APPROVE,PENDING,ALL"
-        Me.TxtType.TabIndex = 82232
+        Me.TxtType.TabIndex = 4
         Me.TxtType.Tag = "OP19"
-        Me.TxtType.Text = "APPROVE"
+        Me.TxtType.Text = "ALL"
         Me.TxtType.TransparentBox = True
         Me.TxtType.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
