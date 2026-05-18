@@ -38,14 +38,26 @@ Public Class StoreApproval
                 StatusFilter = " AND UPPER(A.OP19) = 'NO' "
             End If
         End If
-        If Not String.IsNullOrEmpty(TxtType.Text) Then
-            If UCase(TxtType.Text.Trim) = "ALL" Then
-                TypeFilter = " AND ( " & " (ISDATE(A.OP22)=1 AND CAST(A.OP22 AS DATETIME) >= '" & txt_From.Date_for_Database & "' " & " AND CAST(A.OP22 AS DATETIME) <= '" & txt_To.Date_for_Database & "') " & " OR " & " (A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' " & " AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "') " & " ) " & " AND UPPER(A.OP19) IN ('YES','NO') "
-            ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
-                TypeFilter = " AND ISDATE(A.OP22)=1 " & " AND CAST(A.OP22 AS DATETIME) >= '" & txt_From.Date_for_Database & "' " & " AND CAST(A.OP22 AS DATETIME) <= '" & txt_To.Date_for_Database & "' " & " AND UPPER(A.OP19) = 'YES' "
-            ElseIf UCase(TxtType.Text.Trim) = "PENDING" Then
-                TypeFilter = " AND A.ENTRYDATE >= '" & txt_From.Date_for_Database & "' " & " AND A.ENTRYDATE <= '" & txt_To.Date_for_Database & "' " & " AND UPPER(A.OP19) = 'NO' "
-            End If
+        If UCase(TxtType.Text.Trim) = "ALL" Then
+            TypeFilter = " AND ( " &
+                 " (ISDATE(ISNULL(A.OP22,'1900-01-01 00:00:00.000')) = 1 " &
+                 " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                 " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
+                 " OR " &
+                 " (CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                 " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
+                 " ) " &
+                 " AND UPPER(A.OP19) IN ('YES','NO') "
+
+        ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
+            TypeFilter = " AND ISDATE(ISNULL(A.OP22,'1900-01-01 00:00:00.000')) = 1 " &
+                 " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                 " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " &
+                 " AND UPPER(A.OP19) = 'YES' "
+        ElseIf UCase(TxtType.Text.Trim) = "PENDING" Then
+            TypeFilter = " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                 " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " &
+                 " AND UPPER(A.OP19) = 'NO' "
         End If
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
