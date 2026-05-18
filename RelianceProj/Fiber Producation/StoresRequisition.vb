@@ -299,7 +299,7 @@ Friend Class StoresRequisition
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("ROWREMARK:44")
+            .Append("ROWREMARK:42")
         End With
 
         _FieldDefaultValues = New StringBuilder
@@ -985,8 +985,8 @@ Friend Class StoresRequisition
             .Append(" MstMasterAccount.accountname as [Party Name], ")
             .Append("  A.SRNO as [Sno], ")
             '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
-            .Append(" MstFabricItem.ITENNAME as [Item Name], ")
-            .Append(" K.subItemName  AS [Sub Item], ")
+            .Append(" B.ItemName as [Item Name], ")
+            .Append(" K.TYPE_NAME  AS [Sub Item], ")
             .Append(" E.DEPARTMENTNAME  AS DEPARTMENT, ")
             '.Append(" F.ColorName AS Color,  ")
             .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
@@ -1004,13 +1004,13 @@ Friend Class StoresRequisition
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
-            .Append(" LEFT JOIN MstFabricItem ON A.ITEMCODE=MstFabricItem.ID   ")
+            .Append(" LEFT JOIN MstStoreItem As B On A.ITEMCODE=B.ITEMCODE ")
             .Append(" LEFT JOIN MstMasterAccount ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
             .Append(" LEFT JOIN MSTTRANSPORT  ON A.TRANSPORTCODE=MSTTRANSPORT.ID   ")
             .Append(" LEFT JOIN MstMasterAccount AS C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE   ")
             .Append(" LEFT JOIN Mst_Acof_Supply ON  A.ACOFCODE=Mst_Acof_Supply.ID   ")
             .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
-            .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
+            .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1 ")
@@ -1205,7 +1205,7 @@ Friend Class StoresRequisition
             .Append(" SELECT   A.*,")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as F_CHALLANDATE, ")
             .Append(" MstCity.cityname AS DESPATCH, ")
-            .Append(" MstFabricItem.ITENNAME AS ITEMNAME, ")
+            .Append(" B.ItemName AS ITEMNAME, ")
             .Append(" MstMasterAccount.ACCOUNTNAME,  ")
             .Append(" MstTransport.ID AS TRANSPORTCODE ,MstTransport.TransportName, ")
             .Append(" C.accountname as agentname, ")
@@ -1215,19 +1215,19 @@ Friend Class StoresRequisition
             .Append(" F.ColorName AS COLORNAME,  ")
             .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS F_ENTRYDATE,  ")
             .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
-            .Append(" K.subItemName  AS COMPANYNAME ")
+            .Append(" K.TYPE_NAME  AS COMPANYNAME ")
             .Append(" ,IIF(ISNULL(G.USEBOOKVNO,'')='','NO','YES') AS USEBY")
 
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
-            .Append(" LEFT JOIN MstFabricItem ON A.ITEMCODE=MstFabricItem.ID   ")
+            .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE  ")
             .Append(" LEFT JOIN MstMasterAccount ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
             .Append(" LEFT JOIN MSTTRANSPORT  ON A.TRANSPORTCODE=MSTTRANSPORT.ID   ")
             .Append(" LEFT JOIN MstMasterAccount AS C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE   ")
             .Append(" LEFT JOIN Mst_Acof_Supply ON  A.ACOFCODE=Mst_Acof_Supply.ID   ")
             .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
-            .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
+            .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
@@ -1576,14 +1576,14 @@ Friend Class StoresRequisition
         ElseIf _ActivatedColName = "COMPANYNAME" Then
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
-                Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
+                Dim _LoadQuery = NewSelectionList.MstStoreItemType("")
                 Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text, "SINGLE")
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("ACCOUNTCODE") Then
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()
                     End If
-                    If selected.ContainsKey("SubItemName") Then
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("SubItemName").ToString()
+                    If selected.ContainsKey("Company") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("Company").ToString()
                     End If
                 End If
             End If
@@ -1592,7 +1592,7 @@ Friend Class StoresRequisition
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
                 Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                Dim _LoadQuery = NewSelectionList.MstFabricItem_Select("")
+                Dim _LoadQuery = NewSelectionList.SINGLE_storeItem_SELECTION("")
                 Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "SINGLE")
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("ACCOUNTCODE") Then
@@ -1601,6 +1601,33 @@ Friend Class StoresRequisition
 
                     If selected.ContainsKey("ItemName") Then
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
+                    End If
+
+
+                    _strQuery = New StringBuilder
+                    With _strQuery
+                        .Append(" SELECT ")
+                        .Append(" C.Departmentname, ")
+                        .Append(" B.CUTNAME, ")
+                        .Append(" A.CutCode, ")
+                        .Append(" C.Departmentcode, ")
+                        .Append(" D.TYPE_NAME, ")
+                        .Append(" A.ITEM_CODE As CompanyCode ")
+                        .Append(" From MstStoreItem as A ")
+                        .Append(" left Join MstCutMaster As B on A.CutCode=B.Id ")
+                        .Append(" left Join MstDepartment As C on A.OP8=C.Departmentcode ")
+                        .Append(" left Join MstStoreItemType As D on A.ITEM_CODE=D.TYPE_ID ")
+                        .Append(" Where A.ITEMCODE='" & GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text & "' ")
+                    End With
+                    sqL = _strQuery.ToString
+                    sql_connect_slect()
+                    If DefaltSoftTable.Rows.Count > 0 Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text = DefaltSoftTable.Rows(0).Item("Departmentname").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = DefaltSoftTable.Rows(0).Item("Departmentcode").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = DefaltSoftTable.Rows(0).Item("TYPE_NAME").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = DefaltSoftTable.Rows(0).Item("CompanyCode").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = DefaltSoftTable.Rows(0).Item("CutCode").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = DefaltSoftTable.Rows(0).Item("CUTNAME").ToString()
                     End If
                 End If
             End If

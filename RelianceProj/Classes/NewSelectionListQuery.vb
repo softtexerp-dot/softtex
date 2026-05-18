@@ -458,6 +458,30 @@ Public Class NewSelectionListQuery
 
         Return _strQuery.ToString()
     End Function
+
+    Public Function MstStoreItemType(ByVal FilterString As String)
+        Dim _strQuery As New StringBuilder
+        Try
+            With _strQuery
+                .Append(" SELECT  ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.TYPE_NAME As Company  ")
+                .Append(" ,'' As Remark ")
+                .Append(" , A.TYPE_ID As ACCOUNTCODE ")
+                .Append(" FROM MstStoreItemType As A ")
+                .Append(" WHERE 1=1 ")
+                .Append(FilterString)
+                .Append(" ORDER BY A.TYPE_NAME")
+            End With
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+
+        Return _strQuery.ToString()
+    End Function
+
+
     Public Function Single_STORE_DEPARTMENT_Selection(ByVal FilterString As String)
         Dim _strQuery As New StringBuilder
         Try
@@ -595,7 +619,7 @@ Public Class NewSelectionListQuery
                 .Append("  SELECT ")
                 .Append(" 'False' as TickMark  ")
                 .Append(" ,A.COMPANYNAME   ")
-                .Append("  ,A.POLICYNO  ")
+                '.Append("  ,A.POLICYNO  ")
                 .Append("  ,A.ID As ACCOUNTCODE ")
                 .Append("  from MstInsuranceCompany as A   ")
                 .Append(" Where 1 = 1 and a.TOPUPCOMPANY is null")

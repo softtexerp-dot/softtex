@@ -48,7 +48,6 @@ Public Class StoreApproval
                  " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
                  " ) " &
                  " AND UPPER(A.OP19) IN ('YES','NO') "
-
         ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
             TypeFilter = " AND ISDATE(ISNULL(A.OP22,'1900-01-01 00:00:00.000')) = 1 " &
                  " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
@@ -61,7 +60,7 @@ Public Class StoreApproval
         End If
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
-            .Append(" SELECT   A.ENTRYNO As [Entry NO],")
+            .Append(" SELECT   A.ENTRYNO As [Entry No],")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
             .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
             .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
@@ -70,33 +69,26 @@ Public Class StoreApproval
             '.Append(" ELSE FORMAT(A.MODYFIDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Modify Date],")
             .Append(" A.ITEMCODE,")  'OP22 Modify datetime
             .Append(" A.BOOKVNO,")  'BookVNO
-            .Append(" MstFabricItem.ITENNAME AS ITEMNAME, ")
+            .Append(" B.ItemName AS ItemName, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")  'UOM
+            .Append(" K.TYPE_NAME AS CompanyName ,")
             .Append(" A.MTR_WEIGHT AS Qty,")  'Qty
             .Append(" CASE WHEN ISDATE(A.OP22) = 1 THEN CONVERT(VARCHAR(10), CAST(A.OP22 AS DATETIME), 103)  ELSE '' END AS OP22,")  'Approval Date
-            .Append("  CASE WHEN UPPER(A.OP19) = 'YES' THEN 'YES' ELSE 'NO' END AS Status")
+            .Append("  CASE WHEN UPPER(A.OP19) = 'YES' THEN 'YES' ELSE 'NO' END AS Status") 'status
             .Append(" FROM  ")
             .Append(" " & _TblName & " AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
-            .Append(" LEFT JOIN MstFabricItem ON A.ITEMCODE=MstFabricItem.ID   ")
+            .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE  ")
             .Append(" LEFT JOIN MstMasterAccount ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
             .Append(" LEFT JOIN MSTTRANSPORT  ON A.TRANSPORTCODE=MSTTRANSPORT.ID   ")
             .Append(" LEFT JOIN MstMasterAccount AS C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE   ")
             .Append(" LEFT JOIN Mst_Acof_Supply ON  A.ACOFCODE=Mst_Acof_Supply.ID   ")
             .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
-            .Append(" LEFT JOIN MstStoreSubItem K  ON  A.SHADECODE = K.subItemCode ")
+            .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1  ")
             .Append(" And A.BOOKCODE='RQSS-000000001'  ")
-            '.Append("  AND NOT EXISTS ")
-            '.Append("  (   ")
-            '.Append(" SELECT 1  ")
-            '.Append(" FROM TrnPackingSlip AS B  ")
-            '.Append(" WHERE ")
-            '.Append(" B.OP7 = A.BookVno ")
-            '.Append(" And B.ITEMCODE = A.ITEMCODE ")
-            '.Append("  )")
             .Append(dateFilter)
             .Append(StatusFilter)
             .Append(TypeFilter)
