@@ -1036,20 +1036,20 @@ Public Class StoreIssueDepartment
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Quotation No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
+            .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
             .Append("  A.SRNO as [Sno], ")
+            .Append("  A.OP6 AS [Req. NO],")
             .Append(" B.ItemName as [Item Name], ")
             .Append(" K.TYPE_NAME  AS Brand, ")
-            .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")
-            .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
+            .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
             '.Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            .Append("  A.AMOUNT as [Amount],")
+            '.Append("  A.AMOUNT as [Amount],")
             '.Append("  A.OP11 As Gst ,")
             '.Append("  A.OP12 As Fright,")
             '.Append("  A.OP13 as Delivery,")
             '.Append("  A.OP4 as [Payment Terms],")
-            .Append("  A.OP6 AS [Req. NO],")
             '.Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
             '.Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
@@ -1092,9 +1092,9 @@ Public Class StoreIssueDepartment
             FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
             FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
             FirstStage.Columns("Quantity").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-            FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            'FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Quantity").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Quantity", "{0}"))
-            FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
+            'FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
             AlignGroupSummaryInGroupRow(GridControl1, FirstStage)
             PNL_View.Visible = True
             FirstStage.BestFitColumns()
@@ -1113,8 +1113,8 @@ Public Class StoreIssueDepartment
         gridView.Appearance.GroupRow.BackColor = Color.LightGreen
     End Sub
 
-    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs)
-        Dim _RptTiltle = " Report From :" & txt_From.Text & " To : " & txt_To.Text
+    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = "Issue To Department Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 

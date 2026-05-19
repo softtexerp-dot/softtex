@@ -1075,26 +1075,31 @@ Public Class ComparisonEntry
             .Append("  A.PACK_SLIP_NO as [Comparison No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
-            .Append(" MstMasterAccount.accountname as [Account Name], ")
             .Append("  A.SRNO as [Sno], ")
+            .Append("  A.OP6 AS [Quotation No],")
+            .Append(" MstMasterAccount.accountname as [Account Name], ")
             '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
             .Append(" B.ItemName as [Item Name], ")
             .Append(" K.TYPE_NAME AS Brand, ")
             '.Append(" E.DEPARTMENTNAME  AS DEPARTMENT, ")
             '.Append(" F.ColorName AS Color,  ")
-            .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
             .Append(" MstCutMaster.cutname as UOM, ")
-            .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            '.Append("  A.RDVALUE as [Tax %],")
+            .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
+            .Append(" FORMAT( A.CUT_MTR,'0.00') as [Gross Rate], ")
+            .Append("  FORMAT( A.RDVALUE,'0.00') as [Dis %],")
+            .Append(" FORMAT( A.RATE,'0.00') as [Net Rate], ")
             .Append("  A.AMOUNT as [Amount],")
-            .Append("  A.OP6 AS [Quotation No],")
             '.Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
             '.Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
             '.Append(" MstTransport.TransportName as [Transport], ")
             '.Append(" C.accountname as [Agent Name], ")
             '.Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
-            .Append("  A.RowRemark as [Remark] ")
+            .Append("  A.RowRemark as [Remark], ")
+            .Append("  FORMAT(A.OP11,'0.00') As Gst,")
+            .Append("  FORMAT(A.OP12,'0.00') As Fright,")
+            .Append("  FORMAT(A.OP13,'0.00') As Delivery,")
+            .Append("  A.OP4 As PaymentTerms")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -1127,8 +1132,10 @@ Public Class ComparisonEntry
             FirstStage.Appearance.Row.Font = New Font("Tahoma", 8, FontStyle.Bold)
             FirstStage.Appearance.HeaderPanel.Font = New Font("Tahoma", 8, FontStyle.Bold)
             FirstStage.GroupRowHeight = 30
-            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Comparison No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Comparison No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Quantity").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Quantity").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Quantity", "{0}"))
@@ -1151,8 +1158,8 @@ Public Class ComparisonEntry
         gridView.Appearance.GroupRow.BackColor = Color.LightGreen
     End Sub
 
-    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs)
-        Dim _RptTiltle = " Report From :" & txt_From.Text & " To : " & txt_To.Text
+    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = "Comparison Entry Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
@@ -1754,7 +1761,7 @@ Public Class ComparisonEntry
             grdObj.Cell(grdObj.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = grdObj.ActiveCell.Row
         End If
     End Sub
-    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs)
         Dim _RptTiltle = "Quotation Entry Details"
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub

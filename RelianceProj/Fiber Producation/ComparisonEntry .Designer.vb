@@ -141,7 +141,7 @@ Partial Class ComparisonEntry
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(68, 201)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(327, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(988, 84)
         Me.PNL_View.TabIndex = 82240
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False

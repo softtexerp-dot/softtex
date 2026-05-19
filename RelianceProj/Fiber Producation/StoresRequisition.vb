@@ -979,25 +979,25 @@ Friend Class StoresRequisition
             .Append(" SELECT ")
             .Append("  A.BookVno, ")
             .Append("  G.BookName, ")
+            .Append("  A.OP20 as [Stock Category], ")
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Req. No], ")
-            .Append("  A.OP20 as [Stock Category], ")
-            .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Challan Date], ")
+            .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
-            .Append(" MstMasterAccount.accountname as [Party Name], ")
+            '.Append(" MstMasterAccount.accountname as [Party Name], ")
             .Append("  A.SRNO as [Sno], ")
             '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
             .Append(" B.ItemName as [Item Name], ")
             .Append(" K.TYPE_NAME  AS Brand, ")
+            .Append(" MstCutMaster.cutname as UOM, ")
             .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             '.Append(" F.ColorName AS Color,  ")
-            .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
-            .Append(" MstCutMaster.cutname as UOM, ")
+            .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
             '.Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
             '.Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
             '.Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             '.Append("  A.RDVALUE as [Tax %],")
-            .Append("  A.AMOUNT as [Amount],")
+            '.Append("  A.AMOUNT as [Amount],")
             '.Append(" MstTransport.TransportName as [Transport], ")
             '.Append(" C.accountname as [Agent Name], ")
             '.Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
@@ -1040,14 +1040,15 @@ Friend Class StoresRequisition
 
 
             FirstStage.GroupRowHeight = 30
-            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
 
             FirstStage.Columns("Quantity").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-            FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Quantity").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            'FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
 
             FirstStage.Columns("Quantity").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Quantity", "{0}"))
-            FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
+            'FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
 
 
             AlignGroupSummaryInGroupRow(GridControl1, FirstStage)

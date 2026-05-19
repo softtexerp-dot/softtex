@@ -1068,28 +1068,29 @@ Friend Class QuotationEntry
             .Append(" MstMasterAccount.accountname as [Supplier Name], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
             .Append("  A.SRNO as [Sno], ")
+            .Append("  A.OP6 AS [Req. NO],")
             '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
             .Append(" B.ItemName as [Item Name], ")
             .Append(" K.TYPE_NAME AS Brand, ")
             '.Append(" E.DEPARTMENTNAME  AS DEPARTMENT, ")
             '.Append(" F.ColorName AS Color,  ")
-            .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
             .Append(" MstCutMaster.cutname as UOM, ")
-            .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            '.Append("  A.RDVALUE as [Tax %],")
+            .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
+            .Append(" FORMAT( A.CUT_MTR,'0.00') as [Gross Rate], ")
+            .Append("   FORMAT(A.RDVALUE,'0.00') as [Dis %],")
+            .Append(" FORMAT( A.RATE,'0.00') as [Net Rate], ")
             .Append("  A.AMOUNT as [Amount],")
-            .Append("  A.OP11 As Gst,")
-            .Append("  A.OP12 As Fright,")
-            .Append("  A.OP13 As Delivery,")
-            .Append("  A.OP4 As PaymentTerms,")
-            .Append("  A.OP6 AS [Req. NO],")
+            .Append("  A.RowRemark as [Remark], ")
+            .Append("  FORMAT( A.OP11,'0.00') As Gst,")
+            .Append("  FORMAT( A.OP12,'0.00') As Fright,")
+            .Append("  FORMAT( A.OP13,'0.00') As Delivery,")
+            .Append("  A.OP4 As PaymentTerms")
             '.Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
             '.Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
             '.Append(" MstTransport.TransportName as [Transport], ")
             '.Append(" C.accountname as [Agent Name], ")
             '.Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
-            .Append("  A.RowRemark as [Remark] ")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -1122,10 +1123,14 @@ Friend Class QuotationEntry
             FirstStage.Appearance.Row.Font = New Font("Tahoma", 8, FontStyle.Bold)
             FirstStage.Appearance.HeaderPanel.Font = New Font("Tahoma", 8, FontStyle.Bold)
             FirstStage.GroupRowHeight = 30
-            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Quotation No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Quotation No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Quantity").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Quantity").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+
             FirstStage.Columns("Quantity").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Quantity", "{0}"))
             FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
             AlignGroupSummaryInGroupRow(GridControl1, FirstStage)
@@ -1146,8 +1151,8 @@ Friend Class QuotationEntry
         gridView.Appearance.GroupRow.BackColor = Color.LightGreen
     End Sub
 
-    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs)
-        Dim _RptTiltle = " Report From :" & txt_From.Text & " To : " & txt_To.Text
+    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = "Quotation Entry Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 

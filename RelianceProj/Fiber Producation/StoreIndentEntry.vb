@@ -1040,14 +1040,14 @@ Public Class StoreIndentEntry
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
             .Append("  A.SRNO as [Sno], ")
+            .Append("  A.OP6 AS [Issue NO],")
+            .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             .Append(" B.ItemName as [Item Name], ")
             .Append(" K.TYPE_NAME  AS CompanyName,")
             .Append(" MstCutMaster.CUTNAME AS UOM, ")
-            .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
-            .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
+            .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
             '.Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            .Append("  A.AMOUNT as [Amount],")
-            .Append("  A.OP6 AS [Issue NO],")
+            '.Append("  A.AMOUNT as [Amount],")
             '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
             '.Append(" MstTransport.TransportName as [Transport], ")
             '.Append(" C.accountname as [Agent Name], ")
@@ -1085,12 +1085,15 @@ Public Class StoreIndentEntry
             FirstStage.Appearance.Row.Font = New Font("Tahoma", 8, FontStyle.Bold)
             FirstStage.Appearance.HeaderPanel.Font = New Font("Tahoma", 8, FontStyle.Bold)
             FirstStage.GroupRowHeight = 30
-            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
-            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near
+            FirstStage.Columns("Entry No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Entry No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Quotation No").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Quotation No").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Quantity").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-            FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            FirstStage.Columns("Quantity").AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+            'FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
             FirstStage.Columns("Quantity").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Quantity", "{0}"))
-            FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
+            'FirstStage.Columns("Amount").Summary.Add(New GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0}"))
             AlignGroupSummaryInGroupRow(GridControl1, FirstStage)
             PNL_View.Visible = True
             FirstStage.BestFitColumns()
@@ -1109,8 +1112,8 @@ Public Class StoreIndentEntry
         gridView.Appearance.GroupRow.BackColor = Color.LightGreen
     End Sub
 
-    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs)
-        Dim _RptTiltle = " Report From :" & txt_From.Text & " To : " & txt_To.Text
+    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = " Indent Entry Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
