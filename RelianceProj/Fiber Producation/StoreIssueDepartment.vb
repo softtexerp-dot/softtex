@@ -315,7 +315,7 @@ Public Class StoreIssueDepartment
             .Append("SRNO:4,")
             .Append("OFFERNO:6,")
             .Append("GROUPNAME:9,")
-            .Append("ITEMNAME:25,")
+            .Append("ITEMNAME:22,")
             .Append("SIZENAME:5,")
             .Append("RDVALUE:5,")
             .Append("COLORNAME:6,")
@@ -331,7 +331,7 @@ Public Class StoreIssueDepartment
             .Append("OP12:8,") 'Fright
             .Append("OP13:8,")  'Delivery
             .Append("OP4:12,") 'Payment terms
-            .Append("ROWREMARK:40")
+            .Append("ROWREMARK:42")
         End With
 
         _FieldDefaultValues = New StringBuilder
@@ -1282,7 +1282,6 @@ Public Class StoreIssueDepartment
         tblTmp = DefaltSoftTable.Copy
         txtAccountName.Text = tblTmp.Rows(0)("DEPARTMENT").ToString
         txtChallanNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
-        txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
         txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
         txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
@@ -1292,7 +1291,6 @@ Public Class StoreIssueDepartment
         Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
         _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
         Generate_Date_For_DataBase(txtChallanDate)
-        txtChallanDate.ReadOnly = True
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
         Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
@@ -1316,6 +1314,8 @@ Public Class StoreIssueDepartment
         Next
         Total_Upto_All_Grid_All_Row()
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+        txtChallanDate.ReadOnly = True
+        txtChallanDate.Enabled = False
         _FrmLoad = False
     End Sub
 #End Region
