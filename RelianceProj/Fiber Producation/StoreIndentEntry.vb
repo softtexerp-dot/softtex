@@ -337,7 +337,7 @@ Public Class StoreIndentEntry
             .Append("OP12:8,") 'Fright
             .Append("OP13:8,")  'Delivery
             .Append("OP4:12,") 'Payment terms
-            .Append("ROWREMARK:42")
+            .Append("ROWREMARK:34")
         End With
 
         _FieldDefaultValues = New StringBuilder
@@ -1034,23 +1034,25 @@ Public Class StoreIndentEntry
         With strQuery
             .Append(" SELECT ")
             .Append("  A.BookVno, ")
+            .Append("  G.BookName, ")
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Quotation No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
+            .Append("  A.HeaderRemark as [Header Remark], ")
             .Append("  A.SRNO as [Sno], ")
             .Append(" B.ItemName as [Item Name], ")
-            .Append(" K.TYPE_NAME  AS COMPANYNAME ,")
+            .Append(" K.TYPE_NAME  AS CompanyName,")
             .Append(" MstCutMaster.CUTNAME AS UOM, ")
             .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             .Append(" FORMAT( A.MTR_WEIGHT,'0.000') as [Quantity], ")
-            .Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
+            '.Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
             .Append("  A.AMOUNT as [Amount],")
             .Append("  A.OP6 AS [Issue NO],")
-            .Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
+            '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
             '.Append(" MstTransport.TransportName as [Transport], ")
             '.Append(" C.accountname as [Agent Name], ")
             '.Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
-            .Append("  A.HeaderRemark as [Remark] ")
+            .Append("  A.RowRemark as [Remark] ")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -1063,6 +1065,7 @@ Public Class StoreIndentEntry
             .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID  ")
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.DEPARTMENTCODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
+            .Append(" LEFT JOIN MSTBook AS G ON A.GodownCode = G.BookCode ")
             .Append(" WHERE 1=1 ")
             .Append(_UNiteWiseCode)
             .Append(View_Filter_Condition)
