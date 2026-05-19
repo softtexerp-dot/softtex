@@ -153,7 +153,7 @@ Partial Class StoreIssueDepartment
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(68, 201)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(869, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(339, 84)
         Me.PNL_View.TabIndex = 82239
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False

@@ -84,7 +84,7 @@ Partial Class StoresRequisition
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(140, 202)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(913, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(319, 84)
         Me.PNL_View.TabIndex = 82203
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
