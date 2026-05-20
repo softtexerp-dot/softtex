@@ -338,7 +338,7 @@ Public Class StoreIssueDepartment
             .Append("OP12:8,") 'Fright
             .Append("OP13:8,")  'Delivery
             .Append("OP4:12,") 'Payment terms
-            .Append("ROWREMARK:28")
+            .Append("ROWREMARK:27")
         End With
 
         _FieldDefaultValues = New StringBuilder
