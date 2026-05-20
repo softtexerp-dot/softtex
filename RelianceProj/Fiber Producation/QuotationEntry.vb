@@ -178,7 +178,7 @@ Friend Class QuotationEntry
         With _FieldHeader
             .Append("SRNO:S.No,")
             .Append("OFFERNO:Off.No,")
-            .Append("OP6:Req. No,")
+            .Append("OP6:Ind. No,")
             .Append("GROUPNAME:Group,")
             .Append("ITEMNAME:Item Name,")
             .Append("COMPANYNAME:Brand,")
@@ -891,7 +891,7 @@ Friend Class QuotationEntry
         Dim _EditReason As String = ""
         Dim _PartyGstinno As String = ""
         _SaveUserEditLog(txtBookCode.Text,
-                            Txt_BookName.Text,
+                            BookType,
                             BookType,
                             txtEntryNo.Text,
                             txtChallanNo.Text,
@@ -963,7 +963,7 @@ Friend Class QuotationEntry
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP5,")
+            '.Append("OP5,")
             .Append("OP8,")
             .Append("OP9,")
             .Append("OP10,")
@@ -990,7 +990,7 @@ Friend Class QuotationEntry
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
-            .Append(Txt_BookName.Text & ",")
+            '.Append(Txt_BookName.Text & ",")
             .Append(Txt_Terms1.Text & ",")
             .Append(Txt_Terms2.Text & ",")
             .Append(Txt_Terms3.Text & ",")
@@ -1330,7 +1330,7 @@ Friend Class QuotationEntry
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
         Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
         _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
-        Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
+        'Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
         Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
         Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
         Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
@@ -1622,17 +1622,20 @@ Friend Class QuotationEntry
                 With _StrQuery
                     .Append(" SELECT ")
                     .Append(" 'False' AS TickMark, ")
-                    .Append(" A.PACK_SLIP_NO AS [Req No], ")
+                    .Append(" A.PACK_SLIP_NO AS [Ind No], ")
                     .Append(" B.ItemName AS ItemName, ")
                     .Append(" B.HSNCODE AS HsnCode, ")
                     .Append(" A.Mtr_weight AS Qty, ")
                     .Append(" A.ACCOUNTCODE AS ACCOUNTCODE, ")
                     .Append(" A.BOOKVNO As ID, ")
-                    .Append(" C.TYPE_NAME AS COMPANYNAME, ")
+                    .Append(" C.TYPE_NAME AS CompanyName, ")
                     .Append(" C.TYPE_ID AS GROUPCODE, ")
-                    .Append(" D.CUTNAME AS CUTNAME, ")
+                    .Append(" D.CUTNAME AS UOM, ")
                     .Append(" A.CUTCODE AS CountCode, ")
-                    .Append(" A.ITEMCODE AS ItemCode ")
+                    .Append(" A.ITEMCODE AS ItemCode, ")
+                    .Append(" A.OP12 As Fright, ")
+                    .Append(" A.OP13 As Delivery, ")
+                    .Append(" b.VatTaxPer As [Gst%] ")
                     .Append(" FROM TrnPackingSlip AS A ")
                     .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE")
                     .Append(" LEFT JOIN MstStoreItemType AS C ")
@@ -1640,8 +1643,8 @@ Friend Class QuotationEntry
                     .Append(" LEFT JOIN MstCutMaster AS D ")
                     .Append(" ON A.CUTCODE = D.ID ")
                     .Append(" WHERE 1=1 ")
-                    .Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
-                    .Append(" AND A.BookTrType = '" & _ReqBookTrType & "'")
+                    .Append(" AND A.Bookcode = 'SISS-000000001'")
+                    '.Append(" AND A.BookTrType = '" & _ReqBookTrType & "'")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
@@ -1662,15 +1665,18 @@ Friend Class QuotationEntry
                             _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
                             Dim BookVno As String = rowDict("ItemCode").ToString()
                             '================ GRID VALUE =================
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = rowDict("Req No").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = rowDict("Ind No").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = rowDict("ItemName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = rowDict("Qty").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = rowDict("ItemCode").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("COMPANYNAME").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("CompanyName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = rowDict("GROUPCODE").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = rowDict("CountCode").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = rowDict("CUTNAME").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = rowDict("UOM").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = rowDict("ID").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP11") + 1).Text = rowDict("Gst%").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP12") + 1).Text = rowDict("Fright").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP13") + 1).Text = rowDict("Delivery").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
                             '================ NEXT ROW =================
                             If RowNo >= GrdItem.Rows - 1 Then
@@ -1823,30 +1829,30 @@ Friend Class QuotationEntry
         _DevExpressExcelExport(GridControl1)
     End Sub
 
-    Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = SelectBookType(Txt_BookName.Text)
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    _ReqBookCode = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("BookName") Then
-                    Txt_BookName.Text = selected("BookName").ToString()
-                End If
-            End If
-            Select Case _ReqBookCode
-                Case "RQSS-000000001"
-                    _ReqBookTrType = "RQSS1"
-                Case "RQSS-000000002"
-                    _ReqBookTrType = "RQSS2"
-                Case "RQSS-000000003"
-                    _ReqBookTrType = "RQSS3"
-            End Select
-            SendKeys.Send("{TAB}")
-        End If
+    Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs)
+        'If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+        '    Dim selected = SelectBookType(Txt_BookName.Text)
+        '    If selected IsNot Nothing Then
+        '        If selected.ContainsKey("ACCOUNTCODE") Then
+        '            _ReqBookCode = selected("ACCOUNTCODE").ToString()
+        '        End If
+        '        If selected.ContainsKey("BookName") Then
+        '            Txt_BookName.Text = selected("BookName").ToString()
+        '        End If
+        '    End If
+        '    Select Case _ReqBookCode
+        '        Case "RQSS-000000001"
+        '            _ReqBookTrType = "RQSS1"
+        '        Case "RQSS-000000002"
+        '            _ReqBookTrType = "RQSS2"
+        '        Case "RQSS-000000003"
+        '            _ReqBookTrType = "RQSS3"
+        '    End Select
+        '    SendKeys.Send("{TAB}")
+        'End If
     End Sub
 
-    Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
+    Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs)
         '_Validated()
     End Sub
     Private Sub _Validated()

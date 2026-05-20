@@ -74,9 +74,6 @@ Partial Class QuotationEntry
         Me.Txt_Terms2 = New ctl_TextBox.ctl_TextBox()
         Me.Txt_Terms3 = New ctl_TextBox.ctl_TextBox()
         Me.Txt_Terms4 = New ctl_TextBox.ctl_TextBox()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.Txt_BookName = New ctl_TextBox.ctl_TextBox()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.PNL_View.SuspendLayout()
@@ -1038,71 +1035,6 @@ Partial Class QuotationEntry
         Me.Txt_Terms4.TransparentBox = True
         Me.Txt_Terms4.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.ForeColor = System.Drawing.Color.Black
-        Me.Label18.Location = New System.Drawing.Point(399, 5)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(115, 14)
-        Me.Label18.TabIndex = 82206
-        Me.Label18.Text = "Req. Book Name"
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(517, 5)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(12, 14)
-        Me.Label19.TabIndex = 82207
-        Me.Label19.Text = ":"
-        '
-        'Txt_BookName
-        '
-        Me.Txt_BookName._AllowSpace = True
-        Me.Txt_BookName.AcceptsReturn = True
-        Me.Txt_BookName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_BookName.BackColor = System.Drawing.Color.LightCyan
-        Me.Txt_BookName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_BookName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.Txt_BookName.Check_End_Date_Value_FY = "YES"
-        Me.Txt_BookName.Check_Start_Date_Value_FY = "YES"
-        Me.Txt_BookName.ClearField = True
-        Me.Txt_BookName.CustomInputTypeString = Nothing
-        Me.Txt_BookName.Date_for_Database = Nothing
-        Me.Txt_BookName.Date_Tag = Nothing
-        Me.Txt_BookName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.Txt_BookName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
-        Me.Txt_BookName.ExtraValue = ""
-        Me.Txt_BookName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_BookName.FontFocusColor = System.Drawing.Color.Blue
-        Me.Txt_BookName.FontLeaveColor = System.Drawing.Color.Black
-        Me.Txt_BookName.ForeColor = System.Drawing.Color.Black
-        Me.Txt_BookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
-        Me.Txt_BookName.IsValidated = False
-        Me.Txt_BookName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_BookName.Location = New System.Drawing.Point(530, 4)
-        Me.Txt_BookName.MandatoryColor = System.Drawing.Color.LightCyan
-        Me.Txt_BookName.MandatoryField = False
-        Me.Txt_BookName.MaxDate = Nothing
-        Me.Txt_BookName.MinDate = Nothing
-        Me.Txt_BookName.Name = "Txt_BookName"
-        Me.Txt_BookName.NormalBorderColor = System.Drawing.Color.LightCyan
-        Me.Txt_BookName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.Txt_BookName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.Txt_BookName.ReadOnly = True
-        Me.Txt_BookName.RegularExpression = Nothing
-        Me.Txt_BookName.RegularExpressionErrorMessage = Nothing
-        Me.Txt_BookName.ShowMessage = False
-        Me.Txt_BookName.Size = New System.Drawing.Size(202, 22)
-        Me.Txt_BookName.SpacerString = ""
-        Me.Txt_BookName.TabIndex = 5
-        Me.Txt_BookName.Tag = "BOOKNAME"
-        Me.Txt_BookName.TransparentBox = True
-        Me.Txt_BookName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
         'Label21
         '
         Me.Label21.AutoSize = True
@@ -1131,9 +1063,6 @@ Partial Class QuotationEntry
         Me.ClientSize = New System.Drawing.Size(1012, 621)
         Me.Controls.Add(Me.Label22)
         Me.Controls.Add(Me.Label21)
-        Me.Controls.Add(Me.Txt_BookName)
-        Me.Controls.Add(Me.Label19)
-        Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Txt_Terms4)
         Me.Controls.Add(Me.Txt_Terms3)
         Me.Controls.Add(Me.Txt_Terms2)
@@ -1241,9 +1170,6 @@ Partial Class QuotationEntry
     Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents Label18 As Label
-    Friend WithEvents Label19 As Label
-    Friend WithEvents Txt_BookName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label21 As Label
     Friend WithEvents Label22 As Label
 End Class

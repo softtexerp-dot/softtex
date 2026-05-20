@@ -306,6 +306,7 @@ Partial Class StoreApproval
         Me.txt_Status.NormalBorderColor = System.Drawing.Color.White
         Me.txt_Status.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txt_Status.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txt_Status.ReadOnly = True
         Me.txt_Status.RegularExpression = Nothing
         Me.txt_Status.RegularExpressionErrorMessage = Nothing
         Me.txt_Status.ShortcutsEnabled = False
@@ -394,6 +395,7 @@ Partial Class StoreApproval
         Me.TxtType.NormalBorderColor = System.Drawing.Color.White
         Me.TxtType.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.TxtType.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.TxtType.ReadOnly = True
         Me.TxtType.RegularExpression = Nothing
         Me.TxtType.RegularExpressionErrorMessage = Nothing
         Me.TxtType.ShortcutsEnabled = False

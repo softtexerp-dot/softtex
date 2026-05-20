@@ -30,8 +30,7 @@ Public Class StoreApproval
         End If
         If Not String.IsNullOrEmpty(txt_Status.Text) Then
             If UCase(txt_Status.Text.Trim) = "ALL" Then
-                ' ALL = YES + NO dono
-                StatusFilter = " AND UPPER(A.OP19) IN ('YES','NO') "
+                StatusFilter = ""
             ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
                 StatusFilter = " AND UPPER(A.OP19) = 'YES' "
             ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
@@ -88,7 +87,20 @@ Public Class StoreApproval
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1  ")
+
             .Append(" And A.BOOKCODE='RQSS-000000001'  ")
+
+            'If txt_Status.Text = "NO" Then
+            .Append("  AND NOT EXISTS ")
+                .Append("  (   ")
+                .Append(" SELECT 1  ")
+                .Append(" FROM TrnPackingSlip AS B  ")
+                .Append(" WHERE ")
+                .Append(" B.OP7 = A.BookVno ")
+                .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                .Append("  )")
+            'End If
+
             .Append(dateFilter)
             .Append(StatusFilter)
             .Append(TypeFilter)
