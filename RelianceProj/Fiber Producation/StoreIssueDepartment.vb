@@ -1594,7 +1594,7 @@ Public Class StoreIssueDepartment
                     .Append(" A.DESIGNCODE, ")
                     .Append(" A.SHADECODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
-                    .Append(" WHERE A.Bookcode = 'IQSS-000000001' ")
+                    .Append(" WHERE A.Bookcode = 'IDSS-000000001' ")
                     .Append(" ) AS Z ")
                     .Append(" LEFT JOIN MstStoreItem AS B ")
                     .Append(" ON Z.ITEMCODE = B.ITEMCODE ")
@@ -1667,7 +1667,7 @@ Public Class StoreIssueDepartment
                             '================ GRID VALUE =================
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = rowDict("Req No").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = rowDict("ItemName").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = BalanceQty
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = rowDict("Balance").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = rowDict("ItemCode").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("CompanyName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = rowDict("GROUPCODE").ToString()
