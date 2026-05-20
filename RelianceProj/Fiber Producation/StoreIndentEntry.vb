@@ -361,7 +361,7 @@ Public Class StoreIndentEntry
             .Append("ACCOUNTNAME:Y,")
             .Append("ITEMNAME:Y,")
             .Append("OP6:Y,")
-            .Append("MTR_WEIGHT:Y,")
+            '.Append("MTR_WEIGHT:Y,")
             .Append("AMOUNT:Y,")
             '.Append("COMPANYNAME:Y,")
             .Append("CUTNAME:Y,")
@@ -1136,7 +1136,7 @@ Public Class StoreIndentEntry
 #Region "TXT BOX ENTRY NO EVENT CODE "
     Private Sub txtEntryNo_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtEntryNo.Validated
         If _FrmLoad = True Then Exit Sub
-        _Validated()
+        '_Validated()
         If _FORMMODE = "VIEW" Then
 
         Else
@@ -1439,7 +1439,7 @@ Public Class StoreIndentEntry
     End Sub
     Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
-
+        _Validated()
     End Sub
 
 #End Region
@@ -1742,8 +1742,11 @@ Public Class StoreIndentEntry
             Generate_Date_For_DataBase(txtChallanDate)
             GrdItem.Rows = 2
             GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-            txtChallanNo.Focus()
-            txtChallanNo.Select()
+            txtEntryNo.Focus()
+            txtEntryNo.Select()
+            txtChallanNo.Text = txtEntryNo.Text
+            'txtChallanNo.Focus()
+            'txtChallanNo.Select()
         ElseIf _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
             If Last_Entry_No = 0 Then
                 MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")

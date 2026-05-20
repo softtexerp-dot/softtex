@@ -1175,7 +1175,7 @@ Friend Class QuotationEntry
 #Region "TXT BOX ENTRY NO EVENT CODE "
     Private Sub txtEntryNo_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtEntryNo.Validated
         If _FrmLoad = True Then Exit Sub
-        _Validated()
+        '_Validated()
         If _FORMMODE = "VIEW" Then
 
         Else
@@ -1302,6 +1302,7 @@ Friend Class QuotationEntry
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
+            '.Append(" Left Join ( SELECT OP22 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP22,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
             .Append(" ORDER BY  A.SRNO ")
@@ -1486,7 +1487,7 @@ Friend Class QuotationEntry
     End Sub
     Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
-
+        _Validated()
     End Sub
 
 #End Region
@@ -1644,15 +1645,16 @@ Friend Class QuotationEntry
                     .Append(" ON A.CUTCODE = D.ID ")
                     .Append(" WHERE 1=1 ")
                     .Append(" AND A.Bookcode = 'SISS-000000001'")
-                    '.Append(" AND A.BookTrType = '" & _ReqBookTrType & "'")
+
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
                     .Append(" FROM TrnPackingSlip AS B  ")
                     .Append(" WHERE ")
-                    .Append(" B.OP7 = A.BookVno ")
+                    .Append(" B.OP22 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
                     .Append("  )")
+
                 End With
 
                 Dim _LoadQuery = _StrQuery.ToString()
@@ -1686,6 +1688,7 @@ Friend Class QuotationEntry
                         End If
                     Next
                 End If
+                Call Total_Upto_All_Grid_All_Row()
             End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then
             If e.KeyCode = Keys.Enter Then  'AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" 
@@ -1905,8 +1908,11 @@ Friend Class QuotationEntry
             Generate_Date_For_DataBase(txtChallanDate)
             GrdItem.Rows = 2
             GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-            txtChallanNo.Focus()
-            txtChallanNo.Select()
+            txtEntryNo.Focus()
+            txtEntryNo.Select()
+            txtChallanNo.Text = txtEntryNo.Text
+            'txtChallanNo.Focus()
+            'txtChallanNo.Select()
         ElseIf _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
             If Last_Entry_No = 0 Then
                 MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")

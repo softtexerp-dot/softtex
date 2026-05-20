@@ -46,7 +46,7 @@ Public Class StoreApproval
                  " (CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
                  " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
                  " ) " &
-                 " AND UPPER(A.OP19) IN ('YES','NO') "
+            " AND UPPER(A.OP19) IN ('YES','NO') "
         ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
             TypeFilter = " AND ISDATE(ISNULL(A.OP22,'1900-01-01 00:00:00.000')) = 1 " &
                  " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &

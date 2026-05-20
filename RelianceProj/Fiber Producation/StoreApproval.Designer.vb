@@ -56,10 +56,10 @@ Partial Class StoreApproval
         Me.btnviewupdate.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnviewupdate.Appearance.Options.UseFont = True
         Me.btnviewupdate.ImageOptions.Image = CType(resources.GetObject("btnviewupdate.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnviewupdate.Location = New System.Drawing.Point(903, 6)
+        Me.btnviewupdate.Location = New System.Drawing.Point(731, 6)
         Me.btnviewupdate.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnviewupdate.Name = "btnviewupdate"
-        Me.btnviewupdate.Size = New System.Drawing.Size(96, 34)
+        Me.btnviewupdate.Size = New System.Drawing.Size(90, 36)
         Me.btnviewupdate.TabIndex = 6
         Me.btnviewupdate.Text = "Update"
         '
@@ -68,9 +68,9 @@ Partial Class StoreApproval
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(1108, 6)
+        Me.BtnExport.Location = New System.Drawing.Point(915, 6)
         Me.BtnExport.Name = "BtnExport"
-        Me.BtnExport.Size = New System.Drawing.Size(96, 34)
+        Me.BtnExport.Size = New System.Drawing.Size(90, 36)
         Me.BtnExport.TabIndex = 8
         Me.BtnExport.Text = "Export"
         '
@@ -79,9 +79,9 @@ Partial Class StoreApproval
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(1006, 6)
+        Me.BtnPrint.Location = New System.Drawing.Point(823, 6)
         Me.BtnPrint.Name = "BtnPrint"
-        Me.BtnPrint.Size = New System.Drawing.Size(96, 34)
+        Me.BtnPrint.Size = New System.Drawing.Size(90, 36)
         Me.BtnPrint.TabIndex = 7
         Me.BtnPrint.Text = "Print"
         '
@@ -90,7 +90,7 @@ Partial Class StoreApproval
         Me.GridControl1.Location = New System.Drawing.Point(3, 46)
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(1211, 569)
+        Me.GridControl1.Size = New System.Drawing.Size(1008, 574)
         Me.GridControl1.TabIndex = 82001
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
@@ -135,7 +135,7 @@ Partial Class StoreApproval
         '
         Me.lbl_To.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_To.ForeColor = System.Drawing.Color.Black
-        Me.lbl_To.Location = New System.Drawing.Point(211, 17)
+        Me.lbl_To.Location = New System.Drawing.Point(193, 17)
         Me.lbl_To.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_To.Name = "lbl_To"
         Me.lbl_To.Size = New System.Drawing.Size(65, 14)
@@ -177,7 +177,7 @@ Partial Class StoreApproval
         Me.txt_To.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_To.IsValidated = False
         Me.txt_To.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txt_To.Location = New System.Drawing.Point(284, 14)
+        Me.txt_To.Location = New System.Drawing.Point(260, 14)
         Me.txt_To.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_To.MandatoryField = False
         Me.txt_To.MaxDate = Nothing
@@ -189,7 +189,7 @@ Partial Class StoreApproval
         Me.txt_To.RegularExpression = Nothing
         Me.txt_To.RegularExpressionErrorMessage = Nothing
         Me.txt_To.ShowMessage = False
-        Me.txt_To.Size = New System.Drawing.Size(91, 22)
+        Me.txt_To.Size = New System.Drawing.Size(92, 22)
         Me.txt_To.SpacerString = ""
         Me.txt_To.TabIndex = 2
         Me.txt_To.Tag = "BOOKNAME"
@@ -221,7 +221,7 @@ Partial Class StoreApproval
         Me.txt_From.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_From.IsValidated = False
         Me.txt_From.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txt_From.Location = New System.Drawing.Point(107, 14)
+        Me.txt_From.Location = New System.Drawing.Point(99, 14)
         Me.txt_From.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_From.MandatoryField = False
         Me.txt_From.MaxDate = Nothing
@@ -233,7 +233,7 @@ Partial Class StoreApproval
         Me.txt_From.RegularExpression = Nothing
         Me.txt_From.RegularExpressionErrorMessage = Nothing
         Me.txt_From.ShowMessage = False
-        Me.txt_From.Size = New System.Drawing.Size(100, 22)
+        Me.txt_From.Size = New System.Drawing.Size(92, 22)
         Me.txt_From.SpacerString = ""
         Me.txt_From.TabIndex = 1
         Me.txt_From.Tag = "BOOKNAME"
@@ -255,7 +255,7 @@ Partial Class StoreApproval
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(272, 16)
+        Me.Label1.Location = New System.Drawing.Point(250, 16)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(12, 14)
         Me.Label1.TabIndex = 82228
@@ -266,9 +266,9 @@ Partial Class StoreApproval
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(802, 6)
+        Me.But_ok.Location = New System.Drawing.Point(639, 6)
         Me.But_ok.Name = "But_ok"
-        Me.But_ok.Size = New System.Drawing.Size(96, 34)
+        Me.But_ok.Size = New System.Drawing.Size(90, 36)
         Me.But_ok.TabIndex = 5
         Me.But_ok.Text = "OK"
         '
@@ -296,7 +296,7 @@ Partial Class StoreApproval
         Me.txt_Status.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.txt_Status.IsValidated = False
         Me.txt_Status.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txt_Status.Location = New System.Drawing.Point(536, 14)
+        Me.txt_Status.Location = New System.Drawing.Point(477, 15)
         Me.txt_Status.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_Status.MandatoryField = False
         Me.txt_Status.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -311,7 +311,7 @@ Partial Class StoreApproval
         Me.txt_Status.RegularExpressionErrorMessage = Nothing
         Me.txt_Status.ShortcutsEnabled = False
         Me.txt_Status.ShowMessage = False
-        Me.txt_Status.Size = New System.Drawing.Size(38, 22)
+        Me.txt_Status.Size = New System.Drawing.Size(33, 22)
         Me.txt_Status.SpacerString = "NO,YES,ALL"
         Me.txt_Status.TabIndex = 3
         Me.txt_Status.Tag = "OP19"
@@ -323,7 +323,7 @@ Partial Class StoreApproval
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(520, 17)
+        Me.Label2.Location = New System.Drawing.Point(461, 18)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 82231
@@ -333,7 +333,7 @@ Partial Class StoreApproval
         '
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.Black
-        Me.Label3.Location = New System.Drawing.Point(415, 16)
+        Me.Label3.Location = New System.Drawing.Point(357, 17)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(110, 14)
@@ -344,7 +344,7 @@ Partial Class StoreApproval
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(632, 17)
+        Me.Label4.Location = New System.Drawing.Point(556, 18)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82234
@@ -354,7 +354,7 @@ Partial Class StoreApproval
         '
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Black
-        Me.Label5.Location = New System.Drawing.Point(582, 16)
+        Me.Label5.Location = New System.Drawing.Point(515, 17)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(45, 14)
@@ -385,7 +385,7 @@ Partial Class StoreApproval
         Me.TxtType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.TxtType.IsValidated = False
         Me.TxtType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtType.Location = New System.Drawing.Point(653, 14)
+        Me.TxtType.Location = New System.Drawing.Point(568, 15)
         Me.TxtType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.TxtType.MandatoryField = False
         Me.TxtType.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -400,7 +400,7 @@ Partial Class StoreApproval
         Me.TxtType.RegularExpressionErrorMessage = Nothing
         Me.TxtType.ShortcutsEnabled = False
         Me.TxtType.ShowMessage = False
-        Me.TxtType.Size = New System.Drawing.Size(93, 22)
+        Me.TxtType.Size = New System.Drawing.Size(67, 22)
         Me.TxtType.SpacerString = "APPROVE,PENDING,ALL"
         Me.TxtType.TabIndex = 4
         Me.TxtType.Tag = "OP19"
@@ -413,7 +413,7 @@ Partial Class StoreApproval
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1216, 621)
+        Me.ClientSize = New System.Drawing.Size(1012, 621)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.TxtType)

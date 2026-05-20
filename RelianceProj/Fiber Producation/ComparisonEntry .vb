@@ -145,6 +145,7 @@ Public Class ComparisonEntry
             .Append("USEBY,")
             .Append("OP19,") 'Approve status
             .Append("OP21,") 'UserId
+            .Append("OP22,") 'IndentId
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
             .Append("DESPATCHCODE")
@@ -313,6 +314,7 @@ Public Class ComparisonEntry
             '.Append("OP17:N,") 'QuotationNo
             .Append("USEBY:N,")
             .Append("OP21:N,") 'UserId
+            .Append("OP22:N,") 'IndentId
             .Append("OP19:N,") 'Approve status
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
@@ -1182,7 +1184,7 @@ Public Class ComparisonEntry
 #Region "TXT BOX ENTRY NO EVENT CODE "
     Private Sub txtEntryNo_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtEntryNo.Validated
         If _FrmLoad = True Then Exit Sub
-        _Validated()
+        '_Validated()
         If _FORMMODE = "VIEW" Then
 
         Else
@@ -1460,7 +1462,7 @@ Public Class ComparisonEntry
     End Sub
     Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
-
+        _Validated()
     End Sub
 
 #End Region
@@ -1625,6 +1627,7 @@ Public Class ComparisonEntry
                                 .Append(" A.OP13 As Delivery, ")
                                 .Append(" A.OP4 As [Payment terms], ")
                                 .Append(" A.ITEMCODE, ")
+                                .Append(" A.OP7, ")
                                 .Append(" A.BOOKVNO ")
                                 .Append(" FROM TrnPackingSlip AS A ")
                                 .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE")
@@ -1667,14 +1670,15 @@ Public Class ComparisonEntry
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP13") + 1).Text = dr("Delivery").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
+                                GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                 GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
                                 GrdItem.Rows = GrdItem.Rows + 1
                                 Rowno += 1
-
                             End If
                         End If
                     Next
                 End If
+                Call Total_Upto_All_Grid_All_Row()
             End If
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
@@ -1817,8 +1821,11 @@ Public Class ComparisonEntry
             Generate_Date_For_DataBase(txtChallanDate)
             GrdItem.Rows = 2
             GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-            txtChallanNo.Focus()
-            txtChallanNo.Select()
+            txtEntryNo.Focus()
+            txtEntryNo.Select()
+            txtChallanNo.Text = txtEntryNo.Text
+            'txtChallanNo.Focus()
+            'txtChallanNo.Select()
         ElseIf _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
             If Last_Entry_No = 0 Then
                 MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
