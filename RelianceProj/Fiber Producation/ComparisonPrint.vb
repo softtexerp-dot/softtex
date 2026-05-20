@@ -68,6 +68,7 @@ Public Class ComparisonPrint
                 .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Challan Date], ")
                 .Append(" MstMasterAccount.accountname as [Party Name], ")
                 .Append("  A.SRNO as [Sno], ")
+                .Append(" A.OP6 As [Quotation No],")
                 .Append(" B.ItemName as [Item Name], ")
                 .Append(" K.TYPE_NAME  AS [Sub Item], ")
                 .Append(" E.DEPARTMENTNAME  AS DEPARTMENT, ")
@@ -83,6 +84,14 @@ Public Class ComparisonPrint
                 .Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
                 .Append(" G.BookName as [Unit Name], ")
                 .Append(" A.ROWREMARK As [RowRemark],")
+                .Append(" A.OP11 As [Gst%],")
+                .Append(" A.OP12 As [Fright],")
+                .Append(" A.OP13 As [Delivery],")
+                .Append(" A.OP4 As [PaymentTerms],")
+                .Append(" A.OP8 As Terms1,") 'Terms1
+                .Append(" A.OP9 As Terms2,") 'Terms2
+                .Append(" A.OP10 As Terms3,") 'Terms3
+                .Append(" A.OP16 As Terms4,") 'Terms4
                 .Append("  A.HeaderRemark as [Remark] ")
                 .Append(" FROM  ")
                 .Append(" TrnPackingSlip AS A  ")
