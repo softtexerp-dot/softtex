@@ -595,7 +595,20 @@ Module Genral
 
         Return Nothing
     End Function
-
+    Public Function SingleAccountSelectionFormDatatable(LoadQueryDatatable As DataTable, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String, ByVal LoadType As String) As List(Of Dictionary(Of String, Object))
+        Dim frm As New NewSelectionForm()
+        frm.LoadQueryDatatable = LoadQueryDatatable
+        frm.LoadType = LoadType
+        frm.F2MasterFormType = masterFormType
+        frm.GridViewType = GridViewType
+        If Not String.IsNullOrEmpty(prefillSearch) Then
+            frm.txtSearch.Text = prefillSearch
+        End If
+        If frm.ShowDialog() = DialogResult.OK Then
+            Return frm.SelectedRowValuesList
+        End If
+        Return Nothing
+    End Function
     Public Function Replacement_Of_String(SourceString As String, strTemplateType As String, strFindString As String, strReplacementString As String) As String
         Dim result As String = SourceString
         Dim num As Integer = SourceString.IndexOf(strFindString.Trim())
@@ -3226,4 +3239,75 @@ Module Genral
         End If
         Return _StText
     End Function
+    Public Sub _SaveUserEditLog(ByVal Bookcode As String,
+                              ByVal Bookname As String,
+                              ByVal BookType As String,
+                              ByVal EntryNo As String,
+                              ByVal BillNO As String,
+                              ByVal EntryDate As String,
+                              ByVal Accountname As String,
+                              ByVal Accountcode As String,
+                              ByVal CityName As String,
+                              ByVal Amount As String,
+                              ByVal UserName As String,
+                              ByVal EntryType As String,
+                              ByVal ModifyReason As String,
+                              ByVal _Date As String,
+                              ByVal _BOOKVNO As String,
+                              ByVal _BillItemDetail As String,
+                              ByVal _BillDate As String,
+                              ByVal _BillQty As String,
+                              ByVal _PartyGstin As String
+                              )
+
+
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append(" insert into Query1 ( ")
+            .Append(" BookTrType ") ' bookcode
+            .Append(" ,BookName ") 'bookname
+            .Append(" ,BookCode ") 'Book type
+            .Append(" ,RCPT_ISSUE ") 'entry no
+            .Append(" ,NATURE ") 'bill no
+            .Append(" ,Y_OWN_STK ") 'entry date
+            .Append(" ,Y_OWN_STK_FLD ") 'accountname
+            .Append(" ,Y_JOB_PARTY_STK ") 'accountcode
+            .Append(" ,Y_JOB_PARTY_STK_FLD ") 'cityname
+            .Append(" ,Y_JOB_WORKER_STK_OWN ") 'amount
+            .Append(" ,Y_JOB_WORKER_STK_FLD_OWN ") 'USERNAME
+            .Append(" ,Y_JOB_WORKER_STK_JOB ") 'ENTRYTYPE
+            .Append(" ,Y_JOB_WORKER_STK_FLD_JOB ") 'MODIFY REASON
+            .Append(" ,Y_LOAN ") 'EDIT LOG FIX
+            .Append(" ,DATA_IMPORT ") 'Date
+            .Append(" ,ACTIVE_STATUS ") 'BOOKVNO
+            .Append(" ,BEHAVIOUR ") 'Item Detail
+            .Append(" ,alies ") 'BILLDATE
+            .Append(" ,BookPreFix ") 'TOTALQTY
+            .Append(" ,BOOKCATEGORY ") 'Partygstin
+            .Append(" ) Values ( ")
+            .Append(" '" & Bookcode & "' ")
+            .Append(" ,'" & Bookname & "' ")
+            .Append(" ,'" & BookType & "' ")
+            .Append(" ,'" & EntryNo & "' ")
+            .Append(" ,'" & BillNO & "' ")
+            .Append(" ,'" & EntryDate & "' ")
+            .Append(" ,'" & Accountname & "' ")
+            .Append(" ,'" & Accountcode & "' ")
+            .Append(" ,'" & CityName & "' ")
+            .Append(" ,'" & Amount & "' ")
+            .Append(" ,'" & UserName & "' ")
+            .Append(" ,'" & EntryType & "' ")
+            .Append(" ,'" & ModifyReason & "' ")
+            .Append(" ,'USER EDIT LOGBOOK' ")
+            .Append(" ,'" & _Date & "' ")
+            .Append(" ,'" & _BOOKVNO & "' ")
+            .Append(" ,'" & _BillItemDetail & "' ")
+            .Append(" ,'" & _BillDate & "' ")
+            .Append(" ,'" & _BillQty & "' ")
+            .Append(" ,'" & _PartyGstin & "' ")
+            .Append(" )")
+        End With
+        sqL = _strQuery.ToString
+        sql_Data_Save_Delete_Update()
+    End Sub
 End Module

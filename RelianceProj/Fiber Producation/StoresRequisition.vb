@@ -1259,7 +1259,7 @@ Friend Class StoresRequisition
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
         txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
-        txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
+        'txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
@@ -1415,7 +1415,7 @@ Friend Class StoresRequisition
             txtEntryNo.Text = Last_Entry_No + 1
             If Last_Entry_No > 0 Then
                 txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
-                txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
+                'txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
                 txtAcOfCode.Text = TblTmp(0)("ACOFCODE").ToString
                 txtDespatch_code.Text = TblTmp(0)("DESPATCHCODE").ToString
                 txtTr_code.Text = TblTmp(0)("TRANSPORTCODE").ToString
