@@ -76,6 +76,9 @@ Partial Class QuotationEntry
         Me.Txt_Terms4 = New ctl_TextBox.ctl_TextBox()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.TxtimpEntryNo = New ctl_TextBox.ctl_TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -183,7 +186,7 @@ Partial Class QuotationEntry
         Me.txtChallanDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txtChallanDate.IsValidated = False
         Me.txtChallanDate.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtChallanDate.Location = New System.Drawing.Point(139, 89)
+        Me.txtChallanDate.Location = New System.Drawing.Point(530, 8)
         Me.txtChallanDate.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtChallanDate.MandatoryField = False
         Me.txtChallanDate.MaxDate = Nothing
@@ -208,7 +211,7 @@ Partial Class QuotationEntry
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(7, 91)
+        Me.Label1.Location = New System.Drawing.Point(398, 10)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(38, 14)
         Me.Label1.TabIndex = 81433
@@ -218,7 +221,7 @@ Partial Class QuotationEntry
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(125, 91)
+        Me.Label2.Location = New System.Drawing.Point(516, 10)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 81434
@@ -282,7 +285,7 @@ Partial Class QuotationEntry
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(125, 65)
+        Me.Label3.Location = New System.Drawing.Point(125, 100)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(12, 14)
         Me.Label3.TabIndex = 81440
@@ -312,7 +315,7 @@ Partial Class QuotationEntry
         Me.txtChallanNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtChallanNo.IsValidated = False
         Me.txtChallanNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtChallanNo.Location = New System.Drawing.Point(138, 63)
+        Me.txtChallanNo.Location = New System.Drawing.Point(138, 98)
         Me.txtChallanNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtChallanNo.MandatoryField = False
         Me.txtChallanNo.MaxDate = Nothing
@@ -336,7 +339,7 @@ Partial Class QuotationEntry
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.Black
-        Me.Label4.Location = New System.Drawing.Point(7, 62)
+        Me.Label4.Location = New System.Drawing.Point(7, 97)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(94, 14)
         Me.Label4.TabIndex = 81439
@@ -380,7 +383,7 @@ Partial Class QuotationEntry
         Me.txtAccountName.ShowMessage = False
         Me.txtAccountName.Size = New System.Drawing.Size(255, 22)
         Me.txtAccountName.SpacerString = ""
-        Me.txtAccountName.TabIndex = 7
+        Me.txtAccountName.TabIndex = 6
         Me.txtAccountName.Tag = "ACCOUNTNAME"
         Me.txtAccountName.TransparentBox = True
         Me.txtAccountName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -434,7 +437,7 @@ Partial Class QuotationEntry
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 268)
-        Me.GrdItem.TabIndex = 9
+        Me.GrdItem.TabIndex = 8
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -539,7 +542,7 @@ Partial Class QuotationEntry
         Me.txtHeader_Remark.ShowMessage = False
         Me.txtHeader_Remark.Size = New System.Drawing.Size(168, 22)
         Me.txtHeader_Remark.SpacerString = ""
-        Me.txtHeader_Remark.TabIndex = 8
+        Me.txtHeader_Remark.TabIndex = 7
         Me.txtHeader_Remark.Tag = "HEADERREMARK"
         Me.txtHeader_Remark.TransparentBox = True
         Me.txtHeader_Remark.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1055,12 +1058,79 @@ Partial Class QuotationEntry
         Me.Label22.TabIndex = 82209
         Me.Label22.Text = ":"
         '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(125, 65)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(12, 14)
+        Me.Label8.TabIndex = 82212
+        Me.Label8.Text = ":"
+        '
+        'TxtimpEntryNo
+        '
+        Me.TxtimpEntryNo._AllowSpace = True
+        Me.TxtimpEntryNo.AcceptsReturn = True
+        Me.TxtimpEntryNo.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.TxtimpEntryNo.BackColor = System.Drawing.Color.LightCyan
+        Me.TxtimpEntryNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtimpEntryNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TxtimpEntryNo.Check_End_Date_Value_FY = "YES"
+        Me.TxtimpEntryNo.Check_Start_Date_Value_FY = "YES"
+        Me.TxtimpEntryNo.ClearField = True
+        Me.TxtimpEntryNo.CustomInputTypeString = Nothing
+        Me.TxtimpEntryNo.Date_for_Database = Nothing
+        Me.TxtimpEntryNo.Date_Tag = Nothing
+        Me.TxtimpEntryNo.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.TxtimpEntryNo.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.TxtimpEntryNo.ExtraValue = ""
+        Me.TxtimpEntryNo.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtimpEntryNo.FontFocusColor = System.Drawing.Color.Blue
+        Me.TxtimpEntryNo.FontLeaveColor = System.Drawing.Color.Black
+        Me.TxtimpEntryNo.ForeColor = System.Drawing.Color.Black
+        Me.TxtimpEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.TxtimpEntryNo.IsValidated = False
+        Me.TxtimpEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.TxtimpEntryNo.Location = New System.Drawing.Point(138, 62)
+        Me.TxtimpEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.TxtimpEntryNo.MandatoryField = False
+        Me.TxtimpEntryNo.MaxDate = Nothing
+        Me.TxtimpEntryNo.MinDate = Nothing
+        Me.TxtimpEntryNo.Name = "TxtimpEntryNo"
+        Me.TxtimpEntryNo.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.TxtimpEntryNo.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.TxtimpEntryNo.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.TxtimpEntryNo.RegularExpression = Nothing
+        Me.TxtimpEntryNo.RegularExpressionErrorMessage = Nothing
+        Me.TxtimpEntryNo.ShowMessage = False
+        Me.TxtimpEntryNo.Size = New System.Drawing.Size(98, 22)
+        Me.TxtimpEntryNo.SpacerString = ""
+        Me.TxtimpEntryNo.TabIndex = 82210
+        Me.TxtimpEntryNo.Tag = "EntryNo"
+        Me.TxtimpEntryNo.TransparentBox = True
+        Me.TxtimpEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.ForeColor = System.Drawing.Color.Black
+        Me.Label9.Location = New System.Drawing.Point(7, 65)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(117, 14)
+        Me.Label9.TabIndex = 82211
+        Me.Label9.Text = "Import Entry No."
+        '
         'QuotationEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.TxtimpEntryNo)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label22)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_Terms4)
@@ -1172,4 +1242,7 @@ Partial Class QuotationEntry
     Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents Label21 As Label
     Friend WithEvents Label22 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents TxtimpEntryNo As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label9 As Label
 End Class

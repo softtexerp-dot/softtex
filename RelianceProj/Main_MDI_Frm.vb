@@ -175,6 +175,10 @@
         StoreIndentEntry.Show()
     End Sub
 
+    Private Sub StockEntryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StockEntryToolStripMenuItem.Click
+        StockEntry.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click

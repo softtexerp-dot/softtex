@@ -1123,7 +1123,7 @@ Friend Class StoresRequisition
             End If
             txtChallanNo.Text = _prefix & "/" & txtEntryNo.Text
         End If
-
+        txtChallanNo.Enabled = False
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0

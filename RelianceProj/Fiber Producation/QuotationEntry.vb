@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports DAO
 Imports DevExpress.XtraGrid
 
 
@@ -632,6 +631,9 @@ Friend Class QuotationEntry
             End Select
         ElseIf e.KeyCode = Keys.F4 Then
             _DispathRowEdit = True
+            For j As Int16 = 1 To GrdItem.Rows - 1
+                GrdItem.Row(j).Locked = False
+            Next
         ElseIf e.KeyCode = Keys.PageUp Then
             If _FORMMODE = "EDIT" And Val(txtEntryNo.Text) > 1 And Last_Saved_Entry_No > 0 Then
                 txtEntryNo.Text = Val(txtEntryNo.Text) - 1
@@ -846,7 +848,10 @@ Friend Class QuotationEntry
         Generate_Date_For_DataBase(txtChallanDate)
 
         Call Fill_Grid_Records_Into_DataTables()
-
+        If Not Fill_Grid_Records_Into_DataTables() Then
+            MsgBox("Please fill item rate before save.", MsgBoxStyle.Information)
+            Exit Sub
+        End If
         Dim _LastID As Integer = -1
         Try
             _LastID = SAVE_INTO_DATABASE_SQL()
@@ -911,27 +916,56 @@ Friend Class QuotationEntry
                             _PartyGstinno
                             )
     End Sub
-    Private Sub Fill_Grid_Records_Into_DataTables()
+
+    Private Function Fill_Grid_Records_Into_DataTables() As Boolean
+
         Dim FieldDr As DataRow
-        '--- Fill Items Grid Records -----------
+
         _DataTableGrid.Rows.Clear()
 
         For i As Int16 = 1 To GrdItem.Rows - 1
-            If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text <> "" And Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) > 0 Then
-                FieldDr = _DataTableGrid.NewRow
+
+            Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
+            Dim ItemName As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text.Trim()
+            Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+            Dim Rate As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
+
+            '================ VALIDATION =================
+            If ReqNo <> "" AndAlso ItemName <> "" AndAlso Qty > 0 AndAlso Rate <= 0 Then
+
+                'MsgBox("Please fill item rate before save.", MsgBoxStyle.Information)
+
+                GrdItem.Focus()
+
+                Exit Function
+
+            End If
+
+            '================ SAVE ROW =================
+            If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text <> "" _
+        AndAlso Qty > 0 Then
+
+                FieldDr = _DataTableGrid.NewRow()
+
                 For j As Int16 = 1 To GrdItem.Cols - 1
+
                     If FieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
                         FieldDr(j - 1) = Val(GrdItem.Cell(i, j).Text)
                     Else
-                        FieldDr(j - 1) = (GrdItem.Cell(i, j).Text)
+                        FieldDr(j - 1) = GrdItem.Cell(i, j).Text
                     End If
-                Next
-                _DataTableGrid.Rows.Add(FieldDr)
-            End If
-        Next
-        '----------------------------------------
-    End Sub
 
+                Next
+
+                _DataTableGrid.Rows.Add(FieldDr)
+
+            End If
+
+        Next
+
+        Return True
+
+    End Function
     Private Function GridDetailsSaveQuery(ByRef arr_object(,) As String) As String
         '------------------------ DETAILS Table --------------------------------
         If txtSalesman_code.Text = "" Then
@@ -1268,6 +1302,31 @@ Friend Class QuotationEntry
             End If
         End If
     End Sub
+    Private Sub Validate_ImportEntry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
+        _TransctionNo = 0
+        strQuery = "SELECT TOP 1 ENTRYNO,BookVNo FROM " & Table_Name & " AS A  WHERE A.EntryNO='" & TxtimpEntryNo.Text & "'  order by Id desc  "
+        sqL = strQuery
+        sql_connect_slect()
+
+        If DefaltSoftTable.Rows.Count > 0 Then
+            _TransctionNo = DefaltSoftTable.Rows(0).Item(0)
+        End If
+
+        If _TransctionNo > 0 Then
+            If _FORMMODE = "EDIT" Then
+                _FrmLoad = True
+                Book_Vno = DefaltSoftTable.Rows(0).Item("BookVNo")
+                Call Alter_ImportForm(Book_Vno)
+                _DefaultColOfGrid = _DataTableGrid.Columns.IndexOf("SRNO") + 1
+                Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+                Change_Grid_Data = True
+                GrdItem.Cell(1, _DefaultColOfGrid).SetFocus()
+                _FrmLoad = False
+                txtChallanNo.Focus()
+                txtChallanNo.Select()
+            End If
+        End If
+    End Sub
 #End Region
 
 #Region "ALTER FORM QUERY "
@@ -1352,18 +1411,79 @@ Friend Class QuotationEntry
                 _CheckDispath = True
             End If
 
-            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
                 If _DispathRowEdit = True Then
                     GrdItem.Row(j).Locked = False
                 Else
-                    'GrdItem.Row(j).Locked = True
-                    GrdItem.Row(j).Locked = False
+                    GrdItem.Row(j).Locked = True
+                    'GrdItem.Row(j).Locked = False
                 End If
             End If
 
         Next
         Total_Upto_All_Grid_All_Row()
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+        _FrmLoad = False
+    End Sub
+    Private Sub Alter_ImportForm(ByVal strKeyID As String)
+        _FrmLoad = False
+        Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
+        Dim tblTmp As New DataTable
+        strQuery = getAlter_Form_Query_Details(strKeyID)
+        sqL = strQuery
+        sql_connect_slect()
+        tblTmp = DefaltSoftTable.Copy
+        txtUnitName.Text = ""
+        txtEntryNo.Text = ""
+        txtChallanNo.Text = ""
+        txtChallanDate.Text = ""
+        txtAccountName.Text = tblTmp.Rows(0)("ACCOUNTNAME").ToString
+        'txtChallanNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
+        'txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
+        'txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
+        txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
+        txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
+        txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
+        'txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
+        txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
+        'Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
+        '_lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
+        ''Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
+        'Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
+        'Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
+        'Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
+        'Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+        'Generate_Date_For_DataBase(txtChallanDate)
+        GrdItem.Visible = False
+        GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
+        Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
+
+        GrdItem.Refresh()
+        GrdItem.Visible = True
+        GrdItem.Focus()
+        For j As Int16 = 1 To GrdItem.Rows - 1
+            GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = j
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).ForeColor = Color.Red
+                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).ForeColor = Color.Red
+                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).ForeColor = Color.Red
+                _CheckDispath = True
+            End If
+
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+                If _DispathRowEdit = True Then
+                    GrdItem.Row(j).Locked = False
+                Else
+                    GrdItem.Row(j).Locked = True
+                    'GrdItem.Row(j).Locked = False
+                End If
+            End If
+        Next
+
+        Total_Upto_All_Grid_All_Row()
+        Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+        TxtimpEntryNo.Focus()
+        TxtimpEntryNo.Select()
         _FrmLoad = False
     End Sub
 #End Region
@@ -1939,6 +2059,12 @@ Friend Class QuotationEntry
 
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
         View_Record()
+    End Sub
+
+    Private Sub TxtimpEntryNo_Validated(sender As Object, e As EventArgs) Handles TxtimpEntryNo.Validated
+        If _FrmLoad = True Then Exit Sub
+        _FORMMODE = "EDIT"
+        Validate_ImportEntry_No(TxtimpEntryNo.Text, _ChallanTableName)
     End Sub
 #End Region
 End Class
