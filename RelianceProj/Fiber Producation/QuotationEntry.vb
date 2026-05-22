@@ -918,53 +918,33 @@ Friend Class QuotationEntry
     End Sub
 
     Private Function Fill_Grid_Records_Into_DataTables() As Boolean
-
         Dim FieldDr As DataRow
-
         _DataTableGrid.Rows.Clear()
-
         For i As Int16 = 1 To GrdItem.Rows - 1
-
             Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
             Dim ItemName As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text.Trim()
             Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
             Dim Rate As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
-
             '================ VALIDATION =================
             If ReqNo <> "" AndAlso ItemName <> "" AndAlso Qty > 0 AndAlso Rate <= 0 Then
-
                 'MsgBox("Please fill item rate before save.", MsgBoxStyle.Information)
-
                 GrdItem.Focus()
-
                 Exit Function
-
             End If
-
             '================ SAVE ROW =================
-            If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text <> "" _
-        AndAlso Qty > 0 Then
-
+            If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text <> "" AndAlso Qty > 0 Then
                 FieldDr = _DataTableGrid.NewRow()
-
                 For j As Int16 = 1 To GrdItem.Cols - 1
-
                     If FieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
                         FieldDr(j - 1) = Val(GrdItem.Cell(i, j).Text)
                     Else
                         FieldDr(j - 1) = GrdItem.Cell(i, j).Text
                     End If
-
                 Next
-
                 _DataTableGrid.Rows.Add(FieldDr)
-
             End If
-
         Next
-
         Return True
-
     End Function
     Private Function GridDetailsSaveQuery(ByRef arr_object(,) As String) As String
         '------------------------ DETAILS Table --------------------------------
@@ -1313,7 +1293,7 @@ Friend Class QuotationEntry
         End If
 
         If _TransctionNo > 0 Then
-            If _FORMMODE = "EDIT" Then
+            If _FORMMODE = "ADD" Then
                 _FrmLoad = True
                 Book_Vno = DefaltSoftTable.Rows(0).Item("BookVNo")
                 Call Alter_ImportForm(Book_Vno)
@@ -1449,10 +1429,10 @@ Friend Class QuotationEntry
         'Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
         '_lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
         ''Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
-        'Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
-        'Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
-        'Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
-        'Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+        Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
+        Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
+        Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
+        Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
         'Generate_Date_For_DataBase(txtChallanDate)
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
@@ -2063,8 +2043,19 @@ Friend Class QuotationEntry
 
     Private Sub TxtimpEntryNo_Validated(sender As Object, e As EventArgs) Handles TxtimpEntryNo.Validated
         If _FrmLoad = True Then Exit Sub
-        _FORMMODE = "EDIT"
+        _FORMMODE = "ADD"
         Validate_ImportEntry_No(TxtimpEntryNo.Text, _ChallanTableName)
     End Sub
+#End Region
+
+#Region "Save Grid Layout"
+    Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
+        SaveLayout(FirstStage, Me.Name)
+    End Sub
+    Private Sub Btn_LayoutLoad_Click(sender As Object, e As EventArgs) Handles Btn_LayoutLoad.Click
+        Load_GridLayout(FirstStage, Me.Name)
+    End Sub
+
+
 #End Region
 End Class

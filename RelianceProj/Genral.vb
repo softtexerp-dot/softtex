@@ -609,6 +609,20 @@ Module Genral
         End If
         Return Nothing
     End Function
+    Public Function SingleAccountSelectionFormsingledatatable(LoadQueryDatatable As DataTable, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String, ByVal LoadType As String) As Dictionary(Of String, Object)
+        Dim frm As New NewSelectionForm()
+        frm.LoadQueryDatatable = LoadQueryDatatable
+        frm.LoadType = LoadType
+        frm.F2MasterFormType = masterFormType
+        frm.GridViewType = GridViewType
+        If Not String.IsNullOrEmpty(prefillSearch) Then
+            frm.txtSearch.Text = prefillSearch
+        End If
+        If frm.ShowDialog() = DialogResult.OK Then
+            Return frm.SelectedRowValues
+        End If
+        Return Nothing
+    End Function
     Public Function Replacement_Of_String(SourceString As String, strTemplateType As String, strFindString As String, strReplacementString As String) As String
         Dim result As String = SourceString
         Dim num As Integer = SourceString.IndexOf(strFindString.Trim())

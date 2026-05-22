@@ -1878,4 +1878,14 @@ Public Class ComparisonEntry
         View_Record()
     End Sub
 #End Region
+#Region "Save Grid Layout"
+    Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
+        SaveLayout(FirstStage, Me.Name)
+    End Sub
+    Private Sub Btn_LayoutLoad_Click(sender As Object, e As EventArgs) Handles Btn_LayoutLoad.Click
+        Load_GridLayout(FirstStage, Me.Name)
+    End Sub
+
+
+#End Region
 End Class

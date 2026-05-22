@@ -1567,7 +1567,7 @@ Friend Class StoresRequisition
         If _ActivatedColName = "CUTNAME" Then
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text, "SINGLE")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Cut_master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text, "SINGLE")
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("ACCOUNTCODE") Then
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
@@ -1581,7 +1581,7 @@ Friend Class StoresRequisition
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
                 Dim _LoadQuery = NewSelectionList.MstStoreItemType("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text, "SINGLE")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Store_Item_Type), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text, "SINGLE")
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("ACCOUNTCODE") Then
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("ACCOUNTCODE").ToString()
@@ -1597,7 +1597,7 @@ Friend Class StoresRequisition
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
                 Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
                 Dim _LoadQuery = NewSelectionList.SINGLE_storeItem_SELECTION("")
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "SINGLE")
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Store_Item), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "SINGLE")
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("ACCOUNTCODE") Then
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
@@ -1646,7 +1646,7 @@ Friend Class StoresRequisition
                 If Change_Grid_Data = True Then
                     txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text
                     Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
-                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text, "SINGLE")
+                    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(StoreDepartment), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DEPARTMENT") + 1).Text, "SINGLE")
                     If selected IsNot Nothing Then
                         If selected.ContainsKey("ACCOUNTCODE") Then
                             GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
@@ -1802,5 +1802,15 @@ Friend Class StoresRequisition
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
         View_Record()
     End Sub
+#End Region
+#Region "Save Grid Layout"
+    Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
+        SaveLayout(FirstStage, Me.Name)
+    End Sub
+    Private Sub Btn_LayoutLoad_Click(sender As Object, e As EventArgs) Handles Btn_LayoutLoad.Click
+        Load_GridLayout(FirstStage, Me.Name)
+    End Sub
+
+
 #End Region
 End Class

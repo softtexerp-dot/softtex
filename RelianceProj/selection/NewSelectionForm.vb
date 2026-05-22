@@ -10,7 +10,8 @@ Public Class NewSelectionForm
     ' Multi Row Selection Result
     Public SelectedRowValuesList As New List(Of Dictionary(Of String, Object))()
 
-
+    Public Property LoadType As String
+    Public Property LoadQueryDatatable As DataTable
     Public Property LoadQuery As String
     Public Property GridViewType As String
     Public Property F2MasterFormType As Type
@@ -27,12 +28,20 @@ Public Class NewSelectionForm
         SelectionGridControl.Height = Me.Height - 80
         txtSearch.Width = Me.Width
 
-
-        If String.IsNullOrEmpty(LoadQuery) Then
-            MessageBox.Show("No query provided.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Me.Close()
-            Return
+        If LoadType = "YES" Then
+            If LoadQueryDatatable.Rows.Count = 0 Then
+                MessageBox.Show("No Data Found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Me.Close()
+                Return
+            End If
+        Else
+            If String.IsNullOrEmpty(LoadQuery) Then
+                MessageBox.Show("No query provided.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Me.Close()
+                Return
+            End If
         End If
+
 
         LoadDataFromQuery()
 
@@ -41,9 +50,13 @@ Public Class NewSelectionForm
     Private Sub LoadDataFromQuery()
         Try
             Dim dt As New DataTable()
-            sqL = LoadQuery.ToString
-            sql_connect_slect()
-            dt = DefaltSoftTable.Copy
+            If LoadType = "YES" Then
+                dt = LoadQueryDatatable.Copy
+            Else
+                sqL = LoadQuery.ToString
+                sql_connect_slect()
+                dt = DefaltSoftTable.Copy
+            End If
 
             SelectionGrid.Columns.Clear()
             SelectionGridControl.DataSource = dt.Copy
@@ -321,7 +334,7 @@ Public Class NewSelectionForm
                 End If
             End If
             'SelectionGridControl.Focus()       ' Control-level focus
-            'view.Focus()               ' View-level focus
+            'txtSearch             ' View-level focus
             'If view.RowCount > 0 Then
             '    view.FocusedRowHandle = 0
             'End If

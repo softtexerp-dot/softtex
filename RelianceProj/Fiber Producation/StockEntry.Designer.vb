@@ -47,9 +47,6 @@ Partial Class StockEntry
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
-        Me.txtAccountName = New ctl_TextBox.ctl_TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -153,7 +150,7 @@ Partial Class StockEntry
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(68, 200)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(321, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(348, 84)
         Me.PNL_View.TabIndex = 82241
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
@@ -303,7 +300,7 @@ Partial Class StockEntry
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(519, 57)
+        Me.Label24.Location = New System.Drawing.Point(522, 16)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(12, 14)
         Me.Label24.TabIndex = 82240
@@ -333,7 +330,7 @@ Partial Class StockEntry
         Me.txtHeader_Remark.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtHeader_Remark.IsValidated = False
         Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtHeader_Remark.Location = New System.Drawing.Point(532, 53)
+        Me.txtHeader_Remark.Location = New System.Drawing.Point(535, 12)
         Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtHeader_Remark.MandatoryField = False
         Me.txtHeader_Remark.MaxDate = Nothing
@@ -356,7 +353,7 @@ Partial Class StockEntry
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(401, 57)
+        Me.Label23.Location = New System.Drawing.Point(404, 16)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(58, 14)
         Me.Label23.TabIndex = 82239
@@ -448,69 +445,6 @@ Partial Class StockEntry
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
-        'txtAccountName
-        '
-        Me.txtAccountName._AllowSpace = True
-        Me.txtAccountName.AcceptsReturn = True
-        Me.txtAccountName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtAccountName.BackColor = System.Drawing.Color.LightCyan
-        Me.txtAccountName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtAccountName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtAccountName.Check_End_Date_Value_FY = "YES"
-        Me.txtAccountName.Check_Start_Date_Value_FY = "YES"
-        Me.txtAccountName.ClearField = True
-        Me.txtAccountName.CustomInputTypeString = Nothing
-        Me.txtAccountName.Date_for_Database = Nothing
-        Me.txtAccountName.Date_Tag = Nothing
-        Me.txtAccountName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.txtAccountName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
-        Me.txtAccountName.ExtraValue = ""
-        Me.txtAccountName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAccountName.FontFocusColor = System.Drawing.Color.Blue
-        Me.txtAccountName.FontLeaveColor = System.Drawing.Color.Black
-        Me.txtAccountName.ForeColor = System.Drawing.Color.Black
-        Me.txtAccountName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
-        Me.txtAccountName.IsValidated = False
-        Me.txtAccountName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtAccountName.Location = New System.Drawing.Point(532, 27)
-        Me.txtAccountName.MandatoryColor = System.Drawing.Color.LightCyan
-        Me.txtAccountName.MandatoryField = False
-        Me.txtAccountName.MaxDate = Nothing
-        Me.txtAccountName.MinDate = Nothing
-        Me.txtAccountName.Name = "txtAccountName"
-        Me.txtAccountName.NormalBorderColor = System.Drawing.Color.LightCyan
-        Me.txtAccountName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.txtAccountName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.txtAccountName.RegularExpression = Nothing
-        Me.txtAccountName.RegularExpressionErrorMessage = Nothing
-        Me.txtAccountName.ShowMessage = False
-        Me.txtAccountName.Size = New System.Drawing.Size(255, 22)
-        Me.txtAccountName.SpacerString = ""
-        Me.txtAccountName.TabIndex = 82217
-        Me.txtAccountName.Tag = "ACCOUNTNAME"
-        Me.txtAccountName.TransparentBox = True
-        Me.txtAccountName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(401, 31)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(104, 14)
-        Me.Label5.TabIndex = 82232
-        Me.Label5.Text = "Supplier Name"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(519, 31)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(12, 14)
-        Me.Label6.TabIndex = 82233
-        Me.Label6.Text = ":"
-        '
         'Label3
         '
         Me.Label3.AutoSize = True
@@ -569,7 +503,7 @@ Partial Class StockEntry
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.Black
-        Me.Label4.Location = New System.Drawing.Point(9, 59)
+        Me.Label4.Location = New System.Drawing.Point(9, 60)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(78, 14)
         Me.Label4.TabIndex = 82230
@@ -699,7 +633,7 @@ Partial Class StockEntry
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(8, 88)
+        Me.Label1.Location = New System.Drawing.Point(9, 86)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(38, 14)
         Me.Label1.TabIndex = 82225
@@ -785,9 +719,6 @@ Partial Class StockEntry
         Me.Controls.Add(Me.lbl_Grid_Header)
         Me.Controls.Add(Me.UC_Buttons1)
         Me.Controls.Add(Me.GrdItem)
-        Me.Controls.Add(Me.txtAccountName)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txtChallanNo)
         Me.Controls.Add(Me.Label4)
@@ -802,10 +733,11 @@ Partial Class StockEntry
         Me.Controls.Add(Me.Label7)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(5, 4, 5, 4)
         Me.Name = "StockEntry"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "StockEntry"
+        Me.Text = "Opening Stock Entry"
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -841,9 +773,6 @@ Partial Class StockEntry
     Friend WithEvents lbl_Grid_Header As Label
     Friend WithEvents UC_Buttons1 As UC_Buttons
     Friend WithEvents GrdItem As FlexCell.Grid
-    Friend WithEvents txtAccountName As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Label5 As Label
-    Friend WithEvents Label6 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents txtChallanNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label4 As Label
