@@ -1341,7 +1341,6 @@ Friend Class QuotationEntry
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
-            '.Append(" Left Join ( SELECT OP22 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP22,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
             .Append(" ORDER BY  A.SRNO ")
@@ -1690,31 +1689,7 @@ Friend Class QuotationEntry
         Dim Col_Text As String = GrdItem.ActiveCell.Text
 
         If _ActivatedColName = "CUTNAME" Then
-            'If e.KeyCode = Keys.Enter Then
-            '    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
-            '    Dim _StrQuery As New StringBuilder
-            '    With _StrQuery
-            '        .Append(" SELECT ")
-            '        .Append(" B.CUTNAME AS UOM, ")
-            '        .Append(" '' as Remark, ")
-            '        .Append(" A.CUTCODE AS ACCOUNTCODE ")
-            '        .Append(" FROM TrnPackingSlip AS A ")
-            '        .Append(" LEFT JOIN MstCutMaster AS B ON A.CUTCODE = B.ID ")
-            '        .Append(" WHERE 1=1 ")
-            '        .Append(" AND A.Bookcode = '" & _ReqBookCode & "' ")
-            '        .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
-            '    End With
-            '    Dim _LoadQuery As String = _StrQuery.ToString()
-            '    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
-            '    If selected IsNot Nothing Then
-            '        If selected.ContainsKey("ACCOUNTCODE") Then
-            '            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
-            '        End If
-            '        If selected.ContainsKey("UOM") Then
-            '            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("UOM").ToString()
-            '        End If
-            '    End If
-            'End If
+
         ElseIf _ActivatedColName = "OP6" Then
             If e.KeyCode = Keys.Enter Then  'AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES"
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
@@ -1809,38 +1784,6 @@ Friend Class QuotationEntry
                 End If
             End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
-            If e.KeyCode = Keys.Enter Then
-                'Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
-                '    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
-                '    Dim _StrQuery As New StringBuilder
-                '    With _StrQuery
-                '        .Append(" SELECT ")
-                '        .Append(" B.ITENNAME AS ItemName, ")
-                '        .Append(" B.HSNCODE AS HsnCode, ")
-                '        .Append(" A.Mtr_weight AS Qty, ")
-                '        .Append(" A.ITEMCODE AS ACCOUNTCODE ")
-                '        .Append(" FROM TrnPackingSlip AS A ")
-                '        .Append(" LEFT JOIN MstFabricItem AS B ON A.ITEMCODE = B.ID ")
-                '        .Append(" WHERE 1=1 ")
-                '        '.Append(" AND A.Bookcode = 'RQSS-000000001'")
-                '        .Append(" AND A.Bookcode = '" & _ReqBookCode & "'")
-                '        .Append(" AND A.BOOKVNO IN " & ReqBookvnorawData & " ")
-                '    End With
-                '    Dim _LoadQuery As String = _StrQuery.ToString()
-                '    Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "SINGLE")
-                'If selected IsNot Nothing Then
-                '    If selected.ContainsKey("ACCOUNTCODE") Then
-                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
-                '    End If
-                '    If selected.ContainsKey("ItemName") Then
-                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
-                '    End If
-                '    If selected.ContainsKey("Qty") Then
-                '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = selected("Qty").ToString()
-                '    End If
-
-                'End If
-            End If
 
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "CUT_MTR" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
