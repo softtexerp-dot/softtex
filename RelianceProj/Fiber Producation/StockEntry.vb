@@ -1287,8 +1287,8 @@ Public Class StockEntry
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" LEFT JOIN MstDepartment H ON A.DESIGNCODE=H.Departmentcode ")
-            .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
-            '.Append(" Left Join ( SELECT OP22 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP22,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
+            .Append(" Left Join ( SELECT OP24 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP24,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
+            '.Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
             .Append(" ORDER BY  A.SRNO ")
@@ -1539,7 +1539,7 @@ Public Class StockEntry
         Dim Col_Text As String = GrdItem.ActiveCell.Text
 
         If _ActivatedColName = "CUTNAME" Then
-            If e.KeyCode = Keys.Enter Then
+            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
                 Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Cut_master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text, "SINGLE")
                 If selected IsNot Nothing Then
@@ -1552,7 +1552,7 @@ Public Class StockEntry
                 End If
             End If
         ElseIf _ActivatedColName = "ACCOUNTNAME" Then
-            If e.KeyCode = Keys.Enter Then
+            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text
                 txt_Code_For_Grid_Selection.Text = ""
                 Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
@@ -1648,7 +1648,7 @@ Public Class StockEntry
             '    Next
             'End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then
-            If e.KeyCode = Keys.Enter Then
+            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text
                 txt_Code_For_Grid_Selection.Text = ""
                 Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
@@ -1664,7 +1664,7 @@ Public Class StockEntry
                 End If
             End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
-            If e.KeyCode = Keys.Enter Then
+            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
                 Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text

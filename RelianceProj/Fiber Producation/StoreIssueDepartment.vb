@@ -104,6 +104,8 @@ Public Class StoreIssueDepartment
             .Append("HEADERREMARK,")
             .Append("SRNO,")
             .Append("OP6,") 'Selected Req No
+            .Append("OP23,") 'Stock Req No
+            .Append("OP24,") 'Stock selected code
             .Append("OFFERNO,")
             .Append("ACCOUNTNAME,")
             .Append("GROUPNAME,")
@@ -273,6 +275,8 @@ Public Class StoreIssueDepartment
             .Append("CUT_MTR:N,") 'Gross Rate
             .Append("SRNO:Y,")
             .Append("OP6:Y,") 'Selected Req No
+            .Append("OP23:N,") 'Stock Req No
+            .Append("OP24:N,") 'Stock selected code
             .Append("ACCOUNTNAME:Y,")
             .Append("ITEMNAME:Y,")
             .Append("ITEMCODE:N,")
@@ -944,7 +948,7 @@ Public Class StoreIssueDepartment
             .Append("BookCode,")
             .Append("PACK_SLIP_NO,")
             .Append("PACK_SLIP_DATE,")
-            .Append("AccountCode,")
+            '.Append("AccountCode,")
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
@@ -967,7 +971,7 @@ Public Class StoreIssueDepartment
             .Append(_BookCode & ",")
             .Append(txtChallanNo.Text & ",")
             .Append(txtChallanDate.Date_for_Database & ",")
-            .Append(txtAccount_Code.Text & ",")
+            '.Append(txtAccount_Code.Text & ",")
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(txtUnitCode.Text & ",")
@@ -1297,7 +1301,7 @@ Public Class StoreIssueDepartment
         txtChallanNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
         txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
         txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
-        txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
+        'txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
@@ -1375,7 +1379,7 @@ Public Class StoreIssueDepartment
             ' Rate Calculate
             Dim Rate As Double = CutMtr - (CutMtr * RdValue / 100)
             ' Set Rate
-            GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("Rate") + 1).Text = Format(Rate, "0.00")
+            'GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("Rate") + 1).Text = Format(Rate, "0.00")
             ' Amount Calculate
             Dim Amount As Double = MtrWeight * Rate
             ' Set Amount
@@ -1532,9 +1536,7 @@ Public Class StoreIssueDepartment
                     .Append(" 'False' AS TickMark, ")
                     .Append(" a.PACK_SLIP_NO As [Req No], ")
                     '.Append(" Z.BOOKVNO, ")
-                    .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') As Balance, ")
                     .Append(" B.ItemName AS ItemName, ")
-                    .Append(" B.HSNCODE AS HsnCode, ")
                     .Append(" A.BOOKVNO As ID, ")
                     .Append(" C.TYPE_NAME AS Brand, ")
                     .Append(" C.TYPE_ID AS GROUPCODE, ")
@@ -1542,10 +1544,10 @@ Public Class StoreIssueDepartment
                     .Append(" E.DEPARTMENTNAME AS DepartmentName, ")
                     .Append(" E.Departmentcode AS CITYCODE, ")
                     .Append(" Z.CUTCODE as CountCode, ")
-                    '.Append(" Z.DESIGNCODE, ")
-                    '.Append(" Z.SHADECODE, ")
                     .Append(" Z.ACCOUNTCODE, ")
-                    .Append(" Z.ITEMCODE As ItemCode ")
+                    .Append(" Z.ITEMCODE As ItemCode, ")
+                    .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') As Balance, ")
+                    .Append(" B.HSNCODE AS HsnCode ")
                     .Append(" FROM ( ")
                     .Append(" SELECT ")
                     .Append(" A.Mtr_weight AS INQTY, ")
@@ -1573,10 +1575,10 @@ Public Class StoreIssueDepartment
                     .Append(" WHERE A.Bookcode = 'IDSS-000000001' ")
                     .Append(" ) AS Z ")
                     .Append(" LEFT JOIN ( ")
-                    .Append(" SELECT ENTRYNO,PACK_SLIP_NO, BOOKVNO ")
+                    .Append(" SELECT ENTRYNO,PACK_SLIP_NO,ACCOUNTCODE, BOOKVNO ")
                     .Append(" FROM TrnPackingSlip ")
                     .Append(" WHERE Bookcode = 'RQSS-000000001' ")
-                    .Append(" GROUP BY ENTRYNO,PACK_SLIP_NO, BOOKVNO ")
+                    .Append(" GROUP BY ENTRYNO,PACK_SLIP_NO, BOOKVNO,ACCOUNTCODE  ")
                     .Append(" ) AS A ON (Z.BOOKVNO = A.BOOKVNO) ")
                     .Append(" LEFT JOIN MstStoreItem AS B ON Z.ITEMCODE = B.ITEMCODE ")
                     .Append(" LEFT JOIN MstStoreItemType AS C ON Z.SHADECODE = C.TYPE_ID ")
@@ -1636,153 +1638,11 @@ Public Class StoreIssueDepartment
                         _FinalTmptbl.Rows.Add(NewRow)
                     End If
                 Next
-                '================ Opening Stock BALANCE =================
-
-                Dim _StrOpenQuery As New StringBuilder
-                With _StrOpenQuery
-                    .Append(" SELECT ")
-                    .Append(" 'False' AS TickMark, ")
-                    .Append(" a.PACK_SLIP_NO As [Challan No], ")
-                    .Append(" Z.QTY As Balance, ")
-                    .Append(" B.ItemName AS ItemName, ")
-                    .Append(" B.HSNCODE AS HsnCode, ")
-                    .Append(" A.BOOKVNO As ID, ")
-                    .Append(" C.TYPE_NAME AS Brand, ")
-                    .Append(" C.TYPE_ID AS GROUPCODE, ")
-                    .Append(" D.CUTNAME AS UOM, ")
-                    .Append(" E.DEPARTMENTNAME AS DepartmentName, ")
-                    .Append(" E.Departmentcode AS CITYCODE, ")
-                    .Append(" Z.CUTCODE as CountCode, ")
-                    .Append(" Z.ACCOUNTCODE, ")
-                    .Append(" Z.ITEMCODE As ItemCode ")
-                    .Append(" FROM ( ")
-                    .Append(" SELECT ")
-                    .Append(" A.Mtr_weight AS QTY, ")
-                    .Append(" A.BOOKVNO, ")
-                    .Append(" A.CUTCODE, ")
-                    .Append(" A.ITEMCODE, ")
-                    .Append(" A.DESIGNCODE, ")
-                    .Append(" A.ACCOUNTCODE, ")
-                    .Append(" A.SHADECODE ")
-                    .Append(" FROM TrnPackingSlip AS A ")
-                    .Append(" WHERE A.Bookcode = 'STOP-000000001' ")
-                    .Append(" ) AS Z ")
-                    .Append(" LEFT JOIN ( ")
-                    .Append(" SELECT ENTRYNO,PACK_SLIP_NO, BOOKVNO ")
-                    .Append(" FROM TrnPackingSlip ")
-                    .Append(" WHERE Bookcode = 'STOP-000000001' ")
-                    .Append(" GROUP BY ENTRYNO,PACK_SLIP_NO, BOOKVNO ")
-                    .Append(" ) AS A ON (Z.BOOKVNO = A.BOOKVNO) ")
-                    .Append(" LEFT JOIN MstStoreItem AS B ON Z.ITEMCODE = B.ITEMCODE ")
-                    .Append(" LEFT JOIN MstStoreItemType AS C ON Z.SHADECODE = C.TYPE_ID ")
-                    .Append(" LEFT JOIN MstCutMaster AS D ON Z.CUTCODE = D.ID ")
-                    .Append(" LEFT JOIN MstDepartment AS E ON Z.DESIGNCODE = E.Departmentcode ")
-                    .Append(" GROUP BY ")
-                    .Append(" A.PACK_SLIP_NO, ")
-                    .Append(" A.BOOKVNO, ")
-                    .Append(" Z.BOOKVNO, ")
-                    .Append(" Z.CUTCODE, ")
-                    .Append(" Z.ITEMCODE, ")
-                    .Append(" Z.DESIGNCODE, ")
-                    .Append(" Z.SHADECODE, ")
-                    .Append(" B.ItemName, ")
-                    .Append(" B.HSNCODE, ")
-                    .Append(" C.TYPE_NAME, ")
-                    .Append(" C.TYPE_ID, ")
-                    .Append(" D.CUTNAME, ")
-                    .Append(" E.DEPARTMENTNAME, ")
-                    .Append(" Z.ACCOUNTCODE, ")
-                    .Append(" E.Departmentcode, ")
-                    .Append(" Z.QTY ")
-                End With
-                sqL = _StrOpenQuery.ToString()
-                sql_connect_slect()
-                Dim _opningstkTmptbl As DataTable = DefaltSoftTable.Copy
-                Dim _FinalopenTmptbl As DataTable = _opningstkTmptbl.Clone
-
-                '================ USED QTY COLLECTION =================
-                Dim QtyopenMap As New Dictionary(Of String, Double)
-                For i As Integer = 1 To GrdItem.Rows - 1
-                    Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
-                    Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
-                    If ReqNo <> "" AndAlso ItemCode <> "" Then
-                        Dim Key As String = ReqNo & "|" & ItemCode
-                        Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-                        If QtyopenMap.ContainsKey(Key) Then
-                            QtyopenMap(Key) += Qty
-                        Else
-                            QtyopenMap.Add(Key, Qty)
-                        End If
-                    End If
-                Next
-                '================ FINAL BALANCE =================
-                For Each dr As DataRow In _opningstkTmptbl.Rows
-                    Dim ReqNo As String = dr("Challan No").ToString().Trim()
-                    Dim ItemCode As String = dr("ItemCode").ToString().Trim()
-                    Dim Key As String = ReqNo & "|" & ItemCode
-                    Dim ActualOpenBal As Double = Val(dr("Balance"))
-                    If QtyopenMap.ContainsKey(Key) Then
-                        ActualOpenBal -= QtyopenMap(Key)
-                    End If
-                    If ActualOpenBal > 0 Then
-                        Dim NewRow As DataRow = _FinalopenTmptbl.NewRow()
-                        NewRow.ItemArray = dr.ItemArray.Clone()
-                        NewRow("Balance") = Format(ActualOpenBal, "0.00")
-                        _FinalopenTmptbl.Rows.Add(NewRow)
-                    End If
-                Next
-                'For Each dr As DataRow In _opningstkTmptbl.Rows
-                '    Dim ReqNo As String = dr("Req No").ToString().Trim()
-                '    Dim ItemCode As String = dr("ItemCode").ToString().Trim()
-                '    Dim AccountCode As String = dr("AccountCode").ToString().Trim()
-                '    Dim BookVno As String = dr("ID").ToString().Trim()
-                '    Dim CutCode As String = dr("CountCode").ToString().Trim()
-                '    Dim DepartmentCode As String = dr("CITYCODE").ToString().Trim()
-
-                '    Dim NewRow As DataRow = _opningstkTmptbl.NewRow()
-                'Next
-                Dim _FItemcodeilter As String = ""
-
-                '======================Multiple list selection===========================
-                'Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES")
-                'If selectedList1 IsNot Nothing Then
-                '    Dim RowNo As Integer = GrdItem.ActiveCell.Row
-                '    For Each rowDict As Dictionary(Of String, Object) In selectedList1
-                '        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ItemCode") Then
-                '            '================ GRID VALUE =================
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = rowDict("Req No").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = rowDict("ItemName").ToString()
-                '            'Remaining balance show hoga
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = Val(rowDict("Balance"))
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = rowDict("ItemCode").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("Brand").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = rowDict("GROUPCODE").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = rowDict("CountCode").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = rowDict("UOM").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = rowDict("CITYCODE").ToString()
-                '            'GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = rowDict("ACCOUNTCODE").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = rowDict("DepartmentName").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = rowDict("ID").ToString()
-                '            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
-                '            ActualQty = Val(rowDict("Balance"))
-                '            '================ NEXT ROW =================
-                '            If RowNo >= GrdItem.Rows - 1 Then
-                '                GrdItem.Rows += 1
-                '            End If
-                '            RowNo += 1
-                '        End If
-                '    Next
-                'End If
-                '======================Single list selection===========================
-                'Dim selected = SingleAccountSelectionFormsingledatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES")
-                Dim selected = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES")
+                Dim selected = SingleAccountSelectionFormsingledatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES")
                 If selected IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
-                    'If selected.ContainsKey("Req No") Then
-                    '    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = selected("Req No").ToString()
-                    'End If
-                    If selected.ContainsKey("Challan No") Then
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = selected("Challan No").ToString()
+                    If selected.ContainsKey("Req No") Then
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = selected("Req No").ToString()
                     End If
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
                     'Remaining balance show hoga
@@ -1792,17 +1652,157 @@ Public Class StoreIssueDepartment
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("GROUPCODE").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("CountCode").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("UOM").ToString()
-                    'GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = rowDict("ACCOUNTCODE").ToString()
+                    'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = selected("DepartmentName").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected("CITYCODE").ToString()  'Department code
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = selected("ID").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
                     ActualQty = Val(selected("Balance"))
-                    '================ NEXT ROW =================
-                    If RowNo >= GrdItem.Rows - 1 Then
-                        GrdItem.Rows += 1
+
+
+                    '================ Opening Stock BALANCE =================
+                    Dim _StrOpenQuery As New StringBuilder
+                    With _StrOpenQuery
+                        .Append(" SELECT ")
+                        .Append(" 'False' AS TickMark, ")
+                        .Append(" a.PACK_SLIP_NO As [Req No], ")
+                        .Append(" F.accountname as [Supplier Name], ")
+                        '.Append(" F.AccountCode as ACCOUNTCODE, ")
+                        .Append(" B.ItemName AS ItemName, ")
+                        .Append(" A.BOOKVNO As ID, ")
+                        .Append(" C.TYPE_NAME AS Brand, ")
+                        .Append(" C.TYPE_ID AS GROUPCODE, ")
+                        .Append(" D.CUTNAME AS UOM, ")
+                        .Append(" E.DEPARTMENTNAME AS DepartmentName, ")
+                        .Append(" E.Departmentcode AS CITYCODE, ")
+                        .Append(" Z.CUTCODE as CountCode, ")
+                        .Append(" Z.ACCOUNTCODE, ")
+                        .Append(" Z.ITEMCODE As ItemCode, ")
+                        .Append(" Z.QTY As Balance, ")
+                        .Append(" Z.Rate As Rate, ")
+                        .Append(" B.HSNCODE AS HsnCode ")
+                        .Append(" FROM ( ")
+                        .Append(" SELECT ")
+                        .Append(" A.Mtr_weight AS QTY, ")
+                        .Append(" A.RATE As Rate,")   'Net Rate
+                        .Append(" A.BOOKVNO, ")
+                        .Append(" A.CUTCODE, ")
+                        .Append(" A.ITEMCODE, ")
+                        .Append(" A.DESIGNCODE, ")
+                        .Append(" A.ACCOUNTCODE, ")
+                        .Append(" A.SHADECODE ")
+                        .Append(" FROM TrnPackingSlip AS A ")
+                        .Append(" WHERE A.Bookcode = 'STOP-000000001' ")
+                        .Append(" And A.ItemCode = '" & selected("ItemCode") & "' ")
+                        .Append(" ) AS Z ")
+                        .Append(" LEFT JOIN ( ")
+                        .Append(" SELECT ENTRYNO,PACK_SLIP_NO,ACCOUNTCODE, BOOKVNO ")
+                        .Append(" FROM TrnPackingSlip ")
+                        .Append(" WHERE Bookcode = 'STOP-000000001' ")
+                        .Append(" GROUP BY ENTRYNO,PACK_SLIP_NO, BOOKVNO,ACCOUNTCODE  ")
+                        .Append(" ) AS A ON (Z.BOOKVNO = A.BOOKVNO) ")
+                        .Append(" LEFT JOIN MstStoreItem AS B ON Z.ITEMCODE = B.ITEMCODE ")
+                        .Append(" LEFT JOIN MstStoreItemType AS C ON Z.SHADECODE = C.TYPE_ID ")
+                        .Append(" LEFT JOIN MstCutMaster AS D ON Z.CUTCODE = D.ID ")
+                        .Append(" LEFT JOIN MstDepartment AS E ON Z.DESIGNCODE = E.Departmentcode ")
+                        .Append(" LEFT JOIN MstMasterAccount As F ON A.ACCOUNTCODE=F.ACCOUNTCODE ")
+                        .Append(" GROUP BY ")
+                        .Append(" A.PACK_SLIP_NO, ")
+                        .Append(" A.BOOKVNO, ")
+                        .Append(" Z.BOOKVNO, ")
+                        .Append(" Z.CUTCODE, ")
+                        .Append(" Z.ITEMCODE, ")
+                        .Append(" Z.DESIGNCODE, ")
+                        .Append(" Z.SHADECODE, ")
+                        .Append(" B.ItemName, ")
+                        .Append(" B.HSNCODE, ")
+                        .Append(" C.TYPE_NAME, ")
+                        .Append(" C.TYPE_ID, ")
+                        .Append(" D.CUTNAME, ")
+                        .Append(" E.DEPARTMENTNAME, ")
+                        .Append(" Z.ACCOUNTCODE, ")
+                        .Append(" E.Departmentcode, ")
+                        .Append(" F.accountname, ")
+                        .Append(" F.accountcode, ")
+                        .Append(" Z.Rate, ")
+                        .Append(" Z.QTY ")
+                    End With
+                    sqL = _StrOpenQuery.ToString()
+                    sql_connect_slect()
+                    Dim _opningstkTmptbl As DataTable = DefaltSoftTable.Copy
+                    Dim _FinalopenTmptbl As DataTable = _opningstkTmptbl.Clone
+
+                    '================ USED QTY COLLECTION =================
+                    Dim QtyopenMap As New Dictionary(Of String, Double)
+                    For i As Integer = 1 To GrdItem.Rows - 1
+                        Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
+                        Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
+                        If ReqNo <> "" AndAlso ItemCode <> "" Then
+                            Dim Key As String = ReqNo & "|" & ItemCode
+                            Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+                            If QtyopenMap.ContainsKey(Key) Then
+                                QtyopenMap(Key) += Qty
+                            Else
+                                QtyopenMap.Add(Key, Qty)
+                            End If
+                        End If
+                    Next
+                    For Each dr As DataRow In _opningstkTmptbl.Rows
+                        Dim ReqNo As String = dr("Req No").ToString().Trim()
+                        Dim ItemCode As String = dr("ItemCode").ToString().Trim()
+                        Dim Key As String = ReqNo & "|" & ItemCode
+                        Dim ActualOpenBal As Double = Val(dr("Balance"))
+                        '================ USED QTY MINUS =================
+                        If QtyopenMap.ContainsKey(Key) Then
+                            ActualOpenBal -= QtyopenMap(Key)
+                        End If
+
+                        '================ FIRST QUERY BALANCE =================
+                        Dim FirstQueryBalance As Double = Val(selected("Balance"))
+                        '================ FINAL ALLOWED BALANCE =================
+                        Dim AllowedBalance As Double = Math.Min(FirstQueryBalance, ActualOpenBal)
+                        If ItemCode = selected("ItemCode").ToString() AndAlso AllowedBalance > 0 Then
+                            Dim NewRow As DataRow = _FinalopenTmptbl.NewRow()
+                            NewRow.ItemArray = dr.ItemArray.Clone()
+                            'NewRow("Balance") = Format(AllowedBalance, "0.00")
+                            NewRow("Balance") = Format(ActualOpenBal, "0.00")
+                            _FinalopenTmptbl.Rows.Add(NewRow)
+                        End If
+                    Next
+                    Dim _FItemcodeilter As String = ""
+
+                    '======================Single list selection===========================
+                    Dim selected1 = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES")
+                    If selected1 IsNot Nothing Then
+                        'Dim RowNo1 As Integer = GrdItem.ActiveCell.Row
+                        If selected1.ContainsKey("Req No") Then
+                            'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = selected1("Req No").ToString()
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP23") + 1).Text = selected1("Req No").ToString()   ' Stock Req No
+                        End If
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected1("ItemName").ToString()
+                        'Remaining balance show hoga
+                        'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = Val(selected1("Balance"))
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected1("ItemCode").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected1("Brand").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected1("GROUPCODE").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected1("CountCode").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected1("UOM").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = selected1("ACCOUNTCODE").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = selected1("DepartmentName").ToString()
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected1("CITYCODE").ToString()  'Department code
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP24") + 1).Text = selected1("ID").ToString()   'Stock selected Code 
+                        'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = selected1("Rate").ToString()  ' Net Rate
+                        Dim Rate As Double = Val(selected1("Rate"))
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = Rate
+
+                        ActualQty = Val(selected("Balance"))
+                        'ActualQty = Val(selected1("Balance"))
+                        '================ NEXT ROW =================
+                        If RowNo >= GrdItem.Rows - 1 Then
+                            GrdItem.Rows += 1
+                        End If
+                        RowNo += 1
                     End If
-                    RowNo += 1
                 End If
                 Call Total_Upto_All_Grid_All_Row()
             End If
@@ -1965,7 +1965,7 @@ Public Class StoreIssueDepartment
             If Last_Entry_No > 0 Then
                 'txtAccountName.Text = TblTmp(0)("DEPARTMENT").ToString
                 txtChallanDate.Text = TblTmp(0)("F_CHALLANDATE").ToString
-                txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
+                'txtAccount_Code.Text = TblTmp(0)("ACCOUNTCODE").ToString
                 txtAcOfCode.Text = TblTmp(0)("ACOFCODE").ToString
                 txtDespatch_code.Text = TblTmp(0)("DESPATCHCODE").ToString
                 txtTr_code.Text = TblTmp(0)("TRANSPORTCODE").ToString
