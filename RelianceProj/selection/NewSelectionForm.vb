@@ -10,11 +10,15 @@ Public Class NewSelectionForm
     ' Multi Row Selection Result
     Public SelectedRowValuesList As New List(Of Dictionary(Of String, Object))()
 
+    Public ExtraHideColumnList As New List(Of String)
     Public Property LoadType As String
     Public Property LoadQueryDatatable As DataTable
     Public Property LoadQuery As String
     Public Property GridViewType As String
     Public Property F2MasterFormType As Type
+    Public ExtracolumnsToHide As String()
+
+    Dim _TickMarkClm As String = ""
 
     Private Sub NewSelectionForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim x As Integer = 0
@@ -232,9 +236,6 @@ Public Class NewSelectionForm
     End Sub
     Private Sub HideColumnsByName()
         Try
-
-
-            Dim _TickMarkClm As String = ""
             If GridViewType = "SINGLE" Then
                 _TickMarkClm = "TickMark"
             Else
@@ -246,7 +247,6 @@ Public Class NewSelectionForm
             End If
 
             Dim columnsToHide As String() = {"ACCOUNTCODE", "CITYCODE", "GROUPCODE", "ID", _TickMarkClm, "BlackList", "CountCode", "ItemCode"}
-
             For Each colName In columnsToHide
                 Dim col = SelectionGrid.Columns.ColumnByFieldName(colName)
                 If col IsNot Nothing Then
@@ -254,11 +254,26 @@ Public Class NewSelectionForm
                 End If
             Next
 
+            If ExtracolumnsToHide IsNot Nothing AndAlso ExtracolumnsToHide.Count > 0 Then
+
+                For Each colName As String In ExtracolumnsToHide
+
+                    Dim col = SelectionGrid.Columns.ColumnByFieldName(colName)
+
+                    If col IsNot Nothing Then
+                        col.Visible = False
+                    End If
+
+                Next
+
+            End If
+
+
+
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
     End Sub
-
     Private Sub SelectionGrid_RowStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs) Handles SelectionGrid.RowStyle
         Dim view As GridView = CType(sender, GridView)
         If e.RowHandle < 0 Then Return
