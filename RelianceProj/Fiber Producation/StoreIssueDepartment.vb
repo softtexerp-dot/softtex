@@ -1737,14 +1737,12 @@ Public Class StoreIssueDepartment
                     Dim QtyopenMap As New Dictionary(Of String, Double)
                     '================ GRID USED QTY =================
                     For i As Integer = 1 To GrdItem.Rows - 1
-                        'Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
                         Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
                         Dim AccountCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text.Trim()
                         'If ReqNo <> "" AndAlso ItemCode <> "" Then
                         If ItemCode <> "" Then
                             'Dim Key As String = ReqNo & "|" & ItemCode
                             Dim Key As String = ItemCode & "|" & AccountCode
-                            'Dim Key As String = ItemCode
                             Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
                             If QtyopenMap.ContainsKey(Key) Then
                                 'QtyopenMap(Key) += Qty
@@ -1755,20 +1753,16 @@ Public Class StoreIssueDepartment
                     Next
                     '================ FINAL BALANCE =================
                     For Each dr As DataRow In _opningstkTmptbl.Rows
-                        'Dim ReqNo As String = dr("Req No").ToString().Trim()
                         Dim ItemCode As String = dr("ItemCode").ToString().Trim()
                         Dim AccountCode As String = dr("AccountCode").ToString().Trim()
                         'Dim Key As String = ReqNo & "|" & ItemCode
                         Dim Key As String = ItemCode & "|" & AccountCode
-                        'Dim Key As String = ItemCode
                         Dim ActualOpenBal As Double = Val(dr("Balance"))
                         '================ MINUS USED QTY =================
                         Dim UsedQty As Double = 0
                         If QtyopenMap.ContainsKey(Key) Then
-                            'UsedQty = QtyopenMap(Key)
                             ActualOpenBal -= QtyopenMap(Key)
                         End If
-                        'ActualOpenBal = ActualOpenBal - UsedQty
                         '================ FIRST QUERY BALANCE =================
                         Dim FirstQueryBalance As Double = Val(selected("Balance"))
                         Dim AllowedBalance As Double = Math.Min(FirstQueryBalance, ActualOpenBal)

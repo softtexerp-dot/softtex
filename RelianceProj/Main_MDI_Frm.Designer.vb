@@ -50,13 +50,14 @@ Partial Class Main_MDI_Frm
         Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserMenuUpdateToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.FiberProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StockEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RequisitionToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.IssueToDepartmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StoreApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IndentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuotationToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ComparisonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StockEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MachineMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -241,10 +242,16 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
+        '
+        'StockEntryToolStripMenuItem
+        '
+        Me.StockEntryToolStripMenuItem.Name = "StockEntryToolStripMenuItem"
+        Me.StockEntryToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.StockEntryToolStripMenuItem.Text = "StockEntry"
         '
         'RequisitionToolStripMenuItem1
         '
@@ -282,11 +289,11 @@ Partial Class Main_MDI_Frm
         Me.ComparisonToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
         Me.ComparisonToolStripMenuItem.Text = "Comparison"
         '
-        'StockEntryToolStripMenuItem
+        'MachineMasterToolStripMenuItem
         '
-        Me.StockEntryToolStripMenuItem.Name = "StockEntryToolStripMenuItem"
-        Me.StockEntryToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
-        Me.StockEntryToolStripMenuItem.Text = "StockEntry"
+        Me.MachineMasterToolStripMenuItem.Name = "MachineMasterToolStripMenuItem"
+        Me.MachineMasterToolStripMenuItem.Size = New System.Drawing.Size(218, 22)
+        Me.MachineMasterToolStripMenuItem.Text = "MachineMaster"
         '
         'Main_MDI_Frm
         '
@@ -346,4 +353,5 @@ Partial Class Main_MDI_Frm
     Friend WithEvents StoreApprovalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents IndentToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StockEntryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MachineMasterToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -179,6 +179,10 @@
         StockEntry.Show()
     End Sub
 
+    Private Sub MachineMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MachineMasterToolStripMenuItem.Click
+        MachineMaster.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
