@@ -1544,7 +1544,6 @@ Public Class StoreIssueDepartment
                     .Append(" E.DEPARTMENTNAME AS DepartmentName, ")
                     .Append(" E.Departmentcode AS CITYCODE, ")
                     .Append(" Z.CUTCODE as CountCode, ")
-                    .Append(" Z.ACCOUNTCODE, ")
                     .Append(" Z.ITEMCODE As ItemCode, ")
                     .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') As Balance, ")
                     .Append(" B.HSNCODE AS HsnCode ")
@@ -1556,7 +1555,6 @@ Public Class StoreIssueDepartment
                     .Append(" A.CUTCODE, ")
                     .Append(" A.ITEMCODE, ")
                     .Append(" A.DESIGNCODE, ")
-                    .Append(" A.ACCOUNTCODE, ")
                     .Append(" A.SHADECODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
                     .Append(" WHERE A.Bookcode = 'RQSS-000000001' ")
@@ -1568,17 +1566,20 @@ Public Class StoreIssueDepartment
                     .Append(" A.CUTCODE, ")
                     .Append(" A.ITEMCODE, ")
                     .Append(" A.DESIGNCODE, ")
-                    .Append(" A.ACCOUNTCODE, ")
                     .Append(" A.SHADECODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
                     .Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE) ")
                     .Append(" WHERE A.Bookcode = 'IDSS-000000001' ")
                     .Append(" ) AS Z ")
                     .Append(" LEFT JOIN ( ")
-                    .Append(" SELECT ENTRYNO,PACK_SLIP_NO,ACCOUNTCODE, BOOKVNO ")
+                    .Append(" SELECT ENTRYNO, ")
+                    .Append(" PACK_SLIP_NO, ")
+                    .Append(" BOOKVNO ")
                     .Append(" FROM TrnPackingSlip ")
                     .Append(" WHERE Bookcode = 'RQSS-000000001' ")
-                    .Append(" GROUP BY ENTRYNO,PACK_SLIP_NO, BOOKVNO,ACCOUNTCODE  ")
+                    .Append(" GROUP BY ENTRYNO,  ")
+                    .Append(" PACK_SLIP_NO, ")
+                    .Append(" BOOKVNO ")
                     .Append(" ) AS A ON (Z.BOOKVNO = A.BOOKVNO) ")
                     .Append(" LEFT JOIN MstStoreItem AS B ON Z.ITEMCODE = B.ITEMCODE ")
                     .Append(" LEFT JOIN MstStoreItemType AS C ON Z.SHADECODE = C.TYPE_ID ")
@@ -1598,7 +1599,6 @@ Public Class StoreIssueDepartment
                     .Append(" C.TYPE_ID, ")
                     .Append(" D.CUTNAME, ")
                     .Append(" E.DEPARTMENTNAME, ")
-                    .Append(" Z.ACCOUNTCODE, ")
                     .Append(" E.Departmentcode ")
                     .Append(" HAVING (SUM(Z.INQTY) - SUM(Z.OUTQTY)) > 0 ")
                 End With
@@ -1791,10 +1791,8 @@ Public Class StoreIssueDepartment
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = selected1("DepartmentName").ToString()
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected1("CITYCODE").ToString()  'Department code
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP24") + 1).Text = selected1("ID").ToString()   'Stock selected Code 
-                        'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = selected1("Rate").ToString()  ' Net Rate
                         Dim Rate As Double = Val(selected1("Rate"))
-                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = Rate
-
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = Rate   ' Net Rate
                         ActualQty = Val(selected("Balance"))
                         'ActualQty = Val(selected1("Balance"))
                         '================ NEXT ROW =================
