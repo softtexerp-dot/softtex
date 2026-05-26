@@ -12,6 +12,7 @@ Friend Class QuotationEntry
     Private WithEvents txtUnitCode As New TextBox
     Dim _UNiteWiseCode As String = ""
     Dim ReqBookvnorawData As String
+    Dim _SuppPymtTerms As String = ""
 
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
@@ -1603,6 +1604,11 @@ Friend Class QuotationEntry
             If selected IsNot Nothing Then
                 If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
                 If selected.ContainsKey("AccountName") Then txtAccountName.Text = selected("AccountName").ToString()
+                sqL = "SELECT *FROM MSTMASTERACCOUNT WHERE ACCOUNTCODE='" & txtAccount_Code.Text & "'"
+                sql_connect_slect()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    _SuppPymtTerms = DefaltSoftTable.Rows(0).Item("op118").ToString
+                End If
             End If
             SendKeys.Send("{tab}")
         End If
@@ -1685,6 +1691,7 @@ Friend Class QuotationEntry
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = "0000-000000001"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE1") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE1") + 1).Text = "0000-000000001"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = "0000-000000001"
+        If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = _SuppPymtTerms
 
         Dim Col_Text As String = GrdItem.ActiveCell.Text
 

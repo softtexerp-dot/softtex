@@ -535,7 +535,6 @@ Public Class StoreIssueDepartment
             Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
             UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         End If
-
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         UC_Buttons1.HideButtons("BtnReports")
@@ -1638,7 +1637,7 @@ Public Class StoreIssueDepartment
                         _FinalTmptbl.Rows.Add(NewRow)
                     End If
                 Next
-                Dim selected = SingleAccountSelectionFormsingledatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES")
+                Dim selected = SingleAccountSelectionFormsingledatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES", Nothing)
                 If selected IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     If selected.ContainsKey("Req No") Then
@@ -1665,7 +1664,7 @@ Public Class StoreIssueDepartment
                     With _StrOpenQuery
                         .Append(" SELECT ")
                         .Append(" 'False' AS TickMark, ")
-                        .Append(" a.PACK_SLIP_NO As [Req No], ")
+                        .Append(" a.PACK_SLIP_NO AS EntryNo, ")
                         .Append(" F.accountname as [Supplier Name], ")
                         '.Append(" F.AccountCode as ACCOUNTCODE, ")
                         .Append(" B.ItemName AS ItemName, ")
@@ -1727,39 +1726,51 @@ Public Class StoreIssueDepartment
                         .Append(" Z.Rate, ")
                         .Append(" Z.QTY ")
                     End With
+
+
                     sqL = _StrOpenQuery.ToString()
                     sql_connect_slect()
+
                     Dim _opningstkTmptbl As DataTable = DefaltSoftTable.Copy
                     Dim _FinalopenTmptbl As DataTable = _opningstkTmptbl.Clone
-
                     '================ USED QTY COLLECTION =================
                     Dim QtyopenMap As New Dictionary(Of String, Double)
+                    '================ GRID USED QTY =================
                     For i As Integer = 1 To GrdItem.Rows - 1
-                        Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
+                        'Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
                         Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
-                        If ReqNo <> "" AndAlso ItemCode <> "" Then
-                            Dim Key As String = ReqNo & "|" & ItemCode
+                        Dim AccountCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text.Trim()
+                        'If ReqNo <> "" AndAlso ItemCode <> "" Then
+                        If ItemCode <> "" Then
+                            'Dim Key As String = ReqNo & "|" & ItemCode
+                            Dim Key As String = ItemCode & "|" & AccountCode
+                            'Dim Key As String = ItemCode
                             Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
                             If QtyopenMap.ContainsKey(Key) Then
-                                QtyopenMap(Key) += Qty
+                                'QtyopenMap(Key) += Qty
                             Else
                                 QtyopenMap.Add(Key, Qty)
                             End If
                         End If
                     Next
+                    '================ FINAL BALANCE =================
                     For Each dr As DataRow In _opningstkTmptbl.Rows
-                        Dim ReqNo As String = dr("Req No").ToString().Trim()
+                        'Dim ReqNo As String = dr("Req No").ToString().Trim()
                         Dim ItemCode As String = dr("ItemCode").ToString().Trim()
-                        Dim Key As String = ReqNo & "|" & ItemCode
+                        Dim AccountCode As String = dr("AccountCode").ToString().Trim()
+                        'Dim Key As String = ReqNo & "|" & ItemCode
+                        Dim Key As String = ItemCode & "|" & AccountCode
+                        'Dim Key As String = ItemCode
                         Dim ActualOpenBal As Double = Val(dr("Balance"))
-                        '================ USED QTY MINUS =================
+                        '================ MINUS USED QTY =================
+                        Dim UsedQty As Double = 0
                         If QtyopenMap.ContainsKey(Key) Then
+                            'UsedQty = QtyopenMap(Key)
                             ActualOpenBal -= QtyopenMap(Key)
                         End If
-
+                        'ActualOpenBal = ActualOpenBal - UsedQty
                         '================ FIRST QUERY BALANCE =================
                         Dim FirstQueryBalance As Double = Val(selected("Balance"))
-                        '================ FINAL ALLOWED BALANCE =================
                         Dim AllowedBalance As Double = Math.Min(FirstQueryBalance, ActualOpenBal)
                         If ItemCode = selected("ItemCode").ToString() AndAlso AllowedBalance > 0 Then
                             Dim NewRow As DataRow = _FinalopenTmptbl.NewRow()
@@ -1769,15 +1780,18 @@ Public Class StoreIssueDepartment
                             _FinalopenTmptbl.Rows.Add(NewRow)
                         End If
                     Next
+
                     Dim _FItemcodeilter As String = ""
 
                     '======================Single list selection===========================
-                    Dim selected1 = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES")
+
+                    Dim ExtracolumnsToHide = {"EntryNo"}
+
+
+                    Dim selected1 = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES", ExtracolumnsToHide)
                     If selected1 IsNot Nothing Then
-                        'Dim RowNo1 As Integer = GrdItem.ActiveCell.Row
-                        If selected1.ContainsKey("Req No") Then
-                            'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = selected1("Req No").ToString()
-                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP23") + 1).Text = selected1("Req No").ToString()   ' Stock Req No
+                        If selected1.ContainsKey("EntryNo") Then
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP23") + 1).Text = selected1("EntryNo").ToString()   ' Stock Req No
                         End If
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected1("ItemName").ToString()
                         'Remaining balance show hoga

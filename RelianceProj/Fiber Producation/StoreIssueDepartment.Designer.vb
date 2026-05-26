@@ -330,7 +330,7 @@ Partial Class StoreIssueDepartment
         Me.txtHeader_Remark.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtHeader_Remark.IsValidated = False
         Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtHeader_Remark.Location = New System.Drawing.Point(548, 12)
+        Me.txtHeader_Remark.Location = New System.Drawing.Point(548, 16)
         Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtHeader_Remark.MandatoryField = False
         Me.txtHeader_Remark.MaxDate = Nothing
