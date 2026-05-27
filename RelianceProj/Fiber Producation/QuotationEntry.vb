@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraGrid
+Imports DevExpress.XtraReports.UI
 
 
 Friend Class QuotationEntry
@@ -1413,55 +1414,67 @@ Friend Class QuotationEntry
         sqL = strQuery
         sql_connect_slect()
         tblTmp = DefaltSoftTable.Copy
-        txtUnitName.Text = ""
-        txtEntryNo.Text = ""
-        txtChallanNo.Text = ""
-        txtChallanDate.Text = ""
-        txtAccountName.Text = tblTmp.Rows(0)("ACCOUNTNAME").ToString
-        'txtChallanNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
-        'txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
-        'txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
-        txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
-        txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
-        txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
-        'txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
-        txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
-        'Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
-        '_lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
-        ''Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
-        Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
-        Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
-        Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
-        Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
-        'Generate_Date_For_DataBase(txtChallanDate)
-        GrdItem.Visible = False
-        GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
-        Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
+        If tblTmp.Rows.Count > 0 Then
 
-        GrdItem.Refresh()
-        GrdItem.Visible = True
-        GrdItem.Focus()
-        For j As Int16 = 1 To GrdItem.Rows - 1
-            GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = j
-            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
-                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).ForeColor = Color.Red
-                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).ForeColor = Color.Red
-                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).ForeColor = Color.Red
-                _CheckDispath = True
-            End If
+            'txtUnitName.Text = ""
+            'txtEntryNo.Text = ""
+            'txtChallanNo.Text = ""
+            'txtChallanDate.Text = ""
+            'txtUnitName.Enabled = False
+            txtAccountName.Text = tblTmp.Rows(0)("ACCOUNTNAME").ToString
+            'txtEntryNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
+            'txtEntryNo.Enabled = True
+            'txtChallanNo.Text = tblTmp.Rows(0)("PACK_SLIP_NO").ToString
+            'txtChallanNo.Enabled = False
+            'txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
+            'txtChallanDate.Enabled = False
+            txtHeader_Remark.Text = tblTmp.Rows(0)("HEADERREMARK").ToString
+            'txtHeader_Remark.Enabled = False
+            txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
+            txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
+            txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
+            'txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
+            txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
+            'Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
+            '_lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
+            ''Txt_BookName.Text = tblTmp.Rows(0)("OP5").ToString
+            Txt_Terms1.Text = tblTmp.Rows(0)("OP8").ToString
+            Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
+            Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
+            Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+            'Generate_Date_For_DataBase(txtChallanDate)
+            'GrdItem.Visible = False
+            GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
+            Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
 
-            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
-                If _DispathRowEdit = True Then
-                    GrdItem.Row(j).Locked = False
-                Else
-                    GrdItem.Row(j).Locked = True
-                    'GrdItem.Row(j).Locked = False
-                End If
-            End If
-        Next
+            GrdItem.Refresh()
+            GrdItem.Visible = True
+            GrdItem.Focus()
+            'For j As Int16 = 1 To GrdItem.Rows - 1
+            '    GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = j
+            '    If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+            '        GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).ForeColor = Color.Red
+            '        GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).ForeColor = Color.Red
+            '        GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).ForeColor = Color.Red
+            '        _CheckDispath = True
+            '    End If
 
-        Total_Upto_All_Grid_All_Row()
-        Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+            '    If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+            '        If _DispathRowEdit = True Then
+            '            GrdItem.Row(j).Locked = False
+            '        Else
+            '            GrdItem.Row(j).Locked = True
+            '            'GrdItem.Row(j).Locked = False
+            '        End If
+            '    End If
+            'Next
+
+            Total_Upto_All_Grid_All_Row()
+            Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+        Else
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            Exit Sub
+        End If
         TxtimpEntryNo.Focus()
         TxtimpEntryNo.Select()
         _FrmLoad = False
@@ -1993,8 +2006,11 @@ Friend Class QuotationEntry
 
     Private Sub TxtimpEntryNo_Validated(sender As Object, e As EventArgs) Handles TxtimpEntryNo.Validated
         If _FrmLoad = True Then Exit Sub
-        _FORMMODE = "ADD"
-        Validate_ImportEntry_No(TxtimpEntryNo.Text, _ChallanTableName)
+
+        If _FORMMODE = "ADD" AndAlso TxtimpEntryNo.Text.Trim > "" Then
+            Validate_ImportEntry_No(TxtimpEntryNo.Text, _ChallanTableName)
+        End If
+
     End Sub
 #End Region
 

@@ -349,6 +349,7 @@ Partial Class StoreApproval
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82234
         Me.Label4.Text = ":"
+        Me.Label4.Visible = False
         '
         'Label5
         '
@@ -360,6 +361,7 @@ Partial Class StoreApproval
         Me.Label5.Size = New System.Drawing.Size(45, 14)
         Me.Label5.TabIndex = 82233
         Me.Label5.Text = "Type"
+        Me.Label5.Visible = False
         '
         'TxtType
         '
@@ -407,6 +409,7 @@ Partial Class StoreApproval
         Me.TxtType.Text = "ALL"
         Me.TxtType.TransparentBox = True
         Me.TxtType.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.TxtType.Visible = False
         '
         'StoreApproval
         '

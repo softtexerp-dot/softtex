@@ -39,7 +39,7 @@ Partial Class QuotationEntry
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.GrdItem = New FlexCell.Grid()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()
@@ -201,7 +201,7 @@ Partial Class QuotationEntry
         Me.txtChallanDate.ShowMessage = False
         Me.txtChallanDate.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanDate.SpacerString = ""
-        Me.txtChallanDate.TabIndex = 4
+        Me.txtChallanDate.TabIndex = 5
         Me.txtChallanDate.Tag = "ChallanDate"
         Me.txtChallanDate.Text = "  /  /    "
         Me.txtChallanDate.TransparentBox = True
@@ -329,7 +329,7 @@ Partial Class QuotationEntry
         Me.txtChallanNo.ShowMessage = False
         Me.txtChallanNo.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanNo.SpacerString = ""
-        Me.txtChallanNo.TabIndex = 3
+        Me.txtChallanNo.TabIndex = 4
         Me.txtChallanNo.Tag = "EntryNo"
         Me.txtChallanNo.TransparentBox = True
         Me.txtChallanNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1106,7 +1106,7 @@ Partial Class QuotationEntry
         Me.TxtimpEntryNo.ShowMessage = False
         Me.TxtimpEntryNo.Size = New System.Drawing.Size(98, 22)
         Me.TxtimpEntryNo.SpacerString = ""
-        Me.TxtimpEntryNo.TabIndex = 82210
+        Me.TxtimpEntryNo.TabIndex = 3
         Me.TxtimpEntryNo.Tag = "EntryNo"
         Me.TxtimpEntryNo.TransparentBox = True
         Me.TxtimpEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes

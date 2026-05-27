@@ -84,6 +84,7 @@ Public Class StoreIssueDepartment
     Private UseItemHead As String = "NO"
     Public EnterQty As Decimal = 0D
     Public ActualQty As Decimal = 0D
+    Public ActualBalnceQty As Decimal = 0D
 #End Region
 
 #Region "GRID COL. DEFINE AND FORMATTING "
@@ -145,6 +146,8 @@ Public Class StoreIssueDepartment
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
             .Append("ActulQty,")
+            .Append("ReqQty,")
+            .Append("stockQty,")
             .Append("DESPATCHCODE")
         End With
 
@@ -156,9 +159,11 @@ Public Class StoreIssueDepartment
             .Append("MTR_WEIGHT:N,")
             .Append("WEIGHT:N,")
             .Append("RATE:N,")
+            .Append("stockQty:N,")
             .Append("RDVALUE:N,")
             .Append("PIECE_ID:N,")
             .Append("ActulQty:N,")
+            .Append("ReqQty:N,")
             .Append("AMOUNT:N")
         End With
 
@@ -308,6 +313,8 @@ Public Class StoreIssueDepartment
             .Append("OP19:N,") 'Approve status
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
+            .Append("stockQty:N,")
+            .Append("ReqQty:N,")
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -323,6 +330,8 @@ Public Class StoreIssueDepartment
             .Append("COMPANYNAME:N,")
             .Append("CUTNAME:N,")
             .Append("USEBY:N,")
+            .Append("stockQty:N,")
+            .Append("ReqQty:N,")
             .Append("COLORNAME:N")
         End With
 
@@ -1645,7 +1654,7 @@ Public Class StoreIssueDepartment
                     End If
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
                     'Remaining balance show hoga
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = Val(selected("Balance"))
+                    'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = Val(selected("Balance"))
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ItemCode").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("Brand").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("GROUPCODE").ToString()
@@ -1655,10 +1664,9 @@ Public Class StoreIssueDepartment
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = selected("DepartmentName").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected("CITYCODE").ToString()  'Department code
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = selected("ID").ToString()
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ReqQty") + 1).Text = Val(selected("Balance"))
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
-                    ActualQty = Val(selected("Balance"))
-
-
+                    '   ActualQty = Val(selected("Balance"))
                     '================ Opening Stock BALANCE =================
                     Dim _StrOpenQuery As New StringBuilder
                     With _StrOpenQuery
@@ -1698,6 +1706,7 @@ Public Class StoreIssueDepartment
                         .Append(" SELECT ENTRYNO,PACK_SLIP_NO,ACCOUNTCODE, BOOKVNO ")
                         .Append(" FROM TrnPackingSlip ")
                         .Append(" WHERE Bookcode = 'STOP-000000001' ")
+                        .Append(" And ItemCode = '" & selected("ItemCode") & "' ")
                         .Append(" GROUP BY ENTRYNO,PACK_SLIP_NO, BOOKVNO,ACCOUNTCODE  ")
                         .Append(" ) AS A ON (Z.BOOKVNO = A.BOOKVNO) ")
                         .Append(" LEFT JOIN MstStoreItem AS B ON Z.ITEMCODE = B.ITEMCODE ")
@@ -1782,7 +1791,7 @@ Public Class StoreIssueDepartment
                     Dim ExtracolumnsToHide = {"EntryNo"}
 
 
-                    Dim selected1 = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES", ExtracolumnsToHide)
+                    Dim selected1 = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), "", "SINGLE", "YES", ExtracolumnsToHide)
                     If selected1 IsNot Nothing Then
                         If selected1.ContainsKey("EntryNo") Then
                             GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP23") + 1).Text = selected1("EntryNo").ToString()   ' Stock Req No
@@ -1799,11 +1808,14 @@ Public Class StoreIssueDepartment
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = selected1("DepartmentName").ToString()
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected1("CITYCODE").ToString()  'Department code
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP24") + 1).Text = selected1("ID").ToString()   'Stock selected Code 
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("stockQty") + 1).Text = Val(selected1("Balance"))
                         Dim Rate As Double = Val(selected1("Rate"))
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = Rate   ' Net Rate
-                        ActualQty = Val(selected("Balance"))
+                        'ActualQty = Val(selected("Balance"))
+                        ' ActualBalnceQty = Val(selected1("Balance"))
                         'ActualQty = Val(selected1("Balance"))
                         '================ NEXT ROW =================
+                        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
                         If RowNo >= GrdItem.Rows - 1 Then
                             GrdItem.Rows += 1
                         End If
@@ -1815,10 +1827,21 @@ Public Class StoreIssueDepartment
         ElseIf _ActivatedColName = "MTR_WEIGHT" Then
             If e.KeyCode = Keys.Enter Then
                 Dim RowNo As Integer = GrdItem.ActiveCell.Row
-                EnterQty = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-                If EnterQty > ActualQty Then
-                    MsgBox("Entered quantity cannot exceed the available balance quantity.", MsgBoxStyle.Information)
-                    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ActualQty
+                Dim EnterQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+                Dim ReqQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ReqQty") + 1).Text)
+                Dim stockQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("stockQty") + 1).Text)
+
+                If EnterQty > ReqQty Then
+                    MsgBox("Entered Quantity Cannot Exceed Req Qty. : " & ReqQty, MsgBoxStyle.Information)
+                    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
+                    SendKeys.Send("{LEFT}")
+                    Exit Sub
+                End If
+
+                If EnterQty > stockQty Then
+                    MsgBox("Entered Quantity Cannot Exceed Stock Qty.: " & stockQty, MsgBoxStyle.Information)
+                    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
+                    SendKeys.Send("{LEFT}")
                     Exit Sub
                 End If
             End If
