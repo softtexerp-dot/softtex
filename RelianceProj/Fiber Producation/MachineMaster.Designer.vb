@@ -253,9 +253,9 @@ Partial Class MachineMaster
         Me.Label15.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.Location = New System.Drawing.Point(12, 9)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(64, 14)
+        Me.Label15.Size = New System.Drawing.Size(83, 14)
         Me.Label15.TabIndex = 82261
-        Me.Label15.Text = "Entry No"
+        Me.Label15.Text = "Machine No"
         '
         'Label9
         '
@@ -396,7 +396,7 @@ Partial Class MachineMaster
         Me.txtEntryNo.Size = New System.Drawing.Size(229, 22)
         Me.txtEntryNo.SpacerString = ""
         Me.txtEntryNo.TabIndex = 1
-        Me.txtEntryNo.Tag = "EntryNo"
+        Me.txtEntryNo.Tag = "Main_account_master"
         Me.txtEntryNo.TransparentBox = True
         Me.txtEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -439,7 +439,7 @@ Partial Class MachineMaster
         Me.Txt_MachineName.Size = New System.Drawing.Size(229, 22)
         Me.Txt_MachineName.SpacerString = ""
         Me.Txt_MachineName.TabIndex = 2
-        Me.Txt_MachineName.Tag = "EntryNo"
+        Me.Txt_MachineName.Tag = "STATEMASTER"
         Me.Txt_MachineName.TransparentBox = True
         Me.Txt_MachineName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -482,7 +482,7 @@ Partial Class MachineMaster
         Me.Txt_Brand.Size = New System.Drawing.Size(229, 22)
         Me.Txt_Brand.SpacerString = ""
         Me.Txt_Brand.TabIndex = 3
-        Me.Txt_Brand.Tag = "EntryNo"
+        Me.Txt_Brand.Tag = "CITYMASTER"
         Me.Txt_Brand.TransparentBox = True
         Me.Txt_Brand.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -525,7 +525,7 @@ Partial Class MachineMaster
         Me.Txtsection.Size = New System.Drawing.Size(229, 22)
         Me.Txtsection.SpacerString = ""
         Me.Txtsection.TabIndex = 4
-        Me.Txtsection.Tag = "EntryNo"
+        Me.Txtsection.Tag = "TRANSPORT_MASTER"
         Me.Txtsection.TransparentBox = True
         Me.Txtsection.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -568,7 +568,7 @@ Partial Class MachineMaster
         Me.TxtBoolvalue.Size = New System.Drawing.Size(229, 22)
         Me.TxtBoolvalue.SpacerString = ""
         Me.TxtBoolvalue.TabIndex = 5
-        Me.TxtBoolvalue.Tag = "EntryNo"
+        Me.TxtBoolvalue.Tag = "MSTFABRICMASTER"
         Me.TxtBoolvalue.TransparentBox = True
         Me.TxtBoolvalue.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -611,7 +611,7 @@ Partial Class MachineMaster
         Me.txtdepreciation.Size = New System.Drawing.Size(229, 22)
         Me.txtdepreciation.SpacerString = ""
         Me.txtdepreciation.TabIndex = 6
-        Me.txtdepreciation.Tag = "EntryNo"
+        Me.txtdepreciation.Tag = "MSTFABRICHEAD"
         Me.txtdepreciation.TransparentBox = True
         Me.txtdepreciation.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -654,7 +654,7 @@ Partial Class MachineMaster
         Me.Txtspaceoccup.Size = New System.Drawing.Size(149, 22)
         Me.Txtspaceoccup.SpacerString = ""
         Me.Txtspaceoccup.TabIndex = 7
-        Me.Txtspaceoccup.Tag = "EntryNo"
+        Me.Txtspaceoccup.Tag = "MSTFABRICGROUP"
         Me.Txtspaceoccup.TransparentBox = True
         Me.Txtspaceoccup.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -697,7 +697,7 @@ Partial Class MachineMaster
         Me.TxtCategory.Size = New System.Drawing.Size(149, 22)
         Me.TxtCategory.SpacerString = ""
         Me.TxtCategory.TabIndex = 10
-        Me.TxtCategory.Tag = "EntryNo"
+        Me.TxtCategory.Tag = "MSTITEMCOMPANY"
         Me.TxtCategory.TransparentBox = True
         Me.TxtCategory.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -760,7 +760,7 @@ Partial Class MachineMaster
         Me.TxtL.Size = New System.Drawing.Size(129, 22)
         Me.TxtL.SpacerString = ""
         Me.TxtL.TabIndex = 8
-        Me.TxtL.Tag = "EntryNo"
+        Me.TxtL.Tag = "MSTYARNMASTER"
         Me.TxtL.TransparentBox = True
         Me.TxtL.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -803,7 +803,7 @@ Partial Class MachineMaster
         Me.TxtW.Size = New System.Drawing.Size(149, 22)
         Me.TxtW.SpacerString = ""
         Me.TxtW.TabIndex = 9
-        Me.TxtW.Tag = "EntryNo"
+        Me.TxtW.Tag = "MSTITEMGROUP"
         Me.TxtW.TransparentBox = True
         Me.TxtW.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -848,7 +848,7 @@ Partial Class MachineMaster
         Me.TxtUOm.FontFocusColor = System.Drawing.Color.Blue
         Me.TxtUOm.FontLeaveColor = System.Drawing.Color.Black
         Me.TxtUOm.ForeColor = System.Drawing.Color.Black
-        Me.TxtUOm.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
+        Me.TxtUOm.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.TxtUOm.IsValidated = False
         Me.TxtUOm.LeaveFocusColor = System.Drawing.Color.LightCyan
         Me.TxtUOm.Location = New System.Drawing.Point(394, 202)
@@ -866,7 +866,7 @@ Partial Class MachineMaster
         Me.TxtUOm.Size = New System.Drawing.Size(278, 22)
         Me.TxtUOm.SpacerString = ""
         Me.TxtUOm.TabIndex = 11
-        Me.TxtUOm.Tag = "EntryNo"
+        Me.TxtUOm.Tag = ""
         Me.TxtUOm.TransparentBox = True
         Me.TxtUOm.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -929,7 +929,7 @@ Partial Class MachineMaster
         Me.TxtHsn.Size = New System.Drawing.Size(149, 22)
         Me.TxtHsn.SpacerString = ""
         Me.TxtHsn.TabIndex = 12
-        Me.TxtHsn.Tag = "EntryNo"
+        Me.TxtHsn.Tag = "MST_BARCODE"
         Me.TxtHsn.TransparentBox = True
         Me.TxtHsn.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -991,8 +991,8 @@ Partial Class MachineMaster
         Me.TxtDepartMent.ShowMessage = False
         Me.TxtDepartMent.Size = New System.Drawing.Size(149, 22)
         Me.TxtDepartMent.SpacerString = ""
-        Me.TxtDepartMent.TabIndex = 82291
-        Me.TxtDepartMent.Tag = "EntryNo"
+        Me.TxtDepartMent.TabIndex = 14
+        Me.TxtDepartMent.Tag = ""
         Me.TxtDepartMent.TransparentBox = True
         Me.TxtDepartMent.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1054,8 +1054,8 @@ Partial Class MachineMaster
         Me.TxtAttachment.ShowMessage = False
         Me.TxtAttachment.Size = New System.Drawing.Size(149, 22)
         Me.TxtAttachment.SpacerString = ""
-        Me.TxtAttachment.TabIndex = 82294
-        Me.TxtAttachment.Tag = "EntryNo"
+        Me.TxtAttachment.TabIndex = 15
+        Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
         Me.TxtAttachment.TransparentBox = True
         Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1118,7 +1118,7 @@ Partial Class MachineMaster
         Me.TxtTaxRate.Size = New System.Drawing.Size(279, 22)
         Me.TxtTaxRate.SpacerString = ""
         Me.TxtTaxRate.TabIndex = 13
-        Me.TxtTaxRate.Tag = "EntryNo"
+        Me.TxtTaxRate.Tag = "MST_BATCHID"
         Me.TxtTaxRate.TransparentBox = True
         Me.TxtTaxRate.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '

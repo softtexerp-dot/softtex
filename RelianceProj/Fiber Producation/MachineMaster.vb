@@ -18,6 +18,9 @@ Public Class MachineMaster
     Private _BookCode As String = ""
     Private _BookTrType As String = ""
     Private WithEvents txtAlter_code As New TextBox
+    Private WithEvents txtUOM_code As New TextBox
+    Private WithEvents txtdepartment_code As New TextBox
+    Dim _lblEntryDate As String
 #End Region
 
     Private Sub MachineMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -56,7 +59,7 @@ Public Class MachineMaster
 
     Public Function Master_GetMaxCode(ByVal _KeyFieldName As String, ByVal _TblName As String, ByVal _SELECTEDCOMPANYCODE As String) As String
         'strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10)  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)='" & _SELECTEDCOMPANYCODE & "'" & " AND SHORTNAME='NEW QUALITY PLANNING'  ORDER BY " & _KeyFieldName & " DESC "
-        strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10)  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)<>'" & _SELECTEDCOMPANYCODE & "'" & " AND Group_master_finance='FIXED ASSETS MASTER'  ORDER BY " & _KeyFieldName & " DESC "
+        strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10),Main_account_master  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)<>'" & _SELECTEDCOMPANYCODE & "'" & " AND Group_master_finance='FIXED ASSETS MASTER'  ORDER BY " & _KeyFieldName & " DESC "
         Return strQuery.ToString
     End Function
 
@@ -69,24 +72,29 @@ Public Class MachineMaster
         _strQuery = New StringBuilder
         With _strQuery
             .Append(" SELECT  ")
-            .Append("Schedule_id,") ' enqcode
-            .Append("Group_master_finance,")
-            .Append("Main_account_master,")
-            .Append("STATEMASTER,")
-            .Append("CITYMASTER,")
-            '.Append("FORMAT(CONVERT(datetime, TRANSPORT_MASTER, 103), 'dd/MM/yyyy') As EntryDate,") 'Entry Date
-            '.Append("FORMAT(CONVERT(datetime,MSTCUTMASTER, 103), 'dd/MM/yyyy') As ModifyDate,")   ' Modify Date
-            .Append("MSTFABRICMASTER,")
-            .Append("MSTFABRICHEAD,")
-            .Append("MSTFABRICGROUP,")
-            .Append("MSTYARNMASTER,")
-            .Append("MSTITEMGROUP,")
-            .Append("MSTITEMCOMPANY,")
-            .Append("MSTITEMMASTER,")
-            .Append("MST_BARCODE,")
-            .Append("MST_BATCHID,")
-            .Append("MSTINSURANCE,")
-            .Append("MSTFABRIC_ITEM_CATEGORY")
+            .Append("A.Schedule_id,") ' enqcode
+            '.Append("Group_master_finance,")
+            .Append("A.Main_account_master,")
+            .Append("A.STATEMASTER,")
+            .Append("A.CITYMASTER,")
+            .Append("A.TRANSPORT_MASTER,")
+            '.Append("FORMAT(CONVERT(datetime, MSTCUTMASTER, 103), 'dd/MM/yyyy') As EntryDate,") 'Entry Date
+            '.Append("FORMAT(CONVERT(datetime,MSTFABRICMASTER, 103), 'dd/MM/yyyy') As ModifyDate,")   ' Modify Date
+            .Append("A.MSTFABRICMASTER,")
+            .Append("A.MSTFABRICHEAD,")
+            .Append("A.MSTFABRICGROUP,")
+            .Append("A.MSTYARNMASTER,")
+            .Append("A.MSTITEMGROUP,")
+            .Append("A.MSTITEMCOMPANY,")
+            .Append("A.MSTITEMMASTER,")
+            .Append("A.MST_BARCODE,")
+            .Append("A.MST_BATCHID,")
+            .Append("A.MSTINSURANCE,")
+            .Append("A.MSTFABRIC_ITEM_CATEGORY,")
+            .Append("B.CutName,")
+            .Append("C.Departmentname,")
+            .Append("A.MST_YARN_SHADE,")
+            .Append("A.MSTCUTMASTER")
             '.Append(" A.*  ")
             '.Append(" ,B.ITENNAME as ITEM")
             '.Append(" ,C.ACCOUNTNAME")
@@ -94,15 +102,16 @@ Public Class MachineMaster
             '.Append(" ,E.SHADE")
             '.Append(" ,FORMAT(CONVERT(datetime, A.HSNCODE, 103), 'dd/MM/yyyy') AS E_EntryDate")
             '.Append(" ,FORMAT(CONVERT(datetime, A.CONVERFAC, 103), 'dd/MM/yyyy') AS E_Estmatedate")
-            .Append("  FROM Vch_no")
+            .Append("  FROM Vch_no as A ")
             '.Append("  FROM MstItemBatchWise AS A ")
-            '.Append("  LEFT JOIN MstFabricItem AS B  ON A.GROUPNAME=B.ID")
+            .Append("  LEFT JOIN MstCutMaster AS B  ON A.MSTITEMMASTER=B.ID")
+            .Append(" left Join MstDepartment As C on A.MSTINSURANCE=C.Departmentcode ")
             '.Append("  LEFT JOIN MstMasterAccount AS C  ON A.TAXSLAB=C.ACCOUNTCODE")
             '.Append("  LEFT JOIN Mst_Fabric_Design AS D  ON A.COMPNAME=D.Design_code")
             '.Append("  LEFT JOIN Mst_Fabric_Shade AS E  ON A.PRIMERUNIT=E.ID")
             .Append("  WHERE 1=1")
-            .Append("  AND A.Group_master_finance='FIXED ASSETS MASTER'")
-            .Append("  AND A.Schedule_id='" & strKeyID & "'")
+            .Append("  AND Group_master_finance='FIXED ASSETS MASTER'")
+            .Append("  AND Schedule_id='" & strKeyID & "'")
         End With
         Return _strQuery.ToString
     End Function
@@ -124,8 +133,8 @@ Public Class MachineMaster
             .Append("Main_account_master,")
             .Append("STATEMASTER,")
             .Append("CITYMASTER,")
-            .Append("TRANSPORT_MASTER,") 'Entry Date
-            .Append("MSTCUTMASTER,")   ' Modify Date
+            .Append("TRANSPORT_MASTER,")
+            .Append("MSTCUTMASTER,") 'Entry Date
             .Append("MSTFABRICMASTER,")
             .Append("MSTFABRICHEAD,")
             .Append("MSTFABRICGROUP,")
@@ -136,7 +145,8 @@ Public Class MachineMaster
             .Append("MST_BARCODE,")
             .Append("MST_BATCHID,")
             .Append("MSTINSURANCE,")
-            .Append("MSTFABRIC_ITEM_CATEGORY")
+            .Append("MSTFABRIC_ITEM_CATEGORY,")
+            .Append("MST_YARN_SHADE") ' Modify Date
         End With
     End Sub
 #End Region
@@ -160,11 +170,24 @@ Public Class MachineMaster
     Private Sub UC_Buttons1_AddClick() Handles UC_Buttons1.AddClick
         _FORMMODE = "ADD"
         _FrmLoad = False
+        AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        ObjCls_General.Blank_Object(Me)
-        Txt_MachineName.Visible = True
-        Txt_MachineName.Focus()
-        Txt_MachineName.Select()
+        Call Ctrl_Visible_True(Me.Controls)
+        'ObjCls_General.Blank_Object(Me)
+        sqL = GetMaxCode()
+        sql_connect_slect()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
+        Else
+            txtEntryNo.Text = "1"
+        End If
+        txtEntryNo.Visible = True
+        txtEntryNo.Focus()
+        txtEntryNo.Select()
+
+        'Txt_MachineName.Visible = True
+        'Txt_MachineName.Focus()
+        'Txt_MachineName.Select()
 
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
@@ -172,19 +195,42 @@ Public Class MachineMaster
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
-        Txt_MachineName.Visible = True
-        Txt_MachineName.Focus()
-        Txt_MachineName.Select()
+        Call Ctrl_Visible_True(Me.Controls)
+        sqL = GetMaxCode()
+        sql_connect_slect()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master"))
+        Else
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            Exit Sub
+        End If
+
+        txtEntryNo.Visible = True
+        txtEntryNo.Focus()
+        txtEntryNo.Select()
+        'Txt_MachineName.Visible = True
+        'Txt_MachineName.Focus()
+        'Txt_MachineName.Select()
     End Sub
     Private Sub UC_Buttons1_DeleteClick() Handles UC_Buttons1.DeleteClick
         _FORMMODE = "DELETE"
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
-
-        Txt_MachineName.Visible = True
-        Txt_MachineName.Focus()
-        Txt_MachineName.Select()
+        sqL = GetMaxCode()
+        sql_connect_slect()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master"))
+        Else
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            Exit Sub
+        End If
+        txtEntryNo.Visible = True
+        txtEntryNo.Focus()
+        txtEntryNo.Select()
+        'Txt_MachineName.Visible = True
+        'Txt_MachineName.Focus()
+        'Txt_MachineName.Select()
     End Sub
     Private Sub UC_Buttons1_BackClick() Handles UC_Buttons1.BackClick
         _FrmLoad = False
@@ -201,9 +247,10 @@ Public Class MachineMaster
             sqL = GetMaxCode()
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
-                txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item(0))
+                txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item(0)) - 1
             Else
                 MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+                Call Ctrl_Visible_False(Me.Controls)
                 Exit Sub
             End If
 
@@ -211,6 +258,7 @@ Public Class MachineMaster
 
             txtEntryNo.Focus()
             txtEntryNo.Select()
+
         End If
 
     End Sub
@@ -219,15 +267,25 @@ Public Class MachineMaster
         _FrmLoad = False
         If _FORMMODE = "EDIT" AndAlso Val(txtEntryNo.Text) >= 1 Then
             txtEntryNo.Text = Val(txtEntryNo.Text) + 1
-            Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
-            'Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+            Call Ctrl_Visible_True(Me.Controls)
+            sqL = GetMaxCode()
+            sql_connect_slect()
+            If DefaltSoftTable.Rows.Count > 0 Then
+                'txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
+            Else
+                MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+                Exit Sub
+            End If
+            txtEntryNo.Focus()
+            txtEntryNo.Select()
         End If
     End Sub
 
     Private Sub UC_Buttons1_SaveClick() Handles UC_Buttons1.SaveClick
-        _FrmLoad = False
+        _FrmLoad = True
         '_FORMMODE = "SAVE"
         SaveRecord()
+        _FrmLoad = False
     End Sub
 
     Private Sub UC_Buttons1_CloseClick() Handles UC_Buttons1.CloseClick
@@ -241,7 +299,10 @@ Public Class MachineMaster
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
-
+        Call View_Record()
+        txtEntryNo.Visible = True
+        txtEntryNo.Focus()
+        txtEntryNo.Select()
         'txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         'txt_To.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         'Txt_MachineName.Visible = True
@@ -251,7 +312,7 @@ Public Class MachineMaster
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-        'ComparisonPrint.Show()
+        MachinePrint.Show()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
@@ -275,7 +336,7 @@ Public Class MachineMaster
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
-                txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
+                txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
             Else
                 LASTCODE = "1"
                 txtEntryNo.Text = "1"
@@ -284,9 +345,6 @@ Public Class MachineMaster
         Else
             LASTCODE = _KeyFieldValue
         End If
-
-
-
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
         tblFormValues.Rows(0)("Main_account_master") = txtEntryNo.Text
         tblFormValues.Rows(0)("STATEMASTER") = Txt_MachineName.Text
@@ -294,24 +352,26 @@ Public Class MachineMaster
         tblFormValues.Rows(0)("TRANSPORT_MASTER") = Txtsection.Text
         tblFormValues.Rows(0)("Group_master_finance") = "FIXED ASSETS MASTER"
         If _FORMMODE = "ADD" Then
-            tblFormValues.Rows(0)("TRANSPORT_MASTER") = CDate(Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
-        End If
-        If _FORMMODE = "EDIT" Then
             tblFormValues.Rows(0)("MSTCUTMASTER") = CDate(Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
         End If
+        If _FORMMODE = "EDIT" Then
+            tblFormValues.Rows(0)("MSTCUTMASTER") = _lblEntryDate
+            tblFormValues.Rows(0)("MST_YARN_SHADE") = CDate(Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
+        End If
         tblFormValues.Rows(0)("MSTFABRICMASTER") = TxtBoolvalue.Text
+        'MSTFABRICHEAD
         tblFormValues.Rows(0)("MSTFABRICHEAD") = txtdepreciation.Text
         tblFormValues.Rows(0)("MSTFABRICGROUP") = Txtspaceoccup.Text
         tblFormValues.Rows(0)("MSTYARNMASTER") = TxtL.Text
         tblFormValues.Rows(0)("MSTITEMGROUP") = TxtW.Text
         tblFormValues.Rows(0)("MSTITEMCOMPANY") = TxtCategory.Text
-        tblFormValues.Rows(0)("MSTITEMMASTER") = TxtUOm.Text
+        'tblFormValues.Rows(0)("MSTITEMMASTER") = TxtUOm.Text
+        tblFormValues.Rows(0)("MSTITEMMASTER") = txtUOM_code.Text
         tblFormValues.Rows(0)("MST_BARCODE") = TxtHsn.Text
         tblFormValues.Rows(0)("MST_BATCHID") = TxtTaxRate.Text
-        tblFormValues.Rows(0)("MSTINSURANCE") = TxtDepartMent.Text
+        'tblFormValues.Rows(0)("MSTINSURANCE") = TxtDepartMent.Text
+        tblFormValues.Rows(0)("MSTINSURANCE") = txtdepartment_code.Text
         tblFormValues.Rows(0)("MSTFABRIC_ITEM_CATEGORY") = TxtAttachment.Text
-
-
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         'ObjCls_General.MAKEQUERYFROMDATATABLE("ADD", tblFormValues, FieldNameAndValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(Me._FORMMODE, Me.tblFormValues, Me.FieldNameAndValues, "", "", "")
@@ -332,6 +392,10 @@ Public Class MachineMaster
         ObjCls_General.Blank_Object(Me)
         _FORMMODE = ""
         Ctrl_Visible_False(Me.Controls)
+        AttachButtonFocusEvents(Me)
+        UC_Buttons1._ButtonEnableDisable("LOAD")
+        TxtUOm.Enabled = True
+        TxtDepartMent.Enabled = True
         'Command_Button_Visibility("LOAD")
         'Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
         'End If
@@ -380,5 +444,214 @@ Public Class MachineMaster
             Validate_Form_Values = True
         End If
     End Function
+
+    Private Sub MachineMaster_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+
+            If PNL_View.Visible = True Then
+                PNL_View.Visible = False
+                Exit Sub
+            End If
+
+
+            _FrmLoad = True
+            If _FORMMODE = "" Then
+
+            ElseIf _FORMMODE <> "" Then
+                _FORMMODE = ""
+                ObjCls_General.Blank_Object(Me)
+                _KeyFieldValue = 0
+                'Call Command_Button_Visibility("LOAD")
+                AttachButtonFocusEvents(Me)
+                Call Ctrl_Visible_False(Me.Controls)
+                'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+                UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+                _FrmLoad = False
+            End If
+        End If
+    End Sub
+
+    Private Sub txtEntryNo_KeyDown(sender As Object, e As KeyEventArgs) Handles txtEntryNo.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
+
+                sqL = "SELECT * FROM vch_no WHERE MAIN_ACCOUNT_MASTER='" & txtEntryNo.Text & "' and Group_master_finance='FIXED ASSETS MASTER' order by Main_account_master desc "
+                sql_connect_slect()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    txtAlter_code.Text = DefaltSoftTable.Rows(0).Item("SCHEDULE_ID").ToString
+                Else
+                    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+                    Call Ctrl_Visible_False(Me.Controls)
+                    'txtEntryNo.Visible = True
+                    'txtEntryNo.Focus()
+                    'txtEntryNo.Select()
+                    Exit Sub
+                End If
+
+                ALTER_FORM(txtAlter_code.Text)
+
+                If _FORMMODE = "DELETE" Then
+                    If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+                        Delete_Record()
+                        MsgBox("Records Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                    End If
+                End If
+
+
+            End If
+        End If
+    End Sub
+#End Region
+#Region "ALTER FORM METHOD"
+    Private Sub ALTER_FORM(ByVal strKeyID As String)
+        Dim tblTmp As New DataTable
+        strQuery = getAlter_Form_Query(strKeyID)
+        sqL = strQuery
+        sql_connect_slect()
+        tblTmp = DefaltSoftTable.Copy
+        tblFormValues.Rows.Clear()
+        For Each dr As DataRow In tblTmp.Rows
+            tblFormValues.ImportRow(dr)
+        Next
+        'ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblFormValues)
+        If tblTmp.Rows.Count > 0 Then
+            _KeyFieldValue = tblTmp.Rows(0).Item("SCHEDULE_ID").ToString
+            Dim EntryDate As String = tblTmp.Rows(0)("MSTCUTMASTER").ToString
+            _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("MSTCUTMASTER"))
+            txtEntryNo.Text = tblTmp.Rows(0).Item("Main_account_master").ToString
+            Txt_MachineName.Text = tblTmp.Rows(0).Item("STATEMASTER").ToString
+            Txt_Brand.Text = tblTmp.Rows(0).Item("CITYMASTER").ToString
+            Txtsection.Text = tblTmp.Rows(0).Item("TRANSPORT_MASTER").ToString
+            TxtBoolvalue.Text = tblTmp.Rows(0).Item("MSTFABRICMASTER").ToString
+            txtdepreciation.Text = tblTmp.Rows(0).Item("MSTFABRICHEAD").ToString
+            Txtspaceoccup.Text = tblTmp.Rows(0).Item("MSTFABRICGROUP").ToString
+            TxtL.Text = tblTmp.Rows(0).Item("MSTYARNMASTER").ToString
+            TxtW.Text = tblTmp.Rows(0).Item("MSTITEMGROUP").ToString
+            'MSTITEMMASTER
+            TxtCategory.Text = tblTmp.Rows(0).Item("MSTITEMCOMPANY").ToString
+            'TxtUOm.Text = tblTmp.Rows(0).Item("MSTITEMMASTER").ToString
+            TxtUOm.Text = tblTmp.Rows(0).Item("CutName").ToString
+            TxtHsn.Text = tblTmp.Rows(0).Item("MST_BARCODE").ToString
+            TxtTaxRate.Text = tblTmp.Rows(0).Item("MST_BATCHID").ToString
+            'TxtDepartMent.Text = tblTmp.Rows(0).Item("MSTINSURANCE").ToString
+            TxtDepartMent.Text = tblTmp.Rows(0).Item("DepartmentName").ToString
+            TxtAttachment.Text = tblTmp.Rows(0).Item("MSTFABRIC_ITEM_CATEGORY").ToString
+        End If
+    End Sub
+#End Region
+#Region "DELETE RECORD"
+    Private Sub Delete_Record()
+        Dim _entryNo As Integer = 0
+        _strQuery = New StringBuilder
+        With _strQuery
+            .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "' and Group_master_finance='FIXED ASSETS MASTER' ")
+        End With
+        sqL = _strQuery.ToString
+        sql_Data_Save_Delete_Update()
+        ObjCls_General.Blank_Object(Me)
+        _KeyFieldValue = 0
+        _FORMMODE = ""
+        Ctrl_Visible_False(Me.Controls)
+        'Command_Button_Visibility("LOAD")
+        AttachButtonFocusEvents(Me)
+        'Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+    End Sub
+
+    Private Sub TxtUOm_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtUOm.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Cut_master_frm), TxtUOm.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then
+                    txtUOM_code.Text = selected("ACCOUNTCODE").ToString()
+                End If
+                If selected.ContainsKey("CUTNAME") Then
+                    TxtUOm.Text = selected("CUTNAME").ToString()
+                End If
+            End If
+            TxtUOm.Enabled = False
+        End If
+    End Sub
+
+    Private Sub TxtDepartMent_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtDepartMent.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(StoreDepartment), TxtDepartMent.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then
+                    txtdepartment_code.Text = selected("ACCOUNTCODE").ToString()
+                End If
+                If selected.ContainsKey("DepName") Then
+                    TxtDepartMent.Text = selected("DepName").ToString()
+                End If
+            End If
+            TxtDepartMent.Enabled = False
+        End If
+    End Sub
+#End Region
+#Region "VIEW RECORD"
+    Private Sub View_Record()
+        Try
+
+
+            _strQuery = New StringBuilder
+            With _strQuery
+                .Append(" SELECT  ")
+                .Append("A.Main_account_master As MachineNo,")
+                .Append("A.STATEMASTER As MachineName,")
+                .Append("A.CITYMASTER As Brand,")
+                .Append("A.TRANSPORT_MASTER As Section,")
+                .Append("A.MSTFABRICMASTER As BoolValue,")
+                .Append("A.MSTFABRICHEAD As Depreciation,")
+                .Append("A.MSTFABRICGROUP As SpaceOccupied,")
+                .Append("A.MSTYARNMASTER AS L,")
+                .Append("A.MSTITEMGROUP As W,")
+                .Append("A.MSTITEMCOMPANY AS Category,")
+                '.Append("A.MSTITEMMASTER,") ' cutcode
+                .Append("A.MST_BARCODE As HSN,")
+                .Append("A.MST_BATCHID As TaxRate,")
+                '.Append("A.MSTINSURANCE,") ' Departmentcode
+                .Append("A.MSTFABRIC_ITEM_CATEGORY,")
+                .Append("B.CutName As UOM,")
+                .Append("C.Departmentname As DepartmentName,")
+                .Append("A.MST_YARN_SHADE As ModifiedDate,")
+                .Append("A.MSTCUTMASTER As EntryDate")
+                .Append("  FROM Vch_no as A ")
+                .Append("  LEFT JOIN MstCutMaster AS B  ON A.MSTITEMMASTER=B.ID")
+                .Append(" left Join MstDepartment As C on A.MSTINSURANCE=C.Departmentcode ")
+                .Append("  WHERE 1=1")
+                .Append("  AND Group_master_finance='FIXED ASSETS MASTER'")
+                .Append("  ORDER BY a.Main_account_master ")
+            End With
+            sqL = _strQuery.ToString
+            sql_connect_slect()
+            Dim tblTmp = DefaltSoftTable.Copy
+
+            FirstStage.Columns.Clear()
+            If tblTmp.Rows.Count > 0 Then
+                GridControl1.DataSource = tblTmp
+                FirstStage.Appearance.Row.Font = New Font("Tahoma", 9, FontStyle.Bold)
+                FirstStage.Appearance.HeaderPanel.Font = New Font("Tahoma", 9, FontStyle.Bold)
+                FirstStage.RowHeight = 25
+                'FirstStage.GroupRowHeight = 30
+
+
+                PNL_View.BringToFront()
+                PNL_View.Visible = True
+
+                FirstStage.BestFitColumns()
+                FirstStage.Focus()
+
+
+            Else
+                MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+    End Sub
 #End Region
 End Class
