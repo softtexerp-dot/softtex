@@ -23,7 +23,7 @@ Partial Class MachineMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MachineMaster))
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.PNL_View = New System.Windows.Forms.Panel()
         Me.But_export = New DevExpress.XtraEditors.SimpleButton()
         Me.But_print = New DevExpress.XtraEditors.SimpleButton()
