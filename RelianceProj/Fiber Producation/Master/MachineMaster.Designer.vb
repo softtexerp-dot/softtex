@@ -23,7 +23,7 @@ Partial Class MachineMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MachineMaster))
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.PNL_View = New System.Windows.Forms.Panel()
         Me.But_export = New DevExpress.XtraEditors.SimpleButton()
         Me.But_print = New DevExpress.XtraEditors.SimpleButton()
@@ -79,6 +79,9 @@ Partial Class MachineMaster
         Me.TxtTaxRate = New ctl_TextBox.ctl_TextBox()
         Me.Label35 = New System.Windows.Forms.Label()
         Me.Label36 = New System.Windows.Forms.Label()
+        Me.BtnOpen = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnView = New DevExpress.XtraEditors.SimpleButton()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,7 +93,7 @@ Partial Class MachineMaster
         'UC_Buttons1
         '
         Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(2, 580)
+        Me.UC_Buttons1.Location = New System.Drawing.Point(-2, 345)
         Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
         Me.UC_Buttons1.Name = "UC_Buttons1"
         Me.UC_Buttons1.Size = New System.Drawing.Size(1008, 43)
@@ -103,7 +106,7 @@ Partial Class MachineMaster
         Me.PNL_View.Controls.Add(Me.Btn_LayoutLoad)
         Me.PNL_View.Controls.Add(Me.BtnLayOutSave)
         Me.PNL_View.Controls.Add(Me.GridControl1)
-        Me.PNL_View.Location = New System.Drawing.Point(712, 90)
+        Me.PNL_View.Location = New System.Drawing.Point(957, 12)
         Me.PNL_View.Name = "PNL_View"
         Me.PNL_View.Size = New System.Drawing.Size(298, 195)
         Me.PNL_View.TabIndex = 82235
@@ -261,7 +264,7 @@ Partial Class MachineMaster
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(12, 149)
+        Me.Label9.Location = New System.Drawing.Point(12, 146)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(120, 14)
         Me.Label9.TabIndex = 82255
@@ -381,7 +384,7 @@ Partial Class MachineMaster
         Me.txtEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtEntryNo.IsValidated = False
         Me.txtEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtEntryNo.Location = New System.Drawing.Point(161, 5)
+        Me.txtEntryNo.Location = New System.Drawing.Point(161, 7)
         Me.txtEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtEntryNo.MandatoryField = False
         Me.txtEntryNo.MaxDate = Nothing
@@ -393,7 +396,7 @@ Partial Class MachineMaster
         Me.txtEntryNo.RegularExpression = Nothing
         Me.txtEntryNo.RegularExpressionErrorMessage = Nothing
         Me.txtEntryNo.ShowMessage = False
-        Me.txtEntryNo.Size = New System.Drawing.Size(229, 22)
+        Me.txtEntryNo.Size = New System.Drawing.Size(248, 22)
         Me.txtEntryNo.SpacerString = ""
         Me.txtEntryNo.TabIndex = 1
         Me.txtEntryNo.Tag = "Main_account_master"
@@ -436,7 +439,7 @@ Partial Class MachineMaster
         Me.Txt_MachineName.RegularExpression = Nothing
         Me.Txt_MachineName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MachineName.ShowMessage = False
-        Me.Txt_MachineName.Size = New System.Drawing.Size(229, 22)
+        Me.Txt_MachineName.Size = New System.Drawing.Size(248, 22)
         Me.Txt_MachineName.SpacerString = ""
         Me.Txt_MachineName.TabIndex = 2
         Me.Txt_MachineName.Tag = "STATEMASTER"
@@ -479,7 +482,7 @@ Partial Class MachineMaster
         Me.Txt_Brand.RegularExpression = Nothing
         Me.Txt_Brand.RegularExpressionErrorMessage = Nothing
         Me.Txt_Brand.ShowMessage = False
-        Me.Txt_Brand.Size = New System.Drawing.Size(229, 22)
+        Me.Txt_Brand.Size = New System.Drawing.Size(248, 22)
         Me.Txt_Brand.SpacerString = ""
         Me.Txt_Brand.TabIndex = 3
         Me.Txt_Brand.Tag = "CITYMASTER"
@@ -522,7 +525,7 @@ Partial Class MachineMaster
         Me.Txtsection.RegularExpression = Nothing
         Me.Txtsection.RegularExpressionErrorMessage = Nothing
         Me.Txtsection.ShowMessage = False
-        Me.Txtsection.Size = New System.Drawing.Size(229, 22)
+        Me.Txtsection.Size = New System.Drawing.Size(248, 22)
         Me.Txtsection.SpacerString = ""
         Me.Txtsection.TabIndex = 4
         Me.Txtsection.Tag = "TRANSPORT_MASTER"
@@ -565,7 +568,7 @@ Partial Class MachineMaster
         Me.TxtBoolvalue.RegularExpression = Nothing
         Me.TxtBoolvalue.RegularExpressionErrorMessage = Nothing
         Me.TxtBoolvalue.ShowMessage = False
-        Me.TxtBoolvalue.Size = New System.Drawing.Size(229, 22)
+        Me.TxtBoolvalue.Size = New System.Drawing.Size(248, 22)
         Me.TxtBoolvalue.SpacerString = ""
         Me.TxtBoolvalue.TabIndex = 5
         Me.TxtBoolvalue.Tag = "MSTFABRICMASTER"
@@ -608,7 +611,7 @@ Partial Class MachineMaster
         Me.txtdepreciation.RegularExpression = Nothing
         Me.txtdepreciation.RegularExpressionErrorMessage = Nothing
         Me.txtdepreciation.ShowMessage = False
-        Me.txtdepreciation.Size = New System.Drawing.Size(229, 22)
+        Me.txtdepreciation.Size = New System.Drawing.Size(248, 22)
         Me.txtdepreciation.SpacerString = ""
         Me.txtdepreciation.TabIndex = 6
         Me.txtdepreciation.Tag = "MSTFABRICHEAD"
@@ -651,7 +654,7 @@ Partial Class MachineMaster
         Me.Txtspaceoccup.RegularExpression = Nothing
         Me.Txtspaceoccup.RegularExpressionErrorMessage = Nothing
         Me.Txtspaceoccup.ShowMessage = False
-        Me.Txtspaceoccup.Size = New System.Drawing.Size(149, 22)
+        Me.Txtspaceoccup.Size = New System.Drawing.Size(250, 22)
         Me.Txtspaceoccup.SpacerString = ""
         Me.Txtspaceoccup.TabIndex = 7
         Me.Txtspaceoccup.Tag = "MSTFABRICGROUP"
@@ -694,7 +697,7 @@ Partial Class MachineMaster
         Me.TxtCategory.RegularExpression = Nothing
         Me.TxtCategory.RegularExpressionErrorMessage = Nothing
         Me.TxtCategory.ShowMessage = False
-        Me.TxtCategory.Size = New System.Drawing.Size(149, 22)
+        Me.TxtCategory.Size = New System.Drawing.Size(250, 22)
         Me.TxtCategory.SpacerString = ""
         Me.TxtCategory.TabIndex = 10
         Me.TxtCategory.Tag = "MSTITEMCOMPANY"
@@ -705,7 +708,7 @@ Partial Class MachineMaster
         '
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(311, 171)
+        Me.Label19.Location = New System.Drawing.Point(439, 174)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(15, 14)
         Me.Label19.TabIndex = 82280
@@ -715,7 +718,7 @@ Partial Class MachineMaster
         '
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(377, 171)
+        Me.Label20.Location = New System.Drawing.Point(502, 174)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(12, 14)
         Me.Label20.TabIndex = 82281
@@ -745,7 +748,7 @@ Partial Class MachineMaster
         Me.TxtL.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.TxtL.IsValidated = False
         Me.TxtL.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtL.Location = New System.Drawing.Point(386, 169)
+        Me.TxtL.Location = New System.Drawing.Point(520, 171)
         Me.TxtL.MandatoryColor = System.Drawing.Color.LightCyan
         Me.TxtL.MandatoryField = False
         Me.TxtL.MaxDate = Nothing
@@ -757,7 +760,7 @@ Partial Class MachineMaster
         Me.TxtL.RegularExpression = Nothing
         Me.TxtL.RegularExpressionErrorMessage = Nothing
         Me.TxtL.ShowMessage = False
-        Me.TxtL.Size = New System.Drawing.Size(129, 22)
+        Me.TxtL.Size = New System.Drawing.Size(164, 22)
         Me.TxtL.SpacerString = ""
         Me.TxtL.TabIndex = 8
         Me.TxtL.Tag = "MSTYARNMASTER"
@@ -788,7 +791,7 @@ Partial Class MachineMaster
         Me.TxtW.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.TxtW.IsValidated = False
         Me.TxtW.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtW.Location = New System.Drawing.Point(557, 169)
+        Me.TxtW.Location = New System.Drawing.Point(719, 171)
         Me.TxtW.MandatoryColor = System.Drawing.Color.LightCyan
         Me.TxtW.MandatoryField = False
         Me.TxtW.MaxDate = Nothing
@@ -800,7 +803,7 @@ Partial Class MachineMaster
         Me.TxtW.RegularExpression = Nothing
         Me.TxtW.RegularExpressionErrorMessage = Nothing
         Me.TxtW.ShowMessage = False
-        Me.TxtW.Size = New System.Drawing.Size(149, 22)
+        Me.TxtW.Size = New System.Drawing.Size(164, 22)
         Me.TxtW.SpacerString = ""
         Me.TxtW.TabIndex = 9
         Me.TxtW.Tag = "MSTITEMGROUP"
@@ -811,7 +814,7 @@ Partial Class MachineMaster
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(513, 171)
+        Me.Label21.Location = New System.Drawing.Point(674, 173)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(21, 14)
         Me.Label21.TabIndex = 82283
@@ -821,7 +824,7 @@ Partial Class MachineMaster
         '
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(538, 171)
+        Me.Label22.Location = New System.Drawing.Point(701, 174)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(12, 14)
         Me.Label22.TabIndex = 82284
@@ -851,7 +854,7 @@ Partial Class MachineMaster
         Me.TxtUOm.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.TxtUOm.IsValidated = False
         Me.TxtUOm.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtUOm.Location = New System.Drawing.Point(394, 202)
+        Me.TxtUOm.Location = New System.Drawing.Point(520, 200)
         Me.TxtUOm.MandatoryColor = System.Drawing.Color.LightCyan
         Me.TxtUOm.MandatoryField = False
         Me.TxtUOm.MaxDate = Nothing
@@ -863,7 +866,7 @@ Partial Class MachineMaster
         Me.TxtUOm.RegularExpression = Nothing
         Me.TxtUOm.RegularExpressionErrorMessage = Nothing
         Me.TxtUOm.ShowMessage = False
-        Me.TxtUOm.Size = New System.Drawing.Size(278, 22)
+        Me.TxtUOm.Size = New System.Drawing.Size(362, 22)
         Me.TxtUOm.SpacerString = ""
         Me.TxtUOm.TabIndex = 11
         Me.TxtUOm.Tag = ""
@@ -874,7 +877,7 @@ Partial Class MachineMaster
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(311, 206)
+        Me.Label23.Location = New System.Drawing.Point(439, 202)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(39, 14)
         Me.Label23.TabIndex = 82286
@@ -884,7 +887,7 @@ Partial Class MachineMaster
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(376, 206)
+        Me.Label24.Location = New System.Drawing.Point(502, 202)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(12, 14)
         Me.Label24.TabIndex = 82287
@@ -914,7 +917,7 @@ Partial Class MachineMaster
         Me.TxtHsn.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.TxtHsn.IsValidated = False
         Me.TxtHsn.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtHsn.Location = New System.Drawing.Point(159, 237)
+        Me.TxtHsn.Location = New System.Drawing.Point(159, 226)
         Me.TxtHsn.MandatoryColor = System.Drawing.Color.LightCyan
         Me.TxtHsn.MandatoryField = False
         Me.TxtHsn.MaxDate = Nothing
@@ -926,7 +929,7 @@ Partial Class MachineMaster
         Me.TxtHsn.RegularExpression = Nothing
         Me.TxtHsn.RegularExpressionErrorMessage = Nothing
         Me.TxtHsn.ShowMessage = False
-        Me.TxtHsn.Size = New System.Drawing.Size(149, 22)
+        Me.TxtHsn.Size = New System.Drawing.Size(250, 22)
         Me.TxtHsn.SpacerString = ""
         Me.TxtHsn.TabIndex = 12
         Me.TxtHsn.Tag = "MST_BARCODE"
@@ -937,7 +940,7 @@ Partial Class MachineMaster
         '
         Me.Label29.AutoSize = True
         Me.Label29.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.Location = New System.Drawing.Point(12, 238)
+        Me.Label29.Location = New System.Drawing.Point(12, 234)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(36, 14)
         Me.Label29.TabIndex = 82289
@@ -947,7 +950,7 @@ Partial Class MachineMaster
         '
         Me.Label30.AutoSize = True
         Me.Label30.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.Location = New System.Drawing.Point(139, 238)
+        Me.Label30.Location = New System.Drawing.Point(139, 230)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(12, 14)
         Me.Label30.TabIndex = 82290
@@ -977,7 +980,7 @@ Partial Class MachineMaster
         Me.TxtDepartMent.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.TxtDepartMent.IsValidated = False
         Me.TxtDepartMent.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtDepartMent.Location = New System.Drawing.Point(157, 269)
+        Me.TxtDepartMent.Location = New System.Drawing.Point(157, 254)
         Me.TxtDepartMent.MandatoryColor = System.Drawing.Color.LightCyan
         Me.TxtDepartMent.MandatoryField = False
         Me.TxtDepartMent.MaxDate = Nothing
@@ -989,7 +992,7 @@ Partial Class MachineMaster
         Me.TxtDepartMent.RegularExpression = Nothing
         Me.TxtDepartMent.RegularExpressionErrorMessage = Nothing
         Me.TxtDepartMent.ShowMessage = False
-        Me.TxtDepartMent.Size = New System.Drawing.Size(149, 22)
+        Me.TxtDepartMent.Size = New System.Drawing.Size(252, 22)
         Me.TxtDepartMent.SpacerString = ""
         Me.TxtDepartMent.TabIndex = 14
         Me.TxtDepartMent.Tag = ""
@@ -1000,7 +1003,7 @@ Partial Class MachineMaster
         '
         Me.Label31.AutoSize = True
         Me.Label31.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.Location = New System.Drawing.Point(12, 269)
+        Me.Label31.Location = New System.Drawing.Point(12, 260)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(85, 14)
         Me.Label31.TabIndex = 82292
@@ -1010,7 +1013,7 @@ Partial Class MachineMaster
         '
         Me.Label32.AutoSize = True
         Me.Label32.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(137, 271)
+        Me.Label32.Location = New System.Drawing.Point(139, 258)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(12, 14)
         Me.Label32.TabIndex = 82293
@@ -1040,7 +1043,7 @@ Partial Class MachineMaster
         Me.TxtAttachment.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.TxtAttachment.IsValidated = False
         Me.TxtAttachment.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtAttachment.Location = New System.Drawing.Point(159, 302)
+        Me.TxtAttachment.Location = New System.Drawing.Point(159, 289)
         Me.TxtAttachment.MandatoryColor = System.Drawing.Color.LightCyan
         Me.TxtAttachment.MandatoryField = False
         Me.TxtAttachment.MaxDate = Nothing
@@ -1052,9 +1055,9 @@ Partial Class MachineMaster
         Me.TxtAttachment.RegularExpression = Nothing
         Me.TxtAttachment.RegularExpressionErrorMessage = Nothing
         Me.TxtAttachment.ShowMessage = False
-        Me.TxtAttachment.Size = New System.Drawing.Size(149, 22)
+        Me.TxtAttachment.Size = New System.Drawing.Size(250, 22)
         Me.TxtAttachment.SpacerString = ""
-        Me.TxtAttachment.TabIndex = 15
+        Me.TxtAttachment.TabIndex = 16
         Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
         Me.TxtAttachment.TransparentBox = True
         Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1063,7 +1066,7 @@ Partial Class MachineMaster
         '
         Me.Label33.AutoSize = True
         Me.Label33.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label33.Location = New System.Drawing.Point(12, 304)
+        Me.Label33.Location = New System.Drawing.Point(12, 293)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(128, 14)
         Me.Label33.TabIndex = 82295
@@ -1073,7 +1076,7 @@ Partial Class MachineMaster
         '
         Me.Label34.AutoSize = True
         Me.Label34.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label34.Location = New System.Drawing.Point(139, 304)
+        Me.Label34.Location = New System.Drawing.Point(139, 293)
         Me.Label34.Name = "Label34"
         Me.Label34.Size = New System.Drawing.Size(12, 14)
         Me.Label34.TabIndex = 82296
@@ -1103,7 +1106,7 @@ Partial Class MachineMaster
         Me.TxtTaxRate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.TxtTaxRate.IsValidated = False
         Me.TxtTaxRate.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtTaxRate.Location = New System.Drawing.Point(393, 242)
+        Me.TxtTaxRate.Location = New System.Drawing.Point(520, 232)
         Me.TxtTaxRate.MandatoryColor = System.Drawing.Color.LightCyan
         Me.TxtTaxRate.MandatoryField = False
         Me.TxtTaxRate.MaxDate = Nothing
@@ -1115,7 +1118,7 @@ Partial Class MachineMaster
         Me.TxtTaxRate.RegularExpression = Nothing
         Me.TxtTaxRate.RegularExpressionErrorMessage = Nothing
         Me.TxtTaxRate.ShowMessage = False
-        Me.TxtTaxRate.Size = New System.Drawing.Size(279, 22)
+        Me.TxtTaxRate.Size = New System.Drawing.Size(362, 22)
         Me.TxtTaxRate.SpacerString = ""
         Me.TxtTaxRate.TabIndex = 13
         Me.TxtTaxRate.Tag = "MST_BATCHID"
@@ -1126,7 +1129,7 @@ Partial Class MachineMaster
         '
         Me.Label35.AutoSize = True
         Me.Label35.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label35.Location = New System.Drawing.Point(311, 244)
+        Me.Label35.Location = New System.Drawing.Point(436, 234)
         Me.Label35.Name = "Label35"
         Me.Label35.Size = New System.Drawing.Size(65, 14)
         Me.Label35.TabIndex = 82298
@@ -1136,18 +1139,44 @@ Partial Class MachineMaster
         '
         Me.Label36.AutoSize = True
         Me.Label36.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label36.Location = New System.Drawing.Point(375, 244)
+        Me.Label36.Location = New System.Drawing.Point(502, 234)
         Me.Label36.Name = "Label36"
         Me.Label36.Size = New System.Drawing.Size(12, 14)
         Me.Label36.TabIndex = 82299
         Me.Label36.Text = ":"
+        '
+        'BtnOpen
+        '
+        Me.BtnOpen.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOpen.Appearance.Options.UseFont = True
+        Me.BtnOpen.ImageOptions.Image = CType(resources.GetObject("BtnOpen.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnOpen.Location = New System.Drawing.Point(442, 280)
+        Me.BtnOpen.Name = "BtnOpen"
+        Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
+        Me.BtnOpen.TabIndex = 15
+        '
+        'BtnView
+        '
+        Me.BtnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnView.Appearance.Options.UseFont = True
+        Me.BtnView.ImageOptions.Image = CType(resources.GetObject("BtnView.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnView.Location = New System.Drawing.Point(487, 280)
+        Me.BtnView.Name = "BtnView"
+        Me.BtnView.Size = New System.Drawing.Size(39, 36)
+        Me.BtnView.TabIndex = 82301
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'MachineMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.ClientSize = New System.Drawing.Size(927, 399)
+        Me.Controls.Add(Me.BtnView)
+        Me.Controls.Add(Me.BtnOpen)
         Me.Controls.Add(Me.TxtTaxRate)
         Me.Controls.Add(Me.Label35)
         Me.Controls.Add(Me.Label36)
@@ -1269,4 +1298,7 @@ Partial Class MachineMaster
     Friend WithEvents TxtTaxRate As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label35 As Label
     Friend WithEvents Label36 As Label
+    Friend WithEvents BtnOpen As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

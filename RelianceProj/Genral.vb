@@ -2924,6 +2924,7 @@ Module Genral
             Dim _FolderName As String = "Image"
             Dim strServerName = _FolderFilePath(_FolderName)
             Dim _FilePath As String = strServerName & _IamgePath
+            'Dim _FilePath As String = "D:\RelianceProj\RelianceProj\bin\Debug\Image\" & _IamgePath  'Local check
             If System.IO.File.Exists(_FilePath) = True Then
                 Process.Start(_FilePath)
             Else
@@ -2945,7 +2946,6 @@ Module Genral
             MsgBox(ex.ToString)
         End Try
     End Sub
-
 
     Public Sub NewReportPrint(ByVal _Tmptbl As DataTable, ByVal rptTitle As String, ByVal strDateRange As String)
         Try
@@ -3325,4 +3325,39 @@ Module Genral
         sqL = _strQuery.ToString
         sql_Data_Save_Delete_Update()
     End Sub
+    Public Function SaveImageToLocalAndServer(sourceFile As String) As String
+        Try
+            If String.IsNullOrWhiteSpace(sourceFile) OrElse Not File.Exists(sourceFile) Then
+                Return ""
+            End If
+
+            Dim fileName As String = Path.GetFileName(sourceFile)
+            Dim folderName As String = "Image"
+
+            ' === LOCAL PATH ===
+            Dim localFolder As String = Path.Combine(Application.StartupPath, folderName)
+            If Not Directory.Exists(localFolder) Then
+                Directory.CreateDirectory(localFolder)
+            End If
+            Dim localFile As String = Path.Combine(localFolder, fileName)
+            File.Copy(sourceFile, localFile, True)
+
+            ' === SERVER PATH (optional) ===
+            If Not String.IsNullOrWhiteSpace(_ServerPcPath) Then
+                Dim serverFolder As String = Path.Combine(_ServerPcPath, folderName)
+                If Not Directory.Exists(serverFolder) Then
+                    Directory.CreateDirectory(serverFolder)
+                End If
+
+                Dim serverFile As String = Path.Combine(serverFolder, fileName)
+                File.Copy(sourceFile, serverFile, True)
+            End If
+
+            Return fileName
+
+        Catch ex As Exception
+            MsgBox("Error saving image: " & ex.Message, MsgBoxStyle.Critical, "Soft-Tex PRO")
+            Return ""
+        End Try
+    End Function
 End Module

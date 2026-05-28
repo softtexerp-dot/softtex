@@ -42,7 +42,7 @@ Partial Class MachinePrint
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(345, 73)
+        Me.Label9.Location = New System.Drawing.Point(363, 73)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(12, 16)
         Me.Label9.TabIndex = 80
@@ -51,7 +51,7 @@ Partial Class MachinePrint
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(345, 102)
+        Me.Label8.Location = New System.Drawing.Point(363, 101)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(12, 16)
         Me.Label8.TabIndex = 79
@@ -60,7 +60,7 @@ Partial Class MachinePrint
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(345, 130)
+        Me.Label10.Location = New System.Drawing.Point(363, 130)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(12, 16)
         Me.Label10.TabIndex = 78
@@ -90,7 +90,7 @@ Partial Class MachinePrint
         Me.Ctl_RptType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Ctl_RptType.IsValidated = False
         Me.Ctl_RptType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Ctl_RptType.Location = New System.Drawing.Point(367, 130)
+        Me.Ctl_RptType.Location = New System.Drawing.Point(381, 130)
         Me.Ctl_RptType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_RptType.MandatoryField = False
         Me.Ctl_RptType.MaxDate = Nothing
@@ -103,7 +103,7 @@ Partial Class MachinePrint
         Me.Ctl_RptType.RegularExpression = Nothing
         Me.Ctl_RptType.RegularExpressionErrorMessage = Nothing
         Me.Ctl_RptType.ShowMessage = False
-        Me.Ctl_RptType.Size = New System.Drawing.Size(60, 22)
+        Me.Ctl_RptType.Size = New System.Drawing.Size(99, 22)
         Me.Ctl_RptType.SpacerString = "1,2,3"
         Me.Ctl_RptType.TabIndex = 69
         Me.Ctl_RptType.Tag = "Type"
@@ -144,7 +144,7 @@ Partial Class MachinePrint
         Me.Txt_ToEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_ToEntryNo.IsValidated = False
         Me.Txt_ToEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(367, 101)
+        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(381, 100)
         Me.Txt_ToEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_ToEntryNo.MandatoryField = False
         Me.Txt_ToEntryNo.MaxDate = Nothing
@@ -156,7 +156,7 @@ Partial Class MachinePrint
         Me.Txt_ToEntryNo.RegularExpression = Nothing
         Me.Txt_ToEntryNo.RegularExpressionErrorMessage = Nothing
         Me.Txt_ToEntryNo.ShowMessage = False
-        Me.Txt_ToEntryNo.Size = New System.Drawing.Size(60, 22)
+        Me.Txt_ToEntryNo.Size = New System.Drawing.Size(99, 22)
         Me.Txt_ToEntryNo.SpacerString = ""
         Me.Txt_ToEntryNo.TabIndex = 68
         Me.Txt_ToEntryNo.Tag = "EntryNo"
@@ -229,7 +229,7 @@ Partial Class MachinePrint
         Me.Txt_FromEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_FromEntryNo.IsValidated = False
         Me.Txt_FromEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(367, 74)
+        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(381, 72)
         Me.Txt_FromEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_FromEntryNo.MandatoryField = False
         Me.Txt_FromEntryNo.MaxDate = Nothing
@@ -241,7 +241,7 @@ Partial Class MachinePrint
         Me.Txt_FromEntryNo.RegularExpression = Nothing
         Me.Txt_FromEntryNo.RegularExpressionErrorMessage = Nothing
         Me.Txt_FromEntryNo.ShowMessage = False
-        Me.Txt_FromEntryNo.Size = New System.Drawing.Size(60, 22)
+        Me.Txt_FromEntryNo.Size = New System.Drawing.Size(99, 22)
         Me.Txt_FromEntryNo.SpacerString = ""
         Me.Txt_FromEntryNo.TabIndex = 67
         Me.Txt_FromEntryNo.Tag = "EntryNo"
