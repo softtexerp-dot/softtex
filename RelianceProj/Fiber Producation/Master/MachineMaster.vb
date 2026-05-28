@@ -324,8 +324,16 @@ Public Class MachineMaster
         tblFormValues.Rows(0)("MSTYARNMASTER") = TxtL.Text
         tblFormValues.Rows(0)("MSTITEMGROUP") = TxtW.Text
         tblFormValues.Rows(0)("MSTITEMCOMPANY") = TxtCategory.Text
-        tblFormValues.Rows(0)("MSTITEMMASTER") = txtUOM_code.Text
-        tblFormValues.Rows(0)("MSTINSURANCE") = txtdepartment_code.Text
+        If txtUOM_code.Text = "" Then
+            tblFormValues.Rows(0)("MSTITEMMASTER") = "0000-000000001"
+        Else
+            tblFormValues.Rows(0)("MSTITEMMASTER") = txtUOM_code.Text
+        End If
+        If txtdepartment_code.Text = "" Then
+            tblFormValues.Rows(0)("MSTINSURANCE") = "0000-000000001"
+        Else
+            tblFormValues.Rows(0)("MSTINSURANCE") = txtdepartment_code.Text
+        End If
         tblFormValues.Rows(0)("MST_BARCODE") = TxtHsn.Text
         tblFormValues.Rows(0)("MST_BATCHID") = TxtTaxRate.Text
         tblFormValues.Rows(0)("MSTFABRIC_ITEM_CATEGORY") = TxtAttachment.Text
