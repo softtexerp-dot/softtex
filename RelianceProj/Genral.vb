@@ -595,12 +595,13 @@ Module Genral
 
         Return Nothing
     End Function
-    Public Function SingleAccountSelectionFormDatatable(LoadQueryDatatable As DataTable, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String, ByVal LoadType As String) As List(Of Dictionary(Of String, Object))
+    Public Function SingleAccountSelectionFormDatatable(LoadQueryDatatable As DataTable, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String, ByVal LoadType As String, ByVal ExtracolumnsToHide As String()) As List(Of Dictionary(Of String, Object))
         Dim frm As New NewSelectionForm()
         frm.LoadQueryDatatable = LoadQueryDatatable
         frm.LoadType = LoadType
         frm.F2MasterFormType = masterFormType
         frm.GridViewType = GridViewType
+        frm.ExtracolumnsToHide = ExtracolumnsToHide
         If Not String.IsNullOrEmpty(prefillSearch) Then
             frm.txtSearch.Text = prefillSearch
         End If

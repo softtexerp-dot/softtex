@@ -1571,7 +1571,7 @@ Public Class StoreIndentEntry
                     End If
                 Next
                 Dim _FItemcodeilter As String = ""
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES")
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", Nothing)
                 'Dim _LoadQuery = _StrQuery.ToString()
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 If selectedList1 IsNot Nothing Then
@@ -1592,7 +1592,6 @@ Public Class StoreIndentEntry
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = rowDict("CountCode").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = rowDict("CutName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = rowDict("ID").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
                             '================ NEXT ROW =================
                             If RowNo >= GrdItem.Rows - 1 Then

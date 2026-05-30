@@ -87,10 +87,7 @@ Public Class StoreApproval
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1  ")
-
             .Append(" And A.BOOKCODE='RQSS-000000001'  ")
-
-            'If txt_Status.Text = "NO" Then
             .Append("  AND NOT EXISTS ")
                 .Append("  (   ")
                 .Append(" SELECT 1  ")
@@ -99,7 +96,6 @@ Public Class StoreApproval
                 .Append(" B.OP7 = A.BookVno ")
                 .Append(" And B.ITEMCODE = A.ITEMCODE ")
                 .Append("  )")
-            'End If
 
             .Append(dateFilter)
             .Append(StatusFilter)
