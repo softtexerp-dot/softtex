@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.Text
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid
 Imports DevExpress.XtraGrid.Views.BandedGrid
@@ -153,6 +154,7 @@ Public Class DepartmentApproval
         Dim accounts = dtSource.AsEnumerable().Select(Function(r) r("SupplierName").ToString()).Distinct().ToList()
         ' Dynamic Columns
         For Each acc In accounts
+            dtPivot.Columns.Add(acc & "_Code")
             dtPivot.Columns.Add(acc & "_Brand")
             dtPivot.Columns.Add(acc & "_Qty")
             dtPivot.Columns.Add(acc & "_GrossRate")
@@ -167,7 +169,10 @@ Public Class DepartmentApproval
         Next
         ' DISTINCT ITEMS
         'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) r("ITEMNAME").ToString())
-        Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .SupplierCode = r("SupplierCode").ToString()})
+        'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .SupplierCode = r("SupplierCode").ToString()})
+
+        Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .EntryNo = r("EntryNo").ToString()})
+        'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .EntryNo = r("EntryNo").ToString(), Key .SupplierCode = r("SupplierCode").ToString()})
         For Each grp In items
             Dim newRow As DataRow = dtPivot.NewRow()
             Dim firstRow = grp.First()
@@ -179,6 +184,7 @@ Public Class DepartmentApproval
             newRow("SupplierCode") = firstRow("SupplierCode").ToString()
             For Each r In grp
                 Dim acc As String = r("SupplierName").ToString()
+                newRow(acc & "_Code") = r("SupplierCode").ToString
                 newRow(acc & "_Brand") = r("COMPANYNAME").ToString
                 newRow(acc & "_Qty") = Format(Val(r("Qty")), "0.00")
                 newRow(acc & "_GrossRate") = Format(Val(r("GrossRate")), "0.00")
@@ -189,10 +195,22 @@ Public Class DepartmentApproval
                 newRow(acc & "_Fright") = Format(Val(r("Fright")), "0.00")
                 newRow(acc & "_Delivery") = Format(Val(r("Delivery")), "0.00")
                 newRow(acc & "_Paymentterms") = r("Paymentterms").ToString
-                If r("Status").ToString().Trim().ToUpper() = "NO" Then
-                    newRow(acc & "_Status") = False
-                Else
+                'If r("Status").ToString().Trim().ToUpper() = "NO" Then
+                '    newRow(acc & "_Status") = False
+                'Else
+                '    newRow(acc & "_Status") = True
+                'End If
+                Dim status As String = ""
+                If Not IsDBNull(r("Status")) Then
+                    status = r("Status").ToString().Trim().ToUpper()
+                End If
+
+                If status = "YES" Then
                     newRow(acc & "_Status") = True
+                ElseIf status = "NO" Then
+                    newRow(acc & "_Status") = False
+                    'Else
+                    '    newRow(acc & "_Status") = DBNull.Value   ' Blank checkbox
                 End If
             Next
             dtPivot.Rows.Add(newRow)
@@ -200,11 +218,11 @@ Public Class DepartmentApproval
         GridControl1.DataSource = dtPivot
         If dtPivot.Rows.Count > 0 Then
             Dim bandedView As New BandedGridView(GridControl1)
-            RemoveHandler bandedView.ShowingEditor, AddressOf bandedView_ShowingEditor
-            AddHandler bandedView.ShowingEditor, AddressOf bandedView_ShowingEditor
+            'RemoveHandler bandedView.ShowingEditor, AddressOf bandedView_ShowingEditor
+            'AddHandler bandedView.ShowingEditor, AddressOf bandedView_ShowingEditor
 
-            RemoveHandler bandedView.CellValueChanged, AddressOf bandedView_CellValueChanged
-            AddHandler bandedView.CellValueChanged, AddressOf bandedView_CellValueChanged
+            'RemoveHandler bandedView.CellValueChanged, AddressOf bandedView_CellValueChanged
+            'AddHandler bandedView.CellValueChanged, AddressOf bandedView_CellValueChanged
 
             GridControl1.MainView = bandedView
             GridControl1.ViewCollection.Add(bandedView)
@@ -231,7 +249,13 @@ Public Class DepartmentApproval
                     band.Columns.Add(AddBandedColumn(bandedView, acc & "_Dis", "Dis %"))
                 End If
                 If dtPivot.Columns.Contains(acc & "_Rate") Then
-                    band.Columns.Add(AddBandedColumn(bandedView, acc & "_Rate", "Net Rate"))
+                    'band.Columns.Add(AddBandedColumn(bandedView, acc & "_Rate", "Net Rate"))
+                    Dim rateCol As BandedGridColumn = AddBandedColumn(bandedView, acc & "_Rate", "Net Rate")
+
+                    rateCol.AppearanceCell.BackColor = Color.LightGreen
+                    rateCol.AppearanceCell.Options.UseBackColor = True
+
+                    band.Columns.Add(rateCol)
                 End If
 
                 If dtPivot.Columns.Contains(acc & "_Amount") Then
@@ -255,10 +279,21 @@ Public Class DepartmentApproval
                 band.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center
                 bandedView.Bands.Add(band)
                 If dtPivot.Columns.Contains(acc & "_Status") Then
+                    'Dim statusCol As BandedGridColumn = AddBandedColumn(bandedView, acc & "_Status", "Status")
+                    'Dim chkEdit As New RepositoryItemCheckEdit()
+                    'chkEdit.ValueChecked = True
+                    'chkEdit.ValueUnchecked = False
+                    'GridControl1.RepositoryItems.Add(chkEdit)
+                    'statusCol.ColumnEdit = chkEdit
+                    'band.Columns.Add(statusCol)
                     Dim statusCol As BandedGridColumn = AddBandedColumn(bandedView, acc & "_Status", "Status")
                     Dim chkEdit As New RepositoryItemCheckEdit()
                     chkEdit.ValueChecked = True
                     chkEdit.ValueUnchecked = False
+                    'chkEdit.ValueGrayed = DBNull.Value
+                    ' 3 State Checkbox
+                    'chkEdit.AllowGrayed = True
+                    chkEdit.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked
                     GridControl1.RepositoryItems.Add(chkEdit)
                     statusCol.ColumnEdit = chkEdit
                     band.Columns.Add(statusCol)
@@ -280,35 +315,61 @@ Public Class DepartmentApproval
             bandedView.OptionsView.ShowIndicator = True
             bandedView.OptionsView.ShowGroupPanel = False
             bandedView.OptionsBehavior.Editable = True
+            'GridControl1.Focus()
         End If
         Return _NewTmptbl
     End Function
+
+    Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
+        If e.KeyCode <> Keys.Space Then Exit Sub
+        Dim view As BandedGridView = TryCast(GridControl1.FocusedView, BandedGridView)
+        If view Is Nothing Then Exit Sub
+        If Not view.FocusedColumn.FieldName.EndsWith("_Status") Then Exit Sub
+        Dim BookVno As String = Convert.ToString(view.GetFocusedRowCellValue("BOOKVNO"))
+        Dim SupplierCode As String = Convert.ToString(view.GetFocusedRowCellValue("SupplierCode"))
+        Dim EntryNo As String = Convert.ToString(view.GetFocusedRowCellValue("EntryNo"))
+        ' Status check
+        Dim dr() As DataRow = dtSource.Select("BOOKVNO='" & BookVno & "' And SupplierCode='" & SupplierCode & "'")
+        If dr.Length > 0 Then
+            If IsDBNull(dr(0)("Status")) Then Exit Sub
+        End If
+        Dim chkValue As Boolean = False
+        If view.GetFocusedRowCellValue(view.FocusedColumn) IsNot DBNull.Value Then
+            chkValue = Not Convert.ToBoolean(view.GetFocusedRowCellValue(view.FocusedColumn))
+        Else
+            chkValue = True
+        End If
+        Try
+            IsUpdating = True
+            ' Same EntryNo + SupplierCode wali rows update
+            For i As Integer = 0 To view.RowCount - 1
+                If Convert.ToString(view.GetRowCellValue(i, "EntryNo")) = EntryNo AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
+                    view.SetRowCellValue(i, view.FocusedColumn, chkValue)
+                End If
+            Next
+            ' Agar checkbox checked hua hai to baaki Status columns uncheck
+            If chkValue Then
+                For Each col As BandedGridColumn In view.Columns
+                    If col.FieldName.EndsWith("_Status") AndAlso col.FieldName <> view.FocusedColumn.FieldName Then
+                        view.SetRowCellValue(view.FocusedRowHandle, col, False)
+                    End If
+                Next
+            End If
+            e.SuppressKeyPress = True
+            e.Handled = True
+        Finally
+            IsUpdating = False
+        End Try
+
+    End Sub
     Private Sub bandedView_CellValueChanged(sender As Object, e As DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs)
-        'If IsUpdating Then Exit Sub
-        'If Not e.Column.FieldName.EndsWith("_Status") Then Exit Sub
-        'Dim view As BandedGridView = CType(sender, BandedGridView)
-        'Dim EntryNo As String = view.GetRowCellValue(e.RowHandle, "EntryNo").ToString()
-        'Dim SupplierCode As String = view.GetRowCellValue(e.RowHandle, "SupplierCode").ToString()
-        'Dim chkValue As Boolean = Convert.ToBoolean(e.Value)
-        'Try
-        '    IsUpdating = True
-        '    For i As Integer = 0 To view.RowCount - 1
-        '        If view.GetRowCellValue(i, "EntryNo").ToString() = EntryNo AndAlso view.GetRowCellValue(i, "SupplierCode").ToString() = SupplierCode Then
-        '            For Each col As BandedGridColumn In view.Columns
-        '                If col.FieldName.EndsWith("_Status") Then
-        '                    view.SetRowCellValue(i, col, chkValue)
-        '                End If
-        '            Next
-        '        End If
-        '    Next
-        'Finally
-        '    IsUpdating = False
-        'End Try
         If IsUpdating Then Exit Sub
         If Not e.Column.FieldName.EndsWith("_Status") Then Exit Sub
         Dim view As BandedGridView = CType(sender, BandedGridView)
         Dim EntryNo As String = view.GetRowCellValue(e.RowHandle, "EntryNo").ToString()
         Dim SupplierCode As String = view.GetRowCellValue(e.RowHandle, "SupplierCode").ToString()
+        'Dim ItemCode As String = view.GetFocusedRowCellValue("ItemCode").ToString()
+
         Dim chkValue As Boolean = Convert.ToBoolean(e.Value)
         Try
             IsUpdating = True
@@ -320,6 +381,27 @@ Public Class DepartmentApproval
         Finally
             IsUpdating = False
         End Try
+        'If IsUpdating Then Exit Sub
+        'If Not e.Column.FieldName.EndsWith("_Status") Then Exit Sub
+
+        'If Convert.ToBoolean(e.Value) = False Then Exit Sub
+
+        'Dim view As BandedGridView = CType(sender, BandedGridView)
+
+        'Try
+        '    IsUpdating = True
+
+        '    For Each col As BandedGridColumn In view.Columns
+
+        '        If col.FieldName.EndsWith("_Status") AndAlso col.FieldName <> e.Column.FieldName Then
+        '            view.SetRowCellValue(e.RowHandle, col, False)
+        '        End If
+
+        '    Next
+
+        'Finally
+        '    IsUpdating = False
+        'End Try
     End Sub
 
     Private Sub btn_xl_Click(sender As Object, e As EventArgs) Handles btn_xl.Click
@@ -350,17 +432,39 @@ Public Class DepartmentApproval
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
         If conn.State = ConnectionState.Closed Then conn.Open()
-        Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE, " & "OP24 = @BOOKVNO " & "WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & "AND EntryNo = @EntryNo " & "AND ACCOUNTCODE = @SupplierCode " & "AND ISNULL(OP19,'NO') <> 'YES'"
+        Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & "AND EntryNo = @EntryNo " & "AND ACCOUNTCODE = @SupplierCode "
+        'Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE, " & "OP24 = @BOOKVNO " & " WHERE  ITEMCODE = @ITEMCODE " & "AND ISNULL(OP19,'NO') <> 'YES'"
         Using cmd As New SqlClient.SqlCommand(sql, conn)
             cmd.CommandType = CommandType.Text
             cmd.CommandTimeout = 420
             For Each dr As DataRow In dt.Rows
                 ' Check if any Status column is checked
+                Dim SupplierCode As String = ""
                 Dim IsApproved As Boolean = False
+                'For Each col As DataColumn In dt.Columns
+                '    If col.ColumnName.EndsWith("_Status") Then
+                '        If Not IsDBNull(dr(col)) AndAlso Convert.ToBoolean(dr(col)) Then
+                '            IsApproved = True
+                '            Exit For
+                '        End If
+                '    End If
+                '    If col.ColumnName.EndsWith("_Code") Then
+
+                '        If Not IsDBNull(dr(col.ColumnName)) Then
+                '            SupplierCode = dr(col.ColumnName).ToString()
+                '            Exit For
+                '        End If
+
+                '    End If
+                'Next
                 For Each col As DataColumn In dt.Columns
                     If col.ColumnName.EndsWith("_Status") Then
                         If Not IsDBNull(dr(col)) AndAlso Convert.ToBoolean(dr(col)) Then
                             IsApproved = True
+                            Dim codeColumn As String = col.ColumnName.Substring(0, col.ColumnName.Length - 7) & "_Code"
+                            If dt.Columns.Contains(codeColumn) Then
+                                SupplierCode = dr(codeColumn).ToString()
+                            End If
                             Exit For
                         End If
                     End If
@@ -372,7 +476,8 @@ Public Class DepartmentApproval
                     cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
                     cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
                     cmd.Parameters.AddWithValue("@EntryNo", dr("EntryNo").ToString())
-                    cmd.Parameters.AddWithValue("@SupplierCode", dr("SupplierCode").ToString())
+                    'cmd.Parameters.AddWithValue("@SupplierCode", dr("SupplierCode").ToString())
+                    cmd.Parameters.AddWithValue("@SupplierCode", SupplierCode)
                     cmd.ExecuteNonQuery()
                 End If
             Next
@@ -388,11 +493,23 @@ Public Class DepartmentApproval
         If Not view.FocusedColumn.FieldName.EndsWith("_Status") Then Exit Sub
         Dim BookVno As String = view.GetFocusedRowCellValue("BOOKVNO").ToString()
         Dim SupplerCode As String = view.GetFocusedRowCellValue("SupplierCode").ToString()
+        Dim ItemCode As String = view.GetFocusedRowCellValue("ItemCode").ToString()
+        Dim EntryNo As String = view.GetFocusedRowCellValue("EntryNo").ToString()
         ' DataTable se OP19 check karo
         Dim dr() As DataRow = dtSource.Select("BOOKVNO='" & BookVno & "' And SupplierCode='" & SupplerCode & "'")
-        If dr.Length > 0 AndAlso dr(0)("Status").ToString() = "YES" Then
-            e.Cancel = True
+        'Dim dr() As DataRow = dtSource.Select("BOOKVNO='" & BookVno & "' And SupplierCode='" & SupplerCode & "'  And ItemCode='" & ItemCode & "' And EntryNO='" & EntryNo & "' ")
+        'If dr.Length > 0 AndAlso dr(0)("Status").ToString() = "YES" Then
+        '    e.Cancel = True
+        'End If
+        'If Not view.FocusedColumn.FieldName.EndsWith("_Status") Then
+        '    e.Cancel = True
+        'End If
+        If dr.Length > 0 Then
+            If IsDBNull(dr(0)("Status")) Then
+                e.Cancel = True
+            End If
         End If
     End Sub
+
 #End Region
 End Class

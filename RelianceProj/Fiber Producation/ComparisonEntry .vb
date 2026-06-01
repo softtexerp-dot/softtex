@@ -802,6 +802,7 @@ Public Class ComparisonEntry
 
 #Region "Save Code "
     Private Sub SaveRecord()
+        Call Total_Upto_All_Grid_All_Row()
         If _FORMMODE = "EDIT" Then
             Dim _userwrits As String = obj_Party_Selection._userWrits("EDIT")
             If _userwrits = "N" Then
@@ -1313,7 +1314,7 @@ Public Class ComparisonEntry
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             '.Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
-            .Append(" Left Join ( SELECT OP24 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE,AccountCode As UseAccountcode  FROM TrnPackingSlip GROUP BY OP24,ITEMCODE,AccountCode ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE and A.Accountcode=G.UseAccountcode) ")
+            .Append(" Left Join ( SELECT BOOKVNO AS USEBOOKVNO,ITEMCODE AS USEITEMCODE,AccountCode As UseAccountcode  FROM TrnPackingSlip Where OP19='YES' GROUP BY BOOKVNO,ITEMCODE,AccountCode ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE and A.Accountcode=G.UseAccountcode) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
             .Append(" ORDER BY  A.SRNO ")
@@ -1391,9 +1392,26 @@ Public Class ComparisonEntry
         Dim Tot_Mtr_Weight As Double = 0
         Dim Tot_Amt As Double = 0
 
+        'For j As Int16 = 1 To GrdItem.Rows - 1
+        '    Tot_Mtr_Weight = Tot_Mtr_Weight + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+        '    Tot_Amt = Tot_Amt + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text)
+        'Next
+
         For j As Int16 = 1 To GrdItem.Rows - 1
-            Tot_Mtr_Weight = Tot_Mtr_Weight + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-            Tot_Amt = Tot_Amt + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text)
+            Dim MtrWeight As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+            Dim CutMtr As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
+            Dim RdValue As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
+            ' Rate Calculate
+            Dim Rate As Double = CutMtr - (CutMtr * RdValue / 100)
+            ' Set Rate
+            GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("Rate") + 1).Text = Format(Rate, "0.00")
+            ' Amount Calculate
+            Dim Amount As Double = MtrWeight * Rate
+            ' Set Amount
+            GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = Format(Amount, "0.00")
+            ' Total
+            Tot_Mtr_Weight += MtrWeight
+            Tot_Amt += Amount
         Next
 
         If Tot_Mtr_Weight > 0 Then
@@ -1699,6 +1717,7 @@ Public Class ComparisonEntry
                         'Rate_Display()
                     End If
                 End If
+                Call Total_Upto_All_Grid_All_Row()
             End If
         ElseIf _ActivatedColName = "ROWREMARK" Then
             If e.KeyCode = 13 Then
