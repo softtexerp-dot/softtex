@@ -39,7 +39,7 @@ Public Class DepartmentApproval
     Private _TblName As String = "TrnPackingSlip"
     Private IsUpdating As Boolean = False
     Dim dtSource As DataTable
-    Dim dtPivot As New DataTable()
+
 
 
     Private Sub StoreConsumption_GridZooming_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
@@ -144,7 +144,7 @@ Public Class DepartmentApproval
         _NewTmptbl = DefaltSoftTable.Copy
 
         dtSource = _NewTmptbl.Copy()
-
+        Dim dtPivot As New DataTable()
         ' Fixed Columns
         dtPivot.Columns.Add("EntryNo")
         dtPivot.Columns.Add("ItemName")
