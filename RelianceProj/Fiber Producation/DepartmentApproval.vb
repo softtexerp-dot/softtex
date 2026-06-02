@@ -1,6 +1,8 @@
 ﻿Imports System.ComponentModel
+Imports System.Data.SqlClient
 Imports System.Text
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports DevExpress.XtraCharts.Native
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid
 Imports DevExpress.XtraGrid.Views.BandedGrid
@@ -302,7 +304,12 @@ Public Class DepartmentApproval
         If Not view.FocusedColumn.FieldName.EndsWith("_Status") Then Exit Sub
         Dim BookVno As String = Convert.ToString(view.GetFocusedRowCellValue("BOOKVNO"))
         Dim SupplierCode As String = Convert.ToString(view.GetFocusedRowCellValue("SupplierCode"))
-        Dim EntryNo As String = Convert.ToString(view.GetFocusedRowCellValue("EntryNo"))
+        'Dim SupplierCode As String = ""
+        'If view.FocusedColumn.FieldName.EndsWith("_Status") Then
+        '    Dim codeColumn As String = view.FocusedColumn.FieldName.Replace("_Status", "_Code")
+        '    SupplierCode = Convert.ToString(view.GetFocusedRowCellValue(codeColumn))
+        'End If
+        'Dim EntryNo As String = Convert.ToString(view.GetFocusedRowCellValue("EntryNo"))
         ' Status check
         Dim dr() As DataRow = dtSource.Select("BOOKVNO='" & BookVno & "' And SupplierCode='" & SupplierCode & "'")
         If dr.Length > 0 Then
@@ -317,16 +324,42 @@ Public Class DepartmentApproval
         Try
             IsUpdating = True
             ' Same EntryNo + SupplierCode wali rows update
-            For i As Integer = 0 To view.RowCount - 1
-                If Convert.ToString(view.GetRowCellValue(i, "EntryNo")) = EntryNo AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
-                    view.SetRowCellValue(i, view.FocusedColumn, chkValue)
-                End If
-            Next
+            'For i As Integer = 0 To view.RowCount - 1
+            '    'If Convert.ToString(view.GetRowCellValue(i, "EntryNo")) = EntryNo AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
+            '    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
+            '        view.SetRowCellValue(i, view.FocusedColumn, chkValue)
+            '    End If
+            'Next
             ' Agar checkbox checked hua hai to baaki Status columns uncheck
+            'If chkValue Then
+            'For Each col As BandedGridColumn In view.Columns
+            '    If col.FieldName.EndsWith("_Status") AndAlso col.FieldName <> view.FocusedColumn.FieldName Then
+            '        view.SetRowCellValue(view.FocusedRowHandle, col, False)
+            '    End If
+            'Next
+            'End If
             If chkValue Then
-                For Each col As BandedGridColumn In view.Columns
-                    If col.FieldName.EndsWith("_Status") AndAlso col.FieldName <> view.FocusedColumn.FieldName Then
-                        view.SetRowCellValue(view.FocusedRowHandle, col, False)
+                ' Same BOOKVNO ki sab rows ke status uncheck
+                For i As Integer = 0 To view.RowCount - 1
+                    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno Then
+                        For Each col As BandedGridColumn In view.Columns
+                            If col.FieldName.EndsWith("_Status") Then
+                                view.SetRowCellValue(i, col, False)
+                            End If
+                        Next
+                    End If
+                Next
+                ' Ab selected supplier ko check karo
+                For i As Integer = 0 To view.RowCount - 1
+                    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
+                        view.SetRowCellValue(i, view.FocusedColumn, True)
+                    End If
+                Next
+            Else
+                ' Uncheck case
+                For i As Integer = 0 To view.RowCount - 1
+                    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
+                        view.SetRowCellValue(i, view.FocusedColumn, False)
                     End If
                 Next
             End If
@@ -366,7 +399,16 @@ Public Class DepartmentApproval
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
         If conn.State = ConnectionState.Closed Then conn.Open()
-        Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & "AND EntryNo = @EntryNo " & "AND ACCOUNTCODE = @SupplierCode "
+        'Dim view As BandedGridView = CType(GridControl1.FocusedView, BandedGridView)
+        'Dim BookVno As String = Convert.ToString(view.GetRowCellValue(view.FocusedRowHandle, "BOOKVNO"))
+        'Dim sqlReset As String = "UPDATE " & _TblName & " SET OP19='NO' " & " WHERE BOOKVNO=@BOOKVNO"
+        'Using cmdReset As New SqlCommand(sqlReset, conn)
+        '    'cmdReset.Parameters.Clear()
+        '    cmdReset.Parameters.AddWithValue("@BOOKVNO", BookVno)
+        '    cmdReset.ExecuteNonQuery()
+        'End Using
+        'Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ACCOUNTCODE = @SupplierCode"
+        Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & "AND EntryNo = @EntryNo " & "AND ACCOUNTCODE = @SupplierCode"
         'Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE, " & "OP24 = @BOOKVNO " & " WHERE  ITEMCODE = @ITEMCODE " & "AND ISNULL(OP19,'NO') <> 'YES'"
         Using cmd As New SqlClient.SqlCommand(sql, conn)
             cmd.CommandType = CommandType.Text
@@ -403,24 +445,22 @@ Public Class DepartmentApproval
                         End If
                     End If
                 Next
-                Dim StatusValue As String = "NO"
-
-                If IsApproved Then
-                    StatusValue = "YES"
-                End If
-                'If IsApproved Then
-
+                Dim StatusValue As String = If(IsApproved, "YES", "NO")
                 cmd.Parameters.Clear()
-                    cmd.Parameters.AddWithValue("@OP19", StatusValue)
-                    'cmd.Parameters.AddWithValue("@OP19", If(IsApproved, "YES", "NO"))
-                    cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
-                    cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
-                    cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
-                    cmd.Parameters.AddWithValue("@EntryNo", dr("EntryNo").ToString())
-                    'cmd.Parameters.AddWithValue("@SupplierCode", dr("SupplierCode").ToString())
-                    cmd.Parameters.AddWithValue("@SupplierCode", SupplierCode)
-                    cmd.ExecuteNonQuery()
+                cmd.Parameters.AddWithValue("@OP19", StatusValue)
+                'cmd.Parameters.AddWithValue("@OP19", If(IsApproved, "YES", "NO"))
+                cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
+                cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
+                cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
+                cmd.Parameters.AddWithValue("@EntryNo", dr("EntryNo").ToString())
+                'cmd.Parameters.AddWithValue("@SupplierCode", dr("SupplierCode").ToString())
+                'If SupplierCode = "" AndAlso dt.Columns.Contains("SupplierCode") Then
+                '    SupplierCode = dr("SupplierCode").ToString()
                 'End If
+                cmd.Parameters.AddWithValue("@SupplierCode", SupplierCode)
+                If IsApproved Then
+                    cmd.ExecuteNonQuery()
+                End If
             Next
         End Using
         conn.Close()
