@@ -39,6 +39,7 @@ Public Class DepartmentApproval
     Private _TblName As String = "TrnPackingSlip"
     Private IsUpdating As Boolean = False
     Dim dtSource As DataTable
+    Dim dtPivot As New DataTable()
 
 
     Private Sub StoreConsumption_GridZooming_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
@@ -143,7 +144,7 @@ Public Class DepartmentApproval
         _NewTmptbl = DefaltSoftTable.Copy
 
         dtSource = _NewTmptbl.Copy()
-        Dim dtPivot As New DataTable()
+
         ' Fixed Columns
         dtPivot.Columns.Add("EntryNo")
         dtPivot.Columns.Add("ItemName")
@@ -377,6 +378,109 @@ Public Class DepartmentApproval
     Private Sub But_Print_Click(sender As Object, e As EventArgs) Handles But_print.Click
         Dim _RptTiltle = "Department Approval By Head Report"
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+        '_strQuery = New StringBuilder
+        'With _strQuery
+        '    Dim dateFilter As String = ""
+        '    If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
+        '        dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
+        '    End If
+        '    .Append(" SELECT   ")
+        '    .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
+        '    .Append(" A.Entryno AS EntryNo, ")
+        '    .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
+        '    .Append(" A.CUT_MTR AS GrossRate, ")
+        '    .Append(" A.RDVALUE AS Dis, ")
+        '    .Append(" A.WEIGHT AS Disamount, ")
+        '    .Append(" A.RATE AS NetRate, ")
+        '    .Append(" A.Amount AS Amount, ")
+        '    .Append(" A.OP11 As Gst, ")
+        '    .Append(" A.OP12 As Fright, ")
+        '    .Append(" A.OP13 As Delivery, ")
+        '    .Append(" A.OP4 As Paymentterms, ")
+        '    .Append(" A.OP19 As Status, ")
+        '    .Append(" A.Bookvno, ")
+        '    .Append(" A.Itemcode, ")
+        '    .Append(" B.ItemName AS ITEMNAME, ")
+        '    .Append(" C.ACCOUNTNAME As SupplierName,  ")
+        '    .Append(" A.ACCOUNTCODE As SupplierCode,  ")
+        '    .Append(" E.CUTNAME, ")
+        '    '.Append(" F.DepartmentName, ")
+        '    .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS F_ENTRYDATE,  ")
+        '    .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
+        '    .Append(" H.TYPE_NAME  AS COMPANYNAME ")
+        '    .Append(" ,IIF(ISNULL(G.USEBOOKVNO,'')='','NO','YES') AS USEBY")
+        '    .Append(" FROM  ")
+        '    .Append(" TrnPackingSlip AS A  ")
+        '    .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE ")
+        '    .Append(" LEFT JOIN MstMasterAccount As C ON A.ACCOUNTCODE=C.ACCOUNTCODE ")
+        '    .Append(" LEFT JOIN MstCutMaster As E ON E.ID=A.CUTCODE ")
+        '    .Append(" LEFT JOIN MstDepartment F  ON A.DESIGNCODE=F.Departmentcode ")
+        '    .Append(" LEFT JOIN MstStoreItemType H ON  A.SHADECODE = H.TYPE_ID ")
+        '    .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE ) ")
+        '    .Append(" WHERE 1=1  ")
+        '    .Append(" AND  A.BookTrType='CESS1'")
+        '    '.Append(" AND  A.BOOKVNO='" & strKeyID & "'")
+        '    .Append(dateFilter)
+        '    .Append(" ORDER BY  A.Entryno ")
+        'End With
+        'sqL = _strQuery.ToString
+        'sql_connect_slect()
+        'Dim _NewTmptbl As New DataTable
+        '_NewTmptbl = DefaltSoftTable.Copy
+
+        'dtSource = _NewTmptbl.Copy()
+        'Dim dtPivot As New DataTable
+
+        'dtPivot.Columns.Add("EntryNo")
+        'dtPivot.Columns.Add("ItemName")
+        'dtPivot.Columns.Add("UOM")
+        'dtPivot.Columns.Add("BOOKVNO")
+
+        'dtPivot.Columns.Add("SupplierName")
+        'dtPivot.Columns.Add("Brand")
+        'dtPivot.Columns.Add("Qty")
+        'dtPivot.Columns.Add("GrossRate")
+        'dtPivot.Columns.Add("Dis")
+        'dtPivot.Columns.Add("Rate")
+        'dtPivot.Columns.Add("Amount")
+        'dtPivot.Columns.Add("GST")
+        'dtPivot.Columns.Add("Fright")
+        'dtPivot.Columns.Add("Delivery")
+        'dtPivot.Columns.Add("Paymentterms")
+        'dtPivot.Columns.Add("Status")
+        'For Each r As DataRow In dtSource.Rows
+        '    Dim newRow As DataRow = dtPivot.NewRow()
+        '    newRow("EntryNo") = r("EntryNo")
+        '    newRow("ItemName") = r("ITEMNAME")
+        '    newRow("UOM") = r("CUTNAME")
+        '    newRow("BOOKVNO") = r("BOOKVNO")
+        '    newRow("SupplierName") = r("SupplierName")
+        '    newRow("Brand") = r("COMPANYNAME")
+        '    newRow("Qty") = r("Qty")
+        '    newRow("GrossRate") = r("GrossRate")
+        '    newRow("Dis") = r("Dis")
+        '    newRow("Rate") = r("NetRate")
+        '    newRow("Amount") = r("Amount")
+        '    newRow("GST") = r("GST")
+        '    newRow("Fright") = r("Fright")
+        '    newRow("Delivery") = r("Delivery")
+        '    newRow("Paymentterms") = r("Paymentterms")
+        '    newRow("Status") = r("Status")
+        '    dtPivot.Rows.Add(newRow)
+        'Next
+        'If dtPivot.Rows.Count > 0 Then
+        '    'Dim Date_Range = "Audit Report  From : " & txt_From.Text & " TO " & txt_To.Text
+        '    Dim RptTitle = "Department Approval Report"
+        '    Dim Date_Range = ""
+        '    If But_ok.Enabled = True Then
+        '        If txt_From.Text <> "" AndAlso txt_To.Text <> "" Then
+        '            REPORT_RPT_FILE_NAME = "DepartmentApprovalReport_1"
+        '            NewReportPrint(dtPivot, RptTitle, Date_Range)
+        '        End If
+        '    End If
+        'Else
+        '    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        'End If
     End Sub
 
     Private Sub Txt_ViewType_KeyDown(sender As Object, e As KeyEventArgs)

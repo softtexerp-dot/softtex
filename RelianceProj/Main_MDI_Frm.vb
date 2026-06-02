@@ -183,6 +183,14 @@
         MachineMaster.Show()
     End Sub
 
+    Private Sub DepartMentApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DepartMentApprovalToolStripMenuItem.Click
+        DepartmentApproval.Show()
+    End Sub
+
+    Private Sub HeadApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HeadApprovalToolStripMenuItem.Click
+        HeadApproval.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click

@@ -147,6 +147,7 @@ Public Class ComparisonEntry
             .Append("OP19,") 'Approve status
             .Append("OP21,") 'UserId
             .Append("OP22,") 'IndentId
+            .Append("OP24,") 'HeadApproval Status
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
             .Append("DESPATCHCODE")
@@ -317,6 +318,7 @@ Public Class ComparisonEntry
             .Append("OP21:N,") 'UserId
             .Append("OP22:N,") 'IndentId
             .Append("OP19:N,") 'Approve status
+            .Append("OP24,") 'HeadApproval Status
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
@@ -377,6 +379,7 @@ Public Class ComparisonEntry
             .Append("OP11:0,") 'gst
             .Append("OP12:0,") 'Fright
             .Append("OP13:0,")  'Delivery
+            .Append("OP24:NO,") 'HeadApproval Status
             .Append("AMOUNT:0")
         End With
         _FieldLocked = New StringBuilder
