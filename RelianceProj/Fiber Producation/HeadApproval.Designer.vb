@@ -183,10 +183,10 @@ Partial Class HeadApproval
         Me.txt_Status.ShortcutsEnabled = False
         Me.txt_Status.ShowMessage = False
         Me.txt_Status.Size = New System.Drawing.Size(33, 22)
-        Me.txt_Status.SpacerString = "NO,YES,ALL"
+        Me.txt_Status.SpacerString = "ALL,YES,NO"
         Me.txt_Status.TabIndex = 82237
         Me.txt_Status.Tag = "OP19"
-        Me.txt_Status.Text = "NO"
+        Me.txt_Status.Text = "ALL"
         Me.txt_Status.TransparentBox = True
         Me.txt_Status.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
