@@ -503,68 +503,80 @@ Public Class DepartmentApproval
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
         If conn.State = ConnectionState.Closed Then conn.Open()
-        'Dim view As BandedGridView = CType(GridControl1.FocusedView, BandedGridView)
-        'Dim BookVno As String = Convert.ToString(view.GetRowCellValue(view.FocusedRowHandle, "BOOKVNO"))
-        'Dim sqlReset As String = "UPDATE " & _TblName & " SET OP19='NO' " & " WHERE BOOKVNO=@BOOKVNO"
-        'Using cmdReset As New SqlCommand(sqlReset, conn)
-        '    'cmdReset.Parameters.Clear()
-        '    cmdReset.Parameters.AddWithValue("@BOOKVNO", BookVno)
-        '    cmdReset.ExecuteNonQuery()
-        'End Using
-        'Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ACCOUNTCODE = @SupplierCode"
         Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & "AND EntryNo = @EntryNo " & "AND ACCOUNTCODE = @SupplierCode"
         'Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE, " & "OP24 = @BOOKVNO " & " WHERE  ITEMCODE = @ITEMCODE " & "AND ISNULL(OP19,'NO') <> 'YES'"
         Using cmd As New SqlClient.SqlCommand(sql, conn)
             cmd.CommandType = CommandType.Text
             cmd.CommandTimeout = 420
+            'For Each dr As DataRow In dt.Rows
+            '    ' Check if any Status column is checked
+            '    Dim SupplierCode As String = ""
+            '    Dim IsApproved As Boolean = False
+            '    'For Each col As DataColumn In dt.Columns
+            '    '    If col.ColumnName.EndsWith("_Status") Then
+            '    '        If Not IsDBNull(dr(col)) AndAlso Convert.ToBoolean(dr(col)) Then
+            '    '            IsApproved = True
+            '    '            Exit For
+            '    '        End If
+            '    '    End If
+            '    '    If col.ColumnName.EndsWith("_Code") Then
+
+            '    '        If Not IsDBNull(dr(col.ColumnName)) Then
+            '    '            SupplierCode = dr(col.ColumnName).ToString()
+            '    '            Exit For
+            '    '        End If
+
+            '    '    End If
+            '    'Next
+            '    For Each col As DataColumn In dt.Columns
+            '        If col.ColumnName.EndsWith("_Status") Then
+            '            If Not IsDBNull(dr(col)) AndAlso Convert.ToBoolean(dr(col)) Then
+            '                IsApproved = True
+            '                Dim codeColumn As String = col.ColumnName.Substring(0, col.ColumnName.Length - 7) & "_Code"
+            '                If dt.Columns.Contains(codeColumn) Then
+            '                    SupplierCode = dr(codeColumn).ToString()
+            '                End If
+            '                Exit For
+            '            End If
+            '        End If
+            '    Next
+            '    'Dim StatusValue As String = If(IsApproved, "YES", "NO")
+            '    cmd.Parameters.Clear()
+            '    'cmd.Parameters.AddWithValue("@OP19", StatusValue)
+            '    cmd.Parameters.AddWithValue("@OP19", If(IsApproved, "YES", "NO"))
+            '    If IsApproved Then
+            '        cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
+            '    End If
+            '    cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
+            '    cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
+            '    cmd.Parameters.AddWithValue("@EntryNo", dr("EntryNo").ToString())
+            '    cmd.Parameters.AddWithValue("@SupplierCode", SupplierCode)
+            '    If IsApproved Then
+            '    cmd.ExecuteNonQuery()
+            '    End If
+            'Next
             For Each dr As DataRow In dt.Rows
-                ' Check if any Status column is checked
-                Dim SupplierCode As String = ""
-                Dim IsApproved As Boolean = False
-                'For Each col As DataColumn In dt.Columns
-                '    If col.ColumnName.EndsWith("_Status") Then
-                '        If Not IsDBNull(dr(col)) AndAlso Convert.ToBoolean(dr(col)) Then
-                '            IsApproved = True
-                '            Exit For
-                '        End If
-                '    End If
-                '    If col.ColumnName.EndsWith("_Code") Then
-
-                '        If Not IsDBNull(dr(col.ColumnName)) Then
-                '            SupplierCode = dr(col.ColumnName).ToString()
-                '            Exit For
-                '        End If
-
-                '    End If
-                'Next
                 For Each col As DataColumn In dt.Columns
+
                     If col.ColumnName.EndsWith("_Status") Then
-                        If Not IsDBNull(dr(col)) AndAlso Convert.ToBoolean(dr(col)) Then
-                            IsApproved = True
-                            Dim codeColumn As String = col.ColumnName.Substring(0, col.ColumnName.Length - 7) & "_Code"
-                            If dt.Columns.Contains(codeColumn) Then
-                                SupplierCode = dr(codeColumn).ToString()
-                            End If
-                            Exit For
+                        Dim IsApproved As Boolean = False
+                        If Not IsDBNull(dr(col)) Then
+                            IsApproved = Convert.ToBoolean(dr(col))
+                        End If
+                        Dim codeColumn As String = col.ColumnName.Substring(0, col.ColumnName.Length - 7) & "_Code"
+                        If dt.Columns.Contains(codeColumn) Then
+                            Dim SupplierCode As String = Convert.ToString(dr(codeColumn))
+                            cmd.Parameters.Clear()
+                            cmd.Parameters.AddWithValue("@OP19", If(IsApproved, "YES", "NO"))
+                            cmd.Parameters.AddWithValue("@MODYFIDATE", If(IsApproved, Format(Now, "yyyy-MM-dd HH:mm:ss.fff"), DBNull.Value))
+                            cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
+                            cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
+                            cmd.Parameters.AddWithValue("@EntryNo", dr("EntryNo").ToString())
+                            cmd.Parameters.AddWithValue("@SupplierCode", SupplierCode)
+                            cmd.ExecuteNonQuery()
                         End If
                     End If
                 Next
-                Dim StatusValue As String = If(IsApproved, "YES", "NO")
-                cmd.Parameters.Clear()
-                cmd.Parameters.AddWithValue("@OP19", StatusValue)
-                'cmd.Parameters.AddWithValue("@OP19", If(IsApproved, "YES", "NO"))
-                cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
-                cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
-                cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
-                cmd.Parameters.AddWithValue("@EntryNo", dr("EntryNo").ToString())
-                'cmd.Parameters.AddWithValue("@SupplierCode", dr("SupplierCode").ToString())
-                'If SupplierCode = "" AndAlso dt.Columns.Contains("SupplierCode") Then
-                '    SupplierCode = dr("SupplierCode").ToString()
-                'End If
-                cmd.Parameters.AddWithValue("@SupplierCode", SupplierCode)
-                If IsApproved Then
-                    cmd.ExecuteNonQuery()
-                End If
             Next
         End Using
         conn.Close()

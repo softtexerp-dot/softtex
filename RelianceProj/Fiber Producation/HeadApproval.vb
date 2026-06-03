@@ -22,20 +22,22 @@ Public Class HeadApproval
         View_Record()
     End Sub
     Private Sub View_Record()
-        Dim dateFilter As String = ""
+        Try
+
+            Dim dateFilter As String = ""
         Dim StatusFilter As String = ""
         Dim TypeFilter As String = ""
         If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
             dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
         End If
         If Not String.IsNullOrEmpty(txt_Status.Text) Then
-            If UCase(txt_Status.Text.Trim) = "ALL" Then
-                StatusFilter = ""
-            ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
-                StatusFilter = " AND UPPER(A.OP24) = 'YES' "
-            ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
-                StatusFilter = " AND UPPER(A.OP24) = 'NO' "
-            End If
+                If UCase(txt_Status.Text.Trim) = "ALL" Then
+                    StatusFilter = ""
+                ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
+                    StatusFilter = " AND UPPER(A.OP24) = 'YES'"
+                ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
+                    StatusFilter = " AND UPPER(A.OP24) = 'NO' "
+                End If
         End If
         If UCase(TxtType.Text.Trim) = "ALL" Then
             TypeFilter = " AND ( " &
@@ -63,11 +65,8 @@ Public Class HeadApproval
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
             .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
             .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
-            '.Append(" A.PACK_SLIP_NO AS [Req. No],")
-            '.Append(" CASE WHEN A.MODYFIDATE = '1900-01-01 00:00:00.000' THEN '' ")
-            '.Append(" ELSE FORMAT(A.MODYFIDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Modify Date],")
-            .Append(" A.ITEMCODE,")  'OP22 Modify datetime
-            .Append(" A.BOOKVNO,")  'BookVNO
+                .Append(" A.ITEMCODE,")  'OP22 Modify datetime
+                .Append(" A.BOOKVNO,")  'BookVNO
             .Append(" A.AccountCode,")
             .Append(" B.ItemName AS ItemName, ")
             .Append(" D.CUTNAME As UOM, ")  'UOM
@@ -83,8 +82,8 @@ Public Class HeadApproval
             .Append(" FORMAT( A.OP12,'0.00') As Fright, ")
             .Append(" FORMAT( A.OP13,'0.00') As Delivery, ")
             .Append(" A.OP4 As Paymentterms, ")
-            .Append(" CASE WHEN ISDATE(A.OP25) = 1 THEN CONVERT(VARCHAR(10), CAST(A.OP25 AS DATETIME), 103)  ELSE '' END AS OP25,")  'Approval Date
-            .Append("  CASE WHEN UPPER(A.OP24) = 'YES' THEN 'YES' ELSE 'NO' END AS Status") 'Head Approval Status
+                .Append(" CASE WHEN ISDATE(A.OP25) = 1 THEN CONVERT(VARCHAR(10), CAST(A.OP25 AS DATETIME), 103)  ELSE '' END AS OP25,")  'Head Approval Date
+                .Append("  CASE WHEN UPPER(A.OP24) = 'YES' THEN 'YES' ELSE 'NO' END AS Status") 'Head Approval Status
             .Append(" FROM  ")
             .Append(" " & _TblName & " AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -113,52 +112,58 @@ Public Class HeadApproval
         sql_connect_slect()
         tblTmp = DefaltSoftTable.Copy
         Dim Qty As String = ""
-        If tblTmp.Rows.Count > 0 Then
-            GridControl1.DataSource = tblTmp.Copy
-            For Each dc As DataColumn In tblTmp.Columns
-                Dim isEmptyOrZero As Boolean = True
-                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP25" Then
-                    FirstStage.Columns(dc.ColumnName).Visible = False
-                    Continue For
-                End If
-                If dc.ColumnName.Equals("Entry Date", StringComparison.OrdinalIgnoreCase) Then
-                    FirstStage.Columns(dc.ColumnName).Visible = False
-                    Continue For
-                End If
-                For Each dr As DataRow In tblTmp.Rows
-                    If Not IsDBNull(dr(dc)) Then
-                        Dim val As String = dr(dc).ToString().Trim()
-                        ' 🔴 अगर कोई value meaningful है → column visible रहेगा
-                        If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
-                            isEmptyOrZero = False
-                            Exit For
+            If tblTmp.Rows.Count > 0 Then
+                GridControl1.DataSource = tblTmp.Copy
+                For Each dc As DataColumn In tblTmp.Columns
+                    Dim isEmptyOrZero As Boolean = True
+                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP25" Then
+                        FirstStage.Columns(dc.ColumnName).Visible = False
+                        Continue For
+                    End If
+                    If dc.ColumnName.Equals("Entry Date", StringComparison.OrdinalIgnoreCase) Then
+                        FirstStage.Columns(dc.ColumnName).Visible = False
+                        Continue For
+                    End If
+                    For Each dr As DataRow In tblTmp.Rows
+                        If Not IsDBNull(dr(dc)) Then
+                            Dim val As String = dr(dc).ToString().Trim()
+                            ' 🔴 अगर कोई value meaningful है → column visible रहेगा
+                            If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
+                                isEmptyOrZero = False
+                                Exit For
+                            End If
                         End If
+                    Next
+                    If isEmptyOrZero Then
+                        FirstStage.Columns(dc.ColumnName).Visible = False
                     End If
                 Next
-                If isEmptyOrZero Then
-                    FirstStage.Columns(dc.ColumnName).Visible = False
-                End If
-            Next
-            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
-                col.OptionsColumn.AllowEdit = False
-            Next
+                For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+                    col.OptionsColumn.AllowEdit = False
+                Next
 
-            ' Step 2: Sirf required columns editable
-            'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
-            DevGridFitColumn(GridControl1, FirstStage)
-            FirstStage.BestFitColumns()
-            FirstStage.Focus()
-            GridControl1.BringToFront()
-            FirstStage.OptionsBehavior.Editable = True
-            FirstStage.OptionsBehavior.ReadOnly = False
-            FirstStage.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click
-        Else
-            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-        End If
+                ' Step 2: Sirf required columns editable
+                'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
+                DevGridFitColumn(GridControl1, FirstStage)
+                FirstStage.BestFitColumns()
+                FirstStage.Focus()
+                GridControl1.BringToFront()
+                FirstStage.OptionsBehavior.Editable = True
+                FirstStage.OptionsBehavior.ReadOnly = False
+                FirstStage.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click
+            Else
+                MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
-        Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
+        Try
+
+            Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
         If conn.State = ConnectionState.Closed Then
             conn.Open()
         End If
@@ -168,13 +173,8 @@ Public Class HeadApproval
                 cmd.Connection = conn
                 cmd.CommandType = CommandType.Text
                 cmd.CommandTimeout = 420
-                cmd.CommandText =
-            "UPDATE " & _TblName & " SET " &
-            "OP24 = @OP24, " &
-            "OP25 = @MODYFIDATE " &
-            "WHERE BOOKVNO = @BOOKVNO " &
-            "AND ACCOUNTCODE = @ACCOUNTCODE"
-                cmd.Parameters.Clear()
+                    cmd.CommandText = "UPDATE " & _TblName & " SET " & "OP24 = @OP24, " & "OP25 = @MODYFIDATE " & "WHERE BOOKVNO = @BOOKVNO " & "AND ACCOUNTCODE = @ACCOUNTCODE"
+                    cmd.Parameters.Clear()
                 cmd.Parameters.AddWithValue("@OP24", dr("STATUS").ToString())
                 cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
                 cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
@@ -184,7 +184,11 @@ Public Class HeadApproval
             End If
         Next
         conn.Close()
-        MessageBox.Show("Data Updated Successfully")
+            MessageBox.Show("Data Updated Successfully")
+
+        Catch ex As Exception
+
+        End Try
     End Sub
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
