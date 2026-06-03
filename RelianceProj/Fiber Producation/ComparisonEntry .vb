@@ -318,7 +318,7 @@ Public Class ComparisonEntry
             .Append("OP21:N,") 'UserId
             .Append("OP22:N,") 'IndentId
             .Append("OP19:N,") 'Approve status
-            .Append("OP24,") 'HeadApproval Status
+            .Append("OP24:N,") 'HeadApproval Status
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
