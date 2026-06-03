@@ -410,16 +410,13 @@ Public Class MachineMaster
 
     Private Sub MachineMaster_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
-
             If PNL_View.Visible = True Then
                 PNL_View.Visible = False
                 Exit Sub
             End If
-
-
             _FrmLoad = True
             If _FORMMODE = "" Then
-
+                Me.Close()
             ElseIf _FORMMODE <> "" Then
                 _FORMMODE = ""
                 ObjCls_General.Blank_Object(Me)
