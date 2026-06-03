@@ -3,6 +3,7 @@
 Public Class HeadApproval
     Private _TblName As String = "TrnPackingSlip"
     Private _KeyFieldName As String = "Id"
+    Dim _CloseCheck As Boolean = False
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Approval By Plant Head Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
@@ -13,6 +14,7 @@ Public Class HeadApproval
     End Sub
 
     Private Sub StoreApproval_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        _CloseCheck = True
         Me.Location = New Point(0, 0)
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
@@ -61,52 +63,52 @@ Public Class HeadApproval
         End If
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
-            .Append(" SELECT   A.ENTRYNO As [Approval No],")
-            .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
-            .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
-            .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
-                .Append(" A.ITEMCODE,")  'OP22 Modify datetime
+                .Append(" SELECT   A.ENTRYNO As [Approval No],")
+                .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
+                .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
+                .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
+                .Append(" A.ITEMCODE,")
                 .Append(" A.BOOKVNO,")  'BookVNO
-            .Append(" A.AccountCode,")
-            .Append(" B.ItemName AS ItemName, ")
-            .Append(" D.CUTNAME As UOM, ")  'UOM
-            .Append(" C.AccountName, ")  'UOM
-            .Append(" K.TYPE_NAME AS Brand ,")
-            .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
-            .Append("  FORMAT( A.CUT_MTR,'0.00') AS GrossRate, ")
-            .Append(" FORMAT( A.RDVALUE,'0.00') AS Dis, ")
-            .Append(" FORMAT( A.WEIGHT,'0.00') AS Disamount, ")
-            .Append(" FORMAT( A.RATE,'0.00') AS NetRate, ")
-            .Append(" FORMAT( A.Amount,'0.00') AS Amount, ")
-            .Append(" FORMAT( A.OP11,'0.00') As Gst, ")
-            .Append(" FORMAT( A.OP12,'0.00') As Fright, ")
-            .Append(" FORMAT( A.OP13,'0.00') As Delivery, ")
-            .Append(" A.OP4 As Paymentterms, ")
+                .Append(" A.AccountCode,")
+                .Append(" B.ItemName AS ItemName, ")
+                .Append(" D.CUTNAME As UOM, ")  'UOM
+                .Append(" C.AccountName, ")  'UOM
+                .Append(" K.TYPE_NAME AS Brand ,")
+                .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
+                .Append("  FORMAT( A.CUT_MTR,'0.00') AS GrossRate, ")
+                .Append(" FORMAT( A.RDVALUE,'0.00') AS Dis, ")
+                .Append(" FORMAT( A.WEIGHT,'0.00') AS Disamount, ")
+                .Append(" FORMAT( A.RATE,'0.00') AS NetRate, ")
+                .Append(" FORMAT( A.Amount,'0.00') AS Amount, ")
+                .Append(" FORMAT( A.OP11,'0.00') As Gst, ")
+                .Append(" FORMAT( A.OP12,'0.00') As Fright, ")
+                .Append(" FORMAT( A.OP13,'0.00') As Delivery, ")
+                .Append(" A.OP4 As Paymentterms, ")
                 .Append(" CASE WHEN ISDATE(A.OP25) = 1 THEN CONVERT(VARCHAR(10), CAST(A.OP25 AS DATETIME), 103)  ELSE '' END AS OP25,")  'Head Approval Date
                 .Append("  CASE WHEN UPPER(A.OP24) = 'YES' THEN 'YES' ELSE 'NO' END AS Status") 'Head Approval Status
-            .Append(" FROM  ")
-            .Append(" " & _TblName & " AS A  ")
-            .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
-            .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE  ")
-            .Append(" LEFT JOIN MstMasterAccount As C ON A.ACCOUNTCODE=C.ACCOUNTCODE ")
-            .Append(" LEFT JOIN MstCutMaster As D ON D.ID=A.CUTCODE ")
-            .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
-            .Append(" WHERE 1=1  ")
-            .Append(" And A.BOOKCODE='CESS-000000001'  ")
-            .Append(" And A.OP19='YES'  ") ' comaprison status
-            .Append("  AND NOT EXISTS ")
-            .Append("  (   ")
-            .Append(" SELECT 1  ")
-            .Append(" FROM TrnPackingSlip AS B  ")
-            .Append(" WHERE ")
-            .Append(" B.OP7 = A.BookVno ")
-            .Append(" And B.ITEMCODE = A.ITEMCODE ")
-            .Append("  )")
-            .Append(dateFilter)
-            .Append(StatusFilter)
-            .Append(TypeFilter)
-            .Append(" Order By A.EntryNo ")
-        End With
+                .Append(" FROM  ")
+                .Append(" " & _TblName & " AS A  ")
+                .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
+                .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE  ")
+                .Append(" LEFT JOIN MstMasterAccount As C ON A.ACCOUNTCODE=C.ACCOUNTCODE ")
+                .Append(" LEFT JOIN MstCutMaster As D ON D.ID=A.CUTCODE ")
+                .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
+                .Append(" WHERE 1=1  ")
+                .Append(" And A.BOOKCODE='CESS-000000001'  ")
+                .Append(" And A.OP19='YES'  ") ' comaprison status
+                .Append("  AND NOT EXISTS ")
+                .Append("  (   ")
+                .Append(" SELECT 1  ")
+                .Append(" FROM TrnPackingSlip AS B  ")
+                .Append(" WHERE ")
+                .Append(" B.OP7 = A.BookVno ")
+                .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                .Append("  )")
+                .Append(dateFilter)
+                .Append(StatusFilter)
+                .Append(TypeFilter)
+                .Append(" Order By A.EntryNo ")
+            End With
         Dim tblTmp As DataTable
         sqL = _UserQuery.ToString()
         sql_connect_slect()
@@ -141,7 +143,6 @@ Public Class HeadApproval
                 For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
                     col.OptionsColumn.AllowEdit = False
                 Next
-
                 ' Step 2: Sirf required columns editable
                 'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
                 DevGridFitColumn(GridControl1, FirstStage)
@@ -154,40 +155,37 @@ Public Class HeadApproval
             Else
                 MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             End If
-
         Catch ex As Exception
-
+            MsgBox(ex.ToString)
         End Try
     End Sub
 
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Try
-
             Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
-        If conn.State = ConnectionState.Closed Then
-            conn.Open()
-        End If
-        For Each dr As DataRow In dt.Rows
-            If dr.RowState = DataRowState.Modified Then
-                Dim cmd As New SqlClient.SqlCommand()
-                cmd.Connection = conn
-                cmd.CommandType = CommandType.Text
-                cmd.CommandTimeout = 420
+            If conn.State = ConnectionState.Closed Then
+                conn.Open()
+            End If
+            For Each dr As DataRow In dt.Rows
+                If dr.RowState = DataRowState.Modified Then
+                    Dim cmd As New SqlClient.SqlCommand()
+                    cmd.Connection = conn
+                    cmd.CommandType = CommandType.Text
+                    cmd.CommandTimeout = 420
                     cmd.CommandText = "UPDATE " & _TblName & " SET " & "OP24 = @OP24, " & "OP25 = @MODYFIDATE " & "WHERE BOOKVNO = @BOOKVNO " & "AND ACCOUNTCODE = @ACCOUNTCODE"
                     cmd.Parameters.Clear()
-                cmd.Parameters.AddWithValue("@OP24", dr("STATUS").ToString())
-                cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
-                cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
-                cmd.Parameters.AddWithValue("@ACCOUNTCODE", dr("ACCOUNTCODE").ToString())
-                cmd.ExecuteNonQuery()
-                cmd.Dispose()
-            End If
-        Next
-        conn.Close()
+                    cmd.Parameters.AddWithValue("@OP24", dr("STATUS").ToString())
+                    cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
+                    cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
+                    cmd.Parameters.AddWithValue("@ACCOUNTCODE", dr("ACCOUNTCODE").ToString())
+                    cmd.ExecuteNonQuery()
+                    cmd.Dispose()
+                End If
+            Next
+            conn.Close()
             MessageBox.Show("Data Updated Successfully")
-
         Catch ex As Exception
-
+            MsgBox(ex.ToString)
         End Try
     End Sub
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
@@ -205,6 +203,19 @@ Public Class HeadApproval
     End Sub
 
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
+        _CloseCheck = True
         View_Record()
+    End Sub
+
+    Private Sub HeadApproval_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            If _CloseCheck = True Then
+                Close()
+                Me.Dispose(True)
+            Else
+                _CloseCheck = True
+                txt_From.Focus()
+            End If
+        End If
     End Sub
 End Class

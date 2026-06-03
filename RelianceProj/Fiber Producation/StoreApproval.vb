@@ -3,6 +3,7 @@
 Public Class StoreApproval
     Private _TblName As String = "TrnPackingSlip"
     Private _KeyFieldName As String = "Id"
+    Dim _CloseCheck As Boolean = False
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Approval By Plant Head Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
@@ -13,6 +14,7 @@ Public Class StoreApproval
     End Sub
 
     Private Sub StoreApproval_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        _CloseCheck = True
         Me.Location = New Point(0, 0)
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
@@ -195,6 +197,19 @@ Public Class StoreApproval
     End Sub
 
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
+        _CloseCheck = True
         View_Record()
+    End Sub
+
+    Private Sub StoreApproval_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            If _CloseCheck = True Then
+                Close()
+                Me.Dispose(True)
+            Else
+                _CloseCheck = True
+                txt_From.Focus()
+            End If
+        End If
     End Sub
 End Class

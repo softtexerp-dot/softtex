@@ -44,16 +44,17 @@ Public Class DepartmentApproval
 
     Private Sub StoreConsumption_GridZooming_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
-            'If _CloseCheck = True Then
-            '    Close()
-            '    Me.Dispose(True)
-            'Else
-            '    _CloseCheck = True
-            '    txt_From.Focus()
-            'End If
+            If _CloseCheck = True Then
+                Close()
+                Me.Dispose(True)
+            Else
+                _CloseCheck = True
+                txt_From.Focus()
+            End If
         End If
     End Sub
     Private Sub StoreConsumption_GridZooming_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        _CloseCheck = True
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         'txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         txt_To.Text = Now.ToString("dd/MM/yyyy")
