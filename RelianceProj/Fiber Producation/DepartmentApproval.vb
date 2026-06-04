@@ -40,8 +40,11 @@ Public Class DepartmentApproval
     Private IsUpdating As Boolean = False
     Dim dtSource As DataTable
 
-
-
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
+        End If
+    End Sub
     Private Sub StoreConsumption_GridZooming_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
             If _CloseCheck = True Then
@@ -53,12 +56,13 @@ Public Class DepartmentApproval
             End If
         End If
     End Sub
+
     Private Sub StoreConsumption_GridZooming_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Location = New Point(0, 0)
         _CloseCheck = True
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         'txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         txt_To.Text = Now.ToString("dd/MM/yyyy")
-        Me.Location = New Point(0, 0)
         Generate_Date_For_DataBase(txt_From)
         Generate_Date_For_DataBase(txt_To)
         Dim _NewTmptbl As New DataTable

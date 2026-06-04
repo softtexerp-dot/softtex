@@ -57,7 +57,7 @@ Partial Class ComparisonEntry
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
@@ -141,7 +141,7 @@ Partial Class ComparisonEntry
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(68, 201)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(317, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(1048, 84)
         Me.PNL_View.TabIndex = 82240
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False

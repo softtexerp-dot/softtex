@@ -191,6 +191,10 @@
         HeadApproval.Show()
     End Sub
 
+    Private Sub StoresPOToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StoresPOToolStripMenuItem.Click
+        StoresPurchaseOrder.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click

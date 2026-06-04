@@ -63,7 +63,34 @@ Public Class NewSelectionListQuery
 
         Return _strQuery.ToString
     End Function
-
+    Public Function SINGLE_ACC_OF_SELECTION(ByVal FilterString As String)
+        Try
+            _strQuery = New StringBuilder
+            With _strQuery
+                .Append(" Select ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.AC_NAME As [A/C Of] ")
+                .Append(" , C.ACCOUNTNAME As [Party Name] ")
+                .Append(" , A.ID As ACCOUNTCODE")
+                .Append(" , A.ID")
+                .Append(" , B.cityname As [City Name]")
+                .Append(" FROM Mst_Acof_Supply A")
+                .Append("  LEFT JOIN MstCity B  On A.CITY_CODE=B.citycode ")
+                .Append("  LEFT JOIN MstMasterAccount As C  On  A.PART_NAME_ID=C.ACCOUNTCODE")
+                .Append("  WHERE  1=1  ")
+                .Append(FilterString)
+                .Append(GROUP_WISE_MULTY_PARTY_SELECT)
+                .Append(" ORDER BY A.AC_NAME")
+            End With
+            GROUP_WISE_MULTY_PARTY_SELECT = ""
+            party_selection_book_code = ""
+            GroupCodeFiletrCode = ""
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+        Return _strQuery.ToString
+    End Function
     Public Function MstYarnGroup_Single(ByVal FilterString As String)
         Dim _strQuery = New StringBuilder
         Try

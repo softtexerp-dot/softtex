@@ -25,8 +25,13 @@ Public Class MachineMaster
     Private WithEvents txtdepartment_code As New TextBox
     Dim _lblEntryDate As String
 #End Region
-
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
+        End If
+    End Sub
     Private Sub MachineMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Location = New Point(0, 0)
         Dim x As Integer
         Dim y As Integer
         x = 0
