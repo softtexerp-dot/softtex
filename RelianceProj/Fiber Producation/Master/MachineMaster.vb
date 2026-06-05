@@ -365,8 +365,8 @@ Public Class MachineMaster
         Ctrl_Visible_False(Me.Controls)
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")
-        TxtUOm.Enabled = True
-        TxtDepartMent.Enabled = True
+        'TxtUOm.Enabled = True
+        'TxtDepartMent.Enabled = True
     End Sub
     Private Sub _EditLog(ByVal _EntryType As String)
         Dim BookType As String = "FIXED ASSETS MASTER"
@@ -537,7 +537,7 @@ Public Class MachineMaster
                     TxtUOm.Text = selected("CUTNAME").ToString()
                 End If
             End If
-            TxtUOm.Enabled = False
+            'TxtUOm.Enabled = False
         End If
     End Sub
 
@@ -553,7 +553,7 @@ Public Class MachineMaster
                     TxtDepartMent.Text = selected("DepName").ToString()
                 End If
             End If
-            TxtDepartMent.Enabled = False
+            'TxtDepartMent.Enabled = False
         End If
     End Sub
 #End Region
