@@ -195,6 +195,10 @@
         StoresPurchaseOrder.Show()
     End Sub
 
+    Private Sub GateInwardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GateInwardToolStripMenuItem.Click
+        GateInward.Show()
+    End Sub
+
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click

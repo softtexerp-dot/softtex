@@ -61,6 +61,7 @@ Partial Class Main_MDI_Frm
         Me.DepartMentApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HeadApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StoresPOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GateInwardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -245,7 +246,7 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem, Me.GateInwardToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
@@ -316,6 +317,12 @@ Partial Class Main_MDI_Frm
         Me.StoresPOToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
         Me.StoresPOToolStripMenuItem.Text = "StoresPO"
         '
+        'GateInwardToolStripMenuItem
+        '
+        Me.GateInwardToolStripMenuItem.Name = "GateInwardToolStripMenuItem"
+        Me.GateInwardToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.GateInwardToolStripMenuItem.Text = "GateInward"
+        '
         'Main_MDI_Frm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -378,4 +385,5 @@ Partial Class Main_MDI_Frm
     Friend WithEvents DepartMentApprovalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HeadApprovalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StoresPOToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents GateInwardToolStripMenuItem As ToolStripMenuItem
 End Class

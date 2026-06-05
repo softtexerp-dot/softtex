@@ -739,6 +739,14 @@ Module GetMasterDataJoinInMaster
         Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
         Return selected
     End Function
+    Public Function SelectInwardBookType(ByVal SearchText As String) As Dictionary(Of String, Object)
+        Dim _LoadQuery As String =
+            "SELECT 'GISS-000000001' AS ACCOUNTCODE, 'STORE INWARD' AS BookName " &
+            "UNION ALL SELECT 'GISS-000000002','RAW MATERIALS INWARD' " &
+            "UNION ALL SELECT 'GISS-000000003','PET BOTTELS INWARD'"
+        Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
+        Return selected
+    End Function
     'Public Sub LoadShadeSelection(ByVal ReqBookvnorawData As String, ByVal _ReqBookCode As String, ByVal GrdItem As Object, ByVal _DataTableGrid As DataTable)
     '    Dim _StrQuery As New StringBuilder
     '    With _StrQuery

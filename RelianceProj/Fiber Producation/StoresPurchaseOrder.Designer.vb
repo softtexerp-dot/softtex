@@ -2027,7 +2027,7 @@ Partial Class StoresPurchaseOrder
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "StoresPurchaseOrder"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "StoresPurchaseOrder"
+        Me.Text = "Stores Purchase Order"
         Me.Pnl_Rate_Disp.ResumeLayout(False)
         Me.pnl_Offer_Clear.ResumeLayout(False)
         Me.pnl_Offer_Clear.PerformLayout()
