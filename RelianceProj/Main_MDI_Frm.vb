@@ -199,6 +199,17 @@
         GateInward.Show()
     End Sub
 
+    Private Sub QualityCheckerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QualityCheckerToolStripMenuItem.Click
+        StoresQualityChecker.Show()
+    End Sub
+
+    Private Sub ApprovalRejectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApprovalRejectionToolStripMenuItem.Click
+        StoreRejectionApproval.Show()
+    End Sub
+
+    Private Sub StorePurchaseReturnToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StorePurchaseReturnToolStripMenuItem.Click
+        StoresPurchaseReturn.Show()
+    End Sub
 
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
