@@ -1358,35 +1358,6 @@ Public Class StoreInwardandPO
 #Region "TOTAL ALL ROWS "
     Private Sub Total_Upto_All_Grid_All_Row()
         If _FrmLoad = True Then Exit Sub
-
-        'Dim Tot_Mtr_Weight As Double = 0
-        'Dim Tot_Amt As Double = 0
-
-        'For j As Int16 = 1 To GrdItem.Rows - 1
-        '    Tot_Mtr_Weight = Tot_Mtr_Weight + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-        '    Dim CutMtr As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
-        '    Dim RdValue As Double = Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
-
-        '    Dim Rate As Double = CutMtr - (CutMtr * RdValue / 100)
-
-        '    GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("Rate") + 1).Text = Format(Rate, "0.00")
-        '    Tot_Amt = Tot_Mtr_Weight * Rate
-
-        '    Tot_Amt = Tot_Amt + Val(GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text)
-        'Next
-
-        'If Tot_Mtr_Weight > 0 Then
-        '    Lbl_Tot_Mtr_Weight.Text = FormatNumber(Tot_Mtr_Weight, 2, TriState.True, TriState.False, TriState.True)
-        'Else
-        '    Lbl_Tot_Mtr_Weight.Text = "0.00"
-        'End If
-
-        'If Tot_Amt > 0 Then
-        '    lbl_Tot_Amt.Text = FormatNumber(Tot_Amt, 2, TriState.True, TriState.False, TriState.True)
-        'Else
-        '    lbl_Tot_Amt.Text = "0.00"
-        'End If
-
         Dim Tot_Mtr_Weight As Double = 0
         Dim Tot_Amt As Double = 0
         For j As Int16 = 1 To GrdItem.Rows - 1
