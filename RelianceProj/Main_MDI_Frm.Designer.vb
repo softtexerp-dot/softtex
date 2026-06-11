@@ -65,6 +65,7 @@ Partial Class Main_MDI_Frm
         Me.QualityCheckerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApprovalRejectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StorePurchaseReturnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StoreInwardAndPOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -249,7 +250,7 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem, Me.GateInwardToolStripMenuItem, Me.QualityCheckerToolStripMenuItem, Me.ApprovalRejectionToolStripMenuItem, Me.StorePurchaseReturnToolStripMenuItem})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem, Me.GateInwardToolStripMenuItem, Me.QualityCheckerToolStripMenuItem, Me.StorePurchaseReturnToolStripMenuItem, Me.ApprovalRejectionToolStripMenuItem, Me.StoreInwardAndPOToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
@@ -344,6 +345,12 @@ Partial Class Main_MDI_Frm
         Me.StorePurchaseReturnToolStripMenuItem.Size = New System.Drawing.Size(228, 22)
         Me.StorePurchaseReturnToolStripMenuItem.Text = "StorePurchaseReturn"
         '
+        'StoreInwardAndPOToolStripMenuItem
+        '
+        Me.StoreInwardAndPOToolStripMenuItem.Name = "StoreInwardAndPOToolStripMenuItem"
+        Me.StoreInwardAndPOToolStripMenuItem.Size = New System.Drawing.Size(228, 22)
+        Me.StoreInwardAndPOToolStripMenuItem.Text = "StoreInwardAndPO"
+        '
         'Main_MDI_Frm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -410,4 +417,5 @@ Partial Class Main_MDI_Frm
     Friend WithEvents QualityCheckerToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ApprovalRejectionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StorePurchaseReturnToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents StoreInwardAndPOToolStripMenuItem As ToolStripMenuItem
 End Class

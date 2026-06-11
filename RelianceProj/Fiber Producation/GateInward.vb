@@ -125,6 +125,10 @@ Public Class GateInward
             .Append("Y_DELV_ACCOUNTCODE,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,") 'GodOwnCode
+            .Append("OP11,") 'gst
+            .Append("OP12,") 'Fright
+            .Append("OP13,")  'Delivery
+            .Append("OP4,") 'Payment terms
             .Append("OP20,") 'BookName
             .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
@@ -176,6 +180,10 @@ Public Class GateInward
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
+            .Append("OP11:Gst,") 'gst
+            .Append("OP12:Fright,") 'Fright
+            .Append("OP13:Delivery,")  'Delivery
+            .Append("OP4:Payment terms,") 'Payment terms
             .Append("ROWREMARK:Remark")
         End With
 
@@ -197,6 +205,10 @@ Public Class GateInward
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
+            .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -219,6 +231,10 @@ Public Class GateInward
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP11:L,") 'gst
+            .Append("OP12:L,") 'Fright
+            .Append("OP13:L,")  'Delivery
+            .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -264,6 +280,10 @@ Public Class GateInward
             .Append("USEBY:N,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,") 'GodownCode
+            .Append("OP11:N,")  'gst
+            .Append("OP12:N,")  'Fright
+            .Append("OP13:N,")  'Delivery
+            .Append("OP4:N,")  'Payment terms
             .Append("OP20:N,") 'BookName
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")

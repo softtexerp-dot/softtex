@@ -347,7 +347,7 @@ Partial Class StoreInwardandPO
         Me.txtHeader_Remark.ShowMessage = False
         Me.txtHeader_Remark.Size = New System.Drawing.Size(168, 22)
         Me.txtHeader_Remark.SpacerString = ""
-        Me.txtHeader_Remark.TabIndex = 82246
+        Me.txtHeader_Remark.TabIndex = 82247
         Me.txtHeader_Remark.Tag = "HEADERREMARK"
         Me.txtHeader_Remark.TransparentBox = True
         Me.txtHeader_Remark.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -744,7 +744,7 @@ Partial Class StoreInwardandPO
         Me.txtAccountName.ShowMessage = False
         Me.txtAccountName.Size = New System.Drawing.Size(255, 22)
         Me.txtAccountName.SpacerString = ""
-        Me.txtAccountName.TabIndex = 82265
+        Me.txtAccountName.TabIndex = 82246
         Me.txtAccountName.Tag = "ACCOUNTNAME"
         Me.txtAccountName.TransparentBox = True
         Me.txtAccountName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
