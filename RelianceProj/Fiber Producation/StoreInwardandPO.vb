@@ -1583,7 +1583,7 @@ Public Class StoreInwardandPO
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
                 Dim ExtracolumnsToHide = {"Departmentcode", "HsnCode", "ACCOUNTCODE", "ID", "GROUPCODE", "CountCode", "ItemCode", "Fright", "Delivery", "GrossRate", "Dis", "Disamount", "NetRate", "Amount", "Paymentterms"}
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1

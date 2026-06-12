@@ -1640,7 +1640,6 @@ Public Class StoresPurchaseReturn
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "CUT_MTR" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
                 Call Total_Upto_All_Grid_All_Row()
-
             End If
         ElseIf _ActivatedColName = "ROWREMARK" Then
             If e.KeyCode = 13 Then

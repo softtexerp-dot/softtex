@@ -116,7 +116,7 @@ Partial Class StoresPurchaseOrder
         Me.Label41 = New System.Windows.Forms.Label()
         Me.txtBookName = New ctl_TextBox.ctl_TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.Pnl_Rate_Disp.SuspendLayout()
         Me.pnl_Offer_Clear.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()

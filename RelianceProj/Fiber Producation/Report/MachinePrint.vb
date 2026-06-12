@@ -141,7 +141,7 @@ Public Class MachinePrint
         End If
     End Sub
     Private Sub QuotationEntryPrint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Location = New Point(0, 0)
+        'Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _ButtonEnable(True)
         _TextboxEnable(False)

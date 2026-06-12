@@ -215,6 +215,10 @@
         StoreInwardandPO.Show()
     End Sub
 
+    Private Sub StrorePurchaseReturnReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StrorePurchaseReturnReportToolStripMenuItem.Click
+        StorePurchaseReturnReport.Show()
+    End Sub
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()
