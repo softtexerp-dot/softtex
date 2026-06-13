@@ -1736,7 +1736,7 @@ Public Class GateInward
                                 .Append(" A.Reed As gst, ")
                                 .Append(" A.RDON As Fright, ")
                                 .Append(" A.CDVALUE As Delivery, ")
-                                '.Append(" A.OP4 As [Payment terms], ")
+                                .Append(" A.OP4 As Paymentterms, ")
                                 .Append(" A.ITEMCODE, ")
                                 .Append(" A.OP7, ")
                                 .Append(" A.BOOKVNO ")
@@ -1783,7 +1783,7 @@ Public Class GateInward
                                     'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("REED") + 1).Text = dr("gst").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP12") + 1).Text = dr("Fright").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP13") + 1).Text = dr("Delivery").ToString()
-                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
+                                    GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Paymentterms").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno

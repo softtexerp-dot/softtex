@@ -139,6 +139,7 @@ Public Class StoresPurchaseOrder
             .Append("WESTAGE,")
             .Append("LENGTH,")
             .Append("MONOGRAM_TYPE,")
+            .Append("OP4,") 'Payment terms
             .Append("OP23,") 'APPROVE
             .Append("ROWREMARK")
         End With
@@ -193,6 +194,7 @@ Public Class StoresPurchaseOrder
             .Append("SelvedgeName:Mill Name,")
             .Append("Process_Weight_Range:GSM,") 'GSM
             .Append("DESCR:Descr,")
+            .Append("OP4,") 'Payment terms
             .Append("ROWREMARK:Remark")
         End With
 
@@ -227,6 +229,7 @@ Public Class StoresPurchaseOrder
             .Append("CDON:C,")
             .Append("SelvedgeName:L,")
             .Append("Process_Weight_Range:L,") 'GSM
+            .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -260,6 +263,7 @@ Public Class StoresPurchaseOrder
             .Append("RDON:C,") 'Fright
             .Append("CDVALUE:R,")  'Delivery
             .Append("CDON:C,")
+            .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -329,6 +333,7 @@ Public Class StoresPurchaseOrder
             .Append("CDON:N,")
             .Append("OP23:N,")
             .Append("CANCEL_QTY:N,")
+            .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:Y")
         End With
 
@@ -2358,6 +2363,7 @@ Public Class StoresPurchaseOrder
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
 
         txtTr_code.Text = tblTmp.Rows(0)("TRANSPORTCODE").ToString
+        txtAccountName.Text = tblTmp.Rows(0)("ACCOUNTNAME").ToString
         txtAccount_Code.Text = tblTmp.Rows(0)("ACCOUNTCODE").ToString
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtOfferDate.Text = tblTmp.Rows(0)("F_OFFERDATE").ToString
@@ -3374,7 +3380,7 @@ Public Class StoresPurchaseOrder
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("REED") + 1).Text = dr("gst").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("RDON") + 1).Text = dr("Fright").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CDVALUE") + 1).Text = dr("Delivery").ToString()
-                                        'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
