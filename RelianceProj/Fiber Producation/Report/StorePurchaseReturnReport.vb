@@ -10,7 +10,7 @@ Public Class StorePurchaseReturnReport
             Dim View_Filter_Condition As String = ""
             If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
                 'View_Filter_Condition = " AND Z.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And Z.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "' "
-                View_Filter_Condition = " AND S.PACK_SLIP_DATE >=  '" & txt_From.Text & "' And S.PACK_SLIP_DATE <=  '" & txt_To.Text & "' "
+                View_Filter_Condition = " AND S.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And S.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "' "
             End If
             _strQuery = New StringBuilder()
             'With _strQuery
@@ -100,12 +100,11 @@ Public Class StorePurchaseReturnReport
 
             'End With
             With _strQuery
-
                 .Append(" WITH StockTrans AS ( ")
-
                 .Append(" SELECT ")
                 .Append(" A.PACK_SLIP_DATE, ")
-                .Append(" A.BOOKVNO, ")
+                '.Append(" A.BOOKVNO, ")
+                .Append(" A.ACCOUNTCODE, ")
                 .Append(" A.ITEMCODE, ")
                 .Append(" A.CUTCODE, ")
                 .Append(" A.DESIGNCODE, ")
@@ -114,12 +113,11 @@ Public Class StorePurchaseReturnReport
                 .Append(" 0.00 AS OUTQTY ")
                 .Append(" FROM TrnPackingSlip A ")
                 .Append(" WHERE A.BOOKCODE = 'STOP-000000001' ")
-
                 .Append(" UNION ALL ")
-
                 .Append(" SELECT ")
                 .Append(" A.PACK_SLIP_DATE, ")
-                .Append(" A.OP7 AS BOOKVNO, ")
+                '.Append(" A.OP7 AS BOOKVNO, ")
+                .Append(" A.ACCOUNTCODE, ")
                 .Append(" A.ITEMCODE, ")
                 .Append(" A.CUTCODE, ")
                 .Append(" A.DESIGNCODE, ")
@@ -128,53 +126,48 @@ Public Class StorePurchaseReturnReport
                 .Append(" A.Mtr_weight AS OUTQTY ")
                 .Append(" FROM TrnPackingSlip A ")
                 .Append(" WHERE A.BOOKCODE IN ('PRSS-000000001','IDSS-000000001') ")
-
+                '.Append(" WHERE A.BOOKCODE IN ('PRSS-000000001') ")
                 .Append(" ) ")
-
                 .Append(" SELECT ")
                 .Append(" FORMAT(S.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
-                .Append(" S.BOOKVNO, ")
+                '.Append(" S.BOOKVNO, ")
                 .Append(" B.ItemName, ")
                 .Append(" C.TYPE_NAME AS Brand, ")
                 .Append(" C.TYPE_ID AS GROUPCODE, ")
                 .Append(" D.CUTNAME AS UOM, ")
                 .Append(" E.DEPARTMENTNAME AS DepartmentName, ")
                 .Append(" E.Departmentcode AS CITYCODE, ")
-                .Append(" FORMAT(ISNULL(SUM(S.INQTY-S.OUTQTY) ")
+                .Append(" F.ACCOUNTNAME AS AccountName, ")
+                .Append(" CAST(ISNULL(SUM(S.INQTY-S.OUTQTY) ")
                 .Append(" OVER ( ")
                 .Append(" PARTITION BY S.ITEMCODE ")
-                .Append(" ORDER BY S.PACK_SLIP_DATE,  CAST(S.BOOKVNO AS VARCHAR(200)) ")
+                .Append(" ORDER BY S.PACK_SLIP_DATE ")  ',  CAST(S.BOOKVNO AS VARCHAR(200))
                 .Append(" ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING ")
-                .Append(" ),0),'0.00') AS Opening, ")
-
-                .Append(" FORMAT(S.INQTY,'0.00') AS InQty, ")
-                .Append(" FORMAT(S.OUTQTY,'0.00') AS OutQty, ")
-
-                .Append(" FORMAT(SUM(S.INQTY-S.OUTQTY) ")
+                .Append(" ),0) AS DECIMAL(18,2)) AS Opening, ")
+                .Append(" CAST(S.INQTY AS DECIMAL(18,2)) AS InQty, ")
+                .Append(" CAST(S.OUTQTY AS DECIMAL(18,2)) AS OutQty, ")
+                .Append(" CAST(SUM(S.INQTY-S.OUTQTY) ")
                 .Append(" OVER ( ")
                 .Append(" PARTITION BY S.ITEMCODE ")
-                .Append(" ORDER BY S.PACK_SLIP_DATE, CAST(S.BOOKVNO AS VARCHAR(200)) ")
-                .Append(" ),'0.00') AS Balance ")
-
+                .Append(" ORDER BY S.PACK_SLIP_DATE ")  ', CAST(S.BOOKVNO AS VARCHAR(200))
+                .Append(" )AS DECIMAL(18,2)) AS Balance ")
                 .Append(" FROM StockTrans S ")
                 .Append(" LEFT JOIN MstStoreItem B ON S.ITEMCODE = B.ITEMCODE ")
                 .Append(" LEFT JOIN MstStoreItemType C ")
                 .Append(" ON S.SHADECODE = C.TYPE_ID ")
-
                 .Append(" LEFT JOIN MstCutMaster D ")
                 .Append(" ON S.CUTCODE = D.ID ")
-
                 .Append(" LEFT JOIN MstDepartment E ")
                 .Append(" ON S.DESIGNCODE = E.Departmentcode ")
+                .Append(" LEFT JOIN MstMasterAccount F  ")
+                .Append(" ON S.ACCOUNTCODE = F.ACCOUNTCODE")
                 .Append(" WHERE 1=1 ")
                 .Append(View_Filter_Condition)
-
                 .Append(" ORDER BY ")
                 .Append(" E.DEPARTMENTNAME, ")
                 .Append(" B.ItemName, ")
-                .Append(" S.PACK_SLIP_DATE, ")
-                .Append(" S.BOOKVNO ")
-
+                .Append(" S.PACK_SLIP_DATE ")
+                '.Append(" S.BOOKVNO ")
             End With
             sqL = _strQuery.ToString
             sql_connect_slect()
