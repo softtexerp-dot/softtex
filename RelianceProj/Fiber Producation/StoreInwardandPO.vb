@@ -1612,6 +1612,7 @@ Public Class StoreInwardandPO
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP13") + 1).Text = rowDict("Delivery").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = rowDict("Paymentterms").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
+                            GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
                             '================ NEXT ROW =================
                             If RowNo >= GrdItem.Rows - 1 Then
                                 GrdItem.Rows += 1

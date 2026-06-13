@@ -139,8 +139,8 @@ Public Class StoresPurchaseOrder
             .Append("WESTAGE,")
             .Append("LENGTH,")
             .Append("MONOGRAM_TYPE,")
-            .Append("OP4,") 'Payment terms
             .Append("OP23,") 'APPROVE
+            .Append("OP4,") 'Payment terms
             .Append("ROWREMARK")
         End With
 
@@ -3395,7 +3395,9 @@ Public Class StoresPurchaseOrder
                 End If
             End If
         ElseIf _ActivatedColName = "QTY" Or _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "NET_RATE" Or _ActivatedColName = "REED" Or _ActivatedColName = "RATE_DIS_PER" Then
-            'Call Total_Upto_All_Grid_All_Row()
+            If e.KeyCode = Keys.Enter Then
+                Call Total_Upto_All_Grid_All_Row()
+            End If
 
 
         ElseIf _ActivatedColName = "GROSS_RATE" Then
@@ -3588,20 +3590,20 @@ Public Class StoresPurchaseOrder
             End If
 
 
-            If _FORMMODE = "ADD" Then
-                Dim Str_Qry As String = obj_Party_Selection.EntryData_General_Offer_txtBookName_Validated(_BookCode)
-                Dim TblTmp As New DataTable
-                sqL = Str_Qry
-                sql_connect_slect()
-                TblTmp = DefaltSoftTable.Copy
-                Dim Last_Entry_No As Integer = 0
-                If TblTmp.Rows.Count > 0 Then
-                    Last_Entry_No = Val(TblTmp(0)("ENTRYNO").ToString)
-                End If
-                If Last_Entry_No = txtEntryNo.Text Then
-                    txtEntryNo.Text = Last_Entry_No + 1
-                End If
-            End If
+            'If _FORMMODE = "ADD" Then
+            '    Dim Str_Qry As String = obj_Party_Selection.EntryData_General_Offer_txtBookName_Validated(_BookCode)
+            '    Dim TblTmp As New DataTable
+            '    sqL = Str_Qry
+            '    sql_connect_slect()
+            '    TblTmp = DefaltSoftTable.Copy
+            '    Dim Last_Entry_No As Integer = 0
+            '    If TblTmp.Rows.Count > 0 Then
+            '        Last_Entry_No = Val(TblTmp(0)("ENTRYNO").ToString)
+            '    End If
+            '    If Last_Entry_No = txtEntryNo.Text Then
+            '        txtEntryNo.Text = Last_Entry_No + 1
+            '    End If
+            'End If
 
 
             _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
