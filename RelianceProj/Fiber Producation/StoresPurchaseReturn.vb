@@ -1607,29 +1607,32 @@ Public Class StoresPurchaseReturn
             End If
         ElseIf _ActivatedColName = "MTR_WEIGHT" Then
             If e.KeyCode = Keys.Enter Then
-                'Dim RowNo As Integer = GrdItem.ActiveCell.Row
-                'Dim EnterQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-                ''Dim ReqQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ReqQty") + 1).Text)
-                'Dim stockQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("stockQty") + 1).Text)
+                Dim RowNo As Integer = GrdItem.ActiveCell.Row
+                Dim EnterQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+                'Dim ReqQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ReqQty") + 1).Text)
+                Dim stockQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("stockQty") + 1).Text)
+
 
                 'If EnterQty > stockQty Then
-                '    MsgBox("Entered Quantity Cannot Exceed Stock Qty.: " & stockQty, MsgBoxStyle.Information)
-                '    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
-                '    SendKeys.Send("{LEFT}")
-                '    Exit Sub
-                'End If
-                'If EnterQty > stockQty Then
                 '    MsgBox("Invalid Quantity.", MsgBoxStyle.Information)
                 '    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
                 '    SendKeys.Send("{LEFT}")
                 '    Exit Sub
                 'End If
-                'If EnterQty <= 0 Then
-                '    MsgBox("Invalid Quantity.", MsgBoxStyle.Information)
-                '    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
-                '    SendKeys.Send("{LEFT}")
-                '    Exit Sub
-                'End If
+                If EnterQty <= 0 Then
+                    MsgBox("Invalid Quantity.", MsgBoxStyle.Information)
+                    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
+                    SendKeys.Send("{LEFT}")
+                    Exit Sub
+                End If
+                If stockQty > 0 Then
+                    If EnterQty > stockQty Then
+                        MsgBox("Entered Quantity Cannot Exceed Stock Qty.: " & stockQty, MsgBoxStyle.Information)
+                        GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = stockQty
+                        SendKeys.Send("{LEFT}")
+                        Exit Sub
+                    End If
+                End If
                 Call Total_Upto_All_Grid_All_Row()
             End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then

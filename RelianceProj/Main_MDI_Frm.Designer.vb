@@ -67,6 +67,8 @@ Partial Class Main_MDI_Frm
         Me.ApprovalRejectionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StoreInwardAndPOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StrorePurchaseReturnReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.APIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -101,7 +103,7 @@ Partial Class Main_MDI_Frm
         'MenuStrip1
         '
         Me.MenuStrip1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.FiberProductionToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.FiberProductionToolStripMenuItem, Me.APIToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1200, 24)
@@ -358,6 +360,19 @@ Partial Class Main_MDI_Frm
         Me.StrorePurchaseReturnReportToolStripMenuItem.Size = New System.Drawing.Size(282, 22)
         Me.StrorePurchaseReturnReportToolStripMenuItem.Text = "StrorePurchaseReturnReport"
         '
+        'APIToolStripMenuItem
+        '
+        Me.APIToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EnToolStripMenuItem})
+        Me.APIToolStripMenuItem.Name = "APIToolStripMenuItem"
+        Me.APIToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.APIToolStripMenuItem.Text = "API"
+        '
+        'EnToolStripMenuItem
+        '
+        Me.EnToolStripMenuItem.Name = "EnToolStripMenuItem"
+        Me.EnToolStripMenuItem.Size = New System.Drawing.Size(208, 22)
+        Me.EnToolStripMenuItem.Text = "EntryManagement"
+        '
         'Main_MDI_Frm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -426,4 +441,6 @@ Partial Class Main_MDI_Frm
     Friend WithEvents StorePurchaseReturnToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StoreInwardAndPOToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StrorePurchaseReturnReportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents APIToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EnToolStripMenuItem As ToolStripMenuItem
 End Class

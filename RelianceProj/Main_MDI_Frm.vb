@@ -219,6 +219,10 @@
         StorePurchaseReturnReport.Show()
     End Sub
 
+    Private Sub EnToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EnToolStripMenuItem.Click
+        AppEntryManagement.Show()
+    End Sub
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()
