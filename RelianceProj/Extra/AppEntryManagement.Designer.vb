@@ -40,6 +40,8 @@ Partial Class AppEntryManagement
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txt_Status = New ctl_TextBox.ctl_TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,13 +120,13 @@ Partial Class AppEntryManagement
         'lbl_To
         '
         Me.lbl_To.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_To.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lbl_To.ForeColor = System.Drawing.Color.Black
         Me.lbl_To.Location = New System.Drawing.Point(197, 14)
         Me.lbl_To.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_To.Name = "lbl_To"
-        Me.lbl_To.Size = New System.Drawing.Size(65, 14)
+        Me.lbl_To.Size = New System.Drawing.Size(58, 14)
         Me.lbl_To.TabIndex = 81972
-        Me.lbl_To.Text = "Date To:"
+        Me.lbl_To.Text = "Date To"
         '
         'txt_From
         '
@@ -173,13 +175,13 @@ Partial Class AppEntryManagement
         'lbl_From
         '
         Me.lbl_From.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_From.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lbl_From.ForeColor = System.Drawing.Color.Black
         Me.lbl_From.Location = New System.Drawing.Point(9, 13)
         Me.lbl_From.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_From.Name = "lbl_From"
         Me.lbl_From.Size = New System.Drawing.Size(83, 14)
         Me.lbl_From.TabIndex = 81971
-        Me.lbl_From.Text = "Date From:"
+        Me.lbl_From.Text = "Date From"
         '
         'txt_To
         '
@@ -229,7 +231,7 @@ Partial Class AppEntryManagement
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(547, 15)
+        Me.Label4.Location = New System.Drawing.Point(574, 13)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82256
@@ -239,7 +241,7 @@ Partial Class AppEntryManagement
         '
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Black
-        Me.Label5.Location = New System.Drawing.Point(506, 14)
+        Me.Label5.Location = New System.Drawing.Point(532, 12)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(45, 14)
@@ -270,7 +272,7 @@ Partial Class AppEntryManagement
         Me.TxtType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.TxtType.IsValidated = False
         Me.TxtType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtType.Location = New System.Drawing.Point(559, 12)
+        Me.TxtType.Location = New System.Drawing.Point(590, 10)
         Me.TxtType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.TxtType.MandatoryField = False
         Me.TxtType.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -297,7 +299,7 @@ Partial Class AppEntryManagement
         '
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.Black
-        Me.Label3.Location = New System.Drawing.Point(348, 14)
+        Me.Label3.Location = New System.Drawing.Point(378, 13)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(63, 14)
@@ -328,7 +330,7 @@ Partial Class AppEntryManagement
         Me.txt_Status.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.txt_Status.IsValidated = False
         Me.txt_Status.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txt_Status.Location = New System.Drawing.Point(417, 12)
+        Me.txt_Status.Location = New System.Drawing.Point(447, 11)
         Me.txt_Status.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_Status.MandatoryField = False
         Me.txt_Status.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -344,10 +346,10 @@ Partial Class AppEntryManagement
         Me.txt_Status.ShortcutsEnabled = False
         Me.txt_Status.ShowMessage = False
         Me.txt_Status.Size = New System.Drawing.Size(79, 22)
-        Me.txt_Status.SpacerString = "PENDING,HOLD,CANCEL,ALL"
+        Me.txt_Status.SpacerString = "ALL,PENDING,HOLD,APPROVE,CANCEL"
         Me.txt_Status.TabIndex = 3
         Me.txt_Status.Tag = "OP19"
-        Me.txt_Status.Text = "PENDING"
+        Me.txt_Status.Text = "ALL"
         Me.txt_Status.TransparentBox = True
         Me.txt_Status.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -355,11 +357,31 @@ Partial Class AppEntryManagement
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(399, 15)
+        Me.Label2.Location = New System.Drawing.Point(425, 13)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 82257
         Me.Label2.Text = ":"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(80, 14)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(12, 14)
+        Me.Label1.TabIndex = 82258
+        Me.Label1.Text = ":"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(250, 14)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(12, 14)
+        Me.Label6.TabIndex = 82259
+        Me.Label6.Text = ":"
         '
         'AppEntryManagement
         '
@@ -367,6 +389,8 @@ Partial Class AppEntryManagement
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1141, 641)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label5)
@@ -413,4 +437,6 @@ Partial Class AppEntryManagement
     Friend WithEvents Label3 As Label
     Friend WithEvents txt_Status As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label2 As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label6 As Label
 End Class
