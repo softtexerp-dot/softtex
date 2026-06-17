@@ -42,6 +42,9 @@ Partial Class AppEntryManagement
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label50 = New System.Windows.Forms.Label()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.txtUnitName = New ctl_TextBox.ctl_TextBox()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -54,10 +57,10 @@ Partial Class AppEntryManagement
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(699, 5)
+        Me.But_ok.Location = New System.Drawing.Point(955, 5)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(70, 36)
-        Me.But_ok.TabIndex = 5
+        Me.But_ok.TabIndex = 6
         Me.But_ok.Text = "OK"
         '
         'GridControl1
@@ -66,7 +69,7 @@ Partial Class AppEntryManagement
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
         Me.GridControl1.Size = New System.Drawing.Size(1136, 589)
-        Me.GridControl1.TabIndex = 81973
+        Me.GridControl1.TabIndex = 7
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
         'FirstStage
@@ -110,11 +113,11 @@ Partial Class AppEntryManagement
         Me.btnviewupdate.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnviewupdate.Appearance.Options.UseFont = True
         Me.btnviewupdate.ImageOptions.Image = CType(resources.GetObject("btnviewupdate.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnviewupdate.Location = New System.Drawing.Point(776, 5)
+        Me.btnviewupdate.Location = New System.Drawing.Point(1032, 5)
         Me.btnviewupdate.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnviewupdate.Name = "btnviewupdate"
         Me.btnviewupdate.Size = New System.Drawing.Size(96, 36)
-        Me.btnviewupdate.TabIndex = 6
+        Me.btnviewupdate.TabIndex = 8
         Me.btnviewupdate.Text = "Update"
         '
         'lbl_To
@@ -287,7 +290,7 @@ Partial Class AppEntryManagement
         Me.TxtType.RegularExpressionErrorMessage = Nothing
         Me.TxtType.ShortcutsEnabled = False
         Me.TxtType.ShowMessage = False
-        Me.TxtType.Size = New System.Drawing.Size(67, 22)
+        Me.TxtType.Size = New System.Drawing.Size(76, 22)
         Me.TxtType.SpacerString = "ORDER,INVOICE"
         Me.TxtType.TabIndex = 4
         Me.TxtType.Tag = "OP19"
@@ -383,12 +386,80 @@ Partial Class AppEntryManagement
         Me.Label6.TabIndex = 82259
         Me.Label6.Text = ":"
         '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label50.ForeColor = System.Drawing.Color.Black
+        Me.Label50.Location = New System.Drawing.Point(671, 12)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(76, 14)
+        Me.Label50.TabIndex = 82261
+        Me.Label50.Text = "Unit Name"
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label41.Location = New System.Drawing.Point(753, 12)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(12, 14)
+        Me.Label41.TabIndex = 82262
+        Me.Label41.Text = ":"
+        '
+        'txtUnitName
+        '
+        Me.txtUnitName._AllowSpace = True
+        Me.txtUnitName.AcceptsReturn = True
+        Me.txtUnitName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtUnitName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtUnitName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtUnitName.Check_End_Date_Value_FY = "YES"
+        Me.txtUnitName.Check_Start_Date_Value_FY = "YES"
+        Me.txtUnitName.ClearField = True
+        Me.txtUnitName.CustomInputTypeString = Nothing
+        Me.txtUnitName.Date_for_Database = Nothing
+        Me.txtUnitName.Date_Tag = Nothing
+        Me.txtUnitName.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtUnitName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.txtUnitName.ExtraValue = ""
+        Me.txtUnitName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtUnitName.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtUnitName.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtUnitName.ForeColor = System.Drawing.Color.Black
+        Me.txtUnitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtUnitName.IsValidated = False
+        Me.txtUnitName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.Location = New System.Drawing.Point(768, 11)
+        Me.txtUnitName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.MandatoryField = False
+        Me.txtUnitName.MaxDate = Nothing
+        Me.txtUnitName.MinDate = Nothing
+        Me.txtUnitName.Name = "txtUnitName"
+        Me.txtUnitName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtUnitName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtUnitName.ReadOnly = True
+        Me.txtUnitName.RegularExpression = Nothing
+        Me.txtUnitName.RegularExpressionErrorMessage = Nothing
+        Me.txtUnitName.ShowMessage = False
+        Me.txtUnitName.Size = New System.Drawing.Size(178, 22)
+        Me.txtUnitName.SpacerString = ""
+        Me.txtUnitName.TabIndex = 5
+        Me.txtUnitName.Tag = "BOOKNAME"
+        Me.txtUnitName.TransparentBox = True
+        Me.txtUnitName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
         'AppEntryManagement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1141, 641)
+        Me.Controls.Add(Me.Label50)
+        Me.Controls.Add(Me.Label41)
+        Me.Controls.Add(Me.txtUnitName)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label2)
@@ -439,4 +510,7 @@ Partial Class AppEntryManagement
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Label6 As Label
+    Friend WithEvents Label50 As Label
+    Friend WithEvents Label41 As Label
+    Friend WithEvents txtUnitName As ctl_TextBox.ctl_TextBox
 End Class
