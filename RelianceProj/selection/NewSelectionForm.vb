@@ -34,7 +34,7 @@ Public Class NewSelectionForm
 
         If LoadType = "YES" Then
             If LoadQueryDatatable.Rows.Count = 0 Then
-                MessageBox.Show("No Data Found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Stock Data Not Found.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Me.Close()
                 Return
             End If

@@ -67,47 +67,74 @@ Public Class StoreApproval
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
             .Append(" SELECT   A.ENTRYNO As [Entry No],")
-            .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
+            .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
             .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
             .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
             .Append(" A.PACK_SLIP_NO AS [Req. No],")
-            '.Append(" CASE WHEN A.MODYFIDATE = '1900-01-01 00:00:00.000' THEN '' ")
-            '.Append(" ELSE FORMAT(A.MODYFIDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Modify Date],")
-            .Append(" A.ITEMCODE,")  'OP22 Modify datetime
-            .Append(" A.BOOKVNO,")  'BookVNO
+            .Append(" A.ITEMCODE,")
+            .Append(" A.BOOKVNO,")
+            .Append(" A.DESIGNCODE,")
+            .Append(" A.SHADECODE,")
+            .Append(" A.CUTCODE,")
             .Append(" B.ItemName AS ItemName, ")
-            .Append(" MstCutMaster.CUTNAME As UOM, ")  'UOM
-            .Append(" K.TYPE_NAME AS CompanyName ,")
-            .Append(" A.MTR_WEIGHT AS Qty,")  'Qty
-            .Append(" CASE WHEN ISDATE(A.OP22) = 1 THEN CONVERT(VARCHAR(10), CAST(A.OP22 AS DATETIME), 103)  ELSE '' END AS OP22,")  'Approval Date
-            .Append("  CASE WHEN UPPER(A.OP19) = 'YES' THEN 'YES' ELSE 'NO' END AS Status") 'status
-            .Append(" FROM  ")
-            .Append(" " & _TblName & " AS A  ")
-            .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
-            .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE  ")
+            .Append(" MstCutMaster.CUTNAME As UOM, ")
+            .Append(" K.TYPE_NAME AS CompanyName, ")
+            .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') AS Qty,")
+            .Append(" CASE WHEN ISDATE(A.OP22)=1 THEN CONVERT(VARCHAR(10),CAST(A.OP22 AS DATETIME),103) ELSE '' END AS OP22,")
+            .Append(" CASE WHEN UPPER(A.OP19)='YES' THEN 'YES' ELSE 'NO' END AS Status ")
+            .Append(" FROM (")
+            .Append(" SELECT ")
+            .Append(" BOOKVNO, ITEMCODE, DESIGNCODE, SHADECODE, CUTCODE, ")
+            .Append(" MTR_WEIGHT AS INQTY, ")
+            .Append(" 0.00 AS OUTQTY ")
+            .Append(" FROM TrnPackingSlip ")
+            .Append(" WHERE BOOKCODE='RQSS-000000001' ")
+            .Append(" UNION ALL ")
+            .Append(" SELECT ")
+            .Append(" OP7 AS BOOKVNO, ITEMCODE, DESIGNCODE, SHADECODE, CUTCODE, ")
+            .Append(" 0.00 AS INQTY, ")
+            .Append(" MTR_WEIGHT AS OUTQTY ")
+            .Append(" FROM TrnPackingSlip ")
+            .Append(" WHERE BOOKCODE='IDSS-000000001' ")
+            .Append(" ) Z ")
+            .Append(" INNER JOIN " & _TblName & " A ")
+            .Append(" ON A.BOOKVNO = Z.BOOKVNO ")
+            .Append(" AND A.ITEMCODE = Z.ITEMCODE ")
+            .Append(" AND A.DESIGNCODE = Z.DESIGNCODE ")
+            .Append(" AND A.SHADECODE = Z.SHADECODE ")
+            .Append(" AND A.CUTCODE = Z.CUTCODE ")
+            .Append(" AND A.BOOKCODE='RQSS-000000001' ")
+            .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE ")
+            .Append(" LEFT JOIN MstStoreItem B ON A.ITEMCODE=B.ITEMCODE ")
             .Append(" LEFT JOIN MstMasterAccount ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
-            .Append(" LEFT JOIN MSTTRANSPORT  ON A.TRANSPORTCODE=MSTTRANSPORT.ID   ")
-            .Append(" LEFT JOIN MstMasterAccount AS C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE   ")
-            .Append(" LEFT JOIN Mst_Acof_Supply ON  A.ACOFCODE=Mst_Acof_Supply.ID   ")
+            .Append(" LEFT JOIN MSTTRANSPORT ON A.TRANSPORTCODE=MSTTRANSPORT.ID ")
+            .Append(" LEFT JOIN MstMasterAccount C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE ")
+            .Append(" LEFT JOIN Mst_Acof_Supply ON A.ACOFCODE=Mst_Acof_Supply.ID ")
             .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
-            .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
-            .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
-            .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
-            .Append(" WHERE 1=1  ")
-            .Append(" And A.BOOKCODE='RQSS-000000001'  ")
-            .Append("  AND NOT EXISTS ")
-                .Append("  (   ")
-                .Append(" SELECT 1  ")
-                .Append(" FROM TrnPackingSlip AS B  ")
-                .Append(" WHERE ")
-                .Append(" B.OP7 = A.BookVno ")
-                .Append(" And B.ITEMCODE = A.ITEMCODE ")
-                .Append("  )")
-
+            .Append(" LEFT JOIN MstStoreItemType K ON A.SHADECODE=K.TYPE_ID ")
+            .Append(" LEFT JOIN MstDepartment E ON A.DESIGNCODE=E.Departmentcode ")
+            .Append(" LEFT JOIN MstColor F ON A.CUTCODE1=F.COLORCODE ")
+            .Append(" WHERE 1=1 ")
             .Append(dateFilter)
             .Append(StatusFilter)
             .Append(TypeFilter)
-            .Append(" Order By A.EntryNo ")
+            .Append(" GROUP BY ")
+            .Append(" A.ENTRYNO,")
+            .Append(" A.PACK_SLIP_DATE,")
+            .Append(" A.ENTRYDATE,")
+            .Append(" A.PACK_SLIP_NO,")
+            .Append(" A.ITEMCODE,")
+            .Append(" A.DESIGNCODE,")
+            .Append(" A.SHADECODE,")
+            .Append(" A.CUTCODE,")
+            .Append(" A.BOOKVNO,")
+            .Append(" B.ItemName,")
+            .Append(" MstCutMaster.CUTNAME,")
+            .Append(" K.TYPE_NAME,")
+            .Append(" A.OP22,")
+            .Append(" A.OP19 ")
+            .Append(" HAVING SUM(Z.INQTY)-SUM(Z.OUTQTY) > 0 ")
+            .Append(" ORDER BY A.ENTRYNO ")
         End With
         Dim tblTmp As DataTable
         sqL = _UserQuery.ToString()
@@ -118,7 +145,7 @@ Public Class StoreApproval
             GridControl1.DataSource = tblTmp.Copy
             For Each dc As DataColumn In tblTmp.Columns
                 Dim isEmptyOrZero As Boolean = True
-                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP22" Then
+                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP22" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
                     Continue For
                 End If
@@ -174,12 +201,18 @@ Public Class StoreApproval
             "OP19 = @OP19, " &
             "OP22 = @MODYFIDATE " &
             "WHERE BOOKVNO = @BOOKVNO " &
-            "AND ITEMCODE = @ITEMCODE"
+            "AND ITEMCODE = @ITEMCODE" &
+            " AND DESIGNCODE = @DESIGNCODE" &
+            " AND SHADECODE = @SHADECODE" &
+            " AND CUTCODE = @CUTCODE"
                 cmd.Parameters.Clear()
                 cmd.Parameters.AddWithValue("@OP19", dr("STATUS").ToString())
                 cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
                 cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
                 cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
+                cmd.Parameters.AddWithValue("@DESIGNCODE", dr("DESIGNCODE").ToString())
+                cmd.Parameters.AddWithValue("@SHADECODE", dr("SHADECODE").ToString())
+                cmd.Parameters.AddWithValue("@CUTCODE", dr("CUTCODE").ToString())
                 cmd.ExecuteNonQuery()
                 cmd.Dispose()
             End If

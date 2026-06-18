@@ -393,9 +393,9 @@ Partial Class AppEntryManagement
         Me.Label50.ForeColor = System.Drawing.Color.Black
         Me.Label50.Location = New System.Drawing.Point(671, 12)
         Me.Label50.Name = "Label50"
-        Me.Label50.Size = New System.Drawing.Size(76, 14)
+        Me.Label50.Size = New System.Drawing.Size(82, 14)
         Me.Label50.TabIndex = 82261
-        Me.Label50.Text = "Unit Name"
+        Me.Label50.Text = "Book Name"
         '
         'Label41
         '

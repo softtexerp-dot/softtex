@@ -1318,12 +1318,18 @@ Public Class StoreIssueDepartment
                 GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).ForeColor = Color.Red
                 _CheckDispath = True
             End If
-            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
-                If _DispathRowEdit = True Then
-                    GrdItem.Row(j).Locked = False
-                Else
-                    GrdItem.Row(j).Locked = True
-                End If
+            'If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
+            'If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+            '    If _DispathRowEdit = True Then
+            '        GrdItem.Row(j).Locked = False
+            '    Else
+            '        GrdItem.Row(j).Locked = True
+            '    End If
+            'End If
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+                GrdItem.Row(j).Locked = True
+            Else
+                GrdItem.Row(j).Locked = False
             End If
         Next
         Total_Upto_All_Grid_All_Row()
@@ -1516,8 +1522,12 @@ Public Class StoreIssueDepartment
                 For i As Integer = 1 To GrdItem.Rows - 1
                     Dim ReqNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text.Trim()
                     Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
-                    If ReqNo <> "" AndAlso ItemCode <> "" Then
-                        Dim Key As String = ReqNo & "|" & ItemCode
+                    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
+
+                    If ReqNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
+                        Dim Key As String = ReqNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
                         Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
                         If QtyMap.ContainsKey(Key) Then
                             QtyMap(Key) += Qty
@@ -1530,8 +1540,10 @@ Public Class StoreIssueDepartment
                 For Each dr As DataRow In _Tmptbl.Rows
                     Dim ReqNo As String = dr("Req No").ToString().Trim()
                     Dim ItemCode As String = dr("ItemCode").ToString().Trim()
-
-                    Dim Key As String = ReqNo & "|" & ItemCode
+                    Dim BrandCode As String = dr("GROUPCODE").ToString().Trim()
+                    Dim cutcode As String = dr("CountCode").ToString().Trim()
+                    Dim departmentcode As String = dr("CITYCODE").ToString().Trim()
+                    Dim Key As String = ReqNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
                     Dim ActualBal As Double = Val(dr("Balance"))
                     If QtyMap.ContainsKey(Key) Then
                         ActualBal -= QtyMap(Key)
@@ -1551,13 +1563,11 @@ Public Class StoreIssueDepartment
                     End If
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = selected("ItemName").ToString()
                     'Remaining balance show hoga
-                    'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = Val(selected("Balance"))
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = selected("ItemCode").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = selected("Brand").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = selected("GROUPCODE").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = selected("CountCode").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = selected("UOM").ToString()
-                    'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = selected("ACCOUNTCODE").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = selected("DepartmentName").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected("CITYCODE").ToString()  'Department code
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = selected("ID").ToString()
@@ -1580,11 +1590,15 @@ Public Class StoreIssueDepartment
                         Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
                         Dim AccountCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text.Trim()
                         'Dim StockID As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP24") + 1).Text.Trim()
+                        Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                        Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                        Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
 
-                        If ItemCode <> "" Then
 
-                            'Dim Key As String = ItemCode & "|" & AccountCode & "|" & StockID
-                            Dim Key As String = ItemCode & "|" & AccountCode
+
+                        If ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
+
+                            Dim Key As String = ItemCode & "|" & AccountCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
                             Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
 
                             If QtyopenMap.ContainsKey(Key) Then
@@ -1600,10 +1614,12 @@ Public Class StoreIssueDepartment
 
                         Dim ItemCode As String = dr("ItemCode").ToString().Trim()
                         Dim AccountCode As String = dr("AccountCode").ToString().Trim()
+                        Dim BrandCode As String = dr("GROUPCODE").ToString().Trim()
+                        Dim cutcode As String = dr("CountCode").ToString().Trim()
+                        Dim departmentcode As String = dr("CITYCODE").ToString().Trim()
                         'Dim StockID As String = dr("ID").ToString().Trim()
 
-                        'Dim Key As String = ItemCode & "|" & AccountCode & "|" & StockID
-                        Dim Key As String = ItemCode & "|" & AccountCode
+                        Dim Key As String = ItemCode & "|" & AccountCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
                         Dim ActualOpenBal As Double = Val(dr("Balance"))
 
                         If QtyopenMap.ContainsKey(Key) Then
@@ -1667,30 +1683,25 @@ Public Class StoreIssueDepartment
                 Dim EnterQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
                 Dim ReqQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ReqQty") + 1).Text)
                 Dim stockQty As Double = Val(GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("stockQty") + 1).Text)
-                If EnterQty > ReqQty Then
+                If EnterQty > ReqQty AndAlso ReqQty > 0 Then
                     MsgBox("Entered Quantity Cannot Exceed Req Qty. : " & ReqQty, MsgBoxStyle.Information)
                     GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
                     SendKeys.Send("{LEFT}")
                     Exit Sub
                 End If
-                If EnterQty > stockQty Then
+                If EnterQty > stockQty AndAlso stockQty > 0 Then
                     MsgBox("Entered Quantity Cannot Exceed Stock Qty.: " & stockQty, MsgBoxStyle.Information)
                     GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
                     SendKeys.Send("{LEFT}")
                     Exit Sub
                 End If
-                If EnterQty > ReqQty OrElse EnterQty > stockQty Then
-                    MsgBox("Invalid Quantity.", MsgBoxStyle.Information)
-                    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
-                    SendKeys.Send("{LEFT}")
-                    Exit Sub
-                End If
-                If EnterQty <= 0 Then
-                    MsgBox("Invalid Quantity.", MsgBoxStyle.Information)
-                    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
-                    SendKeys.Send("{LEFT}")
-                    Exit Sub
-                End If
+
+                'If EnterQty <= 0 Then
+                '    MsgBox("Invalid Quantity.", MsgBoxStyle.Information)
+                '    GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
+                '    SendKeys.Send("{LEFT}")
+                '    Exit Sub
+                'End If
                 Call Total_Upto_All_Grid_All_Row()
             End If
         ElseIf _ActivatedColName = "COMPANYNAME" Then
@@ -1816,7 +1827,7 @@ Public Class StoreIssueDepartment
             .Append(" D.CUTNAME AS UOM, ")
             .Append(" E.DEPARTMENTNAME AS DepartmentName, ")
             .Append(" E.Departmentcode AS CITYCODE, ")
-            .Append(" Z.CUTCODE as CountCode, ")
+            .Append(" D.ID as CountCode, ")
             .Append(" Z.ITEMCODE As ItemCode, ")
             .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') As Balance, ")
             .Append(" B.HSNCODE AS HsnCode ")
@@ -1842,7 +1853,7 @@ Public Class StoreIssueDepartment
             .Append(" A.DESIGNCODE, ")
             .Append(" A.SHADECODE ")
             .Append(" FROM TrnPackingSlip AS A ")
-            .Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE) ")
+            '.Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE) ")
             .Append(" WHERE 1=1 ")
             .Append(_Filterstring_B)
             .Append(" ) AS Z ")
@@ -1865,7 +1876,7 @@ Public Class StoreIssueDepartment
             .Append(" A.PACK_SLIP_NO, ")
             .Append(" A.BOOKVNO, ")
             .Append(" Z.BOOKVNO, ")
-            .Append(" Z.CUTCODE, ")
+            .Append(" D.ID, ")
             .Append(" Z.ITEMCODE, ")
             .Append(" Z.DESIGNCODE, ")
             .Append(" Z.SHADECODE, ")
