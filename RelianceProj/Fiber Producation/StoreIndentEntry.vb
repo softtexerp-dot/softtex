@@ -1560,6 +1560,11 @@ Public Class StoreIndentEntry
                     .Append(" ) AS Z ")
                     .Append(" INNER JOIN TrnPackingSlip AS A ")
                     .Append(" ON A.BOOKVNO = Z.BOOKVNO ")
+                    .Append(" AND A.ITEMCODE = Z.ITEMCODE ")
+                    .Append(" AND A.DESIGNCODE = Z.DESIGNCODE ")
+                    .Append(" AND A.SHADECODE = Z.SHADECODE ")
+                    .Append(" AND A.CUTCODE = Z.CUTCODE ")
+                    .Append(" AND A.BOOKCODE='RQSS-000000001' ")
                     .Append(" LEFT JOIN MstStoreItem AS B ON A.ITEMCODE = B.ITEMCODE  ")
                     .Append(" LEFT JOIN MstStoreItemType AS C ")
                     .Append(" ON A.SHADECODE = C.TYPE_ID ")
@@ -1629,8 +1634,9 @@ Public Class StoreIndentEntry
                         _FinalTmptbl.ImportRow(dr)
                     End If
                 Next
+                Dim ExtracolumnsToHide = {"HsnCode"}
                 Dim _FItemcodeilter As String = ""
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", Nothing)
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 'Dim _LoadQuery = _StrQuery.ToString()
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 If selectedList1 IsNot Nothing Then
