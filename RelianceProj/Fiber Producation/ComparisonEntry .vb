@@ -1446,7 +1446,7 @@ Public Class ComparisonEntry
                 If selected.ContainsKey("BookName") Then txtUnitName.Text = selected("BookName").ToString()
             End If
             '_BookCode = txtBookCode.Text
-            SendKeys.Send("{TAB}")
+            'SendKeys.Send("{TAB}")
             If _BookCode <> "" Then
                 Dim TmpTbl As New DataTable
                 sqL = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" & _BookCode & "' "
@@ -1704,6 +1704,7 @@ Public Class ComparisonEntry
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
+                                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ROWREMARK")).SetFocus()
                                     GrdItem.Rows = GrdItem.Rows + 1
                                     Rowno += 1
                                 Next

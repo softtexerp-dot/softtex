@@ -178,7 +178,7 @@ Public Class DepartmentApproval
         ' DISTINCT ITEMS
         'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) r("ITEMNAME").ToString())
         'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .SupplierCode = r("SupplierCode").ToString()})
-        Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .EntryNo = r("EntryNo").ToString()})
+        Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .EntryNo = r("EntryNo").ToString(), Key .Brand = r("COMPANYNAME").ToString(), Key .CutName = r("CUTNAME").ToString()})
         For Each grp In items
             Dim newRow As DataRow = dtPivot.NewRow()
             Dim firstRow = grp.First()

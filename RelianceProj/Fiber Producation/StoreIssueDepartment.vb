@@ -1392,7 +1392,7 @@ Public Class StoreIssueDepartment
                 If selected.ContainsKey("BookName") Then txtUnitName.Text = selected("BookName").ToString()
             End If
             '_BookCode = txtBookCode.Text
-            SendKeys.Send("{TAB}")
+            'SendKeys.Send("{TAB}")
             If _BookCode <> "" Then
                 Dim TmpTbl As New DataTable
                 sqL = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" & _BookCode & "' "
