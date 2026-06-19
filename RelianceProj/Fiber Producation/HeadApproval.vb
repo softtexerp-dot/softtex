@@ -32,12 +32,12 @@ Public Class HeadApproval
         Try
 
             Dim dateFilter As String = ""
-        Dim StatusFilter As String = ""
-        Dim TypeFilter As String = ""
-        If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
-            dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
-        End If
-        If Not String.IsNullOrEmpty(txt_Status.Text) Then
+            Dim StatusFilter As String = ""
+            Dim TypeFilter As String = ""
+            If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
+                dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
+            End If
+            If Not String.IsNullOrEmpty(txt_Status.Text) Then
                 If UCase(txt_Status.Text.Trim) = "ALL" Then
                     StatusFilter = ""
                 ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
@@ -45,29 +45,29 @@ Public Class HeadApproval
                 ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
                     StatusFilter = " AND UPPER(A.OP24) = 'NO' "
                 End If
-        End If
-        If UCase(TxtType.Text.Trim) = "ALL" Then
-            TypeFilter = " AND ( " &
-                 " (ISDATE(ISNULL(A.OP25,'1900-01-01 00:00:00.000')) = 1 " &
-                 " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
-                 " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
-                 " OR " &
-                 " (CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
-                 " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
-                 " ) " '&
-            '" AND UPPER(A.OP19) IN ('YES') "
-        ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
-            TypeFilter = " AND ISDATE(ISNULL(A.OP25,'1900-01-01 00:00:00.000')) = 1 " &
-                 " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
-                 " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " '&
-            '" AND UPPER(A.OP19) = 'YES' "
-        ElseIf UCase(TxtType.Text.Trim) = "PENDING" Then
-            TypeFilter = " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
-                 " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " '&
-            ' " AND UPPER(A.OP19) = 'YES' "
-        End If
-        Dim _UserQuery As New StringBuilder()
-        With _UserQuery
+            End If
+            If UCase(TxtType.Text.Trim) = "ALL" Then
+                TypeFilter = " AND ( " &
+                     " (ISDATE(ISNULL(A.OP25,'1900-01-01 00:00:00.000')) = 1 " &
+                     " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                     " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
+                     " OR " &
+                     " (CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                     " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "') " &
+                     " ) " '&
+                '" AND UPPER(A.OP19) IN ('YES') "
+            ElseIf UCase(TxtType.Text.Trim) = "APPROVE" Then
+                TypeFilter = " AND ISDATE(ISNULL(A.OP25,'1900-01-01 00:00:00.000')) = 1 " &
+                     " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                     " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " '&
+                '" AND UPPER(A.OP19) = 'YES' "
+            ElseIf UCase(TxtType.Text.Trim) = "PENDING" Then
+                TypeFilter = " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                     " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " '&
+                ' " AND UPPER(A.OP19) = 'YES' "
+            End If
+            Dim _UserQuery As New StringBuilder()
+            With _UserQuery
                 .Append(" SELECT   A.ENTRYNO As [Approval No],")
                 .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
                 .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
@@ -101,24 +101,24 @@ Public Class HeadApproval
                 .Append(" WHERE 1=1  ")
                 .Append(" And A.BOOKCODE='CESS-000000001'  ")
                 .Append(" And A.OP19='YES'  ") ' comaprison status
-                .Append("  AND NOT EXISTS ")
-                .Append("  (   ")
-                .Append(" SELECT 1  ")
-                .Append(" FROM TrnPackingSlip AS B  ")
-                .Append(" WHERE ")
-                .Append(" B.OP7 = A.BookVno ")
-                .Append(" And B.ITEMCODE = A.ITEMCODE ")
-                .Append("  )")
+                '.Append("  AND NOT EXISTS ")
+                '.Append("  (   ")
+                '.Append(" SELECT 1  ")
+                '.Append(" FROM TrnPackingSlip AS B  ")
+                '.Append(" WHERE ")
+                '.Append(" B.OP7 = A.BookVno ")
+                '.Append(" And B.ITEMCODE = A.ITEMCODE ")
+                '.Append("  )")
                 .Append(dateFilter)
                 .Append(StatusFilter)
                 .Append(TypeFilter)
                 .Append(" Order By A.EntryNo ")
             End With
-        Dim tblTmp As DataTable
-        sqL = _UserQuery.ToString()
-        sql_connect_slect()
-        tblTmp = DefaltSoftTable.Copy
-        Dim Qty As String = ""
+            Dim tblTmp As DataTable
+            sqL = _UserQuery.ToString()
+            sql_connect_slect()
+            tblTmp = DefaltSoftTable.Copy
+            Dim Qty As String = ""
             If tblTmp.Rows.Count > 0 Then
                 GridControl1.DataSource = tblTmp.Copy
                 For Each dc As DataColumn In tblTmp.Columns
@@ -199,7 +199,7 @@ Public Class HeadApproval
             If FirstStage.FocusedColumn.FieldName = "Status" Then
                 Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
                 If currentValue = "YES" Then
-                    FirstStage.SetFocusedRowCellValue("Status", "NO")
+                    'FirstStage.SetFocusedRowCellValue("Status", "NO")
                 Else
                     FirstStage.SetFocusedRowCellValue("Status", "YES")
                 End If

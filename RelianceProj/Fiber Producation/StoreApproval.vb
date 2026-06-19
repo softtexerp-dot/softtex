@@ -225,7 +225,7 @@ Public Class StoreApproval
             If FirstStage.FocusedColumn.FieldName = "Status" Then
                 Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
                 If currentValue = "YES" Then
-                    FirstStage.SetFocusedRowCellValue("Status", "NO")
+                    'FirstStage.SetFocusedRowCellValue("Status", "NO")
                 Else
                     FirstStage.SetFocusedRowCellValue("Status", "YES")
                 End If
