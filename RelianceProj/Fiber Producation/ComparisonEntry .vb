@@ -1594,6 +1594,10 @@ Public Class ComparisonEntry
                     .Append(" SELECT ")
                     .Append(" 'False' AS TickMark, ")
                     .Append(" A.Srno, ")
+                    ''
+                    '.Append(" S.PACK_SLIP_NO AS ReqNo, ")
+                    '.Append(" S.BookVno AS ReqBookVno, ")
+                    ''
                     .Append(" A.PACK_SLIP_NO AS QuotationNo, ")
                     .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy')  AS Date, ")
                     .Append(" E.AccountName AS AccountName, ")
@@ -1604,6 +1608,27 @@ Public Class ComparisonEntry
                     .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE ")
                     .Append(" LEFT JOIN MstMasterAccount AS E ")
                     .Append(" ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
+                    ''
+                    '.Append(" Left Join(")
+                    '.Append("SELECT BookVno,")
+                    '.Append("      OP7 ,")
+                    '.Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
+                    '.Append(" From TrnPackingSlip")
+                    '.Append(" Where BookTrType = 'SISS1'")
+                    '.Append(" GROUP BY BookVno")
+                    '.Append("  ,OP7")
+                    '.Append(") R")
+                    '.Append(" On R.BookVno = A.OP7")
+                    '.Append(" Left Join(")
+                    '.Append("SELECT BookVno,")
+                    '.Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
+                    '.Append(" From TrnPackingSlip")
+                    '.Append(" Where BookTrType = 'RQSS1'")
+                    '.Append(" GROUP BY BookVno")
+
+                    '.Append(") S")
+                    '.Append(" ON S.BookVno = R.OP7")
+                    ''
                     .Append(" WHERE 1=1 ")
                     .Append(" and a.Booktrtype='QESS1'")
                     .Append("  AND NOT EXISTS ")
@@ -1622,7 +1647,7 @@ Public Class ComparisonEntry
                 sql_connect_slect()
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
                 Dim _FItemcodeilter As String = ""
-                Dim ExtracolumnsToHide = {"Srno"}
+                Dim ExtracolumnsToHide = {"Srno", "ReqBookVno"}
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then

@@ -1718,6 +1718,10 @@ Friend Class QuotationEntry
                 With _StrQuery
                     .Append(" SELECT ")
                     .Append(" 'False' AS TickMark, ")
+                    ''
+                    '.Append(" R.PACK_SLIP_NO AS ReqNo, ")
+                    '.Append(" R.BookVno AS ReqBookVno, ")
+                    ''
                     .Append(" A.PACK_SLIP_NO AS [Ind No], ")
                     .Append(" B.ItemName AS ItemName, ")
                     .Append(" B.HSNCODE AS HsnCode, ")
@@ -1738,9 +1742,18 @@ Friend Class QuotationEntry
                     .Append(" ON A.SHADECODE = C.TYPE_ID ")
                     .Append(" LEFT JOIN MstCutMaster AS D ")
                     .Append(" ON A.CUTCODE = D.ID ")
+                    ''
+                    '.Append(" Left Join(")
+                    '.Append("SELECT BookVno,")
+                    '.Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
+                    '.Append(" From TrnPackingSlip")
+                    '.Append(" Where BookTrType = 'RQSS1'")
+                    '.Append(" GROUP BY BookVno")
+                    '.Append(") R")
+                    '.Append(" On R.BookVno = A.OP7")
+                    ''
                     .Append(" WHERE 1=1 ")
                     .Append(" AND A.Bookcode = 'SISS-000000001'")
-
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
@@ -1751,10 +1764,14 @@ Friend Class QuotationEntry
                     .Append("  )")
 
                 End With
-
-                Dim _LoadQuery = _StrQuery.ToString()
+                sqL = _StrQuery.ToString()
+                sql_connect_slect()
+                Dim ExtracolumnsToHide = {"ReqBookVno"}
+                Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
+                'Dim _LoadQuery = _StrQuery.ToString()
                 Dim _FItemcodeilter As String = ""
-                Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
+                'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
