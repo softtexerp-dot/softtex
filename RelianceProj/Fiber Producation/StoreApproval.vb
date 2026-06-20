@@ -33,15 +33,23 @@ Public Class StoreApproval
         Dim StatusFilter As String = ""
         Dim TypeFilter As String = ""
         If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
-            dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
+            'dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
         End If
         If Not String.IsNullOrEmpty(txt_Status.Text) Then
             If UCase(txt_Status.Text.Trim) = "ALL" Then
                 StatusFilter = ""
+                dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
             ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
-                StatusFilter = " AND UPPER(A.OP19) = 'YES' "
+                'StatusFilter = " AND UPPER(A.OP19) = 'YES' "
+                StatusFilter = " AND ISDATE(ISNULL(A.OP22,'1900-01-01 00:00:00.000')) = 1 " &
+                 " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                 " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " &
+                 " AND UPPER(A.OP19) = 'YES' "
             ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
-                StatusFilter = " AND UPPER(A.OP19) = 'NO' "
+                'StatusFilter = " AND UPPER(A.OP19) = 'NO' "
+                StatusFilter = " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                 " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " &
+                 " AND UPPER(A.OP19) = 'NO' "
             End If
         End If
         If UCase(TxtType.Text.Trim) = "ALL" Then

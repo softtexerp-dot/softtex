@@ -140,6 +140,8 @@ Public Class StoresPurchaseOrder
             .Append("LENGTH,")
             .Append("MONOGRAM_TYPE,")
             .Append("OP23,") 'APPROVE
+            .Append("OP5,") ' comparisionno
+            .Append("OP6,") ' compare bookno
             .Append("OP4,") 'Payment terms
             .Append("ROWREMARK")
         End With
@@ -332,6 +334,8 @@ Public Class StoresPurchaseOrder
             .Append("CDVALUE:N,")
             .Append("CDON:N,")
             .Append("OP23:N,")
+            .Append("OP5:N,") ' comparisionno
+            .Append("OP6:N,") ' compare bookno
             .Append("CANCEL_QTY:N,")
             .Append("OP4:L,") 'Payment terms
             .Append("ROWREMARK:Y")
@@ -402,6 +406,7 @@ Public Class StoresPurchaseOrder
         With _FieldLocked
             .Append("SRNO:Y")
             .Append(",SELVCODE:Y")
+            .Append(",MTR_WEIGHT:Y")
             .Append(",LOTNO:Y")
         End With
 
@@ -3288,9 +3293,9 @@ Public Class StoresPurchaseOrder
                         .Append("  AND NOT EXISTS ")
                         .Append("  (   ")
                         .Append(" SELECT 1  ")
-                        .Append(" FROM TrnPackingSlip AS B  ")
+                        .Append(" FROM TrnOffer AS B  ")
                         .Append(" WHERE ")
-                        .Append(" B.OP7 = A.BookVno ")
+                        .Append(" B.OP6 = A.BookVno ")
                         .Append(" And B.ITEMCODE = A.ITEMCODE ")
                         .Append("  )")
                         '.Append(" AND A.BOOKVNO IN ('" & ReqBookvnorawData & "') ")
@@ -3310,6 +3315,8 @@ Public Class StoresPurchaseOrder
                             If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ACCOUNTCODE") Then
                                 _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
                                 Dim BookVno = rowDict("ItemCode").ToString()
+                                Dim comparisionno = rowDict("ComparisionNo").ToString()
+
                                 Dim Srno = Val(rowDict("Srno").ToString())
                                 Dim _DetailQuery As New StringBuilder
                                 With _DetailQuery
@@ -3383,6 +3390,8 @@ Public Class StoresPurchaseOrder
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP5") + 1).Text = comparisionno
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = BookVno
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
                                         GrdItem.Rows = GrdItem.Rows + 1
                                         Rowno += 1
@@ -3604,6 +3613,33 @@ Public Class StoresPurchaseOrder
             '        txtEntryNo.Text = Last_Entry_No + 1
             '    End If
             'End If
+            If _FORMMODE = "ADD" Then
+                _TransctionNo = 0
+                _BookVNo = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
+                sqL = "SELECT TOP 1 ENTRYNO FROM TRNOFFER WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                sql_connect_slect()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    _TransctionNo = (DefaltSoftTable.Rows(0).Item(0))
+                End If
+                If _TransctionNo > 0 Then
+                    If DefaltSoftTable.Rows.Count > 0 Then
+
+                        sqL = "SELECT TOP 1 ENTRYNO FROM TRNOFFER WHERE  BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                        sql_connect_slect()
+                        If DefaltSoftTable.Rows.Count > 0 Then
+                            _TransctionNo = (DefaltSoftTable.Rows(0).Item(0) + 1)
+                        End If
+                    End If
+                    txtEntryNo.Text = (_TransctionNo)
+                    'txtChallanNo.Text = (_TransctionNo)
+                End If
+                _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
+
+            End If
+
+
+            'Generate_Date_For_DataBase(txtChallanDate)
+
 
 
             _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
@@ -3706,7 +3742,7 @@ Public Class StoresPurchaseOrder
         '--- Fill Items Grid Records -----------
         _DataTableGrid.Rows.Clear()
         For i As Int16 = 1 To GrdItem.Rows - 1
-            If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text <> "" And Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) > 0 And GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMGROUPCODE") + 1).Text <> "" And GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text <> "" Then
+            If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text <> "" And Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) > 0 Then
 
                 If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = "" Then
                     GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = "0000-000000001"

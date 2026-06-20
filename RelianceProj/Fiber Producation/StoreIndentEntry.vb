@@ -362,7 +362,7 @@ Public Class StoreIndentEntry
             .Append("ACCOUNTNAME:Y,")
             .Append("ITEMNAME:Y,")
             .Append("OP6:Y,")
-            '.Append("MTR_WEIGHT:Y,")
+            .Append("MTR_WEIGHT:Y,")
             .Append("AMOUNT:Y,")
             '.Append("COMPANYNAME:Y,")
             .Append("CUTNAME:Y,")
@@ -809,6 +809,7 @@ Public Class StoreIndentEntry
 
         End If
         Generate_Date_For_DataBase(txtChallanDate)
+
 
         Call Fill_Grid_Records_Into_DataTables()
 
@@ -1554,9 +1555,9 @@ Public Class StoreIndentEntry
                     .Append(" A.DESIGNCODE, ")
                     .Append(" A.SHADECODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
-                    '.Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE) ")
+                    .Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE) ")
                     .Append(" WHERE 1=1 ")
-                    .Append("And A.Bookcode = 'IDSS-000000001'")
+                    .Append(" And A.Bookcode = 'IDSS-000000001'")
                     .Append(" ) AS Z ")
                     .Append(" INNER JOIN TrnPackingSlip AS A ")
                     .Append(" ON A.BOOKVNO = Z.BOOKVNO ")
@@ -1565,6 +1566,18 @@ Public Class StoreIndentEntry
                     .Append(" AND A.SHADECODE = Z.SHADECODE ")
                     .Append(" AND A.CUTCODE = Z.CUTCODE ")
                     .Append(" AND A.BOOKCODE='RQSS-000000001' ")
+                    .Append("  AND NOT EXISTS ")
+                    .Append("  (   ")
+                    .Append(" SELECT 1  ")
+                    .Append(" FROM TrnPackingSlip AS B  ")
+                    .Append(" WHERE ")
+                    .Append(" B.OP7 = A.BookVno ")
+                    .Append(" And B.ITEMCODE = Z.ITEMCODE ")
+                    .Append(" AND B.DESIGNCODE = Z.DESIGNCODE ")
+                    .Append(" AND B.SHADECODE = Z.SHADECODE ")
+                    .Append(" AND B.CUTCODE = Z.CUTCODE ")
+                    .Append(" and b.Bookcode = 'SISS-000000001' ")
+                    .Append("  )")
                     .Append(" LEFT JOIN MstStoreItem AS B ON A.ITEMCODE = B.ITEMCODE  ")
                     .Append(" LEFT JOIN MstStoreItemType AS C ")
                     .Append(" ON A.SHADECODE = C.TYPE_ID ")
@@ -1585,13 +1598,13 @@ Public Class StoreIndentEntry
                     .Append(" E.Departmentcode, ")
                     .Append(" A.CUTCODE, ")
                     .Append(" A.ITEMCODE")
-                    '.Append(" HAVING SUM(Z.INQTY)-SUM(Z.OUTQTY) > 0 ")
+                    .Append(" HAVING SUM(Z.INQTY)-SUM(Z.OUTQTY) > 0 ")
 
                     '.Append(" LEFT JOIN MstStoreItem AS B ON A.ITEMCODE = B.ITEMCODE  ")
-                    '.Append(" LEFT JOIN MstStoreItemType AS C ")
-                    '.Append(" ON A.SHADECODE = C.TYPE_ID ")
+                    ''.Append(" LEFT JOIN MstStoreItemType AS C ")
+                    '''''.Append(" ON A.SHADECODE = C.TYPE_ID ")
                     '.Append(" LEFT JOIN MstCutMaster AS D ")
-                    '.Append(" ON A.CUTCODE = D.ID ")
+                    ''''.Append(" ON A.CUTCODE = D.ID ")
                     '.Append(" LEFT JOIN MstDepartment AS E ")
                     '.Append(" ON A.DESIGNCODE = E.Departmentcode ")
                     '.Append(" WHERE 1=1 ")
@@ -1636,7 +1649,7 @@ Public Class StoreIndentEntry
                 Next
                 Dim ExtracolumnsToHide = {"HsnCode"}
                 Dim _FItemcodeilter As String = ""
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 'Dim _LoadQuery = _StrQuery.ToString()
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 If selectedList1 IsNot Nothing Then

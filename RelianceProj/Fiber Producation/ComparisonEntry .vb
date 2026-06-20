@@ -1,7 +1,4 @@
-﻿Imports System.Data.SqlClient
-Imports System.Text
-Imports DevExpress.DataAccess.EntityFramework
-Imports DevExpress.XtraDiagram.Base
+﻿Imports System.Text
 Imports DevExpress.XtraGrid
 
 Public Class ComparisonEntry
@@ -11,7 +8,6 @@ Public Class ComparisonEntry
     Private UnitCode As String = ""
     Private WithEvents txtUnitCode As New TextBox
     Dim _UNiteWiseCode As String = ""
-    Dim ReqBookvnorawData As String
 
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
@@ -136,6 +132,8 @@ Public Class ComparisonEntry
             .Append("OP13,")  'Delivery
             .Append("OP4,") 'Payment terms
             .Append("OP5,") 'BookName
+            .Append("OP1,") 'Reqno
+            .Append("OP2,") 'reqbookno
 
             .Append("OP7,") 'Selected Req No
             .Append("OP8,") 'Terms1
@@ -302,6 +300,8 @@ Public Class ComparisonEntry
             .Append("AMOUNT:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
+            .Append("OP1:N,") 'Reqno
+            .Append("OP2:N,") 'reqbookno
             .Append("OP11:Y,")  'gst
             .Append("OP12:Y,")  'Fright
             .Append("OP13:Y,")  'Delivery
@@ -1595,8 +1595,8 @@ Public Class ComparisonEntry
                     .Append(" 'False' AS TickMark, ")
                     .Append(" A.Srno, ")
                     ''
-                    '.Append(" S.PACK_SLIP_NO AS ReqNo, ")
-                    '.Append(" S.BookVno AS ReqBookVno, ")
+                    .Append(" A.OP1 AS ReqNo, ")
+                    .Append(" A.OP2 AS ReqBookVno, ")
                     ''
                     .Append(" A.PACK_SLIP_NO AS QuotationNo, ")
                     .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy')  AS Date, ")
@@ -1639,7 +1639,6 @@ Public Class ComparisonEntry
                     .Append(" B.OP7 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
                     .Append("  )")
-                    '.Append(" AND A.BOOKVNO IN ('" & ReqBookvnorawData & "') ")
                 End With
 
                 'Dim _LoadQuery = _StrQuery.ToString
@@ -1649,7 +1648,7 @@ Public Class ComparisonEntry
                 Dim _FItemcodeilter As String = ""
                 Dim ExtracolumnsToHide = {"Srno", "ReqBookVno"}
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
 
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
@@ -1657,6 +1656,10 @@ Public Class ComparisonEntry
                             _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
                             Dim BookVno = rowDict("ItemCode").ToString()
                             Dim Srno = Val(rowDict("Srno").ToString())
+                            Dim ReqNo = (rowDict("ReqNo").ToString())
+                            Dim ReqBookVno = (rowDict("ReqBookVno").ToString())
+
+
                             Dim _DetailQuery As New StringBuilder
                             With _DetailQuery
                                 .Append(" SELECT ")
@@ -1729,6 +1732,8 @@ Public Class ComparisonEntry
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
+                                    GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP1") + 1).Text = ReqNo
+                                    GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP2") + 1).Text = ReqBookVno
                                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ROWREMARK")).SetFocus()
                                     GrdItem.Rows = GrdItem.Rows + 1
                                     Rowno += 1

@@ -89,6 +89,9 @@ Public Class DepartmentApproval
         Return col
     End Function
 
+    Private MinRateByRow As New Dictionary(Of Integer, Decimal)
+
+
     Private Function _Zooming_Load(ByVal _DateTo As String)
         _strQuery = New StringBuilder
         With _strQuery
@@ -215,16 +218,64 @@ Public Class DepartmentApproval
             dtPivot.Rows.Add(newRow)
         Next
         GridControl1.DataSource = dtPivot
+
+        FirstStage.RefreshData()
         If dtPivot.Rows.Count > 0 Then
             Dim bandedView As New BandedGridView(GridControl1)
             GridControl1.MainView = bandedView
             GridControl1.ViewCollection.Add(bandedView)
+
+
+            AddHandler bandedView.RowCellStyle, AddressOf bandedView_RowCellStyle
+            AddHandler bandedView.ShowingEditor, AddressOf bandedView_ShowingEditor
 
             Dim bandItem As New GridBand() With {.Caption = "Item Details"}
             bandItem.Columns.Add(AddBandedColumn(bandedView, "EntryNo", "EntryNo"))
             bandItem.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item"))
             bandItem.Columns.Add(AddBandedColumn(bandedView, "UOM", "UOM"))
             bandedView.Bands.Add(bandItem)
+
+
+
+            MinRateByRow.Clear()
+
+            For i As Integer = 0 To dtPivot.Rows.Count - 1
+
+                Dim minRate As Decimal = Decimal.MaxValue
+
+                For Each acc In accounts
+
+                    Dim colName As String = acc & "_Rate"
+
+                    If dtPivot.Columns.Contains(colName) Then
+
+                        If Not IsDBNull(dtPivot.Rows(i)(colName)) Then
+
+                            Dim rate As Decimal = 0D
+
+                            If Decimal.TryParse(dtPivot.Rows(i)(colName).ToString(), rate) Then
+
+                                If rate > 0 AndAlso rate < minRate Then
+                                    minRate = rate
+                                End If
+
+                            End If
+
+                        End If
+
+                    End If
+
+                Next
+
+                If minRate <> Decimal.MaxValue Then
+                    MinRateByRow(i) = minRate
+                End If
+
+            Next
+
+
+
+
             For Each acc In accounts
                 Dim band As New GridBand()
                 band.Caption = acc
@@ -241,15 +292,21 @@ Public Class DepartmentApproval
                 If dtPivot.Columns.Contains(acc & "_Dis") Then
                     band.Columns.Add(AddBandedColumn(bandedView, acc & "_Dis", "Dis %"))
                 End If
+
+
+                'If dtPivot.Columns.Contains(acc & "_Rate") Then
+                '    Dim rateCol As BandedGridColumn = AddBandedColumn(bandedView, acc & "_Rate", "Net Rate")
+                '    rateCol.AppearanceCell.BackColor = Color.LightGreen
+                '    rateCol.AppearanceCell.Options.UseBackColor = True
+                '    band.Columns.Add(rateCol)
+                'End If
+
                 If dtPivot.Columns.Contains(acc & "_Rate") Then
-                    'band.Columns.Add(AddBandedColumn(bandedView, acc & "_Rate", "Net Rate"))
                     Dim rateCol As BandedGridColumn = AddBandedColumn(bandedView, acc & "_Rate", "Net Rate")
-
-                    rateCol.AppearanceCell.BackColor = Color.LightGreen
-                    rateCol.AppearanceCell.Options.UseBackColor = True
-
                     band.Columns.Add(rateCol)
                 End If
+
+
 
                 If dtPivot.Columns.Contains(acc & "_Amount") Then
                     band.Columns.Add(AddBandedColumn(bandedView, acc & "_Amount", "Amount"))
@@ -282,6 +339,9 @@ Public Class DepartmentApproval
                     band.Columns.Add(statusCol)
                 End If
             Next
+
+
+
             For Each col As BandedGridColumn In bandedView.Columns
                 col.OptionsColumn.AllowEdit = False
                 col.OptionsColumn.ReadOnly = True
@@ -303,74 +363,97 @@ Public Class DepartmentApproval
         Return _NewTmptbl
     End Function
 
-    Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
-        If e.KeyCode <> Keys.Space Then Exit Sub
-        Dim view As BandedGridView = TryCast(GridControl1.FocusedView, BandedGridView)
-        If view Is Nothing Then Exit Sub
-        If Not view.FocusedColumn.FieldName.EndsWith("_Status") Then Exit Sub
-        Dim BookVno As String = Convert.ToString(view.GetFocusedRowCellValue("BOOKVNO"))
-        Dim SupplierCode As String = Convert.ToString(view.GetFocusedRowCellValue("SupplierCode"))
-        'Dim SupplierCode As String = ""
-        'If view.FocusedColumn.FieldName.EndsWith("_Status") Then
-        '    Dim codeColumn As String = view.FocusedColumn.FieldName.Replace("_Status", "_Code")
-        '    SupplierCode = Convert.ToString(view.GetFocusedRowCellValue(codeColumn))
-        'End If
-        'Dim EntryNo As String = Convert.ToString(view.GetFocusedRowCellValue("EntryNo"))
-        ' Status check
-        Dim dr() As DataRow = dtSource.Select("BOOKVNO='" & BookVno & "' And SupplierCode='" & SupplierCode & "'")
-        If dr.Length > 0 Then
-            If IsDBNull(dr(0)("Status")) Then Exit Sub
-        End If
-        Dim chkValue As Boolean = False
-        If view.GetFocusedRowCellValue(view.FocusedColumn) IsNot DBNull.Value Then
-            chkValue = Not Convert.ToBoolean(view.GetFocusedRowCellValue(view.FocusedColumn))
-        Else
-            chkValue = True
-        End If
-        Try
-            IsUpdating = True
-            ' Same EntryNo + SupplierCode wali rows update
-            'For i As Integer = 0 To view.RowCount - 1
-            '    'If Convert.ToString(view.GetRowCellValue(i, "EntryNo")) = EntryNo AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
-            '    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
-            '        view.SetRowCellValue(i, view.FocusedColumn, chkValue)
-            '    End If
-            'Next
-            ' Agar checkbox checked hua hai to baaki Status columns uncheck
-            'If chkValue Then
-            'For Each col As BandedGridColumn In view.Columns
-            '    If col.FieldName.EndsWith("_Status") AndAlso col.FieldName <> view.FocusedColumn.FieldName Then
-            '        view.SetRowCellValue(view.FocusedRowHandle, col, False)
-            '    End If
-            'Next
-            'End If
-            If chkValue Then
-                ' Same BOOKVNO ki sab rows ke status uncheck
-                For i As Integer = 0 To view.RowCount - 1
-                    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno Then
-                        For Each col As BandedGridColumn In view.Columns
-                            If col.FieldName.EndsWith("_Status") Then
-                                view.SetRowCellValue(i, col, False)
-                            End If
-                        Next
+    Private Sub bandedView_RowCellStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowCellStyleEventArgs)
+
+        If e.RowHandle < 0 Then Exit Sub
+
+        If e.Column.FieldName.EndsWith("_Rate") Then
+
+            Dim minRate As Decimal = 0D
+
+            If MinRateByRow.TryGetValue(e.RowHandle, minRate) Then
+
+                Dim currentRate As Decimal = 0D
+
+                If Decimal.TryParse(Convert.ToString(e.CellValue), currentRate) Then
+
+                    If currentRate = minRate Then
+                        e.Appearance.BackColor = Color.LightGreen
+                        e.Appearance.Font = New Font(e.Appearance.Font, FontStyle.Bold)
                     End If
-                Next
-                ' Ab selected supplier ko check karo
-                For i As Integer = 0 To view.RowCount - 1
-                    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
-                        view.SetRowCellValue(i, view.FocusedColumn, True)
-                    End If
-                Next
-            Else
-                ' Uncheck case
-                For i As Integer = 0 To view.RowCount - 1
-                    If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
-                        view.SetRowCellValue(i, view.FocusedColumn, False)
-                    End If
-                Next
+
+                End If
+
             End If
-            e.SuppressKeyPress = True
-            e.Handled = True
+
+        End If
+
+    End Sub
+    Private Sub bandedView_ShowingEditor(sender As Object, e As System.ComponentModel.CancelEventArgs)
+        Dim view As BandedGridView = CType(sender, BandedGridView)
+
+        If View.FocusedColumn.FieldName.EndsWith("_Status") Then
+            e.Cancel = True
+        End If
+
+    End Sub
+
+    Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
+        Try
+            If e.KeyCode = Keys.Space Then
+                Dim view As BandedGridView = TryCast(GridControl1.FocusedView, BandedGridView)
+                If view Is Nothing Then Exit Sub
+                If Not view.FocusedColumn.FieldName.EndsWith("_Status") Then Exit Sub
+                Dim BookVno As String = Convert.ToString(view.GetFocusedRowCellValue("BOOKVNO"))
+                Dim SupplierCode As String = Convert.ToString(view.GetFocusedRowCellValue("SupplierCode"))
+                'Dim SupplierCode As String = ""
+                'If view.FocusedColumn.FieldName.EndsWith("_Status") Then
+                '    Dim codeColumn As String = view.FocusedColumn.FieldName.Replace("_Status", "_Code")
+                '    SupplierCode = Convert.ToString(view.GetFocusedRowCellValue(codeColumn))
+                'End If
+                'Dim EntryNo As String = Convert.ToString(view.GetFocusedRowCellValue("EntryNo"))
+                ' Status check
+                Dim dr() As DataRow = dtSource.Select("BOOKVNO='" & BookVno & "' And SupplierCode='" & SupplierCode & "'")
+                If dr.Length > 0 Then
+                    If IsDBNull(dr(0)("Status")) Then Exit Sub
+                End If
+                Dim chkValue As Boolean = False
+                If view.GetFocusedRowCellValue(view.FocusedColumn) IsNot DBNull.Value Then
+                    chkValue = Not Convert.ToBoolean(view.GetFocusedRowCellValue(view.FocusedColumn))
+                Else
+                    chkValue = True
+                End If
+
+                IsUpdating = True
+                If chkValue Then
+                    ' Same BOOKVNO ki sab rows ke status uncheck
+                    For i As Integer = 0 To view.RowCount - 1
+                        If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno Then
+                            For Each col As BandedGridColumn In view.Columns
+                                If col.FieldName.EndsWith("_Status") Then
+                                    view.SetRowCellValue(i, col, False)
+                                End If
+                            Next
+                        End If
+                    Next
+                    ' Ab selected supplier ko check karo
+                    For i As Integer = 0 To view.RowCount - 1
+                        If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
+                            view.SetRowCellValue(i, view.FocusedColumn, True)
+                        End If
+                    Next
+                Else
+                    ' Uncheck case
+                    For i As Integer = 0 To view.RowCount - 1
+                        If Convert.ToString(view.GetRowCellValue(i, "BOOKVNO")) = BookVno AndAlso Convert.ToString(view.GetRowCellValue(i, "SupplierCode")) = SupplierCode Then
+                            view.SetRowCellValue(i, view.FocusedColumn, False)
+                        End If
+                    Next
+                End If
+                e.SuppressKeyPress = True
+                e.Handled = True
+            End If
+
         Finally
             IsUpdating = False
         End Try
@@ -589,5 +672,7 @@ Public Class DepartmentApproval
         Generate_Date_For_DataBase(txt_To)
         _Zooming_Load(txt_To.Date_for_Database)
     End Sub
+
+
 #End Region
 End Class

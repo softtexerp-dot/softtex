@@ -146,6 +146,8 @@ Friend Class QuotationEntry
             .Append("USEBY,")
             .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
+            .Append("OP1,") 'req no
+            .Append("OP2,") 'req bookvno
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
             .Append("DESPATCHCODE")
@@ -290,6 +292,8 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT:Y,")
             .Append("RATE:Y,")
             .Append("AMOUNT:Y,")
+            .Append("OP1:N,") 'req no
+            .Append("OP2:N,") 'req bookvno
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
             .Append("OP11:Y,")  'gst
@@ -1719,8 +1723,8 @@ Friend Class QuotationEntry
                     .Append(" SELECT ")
                     .Append(" 'False' AS TickMark, ")
                     ''
-                    '.Append(" R.PACK_SLIP_NO AS ReqNo, ")
-                    '.Append(" R.BookVno AS ReqBookVno, ")
+                    .Append(" R.PACK_SLIP_NO AS ReqNo, ")
+                    .Append(" R.BookVno AS ReqBookVno, ")
                     ''
                     .Append(" A.PACK_SLIP_NO AS [Ind No], ")
                     .Append(" B.ItemName AS ItemName, ")
@@ -1743,14 +1747,14 @@ Friend Class QuotationEntry
                     .Append(" LEFT JOIN MstCutMaster AS D ")
                     .Append(" ON A.CUTCODE = D.ID ")
                     ''
-                    '.Append(" Left Join(")
-                    '.Append("SELECT BookVno,")
-                    '.Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
-                    '.Append(" From TrnPackingSlip")
-                    '.Append(" Where BookTrType = 'RQSS1'")
-                    '.Append(" GROUP BY BookVno")
-                    '.Append(") R")
-                    '.Append(" On R.BookVno = A.OP7")
+                    .Append(" Left Join(")
+                    .Append("SELECT BookVno,")
+                    .Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
+                    .Append(" From TrnPackingSlip")
+                    .Append(" Where BookTrType = 'RQSS1'")
+                    .Append(" GROUP BY BookVno")
+                    .Append(") R")
+                    .Append(" On R.BookVno = A.OP7")
                     ''
                     .Append(" WHERE 1=1 ")
                     .Append(" AND A.Bookcode = 'SISS-000000001'")
@@ -1762,7 +1766,6 @@ Friend Class QuotationEntry
                     .Append(" B.OP22 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
                     .Append("  )")
-
                 End With
                 sqL = _StrQuery.ToString()
                 sql_connect_slect()
@@ -1771,7 +1774,7 @@ Friend Class QuotationEntry
                 'Dim _LoadQuery = _StrQuery.ToString()
                 Dim _FItemcodeilter As String = ""
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
@@ -1791,6 +1794,8 @@ Friend Class QuotationEntry
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP11") + 1).Text = rowDict("Gst%").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP12") + 1).Text = rowDict("Fright").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP13") + 1).Text = rowDict("Delivery").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP1") + 1).Text = rowDict("ReqNo").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP2") + 1).Text = rowDict("ReqBookVno").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
                             '================ NEXT ROW =================
                             If RowNo >= GrdItem.Rows - 1 Then
