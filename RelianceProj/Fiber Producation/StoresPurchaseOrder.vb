@@ -1482,6 +1482,7 @@ Public Class StoresPurchaseOrder
                     PNL_View.Visible = False
                     'Command_Button_Visibility("LOAD")
                     UC_Buttons1._ButtonEnableDisable("LOAD")
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                     ObjCls_General.Blank_Object(Me)
                     Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
                     Ctrl_Visibility_With_One_Grid(False, Me.Controls, grdBsun)
@@ -1509,6 +1510,7 @@ Public Class StoresPurchaseOrder
                         'Command_Button_Visibility("LOAD")
                         'Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
                         UC_Buttons1._ButtonEnableDisable("LOAD")
+                        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                         Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
                         Ctrl_Visibility_With_One_Grid(False, Me.Controls, grdBsun)
                         GrdItem.BoldFixedCell = False
@@ -1525,6 +1527,7 @@ Public Class StoresPurchaseOrder
                         'Call Command_Button_Visibility("LOAD")
                         'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
                         UC_Buttons1._ButtonEnableDisable("LOAD")
+                        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                         Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
                         Ctrl_Visibility_With_One_Grid(False, Me.Controls, grdBsun)
                         GrdItem.BoldFixedCell = False

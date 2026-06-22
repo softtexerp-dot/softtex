@@ -183,10 +183,10 @@ Partial Class HeadApproval
         Me.txt_Status.ShortcutsEnabled = False
         Me.txt_Status.ShowMessage = False
         Me.txt_Status.Size = New System.Drawing.Size(33, 22)
-        Me.txt_Status.SpacerString = "ALL,YES,NO"
+        Me.txt_Status.SpacerString = "NO,YES,ALL"
         Me.txt_Status.TabIndex = 82237
         Me.txt_Status.Tag = "OP19"
-        Me.txt_Status.Text = "ALL"
+        Me.txt_Status.Text = "NO"
         Me.txt_Status.TransparentBox = True
         Me.txt_Status.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -440,7 +440,7 @@ Partial Class HeadApproval
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "HeadApproval"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Head Approval"
+        Me.Text = "Store Head Approval"
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()

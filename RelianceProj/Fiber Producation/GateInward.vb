@@ -1618,7 +1618,7 @@ Public Class GateInward
             '    End If
             'End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
-            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
+            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" AndAlso Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) = 0 Then
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
                 'Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
@@ -1676,11 +1676,14 @@ Public Class GateInward
                     .Append(" A.OFFERNO AS OrderNo, ")
                     .Append(" FORMAT(A.OfferDate,'dd/MM/yyyy')  AS Date, ")
                     .Append(" E.AccountName AS AccountName, ")
-                    .Append(" A.ITEMCODE as ACCOUNTCODE,")
+                    .Append(" A.ITEMCODE,")
                     .Append(" B.ItemName AS ItemName, ")
                     .Append(" A.Mtr_weight AS Qty, ")
                     '.Append(" A.WEIGHT AS Disamount, ")
-                    .Append(" a.BookVno As ItemCode ")
+                    .Append(" a.BookVno,  ")
+                    .Append(" a.DESIGNCODE, ")
+                    .Append(" a.SHADECODE, ")
+                    .Append(" a.CUTCODE ")
                     .Append(" FROM trnoffer AS A ")
                     .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE ")
                     .Append(" LEFT JOIN MstMasterAccount AS E ")
@@ -1705,15 +1708,73 @@ Public Class GateInward
                 sql_connect_slect()
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
                 Dim _FItemcodeilter As String = ""
-                Dim ExtracolumnsToHide = {"Srno"}
-                'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
+                Dim ExtracolumnsToHide = {"Srno", "BookVno", "SHADECODE", "ITEMCODE", "CUTCODE", "DESIGNCODE"}
+
+                'Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
+
+
+
+                'Dim UsedKeys As New Dictionary(Of String, Double)
+
+                'For i As Integer = 1 To GrdItem.Rows - 1
+                '    Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
+                '    Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
+                '    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                '    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                '    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
+
+
+                '    Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+
+                '    If BookVNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
+
+                '        Dim Key As String = BookVNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
+
+                '        If UsedKeys.ContainsKey(Key) Then
+                '            UsedKeys(Key) += UsedBal
+                '        Else
+                '            UsedKeys.Add(Key, UsedBal)
+                '        End If
+
+                '    End If
+
+                'Next
+                'For Each dr As DataRow In _Tmptbl.Rows
+
+                '    Dim Key As String = dr("BookVno").ToString.Trim() & "|" &
+                '         dr("ITEMCODE").ToString.Trim() & "|" &
+                '        dr("SHADECODE").ToString.Trim() & "|" &
+                '        dr("CUTCODE").ToString.Trim() & "|" &
+                '        dr("DESIGNCODE").ToString.Trim()
+
+                '    Dim ActualBal As Double = Val(dr("Qty"))
+
+                '    If UsedKeys.ContainsKey(Key) Then
+                '        ActualBal -= UsedKeys(Key)
+                '    End If
+
+                '    If ActualBal > 0 Then
+
+                '        Dim NewRow As DataRow = _FinalTmptbl.NewRow()
+
+                '        NewRow.ItemArray = dr.ItemArray.Clone()
+                '        NewRow("Qty") = ActualBal
+
+                '        _FinalTmptbl.Rows.Add(NewRow)
+
+                '    End If
+
+                'Next
+
+
+                'Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
 
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
-                        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ACCOUNTCODE") Then
-                            _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
-                            Dim BookVno = rowDict("ItemCode").ToString()
+                        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ITEMCODE") Then
+                            _FItemcodeilter = rowDict("ITEMCODE").ToString()
+                            Dim BookVno = rowDict("BookVno").ToString()
                             Dim Srno = Val(rowDict("Srno").ToString())
                             Dim _DetailQuery As New StringBuilder
                             With _DetailQuery
@@ -1723,6 +1784,9 @@ Public Class GateInward
                                 .Append(" FORMAT(A.OfferDate,'dd/MM/yyyy')  AS Date, ")
                                 .Append(" E.AccountName AS AccountName, ")
                                 .Append(" A.AccountCode, ")
+                                .Append(" A.DESIGNCODE, ")
+                                '.Append(" a.SHADECODE, ")
+                                '.Append(" a.CUTCODE, ")
                                 .Append(" B.ItemName AS ItemName, ")
                                 .Append(" B.HSNCODE AS HsnCode, ")
                                 .Append(" A.Mtr_weight AS Qty, ")
@@ -1768,12 +1832,8 @@ Public Class GateInward
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = dr("ItemName").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = dr("AccountName").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = dr("AccountCode").ToString()
-                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("HSNCODE") + 1).Text = dr("HsnCode").ToString()
-                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SELVCODE") + 1).Text = dr("HsnCode").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = dr("Qty").ToString()
-                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text = dr("GrossRate").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text = dr("Dis").ToString()
-                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("WEIGHT") + 1).Text = dr("disamount").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = dr("NetRate").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = dr("Amount").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = dr("CompanyName").ToString()
@@ -1781,12 +1841,12 @@ Public Class GateInward
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = dr("CUTCODE").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = dr("CutName").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP11") + 1).Text = dr("gst").ToString()
-                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("REED") + 1).Text = dr("gst").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP12") + 1).Text = dr("Fright").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP13") + 1).Text = dr("Delivery").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Paymentterms").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
+                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
                                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
                                     GrdItem.Rows = GrdItem.Rows + 1
@@ -1846,6 +1906,7 @@ Public Class GateInward
                     End If
                 End If
             End If
+
         End If
     End Sub
 
