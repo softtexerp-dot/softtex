@@ -143,6 +143,11 @@ Public Class DepartmentApproval
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BookTrType='CESS1'")
             '.Append(" AND  A.BOOKVNO='" & strKeyID & "'")
+            If txt_Status.Text = "NO" Then
+                .Append(" AND  A.OP19 <> 'YES'")
+            ElseIf txt_Status.Text = "YES" Then
+                .Append(" AND  A.OP19 = 'YES'")
+            End If
             .Append(dateFilter)
             .Append(" ORDER BY  A.Entryno ")
         End With

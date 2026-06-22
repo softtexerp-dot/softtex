@@ -11,6 +11,8 @@ Public Class StoreIndentEntry
     Dim _UNiteWiseCode As String = ""
     Dim ReqBookvnorawData As String
 
+    Dim rowsToHide As New List(Of Integer)
+
     Dim _CheckDispath As Boolean = False
     Dim _DispathRowEdit As Boolean = False
     'Dim _UserID As Integer = 1
@@ -734,7 +736,7 @@ Public Class StoreIndentEntry
         Dim _LastID As Integer = 0
 
         Try
-            sqL = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
+            sqL = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "'  and GODOWNCODE='" & txtUnitCode.Text & "'"
             sql_Data_Save_Delete_Update()
 #Region "Edit Log Save"
             Dim _EntryType As String = "Delete"
@@ -788,7 +790,7 @@ Public Class StoreIndentEntry
         If _FORMMODE = "ADD" Then
             _TransctionNo = 0
             _BookVNo = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
-            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & txtUnitCode.Text & "'  ORDER BY ENTRYNO DESC"
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 _TransctionNo = (DefaltSoftTable.Rows(0).Item(0))
@@ -796,7 +798,7 @@ Public Class StoreIndentEntry
             If _TransctionNo > 0 Then
                 If DefaltSoftTable.Rows.Count > 0 Then
 
-                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & txtUnitCode.Text & "'  ORDER BY ENTRYNO DESC"
                     sql_connect_slect()
                     If DefaltSoftTable.Rows.Count > 0 Then
                         _TransctionNo = (DefaltSoftTable.Rows(0).Item(0) + 1)
@@ -988,7 +990,7 @@ Public Class StoreIndentEntry
 
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
-            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
+            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' and GODOWNCODE='" & txtUnitCode.Text & "' "
 
             sqL = strQuery
             sql_Data_Save_Delete_Update()
@@ -1069,6 +1071,7 @@ Public Class StoreIndentEntry
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" LEFT JOIN MSTBook AS G ON A.GodownCode = G.BookCode ")
             .Append(" WHERE 1=1 ")
+            .Append(" and a.GODOWNCODE='" & txtUnitCode.Text & "'  ")
             .Append(_UNiteWiseCode)
             .Append(View_Filter_Condition)
             .Append(View_Order_By)
@@ -1162,7 +1165,7 @@ Public Class StoreIndentEntry
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "'  " & _UNiteWiseCode & ""
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "' and a.GODOWNCODE='" & txtUnitCode.Text & "' "
         sqL = strQuery
         sql_connect_slect()
 
@@ -1268,6 +1271,7 @@ Public Class StoreIndentEntry
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
+            .Append(" and a.GODOWNCODE='" & txtUnitCode.Text & "'  ")
             .Append(" ORDER BY  A.SRNO ")
         End With
         Return strQuery.ToString
@@ -1511,7 +1515,7 @@ Public Class StoreIndentEntry
         If _ActivatedColName = "CUTNAME" Then
 
         ElseIf _ActivatedColName = "OP6" Then
-            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
+            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" AndAlso Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) = 0 Then
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text
                 Dim _StrQuery As New StringBuilder
@@ -1629,24 +1633,88 @@ Public Class StoreIndentEntry
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
                 Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
                 '================ REMOVE ALREADY FILLED DATA =================
-                Dim UsedKeys As New HashSet(Of String)
+
+                Dim UsedKeys As New Dictionary(Of String, Double)
+
                 For i As Integer = 1 To GrdItem.Rows - 1
                     Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
                     Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
-                    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("GROUPCODE") + 1).Text
-                    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CountCode") + 1).Text
-                    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CITYCODE") + 1).Text
+                    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
+
+
+                    Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+
                     If BookVNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
-                        UsedKeys.Add(BookVNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode)
+
+                        Dim Key As String = BookVNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
+
+                        If UsedKeys.ContainsKey(Key) Then
+                            UsedKeys(Key) += UsedBal
+                        Else
+                            UsedKeys.Add(Key, UsedBal)
+                        End If
+
                     End If
+
                 Next
-                '================ FILTER FINAL TABLE =================
                 For Each dr As DataRow In _Tmptbl.Rows
-                    Dim Key As String = dr("ID").ToString().Trim() & "|" & dr("ItemCode").ToString().Trim() & "|" & dr("GROUPCODE").ToString().Trim() & "|" & dr("CountCode").ToString().Trim() & "|" & dr("ACCOUNTCODE").ToString().Trim()
-                    If Not UsedKeys.Contains(Key) Then
-                        _FinalTmptbl.ImportRow(dr)
+
+                    Dim Key As String = dr("ID").ToString.Trim() & "|" &
+                        dr("ItemCode").ToString.Trim() & "|" &
+                        dr("GROUPCODE").ToString.Trim() & "|" &
+                        dr("CountCode").ToString.Trim() & "|" &
+                        dr("ACCOUNTCODE").ToString.Trim()
+
+                    Dim ActualBal As Double = Val(dr("Qty"))
+
+                    If UsedKeys.ContainsKey(Key) Then
+                        ActualBal -= UsedKeys(Key)
                     End If
+
+                    If ActualBal > 0 Then
+
+                        Dim NewRow As DataRow = _FinalTmptbl.NewRow()
+
+                        NewRow.ItemArray = dr.ItemArray.Clone()
+                        NewRow("Qty") = ActualBal
+
+                        _FinalTmptbl.Rows.Add(NewRow)
+
+                    End If
+
                 Next
+                'Dim UsedKeys As New HashSet(Of String)
+                'For i As Integer = 1 To GrdItem.Rows - 1
+                '    Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
+                '    Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
+                '    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("GROUPCODE") + 1).Text
+                '    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CountCode") + 1).Text
+                '    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CITYCODE") + 1).Text
+                '    If BookVNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
+                '        UsedKeys.Add(BookVNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode)
+                '    End If
+                'Next
+                ''================ FILTER FINAL TABLE =================
+                'For Each dr As DataRow In _Tmptbl.Rows
+                '    Dim Key As String = dr("ID").ToString().Trim() & "|" & dr("ItemCode").ToString().Trim() & "|" & dr("GROUPCODE").ToString().Trim() & "|" & dr("CountCode").ToString().Trim() & "|" & dr("ACCOUNTCODE").ToString().Trim()
+                '    Dim ActualBal As Double = Val(dr("Balance"))
+
+                '    If UsedKeys.Contains(Key) Then
+                '        ActualBal -= UsedKeys(Key)
+                '    End If
+                '    If ActualBal > 0 Then
+                '        Dim NewRow As DataRow = _FinalTmptbl.NewRow()
+                '        NewRow.ItemArray = dr.ItemArray.Clone()
+                '        NewRow("Balance") = Format(ActualBal, "0.00")
+                '        _FinalTmptbl.Rows.Add(NewRow)
+                '    End If
+
+                '    'If Not UsedKeys.Contains(Key) Then
+                '    '    _FinalTmptbl.ImportRow(dr)
+                '    'End If
+                'Next
                 Dim ExtracolumnsToHide = {"HsnCode"}
                 Dim _FItemcodeilter As String = ""
                 Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
@@ -1811,6 +1879,7 @@ Public Class StoreIndentEntry
             .Append(" LEFT JOIN MstDepartment G  ON A.AccountCode=G.Departmentcode ")
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
+            .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
             .Append(" ORDER BY A.ENTRYNO DESC ")
         End With
 

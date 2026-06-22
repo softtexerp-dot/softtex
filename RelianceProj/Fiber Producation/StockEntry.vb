@@ -757,7 +757,7 @@ Public Class StockEntry
 
         Try
             'sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
-            sqL = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
+            sqL = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "'  and GODOWNCODE='" & txtUnitCode.Text & "' "
             sql_Data_Save_Delete_Update()
 #Region "Edit Log Save"
             Dim _EntryType As String = "Delete"
@@ -811,7 +811,7 @@ Public Class StockEntry
         If _FORMMODE = "ADD" Then
             _TransctionNo = 0
             _BookVNo = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
-            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & txtUnitCode.Text & "'  ORDER BY ENTRYNO DESC"
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 _TransctionNo = (DefaltSoftTable.Rows(0).Item(0))
@@ -819,7 +819,7 @@ Public Class StockEntry
             If _TransctionNo > 0 Then
                 If DefaltSoftTable.Rows.Count > 0 Then
 
-                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & txtUnitCode.Text & "' ORDER BY ENTRYNO DESC"
                     sql_connect_slect()
                     If DefaltSoftTable.Rows.Count > 0 Then
                         _TransctionNo = (DefaltSoftTable.Rows(0).Item(0) + 1)
@@ -1000,7 +1000,7 @@ Public Class StockEntry
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
             'strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
-            strQuery = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "' "
+            strQuery = "DELETE FROM TrnPackingSlip WHERE BOOKVNO ='" & _BookVNo & "'  and GODOWNCODE='" & txtUnitCode.Text & "' "
             sqL = strQuery
             sql_Data_Save_Delete_Update()
             Dim Array_Opening(0, 4) As String
@@ -1088,6 +1088,7 @@ Public Class StockEntry
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" LEFT JOIN MSTBook AS G ON A.GodownCode = G.BookCode ")
             .Append(" WHERE 1=1 ")
+            .Append(" and a.GODOWNCODE='" & txtUnitCode.Text & "'  ")
             .Append(_UNiteWiseCode)
             .Append(View_Filter_Condition)
             .Append(View_Order_By)
@@ -1182,7 +1183,7 @@ Public Class StockEntry
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "'  " & _UNiteWiseCode & ""
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "' and a.GODOWNCODE='" & txtUnitCode.Text & "' "
         sqL = strQuery
         sql_connect_slect()
 
@@ -1291,6 +1292,8 @@ Public Class StockEntry
             '.Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
+            .Append(" and a.GODOWNCODE='" & txtUnitCode.Text & "'  ")
+
             .Append(" ORDER BY  A.SRNO ")
         End With
         Return strQuery.ToString
@@ -1753,6 +1756,8 @@ Public Class StockEntry
                 If QTY <> 0 And ITEMCODE <> "" And ITEMNAME <> "" Then
                     If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
                         GrdItem.Rows = GrdItem.Rows + 1
+                        GrdItem.Cell(i + 1, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text
+                        GrdItem.Cell(i + 1, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text
                         Fill_Current_Row_Sr_No(_DataTableGrid, GrdItem)
                     End If
                 End If
@@ -1868,6 +1873,7 @@ Public Class StockEntry
             .Append(" LEFT JOIN MstDepartment G  ON A.DesignCode=G.Departmentcode ")
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
+            .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
             .Append(" ORDER BY A.ENTRYNO DESC ")
         End With
 

@@ -24,6 +24,8 @@ Public Class StoresPurchaseOrder
     Private _ExtraField_Values_Others As New StringBuilder
     Private _FieldNameSameValueCopy As New StringBuilder
     Private _FieldNameForTotal As New StringBuilder
+    Private _GodownCode As String = ""
+    Private WithEvents txtgodowncode As New TextBox
 #End Region
 
 #Region "GRID GENERAL VARIABLE"
@@ -139,6 +141,7 @@ Public Class StoresPurchaseOrder
             .Append("WESTAGE,")
             .Append("LENGTH,")
             .Append("MONOGRAM_TYPE,")
+            .Append("GODOWNCODE,")
             .Append("OP23,") 'APPROVE
             .Append("OP5,") ' comparisionno
             .Append("OP6,") ' compare bookno
@@ -285,6 +288,7 @@ Public Class StoresPurchaseOrder
             .Append("BOOKVNO:N,")
             .Append("BookCode:N,")
             .Append("OfferNo:N,")
+            .Append("GODOWNCODE:N,")
             .Append("despatchtocode:N,")
             .Append("weavetypecode:N,")
             .Append("OfferDate:N,")
@@ -1408,7 +1412,11 @@ Public Class StoresPurchaseOrder
     Private Function Validate_Form_Values() As Boolean
         Validate_Form_Values = False
 
-        If _BookCode.Trim = "" Then
+        If txtGodownName.Text = "" Then
+            MsgBox("Invalid Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            txtGodownName.Focus()
+            Exit Function
+        ElseIf _BookCode.Trim = "" Then
             MsgBox("Invalid Book Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
             txtBookName.Focus()
             Exit Function
@@ -1547,6 +1555,7 @@ Public Class StoresPurchaseOrder
                 Case "GRDBSUN"
                     'btnSave.Focus()
                     'btnSave.Select()
+                    UC_Buttons1.BtnSave.Focus()
                 Case "BTNSAVE"
                     txtEntryNo.Focus()
                 Case "TXTTERM1"
@@ -1967,9 +1976,11 @@ Public Class StoresPurchaseOrder
         txtBookName.Text = Book_Name
         txtBookCode.Text = Book_Code
 
-        txtBookName.Focus()
-        txtBookName.Select()
-
+        'txtBookName.Focus()
+        'txtBookName.Select()
+        txtGodownName.Visible = True
+        txtGodownName.Focus()
+        txtGodownName.Select()
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
         Edit_From_View = False
@@ -1981,8 +1992,11 @@ Public Class StoresPurchaseOrder
         txtBookName.Text = Book_Name
         txtBookCode.Text = Book_Code
 
-        txtBookName.Focus()
-        txtBookName.Select()
+        'txtBookName.Focus()
+        'txtBookName.Select()
+        txtGodownName.Visible = True
+        txtGodownName.Focus()
+        txtGodownName.Select()
     End Sub
     Private Sub UC_Buttons1_DeleteClick() Handles UC_Buttons1.DeleteClick
         Edit_From_View = False
@@ -1994,8 +2008,11 @@ Public Class StoresPurchaseOrder
         txtBookName.Text = Book_Name
         txtBookCode.Text = Book_Code
 
-        txtBookName.Focus()
-        txtBookName.Select()
+        'txtBookName.Focus()
+        'txtBookName.Select()
+        txtGodownName.Visible = True
+        txtGodownName.Focus()
+        txtGodownName.Select()
     End Sub
     Private Sub UC_Buttons1_BackClick() Handles UC_Buttons1.BackClick
         _FrmLoad = False
@@ -2070,8 +2087,10 @@ Public Class StoresPurchaseOrder
         End If
         txt_To.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         Txt_EntryType.Text = "SUMMERY"
-        txtBookName.Focus()
-        txtBookName.Select()
+        'txtBookName.Focus()
+        'txtBookName.Select()
+        txtGodownName.Focus()
+        txtGodownName.Select()
     End Sub
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
@@ -2180,7 +2199,7 @@ Public Class StoresPurchaseOrder
 
         Try
 
-            sqL = " DELETE FROM trnOffer WHERE BOOKVNO='" & _BookVNo & "'"
+            sqL = " DELETE FROM trnOffer WHERE BOOKVNO='" & _BookVNo & "' and GODOWNCODE='" & _GodownCode & "' "
             sql_Data_Save_Delete_Update()
 
 
@@ -2234,7 +2253,7 @@ Public Class StoresPurchaseOrder
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " WHERE BOOKVNO='" & Book_Vno & "'"
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " WHERE BOOKVNO='" & Book_Vno & "' and GODOWNCODE='" & _GodownCode & "' "
         sqL = strQuery
         sql_connect_slect()
         If DefaltSoftTable.Rows.Count > 0 Then
@@ -2344,6 +2363,7 @@ Public Class StoresPurchaseOrder
 
             .Append(" WHERE 1=1 ")
             .Append(" AND TRNOFFER.BOOKVNO='" & strKeyID & "'")
+            .Append(" AND  TRNOFFER.GODOWNCODE='" & _GodownCode & "'")
             .Append(" ORDER BY TRNOFFER.SRNO ")
         End With
 
@@ -2532,10 +2552,37 @@ Public Class StoresPurchaseOrder
         End If
         e.Handled = True
     End Sub
+
+    Public Function EntryData_General_Offer_txtBookName_Validated(ByVal _BookCode As String) As String
+        Dim strQuery = New StringBuilder
+        With strQuery
+            .Append(" SELECT TOP 1 A.*, ")
+            .Append(" FORMAT(A.OFFERDATE,'dd/MM/yyyy') AS F_OFFERDATE, ")
+            .Append(" B.ACCOUNTNAME,C.AC_NAME AS ACOFNAME,F.ACCOUNTNAME AS AGENTNAME,")
+            .Append(" D.TRANSPORTNAME,E.CITYNAME AS DESPATCH ")
+            .Append(" FROM TRNOFFER AS A")
+            .Append(" left join MstMasterAccount AS B ON  A.ACCOUNTCODE=B.ACCOUNTCODE")
+            .Append(" left join Mst_Acof_Supply AS C ON A.ACOFCODE=C.ID  ")
+            .Append(" left join MSTTRANSPORT D ON  A.TRANSPORTCODE=D.id ")
+            .Append(" left join MSTCITY E  ON  A.DESPATCHCODE=E.CITYCODE ")
+            .Append(" left join MstMasterAccount AS F  ON B.AGENTCODE=F.ACCOUNTCODE")
+            .Append(" WHERE 1=1 ")
+            .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
+            .Append(" AND  A.GODOWNCODE='" & _GodownCode & "'")
+            .Append(" ORDER BY A.ENTRYNO DESC ")
+        End With
+        Return strQuery.ToString
+    End Function
+
+
     Private Sub txtBookName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtBookName.Validated
         If _FrmLoad = True Then Exit Sub
 
         If txtBookCode.Text = "" Or _BookCode = "" Then
+            txtBookName.Focus()
+            txtBookName.Select()
+            Exit Sub
+        ElseIf txtgodowncode.Text = "" Then
             txtBookName.Focus()
             txtBookName.Select()
             Exit Sub
@@ -2548,7 +2595,7 @@ Public Class StoresPurchaseOrder
             Ctrl_Visibility_With_One_Grid(True, Me.Controls, grdBsun)
 
 
-            Dim Str_Qry As String = obj_Party_Selection.EntryData_General_Offer_txtBookName_Validated(_BookCode)
+            Dim Str_Qry As String = EntryData_General_Offer_txtBookName_Validated(_BookCode)
             Dim TblTmp As New DataTable
             sqL = Str_Qry
             sql_connect_slect()
@@ -2592,8 +2639,10 @@ Public Class StoresPurchaseOrder
             ElseIf _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                 If Last_Entry_No = 0 Then
                     MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                    txtBookName.Focus()
-                    txtBookName.Select()
+                    'txtBookName.Focus()
+                    'txtBookName.Select()
+                    txtGodownName.Focus()
+                    txtGodownName.Select()
                     Exit Sub
                 Else
                     txtEntryNo.Text = Last_Entry_No
@@ -2605,8 +2654,10 @@ Public Class StoresPurchaseOrder
             ElseIf _FORMMODE = "VIEW" Then
                 If Last_Entry_No = 0 Then
                     MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                    txtBookName.Focus()
-                    txtBookName.Select()
+                    'txtBookName.Focus()
+                    'txtBookName.Select()
+                    txtGodownName.Focus()
+                    txtGodownName.Select()
                 Else
                     View_Record()
                 End If
@@ -3616,7 +3667,7 @@ Public Class StoresPurchaseOrder
             If _FORMMODE = "ADD" Then
                 _TransctionNo = 0
                 _BookVNo = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
-                sqL = "SELECT TOP 1 ENTRYNO FROM TRNOFFER WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                sqL = "SELECT TOP 1 ENTRYNO FROM TRNOFFER WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & _GodownCode & "' ORDER BY ENTRYNO DESC"
                 sql_connect_slect()
                 If DefaltSoftTable.Rows.Count > 0 Then
                     _TransctionNo = (DefaltSoftTable.Rows(0).Item(0))
@@ -3624,7 +3675,7 @@ Public Class StoresPurchaseOrder
                 If _TransctionNo > 0 Then
                     If DefaltSoftTable.Rows.Count > 0 Then
 
-                        sqL = "SELECT TOP 1 ENTRYNO FROM TRNOFFER WHERE  BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                        sqL = "SELECT TOP 1 ENTRYNO FROM TRNOFFER WHERE  BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & _GodownCode & "' ORDER BY ENTRYNO DESC"
                         sql_connect_slect()
                         If DefaltSoftTable.Rows.Count > 0 Then
                             _TransctionNo = (DefaltSoftTable.Rows(0).Item(0) + 1)
@@ -3679,7 +3730,7 @@ Public Class StoresPurchaseOrder
             'Call Command_Button_Visibility("LOAD")
             'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
             UC_Buttons1._ButtonEnableDisable("LOAD")
-
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -3819,6 +3870,7 @@ Public Class StoresPurchaseOrder
             .Append("LENGTH,")
             .Append("OP23,")
             .Append("MONOGRAM_TYPE,")
+            .Append("GODOWNCODE,")
             .Append("Term4")
         End With
 
@@ -3848,6 +3900,7 @@ Public Class StoresPurchaseOrder
             .Append(Lbl_NetAmt.Text & ",")
             .Append(OfferApprove & ",")
             .Append(Txt_PartOfferDate.Text & ",")
+            .Append(_GodownCode & ",")
             .Append(txtTerm4.Text)
         End With
 
@@ -3862,7 +3915,7 @@ Public Class StoresPurchaseOrder
 
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
-            sqL = "DELETE FROM TRNOFFER WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "'"
+            sqL = "DELETE FROM TRNOFFER WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' and GODOWNCODE='" & _GodownCode & "'"
             sql_Data_Save_Delete_Update()
 
 
@@ -3975,6 +4028,7 @@ Public Class StoresPurchaseOrder
                 .Append(" LEFT JOIN MSTCITY ON TRNOFFER.DESPATCHCODE=MSTCITY.CITYCODE")
                 '.Append(" LEFT JOIN MSTSTOREITEM  AS G ON TRNOFFER.weavetypecode=G.ITEMCODE")
                 .Append(" WHERE 1=1 ")
+                .Append(" AND  TRNOFFER.GODOWNCODE='" & _GodownCode & "' ")
                 .Append(View_Filter_Condition)
 
                 .Append(" GROUP BY ")
@@ -4044,6 +4098,7 @@ Public Class StoresPurchaseOrder
                 .Append(" LEFT JOIN MSTCITY ON TRNOFFER.DESPATCHCODE=MSTCITY.CITYCODE")
                 '.Append(" LEFT JOIN MSTSTOREITEM  AS G ON TRNOFFER.weavetypecode=G.ITEMCODE")
                 .Append(" WHERE 1=1 ")
+                .Append(" AND  TRNOFFER.GODOWNCODE='" & _GodownCode & "' ")
                 .Append(View_Filter_Condition)
                 .Append(" ORDER BY TRNOFFER.OFFERDATE,TRNOFFER.ENTRYNO,TRNOFFER.SRNO")
 
@@ -4234,6 +4289,63 @@ Public Class StoresPurchaseOrder
 
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
+    End Sub
+
+    Private Sub txtGodownName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtGodownName.KeyPress
+        If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
+
+        DispList = False
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+
+            Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
+            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtGodownName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then txtgodowncode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("BookName") Then txtGodownName.Text = selected("BookName").ToString()
+            End If
+            _GodownCode = txtgodowncode.Text
+            'SendKeys.Send("{TAB}")
+
+            If _FORMMODE <> "VIEW" Then
+                _DefaultColOfGrid = _DataTableGrid.Columns.IndexOf("SRNO") + 1
+                GrdItem.Cell(1, _DefaultColOfGrid).SetFocus()
+                SendKeys.Send("{TAB}")
+            Else
+                'SendKeys.Send("{ENTER}")
+                SendKeys.Send("{TAB}")
+            End If
+
+            Call defineGridColName()
+            Call GenerateTable(_DataTableGrid, GrdItem)
+            Call gridFormatting(_DataTableGrid, GrdItem)
+
+            GrdItem.Rows = 2
+            GrdItem.Column(0).Visible = False
+            'GrdItem.Row(0).Height = 31
+            GrdItem.DefaultRowHeight = 28
+
+
+
+            InitializeGridbsunConfiguration()
+            Dim grid As Grid = Me.grdBsun
+            Me.GenerateTablebsun(Me._DataTablegridbsun, grid)
+            gridFormattingSundary(_DataTablegridbsun, grid)
+            Me.grdBsun = grid
+            Me.grdBsun.Enabled = False
+            Me.grdBsun.Column(0).Visible = False
+            Me.grdBsun.Row(0).Height = 20S
+            grdBsun.Rows = 2
+
+            'Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+        End If
+        e.Handled = True
+    End Sub
+
+    Private Sub txtGodownName_Validated(sender As Object, e As EventArgs) Handles txtGodownName.Validated
+        Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
+        Ctrl_Visibility_With_One_Grid(True, Me.Controls, grdBsun)
+        '_Validated()
     End Sub
 
 #End Region

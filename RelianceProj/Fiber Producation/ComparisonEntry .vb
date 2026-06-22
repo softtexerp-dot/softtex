@@ -780,7 +780,7 @@ Public Class ComparisonEntry
         Dim _LastID As Integer = 0
 
         Try
-            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
+            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' AND A.GODOWNCODE='" & txtUnitCode.Text & "' "
             sql_Data_Save_Delete_Update()
 #Region "Edit Log Save"
             Dim _EntryType As String = "Delete"
@@ -831,7 +831,7 @@ Public Class ComparisonEntry
         If _FORMMODE = "ADD" Then
             _TransctionNo = 0
             _BookVNo = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
-            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+            sqL = "Select TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & txtUnitCode.Text & "' ORDER BY ENTRYNO DESC"
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 _TransctionNo = (DefaltSoftTable.Rows(0).Item(0))
@@ -839,7 +839,7 @@ Public Class ComparisonEntry
             If _TransctionNo > 0 Then
                 If DefaltSoftTable.Rows.Count > 0 Then
 
-                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & txtUnitCode.Text & "' ORDER BY ENTRYNO DESC"
                     sql_connect_slect()
                     If DefaltSoftTable.Rows.Count > 0 Then
                         _TransctionNo = (DefaltSoftTable.Rows(0).Item(0) + 1)
@@ -1029,7 +1029,7 @@ Public Class ComparisonEntry
 
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
-            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
+            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' and GODOWNCODE='" & txtUnitCode.Text & "' "
 
             sqL = strQuery
             sql_Data_Save_Delete_Update()
@@ -1121,6 +1121,7 @@ Public Class ComparisonEntry
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" LEFT JOIN MSTBook AS G ON A.GodownCode = G.BookCode ")
             .Append(" WHERE 1=1 ")
+            .Append(" and a.GODOWNCODE='" & txtUnitCode.Text & "'  ")
             .Append(_UNiteWiseCode)
             .Append(View_Filter_Condition)
             .Append(View_Order_By)
@@ -1213,7 +1214,7 @@ Public Class ComparisonEntry
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "'  " & _UNiteWiseCode & ""
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "' and a.GODOWNCODE='" & txtUnitCode.Text & "'"
         sqL = strQuery
         sql_connect_slect()
 
@@ -1320,6 +1321,7 @@ Public Class ComparisonEntry
             .Append(" Left Join ( SELECT BOOKVNO AS USEBOOKVNO,ITEMCODE AS USEITEMCODE,AccountCode As UseAccountcode  FROM TrnPackingSlip Where OP19='YES' GROUP BY BOOKVNO,ITEMCODE,AccountCode ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE and A.Accountcode=G.UseAccountcode) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
+            .Append(" and a.GODOWNCODE='" & txtUnitCode.Text & "'  ")
             .Append(" ORDER BY  A.SRNO ")
         End With
         Return strQuery.ToString
@@ -1582,7 +1584,7 @@ Public Class ComparisonEntry
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
             End If
         ElseIf _ActivatedColName = "OP6" Then
-            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
+            If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" AndAlso Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) = 0 Then
 
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text
                 '==================== FIRST QUERY ====================
@@ -1601,34 +1603,17 @@ Public Class ComparisonEntry
                     .Append(" A.PACK_SLIP_NO AS QuotationNo, ")
                     .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy')  AS Date, ")
                     .Append(" E.AccountName AS AccountName, ")
-                    .Append(" A.ITEMCODE as ACCOUNTCODE,")
+                    .Append(" A.ITEMCODE  ,")
                     .Append(" B.ItemName AS ItemName, ")
-                    .Append(" a.BookVno As ItemCode ")
+                    .Append(" A.Mtr_weight AS Qty, ")
+                    .Append(" a.BookVno,  ")
+                    .Append(" a.DESIGNCODE, ")
+                    .Append(" a.SHADECODE, ")
+                    .Append(" a.CUTCODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
                     .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE ")
                     .Append(" LEFT JOIN MstMasterAccount AS E ")
                     .Append(" ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
-                    ''
-                    '.Append(" Left Join(")
-                    '.Append("SELECT BookVno,")
-                    '.Append("      OP7 ,")
-                    '.Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
-                    '.Append(" From TrnPackingSlip")
-                    '.Append(" Where BookTrType = 'SISS1'")
-                    '.Append(" GROUP BY BookVno")
-                    '.Append("  ,OP7")
-                    '.Append(") R")
-                    '.Append(" On R.BookVno = A.OP7")
-                    '.Append(" Left Join(")
-                    '.Append("SELECT BookVno,")
-                    '.Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
-                    '.Append(" From TrnPackingSlip")
-                    '.Append(" Where BookTrType = 'RQSS1'")
-                    '.Append(" GROUP BY BookVno")
-
-                    '.Append(") S")
-                    '.Append(" ON S.BookVno = R.OP7")
-                    ''
                     .Append(" WHERE 1=1 ")
                     .Append(" and a.Booktrtype='QESS1'")
                     .Append("  AND NOT EXISTS ")
@@ -1646,15 +1631,73 @@ Public Class ComparisonEntry
                 sql_connect_slect()
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
                 Dim _FItemcodeilter As String = ""
-                Dim ExtracolumnsToHide = {"Srno", "ReqBookVno"}
-                'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                Dim ExtracolumnsToHide = {"Srno", "ReqBookVno", "DESIGNCODE", "SHADECODE", "ITEMCODE", "BookVno", "CUTCODE"}
+
+
+                Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
+
+
+
+                Dim UsedKeys As New Dictionary(Of String, Double)
+
+                For i As Integer = 1 To GrdItem.Rows - 1
+                    Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
+                    Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
+                    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
+
+
+                    Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+
+                    If BookVNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
+
+                        Dim Key As String = BookVNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
+
+                        If UsedKeys.ContainsKey(Key) Then
+                            UsedKeys(Key) += UsedBal
+                        Else
+                            UsedKeys.Add(Key, UsedBal)
+                        End If
+
+                    End If
+
+                Next
+                For Each dr As DataRow In _Tmptbl.Rows
+
+                    Dim Key As String = dr("BookVno").ToString.Trim() & "|" &
+                         dr("ITEMCODE").ToString.Trim() & "|" &
+                        dr("SHADECODE").ToString.Trim() & "|" &
+                        dr("CUTCODE").ToString.Trim() & "|" &
+                        dr("DESIGNCODE").ToString.Trim()
+
+                    Dim ActualBal As Double = Val(dr("Qty"))
+
+                    If UsedKeys.ContainsKey(Key) Then
+                        ActualBal -= UsedKeys(Key)
+                    End If
+
+                    If ActualBal > 0 Then
+
+                        Dim NewRow As DataRow = _FinalTmptbl.NewRow()
+
+                        NewRow.ItemArray = dr.ItemArray.Clone()
+                        NewRow("Qty") = ActualBal
+
+                        _FinalTmptbl.Rows.Add(NewRow)
+
+                    End If
+
+                Next
+
+
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
 
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
-                        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ACCOUNTCODE") Then
-                            _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
-                            Dim BookVno = rowDict("ItemCode").ToString()
+                        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ITEMCODE") Then
+                            _FItemcodeilter = rowDict("ITEMCODE").ToString()
+                            Dim BookVno = rowDict("BookVno").ToString()
                             Dim Srno = Val(rowDict("Srno").ToString())
                             Dim ReqNo = (rowDict("ReqNo").ToString())
                             Dim ReqBookVno = (rowDict("ReqBookVno").ToString())
@@ -1685,6 +1728,7 @@ Public Class ComparisonEntry
                                 .Append(" A.OP13 As Delivery, ")
                                 .Append(" A.OP4 As [Payment terms], ")
                                 .Append(" A.ITEMCODE, ")
+                                .Append(" a.DESIGNCODE, ")
                                 .Append(" A.OP7, ")
                                 .Append(" A.BOOKVNO ")
                                 .Append(" FROM TrnPackingSlip AS A ")
@@ -1731,6 +1775,7 @@ Public Class ComparisonEntry
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
+                                    GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP1") + 1).Text = ReqNo
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP2") + 1).Text = ReqBookVno
@@ -1856,6 +1901,7 @@ Public Class ComparisonEntry
             .Append(" LEFT JOIN MSTCITY AS E ON A.DESPATCHCODE = E.CITYCODE ")
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
+            .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
             .Append(" ORDER BY A.ENTRYNO DESC ")
         End With
 

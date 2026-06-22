@@ -342,6 +342,7 @@ Public Class GateInward
         _FieldLocked = New StringBuilder
         With _FieldLocked
             .Append("SRNO:Y,")
+            .Append("MTR_WEIGHT:Y,")
             .Append("AMOUNT:Y")
         End With
 
@@ -716,7 +717,7 @@ Public Class GateInward
         Dim _LastID As Integer = 0
 
         Try
-            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
+            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' and GODOWNCODE='" & _GodownCode & "'"
             sql_Data_Save_Delete_Update()
 #Region "Edit Log Save"
             Dim _EntryType As String = "Delete"
@@ -764,7 +765,7 @@ Public Class GateInward
         If _FORMMODE = "ADD" Then
             _TransctionNo = 0
             _BookVNo = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
-            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & _GodownCode & "'  ORDER BY ENTRYNO DESC"
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 _TransctionNo = (DefaltSoftTable.Rows(0).Item(0))
@@ -772,7 +773,7 @@ Public Class GateInward
             If _TransctionNo > 0 Then
                 If DefaltSoftTable.Rows.Count > 0 Then
 
-                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & _GodownCode & "' ORDER BY ENTRYNO DESC"
                     sql_connect_slect()
                     If DefaltSoftTable.Rows.Count > 0 Then
                         _TransctionNo = (DefaltSoftTable.Rows(0).Item(0) + 1)
@@ -959,7 +960,7 @@ Public Class GateInward
 
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
-            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
+            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "'  and GODOWNCODE='" & _GodownCode & "'"
 
             sqL = strQuery
             sql_Data_Save_Delete_Update()
@@ -1152,7 +1153,7 @@ Public Class GateInward
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "'  " & _UNiteWiseCode & ""
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "' and a.GODOWNCODE='" & _GodownCode & "' "
         sqL = strQuery
         sql_connect_slect()
 

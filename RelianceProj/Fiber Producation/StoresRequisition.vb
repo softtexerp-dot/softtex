@@ -691,7 +691,7 @@ Friend Class StoresRequisition
         Dim _LastID As Integer = 0
 
         Try
-            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
+            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' and GODOWNCODE='" & _GodownCode & "'"
             sql_Data_Save_Delete_Update()
 #Region "Edit Log Save"
             Dim _EntryType As String = "Delete"
@@ -739,7 +739,7 @@ Friend Class StoresRequisition
         If _FORMMODE = "ADD" Then
             _TransctionNo = 0
             _BookVNo = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
-            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+            sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE BOOKVNO='" + Me._BookVNo + "' AND BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & _GodownCode & "' ORDER BY ENTRYNO DESC"
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 _TransctionNo = (DefaltSoftTable.Rows(0).Item(0))
@@ -747,7 +747,7 @@ Friend Class StoresRequisition
             If _TransctionNo > 0 Then
                 If DefaltSoftTable.Rows.Count > 0 Then
 
-                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' ORDER BY ENTRYNO DESC"
+                    sqL = "SELECT TOP 1 ENTRYNO FROM TRNPACKINGSLIP WHERE  BOOKCODE='" & txtBookCode.Text & "' and GODOWNCODE='" & _GodownCode & "' ORDER BY ENTRYNO DESC"
                     sql_connect_slect()
                     If DefaltSoftTable.Rows.Count > 0 Then
                         _TransctionNo = (DefaltSoftTable.Rows(0).Item(0) + 1)
@@ -934,7 +934,7 @@ Friend Class StoresRequisition
 
         Try
             '---------------- Delete Previous Bill Sundry ----------------------------------'
-            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
+            strQuery = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' and GODOWNCODE='" & _GodownCode & "' "
 
             sqL = strQuery
             sql_Data_Save_Delete_Update()
@@ -969,7 +969,7 @@ Friend Class StoresRequisition
         Generate_Date_For_DataBase(txt_To)
         Dim View_Filter_Condition As String = ""
         Dim View_Order_By As String = ""
-        View_Filter_Condition = " AND  A.BOOKCODE='" & _BookCode & "' AND  A.GODOWNCODE='" & _GodownCode & "' AND  A.PACK_SLIP_DATE>='" & txt_From.Date_for_Database & "' AND  A.PACK_SLIP_DATE<='" & txt_To.Date_for_Database & "'"
+        View_Filter_Condition = " AND  A.BOOKCODE='" & _BookCode & "' AND  A.PACK_SLIP_DATE>='" & txt_From.Date_for_Database & "' AND  A.PACK_SLIP_DATE<='" & txt_To.Date_for_Database & "'"
         View_Order_By = " ORDER BY  A.PACK_SLIP_DATE,( A.ENTRYNO), A.SRNO "
 
         Dim Offer_Field_String As String = ""
@@ -1017,6 +1017,7 @@ Friend Class StoresRequisition
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             .Append(" LEFT JOIN MSTBook AS G ON A.GodownCode = G.BookCode ")
             .Append(" WHERE 1=1 ")
+            .Append(" AND  A.GODOWNCODE='" & _GodownCode & "' ")
             .Append(_UNiteWiseCode)
             .Append(View_Filter_Condition)
             .Append(View_Order_By)
@@ -1127,7 +1128,7 @@ Friend Class StoresRequisition
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "'  " & _UNiteWiseCode & ""
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " AS A  WHERE A.BOOKVNO='" & Book_Vno & "' and a.GODOWNCODE='" & _GodownCode & "'"
         sqL = strQuery
         sql_connect_slect()
 
@@ -1345,10 +1346,11 @@ Friend Class StoresRequisition
             Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
             Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtGodownName.Text, "SINGLE")
             If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then txtgodowncode.Text = selected("ACCOUNTCODE").ToString()
+                'If selected.ContainsKey("ACCOUNTCODE") Then txtgodowncode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("ACCOUNTCODE") Then _GodownCode = selected("ACCOUNTCODE").ToString()
                 If selected.ContainsKey("BookName") Then txtGodownName.Text = selected("BookName").ToString()
             End If
-            _GodownCode = txtgodowncode.Text
+            '_GodownCode = txtgodowncode.Text
             SendKeys.Send("{TAB}")
 
             Call defineGridColName()

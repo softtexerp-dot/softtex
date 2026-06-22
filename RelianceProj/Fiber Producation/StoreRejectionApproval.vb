@@ -61,6 +61,10 @@ Public Class StoreRejectionApproval
                 .Append(" A.ITEMCODE,")
                 .Append(" A.BOOKVNO,")
                 .Append(" A.AccountCode,")
+                .Append(" A.DESIGNCODE,")
+                .Append(" A.SHADECODE,")
+                .Append(" A.CUTCODE,")
+                .Append(" A.SRNO,")
                 .Append(" B.ItemName AS ItemName, ")
                 .Append(" C.AccountName, ")
                 .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
@@ -98,7 +102,7 @@ Public Class StoreRejectionApproval
                 GridControl1.DataSource = tblTmp.Copy
                 For Each dc As DataColumn In tblTmp.Columns
                     Dim isEmptyOrZero As Boolean = True
-                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Then
+                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "SRNO" Then
                         FirstStage.Columns(dc.ColumnName).Visible = False
                         Continue For
                     End If
@@ -152,12 +156,24 @@ Public Class StoreRejectionApproval
                     cmd.Connection = conn
                     cmd.CommandType = CommandType.Text
                     cmd.CommandTimeout = 420
-                    cmd.CommandText = "UPDATE " & _TblName & " SET " & "OP24 = @OP24, " & "OP25 = @MODYFIDATE " & "WHERE BOOKVNO = @BOOKVNO " & "AND ACCOUNTCODE = @ACCOUNTCODE"
+                    cmd.CommandText = "UPDATE " & _TblName & " SET " & "OP24 = @OP24, " & "OP25 = @MODYFIDATE " &
+                        "WHERE BOOKVNO = @BOOKVNO " &
+                        "AND ACCOUNTCODE = @ACCOUNTCODE" &
+             " AND ITEMCODE = @ITEMCODE" &
+            " AND DESIGNCODE = @DESIGNCODE" &
+            " AND SHADECODE = @SHADECODE" &
+            " AND CUTCODE = @CUTCODE" &
+            " AND SRNO = @SRNO"
                     cmd.Parameters.Clear()
                     cmd.Parameters.AddWithValue("@OP24", dr("STATUS").ToString())
                     cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
                     cmd.Parameters.AddWithValue("@BOOKVNO", dr("BOOKVNO").ToString())
                     cmd.Parameters.AddWithValue("@ACCOUNTCODE", dr("ACCOUNTCODE").ToString())
+                    cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
+                    cmd.Parameters.AddWithValue("@DESIGNCODE", dr("DESIGNCODE").ToString())
+                    cmd.Parameters.AddWithValue("@SHADECODE", dr("SHADECODE").ToString())
+                    cmd.Parameters.AddWithValue("@CUTCODE", dr("CUTCODE").ToString())
+                    cmd.Parameters.AddWithValue("@SRNO", dr("SRNO").ToString())
                     cmd.ExecuteNonQuery()
                     cmd.Dispose()
                 End If

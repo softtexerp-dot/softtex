@@ -38,6 +38,9 @@ Partial Class DepartmentApproval
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
         Me.btnviewupdate = New DevExpress.XtraEditors.SimpleButton()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txt_Status = New ctl_TextBox.ctl_TextBox()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -50,7 +53,7 @@ Partial Class DepartmentApproval
         Me.btn_xl.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_xl.Appearance.Options.UseFont = True
         Me.btn_xl.ImageOptions.Image = CType(resources.GetObject("btn_xl.ImageOptions.Image"), System.Drawing.Image)
-        Me.btn_xl.Location = New System.Drawing.Point(670, 5)
+        Me.btn_xl.Location = New System.Drawing.Point(990, 5)
         Me.btn_xl.Name = "btn_xl"
         Me.btn_xl.Size = New System.Drawing.Size(39, 36)
         Me.btn_xl.TabIndex = 81966
@@ -60,7 +63,7 @@ Partial Class DepartmentApproval
         Me.But_print.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_print.Appearance.Options.UseFont = True
         Me.But_print.ImageOptions.Image = CType(resources.GetObject("But_print.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_print.Location = New System.Drawing.Point(628, 5)
+        Me.But_print.Location = New System.Drawing.Point(948, 5)
         Me.But_print.Name = "But_print"
         Me.But_print.Size = New System.Drawing.Size(39, 36)
         Me.But_print.TabIndex = 81965
@@ -70,10 +73,10 @@ Partial Class DepartmentApproval
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(448, 5)
+        Me.But_ok.Location = New System.Drawing.Point(768, 5)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(70, 36)
-        Me.But_ok.TabIndex = 81958
+        Me.But_ok.TabIndex = 11
         Me.But_ok.Text = "OK"
         '
         'Btn_LayoutLoad
@@ -81,7 +84,7 @@ Partial Class DepartmentApproval
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(756, 5)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(1076, 5)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(40, 36)
         Me.Btn_LayoutLoad.TabIndex = 81964
@@ -91,7 +94,7 @@ Partial Class DepartmentApproval
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(712, 5)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(1032, 5)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(41, 36)
         Me.BtnLayOutSave.TabIndex = 81963
@@ -190,7 +193,7 @@ Partial Class DepartmentApproval
         Me.txt_From.ShowMessage = False
         Me.txt_From.Size = New System.Drawing.Size(100, 22)
         Me.txt_From.SpacerString = ""
-        Me.txt_From.TabIndex = 81954
+        Me.txt_From.TabIndex = 1
         Me.txt_From.Tag = "BOOKNAME"
         Me.txt_From.Text = "  /  /    "
         Me.txt_From.TransparentBox = True
@@ -245,7 +248,7 @@ Partial Class DepartmentApproval
         Me.txt_To.ShowMessage = False
         Me.txt_To.Size = New System.Drawing.Size(91, 22)
         Me.txt_To.SpacerString = ""
-        Me.txt_To.TabIndex = 81955
+        Me.txt_To.TabIndex = 2
         Me.txt_To.Tag = "BOOKNAME"
         Me.txt_To.Text = "  /  /    "
         Me.txt_To.TransparentBox = True
@@ -256,12 +259,80 @@ Partial Class DepartmentApproval
         Me.btnviewupdate.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnviewupdate.Appearance.Options.UseFont = True
         Me.btnviewupdate.ImageOptions.Image = CType(resources.GetObject("btnviewupdate.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnviewupdate.Location = New System.Drawing.Point(525, 5)
+        Me.btnviewupdate.Location = New System.Drawing.Point(845, 5)
         Me.btnviewupdate.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnviewupdate.Name = "btnviewupdate"
         Me.btnviewupdate.Size = New System.Drawing.Size(96, 36)
         Me.btnviewupdate.TabIndex = 81967
         Me.btnviewupdate.Text = "Update"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(543, 16)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(12, 14)
+        Me.Label2.TabIndex = 82234
+        Me.Label2.Text = ":"
+        '
+        'Label3
+        '
+        Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.Black
+        Me.Label3.Location = New System.Drawing.Point(439, 15)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(110, 14)
+        Me.Label3.TabIndex = 82233
+        Me.Label3.Text = "Approve Status"
+        '
+        'txt_Status
+        '
+        Me.txt_Status._AllowSpace = True
+        Me.txt_Status.AcceptsReturn = True
+        Me.txt_Status.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txt_Status.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_Status.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txt_Status.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txt_Status.Check_End_Date_Value_FY = "YES"
+        Me.txt_Status.Check_Start_Date_Value_FY = "YES"
+        Me.txt_Status.ClearField = True
+        Me.txt_Status.CustomInputTypeString = Nothing
+        Me.txt_Status.Date_for_Database = Nothing
+        Me.txt_Status.Date_Tag = Nothing
+        Me.txt_Status.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txt_Status.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txt_Status.ExtraValue = ""
+        Me.txt_Status.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_Status.FontFocusColor = System.Drawing.Color.Blue
+        Me.txt_Status.FontLeaveColor = System.Drawing.Color.Black
+        Me.txt_Status.ForeColor = System.Drawing.Color.Black
+        Me.txt_Status.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
+        Me.txt_Status.IsValidated = False
+        Me.txt_Status.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_Status.Location = New System.Drawing.Point(559, 13)
+        Me.txt_Status.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txt_Status.MandatoryField = False
+        Me.txt_Status.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.txt_Status.MaxDate = Nothing
+        Me.txt_Status.MinDate = Nothing
+        Me.txt_Status.Name = "txt_Status"
+        Me.txt_Status.NormalBorderColor = System.Drawing.Color.White
+        Me.txt_Status.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txt_Status.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txt_Status.ReadOnly = True
+        Me.txt_Status.RegularExpression = Nothing
+        Me.txt_Status.RegularExpressionErrorMessage = Nothing
+        Me.txt_Status.ShortcutsEnabled = False
+        Me.txt_Status.ShowMessage = False
+        Me.txt_Status.Size = New System.Drawing.Size(33, 22)
+        Me.txt_Status.SpacerString = "NO,YES,ALL"
+        Me.txt_Status.TabIndex = 3
+        Me.txt_Status.Tag = "OP19"
+        Me.txt_Status.Text = "NO"
+        Me.txt_Status.TransparentBox = True
+        Me.txt_Status.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
         'DepartmentApproval
         '
@@ -269,6 +340,9 @@ Partial Class DepartmentApproval
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1141, 641)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.txt_Status)
         Me.Controls.Add(Me.btnviewupdate)
         Me.Controls.Add(Me.btn_xl)
         Me.Controls.Add(Me.But_print)
@@ -311,4 +385,7 @@ Partial Class DepartmentApproval
     Friend WithEvents lbl_From As Label
     Friend WithEvents txt_To As ctl_TextBox.ctl_TextBox
     Friend WithEvents btnviewupdate As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents txt_Status As ctl_TextBox.ctl_TextBox
 End Class
