@@ -1509,7 +1509,7 @@ Public Class StoreIssueDepartment
 
 
                 'Dim _Filterstring As String = "  And A.ItemCode = '" & selected("ItemCode") & "'"
-                Dim _Filterstring As String = " And A.Bookcode = 'RQSS-000000001'"
+                Dim _Filterstring As String = " And A.Bookcode = 'RQSS-000000001' and A.GodownCode='" & txtUnitCode.Text & "'"
                 Dim _Filterstring_B As String = " And A.Bookcode = 'IDSS-000000001'"
                 sqL = _GetPendingStock(_Filterstring, _Filterstring_B)
                 sql_connect_slect()
