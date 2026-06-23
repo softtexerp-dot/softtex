@@ -1501,7 +1501,7 @@ Public Class StoresPurchaseOrder
                     Case "TXTOFFERDATE"
                         _FrmLoad = True
                         txtOfferDate.Text = ObjCls_General.GetTodayDate_British
-                        _FORMMODE = ""
+                        _FORMMODE = "LOAD"
                         Old_Date = txtOfferDate.Text
                         ObjCls_General.Blank_Object(Me)
                         txtOfferDate.Text = Old_Date
@@ -1517,7 +1517,7 @@ Public Class StoresPurchaseOrder
                         _FrmLoad = False
                     Case Else
                         _FrmLoad = True
-                        _FORMMODE = ""
+                        _FORMMODE = "LOAD"
                         Old_Date = txtOfferDate.Text
                         ObjCls_General.Blank_Object(Me)
                         txtOfferDate.Text = Old_Date
@@ -1595,6 +1595,7 @@ Public Class StoresPurchaseOrder
                     _FrmLoad = True
                     Delete_Row(GrdItem, _DataTableGrid)
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = ""
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = ""
                     Call Total_Upto_All_Grid_All_Row()
                     Call Fill_Sr_No_Item(GrdItem, _DataTableGrid)
                     _FrmLoad = False
@@ -3232,7 +3233,9 @@ Public Class StoresPurchaseOrder
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("weavetypecode") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("weavetypecode") + 1).Text = "0000-000000001"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("LOOM_TYPE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("LOOM_TYPE") + 1).Text = "0000-000000001"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("LOTNO") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("LOTNO") + 1).Text = "PCS"
-
+        If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = "0000-000000001"
+        If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = "0000-000000001"
+        If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = "0000-000000001"
 
 
 
@@ -3294,7 +3297,7 @@ Public Class StoresPurchaseOrder
                 GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).SetFocus()
             End If
         ElseIf _ActivatedColName = "ITEMNAME" Then
-            If e.KeyCode = Keys.Enter Then
+            If e.KeyCode = Keys.Enter AndAlso Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) = 0 Then
                 If Change_Grid_Data = True Then
 
                     'txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
@@ -3333,9 +3336,14 @@ Public Class StoresPurchaseOrder
                         .Append(" A.PACK_SLIP_NO AS ComparisionNo, ")
                         .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy')  AS Date, ")
                         .Append(" E.AccountName AS AccountName, ")
-                        .Append(" A.ITEMCODE as ACCOUNTCODE,")
+                        '.Append(" A.ITEMCODE as ACCOUNTCODE,")
                         .Append(" B.ItemName AS ItemName, ")
-                        .Append(" a.BookVno As ItemCode ")
+                        .Append(" A.MTR_WEIGHT As Qty, ")
+                        .Append(" A.BookVNo As ID, ")
+                        .Append(" A.CUTCODE, ")
+                        .Append(" A.DESIGNCODE, ")
+                        .Append(" A.SHADECODE, ")
+                        .Append(" A.ItemCode ")
                         .Append(" FROM TrnPackingSlip AS A ")
                         .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE ")
                         .Append(" LEFT JOIN MstMasterAccount AS E ")
@@ -3359,16 +3367,69 @@ Public Class StoresPurchaseOrder
                     sqL = _StrQuery.ToString()
                     sql_connect_slect()
                     Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
-                    Dim _FItemcodeilter As String = ""
-                    Dim ExtracolumnsToHide = {"Srno"}
-                    'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
-                    Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
-                    If selectedList1 IsNot Nothing Then
+                    Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
+                    '================ REMOVE ALREADY FILLED DATA =================
 
+                    Dim UsedKeys As New Dictionary(Of String, Double)
+
+                    For i As Integer = 1 To GrdItem.Rows - 1
+                        'Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
+                        Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
+                        Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                        Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                        Dim DESIGNCODE As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
+
+
+                        Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+
+                        If ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso DESIGNCODE <> "" Then  'BookVNo <> "" AndAlso
+
+                            Dim Key As String = ItemCode & "|" & BrandCode & "|" & cutcode & "|" & DESIGNCODE
+                            'BookVNo & "|" &
+                            If UsedKeys.ContainsKey(Key) Then
+                                UsedKeys(Key) += UsedBal
+                            Else
+                                UsedKeys.Add(Key, UsedBal)
+                            End If
+
+                        End If
+
+                    Next
+                    For Each dr As DataRow In _Tmptbl.Rows
+
+                        Dim Key As String = dr("ItemCode").ToString.Trim() & "|" &
+                        dr("SHADECODE").ToString.Trim() & "|" &
+                        dr("CUTCODE").ToString.Trim() & "|" &
+                        dr("DESIGNCODE").ToString.Trim()
+                        'dr("ID").ToString.Trim() & "|" &
+                        Dim ActualBal As Double = Val(dr("Qty"))
+
+                        If UsedKeys.ContainsKey(Key) Then
+                            ActualBal -= UsedKeys(Key)
+                        End If
+
+                        If ActualBal > 0 Then
+
+                            Dim NewRow As DataRow = _FinalTmptbl.NewRow()
+
+                            NewRow.ItemArray = dr.ItemArray.Clone()
+                            NewRow("Qty") = ActualBal
+
+                            _FinalTmptbl.Rows.Add(NewRow)
+
+                        End If
+
+                    Next
+                    Dim _FItemcodeilter As String = ""
+                    Dim ExtracolumnsToHide = {"Srno", "CUTCODE", "ID", "DESIGNCODE", "SHADECODE"}
+                    'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
+                    'Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                    Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                    If selectedList1 IsNot Nothing Then
                         For Each rowDict As Dictionary(Of String, Object) In selectedList1
-                            If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ACCOUNTCODE") Then
-                                _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
-                                Dim BookVno = rowDict("ItemCode").ToString()
+                            If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ItemCode") Then
+                                _FItemcodeilter = rowDict("ItemCode").ToString()
+                                Dim BookVno = rowDict("ID").ToString()
                                 Dim comparisionno = rowDict("ComparisionNo").ToString()
 
                                 Dim Srno = Val(rowDict("Srno").ToString())
@@ -3380,6 +3441,7 @@ Public Class StoresPurchaseOrder
                                     .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy')  AS Date, ")
                                     .Append(" E.AccountName AS AccountName, ")
                                     .Append(" A.AccountCode, ")
+                                    .Append(" A.DESIGNCODE, ")
                                     .Append(" B.ItemName AS ItemName, ")
                                     .Append(" B.HSNCODE AS HsnCode, ")
                                     .Append(" A.Mtr_weight AS Qty, ")
@@ -3434,7 +3496,8 @@ Public Class StoresPurchaseOrder
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("Net_Rate") + 1).Text = dr("NetRate").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DENT") + 1).Text = dr("Amount").ToString()
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = dr("CompanyName").ToString()
-                                        'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = dr("SHADECODE").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = dr("SHADECODE").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = dr("CUTCODE").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = dr("CutName").ToString()
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP11") + 1).Text = dr("gst").ToString()
@@ -3442,8 +3505,8 @@ Public Class StoresPurchaseOrder
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("RDON") + 1).Text = dr("Fright").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CDVALUE") + 1).Text = dr("Delivery").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Payment terms").ToString()
-                                        'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
-                                        'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP5") + 1).Text = comparisionno
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = BookVno
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno

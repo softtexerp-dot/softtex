@@ -1740,7 +1740,8 @@ Public Class StockEntry
                 Call Total_Upto_All_Grid_All_Row()
 
             End If
-        ElseIf _ActivatedColName = "ROWREMARK" Then
+            'ElseIf _ActivatedColName = "ROWREMARK" Then
+        ElseIf _ActivatedColName = "OP4" Then
             If e.KeyCode = 13 Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
                 Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text

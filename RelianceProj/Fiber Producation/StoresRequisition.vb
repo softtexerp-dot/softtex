@@ -1398,7 +1398,7 @@ Friend Class StoresRequisition
             .Append(" LEFT JOIN MSTBook AS G ON A.GodownCode = G.BookCode ")
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
-            .Append(" AND A.GODOWNCODE='" & txtgodowncode.Text & "'" & " ")
+            .Append(" AND A.GODOWNCODE='" & _GodownCode & "'" & " ")
             .Append(" ORDER BY A.Id DESC ")
         End With
 

@@ -1551,7 +1551,9 @@ Public Class StoreInwardandPO
                     .Append(" A.ACCOUNTCODE AS ACCOUNTCODE, ")
                     .Append(" A.BOOKVNO As ID, ")
                     .Append(" C.TYPE_ID AS GROUPCODE, ")
-                    .Append(" A.CUTCODE AS CountCode, ")
+                    .Append(" a.SHADECODE, ")
+                    .Append(" a.DESIGNCODE, ")
+                    .Append(" A.CUTCODE, ")
                     .Append(" A.ITEMCODE AS ItemCode, ")
                     .Append(" A.OP12 As Fright, ")
                     .Append(" A.OP13 As Delivery, ")
@@ -1583,9 +1585,64 @@ Public Class StoreInwardandPO
                 sql_connect_slect()
                 Dim _FItemcodeilter As String = ""
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
-                Dim ExtracolumnsToHide = {"Departmentcode", "HsnCode", "ACCOUNTCODE", "ID", "GROUPCODE", "CountCode", "ItemCode", "Fright", "Delivery", "GrossRate", "Dis", "Disamount", "NetRate", "Amount", "Paymentterms"}
+                Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
+
+
+
+                Dim UsedKeys As New Dictionary(Of String, Double)
+
+                For i As Integer = 1 To GrdItem.Rows - 1
+                    Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
+                    Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
+                    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
+
+
+                    Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+                    'BookVNo <> "" AndAlso
+                    If ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
+
+                        Dim Key As String = ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
+                        'BookVNo & "|" &
+                        If UsedKeys.ContainsKey(Key) Then
+                            UsedKeys(Key) += UsedBal
+                        Else
+                            UsedKeys.Add(Key, UsedBal)
+                        End If
+
+                    End If
+
+                Next
+                For Each dr As DataRow In _Tmptbl.Rows
+
+                    Dim Key As String = dr("ITEMCODE").ToString.Trim() & "|" &
+                        dr("SHADECODE").ToString.Trim() & "|" &
+                        dr("CUTCODE").ToString.Trim() & "|" &
+                        dr("DESIGNCODE").ToString.Trim()
+                    'dr("BookVno").ToString.Trim() & "|" &
+                    Dim ActualBal As Double = Val(dr("Qty"))
+
+                    If UsedKeys.ContainsKey(Key) Then
+                        ActualBal -= UsedKeys(Key)
+                    End If
+
+                    If ActualBal > 0 Then
+
+                        Dim NewRow As DataRow = _FinalTmptbl.NewRow()
+
+                        NewRow.ItemArray = dr.ItemArray.Clone()
+                        NewRow("Qty") = ActualBal
+
+                        _FinalTmptbl.Rows.Add(NewRow)
+
+                    End If
+
+                Next
+                Dim ExtracolumnsToHide = {"Departmentcode", "HsnCode", "ACCOUNTCODE", "ID", "GROUPCODE", "CountCode", "ItemCode", "SHADECODE", "CUTCODE", "DESIGNCODE", "Fright", "Delivery", "GrossRate", "Dis", "Disamount", "NetRate", "Amount", "Paymentterms"}
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                'Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
@@ -1606,7 +1663,7 @@ Public Class StoreInwardandPO
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = rowDict("ItemCode").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("Brand").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = rowDict("GROUPCODE").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = rowDict("CountCode").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = rowDict("CUTCODE").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text = rowDict("UOM").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = rowDict("ID").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP11") + 1).Text = rowDict("Gst%").ToString()
@@ -1633,7 +1690,8 @@ Public Class StoreInwardandPO
                 Call Total_Upto_All_Grid_All_Row()
 
             End If
-        ElseIf _ActivatedColName = "ROWREMARK" Then
+            'ElseIf _ActivatedColName = "ROWREMARK" Then
+        ElseIf _ActivatedColName = "OP4" Then
             If e.KeyCode = 13 Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
                 Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text

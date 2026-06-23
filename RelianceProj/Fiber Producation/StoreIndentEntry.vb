@@ -1532,7 +1532,8 @@ Public Class StoreIndentEntry
                     .Append(" C.TYPE_ID AS GROUPCODE, ")
                     .Append(" D.CUTNAME AS CutName, ")
                     .Append(" E.DEPARTMENTNAME AS AccountName, ")
-                    .Append(" E.Departmentcode AS ACCOUNTCODE, ")
+                    .Append(" E.Departmentcode, ")
+                    .Append(" A.ACCOUNTCODE, ")
                     .Append(" A.CUTCODE AS CountCode, ")
                     .Append(" A.ITEMCODE AS ItemCode ")
                     .Append(" FROM ( ")
@@ -1601,6 +1602,7 @@ Public Class StoreIndentEntry
                     .Append(" E.DEPARTMENTNAME, ")
                     .Append(" E.Departmentcode, ")
                     .Append(" A.CUTCODE, ")
+                    .Append(" A.ACCOUNTCODE, ")
                     .Append(" A.ITEMCODE")
                     .Append(" HAVING SUM(Z.INQTY)-SUM(Z.OUTQTY) > 0 ")
 
@@ -1665,7 +1667,7 @@ Public Class StoreIndentEntry
                         dr("ItemCode").ToString.Trim() & "|" &
                         dr("GROUPCODE").ToString.Trim() & "|" &
                         dr("CountCode").ToString.Trim() & "|" &
-                        dr("ACCOUNTCODE").ToString.Trim()
+                        dr("Departmentcode").ToString.Trim()
 
                     Dim ActualBal As Double = Val(dr("Qty"))
 
@@ -1723,13 +1725,14 @@ Public Class StoreIndentEntry
                 If selectedList1 IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
-                        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ACCOUNTCODE") Then
-                            _FItemcodeilter = rowDict("ACCOUNTCODE").ToString()
+                        If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("Departmentcode") Then
+                            _FItemcodeilter = rowDict("Departmentcode").ToString()
                             Dim BookVno As String = rowDict("ItemCode").ToString()
                             '================ GRID VALUE =================
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = rowDict("Req No").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = rowDict("AccountName").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = rowDict("ACCOUNTCODE").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = rowDict("ACCOUNTCODE").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = rowDict("Departmentcode").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = rowDict("ItemName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = rowDict("Qty").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = rowDict("ItemCode").ToString()

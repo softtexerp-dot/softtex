@@ -1710,65 +1710,64 @@ Public Class GateInward
                 Dim _FItemcodeilter As String = ""
                 Dim ExtracolumnsToHide = {"Srno", "BookVno", "SHADECODE", "ITEMCODE", "CUTCODE", "DESIGNCODE"}
 
-                'Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
+                Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
 
 
 
-                'Dim UsedKeys As New Dictionary(Of String, Double)
+                Dim UsedKeys As New Dictionary(Of String, Double)
 
-                'For i As Integer = 1 To GrdItem.Rows - 1
-                '    Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
-                '    Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
-                '    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
-                '    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
-                '    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
-
-
-                '    Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-
-                '    If BookVNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
-
-                '        Dim Key As String = BookVNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
-
-                '        If UsedKeys.ContainsKey(Key) Then
-                '            UsedKeys(Key) += UsedBal
-                '        Else
-                '            UsedKeys.Add(Key, UsedBal)
-                '        End If
-
-                '    End If
-
-                'Next
-                'For Each dr As DataRow In _Tmptbl.Rows
-
-                '    Dim Key As String = dr("BookVno").ToString.Trim() & "|" &
-                '         dr("ITEMCODE").ToString.Trim() & "|" &
-                '        dr("SHADECODE").ToString.Trim() & "|" &
-                '        dr("CUTCODE").ToString.Trim() & "|" &
-                '        dr("DESIGNCODE").ToString.Trim()
-
-                '    Dim ActualBal As Double = Val(dr("Qty"))
-
-                '    If UsedKeys.ContainsKey(Key) Then
-                '        ActualBal -= UsedKeys(Key)
-                '    End If
-
-                '    If ActualBal > 0 Then
-
-                '        Dim NewRow As DataRow = _FinalTmptbl.NewRow()
-
-                '        NewRow.ItemArray = dr.ItemArray.Clone()
-                '        NewRow("Qty") = ActualBal
-
-                '        _FinalTmptbl.Rows.Add(NewRow)
-
-                '    End If
-
-                'Next
+                For i As Integer = 1 To GrdItem.Rows - 1
+                    Dim BookVNo As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text.Trim()
+                    Dim ItemCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text.Trim()
+                    Dim BrandCode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text
+                    Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                    Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
 
 
-                'Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
-                Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                    Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+                    'BookVNo <> "" AndAlso
+                    If ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
+
+                        Dim Key As String = ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
+                        'BookVNo & "|" &
+                        If UsedKeys.ContainsKey(Key) Then
+                            UsedKeys(Key) += UsedBal
+                        Else
+                            UsedKeys.Add(Key, UsedBal)
+                        End If
+
+                    End If
+
+                Next
+                For Each dr As DataRow In _Tmptbl.Rows
+
+                    Dim Key As String = dr("ITEMCODE").ToString.Trim() & "|" &
+                        dr("SHADECODE").ToString.Trim() & "|" &
+                        dr("CUTCODE").ToString.Trim() & "|" &
+                        dr("DESIGNCODE").ToString.Trim()
+                    'dr("BookVno").ToString.Trim() & "|" &
+                    Dim ActualBal As Double = Val(dr("Qty"))
+
+                    If UsedKeys.ContainsKey(Key) Then
+                        ActualBal -= UsedKeys(Key)
+                    End If
+
+                    If ActualBal > 0 Then
+
+                        Dim NewRow As DataRow = _FinalTmptbl.NewRow()
+
+                        NewRow.ItemArray = dr.ItemArray.Clone()
+                        NewRow("Qty") = ActualBal
+
+                        _FinalTmptbl.Rows.Add(NewRow)
+
+                    End If
+
+                Next
+
+
+                Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
+                'Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
 
                     For Each rowDict As Dictionary(Of String, Object) In selectedList1
@@ -1846,7 +1845,7 @@ Public Class GateInward
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP4") + 1).Text = dr("Paymentterms").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = dr("BOOKVNO").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
-                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
+                                    GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
                                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
                                     GrdItem.Rows = GrdItem.Rows + 1
