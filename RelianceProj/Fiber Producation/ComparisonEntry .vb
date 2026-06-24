@@ -780,7 +780,7 @@ Public Class ComparisonEntry
         Dim _LastID As Integer = 0
 
         Try
-            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' AND A.GODOWNCODE='" & txtUnitCode.Text & "' "
+            sqL = "DELETE FROM TrnPackingSlip WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' AND GODOWNCODE='" & txtUnitCode.Text & "' "
             sql_Data_Save_Delete_Update()
 #Region "Edit Log Save"
             Dim _EntryType As String = "Delete"
@@ -1615,7 +1615,8 @@ Public Class ComparisonEntry
                     .Append(" LEFT JOIN MstMasterAccount AS E ")
                     .Append(" ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
                     .Append(" WHERE 1=1 ")
-                    .Append(" and a.Booktrtype='QESS1'")
+                    .Append(" and A.Booktrtype='QESS1'")
+                    .Append(" And A.GODOWNCODE='" & txtUnitCode.Text & "'")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
@@ -1623,6 +1624,7 @@ Public Class ComparisonEntry
                     .Append(" WHERE ")
                     .Append(" B.OP7 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                    .Append(" And B.GODOWNCODE=A.GODOWNCODE ")
                     .Append("  )")
                 End With
 
@@ -1741,6 +1743,7 @@ Public Class ComparisonEntry
                                 .Append(" WHERE 1=1 ")
                                 .Append(" AND B.ITEMCODE='" & _FItemcodeilter & "' ")
                                 .Append(" AND a.BOOKVNO='" & BookVno & "' ")
+                                .Append(" And A.GODOWNCODE='" & txtUnitCode.Text & "'")
                                 .Append(" AND a.Srno='" & Srno & "' ")
 
                             End With

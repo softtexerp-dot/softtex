@@ -1741,8 +1741,8 @@ Friend Class QuotationEntry
                     .Append(" A.ITEMCODE AS ItemCode, ")
                     .Append(" A.OP12 As Fright, ")
                     .Append(" A.OP13 As Delivery, ")
-                    .Append(" b.VatTaxPer As [Gst%] ")
-                    .Append(" ,a.DESIGNCODE ")
+                    .Append(" b.VatTaxPer As [Gst%], ")
+                    .Append(" a.DESIGNCODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
                     .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE")
                     .Append(" LEFT JOIN MstStoreItemType AS C ")
@@ -1761,6 +1761,7 @@ Friend Class QuotationEntry
                     ''
                     .Append(" WHERE 1=1 ")
                     .Append(" AND A.Bookcode = 'SISS-000000001'")
+                    .Append(" And A.GODOWNCODE='" & txtUnitCode.Text & "'")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
@@ -1768,11 +1769,12 @@ Friend Class QuotationEntry
                     .Append(" WHERE ")
                     .Append(" B.OP22 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                    .Append(" And B.GODOWNCODE = A.GODOWNCODE ")
                     .Append("  )")
                 End With
                 sqL = _StrQuery.ToString()
                 sql_connect_slect()
-                Dim ExtracolumnsToHide = {"ReqBookVno", "DESIGNCODE"}
+                Dim ExtracolumnsToHide = {"ReqBookVno", "DESIGNCODE", "HsnCode"}
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
                 Dim _FinalTmptbl As DataTable = _Tmptbl.Clone
 
@@ -1932,7 +1934,7 @@ Friend Class QuotationEntry
         If Item_Code <> "" Then
             strQuery = "SELECT * FROM TRNCHALLAN WHERE ITEMCODE='" & Item_Code & "' AND ACCOUNTCODE='" & txtAccount_Code.Text & "' " & _UNiteWiseCode & "   AND GROSS_RATE>0 ORDER BY ENTRYNO "
             sqL = strQuery
-            sql_connect_slect()
+                    sql_connect_slect()
             _TmpDataTable = DefaltSoftTable.Copy
 
 

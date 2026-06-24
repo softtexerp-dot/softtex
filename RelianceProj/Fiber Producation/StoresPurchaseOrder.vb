@@ -1487,6 +1487,7 @@ Public Class StoresPurchaseOrder
                     Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
                     Ctrl_Visibility_With_One_Grid(False, Me.Controls, grdBsun)
                     'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+                    _FORMMODE = ""
                     Exit Sub
                 End If
 
@@ -1532,6 +1533,7 @@ Public Class StoresPurchaseOrder
                         Ctrl_Visibility_With_One_Grid(False, Me.Controls, grdBsun)
                         GrdItem.BoldFixedCell = False
                         _FrmLoad = False
+                        _FORMMODE = ""
                 End Select
             End If
         ElseIf e.KeyCode = Keys.F8 Then
@@ -3352,6 +3354,7 @@ Public Class StoresPurchaseOrder
                         .Append(" and A.ACCOUNTCODE='" & txtAccount_Code.Text & "'")
                         .Append(" and A.Booktrtype='CESS1'")
                         .Append(" and A.OP24='YES'")
+                        .Append(" AND  A.GODOWNCODE='" & _GodownCode & "'")
                         .Append("  AND NOT EXISTS ")
                         .Append("  (   ")
                         .Append(" SELECT 1  ")
@@ -3359,6 +3362,7 @@ Public Class StoresPurchaseOrder
                         .Append(" WHERE ")
                         .Append(" B.OP6 = A.BookVno ")
                         .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                        .Append(" And B.GODOWNCODE=A.GODOWNCODE")
                         .Append("  )")
                         '.Append(" AND A.BOOKVNO IN ('" & ReqBookvnorawData & "') ")
                     End With
@@ -3471,6 +3475,7 @@ Public Class StoresPurchaseOrder
                                     .Append(" WHERE 1=1 ")
                                     .Append(" AND B.ITEMCODE='" & _FItemcodeilter & "' ")
                                     .Append(" AND a.BOOKVNO='" & BookVno & "' ")
+                                    .Append(" And A.GODOWNCODE='" & _GodownCode & "'")
                                     .Append(" AND a.Srno='" & Srno & "' ")
 
                                 End With

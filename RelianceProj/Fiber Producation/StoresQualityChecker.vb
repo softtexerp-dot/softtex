@@ -103,6 +103,7 @@ Public Class StoresQualityChecker
                 .Append(" WHERE ")
                 .Append(" B.OP7 = A.BookVno ")
                 .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                .Append(" And B.GODOWNCODE=A.GODOWNCODE ")
                 .Append("  )")
                 .Append(dateFilter)
                 .Append(StatusFilter)

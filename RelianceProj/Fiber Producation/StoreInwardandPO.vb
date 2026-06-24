@@ -1569,6 +1569,7 @@ Public Class StoreInwardandPO
                     .Append(" WHERE 1=1 ")
                     .Append(" AND A.Bookcode In ('GISS-000000001','GISS-000000002','GISS-000000003') AND A.OP24='APPROVAL'")
                     .Append(" AND A.AccountCode = '" & txtAccount_Code.Text & "' ")
+                    .Append(" and A.GODOWNCODE='" & txtUnitCode.Text & "'  ")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")

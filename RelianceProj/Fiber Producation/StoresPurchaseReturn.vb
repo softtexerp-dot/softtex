@@ -1521,7 +1521,7 @@ Public Class StoresPurchaseReturn
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text
 
                 Dim RowNo As Integer = GrdItem.ActiveCell.Row
-                Dim _Filterstring = "  AND A.AccountCode = '" & txtAccount_Code.Text & "' "
+                Dim _Filterstring = "  AND A.AccountCode = '" & txtAccount_Code.Text & "' and A.GodownCode='" & txtUnitCode.Text & "' "
                 Dim _Filterstring_B = "  AND A.BOOKVNO NOT IN ('" & _BookVNo & "') "
                 sqL = StoreIssueDepartment._GetPendingReq(_Filterstring, _Filterstring_B)
                 sql_connect_slect()

@@ -1,9 +1,11 @@
 ﻿Imports System.Text
+Imports DevExpress.XtraRichEdit.Model
 
 Public Class StoreRejectionApproval
     Private _TblName As String = "TrnPackingSlip"
     Private _KeyFieldName As String = "Id"
     Dim _CloseCheck As Boolean = False
+    Private IsTmpCopyLoaded As Boolean = False
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Approval And Rejection Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
@@ -99,6 +101,14 @@ Public Class StoreRejectionApproval
             tblTmp = DefaltSoftTable.Copy
             Dim Qty As String = ""
             If tblTmp.Rows.Count > 0 Then
+                IsTmpCopyLoaded = tblTmp.AsEnumerable().Any(Function(r) Convert.ToString(r("Status")).Trim().ToUpper() = "APPROVAL")
+                If Not tblTmp.Columns.Contains("IsOriginalApproval") Then
+                    tblTmp.Columns.Add("IsOriginalApproval", GetType(Boolean))
+                End If
+
+                For Each dr As DataRow In tblTmp.Rows
+                    dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "APPROVAL")
+                Next
                 GridControl1.DataSource = tblTmp.Copy
                 For Each dc As DataColumn In tblTmp.Columns
                     Dim isEmptyOrZero As Boolean = True
@@ -129,6 +139,7 @@ Public Class StoreRejectionApproval
                 Next
                 ' Step 2: Sirf required columns editable
                 'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
+                FirstStage.Columns("IsOriginalApproval").Visible = False
                 DevGridFitColumn(GridControl1, FirstStage)
                 FirstStage.BestFitColumns()
                 FirstStage.Focus()
@@ -187,13 +198,42 @@ Public Class StoreRejectionApproval
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "Status" Then
-                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
-                If currentValue = "APPROVAL" Then
-                    FirstStage.SetFocusedRowCellValue("Status", "CANCEL")
-                Else
-                    FirstStage.SetFocusedRowCellValue("Status", "APPROVAL")
+                Dim IsOriginalApproval As Boolean = False
+                If FirstStage.GetFocusedRowCellValue("IsOriginalApproval") IsNot DBNull.Value Then
+                    IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval"))
                 End If
-                e.Handled = True
+                If IsOriginalApproval Then
+                    e.Handled = True
+                    Exit Sub
+                End If
+                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
+                Select Case currentValue
+
+                    Case "PENDING"
+                        FirstStage.SetFocusedRowCellValue("Status", "APPROVAL")
+
+                    Case "APPROVAL"
+                        FirstStage.SetFocusedRowCellValue("Status", "CANCEL")
+
+                    Case "CANCEL"
+                        FirstStage.SetFocusedRowCellValue("Status", "PENDING")
+
+                End Select
+                'Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
+                'If currentValue = "APPROVAL" AndAlso IsTmpCopyLoaded Then
+                '    'FirstStage.SetFocusedRowCellValue("Status", "CANCEL")
+                '    e.Handled = True
+                '    Exit Sub
+                'ElseIf currentValue = "CANCEL" Then
+                '    FirstStage.SetFocusedRowCellValue("Status", "APPROVAL")
+                'ElseIf currentValue = "PENDING" Then
+                '    FirstStage.SetFocusedRowCellValue("Status", "CANCEL")
+                'ElseIf currentValue = "APPROVAL" Then
+                '    FirstStage.SetFocusedRowCellValue("Status", "PENDING")
+                'Else
+                '    FirstStage.SetFocusedRowCellValue("Status", "PENDING")
+                'End If
+                'e.Handled = True
             End If
         End If
     End Sub

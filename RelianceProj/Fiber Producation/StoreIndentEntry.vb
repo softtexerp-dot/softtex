@@ -1535,7 +1535,8 @@ Public Class StoreIndentEntry
                     .Append(" E.Departmentcode, ")
                     .Append(" A.ACCOUNTCODE, ")
                     .Append(" A.CUTCODE AS CountCode, ")
-                    .Append(" A.ITEMCODE AS ItemCode ")
+                    .Append(" A.ITEMCODE AS ItemCode, ")
+                    .Append(" Z.GODOWNCODE ")
                     .Append(" FROM ( ")
                     .Append(" SELECT ")
                     .Append(" A.Mtr_weight AS INQTY, ")
@@ -1544,12 +1545,14 @@ Public Class StoreIndentEntry
                     .Append(" A.CUTCODE, ")
                     .Append(" A.ITEMCODE, ")
                     .Append(" A.DESIGNCODE, ")
-                    .Append(" A.SHADECODE ")
+                    .Append(" A.SHADECODE, ")
+                    .Append(" A.GODOWNCODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
                     .Append(" WHERE 1=1 ")
                     .Append(" And A.Bookcode = 'RQSS-000000001'")
                     .Append(" AND A.BookTrType = 'RQSS1' ")
                     .Append(" AND A.OP19 = 'YES'")
+                    .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
                     .Append(" UNION ALL ")
                     .Append(" SELECT ")
                     .Append(" 0.00 AS INQTY, ")
@@ -1558,11 +1561,16 @@ Public Class StoreIndentEntry
                     .Append(" A.CUTCODE, ")
                     .Append(" A.ITEMCODE, ")
                     .Append(" A.DESIGNCODE, ")
-                    .Append(" A.SHADECODE ")
+                    .Append(" A.SHADECODE,")
+                    .Append(" A.GODOWNCODE ")
                     .Append(" FROM TrnPackingSlip AS A ")
-                    .Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE) ")
+                    .Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE   AND A.DESIGNCODE = B.DESIGNCODE
+       AND A.SHADECODE = B.SHADECODE
+       AND A.CUTCODE = B.CUTCODE
+       AND A.GODOWNCODE = B.GODOWNCODE ) ")
                     .Append(" WHERE 1=1 ")
                     .Append(" And A.Bookcode = 'IDSS-000000001'")
+                    .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
                     .Append(" ) AS Z ")
                     .Append(" INNER JOIN TrnPackingSlip AS A ")
                     .Append(" ON A.BOOKVNO = Z.BOOKVNO ")
@@ -1570,6 +1578,7 @@ Public Class StoreIndentEntry
                     .Append(" AND A.DESIGNCODE = Z.DESIGNCODE ")
                     .Append(" AND A.SHADECODE = Z.SHADECODE ")
                     .Append(" AND A.CUTCODE = Z.CUTCODE ")
+                    .Append("  AND A.GODOWNCODE = Z.GODOWNCODE ")
                     .Append(" AND A.BOOKCODE='RQSS-000000001' ")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
@@ -1591,6 +1600,7 @@ Public Class StoreIndentEntry
                     .Append(" LEFT JOIN MstDepartment AS E ")
                     .Append(" ON A.DESIGNCODE = E.Departmentcode ")
                     .Append(" WHERE 1=1 ")
+                    .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
                     .Append(" GROUP BY ")
                     .Append(" A.PACK_SLIP_NO,")
                     .Append(" B.ItemName, ")
@@ -1603,6 +1613,7 @@ Public Class StoreIndentEntry
                     .Append(" E.Departmentcode, ")
                     .Append(" A.CUTCODE, ")
                     .Append(" A.ACCOUNTCODE, ")
+                    .Append(" Z.GODOWNCODE, ")
                     .Append(" A.ITEMCODE")
                     .Append(" HAVING SUM(Z.INQTY)-SUM(Z.OUTQTY) > 0 ")
 
@@ -1717,7 +1728,7 @@ Public Class StoreIndentEntry
                 '    '    _FinalTmptbl.ImportRow(dr)
                 '    'End If
                 'Next
-                Dim ExtracolumnsToHide = {"HsnCode"}
+                Dim ExtracolumnsToHide = {"HsnCode", "Departmentcode", "GODOWNCODE"}
                 Dim _FItemcodeilter As String = ""
                 Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 'Dim _LoadQuery = _StrQuery.ToString()

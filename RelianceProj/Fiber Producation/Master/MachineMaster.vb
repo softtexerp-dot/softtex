@@ -1,6 +1,4 @@
 ﻿Imports System.Text
-Imports DevExpress.Utils.CommonDialogs
-Imports DevExpress.XtraBars.Customization
 
 Public Class MachineMaster
 
@@ -423,15 +421,18 @@ Public Class MachineMaster
             If _FORMMODE = "" Then
                 Me.Close()
             ElseIf _FORMMODE <> "" Then
-                _FORMMODE = ""
+                _FrmLoad = True
+                _FORMMODE = "LOAD"
                 ObjCls_General.Blank_Object(Me)
                 _KeyFieldValue = 0
                 'Call Command_Button_Visibility("LOAD")
                 AttachButtonFocusEvents(Me)
                 Call Ctrl_Visible_False(Me.Controls)
                 'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
-                UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                 _FrmLoad = False
+                _FORMMODE = ""
             End If
         End If
     End Sub

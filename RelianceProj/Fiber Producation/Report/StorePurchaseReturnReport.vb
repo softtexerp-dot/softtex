@@ -132,12 +132,12 @@ Public Class StorePurchaseReturnReport
     End Sub
     Private Sub StorePurchaseReturnReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
-            If _CheckFormLoad = True Then
-                _ButtonFocus()
-            Else
-                Me.Close()
-                Me.Dispose(True)
-            End If
+            'If _CheckFormLoad = True Then
+            '    _ButtonFocus()
+            'Else
+            Me.Close()
+            Me.Dispose(True)
+            'End If
         End If
     End Sub
     Private Sub _ButtonFocus()

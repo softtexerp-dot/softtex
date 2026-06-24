@@ -1691,6 +1691,7 @@ Public Class GateInward
                     .Append(" WHERE 1=1 ")
                     '.Append(" and A.ACCOUNTCODE='" & txtAccount_Code.Text & "'")
                     .Append(" and A.Booktrtype='P0141'")
+                    .Append(" AND A.GODOWNCODE='" & _GodownCode & "'")
                     '.Append(" and A.OP24='YES'")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
@@ -1699,6 +1700,7 @@ Public Class GateInward
                     .Append(" WHERE ")
                     .Append(" B.OP7 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                    .Append(" And B.GODOWNCODE=A.GODOWNCODE ")
                     .Append("  )")
                     '.Append(" AND A.BOOKVNO IN ('" & ReqBookvnorawData & "') ")
                 End With
@@ -1813,8 +1815,9 @@ Public Class GateInward
                                 .Append(" ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
                                 .Append(" WHERE 1=1 ")
                                 .Append(" AND B.ITEMCODE='" & _FItemcodeilter & "' ")
-                                .Append(" AND a.BOOKVNO='" & BookVno & "' ")
-                                .Append(" AND a.Srno='" & Srno & "' ")
+                                .Append(" AND A.BOOKVNO='" & BookVno & "' ")
+                                .Append(" AND A.GODOWNCODE='" & _GodownCode & "'")
+                                .Append(" AND A.Srno='" & Srno & "' ")
                             End With
                             Dim dt As New DataTable
                             sqL = _DetailQuery.ToString()
@@ -1847,7 +1850,8 @@ Public Class GateInward
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
-                                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
+                                    'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
+                                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ROWREMARK")).SetFocus()
                                     GrdItem.Rows = GrdItem.Rows + 1
                                     Rowno += 1
                                 Next
