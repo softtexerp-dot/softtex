@@ -253,7 +253,7 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem, Me.GateInwardToolStripMenuItem, Me.QualityCheckerToolStripMenuItem, Me.StorePurchaseReturnToolStripMenuItem, Me.ApprovalRejectionToolStripMenuItem, Me.StoreInwardAndPOToolStripMenuItem, Me.StrorePurchaseReturnReportToolStripMenuItem})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem, Me.GateInwardToolStripMenuItem, Me.QualityCheckerToolStripMenuItem, Me.ApprovalRejectionToolStripMenuItem, Me.StorePurchaseReturnToolStripMenuItem, Me.StoreInwardAndPOToolStripMenuItem, Me.StrorePurchaseReturnReportToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
@@ -346,7 +346,7 @@ Partial Class Main_MDI_Frm
         '
         Me.ApprovalRejectionToolStripMenuItem.Name = "ApprovalRejectionToolStripMenuItem"
         Me.ApprovalRejectionToolStripMenuItem.Size = New System.Drawing.Size(282, 22)
-        Me.ApprovalRejectionToolStripMenuItem.Text = "ApprovalRejection"
+        Me.ApprovalRejectionToolStripMenuItem.Text = "RejectionApproval"
         '
         'StoreInwardAndPOToolStripMenuItem
         '

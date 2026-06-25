@@ -1291,7 +1291,7 @@ Friend Class QuotationEntry
     End Sub
     Private Sub Validate_ImportEntry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
         _TransctionNo = 0
-        strQuery = "SELECT TOP 1 ENTRYNO,BookVNo FROM " & Table_Name & " AS A  WHERE A.EntryNO='" & TxtimpEntryNo.Text & "'  order by Id desc  "
+        strQuery = "SELECT TOP 1 ENTRYNO,BookVNo FROM " & Table_Name & " AS A  WHERE A.EntryNO='" & TxtimpEntryNo.Text & "' order by Id desc  "
         sqL = strQuery
         sql_connect_slect()
 

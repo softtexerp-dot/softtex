@@ -342,7 +342,7 @@ Public Class GateInward
         _FieldLocked = New StringBuilder
         With _FieldLocked
             .Append("SRNO:Y,")
-            .Append("MTR_WEIGHT:Y,")
+            '.Append("MTR_WEIGHT:Y,")
             .Append("AMOUNT:Y")
         End With
 
@@ -1850,8 +1850,8 @@ Public Class GateInward
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP22") + 1).Text = dr("OP7").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = Rowno
-                                    'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
-                                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ROWREMARK")).SetFocus()
+                                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT")).SetFocus()
+                                    'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ROWREMARK")).SetFocus()
                                     GrdItem.Rows = GrdItem.Rows + 1
                                     Rowno += 1
                                 Next

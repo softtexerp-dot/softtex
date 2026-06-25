@@ -151,6 +151,7 @@ Public Class StoreApproval
         Dim Qty As String = ""
         If tblTmp.Rows.Count > 0 Then
             GridControl1.DataSource = tblTmp.Copy
+            AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
             For Each dc As DataColumn In tblTmp.Columns
                 Dim isEmptyOrZero As Boolean = True
                 If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP22" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Then
@@ -192,7 +193,41 @@ Public Class StoreApproval
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
         End If
     End Sub
+    Private Sub bandedView_RowStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs)
 
+        Dim view As DevExpress.XtraGrid.Views.Grid.GridView =
+        CType(sender, DevExpress.XtraGrid.Views.Grid.GridView)
+
+        If e.RowHandle < 0 Then Exit Sub
+
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
+
+            If col.FieldName.EndsWith("Status") Then
+
+                Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+
+                If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
+
+                    Dim status As String = val.ToString.Trim.ToUpper
+
+                    If status = "TRUE" OrElse
+                   status = "1" OrElse
+                   status = "Y" OrElse
+                   status = "YES" Then
+
+                        e.Appearance.BackColor = Color.LemonChiffon
+                        e.HighPriority = True
+                        Exit For
+
+                    End If
+
+                End If
+
+            End If
+
+        Next
+
+    End Sub
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
         If conn.State = ConnectionState.Closed Then

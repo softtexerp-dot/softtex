@@ -253,8 +253,8 @@ Public Class StoreIssueDepartment
             .Append("AMOUNT:R,")
             .Append("OP11:L,") 'gst
             .Append("OP12:L,") 'Fright
-            .Append("OP13:L,")  'Delivery
-            .Append("OP4:L,") 'Payment terms
+            .Append("OP13:L,") 'Delivery
+            .Append("OP4:L,")  'Payment terms
             .Append("ROWREMARK:L")
         End With
 
@@ -280,16 +280,16 @@ Public Class StoreIssueDepartment
             .Append("SHADECODE:N,")
             .Append("CUT_MTR:N,") 'Gross Rate
             .Append("SRNO:Y,")
-            .Append("OP6:Y,") 'Selected Req No
-            .Append("OP23:N,") 'Stock Req No
-            .Append("OP24:N,") 'Stock selected code
+            .Append("OP6:Y,")     'Selected Req No
+            .Append("OP23:N,")    'Stock Req No
+            .Append("OP24:N,")    'Stock selected code
             .Append("ACCOUNTNAME:Y,")
             .Append("ITEMNAME:Y,")
             .Append("ITEMCODE:N,")
             .Append("CUTNAME:Y,")
             .Append("DESCR:N,")
-            .Append("RDVALUE:N,") 'Dis%
-            .Append("WEIGHT:N,")  'Dis Amt
+            .Append("RDVALUE:N,")  'Dis%
+            .Append("WEIGHT:N,")   'Dis Amt
             .Append("SIZENAME:N,")
             .Append("COLORNAME:N,")
             .Append("COMPANYNAME:Y,")
@@ -299,27 +299,25 @@ Public Class StoreIssueDepartment
             .Append("ActulQty:N,")
             .Append("PIECE_ID:N,")
             .Append("MTR_WEIGHT:Y,")
-            .Append("RATE:N,")  'Net Rate
-            .Append("AMOUNT:N,") 'Amount
+            .Append("RATE:N,")     'Net Rate
+            .Append("AMOUNT:N,")   'Amount
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
-            .Append("OP11:N,")  'gst
-            .Append("OP12:N,")  'Fright
-            .Append("OP13:N,")  'Delivery
-            .Append("OP4:N,")  'Payment terms
-            .Append("OP5:N,") 'BookName
-            .Append("OP7:N,") 'Selected Req No
+            .Append("OP11:N,")     'gst
+            .Append("OP12:N,")     'Fright
+            .Append("OP13:N,")     'Delivery
+            .Append("OP4:N,")      'Payment terms
+            .Append("OP5:N,")      'BookName
+            .Append("OP7:N,")      'Selected Req No
             .Append("USEBY:N,")
-            .Append("OP21:N,") 'UserId
-            .Append("OP19:N,") 'Approve status
+            .Append("OP21:N,")     'UserId
+            .Append("OP19:N,")     'Approve status
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
             .Append("stockQty:N,")
             .Append("ReqQty:N,")
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
-
         End With
-
         _FieldNotRequiredForSave = New StringBuilder
         With _FieldNotRequiredForSave
             .Append("ID:N,")
@@ -335,8 +333,6 @@ Public Class StoreIssueDepartment
             .Append("ReqQty:N,")
             .Append("COLORNAME:N")
         End With
-
-
         _FieldWidthSet = New StringBuilder
         With _FieldWidthSet
             .Append("SRNO:4,")
@@ -361,7 +357,6 @@ Public Class StoreIssueDepartment
             .Append("OP4:12,") 'Payment terms
             .Append("ROWREMARK:27")
         End With
-
         _FieldDefaultValues = New StringBuilder
         With _FieldDefaultValues
             .Append("SRNO:0,")
@@ -389,7 +384,6 @@ Public Class StoreIssueDepartment
             .Append("CUTNAME:Y,")
             .Append("Rate:Y")
         End With
-
         _FieldMasking = New StringBuilder
         With _FieldMasking
             .Append("MTR_WEIGHT:NO-2,")
@@ -402,7 +396,6 @@ Public Class StoreIssueDepartment
             .Append("OP13:NO-2,")  'Delivery
             .Append("AMOUNT:NO-2")
         End With
-
         With _FieldNameSameValueCopy
 
         End With
@@ -1527,6 +1520,7 @@ Public Class StoreIssueDepartment
                     Dim cutcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
                     Dim departmentcode As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text
 
+
                     If ReqNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
                         Dim Key As String = ReqNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
                         Dim Qty As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
@@ -1544,6 +1538,7 @@ Public Class StoreIssueDepartment
                     Dim BrandCode As String = dr("GROUPCODE").ToString().Trim()
                     Dim cutcode As String = dr("CountCode").ToString().Trim()
                     Dim departmentcode As String = dr("CITYCODE").ToString().Trim()
+                    'Dim GODOWNCODE As String = dr("GODOWNCODE").ToString().Trim()
                     Dim Key As String = ReqNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
                     Dim ActualBal As Double = Val(dr("Balance"))
                     If QtyMap.ContainsKey(Key) Then
@@ -1556,7 +1551,8 @@ Public Class StoreIssueDepartment
                         _FinalTmptbl.Rows.Add(NewRow)
                     End If
                 Next
-                Dim selected = SingleAccountSelectionFormsingledatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES", Nothing)
+                Dim ExtracolumnsToHide = {"GODOWNCODE"}
+                Dim selected = SingleAccountSelectionFormsingledatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES", ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
                     If selected.ContainsKey("Req No") Then
@@ -1576,7 +1572,7 @@ Public Class StoreIssueDepartment
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SRNO") + 1).Text = RowNo
                     '   ActualQty = Val(selected("Balance"))
                     '================ Opening Stock BALANCE =================
-                    _Filterstring = "  And A.ItemCode = '" & selected("ItemCode") & "' And A.CUTCODE = '" & selected("CountCode") & "' And A.SHADECODE = '" & selected("GROUPCODE") & "' And A.DESIGNCODE = '" & selected("CITYCODE") & "'"
+                    _Filterstring = "  And A.ItemCode = '" & selected("ItemCode") & "' And A.CUTCODE = '" & selected("CountCode") & "' And A.SHADECODE = '" & selected("GROUPCODE") & "' And A.DESIGNCODE = '" & selected("CITYCODE") & "' And A.GODOWNCODE = '" & selected("GODOWNCODE") & "'"
                     _Filterstring_B = "  AND A.BOOKVNO NOT IN ('" & _BookVNo & "') "
                     sqL = _GetPendingReq(_Filterstring, _Filterstring_B)
                     sql_connect_slect()
@@ -1642,7 +1638,7 @@ Public Class StoreIssueDepartment
 
                     '======================Single list selection===========================
 
-                    Dim ExtracolumnsToHide = {"EntryNo"}
+                    ExtracolumnsToHide = {"EntryNo"}
 
 
                     Dim selected1 = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), "", "SINGLE", "YES", ExtracolumnsToHide)
@@ -1749,6 +1745,7 @@ Public Class StoreIssueDepartment
             .Append(" E.Departmentcode AS CITYCODE, ")
             .Append(" Z.CUTCODE as CountCode, ")
             .Append(" Z.ACCOUNTCODE, ")
+            .Append(" Z.GODOWNCODE, ")
             .Append(" Z.ITEMCODE As ItemCode, ")
             .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') As Balance, ")
             .Append(" Z.Rate As Rate, ")
@@ -1759,6 +1756,7 @@ Public Class StoreIssueDepartment
             .Append(" 0.00 AS OUTQTY, ")
             .Append(" A.RATE As Rate,")   'Net Rate
             .Append(" A.BOOKVNO, ")
+            .Append(" A.GODOWNCODE, ")
             .Append(" A.CUTCODE, ")
             .Append(" A.ITEMCODE, ")
             .Append(" A.DESIGNCODE, ")
@@ -1773,6 +1771,7 @@ Public Class StoreIssueDepartment
             .Append(" A.Mtr_weight AS OUTQTY, ")
             .Append(" A.RATE As Rate,")   'Net Rate
             .Append(" A.BOOKVNO, ")
+            .Append(" A.GODOWNCODE, ")
             .Append(" A.CUTCODE, ")
             .Append(" A.ITEMCODE, ")
             .Append(" A.DESIGNCODE, ")
@@ -1790,6 +1789,7 @@ Public Class StoreIssueDepartment
             .Append(" LEFT JOIN MstMasterAccount As F ON Z.ACCOUNTCODE=F.ACCOUNTCODE ")
             .Append(" GROUP BY ")
             .Append(" Z.CUTCODE, ")
+            .Append(" Z.GODOWNCODE, ")
             .Append(" Z.ITEMCODE, ")
             .Append(" Z.DESIGNCODE, ")
             .Append(" Z.SHADECODE, ")
@@ -1823,6 +1823,7 @@ Public Class StoreIssueDepartment
             .Append(" a.PACK_SLIP_NO As [Req No], ")
             .Append(" B.ItemName AS ItemName, ")
             .Append(" A.BOOKVNO As ID, ")
+            .Append(" Z.GODOWNCODE, ")
             .Append(" C.TYPE_NAME AS Brand, ")
             .Append(" C.TYPE_ID AS GROUPCODE, ")
             .Append(" D.CUTNAME AS UOM, ")
@@ -1840,6 +1841,7 @@ Public Class StoreIssueDepartment
             .Append(" A.CUTCODE, ")
             .Append(" A.ITEMCODE, ")
             .Append(" A.DESIGNCODE, ")
+            .Append(" A.GODOWNCODE, ")
             .Append(" A.SHADECODE ")
             .Append(" FROM TrnPackingSlip AS A ")
             .Append(" WHERE 1=1 ")
@@ -1852,6 +1854,7 @@ Public Class StoreIssueDepartment
             .Append(" A.CUTCODE, ")
             .Append(" A.ITEMCODE, ")
             .Append(" A.DESIGNCODE, ")
+            .Append(" A.GODOWNCODE, ")
             .Append(" A.SHADECODE ")
             .Append(" FROM TrnPackingSlip AS A ")
             '.Append(" JOIN TrnPackingSlip AS B ON (A.OP7 = B.BOOKVNO AND A.ITEMCODE = B.ITEMCODE) ")
@@ -1887,6 +1890,7 @@ Public Class StoreIssueDepartment
             .Append(" C.TYPE_ID, ")
             .Append(" D.CUTNAME, ")
             .Append(" E.DEPARTMENTNAME, ")
+            .Append(" Z.GODOWNCODE, ")
             .Append(" E.Departmentcode ")
             .Append(" HAVING (SUM(Z.INQTY) - SUM(Z.OUTQTY)) > 0 ")
         End With

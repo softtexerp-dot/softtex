@@ -122,6 +122,7 @@ Public Class DepartmentApproval
             .Append(" A.OP4 As Paymentterms, ")
             .Append(" A.OP19 As Status, ")
             .Append(" A.Bookvno, ")
+            .Append(" A.Godowncode, ")
             .Append(" A.Itemcode, ")
             .Append(" B.ItemName AS ITEMNAME, ")
             .Append(" C.ACCOUNTNAME As SupplierName,  ")
@@ -186,7 +187,7 @@ Public Class DepartmentApproval
         ' DISTINCT ITEMS
         'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) r("ITEMNAME").ToString())
         'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .SupplierCode = r("SupplierCode").ToString()})
-        Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .EntryNo = r("EntryNo").ToString(), Key .Brand = r("COMPANYNAME").ToString(), Key .CutName = r("CUTNAME").ToString()})
+        Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .EntryNo = r("EntryNo").ToString(), Key .Brand = r("COMPANYNAME").ToString(), Key .CutName = r("CUTNAME").ToString(), Key .GodownCode = r("GodownCode").ToString()})
         For Each grp In items
             Dim newRow As DataRow = dtPivot.NewRow()
             Dim firstRow = grp.First()
@@ -230,7 +231,7 @@ Public Class DepartmentApproval
             GridControl1.MainView = bandedView
             GridControl1.ViewCollection.Add(bandedView)
 
-
+            AddHandler bandedView.RowStyle, AddressOf bandedView_RowStyle
             AddHandler bandedView.RowCellStyle, AddressOf bandedView_RowCellStyle
             AddHandler bandedView.ShowingEditor, AddressOf bandedView_ShowingEditor
 
@@ -355,6 +356,7 @@ Public Class DepartmentApproval
                     col.OptionsColumn.ReadOnly = False
                 End If
             Next
+
             bandedView.BestFitColumns()
             bandedView.OptionsView.ColumnAutoWidth = False
             bandedView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
@@ -392,6 +394,33 @@ Public Class DepartmentApproval
             End If
 
         End If
+    End Sub
+    Private Sub bandedView_RowStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs)
+
+        Dim view As BandedGridView = CType(sender, BandedGridView)
+
+        If e.RowHandle < 0 Then Exit Sub
+
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
+
+            If col.FieldName.EndsWith("_Status") Then
+
+                Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+
+                If val IsNot Nothing AndAlso
+               val IsNot DBNull.Value AndAlso
+               Convert.ToBoolean(val) = True Then
+
+                    e.Appearance.BackColor = Color.LemonChiffon
+                    e.Appearance.Options.UseBackColor = True
+                    e.HighPriority = True
+                    Exit For
+
+                End If
+
+            End If
+
+        Next
 
     End Sub
     Private Sub bandedView_ShowingEditor(sender As Object, e As System.ComponentModel.CancelEventArgs)
@@ -402,6 +431,7 @@ Public Class DepartmentApproval
         End If
 
     End Sub
+
 
     Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
         Try
