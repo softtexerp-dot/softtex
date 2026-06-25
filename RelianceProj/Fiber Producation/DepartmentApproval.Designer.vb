@@ -41,6 +41,9 @@ Partial Class DepartmentApproval
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txt_Status = New ctl_TextBox.ctl_TextBox()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.txtUnitName = New ctl_TextBox.ctl_TextBox()
+        Me.Label50 = New System.Windows.Forms.Label()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -270,7 +273,7 @@ Partial Class DepartmentApproval
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(543, 16)
+        Me.Label2.Location = New System.Drawing.Point(465, 16)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 82234
@@ -280,7 +283,7 @@ Partial Class DepartmentApproval
         '
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.Black
-        Me.Label3.Location = New System.Drawing.Point(439, 15)
+        Me.Label3.Location = New System.Drawing.Point(361, 15)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(110, 14)
@@ -311,7 +314,7 @@ Partial Class DepartmentApproval
         Me.txt_Status.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.txt_Status.IsValidated = False
         Me.txt_Status.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txt_Status.Location = New System.Drawing.Point(559, 13)
+        Me.txt_Status.Location = New System.Drawing.Point(481, 13)
         Me.txt_Status.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_Status.MandatoryField = False
         Me.txt_Status.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -334,12 +337,80 @@ Partial Class DepartmentApproval
         Me.txt_Status.TransparentBox = True
         Me.txt_Status.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label41.Location = New System.Drawing.Point(597, 16)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(12, 14)
+        Me.Label41.TabIndex = 82237
+        Me.Label41.Text = ":"
+        '
+        'txtUnitName
+        '
+        Me.txtUnitName._AllowSpace = True
+        Me.txtUnitName.AcceptsReturn = True
+        Me.txtUnitName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtUnitName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtUnitName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtUnitName.Check_End_Date_Value_FY = "YES"
+        Me.txtUnitName.Check_Start_Date_Value_FY = "YES"
+        Me.txtUnitName.ClearField = True
+        Me.txtUnitName.CustomInputTypeString = Nothing
+        Me.txtUnitName.Date_for_Database = Nothing
+        Me.txtUnitName.Date_Tag = Nothing
+        Me.txtUnitName.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtUnitName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.txtUnitName.ExtraValue = ""
+        Me.txtUnitName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtUnitName.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtUnitName.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtUnitName.ForeColor = System.Drawing.Color.Black
+        Me.txtUnitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtUnitName.IsValidated = False
+        Me.txtUnitName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.Location = New System.Drawing.Point(607, 15)
+        Me.txtUnitName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.MandatoryField = False
+        Me.txtUnitName.MaxDate = Nothing
+        Me.txtUnitName.MinDate = Nothing
+        Me.txtUnitName.Name = "txtUnitName"
+        Me.txtUnitName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtUnitName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtUnitName.ReadOnly = True
+        Me.txtUnitName.RegularExpression = Nothing
+        Me.txtUnitName.RegularExpressionErrorMessage = Nothing
+        Me.txtUnitName.ShowMessage = False
+        Me.txtUnitName.Size = New System.Drawing.Size(155, 22)
+        Me.txtUnitName.SpacerString = ""
+        Me.txtUnitName.TabIndex = 4
+        Me.txtUnitName.Tag = "BOOKNAME"
+        Me.txtUnitName.TransparentBox = True
+        Me.txtUnitName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label50.ForeColor = System.Drawing.Color.Black
+        Me.Label50.Location = New System.Drawing.Point(520, 15)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(76, 14)
+        Me.Label50.TabIndex = 82236
+        Me.Label50.Text = "Unit Name"
+        '
         'DepartmentApproval
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1141, 641)
+        Me.Controls.Add(Me.Label41)
+        Me.Controls.Add(Me.txtUnitName)
+        Me.Controls.Add(Me.Label50)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txt_Status)
@@ -388,4 +459,7 @@ Partial Class DepartmentApproval
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents txt_Status As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label41 As Label
+    Friend WithEvents txtUnitName As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label50 As Label
 End Class

@@ -1,12 +1,8 @@
-﻿Imports System.ComponentModel
-Imports System.Data.SqlClient
-Imports System.Text
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports DevExpress.XtraCharts.Native
+﻿Imports System.Text
 Imports DevExpress.XtraEditors.Repository
-Imports DevExpress.XtraGrid
 Imports DevExpress.XtraGrid.Views.BandedGrid
-Imports DevExpress.XtraGrid.Views.Grid
+
+
 
 Public Class DepartmentApproval
     Private CurDate As String = Now.Month.ToString & "/" & Now.Day.ToString & "/" & Now.Year.ToString
@@ -39,6 +35,10 @@ Public Class DepartmentApproval
     Private _TblName As String = "TrnPackingSlip"
     Private IsUpdating As Boolean = False
     Dim dtSource As DataTable
+    Private _BookCode As String = ""
+    Private WithEvents txtUnitCode As New System.Windows.Forms.TextBox()
+    Private Book_Row As DataRow
+    Private AcCode_Filter_String As String = ""
 
     Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         If Not String.IsNullOrWhiteSpace(Me.Tag) Then
@@ -102,10 +102,13 @@ Public Class DepartmentApproval
             Dim groupCols As String = ""
             Dim selectCols As String = ""
             Dim orderCols As String = ""
-
+            Dim Unitfilter As String = ""
             Dim dateFilter As String = ""
+            If txtUnitCode.Text.Trim <> "" Then
+                Unitfilter = " AND A.GodownCode = '" & txtUnitCode.Text.Trim & "' "
+            End If
             If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
-                dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
+                dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "' "
             End If
             .Append(" SELECT   ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
@@ -150,6 +153,7 @@ Public Class DepartmentApproval
                 .Append(" AND  A.OP19 = 'YES'")
             End If
             .Append(dateFilter)
+            .Append(Unitfilter)
             .Append(" ORDER BY  A.Entryno ")
         End With
         sqL = _strQuery.ToString
@@ -707,6 +711,41 @@ Public Class DepartmentApproval
         Generate_Date_For_DataBase(txt_To)
         _Zooming_Load(txt_To.Date_for_Database)
     End Sub
+
+#Region "Txt Book Name Events Code "
+    Private Sub txtUnitName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtUnitName.KeyPress
+        If Asc(e.KeyChar) = 27 Then Exit Sub
+
+
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+            Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
+            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtUnitName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then txtUnitCode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("BookName") Then txtUnitName.Text = selected("BookName").ToString()
+            End If
+            '_BookCode = txtBookCode.Text
+            SendKeys.Send("{TAB}")
+            If _BookCode <> "" Then
+                Dim TmpTbl As New DataTable
+                sqL = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" & _BookCode & "' "
+                sql_connect_slect()
+                TmpTbl = DefaltSoftTable.Copy
+
+                If TmpTbl.Rows.Count > 0 Then
+                    Book_Row = TmpTbl(0)
+                    AcCode_Filter_String = TmpTbl(0)("GROUP_CODE_FILTER_STRING").ToString
+                End If
+            End If
+        End If
+        'e.Handled = True
+    End Sub
+    Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
+        '_Validated()
+    End Sub
+
+#End Region
 
 
 #End Region

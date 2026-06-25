@@ -4,6 +4,10 @@ Public Class StoreApproval
     Private _TblName As String = "TrnPackingSlip"
     Private _KeyFieldName As String = "Id"
     Dim _CloseCheck As Boolean = False
+    Private _BookCode As String = ""
+    Private WithEvents txtUnitCode As New System.Windows.Forms.TextBox()
+    Private Book_Row As DataRow
+    Private AcCode_Filter_String As String = ""
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Approval By Plant Head Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
@@ -32,19 +36,25 @@ Public Class StoreApproval
         Dim dateFilter As String = ""
         Dim StatusFilter As String = ""
         Dim TypeFilter As String = ""
+        Dim Unitfilter As String = ""
         If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
             'dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
         End If
         If Not String.IsNullOrEmpty(txt_Status.Text) Then
+            If txtUnitCode.Text.Trim <> "" Then
+                Unitfilter = " AND A.GodownCode = '" & txtUnitCode.Text.Trim & "' "
+            End If
             If UCase(txt_Status.Text.Trim) = "ALL" Then
                 StatusFilter = ""
-                dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "'"
+                dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "' "
+
             ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
                 'StatusFilter = " AND UPPER(A.OP19) = 'YES' "
                 StatusFilter = " AND ISDATE(ISNULL(A.OP22,'1900-01-01 00:00:00.000')) = 1 " &
                  " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
                  " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " &
                  " AND UPPER(A.OP19) = 'YES' "
+
             ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
                 'StatusFilter = " AND UPPER(A.OP19) = 'NO' "
                 StatusFilter = " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
@@ -123,6 +133,7 @@ Public Class StoreApproval
             .Append(" LEFT JOIN MstDepartment E ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F ON A.CUTCODE1=F.COLORCODE ")
             .Append(" WHERE 1=1 ")
+            .Append(Unitfilter)
             .Append(dateFilter)
             .Append(StatusFilter)
             .Append(TypeFilter)
@@ -293,4 +304,39 @@ Public Class StoreApproval
             End If
         End If
     End Sub
+#Region "Txt Book Name Events Code "
+    Private Sub txtUnitName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtUnitName.KeyPress
+        If Asc(e.KeyChar) = 27 Then Exit Sub
+
+
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+            Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
+            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtUnitName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then txtUnitCode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("BookName") Then txtUnitName.Text = selected("BookName").ToString()
+            End If
+            '_BookCode = txtBookCode.Text
+            SendKeys.Send("{TAB}")
+            If _BookCode <> "" Then
+                Dim TmpTbl As New DataTable
+                sqL = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" & _BookCode & "' "
+                sql_connect_slect()
+                TmpTbl = DefaltSoftTable.Copy
+
+                If TmpTbl.Rows.Count > 0 Then
+                    Book_Row = TmpTbl(0)
+                    AcCode_Filter_String = TmpTbl(0)("GROUP_CODE_FILTER_STRING").ToString
+                    '_BookTrType = TmpTbl(0)("BOOKTRTYPE").ToString
+                End If
+
+            End If
+        End If
+        'e.Handled = True
+    End Sub
+    Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
+        '_Validated()
+    End Sub
+#End Region
 End Class

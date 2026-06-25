@@ -44,6 +44,9 @@ Partial Class StoresQualityChecker
         Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.txtUnitName = New ctl_TextBox.ctl_TextBox()
+        Me.Label50 = New System.Windows.Forms.Label()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -55,7 +58,7 @@ Partial Class StoresQualityChecker
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(555, 15)
+        Me.Label4.Location = New System.Drawing.Point(893, 14)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82268
@@ -66,7 +69,7 @@ Partial Class StoresQualityChecker
         '
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Black
-        Me.Label5.Location = New System.Drawing.Point(514, 14)
+        Me.Label5.Location = New System.Drawing.Point(852, 13)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(45, 14)
@@ -98,7 +101,7 @@ Partial Class StoresQualityChecker
         Me.TxtType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.TxtType.IsValidated = False
         Me.TxtType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtType.Location = New System.Drawing.Point(567, 12)
+        Me.TxtType.Location = New System.Drawing.Point(905, 11)
         Me.TxtType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.TxtType.MandatoryField = False
         Me.TxtType.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -195,7 +198,7 @@ Partial Class StoresQualityChecker
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(638, 3)
+        Me.But_ok.Location = New System.Drawing.Point(919, 4)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(90, 36)
         Me.But_ok.TabIndex = 82256
@@ -336,7 +339,7 @@ Partial Class StoresQualityChecker
         Me.btnviewupdate.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnviewupdate.Appearance.Options.UseFont = True
         Me.btnviewupdate.ImageOptions.Image = CType(resources.GetObject("btnviewupdate.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnviewupdate.Location = New System.Drawing.Point(730, 3)
+        Me.btnviewupdate.Location = New System.Drawing.Point(1011, 4)
         Me.btnviewupdate.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnviewupdate.Name = "btnviewupdate"
         Me.btnviewupdate.Size = New System.Drawing.Size(90, 36)
@@ -348,7 +351,7 @@ Partial Class StoresQualityChecker
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(914, 3)
+        Me.BtnExport.Location = New System.Drawing.Point(1195, 4)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 36)
         Me.BtnExport.TabIndex = 82259
@@ -364,7 +367,7 @@ Partial Class StoresQualityChecker
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(822, 3)
+        Me.BtnPrint.Location = New System.Drawing.Point(1103, 4)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(90, 36)
         Me.BtnPrint.TabIndex = 82258
@@ -389,7 +392,7 @@ Partial Class StoresQualityChecker
         Me.GridControl1.Location = New System.Drawing.Point(2, 43)
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(1008, 574)
+        Me.GridControl1.Size = New System.Drawing.Size(1286, 574)
         Me.GridControl1.TabIndex = 82260
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
@@ -411,12 +414,80 @@ Partial Class StoresQualityChecker
         Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(600, 16)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(12, 14)
+        Me.Label6.TabIndex = 82271
+        Me.Label6.Text = ":"
+        '
+        'txtUnitName
+        '
+        Me.txtUnitName._AllowSpace = True
+        Me.txtUnitName.AcceptsReturn = True
+        Me.txtUnitName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtUnitName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtUnitName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtUnitName.Check_End_Date_Value_FY = "YES"
+        Me.txtUnitName.Check_Start_Date_Value_FY = "YES"
+        Me.txtUnitName.ClearField = True
+        Me.txtUnitName.CustomInputTypeString = Nothing
+        Me.txtUnitName.Date_for_Database = Nothing
+        Me.txtUnitName.Date_Tag = Nothing
+        Me.txtUnitName.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtUnitName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.txtUnitName.ExtraValue = ""
+        Me.txtUnitName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtUnitName.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtUnitName.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtUnitName.ForeColor = System.Drawing.Color.Black
+        Me.txtUnitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtUnitName.IsValidated = False
+        Me.txtUnitName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.Location = New System.Drawing.Point(610, 14)
+        Me.txtUnitName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.MandatoryField = False
+        Me.txtUnitName.MaxDate = Nothing
+        Me.txtUnitName.MinDate = Nothing
+        Me.txtUnitName.Name = "txtUnitName"
+        Me.txtUnitName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtUnitName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtUnitName.ReadOnly = True
+        Me.txtUnitName.RegularExpression = Nothing
+        Me.txtUnitName.RegularExpressionErrorMessage = Nothing
+        Me.txtUnitName.ShowMessage = False
+        Me.txtUnitName.Size = New System.Drawing.Size(165, 22)
+        Me.txtUnitName.SpacerString = ""
+        Me.txtUnitName.TabIndex = 82255
+        Me.txtUnitName.Tag = "BOOKNAME"
+        Me.txtUnitName.TransparentBox = True
+        Me.txtUnitName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label50.ForeColor = System.Drawing.Color.Black
+        Me.Label50.Location = New System.Drawing.Point(523, 15)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(76, 14)
+        Me.Label50.TabIndex = 82270
+        Me.Label50.Text = "Unit Name"
+        '
         'StoresQualityChecker
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.ClientSize = New System.Drawing.Size(1289, 621)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.txtUnitName)
+        Me.Controls.Add(Me.Label50)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.TxtType)
@@ -437,7 +508,7 @@ Partial Class StoresQualityChecker
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "StoresQualityChecker"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Stores Quality Checker"
@@ -472,4 +543,7 @@ Partial Class StoresQualityChecker
     Friend WithEvents GridControl1 As DevExpress.XtraGrid.GridControl
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
+    Friend WithEvents Label6 As Label
+    Friend WithEvents txtUnitName As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label50 As Label
 End Class
