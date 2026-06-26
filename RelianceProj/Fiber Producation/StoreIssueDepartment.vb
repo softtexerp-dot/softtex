@@ -1551,7 +1551,7 @@ Public Class StoreIssueDepartment
                         _FinalTmptbl.Rows.Add(NewRow)
                     End If
                 Next
-                Dim ExtracolumnsToHide = {"GODOWNCODE"}
+                Dim ExtracolumnsToHide = {"GODOWNCODE", "HsnCode"}
                 Dim selected = SingleAccountSelectionFormsingledatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "SINGLE", "YES", ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim RowNo As Integer = GrdItem.ActiveCell.Row
@@ -1638,7 +1638,7 @@ Public Class StoreIssueDepartment
 
                     '======================Single list selection===========================
 
-                    ExtracolumnsToHide = {"EntryNo"}
+                    ExtracolumnsToHide = {"EntryNo", "GODOWNCODE", "HsnCode"}
 
 
                     Dim selected1 = SingleAccountSelectionFormsingledatatable(_FinalopenTmptbl, GetType(Master_frm), "", "SINGLE", "YES", ExtracolumnsToHide)

@@ -1522,7 +1522,8 @@ Public Class StoresPurchaseReturn
 
                 Dim RowNo As Integer = GrdItem.ActiveCell.Row
                 Dim _Filterstring = "  AND A.AccountCode = '" & txtAccount_Code.Text & "' and A.GodownCode='" & txtUnitCode.Text & "' "
-                Dim _Filterstring_B = "  AND A.BOOKVNO NOT IN ('" & _BookVNo & "') "
+                'Dim _Filterstring_B = " AND A.BOOKVNO NOT IN ('" & _BookVNo & "') "
+                Dim _Filterstring_B = " AND A.OP19='APPROVAL' AND A.BOOKVNO NOT IN ('" & _BookVNo & "') "
                 sqL = StoreIssueDepartment._GetPendingReq(_Filterstring, _Filterstring_B)
                 sql_connect_slect()
 
@@ -1572,7 +1573,7 @@ Public Class StoresPurchaseReturn
                 Dim _FItemcodeilter As String = ""
 
                 '======================Single list selection===========================
-                Dim ExtracolumnsToHide = {"EntryNo", "HsnCode"}
+                Dim ExtracolumnsToHide = {"EntryNo", "HsnCode", "GODOWNCODE"}
                 Dim selected1 = SingleAccountSelectionFormsingledatatable(_opningstkTmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
                 If selected1 IsNot Nothing Then
                     If selected1.ContainsKey("EntryNo") Then

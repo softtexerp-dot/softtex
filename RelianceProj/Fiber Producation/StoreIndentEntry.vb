@@ -1525,13 +1525,13 @@ Public Class StoreIndentEntry
                     .Append(" A.PACK_SLIP_NO AS [Req No], ")
                     .Append(" B.ItemName  AS ItemName, ")
                     .Append(" B.HSNCODE AS HsnCode, ")
-                    '.Append(" A.Mtr_weight AS Qty, ")
-                    .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') As Qty, ")
                     .Append(" A.BOOKVNO As ID, ")
                     .Append(" C.TYPE_NAME AS CompanyName, ")
                     .Append(" C.TYPE_ID AS GROUPCODE, ")
                     .Append(" D.CUTNAME AS CutName, ")
                     .Append(" E.DEPARTMENTNAME AS AccountName, ")
+                    '.Append(" A.Mtr_weight AS Qty, ")
+                    .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') As Qty, ")
                     .Append(" E.Departmentcode, ")
                     .Append(" A.ACCOUNTCODE, ")
                     .Append(" A.CUTCODE AS CountCode, ")
@@ -1685,16 +1685,11 @@ Public Class StoreIndentEntry
                     If UsedKeys.ContainsKey(Key) Then
                         ActualBal -= UsedKeys(Key)
                     End If
-
                     If ActualBal > 0 Then
-
                         Dim NewRow As DataRow = _FinalTmptbl.NewRow()
-
                         NewRow.ItemArray = dr.ItemArray.Clone()
-                        NewRow("Qty") = ActualBal
-
+                        NewRow("Qty") = Format(Math.Round(ActualBal, 2), "0.00")
                         _FinalTmptbl.Rows.Add(NewRow)
-
                     End If
 
                 Next

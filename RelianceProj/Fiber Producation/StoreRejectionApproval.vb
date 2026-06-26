@@ -75,11 +75,12 @@ Public Class StoreRejectionApproval
                 .Append(" A.SHADECODE,")
                 .Append(" A.CUTCODE,")
                 .Append(" A.SRNO,")
+                .Append(" A.GODOWNCODE,")
                 .Append(" B.ItemName AS ItemName, ")
                 .Append(" C.AccountName, ")
                 .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
                 .Append(" CASE WHEN ISDATE(A.OP25) = 1 THEN  FORMAT(TRY_CAST(A.OP25 AS DATETIME),'dd/MM/yyyy hh:mm:ss.fff tt')  ELSE '' END AS ApprovalDate,")  'Approval Rejection Date
-                .Append("  CASE WHEN ISNULL(A.OP24, '') = '' THEN 'Pending' WHEN UPPER(A.OP24) = 'APPROVAL' THEN 'APPROVAL' ELSE 'CANCEL' END AS Status") 'Approval Rejection Status
+                .Append("  CASE WHEN ISNULL(A.OP24, '') = '' THEN 'PENDING' WHEN UPPER(A.OP24) = 'APPROVAL' THEN 'APPROVAL' ELSE 'CANCEL' END AS Status") 'Approval Rejection Status
                 .Append(" FROM  ")
                 .Append(" " & _TblName & " AS A  ")
                 .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -89,7 +90,8 @@ Public Class StoreRejectionApproval
                 .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
                 .Append(" WHERE 1=1  ")
                 .Append(" And A.BOOKTRTYPE In ('GISS1','GISS2','GISS3')  ")
-                .Append(" And A.OP19='YES'  ") 'Quality Checker status
+                .Append(" And A.OP19='REJECTION'  ") 'Quality Checker status
+                '.Append(" And A.OP19='YES'  ") 'Quality Checker status
                 '.Append("  AND NOT EXISTS ")
                 '.Append("  (   ")
                 '.Append(" SELECT 1  ")
@@ -115,14 +117,13 @@ Public Class StoreRejectionApproval
                 If Not tblTmp.Columns.Contains("IsOriginalApproval") Then
                     tblTmp.Columns.Add("IsOriginalApproval", GetType(Boolean))
                 End If
-
                 For Each dr As DataRow In tblTmp.Rows
                     dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "APPROVAL")
                 Next
                 GridControl1.DataSource = tblTmp.Copy
                 For Each dc As DataColumn In tblTmp.Columns
                     Dim isEmptyOrZero As Boolean = True
-                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "SRNO" Then
+                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "SRNO" Or dc.ColumnName.ToUpper() = "GODOWNCODE" Then
                         FirstStage.Columns(dc.ColumnName).Visible = False
                         Continue For
                     End If
@@ -209,7 +210,8 @@ Public Class StoreRejectionApproval
             " AND DESIGNCODE = @DESIGNCODE" &
             " AND SHADECODE = @SHADECODE" &
             " AND CUTCODE = @CUTCODE" &
-            " AND SRNO = @SRNO"
+            " AND SRNO = @SRNO" &
+            " AND GODOWNCODE = @GODOWNCODE"
                     cmd.Parameters.Clear()
                     cmd.Parameters.AddWithValue("@OP24", dr("STATUS").ToString())
                     cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
@@ -220,6 +222,7 @@ Public Class StoreRejectionApproval
                     cmd.Parameters.AddWithValue("@SHADECODE", dr("SHADECODE").ToString())
                     cmd.Parameters.AddWithValue("@CUTCODE", dr("CUTCODE").ToString())
                     cmd.Parameters.AddWithValue("@SRNO", dr("SRNO").ToString())
+                    cmd.Parameters.AddWithValue("@GODOWNCODE", dr("GODOWNCODE").ToString())
                     cmd.ExecuteNonQuery()
                     cmd.Dispose()
                 End If
@@ -233,42 +236,60 @@ Public Class StoreRejectionApproval
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "Status" Then
+                'Dim IsOriginalApproval As Boolean = False
+                'If FirstStage.GetFocusedRowCellValue("IsOriginalApproval") IsNot DBNull.Value Then
+                '    IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval"))
+                'End If
+                'If IsOriginalApproval Then
+                '    e.Handled = True
+                '    Exit Sub
+                'End If
+                'Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
+                'Select Case currentValue
+
+                '    Case "PENDING"
+                '        FirstStage.SetFocusedRowCellValue("Status", "APPROVAL")
+
+                '    Case "APPROVAL"
+                '        FirstStage.SetFocusedRowCellValue("Status", "PENDING")
+                '        'FirstStage.SetFocusedRowCellValue("Status", "REJECTION")
+
+                '    Case "REJECTION"
+                '        FirstStage.SetFocusedRowCellValue("Status", "PENDING")
+
+                'End Select
                 Dim IsOriginalApproval As Boolean = False
-                If FirstStage.GetFocusedRowCellValue("IsOriginalApproval") IsNot DBNull.Value Then
+
+                If Not IsDBNull(FirstStage.GetFocusedRowCellValue("IsOriginalApproval")) Then
                     IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval"))
                 End If
+
                 If IsOriginalApproval Then
                     e.Handled = True
                     Exit Sub
                 End If
-                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
+
+                Dim currentValue As String = ""
+
+                If Not IsDBNull(FirstStage.GetFocusedRowCellValue("Status")) Then
+                    currentValue = FirstStage.GetFocusedRowCellValue("Status").ToString().Trim().ToUpper()
+                End If
+
                 Select Case currentValue
 
                     Case "PENDING"
                         FirstStage.SetFocusedRowCellValue("Status", "APPROVAL")
 
                     Case "APPROVAL"
-                        FirstStage.SetFocusedRowCellValue("Status", "CANCEL")
+                        FirstStage.SetFocusedRowCellValue("Status", "REJECTION")
 
-                    Case "CANCEL"
+                    Case "REJECTION"
                         FirstStage.SetFocusedRowCellValue("Status", "PENDING")
 
                 End Select
-                'Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
-                'If currentValue = "APPROVAL" AndAlso IsTmpCopyLoaded Then
-                '    'FirstStage.SetFocusedRowCellValue("Status", "CANCEL")
-                '    e.Handled = True
-                '    Exit Sub
-                'ElseIf currentValue = "CANCEL" Then
-                '    FirstStage.SetFocusedRowCellValue("Status", "APPROVAL")
-                'ElseIf currentValue = "PENDING" Then
-                '    FirstStage.SetFocusedRowCellValue("Status", "CANCEL")
-                'ElseIf currentValue = "APPROVAL" Then
-                '    FirstStage.SetFocusedRowCellValue("Status", "PENDING")
-                'Else
-                '    FirstStage.SetFocusedRowCellValue("Status", "PENDING")
-                'End If
-                'e.Handled = True
+
+                e.Handled = True
+
             End If
         End If
     End Sub

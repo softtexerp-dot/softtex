@@ -1318,7 +1318,7 @@ Public Class ComparisonEntry
             .Append(" LEFT JOIN MSTSIZE E  ON A.DESIGNCODE=E.SIZECODE ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
             '.Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
-            .Append(" Left Join ( SELECT BOOKVNO AS USEBOOKVNO,ITEMCODE AS USEITEMCODE,AccountCode As UseAccountcode  FROM TrnPackingSlip Where OP19='YES' GROUP BY BOOKVNO,ITEMCODE,AccountCode ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE and A.Accountcode=G.UseAccountcode) ")
+            .Append(" Left Join ( SELECT BOOKVNO AS USEBOOKVNO,ITEMCODE AS USEITEMCODE,AccountCode As UseAccountcode  FROM TrnPackingSlip Where OP19='YES' GROUP BY BOOKVNO,ITEMCODE,AccountCode ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE ) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
             .Append(" and a.GODOWNCODE='" & txtUnitCode.Text & "'  ")

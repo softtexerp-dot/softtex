@@ -63,10 +63,9 @@ Public Class DepartmentApproval
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         'txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         txt_To.Text = Now.ToString("dd/MM/yyyy")
-        Generate_Date_For_DataBase(txt_From)
-        Generate_Date_For_DataBase(txt_To)
-        Dim _NewTmptbl As New DataTable
-        _NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
+
+        'Dim _NewTmptbl As New DataTable
+        '_NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
         AttachButtonFocusEvents(Me)
     End Sub
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
@@ -93,6 +92,14 @@ Public Class DepartmentApproval
 
 
     Private Function _Zooming_Load(ByVal _DateTo As String)
+
+
+        If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+            MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            txtUnitName.Focus()
+            Exit Function
+        End If
+
         _strQuery = New StringBuilder
         With _strQuery
             '--- Prepare filter and extra columns based on ViewType
@@ -104,12 +111,15 @@ Public Class DepartmentApproval
             Dim orderCols As String = ""
             Dim Unitfilter As String = ""
             Dim dateFilter As String = ""
+
+
             If txtUnitCode.Text.Trim <> "" Then
                 Unitfilter = " AND A.GodownCode = '" & txtUnitCode.Text.Trim & "' "
             End If
             If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
                 dateFilter = " AND A.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And A.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "' "
             End If
+
             .Append(" SELECT   ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
             .Append(" A.Entryno AS EntryNo, ")
@@ -144,13 +154,17 @@ Public Class DepartmentApproval
             .Append(" LEFT JOIN MstDepartment F  ON A.DESIGNCODE=F.Departmentcode ")
             .Append(" LEFT JOIN MstStoreItemType H ON  A.SHADECODE = H.TYPE_ID ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE ) ")
+            .Append("  Left Join ( SELECT  OP19 AS TrueStatus,BOOKVNO  FROM TrnPackingSlip  WHERE OP19='YES' AND  BookTrType='CESS1' GROUP BY OP19,BOOKVNO ) AS J ON ( A.BOOKVNO= J.BOOKVNO ) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BookTrType='CESS1'")
             '.Append(" AND  A.BOOKVNO='" & strKeyID & "'")
-            If txt_Status.Text = "NO" Then
-                .Append(" AND  A.OP19 <> 'YES'")
-            ElseIf txt_Status.Text = "YES" Then
-                .Append(" AND  A.OP19 = 'YES'")
+            If UCase(txt_Status.Text.Trim) = "NO" Then
+                '.Append(" AND ISNULL(A.OP19,'') <> 'YES'")
+                .Append(" AND J.TrueStatus IS NULL")
+            ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
+                .Append(" AND ISNULL(A.OP19,'') = 'YES'")
+            ElseIf UCase(txt_Status.Text.Trim) = "ALL" Then
+                ' Koi filter nahi lagana, YES aur NO dono records aayenge
             End If
             .Append(dateFilter)
             .Append(Unitfilter)
@@ -170,6 +184,7 @@ Public Class DepartmentApproval
         dtPivot.Columns.Add("BOOKVNO")
         dtPivot.Columns.Add("ItemCode")
         dtPivot.Columns.Add("SupplierCode")
+        dtPivot.Columns.Add("GodownCode")
         'dtPivot.Columns.Add("Brand")
         ' DISTINCT ACCOUNTNAME
         Dim accounts = dtSource.AsEnumerable().Select(Function(r) r("SupplierName").ToString()).Distinct().ToList()
@@ -201,9 +216,11 @@ Public Class DepartmentApproval
             newRow("BOOKVNO") = firstRow("BOOKVNO").ToString()
             newRow("ItemCode") = firstRow("ItemCode").ToString()
             newRow("SupplierCode") = firstRow("SupplierCode").ToString()
+            newRow("GodownCode") = firstRow("GodownCode").ToString()
             For Each r In grp
                 Dim acc As String = r("SupplierName").ToString()
                 newRow(acc & "_Code") = r("SupplierCode").ToString
+                'newRow(acc & "_GodownCode") = r("GodownCode").ToString
                 newRow(acc & "_Brand") = r("COMPANYNAME").ToString
                 newRow(acc & "_Qty") = Format(Val(r("Qty")), "0.00")
                 newRow(acc & "_GrossRate") = Format(Val(r("GrossRate")), "0.00")
@@ -428,12 +445,44 @@ Public Class DepartmentApproval
 
     End Sub
     Private Sub bandedView_ShowingEditor(sender As Object, e As System.ComponentModel.CancelEventArgs)
-        Dim view As BandedGridView = CType(sender, BandedGridView)
+        'Dim view As BandedGridView = CType(sender, BandedGridView)
 
-        If View.FocusedColumn.FieldName.EndsWith("_Status") Then
+
+        'Dim view As BandedGridView = CType(sender, BandedGridView)
+        'If view.FocusedColumn.FieldName.EndsWith("_Status") Then
+        '    e.Cancel = True
+        'End If
+        'For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
+
+        '    If col.FieldName.EndsWith("_Status") Then
+
+        '        Dim val As Object = view.GetFocusedRowCellValue(col)
+
+        '        If val IsNot DBNull.Value AndAlso
+        '           val IsNot Nothing AndAlso
+        '           Convert.ToBoolean(val) Then
+
+        '            e.Cancel = True   ' Row edit lock
+        '            Exit For
+
+        '        End If
+        '    End If
+        'Next
+        Dim view As BandedGridView = CType(sender, BandedGridView)
+        If view.FocusedColumn.FieldName.EndsWith("_Status") Then
             e.Cancel = True
         End If
-
+        For Each col As BandedGridColumn In view.Columns
+            If col.FieldName.EndsWith("_Status") Then
+                Dim val = view.GetRowCellValue(view.FocusedRowHandle, col)
+                If val IsNot DBNull.Value AndAlso
+               val IsNot Nothing AndAlso
+               CBool(val) Then
+                    e.Cancel = True
+                    Return
+                End If
+            End If
+        Next
     End Sub
 
 
@@ -443,6 +492,43 @@ Public Class DepartmentApproval
                 Dim view As BandedGridView = TryCast(GridControl1.FocusedView, BandedGridView)
                 If view Is Nothing Then Exit Sub
                 If Not view.FocusedColumn.FieldName.EndsWith("_Status") Then Exit Sub
+                '======== Row Lock Check ========
+                Dim isLocked As Boolean = False
+
+                For Each col As BandedGridColumn In view.Columns
+                    If col.FieldName.EndsWith("_Status") Then
+                        'Dim val As Object = view.GetRowCellValue(view.FocusedRowHandle, col)
+                        'If val IsNot DBNull.Value AndAlso val IsNot Nothing AndAlso CBool(val) Then
+                        '    isLocked = True
+                        '    Exit For
+                        'End If
+                        Dim codeColumn As String = col.FieldName.Replace("_Status", "_Code")
+                        Dim supplierCode1 As String = Convert.ToString(view.GetRowCellValue(view.FocusedRowHandle, codeColumn))
+                        Dim bookVno1 As String = Convert.ToString(view.GetRowCellValue(view.FocusedRowHandle, "BOOKVNO"))
+
+                        Dim dr1() As DataRow = dtSource.Select("BOOKVNO='" & bookVno1 & "' AND SupplierCode='" & supplierCode1 & "'")
+
+                        If dr1.Length > 0 Then
+
+                            Dim status As String = dr1(0)("Status").ToString().Trim().ToUpper()
+
+                            If status = "YES" Then
+                                isLocked = True
+                                Exit For
+                            Else
+                                isLocked = False
+                            End If
+
+                        End If
+
+                    End If
+                Next
+
+                If isLocked Then
+                    e.SuppressKeyPress = True
+                    e.Handled = True
+                    Exit Sub
+                End If
                 Dim BookVno As String = Convert.ToString(view.GetFocusedRowCellValue("BOOKVNO"))
                 Dim SupplierCode As String = Convert.ToString(view.GetFocusedRowCellValue("SupplierCode"))
                 'Dim SupplierCode As String = ""
@@ -630,7 +716,8 @@ Public Class DepartmentApproval
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
         If conn.State = ConnectionState.Closed Then conn.Open()
-        Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & "AND EntryNo = @EntryNo " & "AND ACCOUNTCODE = @SupplierCode"
+        'Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & " And GodownCode=@GodownCode"
+        Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE WHERE BOOKVNO = @BOOKVNO " & "AND ITEMCODE = @ITEMCODE " & "AND EntryNo = @EntryNo " & "AND ACCOUNTCODE = @SupplierCode" & " And GodownCode=@GodownCode"
         'Dim sql As String = "UPDATE " & _TblName & " SET " & "OP19 = @OP19, " & "OP23 = @MODYFIDATE, " & "OP24 = @BOOKVNO " & " WHERE  ITEMCODE = @ITEMCODE " & "AND ISNULL(OP19,'NO') <> 'YES'"
         Using cmd As New SqlClient.SqlCommand(sql, conn)
             cmd.CommandType = CommandType.Text
@@ -700,6 +787,7 @@ Public Class DepartmentApproval
                             cmd.Parameters.AddWithValue("@ITEMCODE", dr("ITEMCODE").ToString())
                             cmd.Parameters.AddWithValue("@EntryNo", dr("EntryNo").ToString())
                             cmd.Parameters.AddWithValue("@SupplierCode", SupplierCode)
+                            cmd.Parameters.AddWithValue("@GodownCode", dr("GodownCode").ToString())
                             cmd.ExecuteNonQuery()
                         End If
                     End If

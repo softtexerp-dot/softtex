@@ -88,11 +88,16 @@ Public Class StoresQualityChecker
                 .Append(" A.SHADECODE,")
                 .Append(" A.CUTCODE,")
                 .Append(" A.SRNO,")
+                .Append(" A.GODOWNCODE,")
                 .Append(" B.ItemName AS ItemName, ")
                 .Append(" C.AccountName, ")
                 .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
                 .Append(" CASE WHEN ISDATE(A.OP22) = 1 THEN FORMAT(TRY_CAST(A.OP22 AS DATETIME),'dd/MM/yyyy hh:mm:ss.fff tt')  ELSE '' END AS ApprovalDate,")  'Head Approval Date
-                .Append("  CASE WHEN UPPER(A.OP19) = 'YES' THEN 'YES' ELSE 'NO' END AS Status") 'Head Approval Status
+                .Append(" CASE ")
+                .Append("     WHEN UPPER(ISNULL(A.OP19,'')) = 'YES' THEN 'YES' ")
+                .Append("     WHEN UPPER(ISNULL(A.OP19,'')) = 'REJECTION' THEN 'REJECTION' ")
+                .Append("     ELSE 'NO' ")
+                .Append(" END AS Status ")
                 .Append(" FROM  ")
                 .Append(" " & _TblName & " AS A  ")
                 .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -125,11 +130,17 @@ Public Class StoresQualityChecker
             tblTmp = DefaltSoftTable.Copy
             Dim Qty As String = ""
             If tblTmp.Rows.Count > 0 Then
+                If Not tblTmp.Columns.Contains("IsOriginalApproval") Then
+                    tblTmp.Columns.Add("IsOriginalApproval", GetType(Boolean))
+                End If
+                For Each dr As DataRow In tblTmp.Rows
+                    dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "YES")
+                Next
                 GridControl1.DataSource = tblTmp.Copy
                 AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
                 For Each dc As DataColumn In tblTmp.Columns
                     Dim isEmptyOrZero As Boolean = True
-                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "SRNO" Then
+                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "SRNO" Or dc.ColumnName.ToUpper() = "GODOWNCODE" Then
                         FirstStage.Columns(dc.ColumnName).Visible = False
                         Continue For
                     End If
@@ -156,6 +167,7 @@ Public Class StoresQualityChecker
                 Next
                 ' Step 2: Sirf required columns editable
                 'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
+                FirstStage.Columns("IsOriginalApproval").Visible = False
                 DevGridFitColumn(GridControl1, FirstStage)
                 FirstStage.BestFitColumns()
                 FirstStage.Focus()
@@ -213,6 +225,7 @@ Public Class StoresQualityChecker
             End If
             For Each dr As DataRow In dt.Rows
                 If dr.RowState = DataRowState.Modified Then
+                    If Convert.ToBoolean(dr("IsOriginalApproval")) Then Continue For
                     Dim cmd As New SqlClient.SqlCommand()
                     cmd.Connection = conn
                     cmd.CommandType = CommandType.Text
@@ -224,7 +237,8 @@ Public Class StoresQualityChecker
             " AND DESIGNCODE = @DESIGNCODE" &
             " AND SHADECODE = @SHADECODE" &
             " AND CUTCODE = @CUTCODE" &
-            " AND SRNO = @SRNO"
+            " AND SRNO = @SRNO" &
+            " AND GODOWNCODE = @GODOWNCODE"
                     cmd.Parameters.Clear()
                     cmd.Parameters.AddWithValue("@OP19", dr("STATUS").ToString())
                     cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
@@ -236,6 +250,7 @@ Public Class StoresQualityChecker
                     cmd.Parameters.AddWithValue("@SHADECODE", dr("SHADECODE").ToString())
                     cmd.Parameters.AddWithValue("@CUTCODE", dr("CUTCODE").ToString())
                     cmd.Parameters.AddWithValue("@SRNO", dr("SRNO").ToString())
+                    cmd.Parameters.AddWithValue("@GODOWNCODE", dr("GODOWNCODE").ToString())
                     cmd.ExecuteNonQuery()
                     cmd.Dispose()
                 End If
@@ -249,9 +264,21 @@ Public Class StoresQualityChecker
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "Status" Then
+                Dim IsOriginalApproval As Boolean = False
+                If FirstStage.GetFocusedRowCellValue("IsOriginalApproval") IsNot DBNull.Value Then
+                    IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval"))
+                End If
+                If IsOriginalApproval Then
+                    e.Handled = True
+                    Exit Sub
+                End If
                 Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
                 If currentValue = "YES" Then
-                    'FirstStage.SetFocusedRowCellValue("Status", "NO")
+                    FirstStage.SetFocusedRowCellValue("Status", "NO")
+                ElseIf currentValue = "NO" Then
+                    FirstStage.SetFocusedRowCellValue("Status", "REJECTION")
+                ElseIf currentValue = "REJECTION" Then
+                    FirstStage.SetFocusedRowCellValue("Status", "YES")
                 Else
                     FirstStage.SetFocusedRowCellValue("Status", "YES")
                 End If

@@ -1578,9 +1578,7 @@ Public Class StoreInwardandPO
                     .Append(" B.OP22 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
                     .Append("  )")
-
                 End With
-
                 'Dim _LoadQuery = _StrQuery.ToString()
                 sqL = _StrQuery.ToString()
                 sql_connect_slect()
@@ -1627,18 +1625,12 @@ Public Class StoreInwardandPO
                     If UsedKeys.ContainsKey(Key) Then
                         ActualBal -= UsedKeys(Key)
                     End If
-
                     If ActualBal > 0 Then
-
                         Dim NewRow As DataRow = _FinalTmptbl.NewRow()
-
                         NewRow.ItemArray = dr.ItemArray.Clone()
-                        NewRow("Qty") = ActualBal
-
+                        NewRow("Qty") = Format(Math.Round(ActualBal, 2), "0.00")
                         _FinalTmptbl.Rows.Add(NewRow)
-
                     End If
-
                 Next
                 Dim ExtracolumnsToHide = {"Departmentcode", "HsnCode", "ACCOUNTCODE", "ID", "GROUPCODE", "CountCode", "ItemCode", "SHADECODE", "CUTCODE", "DESIGNCODE", "Fright", "Delivery", "GrossRate", "Dis", "Disamount", "NetRate", "Amount", "Paymentterms"}
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")

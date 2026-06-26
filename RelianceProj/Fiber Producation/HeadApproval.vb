@@ -133,6 +133,12 @@ Public Class HeadApproval
             tblTmp = DefaltSoftTable.Copy
             Dim Qty As String = ""
             If tblTmp.Rows.Count > 0 Then
+                If Not tblTmp.Columns.Contains("IsOriginalApproval") Then
+                    tblTmp.Columns.Add("IsOriginalApproval", GetType(Boolean))
+                End If
+                For Each dr As DataRow In tblTmp.Rows
+                    dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "YES")
+                Next
                 GridControl1.DataSource = tblTmp.Copy
                 Dim bandedView As New BandedGridView(GridControl1)
                 AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
@@ -165,6 +171,7 @@ Public Class HeadApproval
                 Next
                 ' Step 2: Sirf required columns editable
                 'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
+                FirstStage.Columns("IsOriginalApproval").Visible = False
                 DevGridFitColumn(GridControl1, FirstStage)
                 FirstStage.BestFitColumns()
                 FirstStage.Focus()
@@ -232,7 +239,8 @@ Public Class HeadApproval
              " AND ITEMCODE = @ITEMCODE" &
             " AND DESIGNCODE = @DESIGNCODE" &
             " AND SHADECODE = @SHADECODE" &
-            " AND CUTCODE = @CUTCODE"
+            " AND CUTCODE = @CUTCODE" &
+            " AND Godowncode = @Godowncode"
                     cmd.Parameters.Clear()
                     cmd.Parameters.AddWithValue("@OP24", dr("STATUS").ToString())
                     cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
@@ -243,6 +251,7 @@ Public Class HeadApproval
                     cmd.Parameters.AddWithValue("@DESIGNCODE", dr("DESIGNCODE").ToString())
                     cmd.Parameters.AddWithValue("@SHADECODE", dr("SHADECODE").ToString())
                     cmd.Parameters.AddWithValue("@CUTCODE", dr("CUTCODE").ToString())
+                    cmd.Parameters.AddWithValue("@Godowncode", dr("Godowncode").ToString())
                     cmd.ExecuteNonQuery()
                     cmd.Dispose()
                 End If
@@ -256,9 +265,17 @@ Public Class HeadApproval
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "Status" Then
+                Dim IsOriginalApproval As Boolean = False
+                If FirstStage.GetFocusedRowCellValue("IsOriginalApproval") IsNot DBNull.Value Then
+                    IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval"))
+                End If
+                If IsOriginalApproval Then
+                    e.Handled = True
+                    Exit Sub
+                End If
                 Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
                 If currentValue = "YES" Then
-                    'FirstStage.SetFocusedRowCellValue("Status", "NO")
+                    FirstStage.SetFocusedRowCellValue("Status", "NO")
                 Else
                     FirstStage.SetFocusedRowCellValue("Status", "YES")
                 End If

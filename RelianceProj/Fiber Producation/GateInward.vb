@@ -1753,21 +1753,13 @@ Public Class GateInward
                     If UsedKeys.ContainsKey(Key) Then
                         ActualBal -= UsedKeys(Key)
                     End If
-
                     If ActualBal > 0 Then
-
                         Dim NewRow As DataRow = _FinalTmptbl.NewRow()
-
                         NewRow.ItemArray = dr.ItemArray.Clone()
-                        NewRow("Qty") = ActualBal
-
+                        NewRow("Qty") = Format(Math.Round(ActualBal, 2), "0.00")
                         _FinalTmptbl.Rows.Add(NewRow)
-
                     End If
-
                 Next
-
-
                 Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 'Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 If selectedList1 IsNot Nothing Then
