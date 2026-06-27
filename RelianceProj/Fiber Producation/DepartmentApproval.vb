@@ -154,13 +154,13 @@ Public Class DepartmentApproval
             .Append(" LEFT JOIN MstDepartment F  ON A.DESIGNCODE=F.Departmentcode ")
             .Append(" LEFT JOIN MstStoreItemType H ON  A.SHADECODE = H.TYPE_ID ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE ) ")
-            .Append("  Left Join ( SELECT  OP19 AS TrueStatus,BOOKVNO  FROM TrnPackingSlip  WHERE OP19='YES' AND  BookTrType='CESS1' GROUP BY OP19,BOOKVNO ) AS J ON ( A.BOOKVNO= J.BOOKVNO ) ")
+            .Append("  Left Join ( SELECT  OP19 AS TrueStatus,BOOKVNO  FROM TrnPackingSlip  WHERE OP19='YES' AND  BookTrType='CESS1' AND GodownCode='" & txtUnitCode.Text.Trim & "' GROUP BY OP19,BOOKVNO ) AS J ON ( A.BOOKVNO= J.BOOKVNO ) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BookTrType='CESS1'")
             '.Append(" AND  A.BOOKVNO='" & strKeyID & "'")
             If UCase(txt_Status.Text.Trim) = "NO" Then
                 '.Append(" AND ISNULL(A.OP19,'') <> 'YES'")
-                .Append(" AND J.TrueStatus IS NULL")
+                .Append(" AND (J.TrueStatus IS NULL OR J.TrueStatus = 'NO')")
             ElseIf UCase(txt_Status.Text.Trim) = "YES" Then
                 .Append(" AND ISNULL(A.OP19,'') = 'YES'")
             ElseIf UCase(txt_Status.Text.Trim) = "ALL" Then

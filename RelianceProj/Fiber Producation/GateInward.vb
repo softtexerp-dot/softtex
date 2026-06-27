@@ -133,6 +133,7 @@ Public Class GateInward
             .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
             .Append("OP24,") 'RejectionApproval status
+            .Append("OP7,")
             .Append("USEBY,")
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
@@ -291,6 +292,7 @@ Public Class GateInward
             .Append("OP21:N,") 'UserId
             .Append("OP19:N,") 'Approve status
             .Append("OP24:N,") 'RejectionApproval status
+            .Append("OP7:N,")
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
         End With
 
@@ -1695,31 +1697,58 @@ Public Class GateInward
                     .Append(" E.AccountName AS AccountName, ")
                     .Append(" A.ITEMCODE,")
                     .Append(" B.ItemName AS ItemName, ")
-                    .Append(" A.Mtr_weight AS Qty, ")
-                    '.Append(" A.WEIGHT AS Disamount, ")
+                    .Append(" A.Mtr_weight -  ISNULL(F.InQty,0) AS Qty, ")
                     .Append(" a.BookVno,  ")
                     .Append(" a.DESIGNCODE, ")
                     .Append(" a.SHADECODE, ")
                     .Append(" a.CUTCODE ")
                     .Append(" FROM trnoffer AS A ")
                     .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE ")
-                    .Append(" LEFT JOIN MstMasterAccount AS E ")
-                    .Append(" ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
+                    .Append(" LEFT JOIN MstMasterAccount AS E  ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
+                    .Append(" LEFT JOIN (")
+
+                    .Append(" SELECT   ")
+                    .Append(" B.ITEMCODE ")
+                    .Append(" ,B.GODOWNCODE ")
+                    .Append(" ,B.DESIGNCODE ")
+                    .Append(" ,B.SHADECODE ")
+                    .Append(" ,B.OP7 AS BookVno ")
+                    .Append(" ,sum(B.Mtr_weight)  as InQty ")
+                    .Append(" FROM trnpackingslip AS B  ")
+                    .Append(" WHERE B.BOOKTRTYPE='GISS1' ")
+                    .Append(" GROUP BY ")
+                    .Append(" B.ITEMCODE ")
+                    .Append(" ,B.GODOWNCODE ")
+                    .Append(" ,B.DESIGNCODE ")
+                    .Append(" ,B.SHADECODE ")
+                    .Append(" ,B.OP7 ")
+                    .Append("  )  as F ON ")
+                    .Append(" (F.BookVno = A.BookVno ")
+                    .Append(" And F.ITEMCODE = A.ITEMCODE ")
+                    .Append(" And F.GODOWNCODE=A.GODOWNCODE ")
+                    .Append(" And F.DESIGNCODE=A.DESIGNCODE ")
+                    .Append(" And F.SHADECODE=A.SHADECODE) ")
+
                     .Append(" WHERE 1=1 ")
-                    '.Append(" and A.ACCOUNTCODE='" & txtAccount_Code.Text & "'")
                     .Append(" and A.Booktrtype='P0141'")
                     .Append(" AND A.GODOWNCODE='" & _GodownCode & "'")
-                    '.Append(" and A.OP24='YES'")
-                    .Append("  AND NOT EXISTS ")
-                    .Append("  (   ")
-                    .Append(" SELECT 1  ")
-                    .Append(" FROM trnoffer AS B  ")
-                    .Append(" WHERE ")
-                    .Append(" B.OP7 = A.BookVno ")
-                    .Append(" And B.ITEMCODE = A.ITEMCODE ")
-                    .Append(" And B.GODOWNCODE=A.GODOWNCODE ")
-                    .Append("  )")
-                    '.Append(" AND A.BOOKVNO IN ('" & ReqBookvnorawData & "') ")
+                    .Append(" AND A.Mtr_weight -  ISNULL(F.InQty,0) >0")
+
+                    '.Append("  AND NOT EXISTS ")
+                    '.Append("  (   ")
+                    '.Append(" SELECT 1  ")
+                    '.Append(" FROM trnpackingslip AS B  ")
+                    '.Append(" WHERE ")
+                    '.Append(" B.OP7 = A.BookVno ")
+                    '.Append(" And B.ITEMCODE = A.ITEMCODE ")
+                    '.Append(" And B.GODOWNCODE=A.GODOWNCODE ")
+                    '.Append(" And B.DESIGNCODE=A.DESIGNCODE ")
+                    '.Append(" And B.SHADECODE=A.SHADECODE ")
+                    '.Append(" And B.BOOKTRTYPE='GISS1' ")
+                    '.Append("  )")
+
+
+
                 End With
 
                 'Dim _LoadQuery = _StrQuery.ToString
@@ -1785,7 +1814,12 @@ Public Class GateInward
                         If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ITEMCODE") Then
                             _FItemcodeilter = rowDict("ITEMCODE").ToString()
                             Dim BookVno = rowDict("BookVno").ToString()
+                            Dim SHADECODE = rowDict("SHADECODE").ToString()
+                            Dim CUTCODE = rowDict("CUTCODE").ToString()
+                            Dim DESIGNCODE = rowDict("DESIGNCODE").ToString()
+                            Dim Qty As String = Convert.ToDecimal(rowDict("Qty")).ToString("0.00")
                             Dim Srno = Val(rowDict("Srno").ToString())
+
                             Dim _DetailQuery As New StringBuilder
                             With _DetailQuery
                                 .Append(" SELECT ")
@@ -1799,6 +1833,7 @@ Public Class GateInward
                                 '.Append(" a.CUTCODE, ")
                                 .Append(" B.ItemName AS ItemName, ")
                                 .Append(" B.HSNCODE AS HsnCode, ")
+                                '.Append(" A.Mtr_weight -  ISNULL(F.InQty,0) AS Qty, ")
                                 .Append(" A.Mtr_weight AS Qty, ")
                                 .Append(" A.RDVALUE AS Dis, ")
                                 '.Append(" A.WEIGHT AS Disamount, ")
@@ -1826,7 +1861,11 @@ Public Class GateInward
                                 .Append(" AND B.ITEMCODE='" & _FItemcodeilter & "' ")
                                 .Append(" AND A.BOOKVNO='" & BookVno & "' ")
                                 .Append(" AND A.GODOWNCODE='" & _GodownCode & "'")
+                                .Append(" AND A.DESIGNCODE='" & DESIGNCODE & "'")
+                                .Append(" AND A.SHADECODE='" & SHADECODE & "'")
+                                .Append(" AND A.CUTCODE='" & CUTCODE & "'")
                                 .Append(" AND A.Srno='" & Srno & "' ")
+
                             End With
                             Dim dt As New DataTable
                             sqL = _DetailQuery.ToString()
@@ -1843,7 +1882,8 @@ Public Class GateInward
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = dr("ItemName").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = dr("AccountName").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = dr("AccountCode").ToString()
-                                    GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = dr("Qty").ToString()
+                                    'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = dr("Qty").ToString()
+                                    GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = Qty
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text = dr("Dis").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text = dr("NetRate").ToString()
                                     GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = dr("Amount").ToString()

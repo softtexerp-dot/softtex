@@ -30,9 +30,14 @@ Public Class StoreApproval
         Generate_Date_For_DataBase(txt_From)
         txt_To.Text = Now.ToString("dd/MM/yyyy")
         Generate_Date_For_DataBase(txt_To)
-        View_Record()
+        'View_Record()
     End Sub
     Private Sub View_Record()
+        If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+            MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            txtUnitName.Focus()
+            Exit Sub
+        End If
         Dim dateFilter As String = ""
         Dim StatusFilter As String = ""
         Dim TypeFilter As String = ""

@@ -1567,7 +1567,7 @@ Public Class StoreInwardandPO
                     .Append(" ON A.CUTCODE = D.ID ")
                     .Append(" left Join MstDepartment As E on A.DESIGNCODE=E.Departmentcode ")
                     .Append(" WHERE 1=1 ")
-                    .Append(" AND A.Bookcode In ('GISS-000000001','GISS-000000002','GISS-000000003') AND A.OP24='APPROVAL'")
+                    .Append(" AND A.Bookcode In ('GISS-000000001','GISS-000000002','GISS-000000003') AND A.OP19='YES'")
                     .Append(" AND A.AccountCode = '" & txtAccount_Code.Text & "' ")
                     .Append(" and A.GODOWNCODE='" & txtUnitCode.Text & "'  ")
                     .Append("  AND NOT EXISTS ")
@@ -1575,7 +1575,7 @@ Public Class StoreInwardandPO
                     .Append(" SELECT 1  ")
                     .Append(" FROM TrnPackingSlip AS B  ")
                     .Append(" WHERE ")
-                    .Append(" B.OP22 = A.BookVno ")
+                    .Append(" B.OP7 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
                     .Append("  )")
                 End With

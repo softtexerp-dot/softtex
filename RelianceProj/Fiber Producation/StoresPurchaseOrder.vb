@@ -2694,13 +2694,40 @@ Public Class StoresPurchaseOrder
             '    txtAccount_Code.Text = MULTY_SELECTION_COLOUM_3_DATA
             'End If
             'Return_Master_Name = txtAccountName.Text
-            Dim _FilterAccountcode As String = ""
-            Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
-            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtAccountName.Text, "SINGLE")
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
-                If selected.ContainsKey("AccountName") Then txtAccountName.Text = selected("AccountName").ToString()
+            Dim _StrQuery As New StringBuilder
+            With _StrQuery
+                .Append(" SELECT DISTINCT")
+                .Append(" 'False' AS TickMark, ")
+                .Append(" A.ACCOUNTCODE,")
+                .Append(" B.ACCOUNTNAME As AccountName ")
+                .Append(" FROM TrnPackingSlip AS A ")
+                .Append(" LEFT JOIN MstMasterAccount AS B ")
+                .Append(" ON A.ACCOUNTCODE = B.ACCOUNTCODE ")
+                .Append(" WHERE 1=1 ")
+                .Append(" and A.Booktrtype='CESS1'")
+                .Append(" and A.OP19='YES'")
+                .Append(" AND  A.GODOWNCODE='" & _GodownCode & "'")
+            End With
+
+            'Dim _LoadQuery = _StrQuery.ToString
+            sqL = _StrQuery.ToString()
+            sql_connect_slect()
+            Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
+            Dim ExtracolumnsToHide = {"SRNO"}
+
+            Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+            If selected1 IsNot Nothing Then
+                If selected1.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected1("ACCOUNTCODE").ToString()
+                If selected1.ContainsKey("AccountName") Then txtAccountName.Text = selected1("AccountName").ToString()
             End If
+
+            'Dim _FilterAccountcode As String = ""
+            'Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
+            'Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtAccountName.Text, "SINGLE")
+            'If selected IsNot Nothing Then
+            '    If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
+            '    If selected.ContainsKey("AccountName") Then txtAccountName.Text = selected("AccountName").ToString()
+            'End If
             SendKeys.Send("{tab}")
         End If
 

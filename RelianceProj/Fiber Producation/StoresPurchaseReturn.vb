@@ -1521,10 +1521,10 @@ Public Class StoresPurchaseReturn
                 txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text
 
                 Dim RowNo As Integer = GrdItem.ActiveCell.Row
-                Dim _Filterstring = "  AND A.AccountCode = '" & txtAccount_Code.Text & "' and A.GodownCode='" & txtUnitCode.Text & "' "
-                Dim _Filterstring_B = " AND A.BOOKVNO NOT IN ('" & _BookVNo & "') "
-                sqL = StoreIssueDepartment._GetPendingReq(_Filterstring, _Filterstring_B)
-                sql_connect_slect()
+                'Dim _Filterstring = "  AND A.AccountCode = '" & txtAccount_Code.Text & "' and A.GodownCode='" & txtUnitCode.Text & "' "
+                'Dim _Filterstring_B = " AND A.BOOKVNO NOT IN ('" & _BookVNo & "') "
+                'sqL = StoreIssueDepartment._GetPendingReq(_Filterstring, _Filterstring_B)
+                'sql_connect_slect()
 
                 'Dim _opningstkTmptbl As DataTable = DefaltSoftTable.Copy
                 'Dim _FinalopenTmptbl As DataTable = _opningstkTmptbl.Clone
@@ -1615,15 +1615,15 @@ Public Class StoresPurchaseReturn
                     .Append(" AND A.OP24='APPROVAL'")
                     .Append(" AND A.OP19='REJECTION'")
                     .Append(" And A.GODOWNCODE='" & txtUnitCode.Text & "'")
-                    '.Append("  AND NOT EXISTS ")
-                    '.Append("  (   ")
-                    '.Append(" SELECT 1  ")
-                    '.Append(" FROM TrnPackingSlip AS B  ")
-                    '.Append(" WHERE ")
-                    '.Append(" B.OP22 = A.BookVno ")
-                    '.Append(" And B.ITEMCODE = A.ITEMCODE ")
-                    '.Append(" And B.GODOWNCODE = A.GODOWNCODE ")
-                    '.Append("  )")
+                    .Append("  AND NOT EXISTS ")
+                    .Append("  (   ")
+                    .Append(" SELECT 1  ")
+                    .Append(" FROM TrnPackingSlip AS B  ")
+                    .Append(" WHERE ")
+                    .Append(" B.OP22 = A.BookVno ")
+                    .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                    .Append(" And B.GODOWNCODE = A.GODOWNCODE ")
+                    .Append("  )")
                 End With
                 sqL = _StrQuery.ToString()
                 sql_connect_slect()
@@ -1644,11 +1644,11 @@ Public Class StoresPurchaseReturn
 
 
                     Dim UsedBal As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+                    'BookVNo <> "" AndAlso
+                    If ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
 
-                    If BookVNo <> "" AndAlso ItemCode <> "" AndAlso BrandCode <> "" AndAlso cutcode <> "" AndAlso departmentcode <> "" Then
-
-                        Dim Key As String = BookVNo & "|" & ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
-
+                        Dim Key As String = ItemCode & "|" & BrandCode & "|" & cutcode & "|" & departmentcode
+                        'BookVNo & "|" &
                         If UsedKeys.ContainsKey(Key) Then
                             UsedKeys(Key) += UsedBal
                         Else
@@ -1659,9 +1659,8 @@ Public Class StoresPurchaseReturn
 
                 Next
                 For Each dr As DataRow In _Tmptbl.Rows
-
-                    Dim Key As String = dr("ID").ToString.Trim() & "|" &
-                        dr("ItemCode").ToString.Trim() & "|" &
+                    ' dr("ID").ToString.Trim() & "|" &
+                    Dim Key As String = dr("ItemCode").ToString.Trim() & "|" &
                         dr("GROUPCODE").ToString.Trim() & "|" &
                         dr("CountCode").ToString.Trim() & "|" &
                         dr("DESIGNCODE").ToString.Trim()
@@ -1686,7 +1685,6 @@ Public Class StoresPurchaseReturn
                 Next
 
                 Dim _FItemcodeilter As String = ""
-
                 '======================Single list selection===========================
                 ExtracolumnsToHide = {"EntryNo", "HsnCode", "GODOWNCODE", "DESIGNCODE"}
                 'Dim selected1 = SingleAccountSelectionFormsingledatatable(_opningstkTmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
