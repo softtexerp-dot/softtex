@@ -94,6 +94,7 @@ Public Class StoreApproval
             .Append(" A.DESIGNCODE,")
             .Append(" A.SHADECODE,")
             .Append(" A.CUTCODE,")
+            .Append(" A.GODOWNCODE,")
             .Append(" B.ItemName AS ItemName, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")
             .Append(" K.TYPE_NAME AS CompanyName, ")
@@ -139,6 +140,7 @@ Public Class StoreApproval
             .Append(TypeFilter)
             .Append(" GROUP BY ")
             .Append(" A.ENTRYNO,")
+            .Append(" A.GODOWNCODE,")
             .Append(" A.PACK_SLIP_DATE,")
             .Append(" A.ENTRYDATE,")
             .Append(" A.PACK_SLIP_NO,")
@@ -171,7 +173,7 @@ Public Class StoreApproval
             AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
             For Each dc As DataColumn In tblTmp.Columns
                 Dim isEmptyOrZero As Boolean = True
-                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP22" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Then
+                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP22" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "GODOWNCODE" Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
                     Continue For
                 End If
@@ -266,7 +268,7 @@ Public Class StoreApproval
             " AND DESIGNCODE = @DESIGNCODE" &
             " AND SHADECODE = @SHADECODE" &
             " AND CUTCODE = @CUTCODE" &
-            " AND Godowncode = @Godowncode"
+            " AND GODOWNCODE = @GODOWNCODE"
                 cmd.Parameters.Clear()
                 cmd.Parameters.AddWithValue("@OP19", dr("STATUS").ToString())
                 cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
@@ -275,7 +277,7 @@ Public Class StoreApproval
                 cmd.Parameters.AddWithValue("@DESIGNCODE", dr("DESIGNCODE").ToString())
                 cmd.Parameters.AddWithValue("@SHADECODE", dr("SHADECODE").ToString())
                 cmd.Parameters.AddWithValue("@CUTCODE", dr("CUTCODE").ToString())
-                cmd.Parameters.AddWithValue("@Godowncode", dr("Godowncode").ToString())
+                cmd.Parameters.AddWithValue("@GODOWNCODE", dr("GODOWNCODE").ToString())
                 cmd.ExecuteNonQuery()
                 cmd.Dispose()
             End If

@@ -87,6 +87,7 @@ Public Class HeadApproval
                 .Append(" A.DESIGNCODE,")
                 .Append(" A.SHADECODE,")
                 .Append(" A.CUTCODE,")
+                .Append(" A.GODOWNCODE,")
                 .Append(" B.ItemName AS ItemName, ")
                 .Append(" D.CUTNAME As UOM, ")  'UOM
                 .Append(" C.AccountName, ")  'UOM
@@ -144,7 +145,7 @@ Public Class HeadApproval
                 AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
                 For Each dc As DataColumn In tblTmp.Columns
                     Dim isEmptyOrZero As Boolean = True
-                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP25" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Then
+                    If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ACCOUNTCODE" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP25" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "GODOWNCODE" Then
                         FirstStage.Columns(dc.ColumnName).Visible = False
                         Continue For
                     End If
@@ -240,7 +241,7 @@ Public Class HeadApproval
             " AND DESIGNCODE = @DESIGNCODE" &
             " AND SHADECODE = @SHADECODE" &
             " AND CUTCODE = @CUTCODE" &
-            " AND Godowncode = @Godowncode"
+            " AND GODOWNCODE = @GODOWNCODE"
                     cmd.Parameters.Clear()
                     cmd.Parameters.AddWithValue("@OP24", dr("STATUS").ToString())
                     cmd.Parameters.AddWithValue("@MODYFIDATE", Format(Now, "yyyy-MM-dd HH:mm:ss.fff"))
@@ -251,7 +252,7 @@ Public Class HeadApproval
                     cmd.Parameters.AddWithValue("@DESIGNCODE", dr("DESIGNCODE").ToString())
                     cmd.Parameters.AddWithValue("@SHADECODE", dr("SHADECODE").ToString())
                     cmd.Parameters.AddWithValue("@CUTCODE", dr("CUTCODE").ToString())
-                    cmd.Parameters.AddWithValue("@Godowncode", dr("Godowncode").ToString())
+                    cmd.Parameters.AddWithValue("@GODOWNCODE", dr("GODOWNCODE").ToString())
                     cmd.ExecuteNonQuery()
                     cmd.Dispose()
                 End If
