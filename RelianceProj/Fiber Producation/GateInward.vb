@@ -132,6 +132,7 @@ Public Class GateInward
             .Append("OP20,") 'BookName
             .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
+            .Append("OP24,") 'RejectionApproval status
             .Append("USEBY,")
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
@@ -289,6 +290,7 @@ Public Class GateInward
             .Append("MODYFIDATE:N,")
             .Append("OP21:N,") 'UserId
             .Append("OP19:N,") 'Approve status
+            .Append("OP24:N,") 'RejectionApproval status
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
         End With
 
@@ -1027,7 +1029,12 @@ Public Class GateInward
             '.Append(" MstTransport.TransportName as [Transport], ")
             '.Append(" C.accountname as [Agent Name], ")
             '.Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
-            .Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
+            .Append(" CASE ")
+            .Append("     WHEN A.OP19 = 'YES' THEN 'APPROVE' ")
+            .Append("     WHEN A.OP19 = 'REJECTION' THEN 'REJECTION' ")
+            .Append("     ELSE 'Pending' ")
+            .Append(" END AS Status, ")
+            .Append(" A.OP24, ")
             .Append("  A.RowRemark as [Remark] ")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
@@ -1313,14 +1320,24 @@ Public Class GateInward
                 GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).ForeColor = Color.Red
                 GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).ForeColor = Color.Red
                 _CheckDispath = True
-            End If
 
+            End If
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP24") + 1).Text = "APPROVAL" AndAlso GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP19") + 1).Text = "REJECTION" Then
+                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("SRNO") + 1).ForeColor = Color.Red
+                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).ForeColor = Color.Red
+                GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).ForeColor = Color.Red
+                _CheckDispath = True
+            End If
             If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
+                GrdItem.Row(j).Locked = True
+            Else
+                    GrdItem.Row(j).Locked = False
+            End If
+            If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP24") + 1).Text = "APPROVAL" AndAlso GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP19") + 1).Text = "REJECTION" Then
                 GrdItem.Row(j).Locked = True
             Else
                 GrdItem.Row(j).Locked = False
             End If
-
         Next
 
 

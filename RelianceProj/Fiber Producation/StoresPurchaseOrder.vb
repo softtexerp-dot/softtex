@@ -3417,7 +3417,7 @@ Public Class StoresPurchaseOrder
                             Dim NewRow As DataRow = _FinalTmptbl.NewRow()
 
                             NewRow.ItemArray = dr.ItemArray.Clone()
-                            NewRow("Qty") = ActualBal
+                            NewRow("Qty") = Format(Math.Round(ActualBal, 2), "0.00") 'ActualBal
 
                             _FinalTmptbl.Rows.Add(NewRow)
 
