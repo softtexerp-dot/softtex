@@ -248,6 +248,10 @@ Friend Class MenuFormAdd
                 Txt_MenuPosition.Text = 0
                 Txt_MenuUnderMenuName.Text = Txt_MenuName.Text
                 Txt_UnderMenuPositionId.Text = 0
+            ElseIf Txt_MenuType.Text = "PARENT1" Then
+                Txt_MenuPosition.Text = 2
+            ElseIf Txt_MenuType.Text = "PARENT2" Then
+                Txt_MenuPosition.Text = 3
             Else
                 If Txt_MenuPosition.Text.Trim = "" Then Txt_MenuPosition.Text = 1
             End If
