@@ -68,6 +68,7 @@ Partial Class MenuFormAdd
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
+        Me.Label23 = New System.Windows.Forms.Label()
         Me.PnlGrdView.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -478,7 +479,6 @@ Partial Class MenuFormAdd
         Me.Txt_MenuDisplayName.NormalBorderColor = System.Drawing.Color.GhostWhite
         Me.Txt_MenuDisplayName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.Txt_MenuDisplayName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.Txt_MenuDisplayName.ReadOnly = True
         Me.Txt_MenuDisplayName.RegularExpression = Nothing
         Me.Txt_MenuDisplayName.RegularExpressionErrorMessage = Nothing
         Me.Txt_MenuDisplayName.ShowMessage = False
@@ -924,12 +924,25 @@ Partial Class MenuFormAdd
         Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
         '
+        'Label23
+        '
+        Me.Label23.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label23.ForeColor = System.Drawing.Color.RoyalBlue
+        Me.Label23.Location = New System.Drawing.Point(13, 345)
+        Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(685, 43)
+        Me.Label23.TabIndex = 81939
+        Me.Label23.Text = "Instruction : 1)Main Menu Top, 2)Main Menu Down Submenu, 3)Submenu Down Parent1, " &
+    "4)Parent1 Down Menu Parent2"
+        '
         'MenuFormAdd
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1216, 621)
+        Me.Controls.Add(Me.Label23)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_UnderMenuPositionId)
@@ -1028,4 +1041,5 @@ Partial Class MenuFormAdd
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents btnviewupdate As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Label23 As Label
 End Class
