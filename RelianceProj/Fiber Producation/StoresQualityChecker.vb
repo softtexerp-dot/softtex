@@ -35,7 +35,17 @@ Public Class StoresQualityChecker
     End Sub
     Private Sub View_Record()
         Try
-            If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+            'If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+            '    MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            '    txtUnitName.Focus()
+            '    Exit Sub
+            'End If
+            If txt_Status.Text = "ALL" AndAlso txtUnitCode.Text = "" Then
+                MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                txtUnitName.Focus()
+                Exit Sub
+            End If
+            If txtUnitCode.Text = "" Then
                 MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
                 txtUnitName.Focus()
                 Exit Sub
@@ -57,6 +67,8 @@ Public Class StoresQualityChecker
                     StatusFilter = " AND UPPER(A.OP19) = 'YES' "
                 ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
                     StatusFilter = " AND UPPER(A.OP19) = 'NO' "
+                ElseIf UCase(txt_Status.Text.Trim) = "REJECTION" Then
+                    StatusFilter = " AND UPPER(A.OP19) = 'REJECTION' "
                 End If
             End If
             If UCase(TxtType.Text.Trim) = "ALL" Then
@@ -119,7 +131,7 @@ Public Class StoresQualityChecker
                 .Append(" SELECT 1  ")
                 .Append(" FROM TrnPackingSlip AS B  ")
                 .Append(" WHERE ")
-                .Append(" B.OP7 = A.BookVno ")
+                .Append(" B.OP22 = A.BookVno ")
                 .Append(" And B.ITEMCODE = A.ITEMCODE ")
                 .Append(" And B.GODOWNCODE=A.GODOWNCODE ")
                 .Append("  )")

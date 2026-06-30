@@ -2111,4 +2111,16 @@ Friend Class QuotationEntry
 
 
 #End Region
+
+#Region "DATE RANGE CHECK"
+    Private Sub txtChallanDate_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtChallanDate.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txtChallanDate.Focus()
+                txtChallanDate.Select()
+            End If
+        End If
+    End Sub
+#End Region
 End Class

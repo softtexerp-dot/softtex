@@ -33,7 +33,12 @@ Public Class StoreApproval
         'View_Record()
     End Sub
     Private Sub View_Record()
-        If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+        If txt_Status.Text = "ALL" AndAlso txtUnitCode.Text = "" Then
+            MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            txtUnitName.Focus()
+            Exit Sub
+        End If
+        If txtUnitCode.Text = "" Then
             MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
             txtUnitName.Focus()
             Exit Sub
@@ -113,6 +118,7 @@ Public Class StoreApproval
             .Append(" 0.00 AS OUTQTY ")
             .Append(" FROM TrnPackingSlip ")
             .Append(" WHERE BOOKCODE='RQSS-000000001' ")
+            .Append(" AND GodownCode = '" & txtUnitCode.Text.Trim & "'  ")
             .Append(" UNION ALL ")
             .Append(" SELECT ")
             .Append(" OP7 AS BOOKVNO, ITEMCODE, DESIGNCODE, SHADECODE, CUTCODE, ")
@@ -120,14 +126,15 @@ Public Class StoreApproval
             .Append(" MTR_WEIGHT AS OUTQTY ")
             .Append(" FROM TrnPackingSlip ")
             .Append(" WHERE BOOKCODE='IDSS-000000001' ")
+            .Append(" AND GodownCode = '" & txtUnitCode.Text.Trim & "'  ")
             .Append(" ) Z ")
-            .Append(" INNER JOIN " & _TblName & " A ")
-            .Append(" ON A.BOOKVNO = Z.BOOKVNO ")
+            .Append(" left JOIN " & _TblName & " A ")
+            .Append(" ON (A.BOOKVNO = Z.BOOKVNO ")
             .Append(" AND A.ITEMCODE = Z.ITEMCODE ")
             .Append(" AND A.DESIGNCODE = Z.DESIGNCODE ")
             .Append(" AND A.SHADECODE = Z.SHADECODE ")
             .Append(" AND A.CUTCODE = Z.CUTCODE ")
-            .Append(" AND A.BOOKCODE='RQSS-000000001' ")
+            .Append(" AND A.BOOKCODE='RQSS-000000001') ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE ")
             .Append(" LEFT JOIN MstStoreItem B ON A.ITEMCODE=B.ITEMCODE ")
             .Append(" LEFT JOIN MstMasterAccount ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
@@ -268,7 +275,7 @@ Public Class StoreApproval
             "UPDATE " & _TblName & " SET " &
             "OP19 = @OP19, " &
             "OP22 = @MODYFIDATE " &
-            "WHERE BOOKVNO = @BOOKVNO " &
+            " WHERE BOOKVNO = @BOOKVNO " &
             " AND ITEMCODE = @ITEMCODE" &
             " AND DESIGNCODE = @DESIGNCODE" &
             " AND SHADECODE = @SHADECODE" &

@@ -1,13 +1,20 @@
 ﻿Imports System.Text
+Imports DevExpress.XtraBars.Customization
 
 Public Class StorePurchaseReturnReport
     Dim _CheckFormLoad As Boolean = True
+    Private WithEvents txtgodowncode As New TextBox
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
         View_Log_Book()
     End Sub
     Private Sub View_Log_Book()
         Try
             Dim View_Filter_Condition As String = ""
+            Dim View_UnitFilter_Condition As String = ""
+            If txtgodowncode.Text.Trim <> "" Then
+                Dim Codes = "'" & txtgodowncode.Text.Replace(",", "','") & "'"
+                View_UnitFilter_Condition = " AND S.GodownCode IN (" & Codes & ") "
+            End If
             If Not String.IsNullOrEmpty(txt_From.Text) AndAlso Not String.IsNullOrEmpty(txt_To.Text) Then
                 View_Filter_Condition = " AND S.PACK_SLIP_DATE >=  '" & txt_From.Date_for_Database & "' And S.PACK_SLIP_DATE <=  '" & txt_To.Date_for_Database & "' "
             End If
@@ -67,6 +74,7 @@ Public Class StorePurchaseReturnReport
                 .Append(" FROM StockTrans S ")
                 .Append(" WHERE 1=1 ")
                 .Append(View_Filter_Condition)
+                .Append(View_UnitFilter_Condition)
                 .Append(" UNION ALL ")
                 .Append(" SELECT ")
                 .Append(" s.ITEMCODE, ")
@@ -108,7 +116,7 @@ Public Class StorePurchaseReturnReport
             Dim Tmp_Data_Table As New DataTable
             Tmp_Data_Table = DefaltSoftTable.Copy
             If Tmp_Data_Table.Rows.Count > 0 Then
-                Dim RptTitle = "Stores Purchase Return Stock Report :" & txt_From.Text & " TO " & txt_To.Text
+                Dim RptTitle = "Stores Stock Report :" & txt_From.Text & " TO " & txt_To.Text
                 Dim Date_Range = ""
                 If But_ok.Enabled = True Then
                     If txt_From.Text <> "" AndAlso txt_From.Text <> "" Then
@@ -150,5 +158,43 @@ Public Class StorePurchaseReturnReport
     End Sub
     Private Sub _ButtonFocus()
         _CheckFormLoad = False
+    End Sub
+    Private Sub txtBookName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtGodownName.KeyPress
+        If Asc(e.KeyChar) = 27 Then Exit Sub
+
+
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+
+            'Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
+            'Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
+
+            Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
+            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
+
+            'Dim selected = MultyAccountSelectionForm(_LoadQuery, Nothing, txtGodownName.Text, "SINGLE")
+            Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtGodownName.Text, "MULTY")
+            If selectedList1 IsNot Nothing AndAlso selectedList1.Count > 0 Then
+
+                txtgodowncode.Text = ""
+                txtGodownName.Text = ""
+
+                For Each row As Dictionary(Of String, Object) In selectedList1
+
+                    If row.ContainsKey("ACCOUNTCODE") Then
+                        If txtgodowncode.Text <> "" Then txtgodowncode.Text &= ","
+                        txtgodowncode.Text &= row("ACCOUNTCODE").ToString()
+                    End If
+
+                    If row.ContainsKey("BookName") Then
+                        If txtGodownName.Text <> "" Then txtGodownName.Text &= ", "
+                        txtGodownName.Text &= row("BookName").ToString()
+                    End If
+
+                Next
+
+            End If
+            txt_From.Focus()
+            txt_From.Select()
+        End If
     End Sub
 End Class

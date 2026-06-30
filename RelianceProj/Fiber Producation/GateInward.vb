@@ -437,9 +437,7 @@ Public Class GateInward
             txtGodownName.Focus()
             Exit Function
         ElseIf _StaticBookCode.Trim = "" Then
-            MsgBox("Invalid Book Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-            Txt_BookName.Focus()
-            Exit Function
+
         ElseIf txtChallanDate.Text = "  /  /    " Then
             MsgBox("Invalid Challan Date", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
             txtChallanDate.Focus()
@@ -477,6 +475,11 @@ Public Class GateInward
         GridControl1.Width = PNL_View.Width - 25
         GridControl1.Height = PNL_View.Height - 100
         GridControl1.Location = New Point(3, 53)
+
+        txtBookCode.Text = "GISS-000000001"
+        _BookTrType = "GISS1"
+        _BookCode = txtBookCode.Text
+
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")
         Call defineGridColName()
@@ -835,7 +838,7 @@ Public Class GateInward
         Dim _EditReason As String = ""
         Dim _PartyGstinno As String = ""
         _SaveUserEditLog(_BookCode,
-                            Txt_BookName.Text,
+                            "Gate Inward",
                             BookType,
                             txtEntryNo.Text,
                             txtChallanNo.Text,
@@ -915,7 +918,7 @@ Public Class GateInward
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP20,")
+
             .Append("OP21,")
             'If _FORMMODE = "SAVE" Then
             If _FORMMODE = "ADD" Then
@@ -940,7 +943,7 @@ Public Class GateInward
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(_GodownCode & ",")
-            .Append(Txt_BookName.Text & ",")
+
             .Append(USER_ID & ",")
             'If _FORMMODE = "SAVE" Then
             If _FORMMODE = "ADD" Then
@@ -1148,15 +1151,10 @@ Public Class GateInward
         End If
 
         If _FORMMODE = "ADD" Then
-            Dim _prefix As String = ""
-            If Txt_BookName.Text = "STORE INWARD" Then
-                _prefix = "STI"
-            ElseIf Txt_BookName.Text = "RAW MATERIALS INWARD" Then
-                _prefix = "RMI"
-            ElseIf Txt_BookName.Text = "PET BOTTELS INWARD" Then
-                _prefix = "PBI"
-            End If
-            txtChallanNo.Text = _prefix & "/" & txtEntryNo.Text
+            Dim _BookRow As DataRow
+            _BookRow = StoresRequisition._GetMstBookData(_BookCode)
+            Dim _prefix As String = _BookRow("BookPreFix").ToString
+            txtChallanNo.Text = _prefix & txtEntryNo.Text
         End If
         txtChallanNo.Enabled = False
     End Sub
@@ -1412,9 +1410,6 @@ Public Class GateInward
 
     Private Sub txtGodownName_Validated(sender As Object, e As EventArgs) Handles txtGodownName.Validated
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
-    End Sub
-
-    Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
         _Validated()
     End Sub
 
@@ -1491,8 +1486,8 @@ Public Class GateInward
         ElseIf _FORMMODE = "VIEW" Then
             If Last_Entry_No = 0 Then
                 MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                Txt_BookName.Focus()
-                Txt_BookName.Select()
+                txtEntryNo.Focus()
+                txtEntryNo.Select()
             Else
                 View_Record()
             End If
@@ -2018,37 +2013,7 @@ Public Class GateInward
         End If
     End Sub
 
-    Private Sub Ctl_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
-        If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
-        DispList = False
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = SelectInwardBookType(Txt_BookName.Text)
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    _BookCode = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("BookName") Then
-                    Txt_BookName.Text = selected("BookName").ToString()
-                End If
-            End If
-            Select Case _BookCode
-                Case "GISS-000000001"
-                    _BookTrType = "GISS1"
-                Case "GISS-000000002"
-                    _BookTrType = "GISS2"
-                Case "GISS-000000003"
-                    _BookTrType = "GISS3"
-            End Select
-            SendKeys.Send("{TAB}")
-            Call defineGridColName()
-            Call GenerateTable(_DataTableGrid, GrdItem)
-            Call GridFormatting(_DataTableGrid, GrdItem)
-            GrdItem.Rows = 2
-            GrdItem.Column(0).Visible = False
-            GrdItem.Row(0).Height = 31
-            GrdItem.DefaultRowHeight = 28
-        End If
-    End Sub
+
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = "Gate Inward Details"
@@ -2082,5 +2047,16 @@ Public Class GateInward
     End Sub
 
 
+#End Region
+#Region "DATE RANGE CHECK"
+    Private Sub txtChallanDate_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtChallanDate.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txtChallanDate.Focus()
+                txtChallanDate.Select()
+            End If
+        End If
+    End Sub
 #End Region
 End Class

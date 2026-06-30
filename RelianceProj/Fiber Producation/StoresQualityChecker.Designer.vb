@@ -185,8 +185,8 @@ Partial Class StoresQualityChecker
         Me.txt_Status.RegularExpressionErrorMessage = Nothing
         Me.txt_Status.ShortcutsEnabled = False
         Me.txt_Status.ShowMessage = False
-        Me.txt_Status.Size = New System.Drawing.Size(33, 22)
-        Me.txt_Status.SpacerString = "ALL,YES,NO"
+        Me.txt_Status.Size = New System.Drawing.Size(141, 22)
+        Me.txt_Status.SpacerString = "ALL,YES,NO,REJECTION"
         Me.txt_Status.TabIndex = 82254
         Me.txt_Status.Tag = "OP19"
         Me.txt_Status.Text = "ALL"
@@ -418,7 +418,7 @@ Partial Class StoresQualityChecker
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(600, 16)
+        Me.Label6.Location = New System.Drawing.Point(701, 15)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 14)
         Me.Label6.TabIndex = 82271
@@ -448,7 +448,7 @@ Partial Class StoresQualityChecker
         Me.txtUnitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtUnitName.IsValidated = False
         Me.txtUnitName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtUnitName.Location = New System.Drawing.Point(610, 14)
+        Me.txtUnitName.Location = New System.Drawing.Point(711, 13)
         Me.txtUnitName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtUnitName.MandatoryField = False
         Me.txtUnitName.MaxDate = Nothing
@@ -473,7 +473,7 @@ Partial Class StoresQualityChecker
         Me.Label50.AutoSize = True
         Me.Label50.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label50.ForeColor = System.Drawing.Color.Black
-        Me.Label50.Location = New System.Drawing.Point(523, 15)
+        Me.Label50.Location = New System.Drawing.Point(624, 14)
         Me.Label50.Name = "Label50"
         Me.Label50.Size = New System.Drawing.Size(76, 14)
         Me.Label50.TabIndex = 82270

@@ -94,7 +94,17 @@ Public Class DepartmentApproval
     Private Function _Zooming_Load(ByVal _DateTo As String)
 
 
-        If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+        'If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+        '    MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        '    txtUnitName.Focus()
+        '    Exit Function
+        'End If
+        If txt_Status.Text = "ALL" AndAlso txtUnitCode.Text = "" Then
+            MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            txtUnitName.Focus()
+            Exit Function
+        End If
+        If txtUnitCode.Text = "" Then
             MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
             txtUnitName.Focus()
             Exit Function

@@ -407,9 +407,7 @@ Friend Class StoresRequisition
             txtGodownName.Focus()
             Exit Function
         ElseIf _StaticBookCode.Trim = "" Then
-            MsgBox("Invalid Book Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-            Txt_BookName.Focus()
-            Exit Function
+
         ElseIf txtChallanDate.Text = "  /  /    " Then
             MsgBox("Invalid Challan Date", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
             txtChallanDate.Focus()
@@ -447,6 +445,12 @@ Friend Class StoresRequisition
         GridControl1.Width = PNL_View.Width - 25
         GridControl1.Height = PNL_View.Height - 100
         GridControl1.Location = New Point(3, 53)
+
+        txtBookCode.Text = "RQSS-000000001"
+        _BookTrType = "RQSS1"
+        _BookCode = txtBookCode.Text
+
+
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")
         Call defineGridColName()
@@ -467,6 +471,14 @@ Friend Class StoresRequisition
         End If
 
     End Sub
+
+    Public Function _GetMstBookData(ByVal _FilterBookcode As String)
+        Dim _BookRow As DataRow
+        sqL = " select * from mstbook where bookcode='" & _FilterBookcode & "'"
+        sql_connect_slect()
+        _BookRow = DefaltSoftTable.Rows(0)
+        Return _BookRow
+    End Function
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         UC_Buttons1.HideButtons("BtnReports")
     End Sub
@@ -805,7 +817,7 @@ Friend Class StoresRequisition
         Dim _EditReason As String = ""
         Dim _PartyGstinno As String = ""
         _SaveUserEditLog(txtBookCode.Text,
-                            Txt_BookName.Text,
+                            "Store Requisition",
                             BookType,
                             txtEntryNo.Text,
                             txtChallanNo.Text,
@@ -885,7 +897,7 @@ Friend Class StoresRequisition
             .Append("TransportCode,")
             .Append("ACOFCODE,")
             .Append("GODOWNCODE,")
-            .Append("OP20,")
+
             .Append("OP21,")
             'If _FORMMODE = "SAVE" Then
             If _FORMMODE = "ADD" Then
@@ -910,7 +922,7 @@ Friend Class StoresRequisition
             .Append(txtTr_code.Text & ",")
             .Append(txtAcOfCode.Text & ",")
             .Append(_GodownCode & ",")
-            .Append(Txt_BookName.Text & ",")
+
             .Append(USER_ID & ",")
             'If _FORMMODE = "SAVE" Then
             If _FORMMODE = "ADD" Then
@@ -1114,15 +1126,10 @@ Friend Class StoresRequisition
         End If
 
         If _FORMMODE = "ADD" Then
-            Dim _prefix As String = ""
-            If Txt_BookName.Text = "STORE" Then
-                _prefix = "ST"
-            ElseIf Txt_BookName.Text = "RAW MATERIALS" Then
-                _prefix = "RM"
-            ElseIf Txt_BookName.Text = "PET BOTTELS" Then
-                _prefix = "PB"
-            End If
-            txtChallanNo.Text = _prefix & "/" & txtEntryNo.Text
+            Dim _BookRow As DataRow
+            _BookRow = _GetMstBookData(_BookCode)
+            Dim _prefix As String = _BookRow("BookPreFix").ToString
+            txtChallanNo.Text = _prefix & txtEntryNo.Text
         End If
         txtChallanNo.Enabled = False
     End Sub
@@ -1235,7 +1242,7 @@ Friend Class StoresRequisition
             .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
             .Append(" LEFT JOIN MstDepartment E  ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F  ON  A.CUTCODE1=F.COLORCODE ")
-            .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE) ")
+            .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE,GODOWNCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE,GODOWNCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE AND A.GODOWNCODE=G.GODOWNCODE) ")
 
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BOOKVNO='" & strKeyID & "'")
@@ -1369,12 +1376,8 @@ Friend Class StoresRequisition
 
     Private Sub txtGodownName_Validated(sender As Object, e As EventArgs) Handles txtGodownName.Validated
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
-    End Sub
-
-    Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
         _Validated()
     End Sub
-
 
     Private Sub _Validated()
         If _FrmLoad = True Then Exit Sub
@@ -1448,8 +1451,8 @@ Friend Class StoresRequisition
         ElseIf _FORMMODE = "VIEW" Then
             If Last_Entry_No = 0 Then
                 MsgBox("No Record Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                Txt_BookName.Focus()
-                Txt_BookName.Select()
+                txtEntryNo.Focus()
+                txtEntryNo.Select()
             Else
                 View_Record()
             End If
@@ -1750,37 +1753,7 @@ Friend Class StoresRequisition
         End If
     End Sub
 
-    Private Sub Ctl_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
-        If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
-        DispList = False
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim selected = SelectBookType(Txt_BookName.Text)
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    _BookCode = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("BookName") Then
-                    Txt_BookName.Text = selected("BookName").ToString()
-                End If
-            End If
-            Select Case _BookCode
-                Case "RQSS-000000001"
-                    _BookTrType = "RQSS1"
-                Case "RQSS-000000002"
-                    _BookTrType = "RQSS2"
-                Case "RQSS-000000003"
-                    _BookTrType = "RQSS3"
-            End Select
-            SendKeys.Send("{TAB}")
-            Call defineGridColName()
-            Call GenerateTable(_DataTableGrid, GrdItem)
-            Call GridFormatting(_DataTableGrid, GrdItem)
-            GrdItem.Rows = 2
-            GrdItem.Column(0).Visible = False
-            GrdItem.Row(0).Height = 31
-            GrdItem.DefaultRowHeight = 28
-        End If
-    End Sub
+
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = "Store Requisition Details"
@@ -1790,17 +1763,6 @@ Friend Class StoresRequisition
     Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
     End Sub
-
-
-    'Public Function SelectBookType(ByVal SearchText As String) As Dictionary(Of String, Object)
-    '    Dim _LoadQuery As String =
-    '        "SELECT 'RQSS-000000001' AS ACCOUNTCODE, 'STORE' AS BookName " &
-    '        "UNION ALL SELECT 'RQSS-000000002','RAW MATERIALS' " &
-    '        "UNION ALL SELECT 'RQSS-000000003','PET BOTTELS'"
-    '    Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, SearchText, "SINGLE")
-    '    Return selected
-    'End Function
-
     Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
         View_Record()
     End Sub
@@ -1814,5 +1776,16 @@ Friend Class StoresRequisition
     End Sub
 
 
+#End Region
+#Region "DATE RANGE CHECK"
+    Private Sub txtChallanDate_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtChallanDate.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txtChallanDate.Focus()
+                txtChallanDate.Select()
+            End If
+        End If
+    End Sub
 #End Region
 End Class

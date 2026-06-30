@@ -31,13 +31,16 @@ Partial Class StorePurchaseReturnReport
         Me.txt_From = New ctl_TextBox.ctl_TextBox()
         Me.But_ok = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnClose = New DevExpress.XtraEditors.SimpleButton()
+        Me.txtGodownName = New ctl_TextBox.ctl_TextBox()
+        Me.Label50 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(92, 56)
+        Me.Label1.Location = New System.Drawing.Point(134, 100)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(12, 14)
         Me.Label1.TabIndex = 82234
@@ -47,7 +50,7 @@ Partial Class StorePurchaseReturnReport
         '
         Me.Label41.AutoSize = True
         Me.Label41.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(92, 13)
+        Me.Label41.Location = New System.Drawing.Point(134, 66)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(12, 14)
         Me.Label41.TabIndex = 82233
@@ -57,7 +60,7 @@ Partial Class StorePurchaseReturnReport
         '
         Me.lbl_To.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_To.ForeColor = System.Drawing.Color.Black
-        Me.lbl_To.Location = New System.Drawing.Point(13, 56)
+        Me.lbl_To.Location = New System.Drawing.Point(47, 100)
         Me.lbl_To.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_To.Name = "lbl_To"
         Me.lbl_To.Size = New System.Drawing.Size(65, 14)
@@ -68,7 +71,7 @@ Partial Class StorePurchaseReturnReport
         '
         Me.lbl_From.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_From.ForeColor = System.Drawing.Color.Black
-        Me.lbl_From.Location = New System.Drawing.Point(13, 13)
+        Me.lbl_From.Location = New System.Drawing.Point(47, 66)
         Me.lbl_From.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_From.Name = "lbl_From"
         Me.lbl_From.Size = New System.Drawing.Size(83, 14)
@@ -99,7 +102,7 @@ Partial Class StorePurchaseReturnReport
         Me.txt_To.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_To.IsValidated = False
         Me.txt_To.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txt_To.Location = New System.Drawing.Point(102, 54)
+        Me.txt_To.Location = New System.Drawing.Point(153, 100)
         Me.txt_To.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_To.MandatoryField = False
         Me.txt_To.MaxDate = Nothing
@@ -113,7 +116,7 @@ Partial Class StorePurchaseReturnReport
         Me.txt_To.ShowMessage = False
         Me.txt_To.Size = New System.Drawing.Size(92, 22)
         Me.txt_To.SpacerString = ""
-        Me.txt_To.TabIndex = 2
+        Me.txt_To.TabIndex = 3
         Me.txt_To.Tag = "BOOKNAME"
         Me.txt_To.Text = "  /  /    "
         Me.txt_To.TransparentBox = True
@@ -143,7 +146,7 @@ Partial Class StorePurchaseReturnReport
         Me.txt_From.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_From.IsValidated = False
         Me.txt_From.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txt_From.Location = New System.Drawing.Point(102, 11)
+        Me.txt_From.Location = New System.Drawing.Point(153, 66)
         Me.txt_From.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_From.MandatoryField = False
         Me.txt_From.MaxDate = Nothing
@@ -157,7 +160,7 @@ Partial Class StorePurchaseReturnReport
         Me.txt_From.ShowMessage = False
         Me.txt_From.Size = New System.Drawing.Size(92, 22)
         Me.txt_From.SpacerString = ""
-        Me.txt_From.TabIndex = 1
+        Me.txt_From.TabIndex = 2
         Me.txt_From.Tag = "BOOKNAME"
         Me.txt_From.Text = "  /  /    "
         Me.txt_From.TransparentBox = True
@@ -168,10 +171,10 @@ Partial Class StorePurchaseReturnReport
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(180, 220)
+        Me.But_ok.Location = New System.Drawing.Point(145, 192)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(67, 37)
-        Me.But_ok.TabIndex = 3
+        Me.But_ok.TabIndex = 4
         Me.But_ok.Text = "Ok"
         '
         'BtnClose
@@ -179,18 +182,86 @@ Partial Class StorePurchaseReturnReport
         Me.BtnClose.Appearance.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnClose.Appearance.Options.UseFont = True
         Me.BtnClose.ImageOptions.ImageUri.Uri = "Close"
-        Me.BtnClose.Location = New System.Drawing.Point(251, 220)
+        Me.BtnClose.Location = New System.Drawing.Point(216, 192)
         Me.BtnClose.Name = "BtnClose"
         Me.BtnClose.Size = New System.Drawing.Size(78, 37)
-        Me.BtnClose.TabIndex = 4
+        Me.BtnClose.TabIndex = 5
         Me.BtnClose.Text = "&Close"
+        '
+        'txtGodownName
+        '
+        Me.txtGodownName._AllowSpace = True
+        Me.txtGodownName.AcceptsReturn = True
+        Me.txtGodownName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtGodownName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtGodownName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtGodownName.Check_End_Date_Value_FY = "YES"
+        Me.txtGodownName.Check_Start_Date_Value_FY = "YES"
+        Me.txtGodownName.ClearField = True
+        Me.txtGodownName.CustomInputTypeString = Nothing
+        Me.txtGodownName.Date_for_Database = Nothing
+        Me.txtGodownName.Date_Tag = Nothing
+        Me.txtGodownName.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtGodownName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.no
+        Me.txtGodownName.ExtraValue = ""
+        Me.txtGodownName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGodownName.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtGodownName.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtGodownName.ForeColor = System.Drawing.Color.Black
+        Me.txtGodownName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtGodownName.IsValidated = False
+        Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.Location = New System.Drawing.Point(153, 32)
+        Me.txtGodownName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.MandatoryField = False
+        Me.txtGodownName.MaxDate = Nothing
+        Me.txtGodownName.MinDate = Nothing
+        Me.txtGodownName.Name = "txtGodownName"
+        Me.txtGodownName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtGodownName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtGodownName.ReadOnly = True
+        Me.txtGodownName.RegularExpression = Nothing
+        Me.txtGodownName.RegularExpressionErrorMessage = Nothing
+        Me.txtGodownName.ShowMessage = False
+        Me.txtGodownName.Size = New System.Drawing.Size(202, 22)
+        Me.txtGodownName.SpacerString = ""
+        Me.txtGodownName.TabIndex = 1
+        Me.txtGodownName.Tag = "BOOKNAME"
+        Me.txtGodownName.TransparentBox = True
+        Me.txtGodownName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label50.ForeColor = System.Drawing.Color.Black
+        Me.Label50.Location = New System.Drawing.Point(47, 32)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(76, 14)
+        Me.Label50.TabIndex = 82236
+        Me.Label50.Text = "Unit Name"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(134, 32)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(12, 14)
+        Me.Label2.TabIndex = 82237
+        Me.Label2.Text = ":"
         '
         'StorePurchaseReturnReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(511, 285)
+        Me.ClientSize = New System.Drawing.Size(433, 238)
+        Me.Controls.Add(Me.txtGodownName)
+        Me.Controls.Add(Me.Label50)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.But_ok)
         Me.Controls.Add(Me.BtnClose)
         Me.Controls.Add(Me.Label1)
@@ -217,4 +288,7 @@ Partial Class StorePurchaseReturnReport
     Friend WithEvents txt_From As ctl_TextBox.ctl_TextBox
     Friend WithEvents But_ok As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnClose As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents txtGodownName As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label50 As Label
+    Friend WithEvents Label2 As Label
 End Class

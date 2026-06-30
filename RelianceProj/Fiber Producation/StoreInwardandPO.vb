@@ -1567,7 +1567,7 @@ Public Class StoreInwardandPO
                     .Append(" ON A.CUTCODE = D.ID ")
                     .Append(" left Join MstDepartment As E on A.DESIGNCODE=E.Departmentcode ")
                     .Append(" WHERE 1=1 ")
-                    .Append(" AND A.Bookcode In ('GISS-000000001','GISS-000000002','GISS-000000003') AND A.OP19='YES'")
+                    .Append(" AND A.Bookcode In ('GISS-000000001') AND A.OP19='YES'")
                     .Append(" AND A.AccountCode = '" & txtAccount_Code.Text & "' ")
                     .Append(" and A.GODOWNCODE='" & txtUnitCode.Text & "'  ")
                     .Append("  AND NOT EXISTS ")
@@ -1577,6 +1577,11 @@ Public Class StoreInwardandPO
                     .Append(" WHERE ")
                     .Append(" B.OP7 = A.BookVno ")
                     .Append(" And B.ITEMCODE = A.ITEMCODE ")
+                    .Append(" AND B.DESIGNCODE = A.DESIGNCODE ")
+                    .Append(" AND B.SHADECODE = A.SHADECODE ")
+                    .Append(" AND B.CUTCODE = A.CUTCODE ")
+                    .Append(" AND B.GODOWNCODE = A.GODOWNCODE ")
+                    .Append(" and b.Bookcode = 'IPSS-000000001' ")
                     .Append("  )")
                 End With
                 'Dim _LoadQuery = _StrQuery.ToString()
@@ -1928,5 +1933,16 @@ Public Class StoreInwardandPO
         End If
     End Sub
 
+#End Region
+#Region "DATE RANGE CHECK"
+    Private Sub txtChallanDate_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtChallanDate.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txtChallanDate.Focus()
+                txtChallanDate.Select()
+            End If
+        End If
+    End Sub
 #End Region
 End Class

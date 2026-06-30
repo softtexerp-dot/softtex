@@ -35,7 +35,17 @@ Public Class HeadApproval
     End Sub
     Private Sub View_Record()
         Try
-            If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+            'If txt_Status.Text <> "ALL" AndAlso txtUnitCode.Text = "" Then
+            '    MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            '    txtUnitName.Focus()
+            '    Exit Sub
+            'End If
+            If txt_Status.Text = "ALL" AndAlso txtUnitCode.Text = "" Then
+                MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                txtUnitName.Focus()
+                Exit Sub
+            End If
+            If txtUnitCode.Text = "" Then
                 MsgBox("Select Unit Name", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
                 txtUnitName.Focus()
                 Exit Sub

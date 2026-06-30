@@ -112,10 +112,10 @@ Partial Class StoreRejectionApproval
         Me.txt_Status.ShortcutsEnabled = False
         Me.txt_Status.ShowMessage = False
         Me.txt_Status.Size = New System.Drawing.Size(88, 22)
-        Me.txt_Status.SpacerString = "ALL,APPROVAL,CANCEL"
+        Me.txt_Status.SpacerString = "REJECTION,APPROVAL,CANCEL,ALL"
         Me.txt_Status.TabIndex = 82237
         Me.txt_Status.Tag = "OP19"
-        Me.txt_Status.Text = "ALL"
+        Me.txt_Status.Text = "REJECTION"
         Me.txt_Status.TransparentBox = True
         Me.txt_Status.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '

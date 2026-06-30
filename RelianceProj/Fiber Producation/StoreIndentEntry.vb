@@ -1590,6 +1590,7 @@ Public Class StoreIndentEntry
                     .Append(" AND B.DESIGNCODE = Z.DESIGNCODE ")
                     .Append(" AND B.SHADECODE = Z.SHADECODE ")
                     .Append(" AND B.CUTCODE = Z.CUTCODE ")
+                    .Append(" AND B.GODOWNCODE = Z.GODOWNCODE ")
                     .Append(" and b.Bookcode = 'SISS-000000001' ")
                     .Append("  )")
                     .Append(" LEFT JOIN MstStoreItem AS B ON A.ITEMCODE = B.ITEMCODE  ")
@@ -1962,5 +1963,16 @@ Public Class StoreIndentEntry
     End Sub
 
 
+#End Region
+#Region "DATE RANGE CHECK"
+    Private Sub txtChallanDate_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtChallanDate.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txtChallanDate.Focus()
+                txtChallanDate.Select()
+            End If
+        End If
+    End Sub
 #End Region
 End Class
