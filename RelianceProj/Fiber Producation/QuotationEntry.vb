@@ -123,6 +123,7 @@ Friend Class QuotationEntry
             .Append("MTR_WEIGHT,")
             .Append("CUT_MTR,") ' GROSS RATE
             .Append("RDVALUE,") 'dis%
+            .Append("OP13,")  'Delivery
             .Append("WEIGHT,") 'dis amount
             .Append("RATE,")   'Amount
             .Append("AMOUNT,")
@@ -134,7 +135,7 @@ Friend Class QuotationEntry
             .Append("GODOWNCODE,")
             .Append("OP11,") 'gst
             .Append("OP12,") 'Fright
-            .Append("OP13,")  'Delivery
+
             .Append("OP4,") 'Payment terms
             .Append("OP5,") 'BookName
 
@@ -193,6 +194,7 @@ Friend Class QuotationEntry
             .Append("CUT_MTR:Gross Rate,")
             .Append("RATE:Net Rate,")
             .Append("RDVALUE:Dis%,")
+
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
             .Append("OP11:Gst,") 'gst
@@ -213,6 +215,7 @@ Friend Class QuotationEntry
             .Append("GROUPNAME:L,")
             .Append("CUTNAME:L,")
             .Append("RDVALUE:R,")
+
             .Append("CUT_MTR:R,")
             .Append("WEIGHT:R,")
             .Append("DESCR:L,")
@@ -1734,7 +1737,7 @@ Friend Class QuotationEntry
                     .Append(" A.Mtr_weight AS Qty, ")
                     .Append(" A.ACCOUNTCODE AS ACCOUNTCODE, ")
                     .Append(" A.BOOKVNO As ID, ")
-                    .Append(" C.TYPE_NAME AS CompanyName, ")
+                    .Append(" C.TYPE_NAME AS Brand, ")
                     .Append(" C.TYPE_ID AS GROUPCODE, ")
                     .Append(" D.CUTNAME AS UOM, ")
                     .Append(" A.CUTCODE AS CountCode, ")
@@ -1848,7 +1851,7 @@ Friend Class QuotationEntry
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = rowDict("ItemName").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = rowDict("Qty").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = rowDict("ItemCode").ToString()
-                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("CompanyName").ToString()
+                            GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = rowDict("Brand").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = rowDict("DESIGNCODE").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = rowDict("GROUPCODE").ToString()
                             GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = rowDict("CountCode").ToString()

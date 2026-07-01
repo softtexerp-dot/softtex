@@ -232,7 +232,6 @@ Public Class HeadApproval
                 End If
 
             End If
-
         Next
 
     End Sub

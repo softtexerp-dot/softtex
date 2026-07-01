@@ -9,6 +9,7 @@ Public Class StoresQualityChecker
     Private WithEvents txtUnitCode As New System.Windows.Forms.TextBox()
     Private Book_Row As DataRow
     Private AcCode_Filter_String As String = ""
+    Private _FrmLoad As Boolean = True
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Quality Check Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
@@ -26,6 +27,7 @@ Public Class StoresQualityChecker
         Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _CloseCheck = True
+        _FrmLoad = False
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         Generate_Date_For_DataBase(txt_From)
@@ -115,6 +117,7 @@ Public Class StoresQualityChecker
                 .Append("     WHEN UPPER(ISNULL(A.OP19,'')) = 'REJECTION' THEN 'REJECTION' ")
                 .Append("     ELSE 'NO' ")
                 .Append(" END AS Status ")
+                .Append(" ,CASE WHEN L.BOOKVNO IS NULL THEN 'NO'    ELSE 'YES'END AS Status1")
                 .Append(" FROM  ")
                 .Append(" " & _TblName & " AS A  ")
                 .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -122,9 +125,10 @@ Public Class StoresQualityChecker
                 .Append(" LEFT JOIN MstMasterAccount As C ON A.ACCOUNTCODE=C.ACCOUNTCODE ")
                 .Append(" LEFT JOIN MstCutMaster As D ON D.ID=A.CUTCODE ")
                 .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
+                .Append(" LEFT JOIN (SELECT OP7 AS BOOKVNO ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE,ITEMCODE FROM TrnPackingSlip   WHERE BOOKTRTYPE in ('IPSS1') GROUP BY OP7,ITEMCODE ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE ) AS L ON  A.BOOKVNO = L.BOOKVNO and A.GodownCode = L.GodownCode and A.AccountCode = L.AccountCode and A.DESIGNCODE = L.DESIGNCODE and A.SHADECODE = L.SHADECODE  and A.ITEMCODE = L.ITEMCODE   ")
                 .Append(" WHERE 1=1  ")
                 '.Append(" And A.BOOKCODE='GISS-000000001'  ")
-                .Append(" And A.BOOKTRTYPE in ('GISS1','GISS2','GISS3')  ")
+                .Append(" And A.BOOKTRTYPE in ('GISS1')  ")
                 '.Append(" And A.OP19='YES'  ") ' comaprison status
                 .Append("  AND NOT EXISTS ")
                 .Append("  (   ")
@@ -151,8 +155,14 @@ Public Class StoresQualityChecker
                     tblTmp.Columns.Add("IsOriginalApproval", GetType(Boolean))
                 End If
                 For Each dr As DataRow In tblTmp.Rows
-                    dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "YES")
+                    dr("IsOriginalApproval") = (Convert.ToString(dr("Status1")).Trim().ToUpper() = "YES")
                 Next
+                'If Not tblTmp.Columns.Contains("IsOriginalApproval1") Then
+                '    tblTmp.Columns.Add("IsOriginalApproval1", GetType(Boolean))
+                'End If
+                'For Each dr As DataRow In tblTmp.Rows
+                '    dr("IsOriginalApproval1") = (Convert.ToString(dr("Status1")).Trim().ToUpper() = "YES")
+                'Next
                 GridControl1.DataSource = tblTmp.Copy
                 AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
                 For Each dc As DataColumn In tblTmp.Columns
@@ -185,6 +195,8 @@ Public Class StoresQualityChecker
                 ' Step 2: Sirf required columns editable
                 'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
                 FirstStage.Columns("IsOriginalApproval").Visible = False
+                'FirstStage.Columns("IsOriginalApproval1").Visible = False
+                FirstStage.Columns("Status1").Visible = False
                 DevGridFitColumn(GridControl1, FirstStage)
                 FirstStage.BestFitColumns()
                 FirstStage.Focus()
@@ -200,39 +212,32 @@ Public Class StoresQualityChecker
         End Try
     End Sub
     Private Sub bandedView_RowStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs)
-
-        Dim view As DevExpress.XtraGrid.Views.Grid.GridView =
-        CType(sender, DevExpress.XtraGrid.Views.Grid.GridView)
-
+        Dim view As DevExpress.XtraGrid.Views.Grid.GridView = CType(sender, DevExpress.XtraGrid.Views.Grid.GridView)
         If e.RowHandle < 0 Then Exit Sub
-
         For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
-
-            If col.FieldName.EndsWith("Status") Then
-
+            If col.FieldName.EndsWith("Status1") Then
                 Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
-
                 If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
-
                     Dim status As String = val.ToString.Trim.ToUpper
-
-                    If status = "TRUE" OrElse
-                   status = "1" OrElse
-                   status = "Y" OrElse
-                   status = "YES" Then
-
-                        e.Appearance.BackColor = Color.LemonChiffon
+                    If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "YES" Then
+                        e.Appearance.BackColor = Color.Red
                         e.HighPriority = True
-                        Exit For
-
+                        'Exit For
                     End If
-
                 End If
 
+            ElseIf col.FieldName.EndsWith("Status") Then
+                Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+                If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
+                    Dim status As String = val.ToString.Trim.ToUpper
+                    If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "YES" Then
+                        e.Appearance.BackColor = Color.LemonChiffon
+                        e.HighPriority = True
+                        'Exit For
+                    End If
+                End If
             End If
-
         Next
-
     End Sub
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Try
@@ -243,6 +248,7 @@ Public Class StoresQualityChecker
             For Each dr As DataRow In dt.Rows
                 If dr.RowState = DataRowState.Modified Then
                     If Convert.ToBoolean(dr("IsOriginalApproval")) Then Continue For
+                    If Convert.ToBoolean(dr("IsOriginalApproval1")) Then Continue For
                     Dim cmd As New SqlClient.SqlCommand()
                     cmd.Connection = conn
                     cmd.CommandType = CommandType.Text
@@ -282,6 +288,13 @@ Public Class StoresQualityChecker
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "Status" Then
                 Dim IsOriginalApproval As Boolean = False
+                'If FirstStage.GetFocusedRowCellValue("IsOriginalApproval1") IsNot DBNull.Value Then
+                '    IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval1"))
+                'End If
+                'If IsOriginalApproval Then
+                '    e.Handled = True
+                '    Exit Sub
+                'End If
                 If FirstStage.GetFocusedRowCellValue("IsOriginalApproval") IsNot DBNull.Value Then
                     IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval"))
                 End If
@@ -289,13 +302,14 @@ Public Class StoresQualityChecker
                     e.Handled = True
                     Exit Sub
                 End If
+
                 Dim currentValue As String = FirstStage.GetFocusedRowCellValue("Status").ToString().ToUpper()
                 If currentValue = "YES" Then
-                    FirstStage.SetFocusedRowCellValue("Status", "NO")
-                ElseIf currentValue = "NO" Then
                     FirstStage.SetFocusedRowCellValue("Status", "REJECTION")
-                ElseIf currentValue = "REJECTION" Then
+                ElseIf currentValue = "NO" Then
                     FirstStage.SetFocusedRowCellValue("Status", "YES")
+                ElseIf currentValue = "REJECTION" Then
+                    FirstStage.SetFocusedRowCellValue("Status", "NO")
                 Else
                     FirstStage.SetFocusedRowCellValue("Status", "YES")
                 End If
@@ -312,12 +326,14 @@ Public Class StoresQualityChecker
     Private Sub HeadApproval_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
             If _CloseCheck = True Then
+
                 Close()
                 Me.Dispose(True)
             Else
                 _CloseCheck = True
                 txt_From.Focus()
             End If
+            _FrmLoad = False
         End If
     End Sub
 
@@ -354,5 +370,26 @@ Public Class StoresQualityChecker
         '_Validated()
     End Sub
 
+#End Region
+
+#Region "DATE RANGE CHECK"
+    'Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
+    '    If _FrmLoad = False Then
+    '        If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+    '            MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+    '            txt_From.Focus()
+    '            txt_From.Select()
+    '        End If
+    '    End If
+    'End Sub
+    'Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
+    '    If _FrmLoad = False Then
+    '        If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+    '            MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+    '            txt_To.Focus()
+    '            txt_To.Select()
+    '        End If
+    '    End If
+    'End Sub
 #End Region
 End Class

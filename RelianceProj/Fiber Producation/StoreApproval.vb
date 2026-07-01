@@ -107,7 +107,7 @@ Public Class StoreApproval
             .Append(" A.GODOWNCODE,")
             .Append(" B.ItemName AS ItemName, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")
-            .Append(" K.TYPE_NAME AS CompanyName, ")
+            .Append(" K.TYPE_NAME AS Brand, ")
             .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') AS Qty,")
             .Append(" CASE WHEN ISDATE(A.OP22)=1 THEN CONVERT(VARCHAR(10),CAST(A.OP22 AS DATETIME),103) ELSE '' END AS OP22,")
             .Append(" CASE WHEN UPPER(A.OP19)='YES' THEN 'YES' ELSE 'NO' END AS Status ")

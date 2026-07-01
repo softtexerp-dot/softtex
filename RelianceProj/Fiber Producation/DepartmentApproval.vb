@@ -144,6 +144,7 @@ Public Class DepartmentApproval
             .Append(" A.OP13 As Delivery, ")
             .Append(" A.OP4 As Paymentterms, ")
             .Append(" A.OP19 As Status, ")
+            .Append(" A.OP24 As Status1, ")
             .Append(" A.Bookvno, ")
             .Append(" A.Godowncode, ")
             .Append(" A.Itemcode, ")
@@ -212,6 +213,7 @@ Public Class DepartmentApproval
             dtPivot.Columns.Add(acc & "_Delivery")
             dtPivot.Columns.Add(acc & "_Paymentterms")
             dtPivot.Columns.Add(acc & "_Status", GetType(Boolean))
+            dtPivot.Columns.Add(acc & "_Status1", GetType(Boolean))
         Next
         ' DISTINCT ITEMS
         'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) r("ITEMNAME").ToString())
@@ -242,6 +244,7 @@ Public Class DepartmentApproval
                 newRow(acc & "_Delivery") = Format(Val(r("Delivery")), "0.00")
                 newRow(acc & "_Paymentterms") = r("Paymentterms").ToString
                 Dim status As String = ""
+
                 If Not IsDBNull(r("Status")) Then
                     status = r("Status").ToString().Trim().ToUpper()
                 End If
@@ -250,6 +253,15 @@ Public Class DepartmentApproval
                     newRow(acc & "_Status") = True
                 ElseIf status = "NO" Then
                     newRow(acc & "_Status") = False
+                End If
+                Dim status1 As String = ""
+                If Not IsDBNull(r("Status1")) Then
+                    status1 = r("Status1").ToString().Trim().ToUpper()
+                End If
+
+                If status1 = "YES" Then
+                    newRow(acc & "_Status1") = True
+
                 End If
             Next
             dtPivot.Rows.Add(newRow)
@@ -379,10 +391,18 @@ Public Class DepartmentApproval
 
 
 
+            'For Each col As BandedGridColumn In bandedView.Columns
+            '    col.OptionsColumn.AllowEdit = False
+            '    col.OptionsColumn.ReadOnly = True
+            '    If col.FieldName.EndsWith("_Status") Then
+            '        col.OptionsColumn.AllowEdit = True
+            '        col.OptionsColumn.ReadOnly = False
+            '    End If
+            'Next
             For Each col As BandedGridColumn In bandedView.Columns
                 col.OptionsColumn.AllowEdit = False
                 col.OptionsColumn.ReadOnly = True
-                If col.FieldName.EndsWith("_Status") Then
+                If col.FieldName.EndsWith("_Status1") Then
                     col.OptionsColumn.AllowEdit = True
                     col.OptionsColumn.ReadOnly = False
                 End If
@@ -432,20 +452,65 @@ Public Class DepartmentApproval
 
         If e.RowHandle < 0 Then Exit Sub
 
+        'For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
+
+        '    If col.FieldName.EndsWith("_Status") Then
+
+        '        Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+
+        '        If val IsNot Nothing AndAlso
+        '       val IsNot DBNull.Value AndAlso
+        '       Convert.ToBoolean(val) = True Then
+
+        '            e.Appearance.BackColor = Color.LemonChiffon
+        '            e.Appearance.Options.UseBackColor = True
+        '            e.HighPriority = True
+        '            'Exit For
+
+        '        End If
+
+        '    End If
+
+        'Next
         For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
 
+            ' Highest Priority
+            If col.FieldName.EndsWith("_Status1") Then
+
+                Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+
+                If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
+
+                    Dim status As String = val.ToString().Trim().ToUpper()
+
+                    If status = "TRUE" OrElse
+                       status = "1" OrElse
+                       status = "Y" OrElse
+                       status = "YES" Then
+
+                        e.Appearance.BackColor = Color.Red
+                        e.Appearance.Options.UseBackColor = True
+                        e.HighPriority = True
+                        Exit For        ' Red mil gaya to aur check karne ki zarurat nahi
+
+                    End If
+
+                End If
+
+            End If
+
+            ' Second Priority
             If col.FieldName.EndsWith("_Status") Then
 
                 Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
 
                 If val IsNot Nothing AndAlso
-               val IsNot DBNull.Value AndAlso
-               Convert.ToBoolean(val) = True Then
+                   val IsNot DBNull.Value AndAlso
+                   Convert.ToBoolean(val) Then
 
                     e.Appearance.BackColor = Color.LemonChiffon
                     e.Appearance.Options.UseBackColor = True
                     e.HighPriority = True
-                    Exit For
 
                 End If
 
