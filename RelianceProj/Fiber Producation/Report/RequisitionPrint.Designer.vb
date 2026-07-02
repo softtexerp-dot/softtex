@@ -36,10 +36,7 @@ Partial Class RequisitionPrint
         Me.Label5 = New System.Windows.Forms.Label()
         Me.txtunitName = New ctl_TextBox.ctl_TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.txtBookName = New ctl_TextBox.ctl_TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -102,7 +99,7 @@ Partial Class RequisitionPrint
         Me.Txt_FromEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_FromEntryNo.IsValidated = False
         Me.Txt_FromEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(371, 86)
+        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(371, 59)
         Me.Txt_FromEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_FromEntryNo.MandatoryField = False
         Me.Txt_FromEntryNo.MaxDate = Nothing
@@ -124,7 +121,7 @@ Partial Class RequisitionPrint
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(225, 88)
+        Me.Label2.Location = New System.Drawing.Point(225, 61)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(111, 16)
         Me.Label2.TabIndex = 18
@@ -179,7 +176,7 @@ Partial Class RequisitionPrint
         Me.Txt_ToEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_ToEntryNo.IsValidated = False
         Me.Txt_ToEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(371, 114)
+        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(371, 87)
         Me.Txt_ToEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_ToEntryNo.MandatoryField = False
         Me.Txt_ToEntryNo.MaxDate = Nothing
@@ -201,7 +198,7 @@ Partial Class RequisitionPrint
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(225, 114)
+        Me.Label4.Location = New System.Drawing.Point(225, 87)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(90, 16)
         Me.Label4.TabIndex = 22
@@ -231,7 +228,7 @@ Partial Class RequisitionPrint
         Me.Ctl_RptType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Ctl_RptType.IsValidated = False
         Me.Ctl_RptType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Ctl_RptType.Location = New System.Drawing.Point(371, 141)
+        Me.Ctl_RptType.Location = New System.Drawing.Point(371, 114)
         Me.Ctl_RptType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_RptType.MandatoryField = False
         Me.Ctl_RptType.MaxDate = Nothing
@@ -255,7 +252,7 @@ Partial Class RequisitionPrint
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(228, 141)
+        Me.Label5.Location = New System.Drawing.Point(228, 114)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(72, 16)
         Me.Label5.TabIndex = 24
@@ -313,58 +310,6 @@ Partial Class RequisitionPrint
         Me.Label6.TabIndex = 25
         Me.Label6.Text = "Unit Name"
         '
-        'txtBookName
-        '
-        Me.txtBookName._AllowSpace = True
-        Me.txtBookName.AcceptsReturn = True
-        Me.txtBookName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtBookName.BackColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBookName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtBookName.Check_End_Date_Value_FY = "YES"
-        Me.txtBookName.Check_Start_Date_Value_FY = "YES"
-        Me.txtBookName.ClearField = True
-        Me.txtBookName.CustomInputTypeString = Nothing
-        Me.txtBookName.Date_for_Database = Nothing
-        Me.txtBookName.Date_Tag = Nothing
-        Me.txtBookName.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.txtBookName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
-        Me.txtBookName.ExtraValue = ""
-        Me.txtBookName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBookName.FontFocusColor = System.Drawing.Color.Blue
-        Me.txtBookName.FontLeaveColor = System.Drawing.Color.Black
-        Me.txtBookName.ForeColor = System.Drawing.Color.Black
-        Me.txtBookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
-        Me.txtBookName.IsValidated = False
-        Me.txtBookName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.Location = New System.Drawing.Point(371, 61)
-        Me.txtBookName.MandatoryColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.MandatoryField = False
-        Me.txtBookName.MaxDate = Nothing
-        Me.txtBookName.MinDate = Nothing
-        Me.txtBookName.Name = "txtBookName"
-        Me.txtBookName.NormalBorderColor = System.Drawing.Color.LightCyan
-        Me.txtBookName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.txtBookName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.txtBookName.RegularExpression = Nothing
-        Me.txtBookName.RegularExpressionErrorMessage = Nothing
-        Me.txtBookName.ShowMessage = False
-        Me.txtBookName.Size = New System.Drawing.Size(125, 22)
-        Me.txtBookName.SpacerString = ""
-        Me.txtBookName.TabIndex = 3
-        Me.txtBookName.Tag = "EntryNo"
-        Me.txtBookName.TransparentBox = True
-        Me.txtBookName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(225, 61)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(89, 16)
-        Me.Label7.TabIndex = 27
-        Me.Label7.Text = "Book Name"
-        '
         'Label8
         '
         Me.Label8.AutoSize = True
@@ -374,19 +319,10 @@ Partial Class RequisitionPrint
         Me.Label8.TabIndex = 28
         Me.Label8.Text = ":"
         '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(353, 60)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(12, 16)
-        Me.Label9.TabIndex = 29
-        Me.Label9.Text = ":"
-        '
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(353, 88)
+        Me.Label10.Location = New System.Drawing.Point(353, 61)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(12, 16)
         Me.Label10.TabIndex = 30
@@ -395,7 +331,7 @@ Partial Class RequisitionPrint
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(353, 114)
+        Me.Label11.Location = New System.Drawing.Point(353, 87)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(12, 16)
         Me.Label11.TabIndex = 31
@@ -404,7 +340,7 @@ Partial Class RequisitionPrint
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(353, 141)
+        Me.Label12.Location = New System.Drawing.Point(353, 114)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(12, 16)
         Me.Label12.TabIndex = 32
@@ -419,10 +355,7 @@ Partial Class RequisitionPrint
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.txtBookName)
-        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.txtunitName)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Ctl_RptType)
@@ -464,10 +397,7 @@ Partial Class RequisitionPrint
     Friend WithEvents Label5 As Label
     Friend WithEvents txtunitName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label6 As Label
-    Friend WithEvents txtBookName As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Label7 As Label
     Friend WithEvents Label8 As Label
-    Friend WithEvents Label9 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label
     Friend WithEvents Label12 As Label
