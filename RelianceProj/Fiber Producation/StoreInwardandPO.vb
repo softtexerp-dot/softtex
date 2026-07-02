@@ -1571,6 +1571,7 @@ Public Class StoreInwardandPO
                     .Append(" AND A.Bookcode In ('GISS-000000001') AND A.OP19='YES'")
                     .Append(" AND A.AccountCode = '" & txtAccount_Code.Text & "' ")
                     .Append(" and A.GODOWNCODE='" & txtUnitCode.Text & "'  ")
+                    .Append(" AND  A.PACK_SLIP_DATE<='" & txtChallanDate.Date_for_Database & "'")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
@@ -1638,7 +1639,7 @@ Public Class StoreInwardandPO
                         _FinalTmptbl.Rows.Add(NewRow)
                     End If
                 Next
-                Dim ExtracolumnsToHide = {"Departmentcode", "HsnCode", "ACCOUNTCODE", "ID", "GROUPCODE", "CountCode", "ItemCode", "SHADECODE", "CUTCODE", "DESIGNCODE", "Fright", "Delivery", "GrossRate", "Dis", "Disamount", "NetRate", "Amount", "Paymentterms"}
+                Dim ExtracolumnsToHide = {"Departmentcode", "HsnCode", "ACCOUNTCODE", "ID", "GROUPCODE", "CountCode", "ItemCode", "SHADECODE", "CUTCODE", "DESIGNCODE", "Fright", "Delivery", "GrossRate", "Dis", "Disamount", "NetRate", "Amount", "Paymentterms", "OP19"}
                 'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                 'Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                 Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
@@ -1926,8 +1927,7 @@ Public Class StoreInwardandPO
                 .Append(" WHERE 1=1 ")
                 .Append(" and A.Booktrtype='GISS1'")
                 .Append(" and A.OP19='YES'")
-                .Append(" AND  A.GODOWNCODE='" & _GodownCode & "' ")
-                .Append(" AND  A.PACK_SLIP_DATE<='" & txtChallanDate.Date_for_Database & "'")
+                .Append(" AND  A.GODOWNCODE='" & txtUnitCode.Text & "' ")
             End With
 
             'Dim _LoadQuery = _StrQuery.ToString

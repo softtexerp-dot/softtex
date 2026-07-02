@@ -146,6 +146,7 @@ Public Class StoresPurchaseOrder
             .Append("OP5,") ' comparisionno
             .Append("OP6,") ' compare bookno
             .Append("OP4,") 'Payment terms
+            .Append("OP7,") 'BookVno
             .Append("ROWREMARK")
         End With
 
@@ -341,7 +342,8 @@ Public Class StoresPurchaseOrder
             .Append("OP5:N,") ' comparisionno
             .Append("OP6:N,") ' compare bookno
             .Append("CANCEL_QTY:N,")
-            .Append("OP4:L,") 'Payment terms
+            .Append("OP4:N,") 'Payment terms
+            .Append("OP7:N,") 'BookVno
             .Append("ROWREMARK:Y")
         End With
 

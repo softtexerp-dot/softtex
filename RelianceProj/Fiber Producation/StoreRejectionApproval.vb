@@ -10,6 +10,7 @@ Public Class StoreRejectionApproval
     Private WithEvents txtUnitCode As New System.Windows.Forms.TextBox()
     Private Book_Row As DataRow
     Private AcCode_Filter_String As String = ""
+    Private _FrmLoad As Boolean = True
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Approval And Rejection Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
@@ -27,6 +28,7 @@ Public Class StoreRejectionApproval
         Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _CloseCheck = True
+        _FrmLoad = False
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         Generate_Date_For_DataBase(txt_From)
@@ -69,6 +71,8 @@ Public Class StoreRejectionApproval
                          " And IsDate(ISNULL(A.OP25,'1900-01-01 00:00:00.000')) = 1 " &
                  " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
                  " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' "
+                ElseIf UCase(txt_Status.Text.Trim) = "REJECTION" Then
+                    StatusFilter = " AND UPPER(A.OP19) = 'REJECTION' AND UPPER(A.OP24) <> 'APPROVAL'"
                 ElseIf UCase(txt_Status.Text.Trim) = "CANCEL" Then
                     StatusFilter = " AND UPPER(A.OP24) = 'CANCEL' " &
                         " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
@@ -94,7 +98,8 @@ Public Class StoreRejectionApproval
                 .Append(" C.AccountName, ")
                 .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
                 .Append(" CASE WHEN ISDATE(A.OP25) = 1 THEN  FORMAT(TRY_CAST(A.OP25 AS DATETIME),'dd/MM/yyyy hh:mm:ss.fff tt')  ELSE '' END AS ApprovalDate,")  'Approval Rejection Date
-                .Append("  CASE WHEN ISNULL(A.OP24, '') = '' THEN 'PENDING' WHEN UPPER(A.OP24) = 'APPROVAL' THEN 'APPROVAL' ELSE 'CANCEL' END AS Status") 'Approval Rejection Status
+                .Append("  CASE WHEN ISNULL(A.OP24, '') = '' THEN 'PENDING' WHEN UPPER(A.OP24) = 'APPROVAL' THEN 'APPROVAL' WHEN UPPER(A.OP24) = 'REJECTION' THEN 'REJECTION' ELSE 'CANCEL' END AS Status") 'Approval Rejection Status
+                .Append(" ,CASE WHEN L.BOOKVNO IS NULL THEN 'NO'  ELSE 'APPROVAL'END AS Status1")
                 .Append(" FROM  ")
                 .Append(" " & _TblName & " AS A  ")
                 .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -102,8 +107,9 @@ Public Class StoreRejectionApproval
                 .Append(" LEFT JOIN MstMasterAccount As C ON A.ACCOUNTCODE=C.ACCOUNTCODE ")
                 .Append(" LEFT JOIN MstCutMaster As D ON D.ID=A.CUTCODE ")
                 .Append(" LEFT JOIN MstStoreItemType K  ON  A.SHADECODE = K.TYPE_ID ")
+                .Append(" LEFT JOIN (SELECT OP7 AS BOOKVNO ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE,ITEMCODE FROM TrnPackingSlip   WHERE BOOKTRTYPE in ('PRSS1') GROUP BY OP7,ITEMCODE ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE ) AS L ON  A.BOOKVNO = L.BOOKVNO and A.GodownCode = L.GodownCode and A.AccountCode = L.AccountCode and A.DESIGNCODE = L.DESIGNCODE and A.SHADECODE = L.SHADECODE  and A.ITEMCODE = L.ITEMCODE   ")
                 .Append(" WHERE 1=1  ")
-                .Append(" And A.BOOKTRTYPE In ('GISS1','GISS2','GISS3')  ")
+                .Append(" And A.BOOKTRTYPE In ('GISS1')  ")
                 .Append(" And A.OP19='REJECTION'  ") 'Quality Checker status
                 '.Append(" And A.OP19='YES'  ") 'Quality Checker status
                 '.Append("  AND NOT EXISTS ")
@@ -127,12 +133,13 @@ Public Class StoreRejectionApproval
             AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
             Dim Qty As String = ""
             If tblTmp.Rows.Count > 0 Then
-                IsTmpCopyLoaded = tblTmp.AsEnumerable().Any(Function(r) Convert.ToString(r("Status")).Trim().ToUpper() = "APPROVAL")
+                'IsTmpCopyLoaded = tblTmp.AsEnumerable().Any(Function(r) Convert.ToString(r("Status")).Trim().ToUpper() = "APPROVAL")
                 If Not tblTmp.Columns.Contains("IsOriginalApproval") Then
                     tblTmp.Columns.Add("IsOriginalApproval", GetType(Boolean))
                 End If
                 For Each dr As DataRow In tblTmp.Rows
-                    dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "APPROVAL")
+                    'dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "APPROVAL")
+                    dr("IsOriginalApproval") = (Convert.ToString(dr("Status1")).Trim().ToUpper() = "APPROVAL")
                 Next
                 GridControl1.DataSource = tblTmp.Copy
                 For Each dc As DataColumn In tblTmp.Columns
@@ -165,6 +172,7 @@ Public Class StoreRejectionApproval
                 ' Step 2: Sirf required columns editable
                 'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
                 FirstStage.Columns("IsOriginalApproval").Visible = False
+                FirstStage.Columns("Status1").Visible = False
                 DevGridFitColumn(GridControl1, FirstStage)
                 FirstStage.BestFitColumns()
                 FirstStage.Focus()
@@ -188,18 +196,24 @@ Public Class StoreRejectionApproval
 
         For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
 
-            If col.FieldName.EndsWith("Status") Then
-
+            If col.FieldName.EndsWith("Status1") Then
                 Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
-
                 If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
-
                     Dim status As String = val.ToString.Trim.ToUpper
-
+                    If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "APPROVAL" Then
+                        e.Appearance.ForeColor = Color.Red
+                        e.HighPriority = True
+                        'Exit For
+                    End If
+                End If
+            ElseIf col.FieldName.EndsWith("Status") Then
+                Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+                If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
+                    Dim status As String = val.ToString.Trim.ToUpper
                     If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "APPROVAL" Then
                         e.Appearance.BackColor = Color.LemonChiffon
                         e.HighPriority = True
-                        Exit For
+                        'Exit For
                     End If
                 End If
             End If
@@ -322,6 +336,7 @@ Public Class StoreRejectionApproval
                 _CloseCheck = True
                 txt_From.Focus()
             End If
+            _FrmLoad = False
         End If
     End Sub
 #Region "Txt Book Name Events Code "
@@ -356,6 +371,26 @@ Public Class StoreRejectionApproval
     End Sub
     Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
         '_Validated()
+    End Sub
+#End Region
+#Region "DATE RANGE CHECK"
+    Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_From.Focus()
+                txt_From.Select()
+            End If
+        End If
+    End Sub
+    Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_To.Focus()
+                txt_To.Select()
+            End If
+        End If
     End Sub
 #End Region
 End Class

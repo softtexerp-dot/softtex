@@ -1615,6 +1615,7 @@ Public Class StoresPurchaseReturn
                     .Append(" AND A.OP24='APPROVAL'")
                     .Append(" AND A.OP19='REJECTION'")
                     .Append(" And A.GODOWNCODE='" & txtUnitCode.Text & "'")
+                    .Append(" AND  A.PACK_SLIP_DATE<='" & txtChallanDate.Date_for_Database & "'")
                     .Append("  AND NOT EXISTS ")
                     .Append("  (   ")
                     .Append(" SELECT 1  ")
@@ -1704,7 +1705,7 @@ Public Class StoresPurchaseReturn
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTCODE") + 1).Text = selected1("ACCOUNTCODE").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text = selected1("DepartmentName").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = selected1("DESIGNCODE").ToString()  'Department code
-
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP7") + 1).Text = selected1("ID").ToString()
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text = Val(selected1("Qty"))
                     'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("stockQty") + 1).Text = Val(selected1("Balance"))
                     'Dim Rate As Double = Val(selected1("Rate"))
@@ -1944,11 +1945,42 @@ Public Class StoresPurchaseReturn
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
             Dim _FilterAccountcode As String = ""
 
-            Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
-            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtAccountName.Text, "SINGLE")
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
-                If selected.ContainsKey("AccountName") Then txtAccountName.Text = selected("AccountName").ToString()
+            'Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
+            'Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtAccountName.Text, "SINGLE")
+            'If selected IsNot Nothing Then
+            '    If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
+            '    If selected.ContainsKey("AccountName") Then txtAccountName.Text = selected("AccountName").ToString()
+            '    sqL = "SELECT * FROM MSTMASTERACCOUNT WHERE ACCOUNTCODE='" & txtAccount_Code.Text & "'"
+            '    sql_connect_slect()
+            '    If DefaltSoftTable.Rows.Count > 0 Then
+            '        _SuppPymtTerms = DefaltSoftTable.Rows(0).Item("op118").ToString
+            '    End If
+            'End If
+            Dim _StrQuery As New StringBuilder
+            With _StrQuery
+                .Append(" SELECT DISTINCT")
+                .Append(" 'False' AS TickMark, ")
+                .Append(" A.ACCOUNTCODE,")
+                .Append(" B.ACCOUNTNAME As AccountName ")
+                .Append(" FROM TrnPackingSlip AS A ")
+                .Append(" LEFT JOIN MstMasterAccount AS B ")
+                .Append(" ON A.ACCOUNTCODE = B.ACCOUNTCODE ")
+                .Append(" WHERE 1=1 ")
+                .Append(" and A.Booktrtype='GISS1'")
+                .Append(" and A.OP24='APPROVAL'")
+                .Append(" AND  A.GODOWNCODE='" & txtUnitCode.Text & "' ")
+            End With
+
+            'Dim _LoadQuery = _StrQuery.ToString
+            sqL = _StrQuery.ToString()
+            sql_connect_slect()
+            Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
+            Dim ExtracolumnsToHide = {"SRNO"}
+
+            Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+            If selected1 IsNot Nothing Then
+                If selected1.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected1("ACCOUNTCODE").ToString()
+                If selected1.ContainsKey("AccountName") Then txtAccountName.Text = selected1("AccountName").ToString()
                 sqL = "SELECT * FROM MSTMASTERACCOUNT WHERE ACCOUNTCODE='" & txtAccount_Code.Text & "'"
                 sql_connect_slect()
                 If DefaltSoftTable.Rows.Count > 0 Then

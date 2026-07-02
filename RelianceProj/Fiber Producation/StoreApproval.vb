@@ -8,6 +8,7 @@ Public Class StoreApproval
     Private WithEvents txtUnitCode As New System.Windows.Forms.TextBox()
     Private Book_Row As DataRow
     Private AcCode_Filter_String As String = ""
+    Private _FrmLoad As Boolean = True
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Approval By Plant Head Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
@@ -25,6 +26,7 @@ Public Class StoreApproval
         Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         _CloseCheck = True
+        _FrmLoad = False
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         Generate_Date_For_DataBase(txt_From)
@@ -111,6 +113,7 @@ Public Class StoreApproval
             .Append(" FORMAT(SUM(Z.INQTY)-SUM(Z.OUTQTY),'0.00') AS Qty,")
             .Append(" CASE WHEN ISDATE(A.OP22)=1 THEN CONVERT(VARCHAR(10),CAST(A.OP22 AS DATETIME),103) ELSE '' END AS OP22,")
             .Append(" CASE WHEN UPPER(A.OP19)='YES' THEN 'YES' ELSE 'NO' END AS Status ")
+            .Append(" ,CASE WHEN L.BOOKVNO IS NULL THEN 'NO'    ELSE 'YES'END AS Status1")
             .Append(" FROM (")
             .Append(" SELECT ")
             .Append(" BOOKVNO, ITEMCODE, DESIGNCODE, SHADECODE, CUTCODE, ")
@@ -145,6 +148,7 @@ Public Class StoreApproval
             .Append(" LEFT JOIN MstStoreItemType K ON A.SHADECODE=K.TYPE_ID ")
             .Append(" LEFT JOIN MstDepartment E ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F ON A.CUTCODE1=F.COLORCODE ")
+            .Append(" LEFT JOIN (SELECT OP7 AS BOOKVNO ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE,ITEMCODE FROM TrnPackingSlip   WHERE BOOKTRTYPE in ('SISS1') GROUP BY OP7,ITEMCODE ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE ) AS L ON  A.BOOKVNO = L.BOOKVNO and A.GodownCode = L.GodownCode and A.AccountCode = L.AccountCode and A.DESIGNCODE = L.DESIGNCODE and A.SHADECODE = L.SHADECODE  and A.ITEMCODE = L.ITEMCODE   ")
             .Append(" WHERE 1=1 ")
             .Append(Unitfilter)
             .Append(dateFilter)
@@ -164,6 +168,7 @@ Public Class StoreApproval
             .Append(" B.ItemName,")
             .Append(" MstCutMaster.CUTNAME,")
             .Append(" K.TYPE_NAME,")
+            .Append(" L.BOOKVNO,")
             .Append(" A.OP22,")
             .Append(" A.OP19 ")
             .Append(" HAVING SUM(Z.INQTY)-SUM(Z.OUTQTY) > 0 ")
@@ -179,7 +184,7 @@ Public Class StoreApproval
                 tblTmp.Columns.Add("IsOriginalApproval", GetType(Boolean))
             End If
             For Each dr As DataRow In tblTmp.Rows
-                dr("IsOriginalApproval") = (Convert.ToString(dr("Status")).Trim().ToUpper() = "YES")
+                dr("IsOriginalApproval") = (Convert.ToString(dr("Status1")).Trim().ToUpper() = "YES")
             Next
             GridControl1.DataSource = tblTmp.Copy
             AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
@@ -214,6 +219,7 @@ Public Class StoreApproval
             ' Step 2: Sirf required columns editable
             'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
             FirstStage.Columns("IsOriginalApproval").Visible = False
+            FirstStage.Columns("Status1").Visible = False
             DevGridFitColumn(GridControl1, FirstStage)
             FirstStage.BestFitColumns()
             FirstStage.Focus()
@@ -234,29 +240,50 @@ Public Class StoreApproval
 
         For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
 
-            If col.FieldName.EndsWith("Status") Then
+            'If col.FieldName.EndsWith("Status") Then
 
+            '    Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+
+            '    If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
+
+            '        Dim status As String = val.ToString.Trim.ToUpper
+
+            '        If status = "TRUE" OrElse
+            '       status = "1" OrElse
+            '       status = "Y" OrElse
+            '       status = "YES" Then
+
+            '            e.Appearance.BackColor = Color.LemonChiffon
+            '            e.HighPriority = True
+            '            Exit For
+
+            '        End If
+
+            '    End If
+
+            'End If
+            If col.FieldName.EndsWith("Status1") Then
                 Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
-
                 If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
-
                     Dim status As String = val.ToString.Trim.ToUpper
-
-                    If status = "TRUE" OrElse
-                   status = "1" OrElse
-                   status = "Y" OrElse
-                   status = "YES" Then
-
-                        e.Appearance.BackColor = Color.LemonChiffon
+                    If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "YES" Then
+                        e.Appearance.ForeColor = Color.Red
                         e.HighPriority = True
-                        Exit For
-
+                        'Exit For
                     End If
-
                 End If
 
+            ElseIf col.FieldName.EndsWith("Status") Then
+                Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
+                If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
+                    Dim status As String = val.ToString.Trim.ToUpper
+                    If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "YES" Then
+                        e.Appearance.BackColor = Color.LemonChiffon
+                        e.HighPriority = True
+                        'Exit For
+                    End If
+                End If
             End If
-
         Next
 
     End Sub
@@ -333,6 +360,7 @@ Public Class StoreApproval
                 _CloseCheck = True
                 txt_From.Focus()
             End If
+            _FrmLoad = False
         End If
     End Sub
 #Region "Txt Book Name Events Code "
@@ -368,6 +396,26 @@ Public Class StoreApproval
     End Sub
     Private Sub txtUnitName_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUnitName.Validated
         '_Validated()
+    End Sub
+#End Region
+#Region "DATE RANGE CHECK"
+    Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_From.Focus()
+                txt_From.Select()
+            End If
+        End If
+    End Sub
+    Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_To.Focus()
+                txt_To.Select()
+            End If
+        End If
     End Sub
 #End Region
 End Class

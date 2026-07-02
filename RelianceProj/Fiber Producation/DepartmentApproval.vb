@@ -39,6 +39,7 @@ Public Class DepartmentApproval
     Private WithEvents txtUnitCode As New System.Windows.Forms.TextBox()
     Private Book_Row As DataRow
     Private AcCode_Filter_String As String = ""
+    Private _FrmLoad As Boolean = True
 
     Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         If Not String.IsNullOrWhiteSpace(Me.Tag) Then
@@ -54,16 +55,17 @@ Public Class DepartmentApproval
                 _CloseCheck = True
                 txt_From.Focus()
             End If
+            _FrmLoad = False
         End If
     End Sub
 
     Private Sub StoreConsumption_GridZooming_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Location = New Point(0, 0)
         _CloseCheck = True
+        _FrmLoad = False
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         'txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         txt_To.Text = Now.ToString("dd/MM/yyyy")
-
         'Dim _NewTmptbl As New DataTable
         '_NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
         AttachButtonFocusEvents(Me)
@@ -488,8 +490,8 @@ Public Class DepartmentApproval
                        status = "Y" OrElse
                        status = "YES" Then
 
-                        e.Appearance.BackColor = Color.Red
-                        e.Appearance.Options.UseBackColor = True
+                        e.Appearance.ForeColor = Color.Red
+                        e.Appearance.Options.UseForeColor = True
                         e.HighPriority = True
                         Exit For        ' Red mil gaya to aur check karne ki zarurat nahi
 
@@ -509,7 +511,7 @@ Public Class DepartmentApproval
                    Convert.ToBoolean(val) Then
 
                     e.Appearance.BackColor = Color.LemonChiffon
-                    e.Appearance.Options.UseBackColor = True
+                    e.Appearance.Options.UseForeColor = True
                     e.HighPriority = True
 
                 End If
@@ -911,5 +913,25 @@ Public Class DepartmentApproval
 #End Region
 
 
+#End Region
+#Region "DATE RANGE CHECK"
+    Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_From.Focus()
+                txt_From.Select()
+            End If
+        End If
+    End Sub
+    Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_To.Focus()
+                txt_To.Select()
+            End If
+        End If
+    End Sub
 #End Region
 End Class

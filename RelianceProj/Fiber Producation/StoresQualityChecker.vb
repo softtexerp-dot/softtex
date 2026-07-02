@@ -157,12 +157,6 @@ Public Class StoresQualityChecker
                 For Each dr As DataRow In tblTmp.Rows
                     dr("IsOriginalApproval") = (Convert.ToString(dr("Status1")).Trim().ToUpper() = "YES")
                 Next
-                'If Not tblTmp.Columns.Contains("IsOriginalApproval1") Then
-                '    tblTmp.Columns.Add("IsOriginalApproval1", GetType(Boolean))
-                'End If
-                'For Each dr As DataRow In tblTmp.Rows
-                '    dr("IsOriginalApproval1") = (Convert.ToString(dr("Status1")).Trim().ToUpper() = "YES")
-                'Next
                 GridControl1.DataSource = tblTmp.Copy
                 AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
                 For Each dc As DataColumn In tblTmp.Columns
@@ -195,7 +189,6 @@ Public Class StoresQualityChecker
                 ' Step 2: Sirf required columns editable
                 'FirstStage.Columns("Menu").OptionsColumn.AllowEdit = True
                 FirstStage.Columns("IsOriginalApproval").Visible = False
-                'FirstStage.Columns("IsOriginalApproval1").Visible = False
                 FirstStage.Columns("Status1").Visible = False
                 DevGridFitColumn(GridControl1, FirstStage)
                 FirstStage.BestFitColumns()
@@ -220,7 +213,7 @@ Public Class StoresQualityChecker
                 If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
                     Dim status As String = val.ToString.Trim.ToUpper
                     If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "YES" Then
-                        e.Appearance.BackColor = Color.Red
+                        e.Appearance.ForeColor = Color.Red
                         e.HighPriority = True
                         'Exit For
                     End If
@@ -248,7 +241,6 @@ Public Class StoresQualityChecker
             For Each dr As DataRow In dt.Rows
                 If dr.RowState = DataRowState.Modified Then
                     If Convert.ToBoolean(dr("IsOriginalApproval")) Then Continue For
-                    If Convert.ToBoolean(dr("IsOriginalApproval1")) Then Continue For
                     Dim cmd As New SqlClient.SqlCommand()
                     cmd.Connection = conn
                     cmd.CommandType = CommandType.Text
@@ -288,13 +280,6 @@ Public Class StoresQualityChecker
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "Status" Then
                 Dim IsOriginalApproval As Boolean = False
-                'If FirstStage.GetFocusedRowCellValue("IsOriginalApproval1") IsNot DBNull.Value Then
-                '    IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval1"))
-                'End If
-                'If IsOriginalApproval Then
-                '    e.Handled = True
-                '    Exit Sub
-                'End If
                 If FirstStage.GetFocusedRowCellValue("IsOriginalApproval") IsNot DBNull.Value Then
                     IsOriginalApproval = Convert.ToBoolean(FirstStage.GetFocusedRowCellValue("IsOriginalApproval"))
                 End If
@@ -373,23 +358,23 @@ Public Class StoresQualityChecker
 #End Region
 
 #Region "DATE RANGE CHECK"
-    'Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
-    '    If _FrmLoad = False Then
-    '        If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
-    '            MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
-    '            txt_From.Focus()
-    '            txt_From.Select()
-    '        End If
-    '    End If
-    'End Sub
-    'Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
-    '    If _FrmLoad = False Then
-    '        If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
-    '            MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
-    '            txt_To.Focus()
-    '            txt_To.Select()
-    '        End If
-    '    End If
-    'End Sub
+    Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_From.Focus()
+                txt_From.Select()
+            End If
+        End If
+    End Sub
+    Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_To.Focus()
+                txt_To.Select()
+            End If
+        End If
+    End Sub
 #End Region
 End Class
