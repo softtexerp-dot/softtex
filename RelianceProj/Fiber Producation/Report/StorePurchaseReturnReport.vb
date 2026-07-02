@@ -4,6 +4,7 @@ Imports DevExpress.XtraBars.Customization
 Public Class StorePurchaseReturnReport
     Dim _CheckFormLoad As Boolean = True
     Private WithEvents txtgodowncode As New TextBox
+    Private _FrmLoad As Boolean = True
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
         View_Log_Book()
     End Sub
@@ -139,6 +140,7 @@ Public Class StorePurchaseReturnReport
     Private Sub StorePurchaseReturnReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
+        _FrmLoad = False
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         Generate_Date_For_DataBase(txt_From)
@@ -154,6 +156,7 @@ Public Class StorePurchaseReturnReport
             Me.Close()
             Me.Dispose(True)
             'End If
+            _FrmLoad = False
         End If
     End Sub
     Private Sub _ButtonFocus()
@@ -197,4 +200,25 @@ Public Class StorePurchaseReturnReport
             txt_From.Select()
         End If
     End Sub
+
+#Region "DATE RANGE CHECK"
+    Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_From.Focus()
+                txt_From.Select()
+            End If
+        End If
+    End Sub
+    Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_To.Focus()
+                txt_To.Select()
+            End If
+        End If
+    End Sub
+#End Region
 End Class
