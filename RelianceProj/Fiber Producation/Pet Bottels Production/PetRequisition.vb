@@ -442,8 +442,8 @@ Friend Class PetRequisition
         GridControl1.Height = PNL_View.Height - 100
         GridControl1.Location = New Point(3, 53)
 
-        txtBookCode.Text = "RQSS-000000001"
-        _BookTrType = "RQSS1"
+        txtBookCode.Text = "0001-000010002"
+        _BookTrType = "PET02"
         _BookCode = txtBookCode.Text
 
 
@@ -1781,6 +1781,51 @@ Friend Class PetRequisition
                 txtChallanDate.Focus()
                 txtChallanDate.Select()
             End If
+        End If
+    End Sub
+
+    Private Sub BtnRPTPrint_Click(sender As Object, e As EventArgs) Handles BtnRPTPrint.Click
+        Dim dtTmp As New DataTable()
+
+        ' Columns create karo
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+            dtTmp.Columns.Add(col.FieldName)
+        Next
+
+        ' Rows fill karo
+        For i As Integer = 0 To FirstStage.RowCount - 1
+            Dim dr As DataRow = dtTmp.NewRow()
+            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+                'dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                If col.FieldName.ToUpper() = "QUANTITY" Then
+                    Dim val = FirstStage.GetRowCellValue(i, col)
+
+                    If IsDBNull(val) OrElse val Is Nothing Then
+                        dr(col.FieldName) = 0D
+                    Else
+                        dr(col.FieldName) = Convert.ToDecimal(val)
+                    End If
+                Else
+                    dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                End If
+            Next
+            dtTmp.Rows.Add(dr)
+        Next
+        If dtTmp.Rows.Count > 0 Then
+            Dim _TmpTbl As New DataTable
+            _TmpTbl = dtTmp.Clone
+
+            For Each dr As DataRow In dtTmp.Select()
+                _TmpTbl.ImportRow(dr)
+            Next
+            Dim RptTitle = "Pet Requisition Report"
+            Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
+            'REPORT_RPT_FILE_NAME = "GradingStockReq_2"
+            REPORT_RPT_FILE_NAME = "PetRequisitionReport"
+            NewReportPrint(_TmpTbl, RptTitle, Date_Range)
+
+        Else
+            MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
         End If
     End Sub
 #End Region

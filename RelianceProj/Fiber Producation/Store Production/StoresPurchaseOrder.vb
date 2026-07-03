@@ -2097,6 +2097,7 @@ Public Class StoresPurchaseOrder
         Txt_EntryType.Text = "SUMMERY"
         'txtBookName.Focus()
         'txtBookName.Select()
+        txtGodownName.Visible = True
         txtGodownName.Focus()
         txtGodownName.Select()
     End Sub
@@ -4095,13 +4096,14 @@ Public Class StoresPurchaseOrder
 
                 .Append(" SELECT ")
                 .Append(" TrnOffer.BookVno, ")
+                .Append("  G.BookName As Unitname, ")
                 .Append(" TrnOffer.ENTRYNO as [Entry No], ")
                 .Append(" TrnOffer.OfferNo as [Offer No], ")
                 .Append(" TrnOffer.OfferDate AS OfferDate, ")
                 .Append(" MstMasterAccount.accountname as [Party Name], ")
-                .Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
+                '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
                 .Append(" MSTSTOREITEM.ITEMNAME as [Item Name], ")
-                .Append(" MstCutMaster.cutname as [Per], ")
+                .Append(" MstCutMaster.cutname as [UOM], ")
                 .Append(" sum(TrnOffer.Mtr_Weight) as [Quantity], ")
                 .Append(" TrnOffer.Gross_Rate as [Rate],  ")
                 .Append(" TrnOffer.RDVALUE AS Dis, ")
@@ -4126,6 +4128,7 @@ Public Class StoresPurchaseOrder
                 .Append(" LEFT JOIN Mst_Acof_Supply ON TRNOFFER.ACOFCODE=Mst_Acof_Supply.ID ")
                 .Append(" LEFT JOIN MstCutMaster  ON TRNOFFER.CUTCODE=MstCutMaster.ID  ")
                 .Append(" LEFT JOIN MSTCITY ON TRNOFFER.DESPATCHCODE=MSTCITY.CITYCODE")
+                .Append(" LEFT JOIN MSTBook AS G ON TRNOFFER.GodownCode = G.BookCode ")
                 '.Append(" LEFT JOIN MSTSTOREITEM  AS G ON TRNOFFER.weavetypecode=G.ITEMCODE")
                 .Append(" WHERE 1=1 ")
                 .Append(" AND  TRNOFFER.GODOWNCODE='" & _GodownCode & "' ")
@@ -4134,6 +4137,7 @@ Public Class StoresPurchaseOrder
                 .Append(" GROUP BY ")
 
                 .Append(" TrnOffer.BookVno, ")
+                .Append("  G.BookName, ")
                 .Append(" TrnOffer.ENTRYNO , ")
                 .Append(" TrnOffer.OfferNo , ")
                 .Append(" TrnOffer.OfferDate , ")
@@ -4160,16 +4164,17 @@ Public Class StoresPurchaseOrder
             Else
                 .Append(" SELECT ")
                 .Append(" TrnOffer.BookVno, ")
+                .Append("  G.BookName As Unitname, ")
                 .Append(" TrnOffer.ENTRYNO as [Entry No], ")
                 .Append(" TrnOffer.OfferNo as [Offer No], ")
                 .Append(" TrnOffer.OfferDate AS OfferDate, ")
                 .Append(" MstMasterAccount.accountname as [Party Name], ")
                 .Append(" TrnOffer.SRNO as [Sno], ")
-                .Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
+                '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
                 .Append(" MSTSTOREITEM.ITEMNAME as [Item Name], ")
                 '.Append(" G.ITEMNAME AS PartyItemName, ")
                 .Append(" TrnOffer.loomtypecode AS Size, ")
-                .Append(" MstCutMaster.cutname as [Per], ")
+                .Append(" MstCutMaster.cutname as [UOM], ")
                 .Append(" TrnOffer.Mtr_Weight as [Quantity], ")
                 .Append(" TrnOffer.Gross_Rate as [Rate],  ")
                 .Append(" TrnOffer.RDVALUE AS Dis, ")
@@ -4196,6 +4201,7 @@ Public Class StoresPurchaseOrder
                 .Append(" LEFT JOIN Mst_Acof_Supply ON TRNOFFER.ACOFCODE=Mst_Acof_Supply.ID ")
                 .Append(" LEFT JOIN MstCutMaster  ON TRNOFFER.CUTCODE=MstCutMaster.ID  ")
                 .Append(" LEFT JOIN MSTCITY ON TRNOFFER.DESPATCHCODE=MSTCITY.CITYCODE")
+                .Append(" LEFT JOIN MSTBook AS G ON TRNOFFER.GodownCode = G.BookCode ")
                 '.Append(" LEFT JOIN MSTSTOREITEM  AS G ON TRNOFFER.weavetypecode=G.ITEMCODE")
                 .Append(" WHERE 1=1 ")
                 .Append(" AND  TRNOFFER.GODOWNCODE='" & _GodownCode & "' ")
@@ -4446,6 +4452,50 @@ Public Class StoresPurchaseOrder
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, GrdItem)
         Ctrl_Visibility_With_One_Grid(True, Me.Controls, grdBsun)
         '_Validated()
+    End Sub
+
+    Private Sub BtnRPTPrint_Click(sender As Object, e As EventArgs) Handles BtnRPTPrint.Click
+        Dim dtTmp As New DataTable()
+
+        ' Columns create karo
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+            dtTmp.Columns.Add(col.FieldName)
+        Next
+
+        ' Rows fill karo
+        For i As Integer = 0 To FirstStage.RowCount - 1
+            Dim dr As DataRow = dtTmp.NewRow()
+            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+                'dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                If col.FieldName.ToUpper() = "QUANTITY" Then
+                    Dim val = FirstStage.GetRowCellValue(i, col)
+
+                    If IsDBNull(val) OrElse val Is Nothing Then
+                        dr(col.FieldName) = 0D
+                    Else
+                        dr(col.FieldName) = Convert.ToDecimal(val)
+                    End If
+                Else
+                    dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                End If
+            Next
+            dtTmp.Rows.Add(dr)
+        Next
+        If dtTmp.Rows.Count > 0 Then
+            Dim _TmpTbl As New DataTable
+            _TmpTbl = dtTmp.Clone
+
+            For Each dr As DataRow In dtTmp.Select()
+                _TmpTbl.ImportRow(dr)
+            Next
+            Dim RptTitle = "Store Purchase Order Report"
+            Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
+            REPORT_RPT_FILE_NAME = "StoresPurhcaseOrderReport"
+            NewReportPrint(_TmpTbl, RptTitle, Date_Range)
+
+        Else
+            MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        End If
     End Sub
 
 #End Region

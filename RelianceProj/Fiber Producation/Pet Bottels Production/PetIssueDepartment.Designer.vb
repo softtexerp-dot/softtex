@@ -24,6 +24,7 @@ Partial Class PetIssueDepartment
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PetIssueDepartment))
         Me.PNL_View = New System.Windows.Forms.GroupBox()
+        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.btnView = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
@@ -59,7 +60,6 @@ Partial Class PetIssueDepartment
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtEntryNo = New ctl_TextBox.ctl_TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,10 +83,21 @@ Partial Class PetIssueDepartment
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(4, 199)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(705, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(628, 84)
         Me.PNL_View.TabIndex = 82261
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
+        '
+        'BtnRPTPrint
+        '
+        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRPTPrint.Appearance.Options.UseFont = True
+        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnRPTPrint.Location = New System.Drawing.Point(521, 18)
+        Me.BtnRPTPrint.Name = "BtnRPTPrint"
+        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
+        Me.BtnRPTPrint.TabIndex = 5
+        Me.BtnRPTPrint.Text = "RPT Print"
         '
         'btnView
         '
@@ -108,7 +119,7 @@ Partial Class PetIssueDepartment
         Me.BtnExport.Location = New System.Drawing.Point(639, 18)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 32)
-        Me.BtnExport.TabIndex = 5
+        Me.BtnExport.TabIndex = 6
         Me.BtnExport.Text = "Export"
         '
         'BtnPrint
@@ -130,7 +141,7 @@ Partial Class PetIssueDepartment
         Me.Btn_LayoutLoad.Location = New System.Drawing.Point(859, 18)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
-        Me.Btn_LayoutLoad.TabIndex = 7
+        Me.Btn_LayoutLoad.TabIndex = 8
         Me.Btn_LayoutLoad.Text = "Load Report"
         '
         'BtnLayOutSave
@@ -141,7 +152,7 @@ Partial Class PetIssueDepartment
         Me.BtnLayOutSave.Location = New System.Drawing.Point(736, 18)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
-        Me.BtnLayOutSave.TabIndex = 6
+        Me.BtnLayOutSave.TabIndex = 7
         Me.BtnLayOutSave.Text = "Save Report"
         '
         'GridControl1
@@ -704,17 +715,6 @@ Partial Class PetIssueDepartment
         Me.Label7.Size = New System.Drawing.Size(68, 14)
         Me.Label7.TabIndex = 82246
         Me.Label7.Text = "Entry No."
-        '
-        'BtnRPTPrint
-        '
-        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnRPTPrint.Appearance.Options.UseFont = True
-        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnRPTPrint.Location = New System.Drawing.Point(521, 18)
-        Me.BtnRPTPrint.Name = "BtnRPTPrint"
-        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
-        Me.BtnRPTPrint.TabIndex = 81890
-        Me.BtnRPTPrint.Text = "RPT Print"
         '
         'PetIssueDepartment
         '

@@ -530,8 +530,8 @@ Public Class PetStockEntry
         _old_Me_text = Me.Text
 
 
-        txtBookCode.Text = "STOP-000000001"
-        _BookTrType = "STOP1"
+        txtBookCode.Text = "0001-000010001"
+        _BookTrType = "PET01"
         _BookCode = txtBookCode.Text
 
         If _isCallerByOther = True Then
@@ -1045,7 +1045,7 @@ Public Class PetStockEntry
         With strQuery
             .Append(" SELECT ")
             .Append("  A.BookVno, ")
-            .Append("  G.BookName, ")
+            .Append("  G.BookName As UnitName, ")
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Quotation No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
@@ -1828,29 +1828,6 @@ Public Class PetStockEntry
         _DevExpressExcelExport(GridControl1)
     End Sub
 
-    Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs)
-        'If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-        '    Dim selected = SelectBookType(Txt_BookName.Text)
-        '    If selected IsNot Nothing Then
-        '        If selected.ContainsKey("ACCOUNTCODE") Then
-        '            _ReqBookCode = selected("ACCOUNTCODE").ToString()
-        '        End If
-        '        If selected.ContainsKey("BookName") Then
-        '            Txt_BookName.Text = selected("BookName").ToString()
-        '        End If
-        '    End If
-        '    Select Case _ReqBookCode
-        '        Case "RQSS-000000001"
-        '            _ReqBookTrType = "RQSS1"
-        '        Case "RQSS-000000002"
-        '            _ReqBookTrType = "RQSS2"
-        '        Case "RQSS-000000003"
-        '            _ReqBookTrType = "RQSS3"
-        '    End Select
-        '    SendKeys.Send("{TAB}")
-        'End If
-    End Sub
-
     Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs)
         '_Validated()
     End Sub
@@ -1960,6 +1937,51 @@ Public Class PetStockEntry
                 txtChallanDate.Focus()
                 txtChallanDate.Select()
             End If
+        End If
+    End Sub
+
+    Private Sub BtnRPTPrint_Click(sender As Object, e As EventArgs) Handles BtnRPTPrint.Click
+        Dim dtTmp As New DataTable()
+
+        ' Columns create karo
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+            dtTmp.Columns.Add(col.FieldName)
+        Next
+
+        ' Rows fill karo
+        For i As Integer = 0 To FirstStage.RowCount - 1
+            Dim dr As DataRow = dtTmp.NewRow()
+            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+                'dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                If col.FieldName.ToUpper() = "QUANTITY" Then
+                    Dim val = FirstStage.GetRowCellValue(i, col)
+
+                    If IsDBNull(val) OrElse val Is Nothing Then
+                        dr(col.FieldName) = 0D
+                    Else
+                        dr(col.FieldName) = Convert.ToDecimal(val)
+                    End If
+                Else
+                    dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                End If
+            Next
+            dtTmp.Rows.Add(dr)
+        Next
+        If dtTmp.Rows.Count > 0 Then
+            Dim _TmpTbl As New DataTable
+            _TmpTbl = dtTmp.Clone
+
+            For Each dr As DataRow In dtTmp.Select()
+                _TmpTbl.ImportRow(dr)
+            Next
+            Dim RptTitle = "Pet Stock Entry Report"
+            Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
+            'REPORT_RPT_FILE_NAME = "GradingStockReq_2"
+            REPORT_RPT_FILE_NAME = "StoresStockEntryReport"
+            NewReportPrint(_TmpTbl, RptTitle, Date_Range)
+
+        Else
+            MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
         End If
     End Sub
 #End Region

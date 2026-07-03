@@ -33,6 +33,7 @@ Partial Class GateInward
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.PNL_View = New System.Windows.Forms.GroupBox()
+        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.btnView = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
@@ -223,6 +224,7 @@ Partial Class GateInward
         '
         'PNL_View
         '
+        Me.PNL_View.Controls.Add(Me.BtnRPTPrint)
         Me.PNL_View.Controls.Add(Me.btnView)
         Me.PNL_View.Controls.Add(Me.BtnExport)
         Me.PNL_View.Controls.Add(Me.BtnPrint)
@@ -233,19 +235,30 @@ Partial Class GateInward
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
-        Me.PNL_View.Location = New System.Drawing.Point(140, 203)
+        Me.PNL_View.Location = New System.Drawing.Point(4, 203)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(319, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(381, 84)
         Me.PNL_View.TabIndex = 82229
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
+        '
+        'BtnRPTPrint
+        '
+        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRPTPrint.Appearance.Options.UseFont = True
+        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnRPTPrint.Location = New System.Drawing.Point(544, 16)
+        Me.BtnRPTPrint.Name = "BtnRPTPrint"
+        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
+        Me.BtnRPTPrint.TabIndex = 5
+        Me.BtnRPTPrint.Text = "RPT Print"
         '
         'btnView
         '
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(442, 15)
+        Me.btnView.Location = New System.Drawing.Point(383, 15)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(68, 32)
@@ -257,10 +270,10 @@ Partial Class GateInward
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(603, 16)
+        Me.BtnExport.Location = New System.Drawing.Point(658, 16)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 32)
-        Me.BtnExport.TabIndex = 5
+        Me.BtnExport.TabIndex = 6
         Me.BtnExport.Text = "Export"
         '
         'BtnPrint
@@ -268,7 +281,7 @@ Partial Class GateInward
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(519, 15)
+        Me.BtnPrint.Location = New System.Drawing.Point(460, 15)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(78, 32)
         Me.BtnPrint.TabIndex = 4
@@ -279,10 +292,10 @@ Partial Class GateInward
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(825, 16)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(880, 16)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
-        Me.Btn_LayoutLoad.TabIndex = 7
+        Me.Btn_LayoutLoad.TabIndex = 8
         Me.Btn_LayoutLoad.Text = "Load Report"
         '
         'BtnLayOutSave
@@ -290,10 +303,10 @@ Partial Class GateInward
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(702, 16)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(757, 16)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
-        Me.BtnLayOutSave.TabIndex = 6
+        Me.BtnLayOutSave.TabIndex = 7
         Me.BtnLayOutSave.Text = "Save Report"
         '
         'lbl_Total
@@ -786,4 +799,5 @@ Partial Class GateInward
     Friend WithEvents Label23 As Label
     Friend WithEvents txtHeader_Remark As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label24 As Label
+    Friend WithEvents BtnRPTPrint As DevExpress.XtraEditors.SimpleButton
 End Class

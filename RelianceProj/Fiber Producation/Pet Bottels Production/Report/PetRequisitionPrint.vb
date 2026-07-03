@@ -14,7 +14,7 @@ Public Class PetRequisitionPrint
 
         Dim View_Filter_Condition As String = ""
 
-        View_Filter_Condition = " And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "' "
+        View_Filter_Condition = " and a.BookTrtype='PET02' And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "' "
 
         _strQuery = New StringBuilder()
         With _strQuery
@@ -40,7 +40,7 @@ Public Class PetRequisitionPrint
         Try
             Dim View_Filter_Condition As String = ""
             If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "'"
+                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _BookCode & "' and a.BookTrtype='PET02' and A.GodownCode='" & _GodownCode & "'"
             End If
             _strQuery = New StringBuilder()
             With _strQuery
@@ -142,7 +142,7 @@ Public Class PetRequisitionPrint
         AttachButtonFocusEvents(Me)
         _ButtonEnable(True)
         _TextboxEnable(False)
-        _BookCode = "RQSS-000000001"
+        _BookCode = "0001-000010002"
         txtunitName.ReadOnly = True
         Txt_FromEntryNo.ReadOnly = True
         Txt_ToEntryNo.ReadOnly = True

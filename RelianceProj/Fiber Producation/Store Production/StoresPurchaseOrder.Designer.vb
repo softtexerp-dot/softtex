@@ -66,6 +66,7 @@ Partial Class StoresPurchaseOrder
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
         Me.txt_From = New ctl_TextBox.ctl_TextBox()
         Me.PNL_View = New System.Windows.Forms.GroupBox()
+        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.btnView = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
@@ -116,7 +117,7 @@ Partial Class StoresPurchaseOrder
         Me.Label41 = New System.Windows.Forms.Label()
         Me.txtBookName = New ctl_TextBox.ctl_TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.txtGodownName = New ctl_TextBox.ctl_TextBox()
         Me.Label44 = New System.Windows.Forms.Label()
         Me.Label45 = New System.Windows.Forms.Label()
@@ -550,7 +551,7 @@ Partial Class StoresPurchaseOrder
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(877, 14)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(993, 14)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
         Me.Btn_LayoutLoad.TabIndex = 81914
@@ -561,7 +562,7 @@ Partial Class StoresPurchaseOrder
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(754, 14)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(870, 14)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
         Me.BtnLayOutSave.TabIndex = 81913
@@ -888,6 +889,7 @@ Partial Class StoresPurchaseOrder
         'PNL_View
         '
         Me.PNL_View.BackColor = System.Drawing.Color.LightCyan
+        Me.PNL_View.Controls.Add(Me.BtnRPTPrint)
         Me.PNL_View.Controls.Add(Me.btnView)
         Me.PNL_View.Controls.Add(Me.BtnExport)
         Me.PNL_View.Controls.Add(Me.BtnPrint)
@@ -900,12 +902,23 @@ Partial Class StoresPurchaseOrder
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
-        Me.PNL_View.Location = New System.Drawing.Point(10, 203)
+        Me.PNL_View.Location = New System.Drawing.Point(2, 222)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(422, 100)
+        Me.PNL_View.Size = New System.Drawing.Size(395, 100)
         Me.PNL_View.TabIndex = 81994
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
+        '
+        'BtnRPTPrint
+        '
+        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRPTPrint.Appearance.Options.UseFont = True
+        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnRPTPrint.Location = New System.Drawing.Point(657, 13)
+        Me.BtnRPTPrint.Name = "BtnRPTPrint"
+        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
+        Me.BtnRPTPrint.TabIndex = 81917
+        Me.BtnRPTPrint.Text = "RPT Print"
         '
         'btnView
         '
@@ -924,10 +937,10 @@ Partial Class StoresPurchaseOrder
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(658, 14)
+        Me.BtnExport.Location = New System.Drawing.Point(774, 14)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 32)
-        Me.BtnExport.TabIndex = 81917
+        Me.BtnExport.TabIndex = 81918
         Me.BtnExport.Text = "Export"
         '
         'BtnPrint
@@ -2211,4 +2224,5 @@ Partial Class StoresPurchaseOrder
     Friend WithEvents txtGodownName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label44 As Label
     Friend WithEvents Label45 As Label
+    Friend WithEvents BtnRPTPrint As DevExpress.XtraEditors.SimpleButton
 End Class

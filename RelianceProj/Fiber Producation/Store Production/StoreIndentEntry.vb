@@ -1038,7 +1038,7 @@ Public Class StoreIndentEntry
         With strQuery
             .Append(" SELECT ")
             .Append("  A.BookVno, ")
-            .Append("  G.BookName, ")
+            .Append("  G.BookName As UnitName, ")
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Quotation No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
@@ -1047,15 +1047,9 @@ Public Class StoreIndentEntry
             .Append("  A.OP6 AS [Issue NO],")
             .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             .Append(" B.ItemName as [Item Name], ")
-            .Append(" K.TYPE_NAME  AS CompanyName,")
+            .Append(" K.TYPE_NAME  AS Brand,")
             .Append(" MstCutMaster.CUTNAME AS UOM, ")
-            .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
-            '.Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            '.Append("  A.AMOUNT as [Amount],")
-            '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
-            '.Append(" MstTransport.TransportName as [Transport], ")
-            '.Append(" C.accountname as [Agent Name], ")
-            '.Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
+            .Append(" A.MTR_WEIGHT as [Quantity], ")
             .Append("  A.RowRemark as [Remark] ")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
@@ -1972,6 +1966,50 @@ Public Class StoreIndentEntry
                 txtChallanDate.Focus()
                 txtChallanDate.Select()
             End If
+        End If
+    End Sub
+
+    Private Sub BtnRPTPrint_Click(sender As Object, e As EventArgs) Handles BtnRPTPrint.Click
+        Dim dtTmp As New DataTable()
+
+        ' Columns create karo
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+            dtTmp.Columns.Add(col.FieldName)
+        Next
+
+        ' Rows fill karo
+        For i As Integer = 0 To FirstStage.RowCount - 1
+            Dim dr As DataRow = dtTmp.NewRow()
+            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+                'dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                If col.FieldName.ToUpper() = "QUANTITY" Then
+                    Dim val = FirstStage.GetRowCellValue(i, col)
+
+                    If IsDBNull(val) OrElse val Is Nothing Then
+                        dr(col.FieldName) = 0D
+                    Else
+                        dr(col.FieldName) = Convert.ToDecimal(val)
+                    End If
+                Else
+                    dr(col.FieldName) = FirstStage.GetRowCellValue(i, col)
+                End If
+            Next
+            dtTmp.Rows.Add(dr)
+        Next
+        If dtTmp.Rows.Count > 0 Then
+            Dim _TmpTbl As New DataTable
+            _TmpTbl = dtTmp.Clone
+
+            For Each dr As DataRow In dtTmp.Select()
+                _TmpTbl.ImportRow(dr)
+            Next
+            Dim RptTitle = "Store Indent Report"
+            Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
+            REPORT_RPT_FILE_NAME = "StoresIndentReport"
+            NewReportPrint(_TmpTbl, RptTitle, Date_Range)
+
+        Else
+            MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
         End If
     End Sub
 #End Region

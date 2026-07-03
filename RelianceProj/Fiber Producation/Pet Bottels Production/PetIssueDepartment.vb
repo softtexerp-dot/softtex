@@ -525,8 +525,8 @@ Public Class PetIssueDepartment
         _old_Me_text = Me.Text
 
 
-        txtBookCode.Text = "IDSS-000000001"
-        _BookTrType = "IDSS1"
+        txtBookCode.Text = "0001-000010003"
+        _BookTrType = "PET03"
         _BookCode = txtBookCode.Text
 
         If _isCallerByOther = True Then
@@ -1045,14 +1045,14 @@ Public Class PetIssueDepartment
         With strQuery
             .Append(" SELECT ")
             .Append("  A.BookVno, ")
-            .Append("  G.BookName, ")
+            .Append("  G.BookName As UnitName, ")
             .Append("  A.ENTRYNO as [Entry No], ")
             .Append("  A.PACK_SLIP_NO as [Quotation No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
             .Append("  A.SRNO as [Sno], ")
-            .Append("  A.OP6 AS [Req. NO],")
+            .Append("  A.OP6 AS [Req NO],")
             .Append(" B.ItemName as [Item Name], ")
             .Append(" K.TYPE_NAME  AS Brand, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")
@@ -2094,7 +2094,7 @@ Public Class PetIssueDepartment
             Dim RptTitle = "Pet Issue to Machine Report"
             Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
             'REPORT_RPT_FILE_NAME = "GradingStockReq_2"
-            REPORT_RPT_FILE_NAME = "PetIssueMachine_2"
+            REPORT_RPT_FILE_NAME = "PetIssueMachine"
             NewReportPrint(_TmpTbl, RptTitle, Date_Range)
 
         Else

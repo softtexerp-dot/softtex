@@ -30,7 +30,7 @@ Public Class PetIssueDepartmentPrint
 
         Dim View_Filter_Condition As String = ""
 
-        View_Filter_Condition = " and a.BookTrtype='IDSS1' and A.godowncode='" & _GodownCode & "' "
+        View_Filter_Condition = " and a.BookTrtype='PET03' and A.godowncode='" & _GodownCode & "' "
 
         _strQuery = New StringBuilder()
         With _strQuery
@@ -56,7 +56,7 @@ Public Class PetIssueDepartmentPrint
         Try
             Dim View_Filter_Condition As String = ""
             If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' and a.BookTrtype='IDSS1' And A.godowncode='" & _GodownCode & "'  "
+                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' and a.BookTrtype='PET03' And A.godowncode='" & _GodownCode & "'  "
             End If
             _strQuery = New StringBuilder()
             With _strQuery

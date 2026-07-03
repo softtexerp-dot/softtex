@@ -45,7 +45,7 @@ Partial Class PetRequisition
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
@@ -59,6 +59,7 @@ Partial Class PetRequisition
         Me.txtEntryNo = New ctl_TextBox.ctl_TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label41 = New System.Windows.Forms.Label()
+        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,6 +70,7 @@ Partial Class PetRequisition
         '
         'PNL_View
         '
+        Me.PNL_View.Controls.Add(Me.BtnRPTPrint)
         Me.PNL_View.Controls.Add(Me.btnView)
         Me.PNL_View.Controls.Add(Me.BtnExport)
         Me.PNL_View.Controls.Add(Me.BtnPrint)
@@ -79,9 +81,9 @@ Partial Class PetRequisition
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
-        Me.PNL_View.Location = New System.Drawing.Point(140, 203)
+        Me.PNL_View.Location = New System.Drawing.Point(15, 184)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(319, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(1161, 84)
         Me.PNL_View.TabIndex = 82225
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
@@ -91,7 +93,7 @@ Partial Class PetRequisition
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(442, 15)
+        Me.btnView.Location = New System.Drawing.Point(391, 20)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(68, 32)
@@ -103,10 +105,10 @@ Partial Class PetRequisition
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(603, 16)
+        Me.BtnExport.Location = New System.Drawing.Point(667, 19)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 32)
-        Me.BtnExport.TabIndex = 5
+        Me.BtnExport.TabIndex = 6
         Me.BtnExport.Text = "Export"
         '
         'BtnPrint
@@ -114,7 +116,7 @@ Partial Class PetRequisition
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(519, 15)
+        Me.BtnPrint.Location = New System.Drawing.Point(468, 20)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(78, 32)
         Me.BtnPrint.TabIndex = 4
@@ -125,10 +127,10 @@ Partial Class PetRequisition
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(825, 16)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(885, 19)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
-        Me.Btn_LayoutLoad.TabIndex = 7
+        Me.Btn_LayoutLoad.TabIndex = 8
         Me.Btn_LayoutLoad.Text = "Load Report"
         '
         'BtnLayOutSave
@@ -136,10 +138,10 @@ Partial Class PetRequisition
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(702, 16)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(762, 19)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
-        Me.BtnLayOutSave.TabIndex = 6
+        Me.BtnLayOutSave.TabIndex = 7
         Me.BtnLayOutSave.Text = "Save Report"
         '
         'GridControl1
@@ -704,6 +706,17 @@ Partial Class PetRequisition
         Me.Label41.TabIndex = 82215
         Me.Label41.Text = ":"
         '
+        'BtnRPTPrint
+        '
+        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRPTPrint.Appearance.Options.UseFont = True
+        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnRPTPrint.Location = New System.Drawing.Point(552, 19)
+        Me.BtnRPTPrint.Name = "BtnRPTPrint"
+        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
+        Me.BtnRPTPrint.TabIndex = 5
+        Me.BtnRPTPrint.Text = "RPT Print"
+        '
         'PetRequisition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -735,7 +748,7 @@ Partial Class PetRequisition
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetRequisition"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Pet Requisition"
@@ -787,4 +800,5 @@ Partial Class PetRequisition
     Friend WithEvents txtEntryNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label41 As Label
+    Friend WithEvents BtnRPTPrint As DevExpress.XtraEditors.SimpleButton
 End Class

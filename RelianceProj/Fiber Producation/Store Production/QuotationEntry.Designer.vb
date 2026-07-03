@@ -39,7 +39,7 @@ Partial Class QuotationEntry
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.GrdItem = New FlexCell.Grid()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()
@@ -48,6 +48,7 @@ Partial Class QuotationEntry
         Me.txtHeader_Remark = New ctl_TextBox.ctl_TextBox()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.PNL_View = New System.Windows.Forms.GroupBox()
+        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.btnView = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
@@ -559,6 +560,7 @@ Partial Class QuotationEntry
         '
         'PNL_View
         '
+        Me.PNL_View.Controls.Add(Me.BtnRPTPrint)
         Me.PNL_View.Controls.Add(Me.btnView)
         Me.PNL_View.Controls.Add(Me.BtnExport)
         Me.PNL_View.Controls.Add(Me.BtnPrint)
@@ -569,19 +571,30 @@ Partial Class QuotationEntry
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
-        Me.PNL_View.Location = New System.Drawing.Point(66, 202)
+        Me.PNL_View.Location = New System.Drawing.Point(13, 195)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(321, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(369, 84)
         Me.PNL_View.TabIndex = 82163
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
+        '
+        'BtnRPTPrint
+        '
+        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRPTPrint.Appearance.Options.UseFont = True
+        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnRPTPrint.Location = New System.Drawing.Point(544, 19)
+        Me.BtnRPTPrint.Name = "BtnRPTPrint"
+        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
+        Me.BtnRPTPrint.TabIndex = 5
+        Me.BtnRPTPrint.Text = "RPT Print"
         '
         'btnView
         '
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(444, 17)
+        Me.btnView.Location = New System.Drawing.Point(384, 19)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(68, 32)
@@ -593,10 +606,10 @@ Partial Class QuotationEntry
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(605, 18)
+        Me.BtnExport.Location = New System.Drawing.Point(658, 20)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 32)
-        Me.BtnExport.TabIndex = 5
+        Me.BtnExport.TabIndex = 6
         Me.BtnExport.Text = "Export"
         '
         'BtnPrint
@@ -604,7 +617,7 @@ Partial Class QuotationEntry
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(521, 17)
+        Me.BtnPrint.Location = New System.Drawing.Point(461, 19)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(78, 32)
         Me.BtnPrint.TabIndex = 4
@@ -615,10 +628,10 @@ Partial Class QuotationEntry
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(825, 18)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(878, 20)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
-        Me.Btn_LayoutLoad.TabIndex = 7
+        Me.Btn_LayoutLoad.TabIndex = 8
         Me.Btn_LayoutLoad.Text = "Load Report"
         '
         'BtnLayOutSave
@@ -626,10 +639,10 @@ Partial Class QuotationEntry
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(702, 18)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(755, 20)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
-        Me.BtnLayOutSave.TabIndex = 6
+        Me.BtnLayOutSave.TabIndex = 7
         Me.BtnLayOutSave.Text = "Save Report"
         '
         'GridControl1
@@ -1245,4 +1258,5 @@ Partial Class QuotationEntry
     Friend WithEvents Label8 As Label
     Friend WithEvents TxtimpEntryNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label9 As Label
+    Friend WithEvents BtnRPTPrint As DevExpress.XtraEditors.SimpleButton
 End Class
