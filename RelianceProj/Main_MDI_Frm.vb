@@ -223,6 +223,70 @@
         AppEntryManagement.Show()
     End Sub
 
+    Private Sub PetStockEntryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetStockEntryToolStripMenuItem.Click
+        PetStockEntry.Show()
+    End Sub
+
+    Private Sub PetRequisitionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetRequisitionToolStripMenuItem.Click
+        PetRequisition.Show()
+    End Sub
+
+    Private Sub PetIssueToMachineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetIssueToMachineToolStripMenuItem.Click
+        PetIssueDepartment.Show()
+    End Sub
+
+    Private Sub PetApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetApprovalToolStripMenuItem.Click
+        PetApproval.Show()
+    End Sub
+
+    Private Sub PetIndentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetIndentToolStripMenuItem.Click
+        PetIndent.Show()
+    End Sub
+
+    Private Sub PetQuotationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetQuotationToolStripMenuItem.Click
+        PetQuotationEntry.Show()
+    End Sub
+
+    Private Sub PetComparisonToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetComparisonToolStripMenuItem.Click
+        PetComparisonEntry.Show()
+    End Sub
+
+    Private Sub PetMachineApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetMachineApprovalToolStripMenuItem.Click
+        PetDepartmentApproval.Show()
+    End Sub
+
+    Private Sub PetHeadApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetHeadApprovalToolStripMenuItem.Click
+        PetHeadApproval.Show()
+    End Sub
+
+    Private Sub PetGateInwardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetGateInwardToolStripMenuItem.Click
+        PetGateInward.Show()
+    End Sub
+
+    Private Sub PetPOToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetPOToolStripMenuItem.Click
+        PetPurchaseOrder.Show()
+    End Sub
+
+    Private Sub PetQualityCheckerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetQualityCheckerToolStripMenuItem.Click
+        PetQualityChecker.Show()
+    End Sub
+
+    Private Sub PetRejectionApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetRejectionApprovalToolStripMenuItem.Click
+        PetRejectionApproval.Show()
+    End Sub
+
+    Private Sub PetPurcahseReturnToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetPurcahseReturnToolStripMenuItem.Click
+        PetPurchaseReturn.Show()
+    End Sub
+
+    Private Sub PetInwardAndPoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetInwardAndPoToolStripMenuItem.Click
+        PetInwardAndPO.Show()
+    End Sub
+
+    Private Sub StockReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StockReportToolStripMenuItem.Click
+        PetPurchaseReturnReport.Show()
+    End Sub
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()

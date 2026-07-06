@@ -1115,7 +1115,7 @@ Public Class PetIssueDepartment
     End Sub
 
     Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
-        Dim _RptTiltle = "Issue To Department Report From :" & txt_From.Text & " To : " & txt_To.Text
+        Dim _RptTiltle = "Pet Issue To Machine Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
@@ -1500,8 +1500,8 @@ Public Class PetIssueDepartment
 
 
                 'Dim _Filterstring As String = "  And A.ItemCode = '" & selected("ItemCode") & "'"
-                Dim _Filterstring As String = " And A.Bookcode = 'RQSS-000000001' and A.GodownCode='" & txtUnitCode.Text & "'"
-                Dim _Filterstring_B As String = " And A.Bookcode = 'IDSS-000000001' and A.GodownCode='" & txtUnitCode.Text & "'"
+                Dim _Filterstring As String = " And A.Bookcode = '0001-000010002' and A.GodownCode='" & txtUnitCode.Text & "'"
+                Dim _Filterstring_B As String = " And A.Bookcode = '0001-000010003' and A.GodownCode='" & txtUnitCode.Text & "'"
                 sqL = _GetPendingStock(_Filterstring, _Filterstring_B)
                 sql_connect_slect()
 
