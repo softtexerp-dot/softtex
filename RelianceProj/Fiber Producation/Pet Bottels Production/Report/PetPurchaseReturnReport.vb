@@ -32,7 +32,7 @@ Public Class PetPurchaseReturnReport
                 .Append(" A.Mtr_weight AS INQTY, ")
                 .Append(" 0.00 AS OUTQTY ")
                 .Append(" FROM TrnPackingSlip A ")
-                .Append(" WHERE A.BOOKCODE In ('0001-000010001','0001-000010009') ")
+                .Append(" WHERE A.BOOKCODE In ('0001-000010001','0001-000010009','0001-000010021') ")
                 .Append(" UNION ALL ")
                 .Append(" SELECT ")
                 .Append(" A.PACK_SLIP_DATE, ")
