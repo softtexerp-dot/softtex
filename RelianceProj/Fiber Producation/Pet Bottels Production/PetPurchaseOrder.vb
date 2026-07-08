@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.DataAccess.Wizard.Model
 Imports DevExpress.XtraGrid
 Imports FlexCell
 
@@ -2287,17 +2288,25 @@ Public Class PetPurchaseOrder
 
         DispList = False
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-
-            'BOOK_CATGER = "OFFER"
-            'BOOK_BHEWAR = "GENERAL"
-            BOOK_CATGER = "FIBER PET BOTTELS"
-            BOOK_BHEWAR = "PET PURCHASE ORDER"
-            'Dim _Filterstring As String = " AND A.BOOKCATEGORY='" & BOOK_CATGER & "' AND ( A.BEHAVIOUR ='" & BOOK_BHEWAR & "') "
-            Dim _Filterstring As String = " AND A.BOOKCATEGORY='" & BOOK_CATGER & "' AND ( A.BEHAVIOUR ='" & BOOK_BHEWAR & "') "
-            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
+            Dim BOOK_CATGER As String = "FIBER PET BOTTELS"
+            Dim BOOK_BHEWAR As String = "PET PURCHASE ORDER"
+            Dim _strQuery As New System.Text.StringBuilder()
+            With _strQuery
+                .AppendLine("SELECT")
+                .AppendLine(" 'False' AS TickMark,")
+                .AppendLine(" A.BookName,")
+                .AppendLine(" A.BookCategory,")
+                .AppendLine(" A.BookCode AS ACCOUNTCODE")
+                .AppendLine(" FROM MstBook A")
+                .AppendLine(" WHERE A.BookCategory = '" & BOOK_CATGER & "'")
+                .AppendLine(" AND A.Behaviour = '" & BOOK_BHEWAR & "'")
+                .AppendLine(" AND A.BookCode = '0001-000010010'")
+                .AppendLine(" AND A.BookTrType = 'PET10'")
+            End With
+            Dim _LoadQuery As String = _strQuery.ToString()
             Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtBookName.Text, "SINGLE")
             If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then txtBookCode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("ACCOUN TCODE") Then txtBookCode.Text = selected("ACCOUNTCODE").ToString()
                 If selected.ContainsKey("BookName") Then txtBookName.Text = selected("BookName").ToString()
             End If
             _BookCode = txtBookCode.Text
