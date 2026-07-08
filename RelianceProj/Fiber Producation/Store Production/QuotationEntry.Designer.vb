@@ -39,7 +39,7 @@ Partial Class QuotationEntry
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.GrdItem = New FlexCell.Grid()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()

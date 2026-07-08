@@ -36,7 +36,7 @@ Partial Class PetPurchaseOrder
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
         Me.txtGodownName = New ctl_TextBox.ctl_TextBox()
         Me.Label44 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.Lbl_NetAmt = New System.Windows.Forms.Label()
         Me.Pnl_Rate_Disp = New System.Windows.Forms.Panel()
         Me.LBL_Master_Rate = New System.Windows.Forms.Label()

@@ -43,7 +43,7 @@ Partial Class GateInward
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()

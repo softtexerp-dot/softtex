@@ -117,7 +117,7 @@ Partial Class StoresPurchaseOrder
         Me.Label41 = New System.Windows.Forms.Label()
         Me.txtBookName = New ctl_TextBox.ctl_TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.txtGodownName = New ctl_TextBox.ctl_TextBox()
         Me.Label44 = New System.Windows.Forms.Label()
         Me.Label45 = New System.Windows.Forms.Label()
