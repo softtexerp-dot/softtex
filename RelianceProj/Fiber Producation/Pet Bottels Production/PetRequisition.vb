@@ -991,10 +991,10 @@ Friend Class PetRequisition
         With strQuery
             .Append(" SELECT ")
             .Append("  A.BookVno, ")
-            .Append("  G.BookName, ")
+            .Append("  G.BookName As UnitName, ")
             .Append("  A.OP20 as [Stock Category], ")
             .Append("  A.ENTRYNO as [Entry No], ")
-            .Append("  A.PACK_SLIP_NO as [Req. No], ")
+            .Append("  A.PACK_SLIP_NO as [Req No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
             '.Append(" MstMasterAccount.accountname as [Party Name], ")
