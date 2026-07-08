@@ -406,7 +406,7 @@ Partial Class PetPurchaseOrder
         'UC_Buttons1
         '
         Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(-2, 598)
+        Me.UC_Buttons1.Location = New System.Drawing.Point(-2, 577)
         Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
         Me.UC_Buttons1.Name = "UC_Buttons1"
         Me.UC_Buttons1.Size = New System.Drawing.Size(831, 43)
@@ -415,7 +415,7 @@ Partial Class PetPurchaseOrder
         'Lbl_NetAmt
         '
         Me.Lbl_NetAmt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Lbl_NetAmt.Location = New System.Drawing.Point(897, 601)
+        Me.Lbl_NetAmt.Location = New System.Drawing.Point(897, 591)
         Me.Lbl_NetAmt.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Lbl_NetAmt.Name = "Lbl_NetAmt"
         Me.Lbl_NetAmt.Size = New System.Drawing.Size(102, 16)
@@ -962,7 +962,7 @@ Partial Class PetPurchaseOrder
         Me.grdBsun.ScrollBars = FlexCell.ScrollBarsEnum.None
         Me.grdBsun.SelectionBorderColor = System.Drawing.Color.Blue
         Me.grdBsun.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.grdBsun.Size = New System.Drawing.Size(453, 146)
+        Me.grdBsun.Size = New System.Drawing.Size(453, 127)
         Me.grdBsun.TabIndex = 82302
         Me.grdBsun.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.grdBsun.UncheckedImage = CType(resources.GetObject("grdBsun.UncheckedImage"), System.Drawing.Bitmap)
@@ -1001,7 +1001,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label43.AutoSize = True
         Me.Label43.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Label43.Location = New System.Drawing.Point(825, 601)
+        Me.Label43.Location = New System.Drawing.Point(825, 591)
         Me.Label43.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label43.Name = "Label43"
         Me.Label43.Size = New System.Drawing.Size(71, 16)
@@ -2030,7 +2030,7 @@ Partial Class PetPurchaseOrder
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1012, 644)
+        Me.ClientSize = New System.Drawing.Size(1012, 621)
         Me.Controls.Add(Me.Label26)
         Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.Label30)
@@ -2108,7 +2108,7 @@ Partial Class PetPurchaseOrder
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetPurchaseOrder"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Pet Purchase Order"

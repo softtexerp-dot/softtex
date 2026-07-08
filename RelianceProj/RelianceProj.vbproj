@@ -415,6 +415,330 @@
     <Compile Include="Extra\LogBookGridReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Fiber Producation\Master\MachineMaster.Designer.vb">
+      <DependentUpon>MachineMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Master\MachineMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetApproval.Designer.vb">
+      <DependentUpon>PetApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetComparisonEntry.Designer.vb">
+      <DependentUpon>PetComparisonEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetComparisonEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetDepartmentApproval.Designer.vb">
+      <DependentUpon>PetDepartmentApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetDepartmentApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetGateInward.Designer.vb">
+      <DependentUpon>PetGateInward.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetGateInward.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetHeadApproval.Designer.vb">
+      <DependentUpon>PetHeadApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetHeadApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetIndent.Designer.vb">
+      <DependentUpon>PetIndent.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetIndent.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetInwardAndPO.Designer.vb">
+      <DependentUpon>PetInwardAndPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetInwardAndPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetIssueDepartment.Designer.vb">
+      <DependentUpon>PetIssueDepartment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetIssueDepartment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetPurchaseOrder.Designer.vb">
+      <DependentUpon>PetPurchaseOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetPurchaseOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetPurchaseReturn.Designer.vb">
+      <DependentUpon>PetPurchaseReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetPurchaseReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetQualityChecker.Designer.vb">
+      <DependentUpon>PetQualityChecker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetQualityChecker.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetQuotationEntry.Designer.vb">
+      <DependentUpon>PetQuotationEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetQuotationEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetReievedtoDepartment.Designer.vb">
+      <DependentUpon>PetReievedtoDepartment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetReievedtoDepartment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetRejectionApproval.Designer.vb">
+      <DependentUpon>PetRejectionApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetRejectionApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetRequisition.Designer.vb">
+      <DependentUpon>PetRequisition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetRequisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetStockEntry.Designer.vb">
+      <DependentUpon>PetStockEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\PetStockEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetComparisonPrint.Designer.vb">
+      <DependentUpon>PetComparisonPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetComparisonPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetEntryPrint.Designer.vb">
+      <DependentUpon>PetEntryPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetEntryPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetGateInwardPrint.Designer.vb">
+      <DependentUpon>PetGateInwardPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetGateInwardPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetIndentPrint.Designer.vb">
+      <DependentUpon>PetIndentPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetIndentPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetInwardAndPOPrint.Designer.vb">
+      <DependentUpon>PetInwardAndPOPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetInwardAndPOPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetIssueDepartmentPrint.Designer.vb">
+      <DependentUpon>PetIssueDepartmentPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetIssueDepartmentPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetPurchaseReturnPrint.Designer.vb">
+      <DependentUpon>PetPurchaseReturnPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetPurchaseReturnPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetPurchaseReturnReport.Designer.vb">
+      <DependentUpon>PetPurchaseReturnReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetPurchaseReturnReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetQuotationEntryPrint.Designer.vb">
+      <DependentUpon>PetQuotationEntryPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetQuotationEntryPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetRecievedEntryPrint.Designer.vb">
+      <DependentUpon>PetRecievedEntryPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetRecievedEntryPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetRequisitionPrint.Designer.vb">
+      <DependentUpon>PetRequisitionPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Pet Bottels Production\Report\PetRequisitionPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\ComparisonEntry .Designer.vb">
+      <DependentUpon>ComparisonEntry .vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\ComparisonEntry .vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\DepartmentApproval.Designer.vb">
+      <DependentUpon>DepartmentApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\DepartmentApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\GateInward.Designer.vb">
+      <DependentUpon>GateInward.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\GateInward.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\HeadApproval.Designer.vb">
+      <DependentUpon>HeadApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\HeadApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\QuotationEntry.Designer.vb">
+      <DependentUpon>QuotationEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\QuotationEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\ComparisonPrint.Designer.vb">
+      <DependentUpon>ComparisonPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\ComparisonPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\GateInwardPrint.Designer.vb">
+      <DependentUpon>GateInwardPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\GateInwardPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\IssueDepartMentPrint.Designer.vb">
+      <DependentUpon>IssueDepartMentPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\IssueDepartMentPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\MachinePrint.Designer.vb">
+      <DependentUpon>MachinePrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\MachinePrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\QuotationEntryPrint.Designer.vb">
+      <DependentUpon>QuotationEntryPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\QuotationEntryPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\RequisitionPrint.Designer.vb">
+      <DependentUpon>RequisitionPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\RequisitionPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StockEntryPrint.Designer.vb">
+      <DependentUpon>StockEntryPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StockEntryPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StoreIndentPrint.Designer.vb">
+      <DependentUpon>StoreIndentPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StoreIndentPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StoreInwardandPOPrint.Designer.vb">
+      <DependentUpon>StoreInwardandPOPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StoreInwardandPOPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StorePurchaseReturnReport.Designer.vb">
+      <DependentUpon>StorePurchaseReturnReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StorePurchaseReturnReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StoresPurchaseReturnPrint.Designer.vb">
+      <DependentUpon>StoresPurchaseReturnPrint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\Report\StoresPurchaseReturnPrint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StockEntry.Designer.vb">
+      <DependentUpon>StockEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StockEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreApproval.Designer.vb">
+      <DependentUpon>StoreApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreIndentEntry.Designer.vb">
+      <DependentUpon>StoreIndentEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreIndentEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreInwardandPO.Designer.vb">
+      <DependentUpon>StoreInwardandPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreInwardandPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreIssueDepartment.Designer.vb">
+      <DependentUpon>StoreIssueDepartment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreIssueDepartment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreRejectionApproval.Designer.vb">
+      <DependentUpon>StoreRejectionApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoreRejectionApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresPurchaseOrder.Designer.vb">
+      <DependentUpon>StoresPurchaseOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresPurchaseOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresPurchaseReturn.Designer.vb">
+      <DependentUpon>StoresPurchaseReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresPurchaseReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresQualityChecker.Designer.vb">
+      <DependentUpon>StoresQualityChecker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresQualityChecker.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresRequisition.Designer.vb">
+      <DependentUpon>StoresRequisition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber Producation\Store Production\StoresRequisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="NewDevelopment\MainFormRead.Designer.vb">
       <DependentUpon>MainFormRead.vb</DependentUpon>
     </Compile>
@@ -646,6 +970,168 @@
     <EmbeddedResource Include="Extra\LogBookGridReport.resx">
       <DependentUpon>LogBookGridReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Master\MachineMaster.resx">
+      <DependentUpon>MachineMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetApproval.resx">
+      <DependentUpon>PetApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetComparisonEntry.resx">
+      <DependentUpon>PetComparisonEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetDepartmentApproval.resx">
+      <DependentUpon>PetDepartmentApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetGateInward.resx">
+      <DependentUpon>PetGateInward.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetHeadApproval.resx">
+      <DependentUpon>PetHeadApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetIndent.resx">
+      <DependentUpon>PetIndent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetInwardAndPO.resx">
+      <DependentUpon>PetInwardAndPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetIssueDepartment.resx">
+      <DependentUpon>PetIssueDepartment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetPurchaseOrder.resx">
+      <DependentUpon>PetPurchaseOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetPurchaseReturn.resx">
+      <DependentUpon>PetPurchaseReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetQualityChecker.resx">
+      <DependentUpon>PetQualityChecker.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetQuotationEntry.resx">
+      <DependentUpon>PetQuotationEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetReievedtoDepartment.resx">
+      <DependentUpon>PetReievedtoDepartment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetRejectionApproval.resx">
+      <DependentUpon>PetRejectionApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetRequisition.resx">
+      <DependentUpon>PetRequisition.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\PetStockEntry.resx">
+      <DependentUpon>PetStockEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetComparisonPrint.resx">
+      <DependentUpon>PetComparisonPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetEntryPrint.resx">
+      <DependentUpon>PetEntryPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetGateInwardPrint.resx">
+      <DependentUpon>PetGateInwardPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetIndentPrint.resx">
+      <DependentUpon>PetIndentPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetInwardAndPOPrint.resx">
+      <DependentUpon>PetInwardAndPOPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetIssueDepartmentPrint.resx">
+      <DependentUpon>PetIssueDepartmentPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetPurchaseReturnPrint.resx">
+      <DependentUpon>PetPurchaseReturnPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetPurchaseReturnReport.resx">
+      <DependentUpon>PetPurchaseReturnReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetQuotationEntryPrint.resx">
+      <DependentUpon>PetQuotationEntryPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetRecievedEntryPrint.resx">
+      <DependentUpon>PetRecievedEntryPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Pet Bottels Production\Report\PetRequisitionPrint.resx">
+      <DependentUpon>PetRequisitionPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\ComparisonEntry .resx">
+      <DependentUpon>ComparisonEntry .vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\DepartmentApproval.resx">
+      <DependentUpon>DepartmentApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\GateInward.resx">
+      <DependentUpon>GateInward.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\HeadApproval.resx">
+      <DependentUpon>HeadApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\QuotationEntry.resx">
+      <DependentUpon>QuotationEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\ComparisonPrint.resx">
+      <DependentUpon>ComparisonPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\GateInwardPrint.resx">
+      <DependentUpon>GateInwardPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\IssueDepartMentPrint.resx">
+      <DependentUpon>IssueDepartMentPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\MachinePrint.resx">
+      <DependentUpon>MachinePrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\QuotationEntryPrint.resx">
+      <DependentUpon>QuotationEntryPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\RequisitionPrint.resx">
+      <DependentUpon>RequisitionPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\StockEntryPrint.resx">
+      <DependentUpon>StockEntryPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\StoreIndentPrint.resx">
+      <DependentUpon>StoreIndentPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\StoreInwardandPOPrint.resx">
+      <DependentUpon>StoreInwardandPOPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\StorePurchaseReturnReport.resx">
+      <DependentUpon>StorePurchaseReturnReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\Report\StoresPurchaseReturnPrint.resx">
+      <DependentUpon>StoresPurchaseReturnPrint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StockEntry.resx">
+      <DependentUpon>StockEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoreApproval.resx">
+      <DependentUpon>StoreApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoreIndentEntry.resx">
+      <DependentUpon>StoreIndentEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoreInwardandPO.resx">
+      <DependentUpon>StoreInwardandPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoreIssueDepartment.resx">
+      <DependentUpon>StoreIssueDepartment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoreRejectionApproval.resx">
+      <DependentUpon>StoreRejectionApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoresPurchaseOrder.resx">
+      <DependentUpon>StoresPurchaseOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoresPurchaseReturn.resx">
+      <DependentUpon>StoresPurchaseReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoresQualityChecker.resx">
+      <DependentUpon>StoresQualityChecker.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fiber Producation\Store Production\StoresRequisition.resx">
+      <DependentUpon>StoresRequisition.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewDevelopment\MainFormRead.resx">
       <DependentUpon>MainFormRead.vb</DependentUpon>
     </EmbeddedResource>
@@ -773,7 +1259,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Fiber Producation\Raw Materials Production\Report\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Setting\QueryLoad.txt" />
   </ItemGroup>

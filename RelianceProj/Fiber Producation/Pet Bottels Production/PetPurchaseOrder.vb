@@ -2305,7 +2305,7 @@ Public Class PetPurchaseOrder
             Dim _LoadQuery As String = _strQuery.ToString()
             Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtBookName.Text, "SINGLE")
             If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUN TCODE") Then txtBookCode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("ACCOUNTCODE") Then txtBookCode.Text = selected("ACCOUNTCODE").ToString()
                 If selected.ContainsKey("BookName") Then txtBookName.Text = selected("BookName").ToString()
             End If
             _BookCode = txtBookCode.Text

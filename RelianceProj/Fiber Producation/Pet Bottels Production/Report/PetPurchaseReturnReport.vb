@@ -135,7 +135,11 @@ Public Class PetPurchaseReturnReport
     Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles BtnClose.Click
         Me.Close()
     End Sub
-
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
+        End If
+    End Sub
     Private Sub StorePurchaseReturnReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)

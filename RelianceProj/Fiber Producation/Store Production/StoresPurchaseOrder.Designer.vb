@@ -190,7 +190,7 @@ Partial Class StoresPurchaseOrder
         'Lbl_NetAmt
         '
         Me.Lbl_NetAmt.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Lbl_NetAmt.Location = New System.Drawing.Point(899, 599)
+        Me.Lbl_NetAmt.Location = New System.Drawing.Point(899, 591)
         Me.Lbl_NetAmt.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Lbl_NetAmt.Name = "Lbl_NetAmt"
         Me.Lbl_NetAmt.Size = New System.Drawing.Size(102, 16)
@@ -643,7 +643,7 @@ Partial Class StoresPurchaseOrder
         Me.grdBsun.ScrollBars = FlexCell.ScrollBarsEnum.None
         Me.grdBsun.SelectionBorderColor = System.Drawing.Color.Blue
         Me.grdBsun.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.grdBsun.Size = New System.Drawing.Size(453, 146)
+        Me.grdBsun.Size = New System.Drawing.Size(453, 132)
         Me.grdBsun.TabIndex = 81997
         Me.grdBsun.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.grdBsun.UncheckedImage = CType(resources.GetObject("grdBsun.UncheckedImage"), System.Drawing.Bitmap)
@@ -749,7 +749,7 @@ Partial Class StoresPurchaseOrder
         '
         Me.Label43.AutoSize = True
         Me.Label43.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.Label43.Location = New System.Drawing.Point(827, 599)
+        Me.Label43.Location = New System.Drawing.Point(827, 591)
         Me.Label43.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label43.Name = "Label43"
         Me.Label43.Size = New System.Drawing.Size(71, 16)
@@ -1954,7 +1954,7 @@ Partial Class StoresPurchaseOrder
         'UC_Buttons1
         '
         Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(0, 596)
+        Me.UC_Buttons1.Location = New System.Drawing.Point(0, 579)
         Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
         Me.UC_Buttons1.Name = "UC_Buttons1"
         Me.UC_Buttons1.Size = New System.Drawing.Size(831, 43)
@@ -2030,7 +2030,7 @@ Partial Class StoresPurchaseOrder
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1012, 644)
+        Me.ClientSize = New System.Drawing.Size(1012, 621)
         Me.Controls.Add(Me.txtGodownName)
         Me.Controls.Add(Me.Label44)
         Me.Controls.Add(Me.Label45)
