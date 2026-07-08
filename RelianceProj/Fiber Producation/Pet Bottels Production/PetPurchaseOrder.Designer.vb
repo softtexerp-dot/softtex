@@ -36,7 +36,7 @@ Partial Class PetPurchaseOrder
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
         Me.txtGodownName = New ctl_TextBox.ctl_TextBox()
         Me.Label44 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.Lbl_NetAmt = New System.Windows.Forms.Label()
         Me.Pnl_Rate_Disp = New System.Windows.Forms.Panel()
         Me.LBL_Master_Rate = New System.Windows.Forms.Label()
@@ -962,7 +962,7 @@ Partial Class PetPurchaseOrder
         Me.grdBsun.ScrollBars = FlexCell.ScrollBarsEnum.None
         Me.grdBsun.SelectionBorderColor = System.Drawing.Color.Blue
         Me.grdBsun.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.grdBsun.Size = New System.Drawing.Size(453, 127)
+        Me.grdBsun.Size = New System.Drawing.Size(453, 124)
         Me.grdBsun.TabIndex = 82302
         Me.grdBsun.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.grdBsun.UncheckedImage = CType(resources.GetObject("grdBsun.UncheckedImage"), System.Drawing.Bitmap)

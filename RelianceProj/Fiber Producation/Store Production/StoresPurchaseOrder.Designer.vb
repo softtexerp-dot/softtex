@@ -117,7 +117,7 @@ Partial Class StoresPurchaseOrder
         Me.Label41 = New System.Windows.Forms.Label()
         Me.txtBookName = New ctl_TextBox.ctl_TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.txtGodownName = New ctl_TextBox.ctl_TextBox()
         Me.Label44 = New System.Windows.Forms.Label()
         Me.Label45 = New System.Windows.Forms.Label()
@@ -643,7 +643,7 @@ Partial Class StoresPurchaseOrder
         Me.grdBsun.ScrollBars = FlexCell.ScrollBarsEnum.None
         Me.grdBsun.SelectionBorderColor = System.Drawing.Color.Blue
         Me.grdBsun.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.grdBsun.Size = New System.Drawing.Size(453, 132)
+        Me.grdBsun.Size = New System.Drawing.Size(453, 128)
         Me.grdBsun.TabIndex = 81997
         Me.grdBsun.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.grdBsun.UncheckedImage = CType(resources.GetObject("grdBsun.UncheckedImage"), System.Drawing.Bitmap)
