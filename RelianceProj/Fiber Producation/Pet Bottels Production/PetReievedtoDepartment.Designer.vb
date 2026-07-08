@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class StoresRequisition
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class PetRecievedtoDepartment
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,9 @@ Partial Class StoresRequisition
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(StoresRequisition))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PetRecievedtoDepartment))
         Me.PNL_View = New System.Windows.Forms.GroupBox()
         Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.btnView = New DevExpress.XtraEditors.SimpleButton()
@@ -81,10 +81,10 @@ Partial Class StoresRequisition
         Me.PNL_View.Controls.Add(Me.lbl_From)
         Me.PNL_View.Controls.Add(Me.txt_To)
         Me.PNL_View.Controls.Add(Me.txt_From)
-        Me.PNL_View.Location = New System.Drawing.Point(25, 183)
+        Me.PNL_View.Location = New System.Drawing.Point(19, 189)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(884, 84)
-        Me.PNL_View.TabIndex = 82203
+        Me.PNL_View.Size = New System.Drawing.Size(444, 84)
+        Me.PNL_View.TabIndex = 82247
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
         '
@@ -93,7 +93,7 @@ Partial Class StoresRequisition
         Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnRPTPrint.Appearance.Options.UseFont = True
         Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnRPTPrint.Location = New System.Drawing.Point(531, 18)
+        Me.BtnRPTPrint.Location = New System.Drawing.Point(552, 19)
         Me.BtnRPTPrint.Name = "BtnRPTPrint"
         Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
         Me.BtnRPTPrint.TabIndex = 5
@@ -104,7 +104,7 @@ Partial Class StoresRequisition
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(374, 17)
+        Me.btnView.Location = New System.Drawing.Point(391, 20)
         Me.btnView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(68, 32)
@@ -116,7 +116,7 @@ Partial Class StoresRequisition
         Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnExport.Appearance.Options.UseFont = True
         Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnExport.Location = New System.Drawing.Point(644, 18)
+        Me.BtnExport.Location = New System.Drawing.Point(667, 19)
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Size = New System.Drawing.Size(90, 32)
         Me.BtnExport.TabIndex = 6
@@ -127,7 +127,7 @@ Partial Class StoresRequisition
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(448, 17)
+        Me.BtnPrint.Location = New System.Drawing.Point(468, 20)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(78, 32)
         Me.BtnPrint.TabIndex = 4
@@ -138,7 +138,7 @@ Partial Class StoresRequisition
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(862, 18)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(885, 19)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(119, 32)
         Me.Btn_LayoutLoad.TabIndex = 8
@@ -149,7 +149,7 @@ Partial Class StoresRequisition
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(739, 18)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(762, 19)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(119, 32)
         Me.BtnLayOutSave.TabIndex = 7
@@ -313,10 +313,10 @@ Partial Class StoresRequisition
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(509, 36)
+        Me.Label24.Location = New System.Drawing.Point(513, 42)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(12, 14)
-        Me.Label24.TabIndex = 82202
+        Me.Label24.TabIndex = 82246
         Me.Label24.Text = ":"
         '
         'txtHeader_Remark
@@ -343,7 +343,7 @@ Partial Class StoresRequisition
         Me.txtHeader_Remark.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtHeader_Remark.IsValidated = False
         Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtHeader_Remark.Location = New System.Drawing.Point(532, 36)
+        Me.txtHeader_Remark.Location = New System.Drawing.Point(536, 42)
         Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtHeader_Remark.MandatoryField = False
         Me.txtHeader_Remark.MaxDate = Nothing
@@ -357,7 +357,7 @@ Partial Class StoresRequisition
         Me.txtHeader_Remark.ShowMessage = False
         Me.txtHeader_Remark.Size = New System.Drawing.Size(168, 22)
         Me.txtHeader_Remark.SpacerString = ""
-        Me.txtHeader_Remark.TabIndex = 6
+        Me.txtHeader_Remark.TabIndex = 82230
         Me.txtHeader_Remark.Tag = "HEADERREMARK"
         Me.txtHeader_Remark.TransparentBox = True
         Me.txtHeader_Remark.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -366,19 +366,19 @@ Partial Class StoresRequisition
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(401, 36)
+        Me.Label23.Location = New System.Drawing.Point(405, 42)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(58, 14)
-        Me.Label23.TabIndex = 82201
+        Me.Label23.TabIndex = 82245
         Me.Label23.Text = "Remark"
         '
         'Lbl_Tot_Mtr_Weight
         '
         Me.Lbl_Tot_Mtr_Weight.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Tot_Mtr_Weight.Location = New System.Drawing.Point(399, 550)
+        Me.Lbl_Tot_Mtr_Weight.Location = New System.Drawing.Point(403, 556)
         Me.Lbl_Tot_Mtr_Weight.Name = "Lbl_Tot_Mtr_Weight"
         Me.Lbl_Tot_Mtr_Weight.Size = New System.Drawing.Size(101, 18)
-        Me.Lbl_Tot_Mtr_Weight.TabIndex = 82199
+        Me.Lbl_Tot_Mtr_Weight.TabIndex = 82243
         Me.Lbl_Tot_Mtr_Weight.Text = "Total :"
         Me.Lbl_Tot_Mtr_Weight.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -386,20 +386,20 @@ Partial Class StoresRequisition
         '
         Me.lbl_Total.AutoSize = True
         Me.lbl_Total.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_Total.Location = New System.Drawing.Point(12, 550)
+        Me.lbl_Total.Location = New System.Drawing.Point(16, 556)
         Me.lbl_Total.Name = "lbl_Total"
         Me.lbl_Total.Size = New System.Drawing.Size(49, 14)
-        Me.lbl_Total.TabIndex = 82198
+        Me.lbl_Total.TabIndex = 82242
         Me.lbl_Total.Text = "Total :"
         Me.lbl_Total.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lbl_Tot_Amt
         '
         Me.lbl_Tot_Amt.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_Tot_Amt.Location = New System.Drawing.Point(815, 550)
+        Me.lbl_Tot_Amt.Location = New System.Drawing.Point(819, 556)
         Me.lbl_Tot_Amt.Name = "lbl_Tot_Amt"
         Me.lbl_Tot_Amt.Size = New System.Drawing.Size(94, 18)
-        Me.lbl_Tot_Amt.TabIndex = 82200
+        Me.lbl_Tot_Amt.TabIndex = 82244
         Me.lbl_Tot_Amt.Text = "Total :"
         Me.lbl_Tot_Amt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -408,22 +408,22 @@ Partial Class StoresRequisition
         Me.lbl_Grid_Header.BackColor = System.Drawing.Color.DarkSlateGray
         Me.lbl_Grid_Header.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_Grid_Header.ForeColor = System.Drawing.Color.White
-        Me.lbl_Grid_Header.Location = New System.Drawing.Point(9, 137)
+        Me.lbl_Grid_Header.Location = New System.Drawing.Point(13, 143)
         Me.lbl_Grid_Header.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_Grid_Header.Name = "lbl_Grid_Header"
-        Me.lbl_Grid_Header.Size = New System.Drawing.Size(999, 23)
-        Me.lbl_Grid_Header.TabIndex = 82197
+        Me.lbl_Grid_Header.Size = New System.Drawing.Size(997, 23)
+        Me.lbl_Grid_Header.TabIndex = 82241
         Me.lbl_Grid_Header.Text = "F1=Exit,F3=Delete Row"
         Me.lbl_Grid_Header.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'UC_Buttons1
         '
         Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(2, 572)
+        Me.UC_Buttons1.Location = New System.Drawing.Point(6, 578)
         Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
         Me.UC_Buttons1.Name = "UC_Buttons1"
         Me.UC_Buttons1.Size = New System.Drawing.Size(1008, 43)
-        Me.UC_Buttons1.TabIndex = 82196
+        Me.UC_Buttons1.TabIndex = 82240
         '
         'GrdItem
         '
@@ -447,15 +447,15 @@ Partial Class StoresRequisition
         Me.GrdItem.FixedRowColStyle = FlexCell.FixedRowColStyleEnum.Light3D
         Me.GrdItem.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GrdItem.GridColor = System.Drawing.Color.SlateGray
-        Me.GrdItem.Location = New System.Drawing.Point(9, 160)
+        Me.GrdItem.Location = New System.Drawing.Point(13, 166)
         Me.GrdItem.MultiSelect = False
         Me.GrdItem.Name = "GrdItem"
         Me.GrdItem.ReadonlyFocusRect = FlexCell.FocusRectEnum.Solid
         Me.GrdItem.ScrollBars = FlexCell.ScrollBarsEnum.None
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.GrdItem.Size = New System.Drawing.Size(999, 387)
-        Me.GrdItem.TabIndex = 82178
+        Me.GrdItem.Size = New System.Drawing.Size(997, 387)
+        Me.GrdItem.TabIndex = 82231
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -463,10 +463,10 @@ Partial Class StoresRequisition
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(127, 65)
+        Me.Label3.Location = New System.Drawing.Point(131, 71)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(12, 14)
-        Me.Label3.TabIndex = 82191
+        Me.Label3.TabIndex = 82239
         Me.Label3.Text = ":"
         '
         'txtChallanNo
@@ -493,7 +493,7 @@ Partial Class StoresRequisition
         Me.txtChallanNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtChallanNo.IsValidated = False
         Me.txtChallanNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtChallanNo.Location = New System.Drawing.Point(140, 64)
+        Me.txtChallanNo.Location = New System.Drawing.Point(144, 70)
         Me.txtChallanNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtChallanNo.MandatoryField = False
         Me.txtChallanNo.MaxDate = Nothing
@@ -507,7 +507,7 @@ Partial Class StoresRequisition
         Me.txtChallanNo.ShowMessage = False
         Me.txtChallanNo.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanNo.SpacerString = ""
-        Me.txtChallanNo.TabIndex = 4
+        Me.txtChallanNo.TabIndex = 82228
         Me.txtChallanNo.Tag = "EntryNo"
         Me.txtChallanNo.TransparentBox = True
         Me.txtChallanNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -517,10 +517,10 @@ Partial Class StoresRequisition
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.Black
-        Me.Label4.Location = New System.Drawing.Point(8, 64)
+        Me.Label4.Location = New System.Drawing.Point(12, 70)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(54, 14)
-        Me.Label4.TabIndex = 82190
+        Me.Label4.TabIndex = 82238
         Me.Label4.Text = "Req No"
         '
         'txtGodownName
@@ -547,7 +547,7 @@ Partial Class StoresRequisition
         Me.txtGodownName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtGodownName.IsValidated = False
         Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtGodownName.Location = New System.Drawing.Point(140, 3)
+        Me.txtGodownName.Location = New System.Drawing.Point(144, 9)
         Me.txtGodownName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtGodownName.MandatoryField = False
         Me.txtGodownName.MaxDate = Nothing
@@ -562,7 +562,7 @@ Partial Class StoresRequisition
         Me.txtGodownName.ShowMessage = False
         Me.txtGodownName.Size = New System.Drawing.Size(202, 22)
         Me.txtGodownName.SpacerString = ""
-        Me.txtGodownName.TabIndex = 1
+        Me.txtGodownName.TabIndex = 82226
         Me.txtGodownName.Tag = "BOOKNAME"
         Me.txtGodownName.TransparentBox = True
         Me.txtGodownName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -572,20 +572,20 @@ Partial Class StoresRequisition
         Me.Label50.AutoSize = True
         Me.Label50.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label50.ForeColor = System.Drawing.Color.Black
-        Me.Label50.Location = New System.Drawing.Point(8, 5)
+        Me.Label50.Location = New System.Drawing.Point(12, 11)
         Me.Label50.Name = "Label50"
         Me.Label50.Size = New System.Drawing.Size(76, 14)
-        Me.Label50.TabIndex = 82188
+        Me.Label50.TabIndex = 82236
         Me.Label50.Text = "Unit Name"
         '
         'Label20
         '
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(127, 40)
+        Me.Label20.Location = New System.Drawing.Point(131, 46)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(12, 14)
-        Me.Label20.TabIndex = 82187
+        Me.Label20.TabIndex = 82235
         Me.Label20.Text = ":"
         '
         'txtChallanDate
@@ -612,7 +612,7 @@ Partial Class StoresRequisition
         Me.txtChallanDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txtChallanDate.IsValidated = False
         Me.txtChallanDate.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtChallanDate.Location = New System.Drawing.Point(532, 6)
+        Me.txtChallanDate.Location = New System.Drawing.Point(536, 12)
         Me.txtChallanDate.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtChallanDate.MandatoryField = False
         Me.txtChallanDate.MaxDate = Nothing
@@ -627,7 +627,7 @@ Partial Class StoresRequisition
         Me.txtChallanDate.ShowMessage = False
         Me.txtChallanDate.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanDate.SpacerString = ""
-        Me.txtChallanDate.TabIndex = 5
+        Me.txtChallanDate.TabIndex = 82229
         Me.txtChallanDate.Tag = "ChallanDate"
         Me.txtChallanDate.Text = "  /  /    "
         Me.txtChallanDate.TransparentBox = True
@@ -637,20 +637,20 @@ Partial Class StoresRequisition
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(401, 8)
+        Me.Label1.Location = New System.Drawing.Point(405, 14)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(38, 14)
-        Me.Label1.TabIndex = 82185
+        Me.Label1.TabIndex = 82233
         Me.Label1.Text = "Date"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(509, 9)
+        Me.Label2.Location = New System.Drawing.Point(513, 15)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
-        Me.Label2.TabIndex = 82186
+        Me.Label2.TabIndex = 82234
         Me.Label2.Text = ":"
         '
         'txtEntryNo
@@ -677,7 +677,7 @@ Partial Class StoresRequisition
         Me.txtEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtEntryNo.IsValidated = False
         Me.txtEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtEntryNo.Location = New System.Drawing.Point(140, 39)
+        Me.txtEntryNo.Location = New System.Drawing.Point(144, 45)
         Me.txtEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtEntryNo.MandatoryField = False
         Me.txtEntryNo.MaxDate = Nothing
@@ -691,7 +691,7 @@ Partial Class StoresRequisition
         Me.txtEntryNo.ShowMessage = False
         Me.txtEntryNo.Size = New System.Drawing.Size(98, 22)
         Me.txtEntryNo.SpacerString = ""
-        Me.txtEntryNo.TabIndex = 3
+        Me.txtEntryNo.TabIndex = 82227
         Me.txtEntryNo.Tag = "EntryNo"
         Me.txtEntryNo.TransparentBox = True
         Me.txtEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -701,23 +701,23 @@ Partial Class StoresRequisition
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.Black
-        Me.Label7.Location = New System.Drawing.Point(8, 39)
+        Me.Label7.Location = New System.Drawing.Point(12, 45)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(68, 14)
-        Me.Label7.TabIndex = 82184
+        Me.Label7.TabIndex = 82232
         Me.Label7.Text = "Entry No."
         '
         'Label41
         '
         Me.Label41.AutoSize = True
         Me.Label41.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(127, 6)
+        Me.Label41.Location = New System.Drawing.Point(131, 12)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(12, 14)
-        Me.Label41.TabIndex = 82189
+        Me.Label41.TabIndex = 82237
         Me.Label41.Text = ":"
         '
-        'StoresRequisition
+        'PetRecievedtoDepartment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -749,9 +749,9 @@ Partial Class StoresRequisition
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "StoresRequisition"
+        Me.Name = "PetRecievedtoDepartment"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Stores Requisition"
+        Me.Text = "Pet Recieved To Machine"
         Me.PNL_View.ResumeLayout(False)
         Me.PNL_View.PerformLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -765,6 +765,10 @@ Partial Class StoresRequisition
     End Sub
 
     Friend WithEvents PNL_View As GroupBox
+    Friend WithEvents BtnRPTPrint As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents Btn_LayoutLoad As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnLayOutSave As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents GridControl1 As DevExpress.XtraGrid.GridControl
@@ -797,8 +801,4 @@ Partial Class StoresRequisition
     Friend WithEvents txtEntryNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Label41 As Label
-    Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents BtnRPTPrint As DevExpress.XtraEditors.SimpleButton
 End Class

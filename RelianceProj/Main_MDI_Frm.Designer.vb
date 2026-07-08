@@ -86,6 +86,7 @@ Partial Class Main_MDI_Frm
         Me.PetPurcahseReturnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PetInwardAndPoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StockReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PetRecievedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -392,7 +393,7 @@ Partial Class Main_MDI_Frm
         '
         'PetBottelsProductionToolStripMenuItem
         '
-        Me.PetBottelsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PetStockEntryToolStripMenuItem, Me.PetRequisitionToolStripMenuItem, Me.PetIssueToMachineToolStripMenuItem, Me.PetApprovalToolStripMenuItem, Me.PetIndentToolStripMenuItem, Me.PetQuotationToolStripMenuItem, Me.PetComparisonToolStripMenuItem, Me.PetMachineApprovalToolStripMenuItem, Me.PetHeadApprovalToolStripMenuItem, Me.PetPOToolStripMenuItem, Me.PetGateInwardToolStripMenuItem, Me.PetQualityCheckerToolStripMenuItem, Me.PetRejectionApprovalToolStripMenuItem, Me.PetPurcahseReturnToolStripMenuItem, Me.PetInwardAndPoToolStripMenuItem, Me.StockReportToolStripMenuItem})
+        Me.PetBottelsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PetStockEntryToolStripMenuItem, Me.PetRequisitionToolStripMenuItem, Me.PetIssueToMachineToolStripMenuItem, Me.PetApprovalToolStripMenuItem, Me.PetIndentToolStripMenuItem, Me.PetQuotationToolStripMenuItem, Me.PetComparisonToolStripMenuItem, Me.PetMachineApprovalToolStripMenuItem, Me.PetHeadApprovalToolStripMenuItem, Me.PetPOToolStripMenuItem, Me.PetGateInwardToolStripMenuItem, Me.PetQualityCheckerToolStripMenuItem, Me.PetRejectionApprovalToolStripMenuItem, Me.PetPurcahseReturnToolStripMenuItem, Me.PetInwardAndPoToolStripMenuItem, Me.StockReportToolStripMenuItem, Me.PetRecievedToolStripMenuItem})
         Me.PetBottelsProductionToolStripMenuItem.Name = "PetBottelsProductionToolStripMenuItem"
         Me.PetBottelsProductionToolStripMenuItem.Size = New System.Drawing.Size(181, 20)
         Me.PetBottelsProductionToolStripMenuItem.Text = "Pet Bottels Production"
@@ -400,73 +401,73 @@ Partial Class Main_MDI_Frm
         'PetStockEntryToolStripMenuItem
         '
         Me.PetStockEntryToolStripMenuItem.Name = "PetStockEntryToolStripMenuItem"
-        Me.PetStockEntryToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetStockEntryToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetStockEntryToolStripMenuItem.Text = "Pet Stock Entry"
         '
         'PetRequisitionToolStripMenuItem
         '
         Me.PetRequisitionToolStripMenuItem.Name = "PetRequisitionToolStripMenuItem"
-        Me.PetRequisitionToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetRequisitionToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetRequisitionToolStripMenuItem.Text = "Pet Requisition"
         '
         'PetIssueToMachineToolStripMenuItem
         '
         Me.PetIssueToMachineToolStripMenuItem.Name = "PetIssueToMachineToolStripMenuItem"
-        Me.PetIssueToMachineToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetIssueToMachineToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetIssueToMachineToolStripMenuItem.Text = "Pet Issue To Machine"
         '
         'PetApprovalToolStripMenuItem
         '
         Me.PetApprovalToolStripMenuItem.Name = "PetApprovalToolStripMenuItem"
-        Me.PetApprovalToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetApprovalToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetApprovalToolStripMenuItem.Text = "PetApproval"
         '
         'PetIndentToolStripMenuItem
         '
         Me.PetIndentToolStripMenuItem.Name = "PetIndentToolStripMenuItem"
-        Me.PetIndentToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetIndentToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetIndentToolStripMenuItem.Text = "PetIndent"
         '
         'PetQuotationToolStripMenuItem
         '
         Me.PetQuotationToolStripMenuItem.Name = "PetQuotationToolStripMenuItem"
-        Me.PetQuotationToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetQuotationToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetQuotationToolStripMenuItem.Text = "PetQuotation"
         '
         'PetComparisonToolStripMenuItem
         '
         Me.PetComparisonToolStripMenuItem.Name = "PetComparisonToolStripMenuItem"
-        Me.PetComparisonToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetComparisonToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetComparisonToolStripMenuItem.Text = "PetComparison"
         '
         'PetMachineApprovalToolStripMenuItem
         '
         Me.PetMachineApprovalToolStripMenuItem.Name = "PetMachineApprovalToolStripMenuItem"
-        Me.PetMachineApprovalToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetMachineApprovalToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetMachineApprovalToolStripMenuItem.Text = "PetMachineApproval"
         '
         'PetHeadApprovalToolStripMenuItem
         '
         Me.PetHeadApprovalToolStripMenuItem.Name = "PetHeadApprovalToolStripMenuItem"
-        Me.PetHeadApprovalToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetHeadApprovalToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetHeadApprovalToolStripMenuItem.Text = "PetHeadApproval"
         '
         'PetPOToolStripMenuItem
         '
         Me.PetPOToolStripMenuItem.Name = "PetPOToolStripMenuItem"
-        Me.PetPOToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetPOToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetPOToolStripMenuItem.Text = "PetPO"
         '
         'PetGateInwardToolStripMenuItem
         '
         Me.PetGateInwardToolStripMenuItem.Name = "PetGateInwardToolStripMenuItem"
-        Me.PetGateInwardToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetGateInwardToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetGateInwardToolStripMenuItem.Text = "PetGateInward"
         '
         'PetQualityCheckerToolStripMenuItem
         '
         Me.PetQualityCheckerToolStripMenuItem.Name = "PetQualityCheckerToolStripMenuItem"
-        Me.PetQualityCheckerToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PetQualityCheckerToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetQualityCheckerToolStripMenuItem.Text = "PetQualityChecker"
         '
         'PetRejectionApprovalToolStripMenuItem
@@ -492,6 +493,12 @@ Partial Class Main_MDI_Frm
         Me.StockReportToolStripMenuItem.Name = "StockReportToolStripMenuItem"
         Me.StockReportToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.StockReportToolStripMenuItem.Text = "StockReport"
+        '
+        'PetRecievedToolStripMenuItem
+        '
+        Me.PetRecievedToolStripMenuItem.Name = "PetRecievedToolStripMenuItem"
+        Me.PetRecievedToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
+        Me.PetRecievedToolStripMenuItem.Text = "Pet Recieved"
         '
         'Main_MDI_Frm
         '
@@ -580,4 +587,5 @@ Partial Class Main_MDI_Frm
     Friend WithEvents PetPurcahseReturnToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PetInwardAndPoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StockReportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PetRecievedToolStripMenuItem As ToolStripMenuItem
 End Class

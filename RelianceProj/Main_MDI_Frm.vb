@@ -287,6 +287,10 @@
         PetPurchaseReturnReport.Show()
     End Sub
 
+    Private Sub PetRecievedToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetRecievedToolStripMenuItem.Click
+        PetRecievedtoDepartment.Show()
+    End Sub
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()

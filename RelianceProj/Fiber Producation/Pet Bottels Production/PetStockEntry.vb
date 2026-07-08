@@ -1977,7 +1977,7 @@ Public Class PetStockEntry
             Dim RptTitle = "Pet Stock Entry Report"
             Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
             'REPORT_RPT_FILE_NAME = "GradingStockReq_2"
-            REPORT_RPT_FILE_NAME = "StoresStockEntryReport"
+            REPORT_RPT_FILE_NAME = "PetStockEntryReport"
             NewReportPrint(_TmpTbl, RptTitle, Date_Range)
 
         Else

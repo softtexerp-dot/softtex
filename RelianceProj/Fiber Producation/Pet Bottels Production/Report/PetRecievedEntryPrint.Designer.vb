@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class GateInwardPrint
+Partial Class PetRecievedEntryPrint
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,11 +22,11 @@ Partial Class GateInwardPrint
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GateInwardPrint))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PetRecievedEntryPrint))
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.txtunitName = New ctl_TextBox.ctl_TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Ctl_RptType = New ctl_TextBox.ctl_TextBox()
@@ -45,38 +45,38 @@ Partial Class GateInwardPrint
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(353, 110)
+        Me.Label12.Location = New System.Drawing.Point(345, 47)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(12, 16)
-        Me.Label12.TabIndex = 52
+        Me.Label12.TabIndex = 98
         Me.Label12.Text = ":"
         '
-        'Label11
+        'Label9
         '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(353, 83)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(12, 16)
-        Me.Label11.TabIndex = 51
-        Me.Label11.Text = ":"
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(353, 57)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(12, 16)
-        Me.Label10.TabIndex = 50
-        Me.Label10.Text = ":"
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(345, 73)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(12, 16)
+        Me.Label9.TabIndex = 97
+        Me.Label9.Text = ":"
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(353, 33)
+        Me.Label8.Location = New System.Drawing.Point(345, 102)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(12, 16)
-        Me.Label8.TabIndex = 48
+        Me.Label8.TabIndex = 96
         Me.Label8.Text = ":"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(345, 130)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(12, 16)
+        Me.Label10.TabIndex = 95
+        Me.Label10.Text = ":"
         '
         'txtunitName
         '
@@ -102,7 +102,7 @@ Partial Class GateInwardPrint
         Me.txtunitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtunitName.IsValidated = False
         Me.txtunitName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtunitName.Location = New System.Drawing.Point(371, 33)
+        Me.txtunitName.Location = New System.Drawing.Point(367, 45)
         Me.txtunitName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtunitName.MandatoryField = False
         Me.txtunitName.MaxDate = Nothing
@@ -114,9 +114,9 @@ Partial Class GateInwardPrint
         Me.txtunitName.RegularExpression = Nothing
         Me.txtunitName.RegularExpressionErrorMessage = Nothing
         Me.txtunitName.ShowMessage = False
-        Me.txtunitName.Size = New System.Drawing.Size(161, 22)
+        Me.txtunitName.Size = New System.Drawing.Size(125, 22)
         Me.txtunitName.SpacerString = ""
-        Me.txtunitName.TabIndex = 34
+        Me.txtunitName.TabIndex = 83
         Me.txtunitName.Tag = "EntryNo"
         Me.txtunitName.TransparentBox = True
         Me.txtunitName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -124,10 +124,10 @@ Partial Class GateInwardPrint
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(225, 33)
+        Me.Label6.Location = New System.Drawing.Point(228, 46)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(82, 16)
-        Me.Label6.TabIndex = 46
+        Me.Label6.TabIndex = 94
         Me.Label6.Text = "Unit Name"
         '
         'Ctl_RptType
@@ -154,7 +154,7 @@ Partial Class GateInwardPrint
         Me.Ctl_RptType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Ctl_RptType.IsValidated = False
         Me.Ctl_RptType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Ctl_RptType.Location = New System.Drawing.Point(371, 110)
+        Me.Ctl_RptType.Location = New System.Drawing.Point(367, 130)
         Me.Ctl_RptType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_RptType.MandatoryField = False
         Me.Ctl_RptType.MaxDate = Nothing
@@ -169,7 +169,7 @@ Partial Class GateInwardPrint
         Me.Ctl_RptType.ShowMessage = False
         Me.Ctl_RptType.Size = New System.Drawing.Size(60, 22)
         Me.Ctl_RptType.SpacerString = "1,2,3"
-        Me.Ctl_RptType.TabIndex = 38
+        Me.Ctl_RptType.TabIndex = 86
         Me.Ctl_RptType.Tag = "Type"
         Me.Ctl_RptType.Text = "1"
         Me.Ctl_RptType.TransparentBox = True
@@ -178,10 +178,10 @@ Partial Class GateInwardPrint
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(228, 110)
+        Me.Label5.Location = New System.Drawing.Point(231, 130)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(72, 16)
-        Me.Label5.TabIndex = 45
+        Me.Label5.TabIndex = 93
         Me.Label5.Text = "RPT Type"
         '
         'Txt_ToEntryNo
@@ -208,7 +208,7 @@ Partial Class GateInwardPrint
         Me.Txt_ToEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_ToEntryNo.IsValidated = False
         Me.Txt_ToEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(371, 83)
+        Me.Txt_ToEntryNo.Location = New System.Drawing.Point(367, 101)
         Me.Txt_ToEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_ToEntryNo.MandatoryField = False
         Me.Txt_ToEntryNo.MaxDate = Nothing
@@ -222,7 +222,7 @@ Partial Class GateInwardPrint
         Me.Txt_ToEntryNo.ShowMessage = False
         Me.Txt_ToEntryNo.Size = New System.Drawing.Size(60, 22)
         Me.Txt_ToEntryNo.SpacerString = ""
-        Me.Txt_ToEntryNo.TabIndex = 37
+        Me.Txt_ToEntryNo.TabIndex = 85
         Me.Txt_ToEntryNo.Tag = "EntryNo"
         Me.Txt_ToEntryNo.TransparentBox = True
         Me.Txt_ToEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -230,10 +230,10 @@ Partial Class GateInwardPrint
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(225, 83)
+        Me.Label4.Location = New System.Drawing.Point(228, 102)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(90, 16)
-        Me.Label4.TabIndex = 44
+        Me.Label4.TabIndex = 92
         Me.Label4.Text = "To Entry No"
         '
         'BtnItem
@@ -241,10 +241,10 @@ Partial Class GateInwardPrint
         Me.BtnItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.BtnItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnItem.ForeColor = System.Drawing.Color.Black
-        Me.BtnItem.Location = New System.Drawing.Point(0, 23)
+        Me.BtnItem.Location = New System.Drawing.Point(-1, 23)
         Me.BtnItem.Name = "BtnItem"
         Me.BtnItem.Size = New System.Drawing.Size(219, 36)
-        Me.BtnItem.TabIndex = 33
+        Me.BtnItem.TabIndex = 82
         Me.BtnItem.Tag = "Entry No"
         Me.BtnItem.Text = "&1. Entry No"
         Me.BtnItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -253,20 +253,20 @@ Partial Class GateInwardPrint
         'Label3
         '
         Me.Label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label3.Location = New System.Drawing.Point(218, 24)
+        Me.Label3.Location = New System.Drawing.Point(217, 24)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(1, 252)
-        Me.Label3.TabIndex = 43
+        Me.Label3.Size = New System.Drawing.Size(1, 262)
+        Me.Label3.TabIndex = 91
         '
         'But_ok
         '
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(336, 212)
+        Me.But_ok.Location = New System.Drawing.Point(331, 221)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(67, 37)
-        Me.But_ok.TabIndex = 39
+        Me.But_ok.TabIndex = 87
         Me.But_ok.Text = "Ok"
         '
         'Txt_FromEntryNo
@@ -293,7 +293,7 @@ Partial Class GateInwardPrint
         Me.Txt_FromEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_FromEntryNo.IsValidated = False
         Me.Txt_FromEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(371, 55)
+        Me.Txt_FromEntryNo.Location = New System.Drawing.Point(367, 74)
         Me.Txt_FromEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_FromEntryNo.MandatoryField = False
         Me.Txt_FromEntryNo.MaxDate = Nothing
@@ -307,7 +307,7 @@ Partial Class GateInwardPrint
         Me.Txt_FromEntryNo.ShowMessage = False
         Me.Txt_FromEntryNo.Size = New System.Drawing.Size(60, 22)
         Me.Txt_FromEntryNo.SpacerString = ""
-        Me.Txt_FromEntryNo.TabIndex = 36
+        Me.Txt_FromEntryNo.TabIndex = 84
         Me.Txt_FromEntryNo.Tag = "EntryNo"
         Me.Txt_FromEntryNo.TransparentBox = True
         Me.Txt_FromEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -315,10 +315,10 @@ Partial Class GateInwardPrint
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(225, 57)
+        Me.Label2.Location = New System.Drawing.Point(228, 74)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(111, 16)
-        Me.Label2.TabIndex = 42
+        Me.Label2.TabIndex = 90
         Me.Label2.Text = "From Entry No"
         '
         'BtnClose
@@ -326,10 +326,10 @@ Partial Class GateInwardPrint
         Me.BtnClose.Appearance.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnClose.Appearance.Options.UseFont = True
         Me.BtnClose.ImageOptions.ImageUri.Uri = "Close"
-        Me.BtnClose.Location = New System.Drawing.Point(407, 212)
+        Me.BtnClose.Location = New System.Drawing.Point(402, 221)
         Me.BtnClose.Name = "BtnClose"
         Me.BtnClose.Size = New System.Drawing.Size(78, 37)
-        Me.BtnClose.TabIndex = 40
+        Me.BtnClose.TabIndex = 88
         Me.BtnClose.Text = "&Close"
         '
         'Label1
@@ -339,23 +339,23 @@ Partial Class GateInwardPrint
         Me.Label1.Enabled = False
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Black
-        Me.Label1.Location = New System.Drawing.Point(-1, -2)
+        Me.Label1.Location = New System.Drawing.Point(-2, -2)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(540, 26)
-        Me.Label1.TabIndex = 41
-        Me.Label1.Text = "Gate Inward Report"
+        Me.Label1.Size = New System.Drawing.Size(515, 26)
+        Me.Label1.TabIndex = 89
+        Me.Label1.Text = "Pet Recieved To Machine Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'GateInwardPrint
+        'PetRecievedEntryPrint
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(536, 274)
+        Me.ClientSize = New System.Drawing.Size(511, 285)
         Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.txtunitName)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Ctl_RptType)
@@ -373,18 +373,18 @@ Partial Class GateInwardPrint
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.Name = "GateInwardPrint"
+        Me.Name = "PetRecievedEntryPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Gate Inward Print"
+        Me.Text = "Pet Recieved To Machine Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents Label12 As Label
-    Friend WithEvents Label11 As Label
-    Friend WithEvents Label10 As Label
+    Friend WithEvents Label9 As Label
     Friend WithEvents Label8 As Label
+    Friend WithEvents Label10 As Label
     Friend WithEvents txtunitName As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Ctl_RptType As ctl_TextBox.ctl_TextBox
