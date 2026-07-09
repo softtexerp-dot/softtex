@@ -66,7 +66,7 @@ Partial Class PetQualityChecker
         Me.txtUnitName._AllowSpace = True
         Me.txtUnitName.AcceptsReturn = True
         Me.txtUnitName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtUnitName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.BackColor = System.Drawing.Color.MistyRose
         Me.txtUnitName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtUnitName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtUnitName.Check_End_Date_Value_FY = "YES"
@@ -84,14 +84,14 @@ Partial Class PetQualityChecker
         Me.txtUnitName.ForeColor = System.Drawing.Color.Black
         Me.txtUnitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtUnitName.IsValidated = False
-        Me.txtUnitName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtUnitName.Location = New System.Drawing.Point(710, 13)
-        Me.txtUnitName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtUnitName.MandatoryField = False
         Me.txtUnitName.MaxDate = Nothing
         Me.txtUnitName.MinDate = Nothing
         Me.txtUnitName.Name = "txtUnitName"
-        Me.txtUnitName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtUnitName.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtUnitName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtUnitName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtUnitName.ReadOnly = True
@@ -142,7 +142,7 @@ Partial Class PetQualityChecker
         Me.txt_Status._AllowSpace = True
         Me.txt_Status.AcceptsReturn = True
         Me.txt_Status.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_Status.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_Status.BackColor = System.Drawing.Color.MistyRose
         Me.txt_Status.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_Status.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txt_Status.Check_End_Date_Value_FY = "YES"
@@ -160,7 +160,7 @@ Partial Class PetQualityChecker
         Me.txt_Status.ForeColor = System.Drawing.Color.Black
         Me.txt_Status.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.txt_Status.IsValidated = False
-        Me.txt_Status.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_Status.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txt_Status.Location = New System.Drawing.Point(475, 12)
         Me.txt_Status.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_Status.MandatoryField = False
@@ -288,7 +288,7 @@ Partial Class PetQualityChecker
         Me.txt_To._AllowSpace = True
         Me.txt_To.AcceptsReturn = True
         Me.txt_To.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_To.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_To.BackColor = System.Drawing.Color.MistyRose
         Me.txt_To.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_To.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txt_To.Check_End_Date_Value_FY = "YES"
@@ -297,7 +297,7 @@ Partial Class PetQualityChecker
         Me.txt_To.CustomInputTypeString = Nothing
         Me.txt_To.Date_for_Database = Nothing
         Me.txt_To.Date_Tag = Nothing
-        Me.txt_To.EnterFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_To.EnterFocusColor = System.Drawing.Color.MistyRose
         Me.txt_To.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
         Me.txt_To.ExtraValue = ""
         Me.txt_To.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -306,14 +306,14 @@ Partial Class PetQualityChecker
         Me.txt_To.ForeColor = System.Drawing.Color.Black
         Me.txt_To.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_To.IsValidated = False
-        Me.txt_To.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_To.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txt_To.Location = New System.Drawing.Point(258, 11)
         Me.txt_To.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_To.MandatoryField = False
         Me.txt_To.MaxDate = Nothing
         Me.txt_To.MinDate = Nothing
         Me.txt_To.Name = "txt_To"
-        Me.txt_To.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txt_To.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txt_To.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txt_To.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txt_To.RegularExpression = Nothing
@@ -332,7 +332,7 @@ Partial Class PetQualityChecker
         Me.txt_From._AllowSpace = True
         Me.txt_From.AcceptsReturn = True
         Me.txt_From.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_From.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_From.BackColor = System.Drawing.Color.MistyRose
         Me.txt_From.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_From.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txt_From.Check_End_Date_Value_FY = "YES"
@@ -341,7 +341,7 @@ Partial Class PetQualityChecker
         Me.txt_From.CustomInputTypeString = Nothing
         Me.txt_From.Date_for_Database = Nothing
         Me.txt_From.Date_Tag = Nothing
-        Me.txt_From.EnterFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_From.EnterFocusColor = System.Drawing.Color.MistyRose
         Me.txt_From.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
         Me.txt_From.ExtraValue = ""
         Me.txt_From.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -350,14 +350,14 @@ Partial Class PetQualityChecker
         Me.txt_From.ForeColor = System.Drawing.Color.Black
         Me.txt_From.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_From.IsValidated = False
-        Me.txt_From.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_From.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txt_From.Location = New System.Drawing.Point(97, 11)
         Me.txt_From.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_From.MandatoryField = False
         Me.txt_From.MaxDate = Nothing
         Me.txt_From.MinDate = Nothing
         Me.txt_From.Name = "txt_From"
-        Me.txt_From.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txt_From.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txt_From.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txt_From.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txt_From.RegularExpression = Nothing
@@ -409,7 +409,7 @@ Partial Class PetQualityChecker
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.LightCyan
+        Me.BackColor = System.Drawing.Color.MistyRose
         Me.ClientSize = New System.Drawing.Size(1289, 621)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.txtUnitName)
@@ -431,7 +431,7 @@ Partial Class PetQualityChecker
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetQualityChecker"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Pet Quality Checker"

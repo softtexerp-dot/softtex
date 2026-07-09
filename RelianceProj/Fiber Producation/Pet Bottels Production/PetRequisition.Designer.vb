@@ -24,6 +24,7 @@ Partial Class PetRequisition
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PetRequisition))
         Me.PNL_View = New System.Windows.Forms.GroupBox()
+        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.btnView = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
@@ -45,7 +46,7 @@ Partial Class PetRequisition
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
@@ -59,7 +60,6 @@ Partial Class PetRequisition
         Me.txtEntryNo = New ctl_TextBox.ctl_TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label41 = New System.Windows.Forms.Label()
-        Me.BtnRPTPrint = New DevExpress.XtraEditors.SimpleButton()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,10 +83,21 @@ Partial Class PetRequisition
         Me.PNL_View.Controls.Add(Me.txt_From)
         Me.PNL_View.Location = New System.Drawing.Point(15, 184)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(1161, 84)
+        Me.PNL_View.Size = New System.Drawing.Size(327, 84)
         Me.PNL_View.TabIndex = 82225
         Me.PNL_View.TabStop = False
         Me.PNL_View.Visible = False
+        '
+        'BtnRPTPrint
+        '
+        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRPTPrint.Appearance.Options.UseFont = True
+        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnRPTPrint.Location = New System.Drawing.Point(552, 19)
+        Me.BtnRPTPrint.Name = "BtnRPTPrint"
+        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
+        Me.BtnRPTPrint.TabIndex = 5
+        Me.BtnRPTPrint.Text = "RPT Print"
         '
         'btnView
         '
@@ -215,7 +226,7 @@ Partial Class PetRequisition
         Me.txt_To._AllowSpace = True
         Me.txt_To.AcceptsReturn = True
         Me.txt_To.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_To.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_To.BackColor = System.Drawing.Color.MistyRose
         Me.txt_To.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_To.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txt_To.Check_End_Date_Value_FY = "YES"
@@ -233,14 +244,14 @@ Partial Class PetRequisition
         Me.txt_To.ForeColor = System.Drawing.Color.Black
         Me.txt_To.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_To.IsValidated = False
-        Me.txt_To.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_To.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txt_To.Location = New System.Drawing.Point(266, 27)
-        Me.txt_To.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txt_To.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txt_To.MandatoryField = False
         Me.txt_To.MaxDate = Nothing
         Me.txt_To.MinDate = Nothing
         Me.txt_To.Name = "txt_To"
-        Me.txt_To.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txt_To.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txt_To.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txt_To.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txt_To.RegularExpression = Nothing
@@ -259,7 +270,7 @@ Partial Class PetRequisition
         Me.txt_From._AllowSpace = True
         Me.txt_From.AcceptsReturn = True
         Me.txt_From.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_From.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_From.BackColor = System.Drawing.Color.MistyRose
         Me.txt_From.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_From.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txt_From.Check_End_Date_Value_FY = "YES"
@@ -277,14 +288,14 @@ Partial Class PetRequisition
         Me.txt_From.ForeColor = System.Drawing.Color.Black
         Me.txt_From.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_From.IsValidated = False
-        Me.txt_From.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_From.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txt_From.Location = New System.Drawing.Point(102, 27)
-        Me.txt_From.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txt_From.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txt_From.MandatoryField = False
         Me.txt_From.MaxDate = Nothing
         Me.txt_From.MinDate = Nothing
         Me.txt_From.Name = "txt_From"
-        Me.txt_From.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txt_From.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txt_From.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txt_From.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txt_From.RegularExpression = Nothing
@@ -313,7 +324,7 @@ Partial Class PetRequisition
         Me.txtHeader_Remark._AllowSpace = True
         Me.txtHeader_Remark.AcceptsReturn = True
         Me.txtHeader_Remark.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtHeader_Remark.BackColor = System.Drawing.Color.LightCyan
+        Me.txtHeader_Remark.BackColor = System.Drawing.Color.MistyRose
         Me.txtHeader_Remark.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtHeader_Remark.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtHeader_Remark.Check_End_Date_Value_FY = "YES"
@@ -331,14 +342,14 @@ Partial Class PetRequisition
         Me.txtHeader_Remark.ForeColor = System.Drawing.Color.Black
         Me.txtHeader_Remark.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtHeader_Remark.IsValidated = False
-        Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtHeader_Remark.Location = New System.Drawing.Point(532, 37)
-        Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtHeader_Remark.MandatoryField = False
         Me.txtHeader_Remark.MaxDate = Nothing
         Me.txtHeader_Remark.MinDate = Nothing
         Me.txtHeader_Remark.Name = "txtHeader_Remark"
-        Me.txtHeader_Remark.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtHeader_Remark.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtHeader_Remark.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtHeader_Remark.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtHeader_Remark.RegularExpression = Nothing
@@ -463,7 +474,7 @@ Partial Class PetRequisition
         Me.txtChallanNo._AllowSpace = True
         Me.txtChallanNo.AcceptsReturn = True
         Me.txtChallanNo.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtChallanNo.BackColor = System.Drawing.Color.LightCyan
+        Me.txtChallanNo.BackColor = System.Drawing.Color.MistyRose
         Me.txtChallanNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtChallanNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtChallanNo.Check_End_Date_Value_FY = "YES"
@@ -481,14 +492,14 @@ Partial Class PetRequisition
         Me.txtChallanNo.ForeColor = System.Drawing.Color.Black
         Me.txtChallanNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtChallanNo.IsValidated = False
-        Me.txtChallanNo.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtChallanNo.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtChallanNo.Location = New System.Drawing.Point(140, 65)
-        Me.txtChallanNo.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtChallanNo.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtChallanNo.MandatoryField = False
         Me.txtChallanNo.MaxDate = Nothing
         Me.txtChallanNo.MinDate = Nothing
         Me.txtChallanNo.Name = "txtChallanNo"
-        Me.txtChallanNo.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtChallanNo.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtChallanNo.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtChallanNo.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtChallanNo.RegularExpression = Nothing
@@ -517,7 +528,7 @@ Partial Class PetRequisition
         Me.txtGodownName._AllowSpace = True
         Me.txtGodownName.AcceptsReturn = True
         Me.txtGodownName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtGodownName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.BackColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtGodownName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtGodownName.Check_End_Date_Value_FY = "YES"
@@ -535,14 +546,14 @@ Partial Class PetRequisition
         Me.txtGodownName.ForeColor = System.Drawing.Color.Black
         Me.txtGodownName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtGodownName.IsValidated = False
-        Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.Location = New System.Drawing.Point(140, 4)
-        Me.txtGodownName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.MandatoryField = False
         Me.txtGodownName.MaxDate = Nothing
         Me.txtGodownName.MinDate = Nothing
         Me.txtGodownName.Name = "txtGodownName"
-        Me.txtGodownName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtGodownName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtGodownName.ReadOnly = True
@@ -582,7 +593,7 @@ Partial Class PetRequisition
         Me.txtChallanDate._AllowSpace = True
         Me.txtChallanDate.AcceptsReturn = True
         Me.txtChallanDate.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtChallanDate.BackColor = System.Drawing.Color.LightCyan
+        Me.txtChallanDate.BackColor = System.Drawing.Color.MistyRose
         Me.txtChallanDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtChallanDate.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtChallanDate.Check_End_Date_Value_FY = "YES"
@@ -600,15 +611,15 @@ Partial Class PetRequisition
         Me.txtChallanDate.ForeColor = System.Drawing.Color.Black
         Me.txtChallanDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txtChallanDate.IsValidated = False
-        Me.txtChallanDate.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtChallanDate.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtChallanDate.Location = New System.Drawing.Point(532, 7)
-        Me.txtChallanDate.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtChallanDate.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtChallanDate.MandatoryField = False
         Me.txtChallanDate.MaxDate = Nothing
         Me.txtChallanDate.MaxLength = 6
         Me.txtChallanDate.MinDate = Nothing
         Me.txtChallanDate.Name = "txtChallanDate"
-        Me.txtChallanDate.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtChallanDate.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtChallanDate.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtChallanDate.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtChallanDate.RegularExpression = Nothing
@@ -647,7 +658,7 @@ Partial Class PetRequisition
         Me.txtEntryNo._AllowSpace = True
         Me.txtEntryNo.AcceptsReturn = True
         Me.txtEntryNo.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtEntryNo.BackColor = System.Drawing.Color.LightCyan
+        Me.txtEntryNo.BackColor = System.Drawing.Color.MistyRose
         Me.txtEntryNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtEntryNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtEntryNo.Check_End_Date_Value_FY = "YES"
@@ -665,14 +676,14 @@ Partial Class PetRequisition
         Me.txtEntryNo.ForeColor = System.Drawing.Color.Black
         Me.txtEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtEntryNo.IsValidated = False
-        Me.txtEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtEntryNo.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtEntryNo.Location = New System.Drawing.Point(140, 40)
-        Me.txtEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtEntryNo.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtEntryNo.MandatoryField = False
         Me.txtEntryNo.MaxDate = Nothing
         Me.txtEntryNo.MinDate = Nothing
         Me.txtEntryNo.Name = "txtEntryNo"
-        Me.txtEntryNo.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtEntryNo.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtEntryNo.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtEntryNo.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtEntryNo.RegularExpression = Nothing
@@ -706,22 +717,11 @@ Partial Class PetRequisition
         Me.Label41.TabIndex = 82215
         Me.Label41.Text = ":"
         '
-        'BtnRPTPrint
-        '
-        Me.BtnRPTPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnRPTPrint.Appearance.Options.UseFont = True
-        Me.BtnRPTPrint.ImageOptions.Image = CType(resources.GetObject("BtnRPTPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnRPTPrint.Location = New System.Drawing.Point(552, 19)
-        Me.BtnRPTPrint.Name = "BtnRPTPrint"
-        Me.BtnRPTPrint.Size = New System.Drawing.Size(109, 32)
-        Me.BtnRPTPrint.TabIndex = 5
-        Me.BtnRPTPrint.Text = "RPT Print"
-        '
         'PetRequisition
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.LightCyan
+        Me.BackColor = System.Drawing.Color.MistyRose
         Me.ClientSize = New System.Drawing.Size(1012, 621)
         Me.Controls.Add(Me.PNL_View)
         Me.Controls.Add(Me.Label24)

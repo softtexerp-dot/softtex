@@ -87,6 +87,14 @@ Partial Class Main_MDI_Frm
         Me.PetInwardAndPoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StockReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PetRecievedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawMaterialsProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawStockEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawRequitionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawIssuetoMachineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawIndentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawQuotationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawCompariToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -121,7 +129,7 @@ Partial Class Main_MDI_Frm
         'MenuStrip1
         '
         Me.MenuStrip1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.FiberProductionToolStripMenuItem, Me.APIToolStripMenuItem, Me.PetBottelsProductionToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.FiberProductionToolStripMenuItem, Me.APIToolStripMenuItem, Me.PetBottelsProductionToolStripMenuItem, Me.RawMaterialsProductionToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1200, 24)
@@ -500,6 +508,55 @@ Partial Class Main_MDI_Frm
         Me.PetRecievedToolStripMenuItem.Size = New System.Drawing.Size(231, 22)
         Me.PetRecievedToolStripMenuItem.Text = "Pet Recieved"
         '
+        'RawMaterialsProductionToolStripMenuItem
+        '
+        Me.RawMaterialsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RawStockEntryToolStripMenuItem, Me.RawRequitionToolStripMenuItem, Me.RawIssuetoMachineToolStripMenuItem, Me.RawApprovalToolStripMenuItem, Me.RawIndentToolStripMenuItem, Me.RawQuotationToolStripMenuItem, Me.RawCompariToolStripMenuItem})
+        Me.RawMaterialsProductionToolStripMenuItem.Name = "RawMaterialsProductionToolStripMenuItem"
+        Me.RawMaterialsProductionToolStripMenuItem.Size = New System.Drawing.Size(202, 20)
+        Me.RawMaterialsProductionToolStripMenuItem.Text = "Raw Materials Production"
+        '
+        'RawStockEntryToolStripMenuItem
+        '
+        Me.RawStockEntryToolStripMenuItem.Name = "RawStockEntryToolStripMenuItem"
+        Me.RawStockEntryToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawStockEntryToolStripMenuItem.Text = "Raw Stock Entry"
+        '
+        'RawRequitionToolStripMenuItem
+        '
+        Me.RawRequitionToolStripMenuItem.Name = "RawRequitionToolStripMenuItem"
+        Me.RawRequitionToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawRequitionToolStripMenuItem.Text = "Raw Requisition"
+        '
+        'RawIssuetoMachineToolStripMenuItem
+        '
+        Me.RawIssuetoMachineToolStripMenuItem.Name = "RawIssuetoMachineToolStripMenuItem"
+        Me.RawIssuetoMachineToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawIssuetoMachineToolStripMenuItem.Text = "Raw Issue To Machine"
+        '
+        'RawApprovalToolStripMenuItem
+        '
+        Me.RawApprovalToolStripMenuItem.Name = "RawApprovalToolStripMenuItem"
+        Me.RawApprovalToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawApprovalToolStripMenuItem.Text = "RawApproval"
+        '
+        'RawIndentToolStripMenuItem
+        '
+        Me.RawIndentToolStripMenuItem.Name = "RawIndentToolStripMenuItem"
+        Me.RawIndentToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawIndentToolStripMenuItem.Text = "RawIndent"
+        '
+        'RawQuotationToolStripMenuItem
+        '
+        Me.RawQuotationToolStripMenuItem.Name = "RawQuotationToolStripMenuItem"
+        Me.RawQuotationToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawQuotationToolStripMenuItem.Text = "RawQuotation"
+        '
+        'RawCompariToolStripMenuItem
+        '
+        Me.RawCompariToolStripMenuItem.Name = "RawCompariToolStripMenuItem"
+        Me.RawCompariToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawCompariToolStripMenuItem.Text = "RawComparison"
+        '
         'Main_MDI_Frm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -588,4 +645,12 @@ Partial Class Main_MDI_Frm
     Friend WithEvents PetInwardAndPoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents StockReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PetRecievedToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawMaterialsProductionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawStockEntryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawRequitionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawIssuetoMachineToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawApprovalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawIndentToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawQuotationToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawCompariToolStripMenuItem As ToolStripMenuItem
 End Class

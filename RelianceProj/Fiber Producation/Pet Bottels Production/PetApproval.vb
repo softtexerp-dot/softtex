@@ -356,23 +356,23 @@ Public Class PetApproval
     End Sub
 #End Region
 #Region "DATE RANGE CHECK"
-    'Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
-    '    If _FrmLoad = False Then
-    '        If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
-    '            MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
-    '            txt_From.Focus()
-    '            txt_From.Select()
-    '        End If
-    '    End If
-    'End Sub
-    'Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
-    '    If _FrmLoad = False Then
-    '        If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
-    '            MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
-    '            txt_To.Focus()
-    '            txt_To.Select()
-    '        End If
-    '    End If
-    'End Sub
+    Private Sub txt_From_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_From.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_From.Focus()
+                txt_From.Select()
+            End If
+        End If
+    End Sub
+    Private Sub txt_To_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txt_To.Validated
+        If _FrmLoad = False Then
+            If Date_Check_According_To_Financial_Year(sender, _FrmLoad) = False Then
+                MsgBox("Invalid Date", MsgBoxStyle.Information, "Soft-Tex PRO")
+                txt_To.Focus()
+                txt_To.Select()
+            End If
+        End If
+    End Sub
 #End Region
 End Class

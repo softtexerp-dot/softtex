@@ -1136,7 +1136,7 @@ Public Class PetStockEntry
     End Sub
 
     Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
-        Dim _RptTiltle = "Quotation Entry Report From :" & txt_From.Text & " To : " & txt_To.Text
+        Dim _RptTiltle = "Pet Stock Entry Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 

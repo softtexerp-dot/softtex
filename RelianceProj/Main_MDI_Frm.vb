@@ -291,6 +291,34 @@
         PetRecievedtoDepartment.Show()
     End Sub
 
+    Private Sub RawStockEntryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawStockEntryToolStripMenuItem.Click
+        RawStockEntry.Show()
+    End Sub
+
+    Private Sub RawRequitionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawRequitionToolStripMenuItem.Click
+        RawRequisition.Show()
+    End Sub
+
+    Private Sub RawIssuetoMachineToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawIssuetoMachineToolStripMenuItem.Click
+        RawIssueDepartment.Show()
+    End Sub
+
+    Private Sub RawApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawApprovalToolStripMenuItem.Click
+        RawApproval.Show()
+    End Sub
+
+    Private Sub RawIndentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawIndentToolStripMenuItem.Click
+        RawIndent.Show()
+    End Sub
+
+    Private Sub RawQuotationToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawQuotationToolStripMenuItem.Click
+        RawQuotationEntry.Show()
+    End Sub
+
+    Private Sub RawCompariToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawCompariToolStripMenuItem.Click
+        RawComparisonEntry.Show()
+    End Sub
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()

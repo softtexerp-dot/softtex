@@ -47,7 +47,7 @@ Partial Class PetRequisitionPrint
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(353, 111)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(11, 16)
+        Me.Label12.Size = New System.Drawing.Size(12, 16)
         Me.Label12.TabIndex = 49
         Me.Label12.Text = ":"
         '
@@ -56,7 +56,7 @@ Partial Class PetRequisitionPrint
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(353, 84)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(11, 16)
+        Me.Label11.Size = New System.Drawing.Size(12, 16)
         Me.Label11.TabIndex = 48
         Me.Label11.Text = ":"
         '
@@ -65,7 +65,7 @@ Partial Class PetRequisitionPrint
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(353, 58)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(11, 16)
+        Me.Label10.Size = New System.Drawing.Size(12, 16)
         Me.Label10.TabIndex = 47
         Me.Label10.Text = ":"
         '
@@ -74,7 +74,7 @@ Partial Class PetRequisitionPrint
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(353, 33)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(11, 16)
+        Me.Label8.Size = New System.Drawing.Size(12, 16)
         Me.Label8.TabIndex = 46
         Me.Label8.Text = ":"
         '
@@ -83,7 +83,7 @@ Partial Class PetRequisitionPrint
         Me.txtunitName._AllowSpace = True
         Me.txtunitName.AcceptsReturn = True
         Me.txtunitName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtunitName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtunitName.BackColor = System.Drawing.Color.MistyRose
         Me.txtunitName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtunitName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtunitName.Check_End_Date_Value_FY = "YES"
@@ -101,14 +101,14 @@ Partial Class PetRequisitionPrint
         Me.txtunitName.ForeColor = System.Drawing.Color.Black
         Me.txtunitName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtunitName.IsValidated = False
-        Me.txtunitName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtunitName.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtunitName.Location = New System.Drawing.Point(371, 33)
-        Me.txtunitName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtunitName.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtunitName.MandatoryField = False
         Me.txtunitName.MaxDate = Nothing
         Me.txtunitName.MinDate = Nothing
         Me.txtunitName.Name = "txtunitName"
-        Me.txtunitName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtunitName.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtunitName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtunitName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtunitName.RegularExpression = Nothing
@@ -126,7 +126,7 @@ Partial Class PetRequisitionPrint
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(225, 33)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(79, 16)
+        Me.Label6.Size = New System.Drawing.Size(82, 16)
         Me.Label6.TabIndex = 45
         Me.Label6.Text = "Unit Name"
         '
@@ -135,7 +135,7 @@ Partial Class PetRequisitionPrint
         Me.Ctl_RptType._AllowSpace = True
         Me.Ctl_RptType.AcceptsReturn = True
         Me.Ctl_RptType.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Ctl_RptType.BackColor = System.Drawing.Color.LightCyan
+        Me.Ctl_RptType.BackColor = System.Drawing.Color.MistyRose
         Me.Ctl_RptType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Ctl_RptType.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.Ctl_RptType.Check_End_Date_Value_FY = "YES"
@@ -153,14 +153,14 @@ Partial Class PetRequisitionPrint
         Me.Ctl_RptType.ForeColor = System.Drawing.Color.Black
         Me.Ctl_RptType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.Ctl_RptType.IsValidated = False
-        Me.Ctl_RptType.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.Ctl_RptType.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.Ctl_RptType.Location = New System.Drawing.Point(371, 111)
         Me.Ctl_RptType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Ctl_RptType.MandatoryField = False
         Me.Ctl_RptType.MaxDate = Nothing
         Me.Ctl_RptType.MinDate = Nothing
         Me.Ctl_RptType.Name = "Ctl_RptType"
-        Me.Ctl_RptType.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.Ctl_RptType.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.Ctl_RptType.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.Ctl_RptType.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.Ctl_RptType.ReadOnly = True
@@ -180,7 +180,7 @@ Partial Class PetRequisitionPrint
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(228, 111)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(78, 16)
+        Me.Label5.Size = New System.Drawing.Size(72, 16)
         Me.Label5.TabIndex = 44
         Me.Label5.Text = "RPT Type"
         '
@@ -189,7 +189,7 @@ Partial Class PetRequisitionPrint
         Me.Txt_ToEntryNo._AllowSpace = True
         Me.Txt_ToEntryNo.AcceptsReturn = True
         Me.Txt_ToEntryNo.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_ToEntryNo.BackColor = System.Drawing.Color.LightCyan
+        Me.Txt_ToEntryNo.BackColor = System.Drawing.Color.MistyRose
         Me.Txt_ToEntryNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_ToEntryNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.Txt_ToEntryNo.Check_End_Date_Value_FY = "YES"
@@ -207,14 +207,14 @@ Partial Class PetRequisitionPrint
         Me.Txt_ToEntryNo.ForeColor = System.Drawing.Color.Black
         Me.Txt_ToEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_ToEntryNo.IsValidated = False
-        Me.Txt_ToEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.Txt_ToEntryNo.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.Txt_ToEntryNo.Location = New System.Drawing.Point(371, 84)
-        Me.Txt_ToEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.Txt_ToEntryNo.MandatoryColor = System.Drawing.Color.MistyRose
         Me.Txt_ToEntryNo.MandatoryField = False
         Me.Txt_ToEntryNo.MaxDate = Nothing
         Me.Txt_ToEntryNo.MinDate = Nothing
         Me.Txt_ToEntryNo.Name = "Txt_ToEntryNo"
-        Me.Txt_ToEntryNo.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.Txt_ToEntryNo.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.Txt_ToEntryNo.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.Txt_ToEntryNo.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.Txt_ToEntryNo.RegularExpression = Nothing
@@ -232,7 +232,7 @@ Partial Class PetRequisitionPrint
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(225, 84)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(89, 16)
+        Me.Label4.Size = New System.Drawing.Size(90, 16)
         Me.Label4.TabIndex = 43
         Me.Label4.Text = "To Entry No"
         '
@@ -274,7 +274,7 @@ Partial Class PetRequisitionPrint
         Me.Txt_FromEntryNo._AllowSpace = True
         Me.Txt_FromEntryNo.AcceptsReturn = True
         Me.Txt_FromEntryNo.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_FromEntryNo.BackColor = System.Drawing.Color.LightCyan
+        Me.Txt_FromEntryNo.BackColor = System.Drawing.Color.MistyRose
         Me.Txt_FromEntryNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Txt_FromEntryNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.Txt_FromEntryNo.Check_End_Date_Value_FY = "YES"
@@ -292,14 +292,14 @@ Partial Class PetRequisitionPrint
         Me.Txt_FromEntryNo.ForeColor = System.Drawing.Color.Black
         Me.Txt_FromEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_FromEntryNo.IsValidated = False
-        Me.Txt_FromEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.Txt_FromEntryNo.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.Txt_FromEntryNo.Location = New System.Drawing.Point(371, 56)
-        Me.Txt_FromEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.Txt_FromEntryNo.MandatoryColor = System.Drawing.Color.MistyRose
         Me.Txt_FromEntryNo.MandatoryField = False
         Me.Txt_FromEntryNo.MaxDate = Nothing
         Me.Txt_FromEntryNo.MinDate = Nothing
         Me.Txt_FromEntryNo.Name = "Txt_FromEntryNo"
-        Me.Txt_FromEntryNo.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.Txt_FromEntryNo.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.Txt_FromEntryNo.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.Txt_FromEntryNo.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.Txt_FromEntryNo.RegularExpression = Nothing
@@ -317,7 +317,7 @@ Partial Class PetRequisitionPrint
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(225, 58)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(105, 16)
+        Me.Label2.Size = New System.Drawing.Size(111, 16)
         Me.Label2.TabIndex = 41
         Me.Label2.Text = "From Entry No"
         '
@@ -334,7 +334,7 @@ Partial Class PetRequisitionPrint
         '
         'Label1
         '
-        Me.Label1.BackColor = System.Drawing.Color.LightCyan
+        Me.Label1.BackColor = System.Drawing.Color.MistyRose
         Me.Label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Label1.Enabled = False
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -350,7 +350,7 @@ Partial Class PetRequisitionPrint
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.LightCyan
+        Me.BackColor = System.Drawing.Color.MistyRose
         Me.ClientSize = New System.Drawing.Size(511, 274)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
@@ -369,10 +369,10 @@ Partial Class PetRequisitionPrint
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.BtnClose)
         Me.Controls.Add(Me.Label1)
-        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetRequisitionPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Pet Requisition Print"

@@ -41,7 +41,7 @@ Partial Class PetPurchaseReturnReport
         Me.txtGodownName._AllowSpace = True
         Me.txtGodownName.AcceptsReturn = True
         Me.txtGodownName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtGodownName.BackColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.BackColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtGodownName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtGodownName.Check_End_Date_Value_FY = "YES"
@@ -59,14 +59,14 @@ Partial Class PetPurchaseReturnReport
         Me.txtGodownName.ForeColor = System.Drawing.Color.Black
         Me.txtGodownName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtGodownName.IsValidated = False
-        Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.Location = New System.Drawing.Point(168, 21)
-        Me.txtGodownName.MandatoryColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.MandatoryField = False
         Me.txtGodownName.MaxDate = Nothing
         Me.txtGodownName.MinDate = Nothing
         Me.txtGodownName.Name = "txtGodownName"
-        Me.txtGodownName.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txtGodownName.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txtGodownName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txtGodownName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txtGodownName.ReadOnly = True
@@ -170,7 +170,7 @@ Partial Class PetPurchaseReturnReport
         Me.txt_To._AllowSpace = True
         Me.txt_To.AcceptsReturn = True
         Me.txt_To.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_To.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_To.BackColor = System.Drawing.Color.MistyRose
         Me.txt_To.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_To.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txt_To.Check_End_Date_Value_FY = "YES"
@@ -179,7 +179,7 @@ Partial Class PetPurchaseReturnReport
         Me.txt_To.CustomInputTypeString = Nothing
         Me.txt_To.Date_for_Database = Nothing
         Me.txt_To.Date_Tag = Nothing
-        Me.txt_To.EnterFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_To.EnterFocusColor = System.Drawing.Color.MistyRose
         Me.txt_To.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
         Me.txt_To.ExtraValue = ""
         Me.txt_To.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -188,14 +188,14 @@ Partial Class PetPurchaseReturnReport
         Me.txt_To.ForeColor = System.Drawing.Color.Black
         Me.txt_To.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_To.IsValidated = False
-        Me.txt_To.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_To.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txt_To.Location = New System.Drawing.Point(168, 89)
         Me.txt_To.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_To.MandatoryField = False
         Me.txt_To.MaxDate = Nothing
         Me.txt_To.MinDate = Nothing
         Me.txt_To.Name = "txt_To"
-        Me.txt_To.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txt_To.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txt_To.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txt_To.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txt_To.RegularExpression = Nothing
@@ -214,7 +214,7 @@ Partial Class PetPurchaseReturnReport
         Me.txt_From._AllowSpace = True
         Me.txt_From.AcceptsReturn = True
         Me.txt_From.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_From.BackColor = System.Drawing.Color.LightCyan
+        Me.txt_From.BackColor = System.Drawing.Color.MistyRose
         Me.txt_From.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txt_From.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txt_From.Check_End_Date_Value_FY = "YES"
@@ -223,7 +223,7 @@ Partial Class PetPurchaseReturnReport
         Me.txt_From.CustomInputTypeString = Nothing
         Me.txt_From.Date_for_Database = Nothing
         Me.txt_From.Date_Tag = Nothing
-        Me.txt_From.EnterFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_From.EnterFocusColor = System.Drawing.Color.MistyRose
         Me.txt_From.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
         Me.txt_From.ExtraValue = ""
         Me.txt_From.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -232,14 +232,14 @@ Partial Class PetPurchaseReturnReport
         Me.txt_From.ForeColor = System.Drawing.Color.Black
         Me.txt_From.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txt_From.IsValidated = False
-        Me.txt_From.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_From.LeaveFocusColor = System.Drawing.Color.MistyRose
         Me.txt_From.Location = New System.Drawing.Point(168, 55)
         Me.txt_From.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_From.MandatoryField = False
         Me.txt_From.MaxDate = Nothing
         Me.txt_From.MinDate = Nothing
         Me.txt_From.Name = "txt_From"
-        Me.txt_From.NormalBorderColor = System.Drawing.Color.LightCyan
+        Me.txt_From.NormalBorderColor = System.Drawing.Color.MistyRose
         Me.txt_From.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
         Me.txt_From.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
         Me.txt_From.RegularExpression = Nothing
@@ -257,7 +257,7 @@ Partial Class PetPurchaseReturnReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.LightCyan
+        Me.BackColor = System.Drawing.Color.MistyRose
         Me.ClientSize = New System.Drawing.Size(433, 238)
         Me.Controls.Add(Me.txtGodownName)
         Me.Controls.Add(Me.Label50)
@@ -272,7 +272,7 @@ Partial Class PetPurchaseReturnReport
         Me.Controls.Add(Me.txt_From)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetPurchaseReturnReport"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Pet Purchase Return Report"
