@@ -511,7 +511,7 @@ Partial Class HeadApproval
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "HeadApproval"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Store Head Approval"
+        Me.Text = "Final Approval"
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()

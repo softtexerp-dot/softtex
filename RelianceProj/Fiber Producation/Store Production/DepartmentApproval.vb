@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid.Views.BandedGrid
+Imports DevExpress.XtraGrid.Views.Grid
 
 
 
@@ -218,8 +219,6 @@ Public Class DepartmentApproval
             dtPivot.Columns.Add(acc & "_Status1", GetType(Boolean))
         Next
         ' DISTINCT ITEMS
-        'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) r("ITEMNAME").ToString())
-        'Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .SupplierCode = r("SupplierCode").ToString()})
         Dim items = dtSource.AsEnumerable().GroupBy(Function(r) New With {Key .ItemName = r("ITEMNAME").ToString(), Key .EntryNo = r("EntryNo").ToString(), Key .Brand = r("COMPANYNAME").ToString(), Key .CutName = r("CUTNAME").ToString(), Key .GodownCode = r("GodownCode").ToString()})
         For Each grp In items
             Dim newRow As DataRow = dtPivot.NewRow()
@@ -448,6 +447,50 @@ Public Class DepartmentApproval
 
         End If
     End Sub
+    Private Sub FirstStage_ColumnFilterChanged(sender As Object, e As EventArgs) Handles FirstStage.ColumnFilterChanged
+        RecalculateMinRate()
+        FirstStage.RefreshData()
+    End Sub
+
+    Private Sub FirstStage_EndSorting(sender As Object, e As EventArgs) Handles FirstStage.EndSorting
+        RecalculateMinRate()
+        FirstStage.RefreshData()
+    End Sub
+    Private Sub RecalculateMinRate()
+
+        MinRateByRow.Clear()
+
+        For i As Integer = 0 To FirstStage.DataRowCount - 1
+
+            Dim rowHandle As Integer = FirstStage.GetVisibleRowHandle(i)
+
+            Dim minRate As Decimal = Decimal.MaxValue
+
+            For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
+
+                If col.FieldName.EndsWith("_Rate") Then
+
+                    Dim rate As Decimal
+
+                    If Decimal.TryParse(Convert.ToString(FirstStage.GetRowCellValue(rowHandle, col)), rate) Then
+                        If rate > 0 AndAlso rate < minRate Then
+                            minRate = rate
+                        End If
+                    End If
+
+                End If
+
+            Next
+
+            If minRate <> Decimal.MaxValue Then
+                MinRateByRow(rowHandle) = minRate
+            End If
+
+        Next
+
+    End Sub
+
+
     Private Sub bandedView_RowStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs)
 
         Dim view As BandedGridView = CType(sender, BandedGridView)
@@ -933,5 +976,7 @@ Public Class DepartmentApproval
             End If
         End If
     End Sub
+
+
 #End Region
 End Class

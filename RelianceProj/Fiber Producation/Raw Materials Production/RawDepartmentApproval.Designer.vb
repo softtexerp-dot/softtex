@@ -431,7 +431,7 @@ Partial Class RawDepartmentApproval
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "RawDepartmentApproval"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Raw Department Approval"
+        Me.Text = "Approval By Department Head"
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
