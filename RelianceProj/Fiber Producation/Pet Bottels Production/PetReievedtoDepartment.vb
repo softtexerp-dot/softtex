@@ -808,7 +808,7 @@ Public Class PetRecievedtoDepartment
         End Try
     End Sub
     Private Sub _EditLog(ByVal _EntryType As String)
-        Dim BookType As String = "Store Requisition"
+        Dim BookType As String = "Pet Recieved to Machine"
         Dim _Item As String = ""
         Dim _Rate As String = ""
         Dim _qty As String = ""
@@ -819,7 +819,7 @@ Public Class PetRecievedtoDepartment
         Dim _EditReason As String = ""
         Dim _PartyGstinno As String = ""
         _SaveUserEditLog(txtBookCode.Text,
-                            "Store Requisition",
+                            "Pet Recieved to Machine",
                             BookType,
                             txtEntryNo.Text,
                             txtChallanNo.Text,

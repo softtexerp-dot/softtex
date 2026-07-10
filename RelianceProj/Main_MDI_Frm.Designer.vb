@@ -95,6 +95,16 @@ Partial Class Main_MDI_Frm
         Me.RawIndentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawQuotationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawCompariToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawDepartmentApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawHeadApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawPOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawGateInwardToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawQualityCheckerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawRejectionApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawPurchaseReturnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawInwardAndPOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawStockReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -510,7 +520,7 @@ Partial Class Main_MDI_Frm
         '
         'RawMaterialsProductionToolStripMenuItem
         '
-        Me.RawMaterialsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RawStockEntryToolStripMenuItem, Me.RawRequitionToolStripMenuItem, Me.RawIssuetoMachineToolStripMenuItem, Me.RawApprovalToolStripMenuItem, Me.RawIndentToolStripMenuItem, Me.RawQuotationToolStripMenuItem, Me.RawCompariToolStripMenuItem})
+        Me.RawMaterialsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RawStockEntryToolStripMenuItem, Me.RawRequitionToolStripMenuItem, Me.RawIssuetoMachineToolStripMenuItem, Me.RawApprovalToolStripMenuItem, Me.RawIndentToolStripMenuItem, Me.RawQuotationToolStripMenuItem, Me.RawCompariToolStripMenuItem, Me.RawDepartmentApprovalToolStripMenuItem, Me.RawHeadApprovalToolStripMenuItem, Me.RawPOToolStripMenuItem, Me.RawGateInwardToolStripMenuItem, Me.RawQualityCheckerToolStripMenuItem, Me.RawRejectionApprovalToolStripMenuItem, Me.RawPurchaseReturnToolStripMenuItem, Me.RawInwardAndPOToolStripMenuItem, Me.RawStockReportToolStripMenuItem, Me.RawToolStripMenuItem})
         Me.RawMaterialsProductionToolStripMenuItem.Name = "RawMaterialsProductionToolStripMenuItem"
         Me.RawMaterialsProductionToolStripMenuItem.Size = New System.Drawing.Size(202, 20)
         Me.RawMaterialsProductionToolStripMenuItem.Text = "Raw Materials Production"
@@ -518,44 +528,104 @@ Partial Class Main_MDI_Frm
         'RawStockEntryToolStripMenuItem
         '
         Me.RawStockEntryToolStripMenuItem.Name = "RawStockEntryToolStripMenuItem"
-        Me.RawStockEntryToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawStockEntryToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawStockEntryToolStripMenuItem.Text = "Raw Stock Entry"
         '
         'RawRequitionToolStripMenuItem
         '
         Me.RawRequitionToolStripMenuItem.Name = "RawRequitionToolStripMenuItem"
-        Me.RawRequitionToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawRequitionToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawRequitionToolStripMenuItem.Text = "Raw Requisition"
         '
         'RawIssuetoMachineToolStripMenuItem
         '
         Me.RawIssuetoMachineToolStripMenuItem.Name = "RawIssuetoMachineToolStripMenuItem"
-        Me.RawIssuetoMachineToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawIssuetoMachineToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawIssuetoMachineToolStripMenuItem.Text = "Raw Issue To Machine"
         '
         'RawApprovalToolStripMenuItem
         '
         Me.RawApprovalToolStripMenuItem.Name = "RawApprovalToolStripMenuItem"
-        Me.RawApprovalToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawApprovalToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawApprovalToolStripMenuItem.Text = "RawApproval"
         '
         'RawIndentToolStripMenuItem
         '
         Me.RawIndentToolStripMenuItem.Name = "RawIndentToolStripMenuItem"
-        Me.RawIndentToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawIndentToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawIndentToolStripMenuItem.Text = "RawIndent"
         '
         'RawQuotationToolStripMenuItem
         '
         Me.RawQuotationToolStripMenuItem.Name = "RawQuotationToolStripMenuItem"
-        Me.RawQuotationToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawQuotationToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawQuotationToolStripMenuItem.Text = "RawQuotation"
         '
         'RawCompariToolStripMenuItem
         '
         Me.RawCompariToolStripMenuItem.Name = "RawCompariToolStripMenuItem"
-        Me.RawCompariToolStripMenuItem.Size = New System.Drawing.Size(233, 22)
+        Me.RawCompariToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawCompariToolStripMenuItem.Text = "RawComparison"
+        '
+        'RawDepartmentApprovalToolStripMenuItem
+        '
+        Me.RawDepartmentApprovalToolStripMenuItem.Name = "RawDepartmentApprovalToolStripMenuItem"
+        Me.RawDepartmentApprovalToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawDepartmentApprovalToolStripMenuItem.Text = "RawDepartmentApproval"
+        '
+        'RawHeadApprovalToolStripMenuItem
+        '
+        Me.RawHeadApprovalToolStripMenuItem.Name = "RawHeadApprovalToolStripMenuItem"
+        Me.RawHeadApprovalToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawHeadApprovalToolStripMenuItem.Text = "RawHeadApproval"
+        '
+        'RawPOToolStripMenuItem
+        '
+        Me.RawPOToolStripMenuItem.Name = "RawPOToolStripMenuItem"
+        Me.RawPOToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawPOToolStripMenuItem.Text = "RawPO"
+        '
+        'RawGateInwardToolStripMenuItem
+        '
+        Me.RawGateInwardToolStripMenuItem.Name = "RawGateInwardToolStripMenuItem"
+        Me.RawGateInwardToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawGateInwardToolStripMenuItem.Text = "RawGateInward"
+        '
+        'RawQualityCheckerToolStripMenuItem
+        '
+        Me.RawQualityCheckerToolStripMenuItem.Name = "RawQualityCheckerToolStripMenuItem"
+        Me.RawQualityCheckerToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawQualityCheckerToolStripMenuItem.Text = "RawQualityChecker"
+        '
+        'RawRejectionApprovalToolStripMenuItem
+        '
+        Me.RawRejectionApprovalToolStripMenuItem.Name = "RawRejectionApprovalToolStripMenuItem"
+        Me.RawRejectionApprovalToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawRejectionApprovalToolStripMenuItem.Text = "RawRejectionApproval"
+        '
+        'RawPurchaseReturnToolStripMenuItem
+        '
+        Me.RawPurchaseReturnToolStripMenuItem.Name = "RawPurchaseReturnToolStripMenuItem"
+        Me.RawPurchaseReturnToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawPurchaseReturnToolStripMenuItem.Text = "RawPurchaseReturn"
+        '
+        'RawInwardAndPOToolStripMenuItem
+        '
+        Me.RawInwardAndPOToolStripMenuItem.Name = "RawInwardAndPOToolStripMenuItem"
+        Me.RawInwardAndPOToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawInwardAndPOToolStripMenuItem.Text = "RawInwardAndPO"
+        '
+        'RawStockReportToolStripMenuItem
+        '
+        Me.RawStockReportToolStripMenuItem.Name = "RawStockReportToolStripMenuItem"
+        Me.RawStockReportToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawStockReportToolStripMenuItem.Text = "RawStockReport"
+        '
+        'RawToolStripMenuItem
+        '
+        Me.RawToolStripMenuItem.Name = "RawToolStripMenuItem"
+        Me.RawToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawToolStripMenuItem.Text = "RawRecieved"
         '
         'Main_MDI_Frm
         '
@@ -653,4 +723,14 @@ Partial Class Main_MDI_Frm
     Friend WithEvents RawIndentToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents RawQuotationToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents RawCompariToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawDepartmentApprovalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawHeadApprovalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawPOToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawGateInwardToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawQualityCheckerToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawRejectionApprovalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawPurchaseReturnToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawInwardAndPOToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawStockReportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawToolStripMenuItem As ToolStripMenuItem
 End Class

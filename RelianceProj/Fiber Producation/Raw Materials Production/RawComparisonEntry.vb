@@ -2039,7 +2039,7 @@ Public Class RawComparisonEntry
             For Each dr As DataRow In dtTmp.Select()
                 _TmpTbl.ImportRow(dr)
             Next
-            Dim RptTitle = "Raw Materials Comparison Entry Report"
+            Dim RptTitle = "Raw Comparison Entry Report"
             Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
             REPORT_RPT_FILE_NAME = "RawComparisonEntryReport"
             NewReportPrint(_TmpTbl, RptTitle, Date_Range)

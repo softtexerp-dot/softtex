@@ -1,7 +1,7 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraGrid
 
-Public Class PetGateInward
+Public Class RawGateInward
     Private obj_Party_Selection As New Multi_Selection_Master
     Private ObjCls_General As New cls_FrmHandle.cls_frmHandle
     Private UnitName As String = ""
@@ -475,8 +475,8 @@ Public Class PetGateInward
         GridControl1.Height = PNL_View.Height - 100
         GridControl1.Location = New Point(3, 53)
 
-        txtBookCode.Text = "0001-000010007"
-        _BookTrType = "PET07"
+        txtBookCode.Text = "0001-000010017"
+        _BookTrType = "RAW07"
         _BookCode = txtBookCode.Text
 
         AttachButtonFocusEvents(Me)
@@ -691,7 +691,7 @@ Public Class PetGateInward
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-        PetGateInwardPrint.Show()
+        RawGateInwardPrint.Show()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
@@ -826,7 +826,7 @@ Public Class PetGateInward
         End Try
     End Sub
     Private Sub _EditLog(ByVal _EntryType As String)
-        Dim BookType As String = "Pet Gate Inward"
+        Dim BookType As String = "Raw Gate Inward"
         Dim _Item As String = ""
         Dim _Rate As String = ""
         Dim _qty As String = ""
@@ -837,7 +837,7 @@ Public Class PetGateInward
         Dim _EditReason As String = ""
         Dim _PartyGstinno As String = ""
         _SaveUserEditLog(_BookCode,
-                            "Pet Gate Inward",
+                            "Raw Gate Inward",
                             BookType,
                             txtEntryNo.Text,
                             txtChallanNo.Text,
@@ -1100,7 +1100,7 @@ Public Class PetGateInward
     End Sub
 
     Private Sub btn_View_Print_Click(sender As Object, e As EventArgs)
-        Dim _RptTiltle = " Report From :" & txt_From.Text & " To : " & txt_To.Text
+        Dim _RptTiltle = "Raw Materials Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
@@ -1695,7 +1695,7 @@ Public Class PetGateInward
                     .Append(" ,B.OP7 AS BookVno ")
                     .Append(" ,sum(B.Mtr_weight)  as InQty ")
                     .Append(" FROM trnpackingslip AS B  ")
-                    .Append(" WHERE B.BOOKTRTYPE='PET07' ")
+                    .Append(" WHERE B.BOOKTRTYPE='RAW07' ")
                     .Append(" GROUP BY ")
                     .Append(" B.ITEMCODE ")
                     .Append(" ,B.GODOWNCODE ")
@@ -1710,7 +1710,7 @@ Public Class PetGateInward
                     .Append(" And F.SHADECODE=A.SHADECODE) ")
 
                     .Append(" WHERE 1=1 ")
-                    .Append(" and A.Booktrtype='PET10'")
+                    .Append(" and A.Booktrtype='RAW10'")
                     .Append(" AND A.GODOWNCODE='" & _GodownCode & "'")
                     .Append(" AND A.Mtr_weight -  ISNULL(F.InQty,0) >0")
 
@@ -2001,7 +2001,7 @@ Public Class PetGateInward
 
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
-        Dim _RptTiltle = "Pet Gate Inward Details"
+        Dim _RptTiltle = "Raw Gate Inward Details"
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
@@ -2078,9 +2078,9 @@ Public Class PetGateInward
             For Each dr As DataRow In dtTmp.Select()
                 _TmpTbl.ImportRow(dr)
             Next
-            Dim RptTitle = "Pet Get Inward Report"
+            Dim RptTitle = "Raw Get Inward Report"
             Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
-            REPORT_RPT_FILE_NAME = "PetGetInwardReport"
+            REPORT_RPT_FILE_NAME = "RawGetInwardReport"
             NewReportPrint(_TmpTbl, RptTitle, Date_Range)
 
         Else

@@ -319,6 +319,46 @@
         RawComparisonEntry.Show()
     End Sub
 
+    Private Sub RawDepartmentApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawDepartmentApprovalToolStripMenuItem.Click
+        RawDepartmentApproval.Show()
+    End Sub
+
+    Private Sub RawHeadApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawHeadApprovalToolStripMenuItem.Click
+        RawHeadApproval.Show()
+    End Sub
+
+    Private Sub RawPOToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawPOToolStripMenuItem.Click
+        RawPurchaseOrder.Show()
+    End Sub
+
+    Private Sub RawGateInwardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawGateInwardToolStripMenuItem.Click
+        RawGateInward.Show()
+    End Sub
+
+    Private Sub RawQualityCheckerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawQualityCheckerToolStripMenuItem.Click
+        RawQualityChecker.Show()
+    End Sub
+
+    Private Sub RawRejectionApprovalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawRejectionApprovalToolStripMenuItem.Click
+        RawRejectionApproval.Show()
+    End Sub
+
+    Private Sub RawPurchaseReturnToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawPurchaseReturnToolStripMenuItem.Click
+        RawPurchaseReturn.Show()
+    End Sub
+
+    Private Sub RawInwardAndPOToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawInwardAndPOToolStripMenuItem.Click
+        RawInwardAndPO.Show()
+    End Sub
+
+    Private Sub RawStockReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawStockReportToolStripMenuItem.Click
+        RawPurchaseReturnReport.Show()
+    End Sub
+
+    Private Sub RawToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawToolStripMenuItem.Click
+        RawRecievedtoDepartment.Show()
+    End Sub
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()

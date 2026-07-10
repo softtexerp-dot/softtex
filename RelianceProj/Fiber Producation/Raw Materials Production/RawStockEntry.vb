@@ -1966,7 +1966,7 @@ Public Class RawStockEntry
             For Each dr As DataRow In dtTmp.Select()
                 _TmpTbl.ImportRow(dr)
             Next
-            Dim RptTitle = "Raw Materials Stock Entry Report"
+            Dim RptTitle = "Raw Materials Entry Report"
             Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
             'REPORT_RPT_FILE_NAME = "GradingStockReq_2"
             REPORT_RPT_FILE_NAME = "RawStockEntryReport"

@@ -69,8 +69,8 @@ Public Class RawApproval
 
             ElseIf UCase(txt_Status.Text.Trim) = "NO" Then
                 'StatusFilter = " AND UPPER(A.OP19) = 'NO' "
-                StatusFilter = " AND CAST(ISNULL(A.PACK_SLIP_DATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
-                 " AND CAST(ISNULL(A.PACK_SLIP_DATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " &
+                StatusFilter = " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
+                 " AND CAST(ISNULL(A.ENTRYDATE,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' " &
                  " AND UPPER(A.OP19) = 'NO' "
             End If
         End If

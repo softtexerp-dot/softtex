@@ -1,10 +1,10 @@
 ﻿Imports System.Text
 
-Public Class PetGateInwardPrint
+Public Class RawGateInwardPrint
     Dim _Selectionbutton As String
     Private WithEvents txtgodowncode As New TextBox
     Private _GodownCode As String = ""
-    Private _BookCode As String = "0001-000010007"
+    Private _BookCode As String = "0001-000010017"
     Private _BookTrType As String = ""
     Dim _CheckFormLoad As Boolean = True
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
@@ -14,7 +14,7 @@ Public Class PetGateInwardPrint
 
         Dim View_Filter_Condition As String = ""
 
-        View_Filter_Condition = " And a.BookTrtype='PET07' And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "' "
+        View_Filter_Condition = " And a.BookTrtype='RAW07' And A.Bookcode='" & _BookCode & "' and A.GodownCode='" & _GodownCode & "' "
 
         _strQuery = New StringBuilder()
         With _strQuery
@@ -40,7 +40,7 @@ Public Class PetGateInwardPrint
         Try
             Dim View_Filter_Condition As String = ""
             If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _BookCode & "' And a.BookTrtype='PET07' and A.GodownCode='" & _GodownCode & "'"
+                View_Filter_Condition = "AND A.EntryNo>='" & Txt_FromEntryNo.Text & "' and A.EntryNo<='" & Txt_ToEntryNo.Text & "' And A.Bookcode='" & _BookCode & "' And a.BookTrtype='RAW07' and A.GodownCode='" & _GodownCode & "'"
             End If
             _strQuery = New StringBuilder()
             With _strQuery
@@ -91,11 +91,11 @@ Public Class PetGateInwardPrint
 
             If Tmp_Data_Table.Rows.Count > 0 Then
                 'Dim Date_Range = "Audit Report  From : " & txt_From.Text & " TO " & txt_To.Text
-                Dim RptTitle = "Pet Gate Inward Report"
+                Dim RptTitle = "Raw Gate Inward Report"
                 Dim Date_Range = ""
                 If But_ok.Enabled = True Then
                     If Txt_FromEntryNo.Text <> "" AndAlso Txt_ToEntryNo.Text <> "" Then
-                        REPORT_RPT_FILE_NAME = "PetGateInwardReport_" & Ctl_RptType.Text & ""
+                        REPORT_RPT_FILE_NAME = "RawGateInwardReport_" & Ctl_RptType.Text & ""
                         NewReportPrint(Tmp_Data_Table, RptTitle, Date_Range)
                         _ButtonEnable(True)
                         _TextboxEnable(False)

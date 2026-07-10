@@ -1,8 +1,7 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraGrid
 Imports FlexCell
-
-Public Class PetPurchaseOrder
+Public Class RawPurchaseOrder
 #Region "GRID STRING BUILDER VARIABLE"
     Private Offer_Calc_By As String
     Private _GridColNames As New StringBuilder
@@ -2287,8 +2286,8 @@ Public Class PetPurchaseOrder
 
         DispList = False
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            Dim BOOK_CATGER As String = "FIBER PET BOTTELS"
-            Dim BOOK_BHEWAR As String = "PET PURCHASE ORDER"
+            Dim BOOK_CATGER As String = "FIBER RAW MATERIALS"
+            Dim BOOK_BHEWAR As String = "RAW PURCHASE ORDER"
             Dim _strQuery As New System.Text.StringBuilder()
             With _strQuery
                 .AppendLine("SELECT")
@@ -2299,8 +2298,8 @@ Public Class PetPurchaseOrder
                 .AppendLine(" FROM MstBook A")
                 .AppendLine(" WHERE A.BookCategory = '" & BOOK_CATGER & "'")
                 .AppendLine(" AND A.Behaviour = '" & BOOK_BHEWAR & "'")
-                .AppendLine(" AND A.BookCode = '0001-000010010'")
-                .AppendLine(" AND A.BookTrType = 'PET10'")
+                .AppendLine(" AND A.BookCode = '0001-000010020'")
+                .AppendLine(" AND A.BookTrType = 'RAW10'")
             End With
             Dim _LoadQuery As String = _strQuery.ToString()
             Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtBookName.Text, "SINGLE")
@@ -2337,7 +2336,6 @@ Public Class PetPurchaseOrder
                     _PartNoCoumn = GetValueOrNo(Book_Row, "OP73")
                     _LocationColumn = GetValueOrNo(Book_Row, "OP74")
                     _DepartMentColumn = GetValueOrNo(Book_Row, "OP75")
-
                 End If
 
 
@@ -2523,7 +2521,7 @@ Public Class PetPurchaseOrder
                 .Append(" LEFT JOIN MstMasterAccount AS B ")
                 .Append(" ON A.ACCOUNTCODE = B.ACCOUNTCODE ")
                 .Append(" WHERE 1=1 ")
-                .Append(" and A.Booktrtype='PET06'")
+                .Append(" and A.Booktrtype='RAW06'")
                 .Append(" and A.OP19='YES'")
                 .Append(" AND  A.GODOWNCODE='" & _GodownCode & "'")
             End With
@@ -3198,7 +3196,7 @@ Public Class PetPurchaseOrder
                         .Append(" ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
                         .Append(" WHERE 1=1 ")
                         .Append(" and A.ACCOUNTCODE='" & txtAccount_Code.Text & "'")
-                        .Append(" and A.Booktrtype='PET06'")
+                        .Append(" and A.Booktrtype='RAW06'")
                         .Append(" and A.OP24='YES'")
                         .Append(" AND  A.GODOWNCODE='" & _GodownCode & "'")
                         .Append("  AND NOT EXISTS ")
@@ -4205,7 +4203,7 @@ Public Class PetPurchaseOrder
     End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
-        Dim _RptTiltle = "Pet Purchase Order Report From :" & txt_From.Text & " To : " & txt_To.Text
+        Dim _RptTiltle = " Raw Purchase Order Report From :" & txt_From.Text & " To : " & txt_To.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
@@ -4304,9 +4302,9 @@ Public Class PetPurchaseOrder
             For Each dr As DataRow In dtTmp.Select()
                 _TmpTbl.ImportRow(dr)
             Next
-            Dim RptTitle = "Pet Purchase Order Report"
+            Dim RptTitle = "Raw Purchase Order Report"
             Dim Date_Range = CDate(Date.Now).ToString("dd/MM/yyyy") & " To " & Date.Now.ToString("dd/MM/yyyy")
-            REPORT_RPT_FILE_NAME = "PetPurhcaseOrderReport"
+            REPORT_RPT_FILE_NAME = "RawPurhcaseOrderReport"
             NewReportPrint(_TmpTbl, RptTitle, Date_Range)
 
         Else
