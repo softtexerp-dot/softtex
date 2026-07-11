@@ -279,48 +279,26 @@ Public Class RawDepartmentApproval
             bandItem.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item"))
             bandItem.Columns.Add(AddBandedColumn(bandedView, "UOM", "UOM"))
             bandedView.Bands.Add(bandItem)
-
-
-
             MinRateByRow.Clear()
-
             For i As Integer = 0 To dtPivot.Rows.Count - 1
-
                 Dim minRate As Decimal = Decimal.MaxValue
-
                 For Each acc In accounts
-
                     Dim colName As String = acc & "_Rate"
-
                     If dtPivot.Columns.Contains(colName) Then
-
                         If Not IsDBNull(dtPivot.Rows(i)(colName)) Then
-
                             Dim rate As Decimal = 0D
-
                             If Decimal.TryParse(dtPivot.Rows(i)(colName).ToString(), rate) Then
-
                                 If rate > 0 AndAlso rate < minRate Then
                                     minRate = rate
                                 End If
-
                             End If
-
                         End If
-
                     End If
-
                 Next
-
                 If minRate <> Decimal.MaxValue Then
                     MinRateByRow(i) = minRate
                 End If
-
             Next
-
-
-
-
             For Each acc In accounts
                 Dim band As New GridBand()
                 band.Caption = acc
@@ -395,28 +373,26 @@ Public Class RawDepartmentApproval
     End Sub
 
     Private Sub bandedView_RowCellStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowCellStyleEventArgs)
-
         If e.RowHandle < 0 Then Exit Sub
-
-        If e.Column.FieldName.EndsWith("_Rate") Then
-
-            Dim minRate As Decimal = 0D
-
-            If MinRateByRow.TryGetValue(e.RowHandle, minRate) Then
-
-                Dim currentRate As Decimal = 0D
-
-                If Decimal.TryParse(Convert.ToString(e.CellValue), currentRate) Then
-
-                    If currentRate = minRate Then
-                        e.Appearance.BackColor = Color.LightGreen
-                        e.Appearance.Font = New Font(e.Appearance.Font, FontStyle.Bold)
+        If Not e.Column.FieldName.EndsWith("_Rate") Then Exit Sub
+        Dim view As DevExpress.XtraGrid.Views.BandedGrid.BandedGridView = CType(sender, DevExpress.XtraGrid.Views.BandedGrid.BandedGridView)
+        Dim minRate As Decimal = Decimal.MaxValue
+        For Each col As DevExpress.XtraGrid.Columns.GridColumn In view.Columns
+            If col.FieldName.EndsWith("_Rate") Then
+                Dim rate As Decimal
+                If Decimal.TryParse(Convert.ToString(view.GetRowCellValue(e.RowHandle, col)), rate) Then
+                    If rate > 0 AndAlso rate < minRate Then
+                        minRate = rate
                     End If
-
                 End If
-
             End If
-
+        Next
+        Dim currentRate As Decimal
+        If Decimal.TryParse(Convert.ToString(e.CellValue), currentRate) Then
+            If currentRate = minRate Then
+                e.Appearance.BackColor = Color.LightGreen
+                e.Appearance.Font = New Font(e.Appearance.Font, FontStyle.Bold)
+            End If
         End If
     End Sub
     Private Sub bandedView_RowStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs)
