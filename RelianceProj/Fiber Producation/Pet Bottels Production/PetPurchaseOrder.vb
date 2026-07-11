@@ -3353,7 +3353,7 @@ Public Class PetPurchaseOrder
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("WEIGHT") + 1).Text = dr("disamount").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("Net_Rate") + 1).Text = dr("NetRate").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DENT") + 1).Text = dr("Amount").ToString()
-                                        'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = dr("CompanyName").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("COMPANYNAME") + 1).Text = dr("CompanyName").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = dr("DESIGNCODE").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = dr("SHADECODE").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text = dr("CUTCODE").ToString()
