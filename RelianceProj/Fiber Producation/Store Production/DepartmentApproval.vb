@@ -67,8 +67,6 @@ Public Class DepartmentApproval
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         'txt_To.Text = obj_Party_Selection.GetFinancaleYearDate("")
         txt_To.Text = Now.ToString("dd/MM/yyyy")
-        'Dim _NewTmptbl As New DataTable
-        '_NewTmptbl = _Zooming_Load(txt_To.Date_for_Database)
         AttachButtonFocusEvents(Me)
     End Sub
     Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
@@ -226,7 +224,6 @@ Public Class DepartmentApproval
             For Each r In grp
                 Dim acc As String = r("SupplierName").ToString()
                 newRow(acc & "_Code") = r("SupplierCode").ToString
-                'newRow(acc & "_GodownCode") = r("GodownCode").ToString
                 newRow(acc & "_Brand") = r("COMPANYNAME").ToString
                 newRow(acc & "_Qty") = Format(Val(r("Qty")), "0.00")
                 newRow(acc & "_GrossRate") = Format(Val(r("GrossRate")), "0.00")
@@ -886,7 +883,5 @@ Public Class DepartmentApproval
             End If
         End If
     End Sub
-
-
 #End Region
 End Class
