@@ -1045,6 +1045,8 @@ Public Class GateInward
             .Append("  A.PACK_SLIP_NO as [Inward No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
+            .Append("  A.OP26 as Attachment1, ")
+            .Append("  A.OP27 as Attachment2, ")
             .Append(" MstMasterAccount.accountname as [Party Name], ")
             .Append("  A.SRNO as [Sno], ")
             '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
