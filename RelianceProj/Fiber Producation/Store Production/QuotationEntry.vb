@@ -1,6 +1,5 @@
 ﻿Imports System.Text
 Imports DevExpress.XtraGrid
-Imports DevExpress.XtraReports.UI
 
 
 Friend Class QuotationEntry
@@ -151,6 +150,7 @@ Friend Class QuotationEntry
             .Append("OP2,") 'req bookvno
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
+            .Append("OP26,") 'Attachment 1
             .Append("DESPATCHCODE")
         End With
 
@@ -314,6 +314,7 @@ Friend Class QuotationEntry
             .Append("OP19:N,") 'Approve status
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
+            .Append("OP26:N,") 'Attachment 1
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -533,7 +534,8 @@ Friend Class QuotationEntry
         txtBookCode.Text = "QESS-000000001"
         _BookTrType = "QESS1"
         _BookCode = txtBookCode.Text
-
+        BtnOpen.Visible = False
+        BtnView1.Visible = False
         If _isCallerByOther = True Then
             UC_Buttons1._ButtonEnableDisable("EDIT")
             'Call Alter_Form(_KeyFieldValue)
@@ -674,6 +676,8 @@ Friend Class QuotationEntry
         'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtUnitName.Visible = True
+        BtnOpen.Visible = True
+        BtnView1.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
 
@@ -687,6 +691,8 @@ Friend Class QuotationEntry
         'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtUnitName.Visible = True
+        BtnOpen.Visible = True
+        BtnView1.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
     End Sub
@@ -708,6 +714,8 @@ Friend Class QuotationEntry
             Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
 
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+            BtnOpen.Visible = True
+            BtnView1.Visible = True
         End If
     End Sub
 
@@ -717,6 +725,8 @@ Friend Class QuotationEntry
             txtEntryNo.Text = Val(txtEntryNo.Text) + 1
             Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+            BtnOpen.Visible = True
+            BtnView1.Visible = True
         End If
     End Sub
 
@@ -998,7 +1008,8 @@ Friend Class QuotationEntry
                 .Append("ENTRYDATE,")
                 .Append("MODYFIDATE,")
             End If
-            .Append("HeaderRemark")
+            .Append("HeaderRemark,")
+            .Append("OP26")
         End With
         _ExtraField_Values_DataTable = New StringBuilder
         With _ExtraField_Values_DataTable
@@ -1025,7 +1036,8 @@ Friend Class QuotationEntry
                 .Append(_lblEntryDate & ",")
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             End If
-            .Append(txtHeader_Remark.Text)
+            .Append(txtHeader_Remark.Text & ",")
+            .Append(TxtAttachment.Text)
         End With
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
         GridDetailsSaveQuery = QueryDetailTable & ";"
@@ -1376,6 +1388,7 @@ Friend Class QuotationEntry
         Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
         Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
         Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+        TxtAttachment.Text = tblTmp.Rows(0)("OP26").ToString
         Generate_Date_For_DataBase(txtChallanDate)
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
@@ -1442,6 +1455,7 @@ Friend Class QuotationEntry
             Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
             Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
             Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+            TxtAttachment.Text = tblTmp.Rows(0)("OP26").ToString
             'Generate_Date_For_DataBase(txtChallanDate)
             'GrdItem.Visible = False
             GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
@@ -2159,6 +2173,24 @@ Friend Class QuotationEntry
         Else
             MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
         End If
+    End Sub
+
+#End Region
+#Region "Attachment 1"
+    Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            Dim pathSource As String = OpenFileDialog1.FileName
+            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+            Dim sSource As String = pathSource
+            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+            TxtAttachment.Text = fileName
+            TxtAttachment.Focus()
+            SaveImageToLocalAndServer(sSource)
+        End If
+    End Sub
+
+    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
+        _ImageView_Click(TxtAttachment.Text)
     End Sub
 #End Region
 End Class

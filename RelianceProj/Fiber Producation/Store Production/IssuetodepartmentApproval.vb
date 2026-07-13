@@ -129,7 +129,7 @@ Public Class IssuetodepartmentApproval
             .Append(" LEFT JOIN MstStoreItemType K ON A.SHADECODE=K.TYPE_ID ")
             .Append(" LEFT JOIN MstDepartment E ON A.DESIGNCODE=E.Departmentcode ")
             .Append(" LEFT JOIN MstColor F ON A.CUTCODE1=F.COLORCODE ")
-            .Append(" LEFT JOIN (SELECT OP7 AS BOOKVNO ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE,ITEMCODE FROM TrnPackingSlip   WHERE BOOKTRTYPE in ('IDSS1') GROUP BY OP7,ITEMCODE ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE ) AS L ON  A.BOOKVNO = L.BOOKVNO and A.GodownCode = L.GodownCode and A.AccountCode = L.AccountCode and A.DESIGNCODE = L.DESIGNCODE and A.SHADECODE = L.SHADECODE  and A.ITEMCODE = L.ITEMCODE   ")
+            .Append(" LEFT JOIN (SELECT OP7 AS BOOKVNO ,DESIGNCODE,SHADECODE,GODOWNCODE,ITEMCODE FROM TrnPackingSlip   WHERE BOOKTRTYPE in ('IDSS1') GROUP BY OP7,ITEMCODE ,DESIGNCODE,SHADECODE,GODOWNCODE ) AS L ON  A.BOOKVNO = L.BOOKVNO and A.GodownCode = L.GodownCode and A.DESIGNCODE = L.DESIGNCODE and A.SHADECODE = L.SHADECODE  and A.ITEMCODE = L.ITEMCODE   ")
             .Append(" WHERE 1=1 ")
             .Append(Unitfilter)
             .Append(dateFilter)
@@ -171,7 +171,7 @@ Public Class IssuetodepartmentApproval
             AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
             For Each dc As DataColumn In tblTmp.Columns
                 Dim isEmptyOrZero As Boolean = True
-                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP22" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "GODOWNCODE" Then
+                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP9" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "GODOWNCODE" Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
                     Continue For
                 End If
@@ -214,8 +214,7 @@ Public Class IssuetodepartmentApproval
     End Sub
     Private Sub bandedView_RowStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs)
 
-        Dim view As DevExpress.XtraGrid.Views.Grid.GridView =
-        CType(sender, DevExpress.XtraGrid.Views.Grid.GridView)
+        Dim view As DevExpress.XtraGrid.Views.Grid.GridView = CType(sender, DevExpress.XtraGrid.Views.Grid.GridView)
 
         If e.RowHandle < 0 Then Exit Sub
 
@@ -234,17 +233,16 @@ Public Class IssuetodepartmentApproval
 
             ElseIf col.FieldName.EndsWith("Status") Then
                 Dim val As Object = view.GetRowCellValue(e.RowHandle, col)
-                    If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
-                        Dim status As String = val.ToString.Trim.ToUpper
-                        If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "YES" Then
-                            e.Appearance.BackColor = Color.LemonChiffon
-                            e.HighPriority = True
-                            'Exit For
-                        End If
+                If val IsNot Nothing AndAlso val IsNot DBNull.Value Then
+                    Dim status As String = val.ToString.Trim.ToUpper
+                    If status = "TRUE" OrElse status = "1" OrElse status = "Y" OrElse status = "YES" Then
+                        e.Appearance.BackColor = Color.LemonChiffon
+                        e.HighPriority = True
+                        'Exit For
                     End If
                 End If
+            End If
         Next
-
     End Sub
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)

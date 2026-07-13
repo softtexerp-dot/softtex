@@ -179,7 +179,9 @@ Public Class StorePurchaseReturnReport
             Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
 
             'Dim selected = MultyAccountSelectionForm(_LoadQuery, Nothing, txtGodownName.Text, "SINGLE")
-            Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtGodownName.Text, "MULTY")
+            'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtGodownName.Text, "MULTY")
+            Dim SelectedaccountCode As New List(Of String)
+            Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
             If selectedList1 IsNot Nothing AndAlso selectedList1.Count > 0 Then
 
                 txtgodowncode.Text = ""
