@@ -149,7 +149,9 @@ Module GetMasterDataJoinInMaster
             Case "ACCOUNT MASTER"
                 Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTIPLE")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -160,7 +162,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "AGENT MASTER"
                 Dim _LoadQuery = NewSelectionList.Bill_Agent_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -171,7 +175,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "CITY MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_City_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -182,7 +188,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "STATE MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_State_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -193,7 +201,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "FABRIC ITEM MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_ITEM_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -204,7 +214,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "FABRIC DESIGN MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_DESIGN_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -215,7 +227,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "FABRIC SHADE MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_SHADE_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -226,7 +240,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "FABRIC SELVEDGE MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_Selvedge_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -237,7 +253,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "YARN MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_Yarn_Type_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -248,7 +266,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "YARN SHADE MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_YarnItem_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -259,7 +279,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "GENRAL ITEM MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_storeItem_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -270,7 +292,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "SUBITEM MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -281,7 +305,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "SIZE MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_size_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -292,7 +318,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "COLOR MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_Color_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -303,7 +331,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "REMARK MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_Remark_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -314,7 +344,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "PROCESS MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_process_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -325,7 +357,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "CUT MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -336,7 +370,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "DEPARTMENT MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -347,7 +383,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "POST MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_POST_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -358,7 +396,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "EMPLOYEE MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_Employee_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -369,7 +409,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "FABRIC GROUP MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_Fabric_Item_Group_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -380,7 +422,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "GODOWN MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_Godown_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -391,7 +435,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "GRADER MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_GRADER_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -402,7 +448,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "INSURANCE MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -413,7 +461,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "LOOMNO MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_LoomNo_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -424,7 +474,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "SALESMAN MASTER"
                 Dim _LoadQuery = NewSelectionList.Single_SalesMan_Selection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -435,7 +487,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "TRANSPORT MASTER"
                 Dim _LoadQuery = NewSelectionList.SINGLE_TRANSPORT_SELECTION("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -446,7 +500,9 @@ Module GetMasterDataJoinInMaster
                 End If
             Case "BOOK MASTER"
                 Dim _LoadQuery = NewSelectionList.MstBookSelection("")
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim SelectedaccountCode As New List(Of String)
+                'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List

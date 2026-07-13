@@ -579,11 +579,28 @@ Module Genral
 
 
 
-    Public Function MultyAccountSelectionForm(loadQuery As String, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String) As List(Of Dictionary(Of String, Object))
+    'Public Function MultyAccountSelectionForm(loadQuery As String, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String) As List(Of Dictionary(Of String, Object))
+    '    Dim frm As New NewSelectionForm()
+    '    frm.LoadQuery = loadQuery
+    '    frm.F2MasterFormType = masterFormType
+    '    frm.GridViewType = GridViewType
+
+    '    If Not String.IsNullOrEmpty(prefillSearch) Then
+    '        frm.txtSearch.Text = prefillSearch
+    '    End If
+
+    '    If frm.ShowDialog() = DialogResult.OK Then
+    '        Return frm.SelectedRowValuesList
+    '    End If
+
+    '    Return Nothing
+    'End Function
+    Public Function MultyAccountSelectionForm(loadQuery As String, masterFormType As Type, ByVal prefillSearch As String, ByVal GridViewType As String, ByVal SelectedAccountCode As List(Of String)) As List(Of Dictionary(Of String, Object))
         Dim frm As New NewSelectionForm()
         frm.LoadQuery = loadQuery
         frm.F2MasterFormType = masterFormType
         frm.GridViewType = GridViewType
+        frm.SelectedAccountCode = SelectedAccountCode
 
         If Not String.IsNullOrEmpty(prefillSearch) Then
             frm.txtSearch.Text = prefillSearch

@@ -3,7 +3,7 @@ Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid.Views.Grid
 
 Public Class NewSelectionForm
-
+    Public SelectedaccountCode As New List(Of String)
     ' Single Row Selection Result
     Public SelectedRowValues As New Dictionary(Of String, Object)()
 
