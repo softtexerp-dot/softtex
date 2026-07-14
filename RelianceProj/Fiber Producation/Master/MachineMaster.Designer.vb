@@ -23,7 +23,7 @@ Partial Class MachineMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MachineMaster))
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.PNL_View = New System.Windows.Forms.Panel()
         Me.But_export = New DevExpress.XtraEditors.SimpleButton()
         Me.But_print = New DevExpress.XtraEditors.SimpleButton()
@@ -1174,7 +1174,7 @@ Partial Class MachineMaster
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(927, 399)
+        Me.ClientSize = New System.Drawing.Size(937, 399)
         Me.Controls.Add(Me.BtnView)
         Me.Controls.Add(Me.BtnOpen)
         Me.Controls.Add(Me.TxtTaxRate)

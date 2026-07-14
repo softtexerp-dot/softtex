@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 
-Public Class MachineMaster
+Public Class VendorMaster
 
 #Region "VARIABLE DECLARATION"
     Private _ColNames As New StringBuilder
@@ -19,8 +19,8 @@ Public Class MachineMaster
     Private _CreatedBy As String = USER_ID
     Private _CheckedBy As String = ""
     Private WithEvents txtAlter_code As New TextBox
-    Private WithEvents txtUOM_code As New TextBox
-    Private WithEvents txtdepartment_code As New TextBox
+    'Private WithEvents txtUOM_code As New TextBox
+    'Private WithEvents txtdepartment_code As New TextBox
     Dim _lblEntryDate As String
 #End Region
     Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
@@ -47,12 +47,9 @@ Public Class MachineMaster
         Call defineColName()
         ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
 
-        txtBookCode.Text = "MMSS-000000001"
-        _BookTrType = "MMSS1"
+        txtBookCode.Text = "VVMM-000000001"
+        _BookTrType = "VVMM1"
         _BookCode = txtBookCode.Text
-        BtnOpen.Visible = False
-        BtnView.Visible = False
-
         Ctrl_Visible_False(Me.Controls)
         _FrmLoad = False
 
@@ -60,13 +57,13 @@ Public Class MachineMaster
         UC_Buttons1._ButtonEnableDisable("LOAD")
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        UC_Buttons1.HideButtons("BtnReports")
+        UC_Buttons1.HideButtons("BtnReports", "BtnBack", "BtnNext", "BtnPrint")
     End Sub
 #Region "QUERY SECTION"
 
     Public Function Master_GetMaxCode(ByVal _KeyFieldName As String, ByVal _TblName As String, ByVal _SELECTEDCOMPANYCODE As String) As String
-        'strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10),Main_account_master  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)<>'" & _SELECTEDCOMPANYCODE & "'" & " AND Group_master_finance='FIXED ASSETS MASTER'  ORDER BY " & _KeyFieldName & " DESC "
-        strQuery = " SELECT  TOP 1 Main_account_master  FROM " & _TblName & " WHERE  Group_master_finance='FIXED ASSETS MASTER'  ORDER BY " & _KeyFieldName & " DESC "
+        'strQuery = " SELECT  TOP 1 SUBSTRING(" & _KeyFieldName & ",6,10),Main_account_master  FROM " & _TblName & " WHERE LEFT(" & _KeyFieldName & ",4)<>'" & _SELECTEDCOMPANYCODE & "'" & " AND Group_master_finance='VENDOR MASTER'  ORDER BY " & _KeyFieldName & " DESC "
+        strQuery = " SELECT  TOP 1 Main_account_master  FROM " & _TblName & " WHERE  Group_master_finance='VENDOR MASTER'  ORDER BY " & _KeyFieldName & " DESC "
         Return strQuery.ToString
     End Function
 
@@ -79,25 +76,11 @@ Public Class MachineMaster
         _strQuery = New StringBuilder
         With _strQuery
             .Append(" SELECT  ")
-            .Append("A.Schedule_id,") ' enqcode
-            '.Append("Group_master_finance,")
-            .Append("A.Main_account_master,")
-            .Append("A.STATEMASTER,")
-            .Append("A.CITYMASTER,")
-            .Append("A.TRANSPORT_MASTER,")
-            .Append("A.MSTFABRICMASTER,")
-            .Append("A.MSTFABRICHEAD,")
-            .Append("A.MSTFABRICGROUP,")
-            .Append("A.MSTYARNMASTER,")
-            .Append("A.MSTITEMGROUP,")
-            .Append("A.MSTITEMCOMPANY,")
-            .Append("A.MSTITEMMASTER,")
-            .Append("A.MST_BARCODE,")
-            .Append("A.MST_BATCHID,")
-            .Append("A.MSTINSURANCE,")
-            .Append("A.MSTFABRIC_ITEM_CATEGORY,")
-            .Append("B.CutName,")
-            .Append("C.Departmentname,")
+            .Append("A.Schedule_id,")
+            .Append("A.Main_account_master,") ' Vendor Id
+            .Append("A.STATEMASTER,") 'Vendaor Name
+            .Append("A.CITYMASTER,") 'Remark
+            .Append("A.TRANSPORT_MASTER,") 'Vendor Code
             .Append("A.MST_YARN_SHADE,")
             .Append("MST_ACOF,") 'BooktrType
             .Append("MST_STORE_CATEGORY,") 'Bookcode
@@ -105,10 +88,8 @@ Public Class MachineMaster
             .Append("MST_STORE_ITEM_GROUP,") 'Checked By
             .Append("A.MSTCUTMASTER")
             .Append("  FROM Vch_no as A ")
-            .Append("  LEFT JOIN MstCutMaster AS B  ON A.MSTITEMMASTER=B.ID")
-            .Append(" left Join MstDepartment As C on A.MSTINSURANCE=C.Departmentcode ")
             .Append("  WHERE 1=1")
-            .Append("  AND A.Group_master_finance='FIXED ASSETS MASTER'")
+            .Append("  AND A.Group_master_finance='VENDOR MASTER'")
             .Append("  AND A.Schedule_id='" & strKeyID & "'")
         End With
         Return _strQuery.ToString
@@ -118,7 +99,7 @@ Public Class MachineMaster
         If _FORMMODE = "ADD" Then
             _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
         ElseIf _FORMMODE = "EDIT" Then
-            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "' and Group_master_finance='FIXED ASSETS MASTER'")
+            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "' and Group_master_finance='VENDOR MASTER' ")
         End If
         getSaveQuery = _strQuery.ToString
     End Function
@@ -126,24 +107,13 @@ Public Class MachineMaster
 #Region "TABLE FIELD DECLARE"
     Private Sub defineColName()
         With _ColNames
-            .Append("Schedule_id,") ' enqcode
+            .Append("Schedule_id,")
             .Append("Group_master_finance,")
-            .Append("Main_account_master,")
-            .Append("STATEMASTER,")
-            .Append("CITYMASTER,")
-            .Append("TRANSPORT_MASTER,")
+            .Append("Main_account_master,") ' Vendor Id
+            .Append("STATEMASTER,") 'Vendaor Name
+            .Append("CITYMASTER,") 'Remark
+            .Append("TRANSPORT_MASTER,") 'Vendor Code
             .Append("MSTCUTMASTER,") 'Entry Date
-            .Append("MSTFABRICMASTER,")
-            .Append("MSTFABRICHEAD,")
-            .Append("MSTFABRICGROUP,")
-            .Append("MSTYARNMASTER,")
-            .Append("MSTITEMGROUP,")
-            .Append("MSTITEMCOMPANY,")
-            .Append("MSTITEMMASTER,")
-            .Append("MST_BARCODE,")
-            .Append("MST_BATCHID,")
-            .Append("MSTINSURANCE,")
-            .Append("MSTFABRIC_ITEM_CATEGORY,")
             .Append("MST_ACOF,") 'BooktrType
             .Append("MST_STORE_CATEGORY,") 'Bookcode
             .Append("MST_STORE_ITEM_CATEGORY,") 'Created By
@@ -180,12 +150,16 @@ Public Class MachineMaster
         sql_connect_slect()
         If DefaltSoftTable.Rows.Count > 0 Then
             txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
+            Txtsection.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
+            Txtsection.Text = "VC" & Txtsection.Text.PadLeft(4, "0")
+            Txtsection.ReadOnly = True
         Else
             txtEntryNo.Text = "1"
+            Txtsection.Text = "1"
+            Txtsection.Text = "VC" & Txtsection.Text.PadLeft(4, "0")
+            Txtsection.ReadOnly = True
         End If
         txtEntryNo.Visible = True
-        BtnOpen.Visible = True
-        BtnView.Visible = True
         txtEntryNo.Focus()
         txtEntryNo.Select()
     End Sub
@@ -203,8 +177,6 @@ Public Class MachineMaster
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             Exit Sub
         End If
-        BtnOpen.Visible = True
-        BtnView.Visible = True
         txtEntryNo.Visible = True
         txtEntryNo.Focus()
         txtEntryNo.Select()
@@ -233,8 +205,6 @@ Public Class MachineMaster
             txtAlter_code.Text = ""
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
             Call Ctrl_Visible_True(Me.Controls)
-            BtnOpen.Visible = True
-            BtnView.Visible = True
             txtEntryNo.Focus()
             txtEntryNo.Select()
         End If
@@ -245,8 +215,6 @@ Public Class MachineMaster
         If _FORMMODE = "EDIT" AndAlso Val(txtEntryNo.Text) >= 1 Then
             txtEntryNo.Text = Val(txtEntryNo.Text) + 1
             Call Ctrl_Visible_True(Me.Controls)
-            BtnOpen.Visible = True
-            BtnView.Visible = True
             txtEntryNo.Focus()
             txtEntryNo.Select()
         End If
@@ -277,7 +245,7 @@ Public Class MachineMaster
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-        MachinePrint.Show()
+        VendorMasterPrint.Show()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
@@ -293,15 +261,21 @@ Public Class MachineMaster
         Dim SaveQuery As String = ""
         Dim strQuery As String = ""
         Dim LASTCODE As String = ""
+        Dim VENDORCODE As String = ""
         If _FORMMODE = "ADD" Then
             sqL = GetMaxCode()
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 LASTCODE = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
                 txtEntryNo.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
+                Txtsection.Text = Val(DefaltSoftTable.Rows(0).Item("Main_account_master")) + 1
+                Txtsection.Text = "VC" & Txtsection.Text.PadLeft(4, "0")
             Else
                 LASTCODE = "1"
                 txtEntryNo.Text = "1"
+                Txtsection.Text = "1"
+                Txtsection.Text = "VC" & Txtsection.Text.PadLeft(4, "0")
+
             End If
             _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
             LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
@@ -313,7 +287,7 @@ Public Class MachineMaster
         tblFormValues.Rows(0)("STATEMASTER") = Txt_MachineName.Text
         tblFormValues.Rows(0)("CITYMASTER") = Txt_Brand.Text
         tblFormValues.Rows(0)("TRANSPORT_MASTER") = Txtsection.Text
-        tblFormValues.Rows(0)("Group_master_finance") = "FIXED ASSETS MASTER"
+        tblFormValues.Rows(0)("Group_master_finance") = "VENDOR MASTER"
         If _FORMMODE = "ADD" Then
             tblFormValues.Rows(0)("MSTCUTMASTER") = CDate(Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
         End If
@@ -321,25 +295,6 @@ Public Class MachineMaster
             tblFormValues.Rows(0)("MSTCUTMASTER") = _lblEntryDate
             tblFormValues.Rows(0)("MST_YARN_SHADE") = CDate(Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
         End If
-        tblFormValues.Rows(0)("MSTFABRICMASTER") = TxtBoolvalue.Text
-        tblFormValues.Rows(0)("MSTFABRICHEAD") = txtdepreciation.Text
-        tblFormValues.Rows(0)("MSTFABRICGROUP") = Txtspaceoccup.Text
-        tblFormValues.Rows(0)("MSTYARNMASTER") = TxtL.Text
-        tblFormValues.Rows(0)("MSTITEMGROUP") = TxtW.Text
-        tblFormValues.Rows(0)("MSTITEMCOMPANY") = TxtCategory.Text
-        If txtUOM_code.Text = "" Then
-            tblFormValues.Rows(0)("MSTITEMMASTER") = "0000-000000001"
-        Else
-            tblFormValues.Rows(0)("MSTITEMMASTER") = txtUOM_code.Text
-        End If
-        If txtdepartment_code.Text = "" Then
-            tblFormValues.Rows(0)("MSTINSURANCE") = "0000-000000001"
-        Else
-            tblFormValues.Rows(0)("MSTINSURANCE") = txtdepartment_code.Text
-        End If
-        tblFormValues.Rows(0)("MST_BARCODE") = TxtHsn.Text
-        tblFormValues.Rows(0)("MST_BATCHID") = TxtTaxRate.Text
-        tblFormValues.Rows(0)("MSTFABRIC_ITEM_CATEGORY") = TxtAttachment.Text
         tblFormValues.Rows(0)("MST_ACOF") = _BookTrType
         tblFormValues.Rows(0)("MST_STORE_CATEGORY") = _BookCode
         tblFormValues.Rows(0)("MST_STORE_ITEM_CATEGORY") = _CreatedBy 'Created By
@@ -360,14 +315,12 @@ Public Class MachineMaster
 
         ObjCls_General.Blank_Object(Me)
         _FORMMODE = ""
+        UC_Buttons1._ButtonEnableDisable("LOAD")
         Ctrl_Visible_False(Me.Controls)
         AttachButtonFocusEvents(Me)
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        'TxtUOm.Enabled = True
-        'TxtDepartMent.Enabled = True
     End Sub
     Private Sub _EditLog(ByVal _EntryType As String)
-        Dim BookType As String = "FIXED ASSETS MASTER"
+        Dim BookType As String = "VENDOR MASTER"
         Dim _Item As String = ""
         Dim _Rate As String = ""
         Dim _qty As String = ""
@@ -378,7 +331,7 @@ Public Class MachineMaster
         Dim _EditReason As String = ""
         Dim _PartyGstinno As String = ""
         _SaveUserEditLog(txtBookCode.Text,
-                            "FIXED ASSETS MASTER",
+                            "VENDOR MASTER",
                             BookType,
                             txtEntryNo.Text,
                             "",
@@ -394,7 +347,7 @@ Public Class MachineMaster
                             _BookVNo,
                             _ItemDetail,
                             CDate(Date.Now).ToString("yyyy-MM-dd"),
-                            txtdepreciation.Text,
+                            "",
                             _PartyGstinno
                             )
     End Sub
@@ -403,7 +356,7 @@ Public Class MachineMaster
     Private Function Validate_Form_Values() As Boolean
         Validate_Form_Values = False
         If Txt_MachineName.Text = "" Then
-            MsgBox("Enter Machine Name")
+            MsgBox("Enter Vendor Name")
             Txt_MachineName.Focus()
             Exit Function
         Else
@@ -425,10 +378,8 @@ Public Class MachineMaster
                 _FORMMODE = "LOAD"
                 ObjCls_General.Blank_Object(Me)
                 _KeyFieldValue = 0
-                'Call Command_Button_Visibility("LOAD")
                 AttachButtonFocusEvents(Me)
                 Call Ctrl_Visible_False(Me.Controls)
-                'Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
                 UC_Buttons1._ButtonEnableDisable("LOAD")
                 UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                 _FrmLoad = False
@@ -441,23 +392,20 @@ Public Class MachineMaster
         If e.KeyCode = Keys.Enter Then
             If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
 
-                sqL = "SELECT * FROM vch_no WHERE MAIN_ACCOUNT_MASTER='" & txtEntryNo.Text & "' and Group_master_finance='FIXED ASSETS MASTER' "
+                sqL = "SELECT * FROM vch_no WHERE MAIN_ACCOUNT_MASTER='" & txtEntryNo.Text & "' and Group_master_finance='VENDOR MASTER' "
                 sql_connect_slect()
                 If DefaltSoftTable.Rows.Count > 0 Then
                     txtAlter_code.Text = DefaltSoftTable.Rows(0).Item("SCHEDULE_ID").ToString
                 Else
                     MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
                     Call Ctrl_Visible_False(Me.Controls)
-                    'txtEntryNo.Visible = True
-                    'txtEntryNo.Focus()
-                    'txtEntryNo.Select()
                     Exit Sub
                 End If
 
                 ALTER_FORM(txtAlter_code.Text)
 
                 If _FORMMODE = "DELETE" Then
-                    If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+                    If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton1, "Delete ?") = MsgBoxResult.Yes Then
                         Delete_Record()
                         MsgBox("Records Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
                     End If
@@ -487,19 +435,6 @@ Public Class MachineMaster
             Txt_MachineName.Text = tblTmp.Rows(0).Item("STATEMASTER").ToString
             Txt_Brand.Text = tblTmp.Rows(0).Item("CITYMASTER").ToString
             Txtsection.Text = tblTmp.Rows(0).Item("TRANSPORT_MASTER").ToString
-            TxtBoolvalue.Text = tblTmp.Rows(0).Item("MSTFABRICMASTER").ToString
-            txtdepreciation.Text = tblTmp.Rows(0).Item("MSTFABRICHEAD").ToString
-            Txtspaceoccup.Text = tblTmp.Rows(0).Item("MSTFABRICGROUP").ToString
-            TxtL.Text = tblTmp.Rows(0).Item("MSTYARNMASTER").ToString
-            TxtW.Text = tblTmp.Rows(0).Item("MSTITEMGROUP").ToString
-            TxtCategory.Text = tblTmp.Rows(0).Item("MSTITEMCOMPANY").ToString
-            TxtUOm.Text = tblTmp.Rows(0).Item("CutName").ToString
-            txtUOM_code.Text = tblTmp.Rows(0).Item("MSTITEMMASTER").ToString
-            TxtHsn.Text = tblTmp.Rows(0).Item("MST_BARCODE").ToString
-            TxtTaxRate.Text = tblTmp.Rows(0).Item("MST_BATCHID").ToString
-            TxtDepartMent.Text = tblTmp.Rows(0).Item("DepartmentName").ToString
-            txtdepartment_code.Text = tblTmp.Rows(0).Item("MSTINSURANCE").ToString
-            TxtAttachment.Text = tblTmp.Rows(0).Item("MSTFABRIC_ITEM_CATEGORY").ToString
             _BookTrType = tblTmp.Rows(0).Item("MST_ACOF").ToString
             _BookCode = tblTmp.Rows(0).Item("MST_STORE_CATEGORY").ToString
             _CreatedBy = tblTmp.Rows(0).Item("MST_STORE_ITEM_CATEGORY").ToString 'Created By
@@ -512,7 +447,7 @@ Public Class MachineMaster
         Dim _entryNo As Integer = 0
         _strQuery = New StringBuilder
         With _strQuery
-            .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "' and Group_master_finance='FIXED ASSETS MASTER' ")
+            .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "' and Group_master_finance='VENDOR MASTER' ")
         End With
         sqL = _strQuery.ToString
         sql_Data_Save_Delete_Update()
@@ -520,43 +455,10 @@ Public Class MachineMaster
         _KeyFieldValue = 0
         _FORMMODE = ""
         Ctrl_Visible_False(Me.Controls)
-        'Command_Button_Visibility("LOAD")
         AttachButtonFocusEvents(Me)
-        'Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
     End Sub
 
-    Private Sub TxtUOm_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtUOm.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
-            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Cut_master_frm), TxtUOm.Text, "SINGLE")
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    txtUOM_code.Text = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("CUTNAME") Then
-                    TxtUOm.Text = selected("CUTNAME").ToString()
-                End If
-            End If
-            'TxtUOm.Enabled = False
-        End If
-    End Sub
-
-    Private Sub TxtDepartMent_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtDepartMent.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
-            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(StoreDepartment), TxtDepartMent.Text, "SINGLE")
-            If selected IsNot Nothing Then
-                If selected.ContainsKey("ACCOUNTCODE") Then
-                    txtdepartment_code.Text = selected("ACCOUNTCODE").ToString()
-                End If
-                If selected.ContainsKey("DepName") Then
-                    TxtDepartMent.Text = selected("DepName").ToString()
-                End If
-            End If
-            'TxtDepartMent.Enabled = False
-        End If
-    End Sub
 #End Region
 #Region "VIEW RECORD"
     Private Sub View_Record()
@@ -566,30 +468,15 @@ Public Class MachineMaster
             _strQuery = New StringBuilder
             With _strQuery
                 .Append(" SELECT  ")
-                .Append("A.Main_account_master As MachineNo,")
-                .Append("A.STATEMASTER As MachineName,")
-                .Append("A.CITYMASTER As Brand,")
-                .Append("A.TRANSPORT_MASTER As Section,")
-                .Append("A.MSTFABRICMASTER As BoolValue,")
-                .Append("A.MSTFABRICHEAD As Depreciation,")
-                .Append("A.MSTFABRICGROUP As SpaceOccupied,")
-                .Append("A.MSTYARNMASTER AS L,")
-                .Append("A.MSTITEMGROUP As W,")
-                .Append("A.MSTITEMCOMPANY AS Category,")
-                '.Append("A.MSTITEMMASTER,") ' cutcode
-                .Append("A.MST_BARCODE As HSN,")
-                .Append("A.MST_BATCHID As TaxRate,")
-                '.Append("A.MSTINSURANCE,") ' Departmentcode
-                .Append("A.MSTFABRIC_ITEM_CATEGORY,")
-                .Append("B.CutName As UOM,")
-                .Append("C.Departmentname As DepartmentName,")
+                .Append("A.Main_account_master As VendorNo,")
+                .Append("A.STATEMASTER As VendorName,")
+                .Append("A.CITYMASTER As Remark,")
+                .Append("A.TRANSPORT_MASTER As VendorCode,")
                 .Append("A.MST_YARN_SHADE As ModifiedDate,")
                 .Append("A.MSTCUTMASTER As EntryDate")
                 .Append("  FROM Vch_no as A ")
-                .Append("  LEFT JOIN MstCutMaster AS B  ON A.MSTITEMMASTER=B.ID")
-                .Append(" left Join MstDepartment As C on A.MSTINSURANCE=C.Departmentcode ")
                 .Append("  WHERE 1=1")
-                .Append("  AND A.Group_master_finance='FIXED ASSETS MASTER'")
+                .Append("  AND A.Group_master_finance='VENDOR MASTER'")
                 .Append("  ORDER BY A.Main_account_master ")
             End With
             sqL = _strQuery.ToString
@@ -602,9 +489,6 @@ Public Class MachineMaster
                 FirstStage.Appearance.Row.Font = New Font("Tahoma", 9, FontStyle.Bold)
                 FirstStage.Appearance.HeaderPanel.Font = New Font("Tahoma", 9, FontStyle.Bold)
                 FirstStage.RowHeight = 25
-                'FirstStage.GroupRowHeight = 30
-
-
                 PNL_View.BringToFront()
                 PNL_View.Visible = True
 
@@ -620,21 +504,6 @@ Public Class MachineMaster
             MsgBox(ex.ToString)
         Finally
         End Try
-    End Sub
-
-    Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Dim pathSource As String = OpenFileDialog1.FileName
-            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-            Dim sSource As String = pathSource
-            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
-            TxtAttachment.Text = fileName
-            SaveImageToLocalAndServer(sSource)
-        End If
-    End Sub
-
-    Private Sub BtnView_Click(sender As Object, e As EventArgs) Handles BtnView.Click
-        _ImageView_Click(TxtAttachment.Text)
     End Sub
 #End Region
 End Class
