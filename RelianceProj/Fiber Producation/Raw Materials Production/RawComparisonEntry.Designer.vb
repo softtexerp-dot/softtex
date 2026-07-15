@@ -44,7 +44,7 @@ Partial Class RawComparisonEntry
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.lbl_To = New System.Windows.Forms.Label()
         Me.txt_From = New ctl_TextBox.ctl_TextBox()

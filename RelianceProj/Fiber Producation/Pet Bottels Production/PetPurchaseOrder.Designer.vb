@@ -66,10 +66,7 @@ Partial Class PetPurchaseOrder
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.Txt_EntryType = New ctl_TextBox.ctl_TextBox()
-        Me.Txt_PartOfferDate = New ctl_TextBox.ctl_TextBox()
         Me.grdBsun = New FlexCell.Grid()
-        Me.Label38 = New System.Windows.Forms.Label()
-        Me.Label39 = New System.Windows.Forms.Label()
         Me.Label40 = New System.Windows.Forms.Label()
         Me.Label43 = New System.Windows.Forms.Label()
         Me.Lvl_Grossamt = New System.Windows.Forms.Label()
@@ -98,9 +95,6 @@ Partial Class PetPurchaseOrder
         Me.txtAgentOfferNo = New ctl_TextBox.ctl_TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.txtPartyOfferNo = New ctl_TextBox.ctl_TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.txtHeader_Remark = New ctl_TextBox.ctl_TextBox()
         Me.Label23 = New System.Windows.Forms.Label()
@@ -888,51 +882,6 @@ Partial Class PetPurchaseOrder
         Me.Txt_EntryType.TransparentBox = True
         Me.Txt_EntryType.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
-        'Txt_PartOfferDate
-        '
-        Me.Txt_PartOfferDate._AllowSpace = True
-        Me.Txt_PartOfferDate.AcceptsReturn = True
-        Me.Txt_PartOfferDate.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.Txt_PartOfferDate.BackColor = System.Drawing.Color.MistyRose
-        Me.Txt_PartOfferDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Txt_PartOfferDate.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.Txt_PartOfferDate.Check_End_Date_Value_FY = "YES"
-        Me.Txt_PartOfferDate.Check_Start_Date_Value_FY = "YES"
-        Me.Txt_PartOfferDate.ClearField = True
-        Me.Txt_PartOfferDate.CustomInputTypeString = Nothing
-        Me.Txt_PartOfferDate.Date_for_Database = Nothing
-        Me.Txt_PartOfferDate.Date_Tag = "F_OFFERDATE"
-        Me.Txt_PartOfferDate.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.Txt_PartOfferDate.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
-        Me.Txt_PartOfferDate.ExtraValue = ""
-        Me.Txt_PartOfferDate.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txt_PartOfferDate.FontFocusColor = System.Drawing.Color.Blue
-        Me.Txt_PartOfferDate.FontLeaveColor = System.Drawing.Color.Black
-        Me.Txt_PartOfferDate.ForeColor = System.Drawing.Color.Black
-        Me.Txt_PartOfferDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
-        Me.Txt_PartOfferDate.IsValidated = False
-        Me.Txt_PartOfferDate.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.Txt_PartOfferDate.Location = New System.Drawing.Point(668, 4)
-        Me.Txt_PartOfferDate.MandatoryColor = System.Drawing.Color.MistyRose
-        Me.Txt_PartOfferDate.MandatoryField = False
-        Me.Txt_PartOfferDate.MaxDate = Nothing
-        Me.Txt_PartOfferDate.MaxLength = 6
-        Me.Txt_PartOfferDate.MinDate = Nothing
-        Me.Txt_PartOfferDate.Name = "Txt_PartOfferDate"
-        Me.Txt_PartOfferDate.NormalBorderColor = System.Drawing.Color.MistyRose
-        Me.Txt_PartOfferDate.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.Txt_PartOfferDate.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.Txt_PartOfferDate.RegularExpression = Nothing
-        Me.Txt_PartOfferDate.RegularExpressionErrorMessage = Nothing
-        Me.Txt_PartOfferDate.ShowMessage = False
-        Me.Txt_PartOfferDate.Size = New System.Drawing.Size(98, 22)
-        Me.Txt_PartOfferDate.SpacerString = ""
-        Me.Txt_PartOfferDate.TabIndex = 82245
-        Me.Txt_PartOfferDate.Tag = "MONOGRAM_TYPE"
-        Me.Txt_PartOfferDate.Text = "  /  /    "
-        Me.Txt_PartOfferDate.TransparentBox = True
-        Me.Txt_PartOfferDate.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
         'grdBsun
         '
         Me.grdBsun.AllowUserReorderColumn = True
@@ -966,26 +915,6 @@ Partial Class PetPurchaseOrder
         Me.grdBsun.TabIndex = 82302
         Me.grdBsun.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.grdBsun.UncheckedImage = CType(resources.GetObject("grdBsun.UncheckedImage"), System.Drawing.Bitmap)
-        '
-        'Label38
-        '
-        Me.Label38.AutoSize = True
-        Me.Label38.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label38.Location = New System.Drawing.Point(538, 4)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(117, 14)
-        Me.Label38.TabIndex = 82300
-        Me.Label38.Text = "Party Offer Date"
-        '
-        'Label39
-        '
-        Me.Label39.AutoSize = True
-        Me.Label39.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label39.Location = New System.Drawing.Point(652, 4)
-        Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(12, 14)
-        Me.Label39.TabIndex = 82301
-        Me.Label39.Text = ":"
         '
         'Label40
         '
@@ -1194,7 +1123,7 @@ Partial Class PetPurchaseOrder
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Crimson
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(1009, 202)
-        Me.GrdItem.TabIndex = 82253
+        Me.GrdItem.TabIndex = 82251
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -1222,7 +1151,7 @@ Partial Class PetPurchaseOrder
         Me.txtAgentName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.txtAgentName.IsValidated = False
         Me.txtAgentName.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txtAgentName.Location = New System.Drawing.Point(668, 27)
+        Me.txtAgentName.Location = New System.Drawing.Point(668, 8)
         Me.txtAgentName.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtAgentName.MandatoryField = False
         Me.txtAgentName.MaxDate = Nothing
@@ -1237,7 +1166,7 @@ Partial Class PetPurchaseOrder
         Me.txtAgentName.ShowMessage = False
         Me.txtAgentName.Size = New System.Drawing.Size(292, 22)
         Me.txtAgentName.SpacerString = ""
-        Me.txtAgentName.TabIndex = 82246
+        Me.txtAgentName.TabIndex = 82244
         Me.txtAgentName.Tag = "AGENTNAME"
         Me.txtAgentName.TransparentBox = True
         Me.txtAgentName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1246,7 +1175,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label36.AutoSize = True
         Me.Label36.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label36.Location = New System.Drawing.Point(538, 27)
+        Me.Label36.Location = New System.Drawing.Point(538, 8)
         Me.Label36.Name = "Label36"
         Me.Label36.Size = New System.Drawing.Size(87, 14)
         Me.Label36.TabIndex = 82282
@@ -1256,7 +1185,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label37.AutoSize = True
         Me.Label37.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label37.Location = New System.Drawing.Point(652, 27)
+        Me.Label37.Location = New System.Drawing.Point(652, 8)
         Me.Label37.Name = "Label37"
         Me.Label37.Size = New System.Drawing.Size(12, 14)
         Me.Label37.TabIndex = 82283
@@ -1286,7 +1215,7 @@ Partial Class PetPurchaseOrder
         Me.txt_Clear.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.txt_Clear.IsValidated = False
         Me.txt_Clear.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txt_Clear.Location = New System.Drawing.Point(668, 155)
+        Me.txt_Clear.Location = New System.Drawing.Point(668, 136)
         Me.txt_Clear.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txt_Clear.MandatoryField = False
         Me.txt_Clear.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -1302,7 +1231,7 @@ Partial Class PetPurchaseOrder
         Me.txt_Clear.ShowMessage = False
         Me.txt_Clear.Size = New System.Drawing.Size(40, 22)
         Me.txt_Clear.SpacerString = "NO,YES"
-        Me.txt_Clear.TabIndex = 82251
+        Me.txt_Clear.TabIndex = 82249
         Me.txt_Clear.Tag = "CLEAR"
         Me.txt_Clear.Text = "NO"
         Me.txt_Clear.TransparentBox = True
@@ -1311,7 +1240,7 @@ Partial Class PetPurchaseOrder
         'Label32
         '
         Me.Label32.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(654, 155)
+        Me.Label32.Location = New System.Drawing.Point(654, 136)
         Me.Label32.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(8, 14)
@@ -1322,7 +1251,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label33.AutoSize = True
         Me.Label33.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label33.Location = New System.Drawing.Point(540, 155)
+        Me.Label33.Location = New System.Drawing.Point(540, 136)
         Me.Label33.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(81, 14)
@@ -1406,7 +1335,7 @@ Partial Class PetPurchaseOrder
         Me.txtAcOfName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.txtAcOfName.IsValidated = False
         Me.txtAcOfName.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txtAcOfName.Location = New System.Drawing.Point(668, 79)
+        Me.txtAcOfName.Location = New System.Drawing.Point(668, 60)
         Me.txtAcOfName.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtAcOfName.MandatoryField = False
         Me.txtAcOfName.MaxDate = Nothing
@@ -1420,7 +1349,7 @@ Partial Class PetPurchaseOrder
         Me.txtAcOfName.ShowMessage = False
         Me.txtAcOfName.Size = New System.Drawing.Size(292, 22)
         Me.txtAcOfName.SpacerString = ""
-        Me.txtAcOfName.TabIndex = 82248
+        Me.txtAcOfName.TabIndex = 82246
         Me.txtAcOfName.Tag = "ACOFNAME"
         Me.txtAcOfName.TransparentBox = True
         Me.txtAcOfName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1429,7 +1358,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(540, 79)
+        Me.Label10.Location = New System.Drawing.Point(540, 60)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(51, 14)
         Me.Label10.TabIndex = 82276
@@ -1439,7 +1368,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(654, 79)
+        Me.Label11.Location = New System.Drawing.Point(654, 60)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(12, 14)
         Me.Label11.TabIndex = 82277
@@ -1489,7 +1418,7 @@ Partial Class PetPurchaseOrder
         Me.txtAgentOfferNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtAgentOfferNo.IsValidated = False
         Me.txtAgentOfferNo.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txtAgentOfferNo.Location = New System.Drawing.Point(668, 54)
+        Me.txtAgentOfferNo.Location = New System.Drawing.Point(668, 35)
         Me.txtAgentOfferNo.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtAgentOfferNo.MandatoryField = False
         Me.txtAgentOfferNo.MaxDate = Nothing
@@ -1503,7 +1432,7 @@ Partial Class PetPurchaseOrder
         Me.txtAgentOfferNo.ShowMessage = False
         Me.txtAgentOfferNo.Size = New System.Drawing.Size(292, 22)
         Me.txtAgentOfferNo.SpacerString = ""
-        Me.txtAgentOfferNo.TabIndex = 82247
+        Me.txtAgentOfferNo.TabIndex = 82245
         Me.txtAgentOfferNo.Tag = "AGENTOFFERNO"
         Me.txtAgentOfferNo.TransparentBox = True
         Me.txtAgentOfferNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1512,7 +1441,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(540, 54)
+        Me.Label8.Location = New System.Drawing.Point(540, 35)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(110, 14)
         Me.Label8.TabIndex = 82273
@@ -1522,80 +1451,17 @@ Partial Class PetPurchaseOrder
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(654, 54)
+        Me.Label9.Location = New System.Drawing.Point(654, 35)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(12, 14)
         Me.Label9.TabIndex = 82274
         Me.Label9.Text = ":"
         '
-        'txtPartyOfferNo
-        '
-        Me.txtPartyOfferNo._AllowSpace = True
-        Me.txtPartyOfferNo.AcceptsReturn = True
-        Me.txtPartyOfferNo.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtPartyOfferNo.BackColor = System.Drawing.Color.MistyRose
-        Me.txtPartyOfferNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtPartyOfferNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtPartyOfferNo.Check_End_Date_Value_FY = "YES"
-        Me.txtPartyOfferNo.Check_Start_Date_Value_FY = "YES"
-        Me.txtPartyOfferNo.ClearField = True
-        Me.txtPartyOfferNo.CustomInputTypeString = Nothing
-        Me.txtPartyOfferNo.Date_for_Database = Nothing
-        Me.txtPartyOfferNo.Date_Tag = Nothing
-        Me.txtPartyOfferNo.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.txtPartyOfferNo.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
-        Me.txtPartyOfferNo.ExtraValue = ""
-        Me.txtPartyOfferNo.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPartyOfferNo.FontFocusColor = System.Drawing.Color.Blue
-        Me.txtPartyOfferNo.FontLeaveColor = System.Drawing.Color.Black
-        Me.txtPartyOfferNo.ForeColor = System.Drawing.Color.Black
-        Me.txtPartyOfferNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
-        Me.txtPartyOfferNo.IsValidated = False
-        Me.txtPartyOfferNo.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txtPartyOfferNo.Location = New System.Drawing.Point(138, 172)
-        Me.txtPartyOfferNo.MandatoryColor = System.Drawing.Color.MistyRose
-        Me.txtPartyOfferNo.MandatoryField = False
-        Me.txtPartyOfferNo.MaxDate = Nothing
-        Me.txtPartyOfferNo.MinDate = Nothing
-        Me.txtPartyOfferNo.Name = "txtPartyOfferNo"
-        Me.txtPartyOfferNo.NormalBorderColor = System.Drawing.Color.MistyRose
-        Me.txtPartyOfferNo.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.txtPartyOfferNo.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.txtPartyOfferNo.RegularExpression = Nothing
-        Me.txtPartyOfferNo.RegularExpressionErrorMessage = Nothing
-        Me.txtPartyOfferNo.ShowMessage = False
-        Me.txtPartyOfferNo.Size = New System.Drawing.Size(292, 22)
-        Me.txtPartyOfferNo.SpacerString = ""
-        Me.txtPartyOfferNo.TabIndex = 82244
-        Me.txtPartyOfferNo.Tag = "PARTYOFFERNO"
-        Me.txtPartyOfferNo.TransparentBox = True
-        Me.txtPartyOfferNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(8, 172)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(108, 14)
-        Me.Label5.TabIndex = 82271
-        Me.Label5.Text = "Party Offer No."
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(122, 172)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(12, 14)
-        Me.Label6.TabIndex = 82272
-        Me.Label6.Text = ":"
-        '
         'Label24
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(654, 179)
+        Me.Label24.Location = New System.Drawing.Point(654, 160)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(12, 14)
         Me.Label24.TabIndex = 82270
@@ -1625,7 +1491,7 @@ Partial Class PetPurchaseOrder
         Me.txtHeader_Remark.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtHeader_Remark.IsValidated = False
         Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txtHeader_Remark.Location = New System.Drawing.Point(668, 179)
+        Me.txtHeader_Remark.Location = New System.Drawing.Point(668, 160)
         Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtHeader_Remark.MandatoryField = False
         Me.txtHeader_Remark.MaxDate = Nothing
@@ -1639,7 +1505,7 @@ Partial Class PetPurchaseOrder
         Me.txtHeader_Remark.ShowMessage = False
         Me.txtHeader_Remark.Size = New System.Drawing.Size(292, 22)
         Me.txtHeader_Remark.SpacerString = ""
-        Me.txtHeader_Remark.TabIndex = 82252
+        Me.txtHeader_Remark.TabIndex = 82250
         Me.txtHeader_Remark.Tag = "HEADERREMARK"
         Me.txtHeader_Remark.TransparentBox = True
         Me.txtHeader_Remark.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1648,7 +1514,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(540, 179)
+        Me.Label23.Location = New System.Drawing.Point(540, 160)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(58, 14)
         Me.Label23.TabIndex = 82269
@@ -1678,7 +1544,7 @@ Partial Class PetPurchaseOrder
         Me.txtDespatch.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtDespatch.IsValidated = False
         Me.txtDespatch.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txtDespatch.Location = New System.Drawing.Point(668, 105)
+        Me.txtDespatch.Location = New System.Drawing.Point(668, 86)
         Me.txtDespatch.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtDespatch.MandatoryField = False
         Me.txtDespatch.MaxDate = Nothing
@@ -1692,7 +1558,7 @@ Partial Class PetPurchaseOrder
         Me.txtDespatch.ShowMessage = False
         Me.txtDespatch.Size = New System.Drawing.Size(292, 22)
         Me.txtDespatch.SpacerString = ""
-        Me.txtDespatch.TabIndex = 82249
+        Me.txtDespatch.TabIndex = 82247
         Me.txtDespatch.Tag = "DESPATCH"
         Me.txtDespatch.TransparentBox = True
         Me.txtDespatch.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1701,7 +1567,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(540, 105)
+        Me.Label16.Location = New System.Drawing.Point(540, 86)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(68, 14)
         Me.Label16.TabIndex = 82267
@@ -1711,7 +1577,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(654, 105)
+        Me.Label17.Location = New System.Drawing.Point(654, 86)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(12, 14)
         Me.Label17.TabIndex = 82268
@@ -1741,7 +1607,7 @@ Partial Class PetPurchaseOrder
         Me.txtTransportName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtTransportName.IsValidated = False
         Me.txtTransportName.LeaveFocusColor = System.Drawing.Color.MistyRose
-        Me.txtTransportName.Location = New System.Drawing.Point(668, 130)
+        Me.txtTransportName.Location = New System.Drawing.Point(668, 111)
         Me.txtTransportName.MandatoryColor = System.Drawing.Color.MistyRose
         Me.txtTransportName.MandatoryField = False
         Me.txtTransportName.MaxDate = Nothing
@@ -1755,7 +1621,7 @@ Partial Class PetPurchaseOrder
         Me.txtTransportName.ShowMessage = False
         Me.txtTransportName.Size = New System.Drawing.Size(292, 22)
         Me.txtTransportName.SpacerString = ""
-        Me.txtTransportName.TabIndex = 82250
+        Me.txtTransportName.TabIndex = 82248
         Me.txtTransportName.Tag = "TRANSPORTNAME"
         Me.txtTransportName.TransparentBox = True
         Me.txtTransportName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1764,7 +1630,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(540, 130)
+        Me.Label14.Location = New System.Drawing.Point(540, 111)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(71, 14)
         Me.Label14.TabIndex = 82265
@@ -1774,7 +1640,7 @@ Partial Class PetPurchaseOrder
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(654, 130)
+        Me.Label15.Location = New System.Drawing.Point(654, 111)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(12, 14)
         Me.Label15.TabIndex = 82266
@@ -2050,10 +1916,7 @@ Partial Class PetPurchaseOrder
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.LblHelipStrip)
         Me.Controls.Add(Me.PNL_View)
-        Me.Controls.Add(Me.Txt_PartOfferDate)
         Me.Controls.Add(Me.grdBsun)
-        Me.Controls.Add(Me.Label38)
-        Me.Controls.Add(Me.Label39)
         Me.Controls.Add(Me.Label40)
         Me.Controls.Add(Me.Label43)
         Me.Controls.Add(Me.Lvl_Grossamt)
@@ -2082,9 +1945,6 @@ Partial Class PetPurchaseOrder
         Me.Controls.Add(Me.txtAgentOfferNo)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label9)
-        Me.Controls.Add(Me.txtPartyOfferNo)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label24)
         Me.Controls.Add(Me.txtHeader_Remark)
         Me.Controls.Add(Me.Label23)
@@ -2170,10 +2030,7 @@ Partial Class PetPurchaseOrder
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
     Friend WithEvents Label25 As Label
     Friend WithEvents Txt_EntryType As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Txt_PartOfferDate As ctl_TextBox.ctl_TextBox
     Friend WithEvents grdBsun As FlexCell.Grid
-    Friend WithEvents Label38 As Label
-    Friend WithEvents Label39 As Label
     Friend WithEvents Label40 As Label
     Friend WithEvents Label43 As Label
     Friend WithEvents Lvl_Grossamt As Label
@@ -2202,9 +2059,6 @@ Partial Class PetPurchaseOrder
     Friend WithEvents txtAgentOfferNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label8 As Label
     Friend WithEvents Label9 As Label
-    Friend WithEvents txtPartyOfferNo As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Label5 As Label
-    Friend WithEvents Label6 As Label
     Friend WithEvents Label24 As Label
     Friend WithEvents txtHeader_Remark As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label23 As Label

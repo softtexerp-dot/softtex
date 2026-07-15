@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.XtraBars.Customization
 
 Public Class VendorMaster
 
@@ -57,7 +58,7 @@ Public Class VendorMaster
         UC_Buttons1._ButtonEnableDisable("LOAD")
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        UC_Buttons1.HideButtons("BtnReports", "BtnBack", "BtnNext", "BtnPrint")
+        UC_Buttons1.HideButtons("BtnReports", "BtnBack", "BtnNext", "BtnPrint", "BtnDelete")
     End Sub
 #Region "QUERY SECTION"
 
@@ -159,9 +160,12 @@ Public Class VendorMaster
             Txtsection.Text = "VC" & Txtsection.Text.PadLeft(4, "0")
             Txtsection.ReadOnly = True
         End If
-        txtEntryNo.Visible = True
-        txtEntryNo.Focus()
-        txtEntryNo.Select()
+        'txtEntryNo.Visible = True
+        'txtEntryNo.Focus()
+        'txtEntryNo.Select()
+        Txt_MachineName.Visible = True
+        Txt_MachineName.Focus()
+        Txt_MachineName.Select()
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
         _FORMMODE = "EDIT"
@@ -177,9 +181,12 @@ Public Class VendorMaster
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             Exit Sub
         End If
-        txtEntryNo.Visible = True
-        txtEntryNo.Focus()
-        txtEntryNo.Select()
+        'txtEntryNo.Visible = True
+        'txtEntryNo.Focus()
+        'txtEntryNo.Select()
+        Txt_MachineName.Visible = True
+        Txt_MachineName.Focus()
+        Txt_MachineName.Select()
     End Sub
     Private Sub UC_Buttons1_DeleteClick() Handles UC_Buttons1.DeleteClick
         _FORMMODE = "DELETE"
@@ -194,9 +201,12 @@ Public Class VendorMaster
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             Exit Sub
         End If
-        txtEntryNo.Visible = True
-        txtEntryNo.Focus()
-        txtEntryNo.Select()
+        'txtEntryNo.Visible = True
+        'txtEntryNo.Focus()
+        'txtEntryNo.Select()
+        Txt_MachineName.Visible = True
+        Txt_MachineName.Focus()
+        Txt_MachineName.Select()
     End Sub
     Private Sub UC_Buttons1_BackClick() Handles UC_Buttons1.BackClick
         _FrmLoad = False
@@ -205,8 +215,11 @@ Public Class VendorMaster
             txtAlter_code.Text = ""
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
             Call Ctrl_Visible_True(Me.Controls)
-            txtEntryNo.Focus()
-            txtEntryNo.Select()
+            'txtEntryNo.Focus()
+            'txtEntryNo.Select()
+            'Txt_MachineName.Visible = True
+            Txt_MachineName.Focus()
+            Txt_MachineName.Select()
         End If
     End Sub
 
@@ -215,8 +228,11 @@ Public Class VendorMaster
         If _FORMMODE = "EDIT" AndAlso Val(txtEntryNo.Text) >= 1 Then
             txtEntryNo.Text = Val(txtEntryNo.Text) + 1
             Call Ctrl_Visible_True(Me.Controls)
-            txtEntryNo.Focus()
-            txtEntryNo.Select()
+            'txtEntryNo.Focus()
+            'txtEntryNo.Select()
+            'Txt_MachineName.Visible = True
+            Txt_MachineName.Focus()
+            Txt_MachineName.Select()
         End If
     End Sub
 
@@ -238,9 +254,12 @@ Public Class VendorMaster
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Call View_Record()
-        txtEntryNo.Visible = True
-        txtEntryNo.Focus()
-        txtEntryNo.Select()
+        'txtEntryNo.Visible = True
+        'txtEntryNo.Focus()
+        'txtEntryNo.Select()
+        Txt_MachineName.Visible = True
+        Txt_MachineName.Focus()
+        Txt_MachineName.Select()
     End Sub
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
@@ -477,6 +496,7 @@ Public Class VendorMaster
                 .Append("  FROM Vch_no as A ")
                 .Append("  WHERE 1=1")
                 .Append("  AND A.Group_master_finance='VENDOR MASTER'")
+                .Append("  AND A.STATEMASTER='" & Txt_MachineName.Text & "'")
                 .Append("  ORDER BY A.Main_account_master ")
             End With
             sqL = _strQuery.ToString
@@ -504,6 +524,46 @@ Public Class VendorMaster
             MsgBox(ex.ToString)
         Finally
         End Try
+    End Sub
+
+    Private Sub Txt_MachineName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_MachineName.KeyPress
+        If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+            If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
+                Dim _Filterstring As String = " "
+                Dim _LoadQuery = NewSelectionList.SINGLE_VENDORMASTER_SELECTION(_Filterstring)
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, Txt_MachineName.Text, "SINGLE")
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ACCOUNTCODE") Then Txtsection.Text = selected("ACCOUNTCODE").ToString()
+                    If selected.ContainsKey("VendorName") Then Txt_MachineName.Text = selected("VendorName").ToString()
+                End If
+                '_BookCode = txtBookCode.Text
+                'SendKeys.Send("{TAB}")
+
+                sqL = "SELECT * FROM vch_no WHERE STATEMASTER='" & Txt_MachineName.Text & "' and Group_master_finance='VENDOR MASTER' "
+                sql_connect_slect()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    txtAlter_code.Text = DefaltSoftTable.Rows(0).Item("SCHEDULE_ID").ToString
+                Else
+                    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+                    Call Ctrl_Visible_False(Me.Controls)
+                    Exit Sub
+                End If
+
+                ALTER_FORM(txtAlter_code.Text)
+
+                If _FORMMODE = "DELETE" Then
+                    If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton1, "Delete ?") = MsgBoxResult.Yes Then
+                        Delete_Record()
+                        MsgBox("Records Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                    End If
+                End If
+
+                Txt_Brand.Focus()
+            End If
+        End If
+
+        'e.Handled = True
     End Sub
 #End Region
 End Class

@@ -79,7 +79,7 @@ Partial Class VendorMaster
         Me.Txtsection.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txtsection.IsValidated = False
         Me.Txtsection.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txtsection.Location = New System.Drawing.Point(162, 93)
+        Me.Txtsection.Location = New System.Drawing.Point(162, 70)
         Me.Txtsection.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txtsection.MandatoryField = False
         Me.Txtsection.MaxDate = Nothing
@@ -126,7 +126,7 @@ Partial Class VendorMaster
         Me.Txt_Brand.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_Brand.IsValidated = False
         Me.Txt_Brand.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_Brand.Location = New System.Drawing.Point(162, 66)
+        Me.Txt_Brand.Location = New System.Drawing.Point(162, 43)
         Me.Txt_Brand.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_Brand.MandatoryField = False
         Me.Txt_Brand.MaxDate = Nothing
@@ -169,7 +169,7 @@ Partial Class VendorMaster
         Me.txtEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtEntryNo.IsValidated = False
         Me.txtEntryNo.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.txtEntryNo.Location = New System.Drawing.Point(162, 14)
+        Me.txtEntryNo.Location = New System.Drawing.Point(1106, 207)
         Me.txtEntryNo.MandatoryColor = System.Drawing.Color.LightCyan
         Me.txtEntryNo.MandatoryField = False
         Me.txtEntryNo.MaxDate = Nothing
@@ -300,7 +300,7 @@ Partial Class VendorMaster
         Me.Txt_MachineName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_MachineName.IsValidated = False
         Me.Txt_MachineName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_MachineName.Location = New System.Drawing.Point(162, 39)
+        Me.Txt_MachineName.Location = New System.Drawing.Point(162, 16)
         Me.Txt_MachineName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_MachineName.MandatoryField = False
         Me.Txt_MachineName.MaxDate = Nothing
@@ -323,7 +323,7 @@ Partial Class VendorMaster
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(142, 16)
+        Me.Label17.Location = New System.Drawing.Point(1086, 209)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(12, 14)
         Me.Label17.TabIndex = 82331
@@ -333,7 +333,7 @@ Partial Class VendorMaster
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(13, 16)
+        Me.Label15.Location = New System.Drawing.Point(957, 209)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(76, 14)
         Me.Label15.TabIndex = 82330
@@ -343,7 +343,7 @@ Partial Class VendorMaster
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(13, 97)
+        Me.Label5.Location = New System.Drawing.Point(13, 74)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(91, 14)
         Me.Label5.TabIndex = 82324
@@ -353,7 +353,7 @@ Partial Class VendorMaster
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(142, 98)
+        Me.Label6.Location = New System.Drawing.Point(142, 75)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 14)
         Me.Label6.TabIndex = 82325
@@ -363,7 +363,7 @@ Partial Class VendorMaster
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(13, 69)
+        Me.Label2.Location = New System.Drawing.Point(13, 46)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(58, 14)
         Me.Label2.TabIndex = 82322
@@ -373,7 +373,7 @@ Partial Class VendorMaster
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(142, 69)
+        Me.Label3.Location = New System.Drawing.Point(142, 46)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(12, 14)
         Me.Label3.TabIndex = 82323
@@ -383,7 +383,7 @@ Partial Class VendorMaster
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(142, 41)
+        Me.Label4.Location = New System.Drawing.Point(142, 18)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82321
@@ -393,7 +393,7 @@ Partial Class VendorMaster
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(13, 41)
+        Me.Label1.Location = New System.Drawing.Point(13, 18)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(96, 14)
         Me.Label1.TabIndex = 82320
@@ -426,15 +426,15 @@ Partial Class VendorMaster
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(546, 199)
+        Me.ClientSize = New System.Drawing.Size(461, 189)
         Me.Controls.Add(Me.Txtsection)
         Me.Controls.Add(Me.Txt_Brand)
         Me.Controls.Add(Me.txtEntryNo)
         Me.Controls.Add(Me.Txt_MachineName)
         Me.Controls.Add(Me.Label17)
-        Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label4)

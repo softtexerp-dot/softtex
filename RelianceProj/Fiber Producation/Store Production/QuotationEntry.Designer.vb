@@ -86,12 +86,14 @@ Partial Class QuotationEntry
         Me.Label33 = New System.Windows.Forms.Label()
         Me.Label34 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label41
@@ -1146,7 +1148,7 @@ Partial Class QuotationEntry
         Me.BtnView1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnView1.Appearance.Options.UseFont = True
         Me.BtnView1.ImageOptions.Image = CType(resources.GetObject("BtnView1.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnView1.Location = New System.Drawing.Point(876, 84)
+        Me.BtnView1.Location = New System.Drawing.Point(854, 83)
         Me.BtnView1.Name = "BtnView1"
         Me.BtnView1.Size = New System.Drawing.Size(39, 36)
         Me.BtnView1.TabIndex = 82306
@@ -1156,7 +1158,7 @@ Partial Class QuotationEntry
         Me.BtnOpen.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnOpen.Appearance.Options.UseFont = True
         Me.BtnOpen.ImageOptions.Image = CType(resources.GetObject("BtnOpen.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnOpen.Location = New System.Drawing.Point(831, 84)
+        Me.BtnOpen.Location = New System.Drawing.Point(809, 83)
         Me.BtnOpen.Name = "BtnOpen"
         Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
         Me.BtnOpen.TabIndex = 8
@@ -1228,12 +1230,21 @@ Partial Class QuotationEntry
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(900, 77)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(100, 50)
+        Me.PictureBox1.TabIndex = 82307
+        Me.PictureBox1.TabStop = False
+        '
         'QuotationEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.BtnView1)
         Me.Controls.Add(Me.BtnOpen)
         Me.Controls.Add(Me.TxtAttachment)
@@ -1295,6 +1306,7 @@ Partial Class QuotationEntry
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1363,4 +1375,5 @@ Partial Class QuotationEntry
     Friend WithEvents Label33 As Label
     Friend WithEvents Label34 As Label
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents PictureBox1 As PictureBox
 End Class

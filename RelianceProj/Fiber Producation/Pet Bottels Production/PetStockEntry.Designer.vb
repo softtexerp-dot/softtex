@@ -36,7 +36,7 @@ Partial Class PetStockEntry
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.GrdItem = New FlexCell.Grid()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()

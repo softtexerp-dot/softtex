@@ -1500,7 +1500,7 @@ Public Class PetIssueDepartment
 
 
                 'Dim _Filterstring As String = "  And A.ItemCode = '" & selected("ItemCode") & "'"
-                Dim _Filterstring As String = " And A.Bookcode = '0001-000010002' and A.GodownCode='" & txtUnitCode.Text & "'"
+                Dim _Filterstring As String = " And A.Bookcode = '0001-000010002' and A.GodownCode='" & txtUnitCode.Text & "' And A.OP8='YES'"
                 Dim _Filterstring_B As String = " And A.Bookcode = '0001-000010003' and A.GodownCode='" & txtUnitCode.Text & "'"
                 sqL = _GetPendingStock(_Filterstring, _Filterstring_B)
                 sql_connect_slect()
