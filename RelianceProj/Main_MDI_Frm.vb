@@ -359,6 +359,22 @@
         RawRecievedtoDepartment.Show()
     End Sub
 
+    Private Sub StoreApprovalToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles StoreApprovalToolStripMenuItem1.Click
+        IssuetodepartmentApproval.Show()
+    End Sub
+
+    Private Sub VendorMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VendorMasterToolStripMenuItem.Click
+        VendorMaster.Show()
+    End Sub
+
+    Private Sub PetApprovalToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles PetApprovalToolStripMenuItem1.Click
+        PetIssuetodepartmentApproval.Show()
+    End Sub
+
+    Private Sub RawApprovalToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RawApprovalToolStripMenuItem1.Click
+        RawIssuetoDepartmentApproval.Show()
+    End Sub
+
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()

@@ -1,5 +1,7 @@
-﻿Imports System.Text
+﻿Imports System.IO
+Imports System.Text
 Imports DevExpress.XtraGrid
+Imports Microsoft.Office.Core
 
 Public Class PetQuotationEntry
     Private obj_Party_Selection As New Multi_Selection_Master
@@ -16,6 +18,7 @@ Public Class PetQuotationEntry
     'Dim _UserID As Integer = 1
 
     Dim _lblEntryDate As String
+    Dim FileBytes() As Byte = Nothing
 #Region "GRID STRING BUILDER VARIABLE "
     Private _GridColNames As New StringBuilder
     Private _GridColType As New StringBuilder
@@ -147,6 +150,8 @@ Public Class PetQuotationEntry
             .Append("OP2,") 'req bookvno
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
+            .Append("OP26,") 'Attachment 1
+            .Append("OP27,") 'Imagename
             .Append("DESPATCHCODE")
         End With
 
@@ -310,6 +315,8 @@ Public Class PetQuotationEntry
             .Append("OP19:N,") 'Approve status
             .Append("ENTRYDATE:N,")
             .Append("MODYFIDATE:N,")
+            .Append("OP26:N,") 'Attachment 1
+            .Append("OP27:N,") 'Attachment Name
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
 
         End With
@@ -529,7 +536,8 @@ Public Class PetQuotationEntry
         txtBookCode.Text = "0001-000010005"
         _BookTrType = "PET05"
         _BookCode = txtBookCode.Text
-
+        BtnOpen.Visible = False
+        BtnView1.Visible = False
         If _isCallerByOther = True Then
             UC_Buttons1._ButtonEnableDisable("EDIT")
             'Call Alter_Form(_KeyFieldValue)
@@ -670,6 +678,8 @@ Public Class PetQuotationEntry
         'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtUnitName.Visible = True
+        BtnOpen.Visible = True
+        BtnView1.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
 
@@ -683,6 +693,8 @@ Public Class PetQuotationEntry
         'GetMaxEntryNo()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtUnitName.Visible = True
+        BtnOpen.Visible = True
+        BtnView1.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
     End Sub
@@ -704,6 +716,8 @@ Public Class PetQuotationEntry
             Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
 
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+            BtnOpen.Visible = True
+            BtnView1.Visible = True
         End If
     End Sub
 
@@ -713,6 +727,8 @@ Public Class PetQuotationEntry
             txtEntryNo.Text = Val(txtEntryNo.Text) + 1
             Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+            BtnOpen.Visible = True
+            BtnView1.Visible = True
         End If
     End Sub
 
@@ -965,6 +981,7 @@ Public Class PetQuotationEntry
         If txtWeaveTypeCode.Text = "" Then
             txtWeaveTypeCode.Text = "0000-000000001"
         End If
+        Dim base64 As String = Convert.ToBase64String(FileBytes)
         Dim strFilterString As String
         Dim QueryDetailTable As String = ""
         Dim Query_Auto_Grid(_DataTableGrid.Rows.Count, 4) As String
@@ -994,7 +1011,9 @@ Public Class PetQuotationEntry
                 .Append("ENTRYDATE,")
                 .Append("MODYFIDATE,")
             End If
-            .Append("HeaderRemark")
+            .Append("HeaderRemark,")
+            .Append("OP26,")
+            .Append("OP27")
         End With
         _ExtraField_Values_DataTable = New StringBuilder
         With _ExtraField_Values_DataTable
@@ -1021,7 +1040,9 @@ Public Class PetQuotationEntry
                 .Append(_lblEntryDate & ",")
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             End If
-            .Append(txtHeader_Remark.Text)
+            .Append(txtHeader_Remark.Text & ",")
+            .Append(base64 & ",")
+            .Append(TxtAttachment.Text)
         End With
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
         GridDetailsSaveQuery = QueryDetailTable & ";"
@@ -1086,6 +1107,7 @@ Public Class PetQuotationEntry
             .Append("  A.OP5 As [Req BooK Name], ")
             .Append(" MstMasterAccount.accountname as [Supplier Name], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
+            .Append("  A.OP26 as Attachment, ")
             .Append("  A.SRNO as [Sno], ")
             .Append("  A.OP6 AS [Req NO],")
             .Append(" B.ItemName as [Item Name], ")
@@ -1372,6 +1394,7 @@ Public Class PetQuotationEntry
         Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
         Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
         Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+        TxtAttachment.Text = tblTmp.Rows(0)("OP27").ToString
         Generate_Date_For_DataBase(txtChallanDate)
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
@@ -1421,6 +1444,7 @@ Public Class PetQuotationEntry
             Txt_Terms2.Text = tblTmp.Rows(0)("OP9").ToString
             Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
             Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
+            TxtAttachment.Text = tblTmp.Rows(0)("OP27").ToString
             GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
             Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
 
@@ -2107,6 +2131,32 @@ Public Class PetQuotationEntry
         Else
             MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
         End If
+    End Sub
+
+#End Region
+#Region "Attachment 1"
+    Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
+        'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+        '    Dim pathSource As String = OpenFileDialog1.FileName
+        '    Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+        '    Dim sSource As String = pathSource
+        '    If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+        '    TxtAttachment.Text = fileName
+        '    TxtAttachment.Focus()
+        '    SaveImageToLocalAndServer(sSource)
+        'End If
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            Dim filePath As String = OpenFileDialog1.FileName
+            TxtAttachment.Text = Path.GetFileName(filePath)
+            TxtAttachment.Focus()
+            ' File ko Byte Array me Read karo
+            FileBytes = File.ReadAllBytes(filePath)
+            'fileNameinbyte = Convert.ToBase64String(FileBytes)
+        End If
+    End Sub
+
+    Private Sub BtnView1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
+        _ImageView_Click(TxtAttachment.Text)
     End Sub
 #End Region
 End Class

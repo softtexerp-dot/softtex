@@ -63,7 +63,7 @@ Partial Class PetQuotationEntry
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.txtAccountName = New ctl_TextBox.ctl_TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -80,12 +80,20 @@ Partial Class PetQuotationEntry
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtEntryNo = New ctl_TextBox.ctl_TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.BtnView1 = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnOpen = New DevExpress.XtraEditors.SimpleButton()
+        Me.TxtAttachment = New ctl_TextBox.ctl_TextBox()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PNL_View.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'BtnRPTPrint
@@ -158,7 +166,7 @@ Partial Class PetQuotationEntry
         Me.TxtimpEntryNo.ShowMessage = False
         Me.TxtimpEntryNo.Size = New System.Drawing.Size(98, 22)
         Me.TxtimpEntryNo.SpacerString = ""
-        Me.TxtimpEntryNo.TabIndex = 82215
+        Me.TxtimpEntryNo.TabIndex = 3
         Me.TxtimpEntryNo.Tag = "EntryNo"
         Me.TxtimpEntryNo.TransparentBox = True
         Me.TxtimpEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -713,7 +721,7 @@ Partial Class PetQuotationEntry
         Me.txtHeader_Remark.ShowMessage = False
         Me.txtHeader_Remark.Size = New System.Drawing.Size(168, 22)
         Me.txtHeader_Remark.SpacerString = ""
-        Me.txtHeader_Remark.TabIndex = 82219
+        Me.txtHeader_Remark.TabIndex = 7
         Me.txtHeader_Remark.Tag = "HEADERREMARK"
         Me.txtHeader_Remark.TransparentBox = True
         Me.txtHeader_Remark.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -810,7 +818,7 @@ Partial Class PetQuotationEntry
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 268)
-        Me.GrdItem.TabIndex = 82220
+        Me.GrdItem.TabIndex = 10
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -852,7 +860,7 @@ Partial Class PetQuotationEntry
         Me.txtAccountName.ShowMessage = False
         Me.txtAccountName.Size = New System.Drawing.Size(255, 22)
         Me.txtAccountName.SpacerString = ""
-        Me.txtAccountName.TabIndex = 82218
+        Me.txtAccountName.TabIndex = 6
         Me.txtAccountName.Tag = "ACCOUNTNAME"
         Me.txtAccountName.TransparentBox = True
         Me.txtAccountName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -925,7 +933,7 @@ Partial Class PetQuotationEntry
         Me.txtChallanNo.ShowMessage = False
         Me.txtChallanNo.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanNo.SpacerString = ""
-        Me.txtChallanNo.TabIndex = 82216
+        Me.txtChallanNo.TabIndex = 4
         Me.txtChallanNo.Tag = "EntryNo"
         Me.txtChallanNo.TransparentBox = True
         Me.txtChallanNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -990,7 +998,7 @@ Partial Class PetQuotationEntry
         Me.txtUnitName.ShowMessage = False
         Me.txtUnitName.Size = New System.Drawing.Size(202, 22)
         Me.txtUnitName.SpacerString = ""
-        Me.txtUnitName.TabIndex = 82213
+        Me.txtUnitName.TabIndex = 1
         Me.txtUnitName.Tag = "BOOKNAME"
         Me.txtUnitName.TransparentBox = True
         Me.txtUnitName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1055,7 +1063,7 @@ Partial Class PetQuotationEntry
         Me.txtChallanDate.ShowMessage = False
         Me.txtChallanDate.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanDate.SpacerString = ""
-        Me.txtChallanDate.TabIndex = 82217
+        Me.txtChallanDate.TabIndex = 5
         Me.txtChallanDate.Tag = "ChallanDate"
         Me.txtChallanDate.Text = "  /  /    "
         Me.txtChallanDate.TransparentBox = True
@@ -1119,7 +1127,7 @@ Partial Class PetQuotationEntry
         Me.txtEntryNo.ShowMessage = False
         Me.txtEntryNo.Size = New System.Drawing.Size(98, 22)
         Me.txtEntryNo.SpacerString = ""
-        Me.txtEntryNo.TabIndex = 82214
+        Me.txtEntryNo.TabIndex = 2
         Me.txtEntryNo.Tag = "EntryNo"
         Me.txtEntryNo.TransparentBox = True
         Me.txtEntryNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1135,12 +1143,113 @@ Partial Class PetQuotationEntry
         Me.Label7.TabIndex = 82225
         Me.Label7.Text = "Entry No."
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(903, 77)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(100, 50)
+        Me.PictureBox1.TabIndex = 82313
+        Me.PictureBox1.TabStop = False
+        '
+        'BtnView1
+        '
+        Me.BtnView1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnView1.Appearance.Options.UseFont = True
+        Me.BtnView1.ImageOptions.Image = CType(resources.GetObject("BtnView1.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnView1.Location = New System.Drawing.Point(857, 83)
+        Me.BtnView1.Name = "BtnView1"
+        Me.BtnView1.Size = New System.Drawing.Size(39, 36)
+        Me.BtnView1.TabIndex = 82312
+        '
+        'BtnOpen
+        '
+        Me.BtnOpen.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOpen.Appearance.Options.UseFont = True
+        Me.BtnOpen.ImageOptions.Image = CType(resources.GetObject("BtnOpen.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnOpen.Location = New System.Drawing.Point(812, 83)
+        Me.BtnOpen.Name = "BtnOpen"
+        Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
+        Me.BtnOpen.TabIndex = 8
+        '
+        'TxtAttachment
+        '
+        Me.TxtAttachment._AllowSpace = True
+        Me.TxtAttachment.AcceptsReturn = True
+        Me.TxtAttachment.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.TxtAttachment.BackColor = System.Drawing.Color.MistyRose
+        Me.TxtAttachment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtAttachment.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TxtAttachment.Check_End_Date_Value_FY = "YES"
+        Me.TxtAttachment.Check_Start_Date_Value_FY = "YES"
+        Me.TxtAttachment.ClearField = True
+        Me.TxtAttachment.CustomInputTypeString = Nothing
+        Me.TxtAttachment.Date_for_Database = Nothing
+        Me.TxtAttachment.Date_Tag = Nothing
+        Me.TxtAttachment.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.TxtAttachment.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.TxtAttachment.ExtraValue = ""
+        Me.TxtAttachment.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtAttachment.FontFocusColor = System.Drawing.Color.Blue
+        Me.TxtAttachment.FontLeaveColor = System.Drawing.Color.Black
+        Me.TxtAttachment.ForeColor = System.Drawing.Color.Black
+        Me.TxtAttachment.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.TxtAttachment.IsValidated = False
+        Me.TxtAttachment.LeaveFocusColor = System.Drawing.Color.MistyRose
+        Me.TxtAttachment.Location = New System.Drawing.Point(533, 92)
+        Me.TxtAttachment.MandatoryColor = System.Drawing.Color.MistyRose
+        Me.TxtAttachment.MandatoryField = False
+        Me.TxtAttachment.MaxDate = Nothing
+        Me.TxtAttachment.MinDate = Nothing
+        Me.TxtAttachment.Name = "TxtAttachment"
+        Me.TxtAttachment.NormalBorderColor = System.Drawing.Color.MistyRose
+        Me.TxtAttachment.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.TxtAttachment.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.TxtAttachment.RegularExpression = Nothing
+        Me.TxtAttachment.RegularExpressionErrorMessage = Nothing
+        Me.TxtAttachment.ShowMessage = False
+        Me.TxtAttachment.Size = New System.Drawing.Size(250, 22)
+        Me.TxtAttachment.SpacerString = ""
+        Me.TxtAttachment.TabIndex = 9
+        Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
+        Me.TxtAttachment.TransparentBox = True
+        Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label33.Location = New System.Drawing.Point(401, 95)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(82, 14)
+        Me.Label33.TabIndex = 82310
+        Me.Label33.Text = "Attachment"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label34.Location = New System.Drawing.Point(520, 97)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(12, 14)
+        Me.Label34.TabIndex = 82311
+        Me.Label34.Text = ":"
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
         'PetQuotationEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.MistyRose
         Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.BtnView1)
+        Me.Controls.Add(Me.BtnOpen)
+        Me.Controls.Add(Me.TxtAttachment)
+        Me.Controls.Add(Me.Label33)
+        Me.Controls.Add(Me.Label34)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.TxtimpEntryNo)
         Me.Controls.Add(Me.Label9)
@@ -1197,6 +1306,7 @@ Partial Class PetQuotationEntry
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PNL_View.ResumeLayout(False)
         Me.PNL_View.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1259,4 +1369,11 @@ Partial Class PetQuotationEntry
     Friend WithEvents Label2 As Label
     Friend WithEvents txtEntryNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label7 As Label
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents BtnView1 As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnOpen As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents TxtAttachment As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label33 As Label
+    Friend WithEvents Label34 As Label
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

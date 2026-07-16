@@ -24,7 +24,7 @@ Partial Class RawGateInward
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RawGateInward))
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
@@ -60,6 +60,18 @@ Partial Class RawGateInward
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.PNL_View = New System.Windows.Forms.GroupBox()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
+        Me.BtnView2 = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnOpen2 = New DevExpress.XtraEditors.SimpleButton()
+        Me.TxtAttachment2 = New ctl_TextBox.ctl_TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.BtnView1 = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnOpen = New DevExpress.XtraEditors.SimpleButton()
+        Me.TxtAttachment = New ctl_TextBox.ctl_TextBox()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -120,7 +132,7 @@ Partial Class RawGateInward
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 387)
-        Me.GrdItem.TabIndex = 82257
+        Me.GrdItem.TabIndex = 82261
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -379,7 +391,7 @@ Partial Class RawGateInward
         Me.txtChallanDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txtChallanDate.IsValidated = False
         Me.txtChallanDate.LeaveFocusColor = System.Drawing.Color.Honeydew
-        Me.txtChallanDate.Location = New System.Drawing.Point(532, 7)
+        Me.txtChallanDate.Location = New System.Drawing.Point(140, 88)
         Me.txtChallanDate.MandatoryColor = System.Drawing.Color.Honeydew
         Me.txtChallanDate.MandatoryField = False
         Me.txtChallanDate.MaxDate = Nothing
@@ -404,7 +416,7 @@ Partial Class RawGateInward
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(401, 9)
+        Me.Label1.Location = New System.Drawing.Point(8, 88)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(38, 14)
         Me.Label1.TabIndex = 82259
@@ -424,7 +436,7 @@ Partial Class RawGateInward
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(509, 10)
+        Me.Label2.Location = New System.Drawing.Point(127, 90)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 82260
@@ -618,7 +630,7 @@ Partial Class RawGateInward
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(509, 37)
+        Me.Label24.Location = New System.Drawing.Point(512, 12)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(12, 14)
         Me.Label24.TabIndex = 82272
@@ -648,7 +660,7 @@ Partial Class RawGateInward
         Me.txtHeader_Remark.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtHeader_Remark.IsValidated = False
         Me.txtHeader_Remark.LeaveFocusColor = System.Drawing.Color.Honeydew
-        Me.txtHeader_Remark.Location = New System.Drawing.Point(532, 37)
+        Me.txtHeader_Remark.Location = New System.Drawing.Point(535, 12)
         Me.txtHeader_Remark.MandatoryColor = System.Drawing.Color.Honeydew
         Me.txtHeader_Remark.MandatoryField = False
         Me.txtHeader_Remark.MaxDate = Nothing
@@ -671,7 +683,7 @@ Partial Class RawGateInward
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(401, 37)
+        Me.Label23.Location = New System.Drawing.Point(404, 12)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(58, 14)
         Me.Label23.TabIndex = 82271
@@ -717,12 +729,196 @@ Partial Class RawGateInward
         Me.lbl_Tot_Amt.Text = "Total :"
         Me.lbl_Tot_Amt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'BtnView2
+        '
+        Me.BtnView2.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnView2.Appearance.Options.UseFont = True
+        Me.BtnView2.ImageOptions.Image = CType(resources.GetObject("BtnView2.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnView2.Location = New System.Drawing.Point(881, 69)
+        Me.BtnView2.Name = "BtnView2"
+        Me.BtnView2.Size = New System.Drawing.Size(39, 36)
+        Me.BtnView2.TabIndex = 82336
+        '
+        'BtnOpen2
+        '
+        Me.BtnOpen2.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOpen2.Appearance.Options.UseFont = True
+        Me.BtnOpen2.ImageOptions.Image = CType(resources.GetObject("BtnOpen2.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnOpen2.Location = New System.Drawing.Point(836, 69)
+        Me.BtnOpen2.Name = "BtnOpen2"
+        Me.BtnOpen2.Size = New System.Drawing.Size(39, 36)
+        Me.BtnOpen2.TabIndex = 82259
+        '
+        'TxtAttachment2
+        '
+        Me.TxtAttachment2._AllowSpace = True
+        Me.TxtAttachment2.AcceptsReturn = True
+        Me.TxtAttachment2.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.TxtAttachment2.BackColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtAttachment2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TxtAttachment2.Check_End_Date_Value_FY = "YES"
+        Me.TxtAttachment2.Check_Start_Date_Value_FY = "YES"
+        Me.TxtAttachment2.ClearField = True
+        Me.TxtAttachment2.CustomInputTypeString = Nothing
+        Me.TxtAttachment2.Date_for_Database = Nothing
+        Me.TxtAttachment2.Date_Tag = Nothing
+        Me.TxtAttachment2.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.TxtAttachment2.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.TxtAttachment2.ExtraValue = ""
+        Me.TxtAttachment2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtAttachment2.FontFocusColor = System.Drawing.Color.Blue
+        Me.TxtAttachment2.FontLeaveColor = System.Drawing.Color.Black
+        Me.TxtAttachment2.ForeColor = System.Drawing.Color.Black
+        Me.TxtAttachment2.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.TxtAttachment2.IsValidated = False
+        Me.TxtAttachment2.LeaveFocusColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment2.Location = New System.Drawing.Point(535, 78)
+        Me.TxtAttachment2.MandatoryColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment2.MandatoryField = False
+        Me.TxtAttachment2.MaxDate = Nothing
+        Me.TxtAttachment2.MinDate = Nothing
+        Me.TxtAttachment2.Name = "TxtAttachment2"
+        Me.TxtAttachment2.NormalBorderColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment2.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.TxtAttachment2.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.TxtAttachment2.RegularExpression = Nothing
+        Me.TxtAttachment2.RegularExpressionErrorMessage = Nothing
+        Me.TxtAttachment2.ShowMessage = False
+        Me.TxtAttachment2.Size = New System.Drawing.Size(250, 22)
+        Me.TxtAttachment2.SpacerString = ""
+        Me.TxtAttachment2.TabIndex = 82260
+        Me.TxtAttachment2.Tag = "OP26"
+        Me.TxtAttachment2.TransparentBox = True
+        Me.TxtAttachment2.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(404, 80)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(95, 14)
+        Me.Label5.TabIndex = 82334
+        Me.Label5.Text = "Attachment 2"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(512, 80)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(12, 14)
+        Me.Label6.TabIndex = 82335
+        Me.Label6.Text = ":"
+        '
+        'BtnView1
+        '
+        Me.BtnView1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnView1.Appearance.Options.UseFont = True
+        Me.BtnView1.ImageOptions.Image = CType(resources.GetObject("BtnView1.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnView1.Location = New System.Drawing.Point(881, 31)
+        Me.BtnView1.Name = "BtnView1"
+        Me.BtnView1.Size = New System.Drawing.Size(39, 36)
+        Me.BtnView1.TabIndex = 82333
+        '
+        'BtnOpen
+        '
+        Me.BtnOpen.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOpen.Appearance.Options.UseFont = True
+        Me.BtnOpen.ImageOptions.Image = CType(resources.GetObject("BtnOpen.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnOpen.Location = New System.Drawing.Point(836, 31)
+        Me.BtnOpen.Name = "BtnOpen"
+        Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
+        Me.BtnOpen.TabIndex = 82257
+        '
+        'TxtAttachment
+        '
+        Me.TxtAttachment._AllowSpace = True
+        Me.TxtAttachment.AcceptsReturn = True
+        Me.TxtAttachment.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.TxtAttachment.BackColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtAttachment.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TxtAttachment.Check_End_Date_Value_FY = "YES"
+        Me.TxtAttachment.Check_Start_Date_Value_FY = "YES"
+        Me.TxtAttachment.ClearField = True
+        Me.TxtAttachment.CustomInputTypeString = Nothing
+        Me.TxtAttachment.Date_for_Database = Nothing
+        Me.TxtAttachment.Date_Tag = Nothing
+        Me.TxtAttachment.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.TxtAttachment.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.TxtAttachment.ExtraValue = ""
+        Me.TxtAttachment.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtAttachment.FontFocusColor = System.Drawing.Color.Blue
+        Me.TxtAttachment.FontLeaveColor = System.Drawing.Color.Black
+        Me.TxtAttachment.ForeColor = System.Drawing.Color.Black
+        Me.TxtAttachment.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.TxtAttachment.IsValidated = False
+        Me.TxtAttachment.LeaveFocusColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.Location = New System.Drawing.Point(535, 40)
+        Me.TxtAttachment.MandatoryColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.MandatoryField = False
+        Me.TxtAttachment.MaxDate = Nothing
+        Me.TxtAttachment.MinDate = Nothing
+        Me.TxtAttachment.Name = "TxtAttachment"
+        Me.TxtAttachment.NormalBorderColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.TxtAttachment.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.TxtAttachment.RegularExpression = Nothing
+        Me.TxtAttachment.RegularExpressionErrorMessage = Nothing
+        Me.TxtAttachment.ShowMessage = False
+        Me.TxtAttachment.Size = New System.Drawing.Size(250, 22)
+        Me.TxtAttachment.SpacerString = ""
+        Me.TxtAttachment.TabIndex = 82258
+        Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
+        Me.TxtAttachment.TransparentBox = True
+        Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label33.Location = New System.Drawing.Point(404, 40)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(95, 14)
+        Me.Label33.TabIndex = 82331
+        Me.Label33.Text = "Attachment 1"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label34.Location = New System.Drawing.Point(512, 42)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(12, 14)
+        Me.Label34.TabIndex = 82332
+        Me.Label34.Text = ":"
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'OpenFileDialog2
+        '
+        Me.OpenFileDialog2.FileName = "OpenFileDialog2"
+        '
         'RawGateInward
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Honeydew
         Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.Controls.Add(Me.BtnView2)
+        Me.Controls.Add(Me.BtnOpen2)
+        Me.Controls.Add(Me.TxtAttachment2)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.BtnView1)
+        Me.Controls.Add(Me.BtnOpen)
+        Me.Controls.Add(Me.TxtAttachment)
+        Me.Controls.Add(Me.Label33)
+        Me.Controls.Add(Me.Label34)
         Me.Controls.Add(Me.lbl_Grid_Header)
         Me.Controls.Add(Me.UC_Buttons1)
         Me.Controls.Add(Me.GrdItem)
@@ -748,7 +944,7 @@ Partial Class RawGateInward
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "RawGateInward"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Raw Gate Inward"
@@ -801,4 +997,16 @@ Partial Class RawGateInward
     Friend WithEvents Lbl_Tot_Mtr_Weight As Label
     Friend WithEvents PNL_View As GroupBox
     Friend WithEvents lbl_Tot_Amt As Label
+    Friend WithEvents BtnView2 As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnOpen2 As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents TxtAttachment2 As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents BtnView1 As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnOpen As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents TxtAttachment As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label33 As Label
+    Friend WithEvents Label34 As Label
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents OpenFileDialog2 As OpenFileDialog
 End Class

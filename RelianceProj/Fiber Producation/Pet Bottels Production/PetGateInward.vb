@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.Utils.CommonDialogs
 Imports DevExpress.XtraGrid
 
 Public Class PetGateInward
@@ -136,6 +137,8 @@ Public Class PetGateInward
             .Append("USEBY,")
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
+            .Append("OP26,") 'Attachment 1
+            .Append("OP27,") 'Attachment 2
             .Append("DESPATCHCODE")
         End With
 
@@ -292,6 +295,8 @@ Public Class PetGateInward
             .Append("OP19:N,") 'Approve status
             .Append("OP24:N,") 'RejectionApproval status
             .Append("OP7:N,")
+            .Append("OP26:N,") 'Attachment 1
+            .Append("OP27:N,") 'Attachment 2
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
         End With
 
@@ -478,7 +483,10 @@ Public Class PetGateInward
         txtBookCode.Text = "0001-000010007"
         _BookTrType = "PET07"
         _BookCode = txtBookCode.Text
-
+        BtnOpen.Visible = False
+        BtnView1.Visible = False
+        BtnOpen2.Visible = False
+        BtnView2.Visible = False
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")
         Call defineGridColName()
@@ -621,6 +629,10 @@ Public Class PetGateInward
         Label_Value_Nil_Rest()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtGodownName.Visible = True
+        BtnOpen.Visible = True
+        BtnView1.Visible = True
+        BtnOpen2.Visible = True
+        BtnView2.Visible = True
         txtGodownName.Focus()
         txtGodownName.Select()
 
@@ -633,6 +645,10 @@ Public Class PetGateInward
         Label_Value_Nil_Rest()
         FocusSetToGridDefaultColumn(GrdItem, _DefaultColOfGrid)
         txtGodownName.Visible = True
+        BtnOpen.Visible = True
+        BtnView1.Visible = True
+        BtnOpen2.Visible = True
+        BtnView2.Visible = True
         txtGodownName.Focus()
         txtGodownName.Select()
     End Sub
@@ -653,6 +669,10 @@ Public Class PetGateInward
             Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
 
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+            BtnOpen.Visible = True
+            BtnView1.Visible = True
+            BtnOpen2.Visible = True
+            BtnView2.Visible = True
         End If
     End Sub
 
@@ -662,6 +682,10 @@ Public Class PetGateInward
             txtEntryNo.Text = Val(txtEntryNo.Text) + 1
             Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+            BtnOpen.Visible = True
+            BtnView1.Visible = True
+            BtnOpen2.Visible = True
+            BtnView2.Visible = True
         End If
     End Sub
 
@@ -926,7 +950,9 @@ Public Class PetGateInward
                 .Append("ENTRYDATE,")
                 .Append("MODYFIDATE,")
             End If
-            .Append("HeaderRemark")
+            .Append("HeaderRemark,")
+            .Append("OP26,")
+            .Append("OP27")
         End With
 
         _ExtraField_Values_DataTable = New StringBuilder
@@ -952,7 +978,9 @@ Public Class PetGateInward
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
 
             End If
-            .Append(txtHeader_Remark.Text)
+            .Append(txtHeader_Remark.Text & ",")
+            .Append(TxtAttachment.Text & ",")
+            .Append(TxtAttachment2.Text)
         End With
 
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -1015,6 +1043,8 @@ Public Class PetGateInward
             .Append("  A.PACK_SLIP_NO as [Inward No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
+            .Append("  A.OP26 as Attachment1, ")
+            .Append("  A.OP27 as Attachment2, ")
             .Append(" MstMasterAccount.accountname as [Party Name], ")
             .Append("  A.SRNO as [Sno], ")
             .Append(" B.ItemName as [Item Name], ")
@@ -1281,6 +1311,8 @@ Public Class PetGateInward
         txtDespatch_code.Text = tblTmp.Rows(0)("DESPATCHCODE").ToString
         txtChallanDate.Text = tblTmp.Rows(0)("F_CHALLANDATE").ToString
         txtAcOfCode.Text = tblTmp.Rows(0)("ACOFCODE").ToString
+        TxtAttachment.Text = tblTmp.Rows(0)("OP26").ToString
+        TxtAttachment2.Text = tblTmp.Rows(0)("OP27").ToString
         Dim EntryDate As String = tblTmp.Rows(0)("F_ENTRYDATE").ToString
         _lblEntryDate = Convert.ToString(tblTmp.Rows(0)("F_ENTRYDATE"))
         Generate_Date_For_DataBase(txtChallanDate)
@@ -2086,6 +2118,43 @@ Public Class PetGateInward
         Else
             MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
         End If
+    End Sub
+#End Region
+#Region "Attachment 1"
+    Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            Dim pathSource As String = OpenFileDialog1.FileName
+            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+            Dim sSource As String = pathSource
+            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+            TxtAttachment.Text = fileName
+            TxtAttachment.Focus()
+            SaveImageToLocalAndServer(sSource)
+        End If
+    End Sub
+
+    Private Sub BtnView1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
+        _ImageView_Click(TxtAttachment.Text)
+    End Sub
+
+
+
+#End Region
+#Region "Attachment 2"
+    Private Sub BtnOpen2_Click(sender As Object, e As EventArgs) Handles BtnOpen2.Click
+        If OpenFileDialog2.ShowDialog() = DialogResult.OK Then
+            Dim pathSource As String = OpenFileDialog2.FileName
+            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog2.FileName)
+            Dim sSource As String = pathSource
+            If sSource = "OpenFileDialog2" Or sSource.Trim = "" Then Exit Sub
+            TxtAttachment2.Text = fileName
+            TxtAttachment2.Focus()
+            SaveImageToLocalAndServer(sSource)
+        End If
+    End Sub
+
+    Private Sub BtnView2_Click(sender As Object, e As EventArgs) Handles BtnView2.Click
+        _ImageView_Click(TxtAttachment2.Text)
     End Sub
 #End Region
 End Class

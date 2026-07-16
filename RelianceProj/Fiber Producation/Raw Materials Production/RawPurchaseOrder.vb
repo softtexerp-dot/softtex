@@ -101,6 +101,7 @@ Public Class RawPurchaseOrder
             .Append("Term4,")
             .Append("despatchtocode,") 'party offer date
             .Append("ITEMGROUPCODE,")
+            .Append("OP11,") 'QuationNO
             .Append("ITEMGROUPNAME,")
             .Append("YARN_DETAIL,") ' partno
             .Append("ITEMCODE,")
@@ -181,6 +182,7 @@ Public Class RawPurchaseOrder
         _FieldHeader = New StringBuilder
         With _FieldHeader
             .Append("SRNO:S.No,")
+            .Append("OP11:Quotation No,")
             .Append("ITEMGROUPNAME:Group,")
             .Append("ITEMNAME:Item Name,")
             .Append("COMPANYNAME:Brand,")
@@ -208,6 +210,7 @@ Public Class RawPurchaseOrder
         _FieldHeaderAlignment = New StringBuilder
         With _FieldHeaderAlignment
             .Append("SRNO:L,")
+            .Append("OP11:R,")
             .Append("ITEMGROUPNAME:L,")
             .Append("ITEMNAME:L,")
             .Append("COMPANYNAME:L,")
@@ -244,6 +247,7 @@ Public Class RawPurchaseOrder
         _FieldAlignMent = New StringBuilder
         With _FieldAlignMent
             .Append("SRNO:L,")
+            .Append("OP11:R,")
             .Append("ITEMGROUPNAME:L,")
             .Append("ITEMNAME:L,")
             .Append("COMPANYNAME:L,")
@@ -314,6 +318,7 @@ Public Class RawPurchaseOrder
             .Append("loomtypecode:" & _SizeManuelEntryColoumn & ",")
             .Append("SELVCODE:" & _HsnCodeColumn & ",")
             .Append("ITEMCODE:N,")
+            .Append("OP11:Y,") 'QuotationNo
             .Append("ITEMNAME:Y,")
             .Append("COMPANYNAME:Y,")
             .Append("ITEMGROUPCODE:N,")
@@ -365,6 +370,7 @@ Public Class RawPurchaseOrder
         _FieldWidthSet = New StringBuilder
         With _FieldWidthSet
             .Append("SRNO:5,")
+            .Append("OP11:10,")
             .Append("ITEMGROUPNAME:15,")
             .Append("ITEMNAME:15,")
             .Append("COMPANYNAME:9,")
@@ -417,6 +423,7 @@ Public Class RawPurchaseOrder
         _FieldLocked = New StringBuilder
         With _FieldLocked
             .Append("SRNO:Y")
+            .Append("OP11:Y,")
             .Append(",SELVCODE:Y")
             .Append(",MTR_WEIGHT:Y")
             .Append(",LOTNO:Y")
@@ -2223,7 +2230,7 @@ Public Class RawPurchaseOrder
         OfferApprove = tblTmp.Rows(0)("OP23").ToString
 
 
-        If Txt_PartOfferDate.Text = "" Then Txt_PartOfferDate.Text = "  /  /    "
+        'If Txt_PartOfferDate.Text = "" Then Txt_PartOfferDate.Text = "  /  /    "
         Generate_Date_For_DataBase(txtOfferDate)
 
         Lbl_Tot_Mtr_Weight.Text = tblTmp.Compute("SUM(MTR_WEIGHT)", "").ToString
@@ -2349,7 +2356,7 @@ Public Class RawPurchaseOrder
 
                 If _FORMMODE <> "VIEW" Then
                     _DefaultColOfGrid = _DataTableGrid.Columns.IndexOf("SRNO") + 1
-                    GrdItem.Cell(1, _DefaultColOfGrid).SetFocus()
+                    'GrdItem.Cell(1, _DefaultColOfGrid).SetFocus()
                     SendKeys.Send("{TAB}")
                 Else
                     'SendKeys.Send("{ENTER}")
@@ -3149,7 +3156,8 @@ Public Class RawPurchaseOrder
 
                 GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).SetFocus()
             End If
-        ElseIf _ActivatedColName = "ITEMNAME" Then
+            'ElseIf _ActivatedColName = "ITEMNAME" Then
+        ElseIf _ActivatedColName = "OP11" Then
             If e.KeyCode = Keys.Enter AndAlso Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text) = 0 Then
                 If Change_Grid_Data = True Then
 
@@ -3186,6 +3194,10 @@ Public Class RawPurchaseOrder
                         .Append(" SELECT ")
                         .Append(" 'False' AS TickMark, ")
                         .Append(" A.Srno, ")
+                        ''
+                        .Append(" R.PACK_SLIP_NO AS QuotationNo, ")
+                        .Append(" R.BookVno AS ReqBookVno, ")
+                        ''
                         .Append(" A.PACK_SLIP_NO AS ComparisionNo, ")
                         .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy')  AS Date, ")
                         .Append(" E.AccountName AS AccountName, ")
@@ -3201,6 +3213,16 @@ Public Class RawPurchaseOrder
                         .Append(" LEFT JOIN MstStoreItem As B ON A.ITEMCODE=B.ITEMCODE ")
                         .Append(" LEFT JOIN MstMasterAccount AS E ")
                         .Append(" ON A.ACCOUNTCODE = E.ACCOUNTCODE ")
+                        ''
+                        .Append(" Left Join(")
+                        .Append("SELECT BookVno,")
+                        .Append("     MAX(PACK_SLIP_NO) AS PACK_SLIP_NO")
+                        .Append(" From TrnPackingSlip")
+                        .Append(" Where BookTrType = 'RAW05'")
+                        .Append(" GROUP BY BookVno")
+                        .Append(") R")
+                        .Append(" On R.BookVno = A.OP7")
+                        ''
                         .Append(" WHERE 1=1 ")
                         .Append(" and A.ACCOUNTCODE='" & txtAccount_Code.Text & "'")
                         .Append(" and A.Booktrtype='RAW06'")
@@ -3276,7 +3298,7 @@ Public Class RawPurchaseOrder
 
                     Next
                     Dim _FItemcodeilter As String = ""
-                    Dim ExtracolumnsToHide = {"Srno", "CUTCODE", "ID", "DESIGNCODE", "SHADECODE"}
+                    Dim ExtracolumnsToHide = {"Srno", "CUTCODE", "ID", "DESIGNCODE", "SHADECODE", "ReqBookVno"}
                     'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text, "MULTY")
                     'Dim selectedList1 = SingleAccountSelectionFormDatatable(_Tmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
                     Dim selectedList1 = SingleAccountSelectionFormDatatable(_FinalTmptbl, Nothing, GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text, "MULTY", "YES", ExtracolumnsToHide)
@@ -3286,7 +3308,7 @@ Public Class RawPurchaseOrder
                                 _FItemcodeilter = rowDict("ItemCode").ToString()
                                 Dim BookVno = rowDict("ID").ToString()
                                 Dim comparisionno = rowDict("ComparisionNo").ToString()
-
+                                Dim QuotationNo = rowDict("QuotationNo").ToString()
                                 Dim Srno = Val(rowDict("Srno").ToString())
                                 Dim _DetailQuery As New StringBuilder
                                 With _DetailQuery
@@ -3341,6 +3363,7 @@ Public Class RawPurchaseOrder
                                         'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("PACK_SLIP_NO") + 1).Text = dr("QuotationNo").ToString()
                                         'GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP6") + 1).Text = dr("QuotationNo").ToString()
                                         ' GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP18") + 1).Text = dr("Date").ToString()
+                                        GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("OP11") + 1).Text = QuotationNo
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = dr("ITEMCODE").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text = dr("ItemName").ToString()
                                         GrdItem.Cell(Rowno, _DataTableGrid.Columns.IndexOf("HSNCODE") + 1).Text = dr("HsnCode").ToString()
@@ -3779,7 +3802,7 @@ Public Class RawPurchaseOrder
             .Append("BookCode,")
             .Append("OfferNo,")
             .Append("OfferDate,")
-            .Append("PartyOfferNo,")
+            '.Append("PartyOfferNo,")
             .Append("AgentOfferNo,")
             .Append("AccountCode,")
             .Append("TransportCode,")
@@ -3791,7 +3814,7 @@ Public Class RawPurchaseOrder
             .Append("WESTAGE,")
             .Append("LENGTH,")
             .Append("OP23,")
-            .Append("MONOGRAM_TYPE,")
+            '.Append("MONOGRAM_TYPE,")
             .Append("GODOWNCODE,")
             .Append("Term4")
         End With
@@ -3809,7 +3832,7 @@ Public Class RawPurchaseOrder
             .Append(_BookCode & ",")
             .Append(txtOfferNo.Text & ",")
             .Append(txtOfferDate.Date_for_Database & ",")
-            .Append(txtPartyOfferNo.Text & ",")
+            '.Append(txtPartyOfferNo.Text & ",")
             .Append(txtAgentOfferNo.Text & ",")
             .Append(txtAccount_Code.Text & ",")
             .Append(txtTr_code.Text & ",")
@@ -3821,7 +3844,7 @@ Public Class RawPurchaseOrder
             .Append(Lvl_Grossamt.Text & ",")
             .Append(Lbl_NetAmt.Text & ",")
             .Append(OfferApprove & ",")
-            .Append(Txt_PartOfferDate.Text & ",")
+            '.Append(Txt_PartOfferDate.Text & ",")
             .Append(_GodownCode & ",")
             .Append(txtTerm4.Text)
         End With
@@ -3918,6 +3941,7 @@ Public Class RawPurchaseOrder
                 .Append(" SELECT ")
                 .Append(" TrnOffer.BookVno, ")
                 .Append("  G.BookName As Unitname, ")
+                .Append(" TrnOffer.OP11 as [Quotation No], ")
                 .Append(" TrnOffer.ENTRYNO as [Entry No], ")
                 .Append(" TrnOffer.OfferNo as [Offer No], ")
                 .Append(" TrnOffer.OfferDate AS OfferDate, ")
@@ -3961,6 +3985,7 @@ Public Class RawPurchaseOrder
 
                 .Append(" TrnOffer.BookVno, ")
                 .Append("  G.BookName, ")
+                .Append(" TrnOffer.OP11, ")
                 .Append(" TrnOffer.ENTRYNO , ")
                 .Append(" TrnOffer.OfferNo , ")
                 .Append(" TrnOffer.OfferDate , ")
@@ -3989,6 +4014,7 @@ Public Class RawPurchaseOrder
                 .Append(" SELECT ")
                 .Append(" TrnOffer.BookVno, ")
                 .Append("  G.BookName As Unitname, ")
+                .Append(" TrnOffer.OP11 as [Quotation No], ")
                 .Append(" TrnOffer.ENTRYNO as [Entry No], ")
                 .Append(" TrnOffer.OfferNo as [Offer No], ")
                 .Append(" TrnOffer.OfferDate AS OfferDate, ")

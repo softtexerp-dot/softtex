@@ -30,7 +30,7 @@ Partial Class RawQuotationEntry
         Me.Lbl_Tot_Mtr_Weight = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.txtAccountName = New ctl_TextBox.ctl_TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -80,12 +80,20 @@ Partial Class RawQuotationEntry
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
         Me.txt_From = New ctl_TextBox.ctl_TextBox()
         Me.txtHeader_Remark = New ctl_TextBox.ctl_TextBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.BtnView1 = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnOpen = New DevExpress.XtraEditors.SimpleButton()
+        Me.TxtAttachment = New ctl_TextBox.ctl_TextBox()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PNL_View.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'BtnPrint
@@ -201,7 +209,7 @@ Partial Class RawQuotationEntry
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 268)
-        Me.GrdItem.TabIndex = 82262
+        Me.GrdItem.TabIndex = 82264
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -683,7 +691,7 @@ Partial Class RawQuotationEntry
         Me.Txt_Terms4.ShowMessage = False
         Me.Txt_Terms4.Size = New System.Drawing.Size(152, 22)
         Me.Txt_Terms4.SpacerString = ""
-        Me.Txt_Terms4.TabIndex = 82266
+        Me.Txt_Terms4.TabIndex = 82268
         Me.Txt_Terms4.Tag = "OP19"
         Me.Txt_Terms4.TransparentBox = True
         Me.Txt_Terms4.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -726,7 +734,7 @@ Partial Class RawQuotationEntry
         Me.Txt_Terms3.ShowMessage = False
         Me.Txt_Terms3.Size = New System.Drawing.Size(152, 22)
         Me.Txt_Terms3.SpacerString = ""
-        Me.Txt_Terms3.TabIndex = 82265
+        Me.Txt_Terms3.TabIndex = 82267
         Me.Txt_Terms3.Tag = "OP18"
         Me.Txt_Terms3.TransparentBox = True
         Me.Txt_Terms3.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -784,7 +792,7 @@ Partial Class RawQuotationEntry
         Me.Txt_Terms2.ShowMessage = False
         Me.Txt_Terms2.Size = New System.Drawing.Size(152, 22)
         Me.Txt_Terms2.SpacerString = ""
-        Me.Txt_Terms2.TabIndex = 82264
+        Me.Txt_Terms2.TabIndex = 82266
         Me.Txt_Terms2.Tag = "OP17"
         Me.Txt_Terms2.TransparentBox = True
         Me.Txt_Terms2.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -827,7 +835,7 @@ Partial Class RawQuotationEntry
         Me.Txt_Terms1.ShowMessage = False
         Me.Txt_Terms1.Size = New System.Drawing.Size(152, 22)
         Me.Txt_Terms1.SpacerString = ""
-        Me.Txt_Terms1.TabIndex = 82263
+        Me.Txt_Terms1.TabIndex = 82265
         Me.Txt_Terms1.Tag = "OP16"
         Me.Txt_Terms1.TransparentBox = True
         Me.Txt_Terms1.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1135,12 +1143,113 @@ Partial Class RawQuotationEntry
         Me.txtHeader_Remark.TransparentBox = True
         Me.txtHeader_Remark.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(902, 66)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(100, 50)
+        Me.PictureBox1.TabIndex = 82319
+        Me.PictureBox1.TabStop = False
+        '
+        'BtnView1
+        '
+        Me.BtnView1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnView1.Appearance.Options.UseFont = True
+        Me.BtnView1.ImageOptions.Image = CType(resources.GetObject("BtnView1.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnView1.Location = New System.Drawing.Point(856, 72)
+        Me.BtnView1.Name = "BtnView1"
+        Me.BtnView1.Size = New System.Drawing.Size(39, 36)
+        Me.BtnView1.TabIndex = 82318
+        '
+        'BtnOpen
+        '
+        Me.BtnOpen.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnOpen.Appearance.Options.UseFont = True
+        Me.BtnOpen.ImageOptions.Image = CType(resources.GetObject("BtnOpen.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnOpen.Location = New System.Drawing.Point(811, 72)
+        Me.BtnOpen.Name = "BtnOpen"
+        Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
+        Me.BtnOpen.TabIndex = 82262
+        '
+        'TxtAttachment
+        '
+        Me.TxtAttachment._AllowSpace = True
+        Me.TxtAttachment.AcceptsReturn = True
+        Me.TxtAttachment.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.TxtAttachment.BackColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtAttachment.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TxtAttachment.Check_End_Date_Value_FY = "YES"
+        Me.TxtAttachment.Check_Start_Date_Value_FY = "YES"
+        Me.TxtAttachment.ClearField = True
+        Me.TxtAttachment.CustomInputTypeString = Nothing
+        Me.TxtAttachment.Date_for_Database = Nothing
+        Me.TxtAttachment.Date_Tag = Nothing
+        Me.TxtAttachment.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.TxtAttachment.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.TxtAttachment.ExtraValue = ""
+        Me.TxtAttachment.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtAttachment.FontFocusColor = System.Drawing.Color.Blue
+        Me.TxtAttachment.FontLeaveColor = System.Drawing.Color.Black
+        Me.TxtAttachment.ForeColor = System.Drawing.Color.Black
+        Me.TxtAttachment.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.TxtAttachment.IsValidated = False
+        Me.TxtAttachment.LeaveFocusColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.Location = New System.Drawing.Point(532, 81)
+        Me.TxtAttachment.MandatoryColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.MandatoryField = False
+        Me.TxtAttachment.MaxDate = Nothing
+        Me.TxtAttachment.MinDate = Nothing
+        Me.TxtAttachment.Name = "TxtAttachment"
+        Me.TxtAttachment.NormalBorderColor = System.Drawing.Color.Honeydew
+        Me.TxtAttachment.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.TxtAttachment.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.TxtAttachment.RegularExpression = Nothing
+        Me.TxtAttachment.RegularExpressionErrorMessage = Nothing
+        Me.TxtAttachment.ShowMessage = False
+        Me.TxtAttachment.Size = New System.Drawing.Size(250, 22)
+        Me.TxtAttachment.SpacerString = ""
+        Me.TxtAttachment.TabIndex = 82263
+        Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
+        Me.TxtAttachment.TransparentBox = True
+        Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label33.Location = New System.Drawing.Point(400, 84)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(82, 14)
+        Me.Label33.TabIndex = 82316
+        Me.Label33.Text = "Attachment"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label34.Location = New System.Drawing.Point(519, 86)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(12, 14)
+        Me.Label34.TabIndex = 82317
+        Me.Label34.Text = ":"
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
         'RawQuotationEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Honeydew
         Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.BtnView1)
+        Me.Controls.Add(Me.BtnOpen)
+        Me.Controls.Add(Me.TxtAttachment)
+        Me.Controls.Add(Me.Label33)
+        Me.Controls.Add(Me.Label34)
         Me.Controls.Add(Me.Label24)
         Me.Controls.Add(Me.Label23)
         Me.Controls.Add(Me.lbl_Tot_Amt)
@@ -1197,6 +1306,7 @@ Partial Class RawQuotationEntry
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PNL_View.ResumeLayout(False)
         Me.PNL_View.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1259,4 +1369,11 @@ Partial Class RawQuotationEntry
     Friend WithEvents txt_To As ctl_TextBox.ctl_TextBox
     Friend WithEvents txt_From As ctl_TextBox.ctl_TextBox
     Friend WithEvents txtHeader_Remark As ctl_TextBox.ctl_TextBox
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents BtnView1 As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnOpen As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents TxtAttachment As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label33 As Label
+    Friend WithEvents Label34 As Label
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

@@ -10,12 +10,12 @@ Public Class RawQualityChecker
     Private Book_Row As DataRow
     Private AcCode_Filter_String As String = ""
     Private _FrmLoad As Boolean = True
-    Private Sub BtnPrint_Click(sender As Object, e As EventArgs)
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = " Report From : Quality Check Details "
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
 
-    Private Sub BtnExport_Click(sender As Object, e As EventArgs)
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
     End Sub
     Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
@@ -212,7 +212,7 @@ Public Class RawQualityChecker
             End If
         Next
     End Sub
-    Private Sub btnviewupdate_Click(sender As Object, e As EventArgs)
+    Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Try
             Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
             If conn.State = ConnectionState.Closed Then
@@ -256,7 +256,8 @@ Public Class RawQualityChecker
             MsgBox(ex.ToString)
         End Try
     End Sub
-    Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs)
+    'Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs)
+    Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
             If FirstStage.FocusedColumn.FieldName = "Status" Then
                 Dim IsOriginalApproval As Boolean = False

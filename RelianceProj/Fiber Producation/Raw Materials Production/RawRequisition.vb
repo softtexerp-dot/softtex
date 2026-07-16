@@ -126,6 +126,7 @@ Public Class RawRequisition
             .Append("OP20,") 'BookName
             .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
+            .Append("OP8,") 'Issue department Approve status
             .Append("USEBY,")
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
@@ -253,8 +254,8 @@ Public Class RawRequisition
             .Append("CUTCODE:N,")
             .Append("PIECE_ID:N,")
             .Append("MTR_WEIGHT:Y,")
-            .Append("RATE:N,")
-            .Append("AMOUNT:N,")
+            .Append("RATE:Y,")
+            .Append("AMOUNT:Y,")
             .Append("USEBY:N,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,") 'GodownCode
@@ -263,6 +264,7 @@ Public Class RawRequisition
             .Append("MODYFIDATE:N,")
             .Append("OP21:N,") 'UserId
             .Append("OP19:N,") 'Approve status
+            .Append("OP8:N,") 'Issue department Approve status
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
         End With
 
@@ -309,6 +311,7 @@ Public Class RawRequisition
             .Append("WEIGHT:0,")
             .Append("PIECE_ID:0,")
             .Append("OP19:NO,") 'Approve status
+            .Append("OP8:NO,") 'Issue department Approve status
             .Append("AMOUNT:0")
         End With
         _FieldLocked = New StringBuilder
@@ -1004,7 +1007,8 @@ Public Class RawRequisition
             .Append(" MstCutMaster.cutname as UOM, ")
             .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
             .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
-            .Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
+            '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
+            .Append(" CASE WHEN A.OP8 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
             .Append("  A.RowRemark as [Remark] ")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")

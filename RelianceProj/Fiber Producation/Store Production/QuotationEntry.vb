@@ -1046,7 +1046,7 @@ Friend Class QuotationEntry
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             End If
             .Append(txtHeader_Remark.Text & ",")
-            .Append(base64.Trim & ",")
+            .Append(base64 & ",")
             .Append(TxtAttachment.Text)
         End With
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -2216,7 +2216,6 @@ Friend Class QuotationEntry
             FileBytes = File.ReadAllBytes(filePath)
             'fileNameinbyte = Convert.ToBase64String(FileBytes)
         End If
-
     End Sub
 
     Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
@@ -2266,26 +2265,18 @@ Friend Class QuotationEntry
                     '    PictureBox1.Image = Image.FromStream(ms)
                     'End Using
                     Dim base64 As String = dr("Attachment").ToString().Trim()
-                    'Dim base64 As String = dr("Attachment").ToString().Trim()
-
                     'MessageBox.Show(base64.Substring(0, Math.Min(100, base64.Length)))
                     ShowImageFromBase64(base64)
-
                 Else
 
                     PictureBox1.Image = Nothing
                     MessageBox.Show("Image Not Found.")
                 End If
-
             Else
-
                 PictureBox1.Image = Nothing
                 MessageBox.Show("Record Not Found.")
-
             End If
-
             dr.Close()
-
         Catch ex As Exception
 
             MessageBox.Show(ex.Message)
