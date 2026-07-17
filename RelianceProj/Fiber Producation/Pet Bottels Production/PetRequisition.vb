@@ -116,6 +116,7 @@ Friend Class PetRequisition
             .Append("WEIGHT,") 'dis amount
             .Append("RATE,")
             .Append("AMOUNT,")
+            .Append("OP30,")
             .Append("ROWREMARK,")
             .Append("PIECE_ID,")
             .Append("SHADECODE,") 'companycode
@@ -125,6 +126,7 @@ Friend Class PetRequisition
             .Append("OP20,") 'BookName
             .Append("OP21,") 'UserId
             .Append("OP19,") 'Approve status
+            .Append("OP8,") 'Issue department Approve status
             .Append("USEBY,")
             .Append("ENTRYDATE,")
             .Append("MODYFIDATE,")
@@ -172,6 +174,7 @@ Friend Class PetRequisition
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
             .Append("AMOUNT:Amount,")
+            .Append("OP30:Clear,")
             .Append("ROWREMARK:Remark")
         End With
 
@@ -192,6 +195,7 @@ Friend Class PetRequisition
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP30:L,")
             .Append("ROWREMARK:L")
         End With
 
@@ -213,6 +217,7 @@ Friend Class PetRequisition
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("OP30:L,")
             .Append("ROWREMARK:L")
         End With
 
@@ -252,9 +257,10 @@ Friend Class PetRequisition
             .Append("CUTCODE:N,")
             .Append("PIECE_ID:N,")
             .Append("MTR_WEIGHT:Y,")
-            .Append("RATE:N,")
-            .Append("AMOUNT:N,")
+            .Append("RATE:Y,")
+            .Append("AMOUNT:Y,")
             .Append("USEBY:N,")
+            .Append("OP30:Y,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,") 'GodownCode
             .Append("OP20:N,") 'BookName
@@ -262,6 +268,7 @@ Friend Class PetRequisition
             .Append("MODYFIDATE:N,")
             .Append("OP21:N,") 'UserId
             .Append("OP19:N,") 'Approve status
+            .Append("OP8:N,") 'Issue department Approve status
             .Append("Y_DELV_ACCOUNTCODE:N") 'ITEMGROUPCODE
         End With
 
@@ -295,7 +302,8 @@ Friend Class PetRequisition
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("ROWREMARK:42")
+            .Append("OP30:10,")
+            .Append("ROWREMARK:32")
         End With
 
         _FieldDefaultValues = New StringBuilder
@@ -308,12 +316,14 @@ Friend Class PetRequisition
             .Append("WEIGHT:0,")
             .Append("PIECE_ID:0,")
             .Append("OP19:NO,") 'Approve status
+            .Append("OP8:NO,") 'Issue department Approve status
             .Append("AMOUNT:0")
         End With
         _FieldLocked = New StringBuilder
         With _FieldLocked
             .Append("SRNO:Y,")
-            .Append("AMOUNT:Y")
+            .Append("AMOUNT:Y,")
+            .Append("OP30:Y")
         End With
 
         _FieldMasking = New StringBuilder
@@ -997,25 +1007,16 @@ Friend Class PetRequisition
             .Append("  A.PACK_SLIP_NO as [Req No], ")
             .Append(" FORMAT( A.PACK_SLIP_DATE,'dd/MM/yyyy') AS [Date], ")
             .Append("  A.HeaderRemark as [Header Remark], ")
-            '.Append(" MstMasterAccount.accountname as [Party Name], ")
             .Append("  A.SRNO as [Sno], ")
-            '.Append(" MSTSTOREITEMGROUP.GROUPNAME AS [Group Name], ")
             .Append(" B.ItemName as [Item Name], ")
             .Append(" K.TYPE_NAME  AS Brand, ")
             .Append(" MstCutMaster.cutname as UOM, ")
             .Append(" E.DEPARTMENTNAME  AS [Department Name], ")
-            '.Append(" F.ColorName AS Color,  ")
             .Append(" FORMAT( A.MTR_WEIGHT,'0.00') as [Quantity], ")
-            '.Append(" FORMAT( A.RATE,'0.00') as [Gross Rate], ")
-            '.Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS ENTRYDATE,  ")
-            '.Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
-            '.Append("  A.RDVALUE as [Tax %],")
-            '.Append("  A.AMOUNT as [Amount],")
-            '.Append(" MstTransport.TransportName as [Transport], ")
-            '.Append(" C.accountname as [Agent Name], ")
-            '.Append(" Mst_Acof_Supply.AC_NAME as [A/c Of Name], ")
-            .Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
-            .Append("  A.RowRemark as [Remark] ")
+            '.Append(" CASE WHEN A.OP19 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
+            .Append(" CASE WHEN A.OP8 = 'YES' THEN 'APPROVE' ELSE 'Pending' END AS Status, ")
+            .Append("  A.RowRemark as [Remark], ")
+            .Append("  A.OP30 as Clear")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
             .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE  ")
@@ -1538,6 +1539,16 @@ Friend Class PetRequisition
                     Exit Sub
                 End If
             End If
+            If _ActivatedColName = "OP30" Then
+                e.Cancel = True
+                If ITEMCODE = "" Then
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).SetFocus()
+                    Exit Sub
+                ElseIf QTY = 0 Then
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("QTY") + 1).SetFocus()
+                    Exit Sub
+                End If
+            End If
         End If
     End Sub
 
@@ -1567,6 +1578,7 @@ Friend Class PetRequisition
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = "0000-000000001"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE1") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUTCODE1") + 1).Text = "0000-000000001"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("SHADECODE") + 1).Text = "0000-000000001"
+        If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP30") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("OP30") + 1).Text = "NO"
 
         Dim Col_Text As String = GrdItem.ActiveCell.Text
 
@@ -1677,20 +1689,46 @@ Friend Class PetRequisition
             End If
         ElseIf _ActivatedColName = "ROWREMARK" Then
             If e.KeyCode = 13 Then
+                'Dim i As Integer = GrdItem.ActiveCell.Row
+                'Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
+                'Dim ITEMNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
+                'If ITEMNAME = "" Then
+                '    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = ""
+                'End If
+                'Dim CUTCODE As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
+                'Dim QTY As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+                'Dim ITEMCODE As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text
+                'Dim NET_RATE As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
+
+                'If QTY <> 0 And ITEMCODE <> "" And ITEMNAME <> "" Then
+                '    If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
+                '        GrdItem.Rows = GrdItem.Rows + 1
+                '        Fill_Current_Row_Sr_No(_DataTableGrid, GrdItem)
+                '    End If
+                'End If
+            End If
+        ElseIf _ActivatedColName = "OP30" Then
+            If e.KeyCode = Keys.Space Then
+                Dim i As Integer = GrdItem.ActiveCell.Row
+                If UCase(Trim(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP30") + 1).Text)) = "YES" Then
+                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP30") + 1).Text = "NO"
+                Else
+                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OP30") + 1).Text = "YES"
+                End If
+                e.Handled = True
+                Exit Sub
+            ElseIf e.KeyCode = Keys.Enter Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
                 Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
                 Dim ITEMNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
                 If ITEMNAME = "" Then
                     GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text = ""
                 End If
-                Dim CUTCODE As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTCODE") + 1).Text
                 Dim QTY As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
                 Dim ITEMCODE As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1).Text
-                Dim NET_RATE As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
-
-                If QTY <> 0 And ITEMCODE <> "" And ITEMNAME <> "" Then
+                If QTY <> 0 AndAlso ITEMCODE <> "" AndAlso ITEMNAME <> "" Then
                     If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
-                        GrdItem.Rows = GrdItem.Rows + 1
+                        GrdItem.Rows += 1
                         Fill_Current_Row_Sr_No(_DataTableGrid, GrdItem)
                     End If
                 End If

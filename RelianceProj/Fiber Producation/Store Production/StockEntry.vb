@@ -1552,6 +1552,7 @@ Public Class StockEntry
                 txt_Code_For_Grid_Selection.Text = ""
                 Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
                 Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
+                'MstMasterAccountvendorcode_Select
                 Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ACCOUNTNAME") + 1).Text, "SINGLE")
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("ACCOUNTCODE") Then

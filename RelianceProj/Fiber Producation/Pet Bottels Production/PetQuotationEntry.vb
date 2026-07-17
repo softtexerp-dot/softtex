@@ -981,7 +981,7 @@ Public Class PetQuotationEntry
         If txtWeaveTypeCode.Text = "" Then
             txtWeaveTypeCode.Text = "0000-000000001"
         End If
-        Dim base64 As String = Convert.ToBase64String(FileBytes)
+        'Dim base64 As String = Convert.ToBase64String(FileBytes)
         Dim strFilterString As String
         Dim QueryDetailTable As String = ""
         Dim Query_Auto_Grid(_DataTableGrid.Rows.Count, 4) As String
@@ -1012,7 +1012,7 @@ Public Class PetQuotationEntry
                 .Append("MODYFIDATE,")
             End If
             .Append("HeaderRemark,")
-            .Append("OP26,")
+            '.Append("OP26,")
             .Append("OP27")
         End With
         _ExtraField_Values_DataTable = New StringBuilder
@@ -1041,7 +1041,7 @@ Public Class PetQuotationEntry
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             End If
             .Append(txtHeader_Remark.Text & ",")
-            .Append(base64 & ",")
+            '.Append(base64 & ",")
             .Append(TxtAttachment.Text)
         End With
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -2136,27 +2136,60 @@ Public Class PetQuotationEntry
 #End Region
 #Region "Attachment 1"
     Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
-        'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-        '    Dim pathSource As String = OpenFileDialog1.FileName
-        '    Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-        '    Dim sSource As String = pathSource
-        '    If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
-        '    TxtAttachment.Text = fileName
-        '    TxtAttachment.Focus()
-        '    SaveImageToLocalAndServer(sSource)
-        'End If
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Dim filePath As String = OpenFileDialog1.FileName
-            TxtAttachment.Text = Path.GetFileName(filePath)
+            Dim pathSource As String = OpenFileDialog1.FileName
+            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+            Dim sSource As String = pathSource
+            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+            TxtAttachment.Text = fileName
             TxtAttachment.Focus()
-            ' File ko Byte Array me Read karo
-            FileBytes = File.ReadAllBytes(filePath)
-            'fileNameinbyte = Convert.ToBase64String(FileBytes)
+            SaveImageToLocalAndServer(sSource)
         End If
+        'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+        '    Dim filePath As String = OpenFileDialog1.FileName
+        '    TxtAttachment.Text = Path.GetFileName(filePath)
+        '    TxtAttachment.Focus()
+        '    ' File ko Byte Array me Read karo
+        '    FileBytes = File.ReadAllBytes(filePath)
+        'End If
     End Sub
 
     Private Sub BtnView1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
         _ImageView_Click(TxtAttachment.Text)
+        'Try
+        '    If conn.State = ConnectionState.Closed Then
+        '        conn.Open()
+        '    End If
+        '    Dim cmd As New SqlCommand("SELECT OP26 AS Attachment FROM TrnPackingSlip WHERE GODOWNCODE=@GodownCode AND EntryNo=@EntryNo", conn)
+        '    cmd.Parameters.AddWithValue("@GodownCode", txtUnitCode.Text)
+        '    cmd.Parameters.AddWithValue("@EntryNo", txtEntryNo.Text)
+        '    Dim dr As SqlDataReader = cmd.ExecuteReader()
+        '    If dr.Read() Then
+        '        If Not IsDBNull(dr("Attachment")) Then
+        '            'Dim imgBytes() As Byte = CType(dr("Attachment"), Byte())
+        '            'Using ms As New MemoryStream(imgBytes)
+        '            '    PictureBox1.Image = Image.FromStream(ms)
+        '            'End Using
+        '            Dim base64 As String = dr("Attachment").ToString().Trim()
+        '            'MessageBox.Show(base64.Substring(0, Math.Min(100, base64.Length)))
+        '            ShowImageFromBase64(base64)
+        '        Else
+
+        '            PictureBox1.Image = Nothing
+        '            MessageBox.Show("Image Not Found.")
+        '        End If
+        '    Else
+        '        PictureBox1.Image = Nothing
+        '        MessageBox.Show("Record Not Found.")
+        '    End If
+        '    dr.Close()
+        'Catch ex As Exception
+        '    MessageBox.Show(ex.Message)
+        'Finally
+        '    If conn.State = ConnectionState.Open Then
+        '        conn.Close()
+        '    End If
+        'End Try
     End Sub
 #End Region
 End Class

@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.XtraEditors.Controls
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid.Views.BandedGrid
 Imports DevExpress.XtraGrid.Views.Grid
@@ -137,6 +138,10 @@ Public Class DepartmentApproval
             .Append(" A.OP12 As Fright, ")
             .Append(" A.OP13 As Delivery, ")
             .Append(" A.OP4 As Paymentterms, ")
+            .Append(" A.OP8 As Terms1,") 'Terms1
+            .Append(" A.OP9 As Terms2,") 'Terms2
+            .Append(" A.OP10 as Terms3,") 'Terms3
+            .Append(" A.OP16 As Terms4,") 'Terms4
             .Append(" A.OP19 As Status, ")
             .Append(" A.OP24 As Status1, ")
             .Append(" A.Bookvno, ")
@@ -190,6 +195,7 @@ Public Class DepartmentApproval
         dtPivot.Columns.Add("ItemCode")
         dtPivot.Columns.Add("SupplierCode")
         dtPivot.Columns.Add("GodownCode")
+
         'dtPivot.Columns.Add("Brand")
         ' DISTINCT ACCOUNTNAME
         Dim accounts = dtSource.AsEnumerable().Select(Function(r) r("SupplierName").ToString()).Distinct().ToList()
@@ -206,6 +212,11 @@ Public Class DepartmentApproval
             dtPivot.Columns.Add(acc & "_Fright")
             dtPivot.Columns.Add(acc & "_Delivery")
             dtPivot.Columns.Add(acc & "_Paymentterms")
+            dtPivot.Columns.Add(acc & "_Terms1")
+            dtPivot.Columns.Add(acc & "_Terms2")
+            dtPivot.Columns.Add(acc & "_Terms3")
+            dtPivot.Columns.Add(acc & "_Terms4")
+            dtPivot.Columns.Add(acc & "_View")      ' <-- View Button
             dtPivot.Columns.Add(acc & "_Status", GetType(Boolean))
             dtPivot.Columns.Add(acc & "_Status1", GetType(Boolean))
         Next
@@ -221,6 +232,7 @@ Public Class DepartmentApproval
             newRow("ItemCode") = firstRow("ItemCode").ToString()
             newRow("SupplierCode") = firstRow("SupplierCode").ToString()
             newRow("GodownCode") = firstRow("GodownCode").ToString()
+
             For Each r In grp
                 Dim acc As String = r("SupplierName").ToString()
                 newRow(acc & "_Code") = r("SupplierCode").ToString
@@ -234,6 +246,11 @@ Public Class DepartmentApproval
                 newRow(acc & "_Fright") = Format(Val(r("Fright")), "0.00")
                 newRow(acc & "_Delivery") = Format(Val(r("Delivery")), "0.00")
                 newRow(acc & "_Paymentterms") = r("Paymentterms").ToString
+                newRow(acc & "_Terms1") = r("Terms1").ToString()
+                newRow(acc & "_Terms2") = r("Terms2").ToString()
+                newRow(acc & "_Terms3") = r("Terms3").ToString()
+                newRow(acc & "_Terms4") = r("Terms4").ToString()
+                newRow(acc & "_View") = "View"
                 Dim status As String = ""
 
                 If Not IsDBNull(r("Status")) Then
@@ -326,9 +343,24 @@ Public Class DepartmentApproval
                 If dtPivot.Columns.Contains(acc & "_Delivery") Then
                     band.Columns.Add(AddBandedColumn(bandedView, acc & "_Delivery", "Delivery"))
                 End If
-                If dtPivot.Columns.Contains(acc & "_Paymentterms") Then
-                    band.Columns.Add(AddBandedColumn(bandedView, acc & "_Paymentterms", "Payment terms"))
-                End If
+                'If dtPivot.Columns.Contains(acc & "_Paymentterms") Then
+                '    band.Columns.Add(AddBandedColumn(bandedView, acc & "_Paymentterms", "Payment terms"))
+                'End If
+
+                Dim viewCol As BandedGridColumn = AddBandedColumn(bandedView, acc & "_View", "View")
+                Dim btnEdit As New RepositoryItemButtonEdit()
+                btnEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple
+                btnEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
+                'btnEdit.Buttons(0).Caption = "V"
+                btnEdit.Buttons.Clear()
+                Dim btn As New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph)
+                btn.Caption = "View"
+                btnEdit.Buttons.Add(btn)
+                AddHandler btnEdit.ButtonClick, AddressOf PaymentTerms_ButtonClick
+                GridControl1.RepositoryItems.Add(btnEdit)
+                viewCol.ColumnEdit = btnEdit
+                band.Columns.Add(viewCol)
+
                 band.AppearanceHeader.Font = New Font("Verdana", 8, FontStyle.Bold)
                 band.AppearanceHeader.Options.UseFont = True
                 band.AppearanceHeader.Options.UseTextOptions = True
@@ -344,6 +376,7 @@ Public Class DepartmentApproval
                     statusCol.ColumnEdit = chkEdit
                     band.Columns.Add(statusCol)
                 End If
+
             Next
             'For Each col As BandedGridColumn In bandedView.Columns
             '    col.OptionsColumn.AllowEdit = False
@@ -353,9 +386,14 @@ Public Class DepartmentApproval
             '        col.OptionsColumn.ReadOnly = False
             '    End If
             'Next
+
             For Each col As BandedGridColumn In bandedView.Columns
                 col.OptionsColumn.AllowEdit = False
                 col.OptionsColumn.ReadOnly = True
+                If col.FieldName.EndsWith("_View") Then
+                    col.OptionsColumn.AllowEdit = True
+                    col.OptionsColumn.ReadOnly = False
+                End If
                 If col.FieldName.EndsWith("_Status1") Then
                     col.OptionsColumn.AllowEdit = True
                     col.OptionsColumn.ReadOnly = False
@@ -365,6 +403,7 @@ Public Class DepartmentApproval
             bandedView.OptionsView.ColumnAutoWidth = False
             bandedView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
             bandedView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always
+            bandedView.OptionsView.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways
             bandedView.OptionsView.RowAutoHeight = False
             bandedView.OptionsView.ShowIndicator = True
             bandedView.OptionsView.ShowGroupPanel = False
@@ -373,7 +412,25 @@ Public Class DepartmentApproval
         End If
         Return _NewTmptbl
     End Function
-
+    Private Sub PaymentTerms_ButtonClick(sender As Object, e As ButtonPressedEventArgs)
+        Dim view As BandedGridView = CType(GridControl1.MainView, BandedGridView)
+        Dim colName As String = view.FocusedColumn.FieldName
+        Dim supplier As String = colName.Replace("_View", "")
+        Dim msg As String =
+        "Payment Terms : " & Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Paymentterms")) & vbCrLf &
+        "Terms 1 : " & Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms1")) & vbCrLf &
+        "Terms 2 : " & Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms2")) & vbCrLf &
+        "Terms 3 : " & Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms3")) & vbCrLf &
+        "Terms 4 : " & Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms4"))
+        Dim payment As String = Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Paymentterms"))
+        Dim terms1 As String = Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms1"))
+        Dim terms2 As String = Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms2"))
+        Dim terms3 As String = Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms3"))
+        Dim terms4 As String = Convert.ToString(view.GetFocusedRowCellValue(supplier & "_Terms4"))
+        If payment <> "" OrElse terms1 <> "" OrElse terms2 <> "" OrElse terms3 <> "" OrElse terms4 <> "" Then
+            MessageBox.Show(msg, supplier)
+        End If
+    End Sub
 
     Private Sub bandedView_RowCellStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowCellStyleEventArgs)
         If e.RowHandle < 0 Then Exit Sub
@@ -532,22 +589,16 @@ Public Class DepartmentApproval
                         Dim codeColumn As String = col.FieldName.Replace("_Status", "_Code")
                         Dim supplierCode1 As String = Convert.ToString(view.GetRowCellValue(view.FocusedRowHandle, codeColumn))
                         Dim bookVno1 As String = Convert.ToString(view.GetRowCellValue(view.FocusedRowHandle, "BOOKVNO"))
-
                         Dim dr1() As DataRow = dtSource.Select("BOOKVNO='" & bookVno1 & "' AND SupplierCode='" & supplierCode1 & "'")
-
                         If dr1.Length > 0 Then
-
                             Dim status As String = dr1(0)("Status").ToString().Trim().ToUpper()
-
                             If status = "YES" Then
                                 isLocked = True
                                 Exit For
                             Else
                                 isLocked = False
                             End If
-
                         End If
-
                     End If
                 Next
 

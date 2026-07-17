@@ -101,7 +101,7 @@ Public Class IssuetodepartmentApproval
             .Append(" MTR_WEIGHT AS INQTY, ")
             .Append(" 0.00 AS OUTQTY ")
             .Append(" FROM TrnPackingSlip ")
-            .Append(" WHERE BOOKCODE='RQSS-000000001' And OP8<>''")
+            .Append(" WHERE BOOKCODE='RQSS-000000001' And OP8<>'' and OP30<>'YES'")
             .Append(" AND GodownCode = '" & txtUnitCode.Text.Trim & "'  ")
             '.Append(" UNION ALL ")
             '.Append(" SELECT ")

@@ -100,7 +100,7 @@ Public Class PetIssuetodepartmentApproval
             .Append(" MTR_WEIGHT AS INQTY, ")
             .Append(" 0.00 AS OUTQTY ")
             .Append(" FROM TrnPackingSlip ")
-            .Append(" WHERE BOOKCODE='0001-000010002' And OP8<>''")
+            .Append(" WHERE BOOKCODE='0001-000010002' And OP8<>'' and OP30<>'YES'")
             .Append(" AND GodownCode = '" & txtUnitCode.Text.Trim & "'  ")
             .Append(" ) Z ")
             .Append(" left JOIN " & _TblName & " A ")
