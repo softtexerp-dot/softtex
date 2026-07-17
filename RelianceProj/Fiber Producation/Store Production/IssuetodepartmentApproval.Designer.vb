@@ -434,7 +434,7 @@ Partial Class IssuetodepartmentApproval
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "IssuetodepartmentApproval"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "IssuetodepartmentApproval"
+        Me.Text = "Store Approval"
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
