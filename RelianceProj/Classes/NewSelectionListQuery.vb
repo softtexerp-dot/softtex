@@ -63,6 +63,73 @@ Public Class NewSelectionListQuery
 
         Return _strQuery.ToString
     End Function
+
+
+    Public Function MstMasterAccountvendorcode_Select(ByVal FilterString As String)
+        _strQuery = New StringBuilder
+
+        Try
+            Dim BookGroupCode As String = ""
+            Dim Str_In_BookGroupCode As String = ""
+
+            sqL = "SELECT Group_Code_Filter_String  FROM MstBook WHERE BookCode='" & party_selection_book_code & "'"
+            ConnDB()
+            cmd = New SqlClient.SqlCommand(sqL, conn)
+            dr = cmd.ExecuteReader(CommandBehavior.CloseConnection)
+            Do While dr.Read = True
+                BookGroupCode = Replace(dr("Group_Code_Filter_String").ToString, "'", "'")
+            Loop
+            cmd.Dispose()
+            dr.Close()
+            conn.Close()
+
+            If BookGroupCode <> "" Then
+                If (BookGroupCode).ToString.Trim.Length = 18 Then
+                    Str_In_BookGroupCode = " AND A.GROUPCODE='" & Mid((BookGroupCode).ToString, 3, 14) & "' "
+                Else
+                    Str_In_BookGroupCode = " AND A.GROUPCODE IN " & Replace((BookGroupCode).ToString, "'", "'")
+                    Str_In_BookGroupCode = " AND A.GROUPCODE IN " & Replace((BookGroupCode).ToString, "#", "'")
+                End If
+            End If
+            If Str_In_BookGroupCode > "" Then Str_In_BookGroupCode = Str_In_BookGroupCode & " OR A.GROUPCODE ='0000-000000029'"
+
+            With _strQuery
+                .Append("SELECT")
+                .Append(" 'False' as TickMark")
+                .Append(" ,A.AccountName")
+                .Append(" ,B.CityName")
+                'Vendor code
+                .Append(" ,isnull(E.TRANSPORT_MASTER,'') As VendorCode")
+                .Append(" ,A.ACCOUNTCODE")
+                .Append(" ,A.GROUPCODE")
+                .Append(" ,D.ACCOUNTNAME AS AgentName ")
+                .Append(" ,IIF(D.OP3='YES','YES',a.OP3) AS BlackList ")
+                .Append(" FROM MstMasterAccount AS A ")
+                .Append(" LEFT JOIN MSTCITY AS B ON B.CITYCODE = A.CITYCODE ")
+                .Append(" LEFT JOIN MstMasterAccount AS D ON D.ACCOUNTCODE = A.AGENTCODE ")
+                'Vendor code Query
+                .Append(" LEFT JOIN Vch_no AS E ON E.TRANSPORT_MASTER = A.OP133 ")
+                .Append(" And E.Group_master_finance='VENDOR MASTER' ")
+                .Append(" WHERE 1=1 ")
+                .Append(Str_In_BookGroupCode)
+                .Append(FilterString)
+                .Append(GROUP_WISE_MULTY_PARTY_SELECT)
+                .Append(" ORDER BY A.AccountName")
+            End With
+
+            Str_In_BookGroupCode = ""
+            GROUP_WISE_MULTY_PARTY_SELECT = ""
+            party_selection_book_code = ""
+            GroupCodeFiletrCode = ""
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+
+        Return _strQuery.ToString
+    End Function
+
     Public Function SINGLE_ACC_OF_SELECTION(ByVal FilterString As String)
         Try
             _strQuery = New StringBuilder
@@ -477,6 +544,26 @@ Public Class NewSelectionListQuery
                 .Append(" WHERE 1=1 ")
                 .Append(FilterString)
                 .Append(" ORDER BY CAST(CUTM.ORDERNO AS INT)")
+            End With
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+
+        Return _strQuery.ToString()
+    End Function
+    Public Function SINGLE_VENDORMASTER_SELECTION(ByVal FilterString As String)
+        Dim _strQuery As New StringBuilder
+        Try
+            With _strQuery
+                .Append(" SELECT  ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,VM.STATEMASTER As VendorName ")
+                .Append(" , VM.TRANSPORT_MASTER As AccountCode")
+                .Append(" FROM Vch_no As VM ")
+                .Append(" WHERE 1=1 AND VM .Group_master_finance='VENDOR MASTER'")
+                .Append(FilterString)
+                .Append(" ORDER BY VM.Main_account_master")
             End With
         Catch ex As Exception
             MsgBox(ex.ToString)

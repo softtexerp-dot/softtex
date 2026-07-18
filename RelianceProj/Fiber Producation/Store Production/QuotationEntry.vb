@@ -1646,7 +1646,8 @@ Friend Class QuotationEntry
         If Asc(e.KeyChar) = 27 Then Exit Sub
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
             Dim _FilterAccountcode As String = ""
-            Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
+            'Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
+            Dim _LoadQuery = NewSelectionList.MstMasterAccountvendorcode_Select(_FilterAccountcode)
             Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtAccountName.Text, "SINGLE")
             If selected IsNot Nothing Then
                 If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
