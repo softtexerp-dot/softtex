@@ -31,18 +31,18 @@ Public Class VendorMaster
     End Sub
     Private Sub MachineMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Location = New Point(0, 0)
-        Dim x As Integer
-        Dim y As Integer
-        x = 0
-        y = (Screen_Height - Screen_Height) + Main_MDI_Frm.MenuStrip1.Height + 30
-        Me.Location = New Point(x, y)
+        'Dim x As Integer
+        'Dim y As Integer
+        'x = 0
+        'y = (Screen_Height - Screen_Height) + Main_MDI_Frm.MenuStrip1.Height + 30
+        'Me.Location = New Point(x, y)
 
-        PNL_View.Width = Me.Width
-        PNL_View.Height = Me.Height
-        GridControl1.Height = PNL_View.Height - 100
-        GridControl1.Width = PNL_View.Width - 20
-        PNL_View.Location = New Point(0, 0)
-
+        'PNL_View.Width = Me.Width
+        'PNL_View.Height = Me.Height
+        'GridControl1.Height = PNL_View.Height + 30
+        'GridControl1.Width = PNL_View.Width + 20
+        'PNL_View.Location = New Point(0, 0)
+        AutoResizeGrid(PNL_View, GridControl1)
         old_Me_text = Me.Text
         _FrmLoad = True
         Call defineColName()
@@ -264,7 +264,7 @@ Public Class VendorMaster
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-        VendorMasterPrint.Show()
+        'VendorMasterPrint.Show()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
@@ -386,6 +386,15 @@ Public Class VendorMaster
     Private Sub MachineMaster_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
             If PNL_View.Visible = True Then
+                _FrmLoad = True
+                ObjCls_General.Blank_Object(Me)
+                _KeyFieldValue = 0
+                AttachButtonFocusEvents(Me)
+                Call Ctrl_Visible_False(Me.Controls)
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                _FrmLoad = False
+                _FORMMODE = ""
                 PNL_View.Visible = False
                 Exit Sub
             End If
@@ -490,13 +499,13 @@ Public Class VendorMaster
                 .Append("A.Main_account_master As VendorNo,")
                 .Append("A.STATEMASTER As VendorName,")
                 .Append("A.CITYMASTER As Remark,")
-                .Append("A.TRANSPORT_MASTER As VendorCode,")
-                .Append("A.MST_YARN_SHADE As ModifiedDate,")
-                .Append("A.MSTCUTMASTER As EntryDate")
+                .Append("A.TRANSPORT_MASTER As VendorCode")
+                '.Append("A.MST_YARN_SHADE As ModifiedDate,")
+                '.Append("A.MSTCUTMASTER As EntryDate")
                 .Append("  FROM Vch_no as A ")
                 .Append("  WHERE 1=1")
                 .Append("  AND A.Group_master_finance='VENDOR MASTER'")
-                .Append("  AND A.STATEMASTER='" & Txt_MachineName.Text & "'")
+                '.Append("  AND A.STATEMASTER='" & Txt_MachineName.Text & "'")
                 .Append("  ORDER BY A.Main_account_master ")
             End With
             sqL = _strQuery.ToString
@@ -511,10 +520,8 @@ Public Class VendorMaster
                 FirstStage.RowHeight = 25
                 PNL_View.BringToFront()
                 PNL_View.Visible = True
-
                 FirstStage.BestFitColumns()
                 FirstStage.Focus()
-
 
             Else
                 MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
@@ -564,6 +571,10 @@ Public Class VendorMaster
         End If
 
         'e.Handled = True
+    End Sub
+
+    Private Sub UC_Buttons1_Load(sender As Object, e As EventArgs) Handles UC_Buttons1.Load
+
     End Sub
 #End Region
 End Class

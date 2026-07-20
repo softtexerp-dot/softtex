@@ -1640,16 +1640,18 @@ Public Class PetPurchaseOrder
     End Sub
     Private Sub General_Order_Entry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Location = New Point(0, 0)
-        PNL_View.Width = Me.Width
-        PNL_View.Height = Me.Height
-        PNL_View.Location = New Point(0, 0)
+        'PNL_View.Width = Me.Width
+        'PNL_View.Height = Me.Height
+        'PNL_View.Location = New Point(0, 0)
 
-        GridControl1.Width = PNL_View.Width - 25
-        GridControl1.Height = PNL_View.Height - 100
-        GridControl1.Location = New Point(3, 53)
-        Pnl_Rate_Disp.Width = 411
-        Pnl_Rate_Disp.Height = 308
-        Pnl_Rate_Disp.Location = New Point(598, 152)
+        'GridControl1.Width = PNL_View.Width - 25
+        'GridControl1.Height = PNL_View.Height - 100
+        'GridControl1.Location = New Point(3, 53)
+        AutoResizeGrid(PNL_View, GridControl1)
+        'Pnl_Rate_Disp.Width = 411
+        'Pnl_Rate_Disp.Height = 308
+        'Pnl_Rate_Disp.Location = New Point(598, 152)
+        AutoResizeGrid(Pnl_Rate_Disp, GridControl1)
         _FrmLoad = True
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")

@@ -514,14 +514,14 @@ Public Class RawPurchaseReturn
     Private Sub SamplerRateContract_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Location = New Point(0, 0)
 
-        PNL_View.Width = Me.Width
-        PNL_View.Height = Me.Height
-        PNL_View.Location = New Point(0, 0)
+        'PNL_View.Width = Me.Width
+        'PNL_View.Height = Me.Height
+        'PNL_View.Location = New Point(0, 0)
 
-        GridControl1.Width = PNL_View.Width - 25
-        GridControl1.Height = PNL_View.Height - 100
-        GridControl1.Location = New Point(3, 53)
-
+        'GridControl1.Width = PNL_View.Width - 25
+        'GridControl1.Height = PNL_View.Height - 100
+        'GridControl1.Location = New Point(3, 53)
+        AutoResizeGrid(PNL_View, GridControl1)
 
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")

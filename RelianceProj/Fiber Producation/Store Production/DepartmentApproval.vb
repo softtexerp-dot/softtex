@@ -553,6 +553,9 @@ Public Class DepartmentApproval
         '    End If
         'Next
         Dim view As BandedGridView = CType(sender, BandedGridView)
+        If view.FocusedColumn.FieldName.EndsWith("_View") Then
+            Return    ' View button clickable rahega
+        End If
         If view.FocusedColumn.FieldName.EndsWith("_Status") Then
             e.Cancel = True
         End If
@@ -567,6 +570,7 @@ Public Class DepartmentApproval
                 End If
             End If
         Next
+
     End Sub
 
 

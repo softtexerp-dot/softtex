@@ -24,7 +24,6 @@ Partial Class VendorMaster
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(VendorMaster))
         Me.Txtsection = New ctl_TextBox.ctl_TextBox()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.Txt_Brand = New ctl_TextBox.ctl_TextBox()
         Me.txtEntryNo = New ctl_TextBox.ctl_TextBox()
         Me.But_export = New DevExpress.XtraEditors.SimpleButton()
@@ -79,7 +78,7 @@ Partial Class VendorMaster
         Me.Txtsection.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txtsection.IsValidated = False
         Me.Txtsection.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txtsection.Location = New System.Drawing.Point(162, 70)
+        Me.Txtsection.Location = New System.Drawing.Point(170, 168)
         Me.Txtsection.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txtsection.MandatoryField = False
         Me.Txtsection.MaxDate = Nothing
@@ -97,10 +96,6 @@ Partial Class VendorMaster
         Me.Txtsection.Tag = "TRANSPORT_MASTER"
         Me.Txtsection.TransparentBox = True
         Me.Txtsection.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'Txt_Brand
         '
@@ -126,7 +121,7 @@ Partial Class VendorMaster
         Me.Txt_Brand.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_Brand.IsValidated = False
         Me.Txt_Brand.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_Brand.Location = New System.Drawing.Point(162, 43)
+        Me.Txt_Brand.Location = New System.Drawing.Point(170, 122)
         Me.Txt_Brand.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_Brand.MandatoryField = False
         Me.Txt_Brand.MaxDate = Nothing
@@ -235,7 +230,7 @@ Partial Class VendorMaster
         Me.GridControl1.Location = New System.Drawing.Point(3, 46)
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
-        Me.GridControl1.Size = New System.Drawing.Size(222, 134)
+        Me.GridControl1.Size = New System.Drawing.Size(292, 134)
         Me.GridControl1.TabIndex = 81900
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
@@ -300,7 +295,7 @@ Partial Class VendorMaster
         Me.Txt_MachineName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_MachineName.IsValidated = False
         Me.Txt_MachineName.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.Txt_MachineName.Location = New System.Drawing.Point(162, 16)
+        Me.Txt_MachineName.Location = New System.Drawing.Point(170, 77)
         Me.Txt_MachineName.MandatoryColor = System.Drawing.Color.LightCyan
         Me.Txt_MachineName.MandatoryField = False
         Me.Txt_MachineName.MaxDate = Nothing
@@ -343,7 +338,7 @@ Partial Class VendorMaster
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(13, 74)
+        Me.Label5.Location = New System.Drawing.Point(21, 172)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(91, 14)
         Me.Label5.TabIndex = 82324
@@ -353,7 +348,7 @@ Partial Class VendorMaster
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(142, 75)
+        Me.Label6.Location = New System.Drawing.Point(150, 173)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 14)
         Me.Label6.TabIndex = 82325
@@ -363,7 +358,7 @@ Partial Class VendorMaster
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(13, 46)
+        Me.Label2.Location = New System.Drawing.Point(21, 125)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(58, 14)
         Me.Label2.TabIndex = 82322
@@ -373,7 +368,7 @@ Partial Class VendorMaster
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(142, 46)
+        Me.Label3.Location = New System.Drawing.Point(150, 125)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(12, 14)
         Me.Label3.TabIndex = 82323
@@ -383,7 +378,7 @@ Partial Class VendorMaster
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(142, 18)
+        Me.Label4.Location = New System.Drawing.Point(150, 79)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82321
@@ -393,7 +388,7 @@ Partial Class VendorMaster
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(13, 18)
+        Me.Label1.Location = New System.Drawing.Point(21, 79)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(96, 14)
         Me.Label1.TabIndex = 82320
@@ -406,16 +401,16 @@ Partial Class VendorMaster
         Me.PNL_View.Controls.Add(Me.Btn_LayoutLoad)
         Me.PNL_View.Controls.Add(Me.BtnLayOutSave)
         Me.PNL_View.Controls.Add(Me.GridControl1)
-        Me.PNL_View.Location = New System.Drawing.Point(954, 6)
+        Me.PNL_View.Location = New System.Drawing.Point(96, 260)
         Me.PNL_View.Name = "PNL_View"
-        Me.PNL_View.Size = New System.Drawing.Size(298, 195)
+        Me.PNL_View.Size = New System.Drawing.Size(298, 181)
         Me.PNL_View.TabIndex = 82319
         Me.PNL_View.Visible = False
         '
         'UC_Buttons1
         '
         Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(0, 143)
+        Me.UC_Buttons1.Location = New System.Drawing.Point(-6, 442)
         Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
         Me.UC_Buttons1.Name = "UC_Buttons1"
         Me.UC_Buttons1.Size = New System.Drawing.Size(1008, 43)
@@ -426,7 +421,7 @@ Partial Class VendorMaster
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(461, 189)
+        Me.ClientSize = New System.Drawing.Size(527, 486)
         Me.Controls.Add(Me.Txtsection)
         Me.Controls.Add(Me.Txt_Brand)
         Me.Controls.Add(Me.txtEntryNo)
@@ -459,7 +454,6 @@ Partial Class VendorMaster
 
     End Sub
     Friend WithEvents Txtsection As ctl_TextBox.ctl_TextBox
-    Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents Txt_Brand As ctl_TextBox.ctl_TextBox
     Friend WithEvents txtEntryNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents But_export As DevExpress.XtraEditors.SimpleButton
