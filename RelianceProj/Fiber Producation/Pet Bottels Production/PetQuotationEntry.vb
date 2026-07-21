@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Net.Http
 Imports System.Text
 Imports DevExpress.XtraGrid
 Imports Microsoft.Office.Core
@@ -18,7 +19,7 @@ Public Class PetQuotationEntry
     'Dim _UserID As Integer = 1
 
     Dim _lblEntryDate As String
-    Dim FileBytes() As Byte = Nothing
+    Public flagstring As String = ""
 #Region "GRID STRING BUILDER VARIABLE "
     Private _GridColNames As New StringBuilder
     Private _GridColType As New StringBuilder
@@ -517,7 +518,8 @@ Public Class PetQuotationEntry
         'GridControl1.Height = PNL_View.Height - 100
         'GridControl1.Location = New Point(3, 53)
         AutoResizeGrid(PNL_View, GridControl1)
-
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
         AttachButtonFocusEvents(Me)
         UC_Buttons1._ButtonEnableDisable("LOAD")
 
@@ -652,12 +654,16 @@ Public Class PetQuotationEntry
                 txtEntryNo.Text = Val(txtEntryNo.Text) - 1
                 Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
                 Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+                txtFilePath.Visible = False
+                txtimageid.Visible = False
             End If
         ElseIf e.KeyCode = Keys.PageDown Then
             If _FORMMODE = "EDIT" And Last_Saved_Entry_No > 0 And Val(txtEntryNo.Text) < Last_Saved_Entry_No Then
                 txtEntryNo.Text = Val(txtEntryNo.Text) + 1
                 Dim Book_Vno As String = Generate_Book_Vno(txtEntryNo.Text, _BookTrType)
                 Call Validate_Entry_No(Book_Vno, _ChallanTableName)
+                txtFilePath.Visible = False
+                txtimageid.Visible = False
             End If
         End If
     End Sub
@@ -682,7 +688,8 @@ Public Class PetQuotationEntry
         BtnView1.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
-
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
         _FORMMODE = "EDIT"
@@ -697,6 +704,8 @@ Public Class PetQuotationEntry
         BtnView1.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
     End Sub
     Private Sub UC_Buttons1_DeleteClick() Handles UC_Buttons1.DeleteClick
         _FORMMODE = "DELETE"
@@ -708,6 +717,8 @@ Public Class PetQuotationEntry
         txtUnitName.Visible = True
         txtUnitName.Focus()
         txtUnitName.Select()
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
     End Sub
     Private Sub UC_Buttons1_BackClick() Handles UC_Buttons1.BackClick
         _FrmLoad = False
@@ -718,6 +729,8 @@ Public Class PetQuotationEntry
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
             BtnOpen.Visible = True
             BtnView1.Visible = True
+            txtFilePath.Visible = False
+            txtimageid.Visible = False
         End If
     End Sub
 
@@ -729,6 +742,8 @@ Public Class PetQuotationEntry
             Call Validate_Entry_No(Book_Vno, _ChallanTableName)
             BtnOpen.Visible = True
             BtnView1.Visible = True
+            txtFilePath.Visible = False
+            txtimageid.Visible = False
         End If
     End Sub
 
@@ -1012,8 +1027,9 @@ Public Class PetQuotationEntry
                 .Append("MODYFIDATE,")
             End If
             .Append("HeaderRemark,")
-            '.Append("OP26,")
-            .Append("OP27")
+            .Append("OP26,")
+            .Append("OP27,")
+            .Append("OP28")
         End With
         _ExtraField_Values_DataTable = New StringBuilder
         With _ExtraField_Values_DataTable
@@ -1041,8 +1057,9 @@ Public Class PetQuotationEntry
                 .Append(Format(Now, "yyyy-MM-dd HH:mm:ss.fff") & ",")
             End If
             .Append(txtHeader_Remark.Text & ",")
-            '.Append(base64 & ",")
-            .Append(TxtAttachment.Text)
+            .Append(txtFilePath.Text & ",")
+            .Append(TxtAttachment.Text & ",")
+            .Append(txtimageid.Text)
         End With
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
         GridDetailsSaveQuery = QueryDetailTable & ";"
@@ -1257,6 +1274,8 @@ Public Class PetQuotationEntry
                 _FrmLoad = False
                 txtChallanNo.Focus()
                 txtChallanNo.Select()
+                txtFilePath.Visible = False
+                txtimageid.Visible = False
             ElseIf _FORMMODE = "DELETE" Then
                 _FrmLoad = True
                 Call Alter_Form(Book_Vno)
@@ -1291,6 +1310,8 @@ Public Class PetQuotationEntry
                 txtEntryNo.Visible = True
                 txtEntryNo.Focus()
                 txtEntryNo.Select()
+                txtFilePath.Visible = False
+                txtimageid.Visible = False
             Else
                 If _BookCode = "0001-000000153" Then
                     If _FORMMODE = "ADD" Then
@@ -1395,6 +1416,10 @@ Public Class PetQuotationEntry
         Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
         Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
         TxtAttachment.Text = tblTmp.Rows(0)("OP27").ToString
+        txtFilePath.Text = tblTmp.Rows(0)("OP26").ToString
+        txtFilePath.Visible = False
+        txtimageid.Text = tblTmp.Rows(0)("OP28").ToString
+        txtimageid.Visible = False
         Generate_Date_For_DataBase(txtChallanDate)
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
@@ -1445,6 +1470,10 @@ Public Class PetQuotationEntry
             Txt_Terms3.Text = tblTmp.Rows(0)("OP10").ToString
             Txt_Terms4.Text = tblTmp.Rows(0)("OP16").ToString
             TxtAttachment.Text = tblTmp.Rows(0)("OP27").ToString
+            txtFilePath.Text = tblTmp.Rows(0)("OP26").ToString
+            txtFilePath.Visible = False
+            txtimageid.Text = tblTmp.Rows(0)("OP28").ToString
+            txtimageid.Visible = False
             GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
             Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
 
@@ -2137,60 +2166,198 @@ Public Class PetQuotationEntry
 #End Region
 #Region "Attachment 1"
     Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
-        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Dim pathSource As String = OpenFileDialog1.FileName
-            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-            Dim sSource As String = pathSource
-            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+        'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+        '    Dim pathSource As String = OpenFileDialog1.FileName
+        '    Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+        '    Dim sSource As String = pathSource
+        '    If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+        '    TxtAttachment.Text = fileName
+        '    TxtAttachment.Focus()
+        '    SaveImageToLocalAndServer(sSource)
+        'End If
+
+        Dim ofd As New OpenFileDialog()
+        ofd.Title = "Select File"
+        ofd.Filter = "All Files (*.*)|*.*|PDF Files (*.pdf)|*.pdf|Image Files (*.jpg;*.png)|*.jpg;*.png"
+        ofd.Multiselect = False
+
+        If ofd.ShowDialog() = DialogResult.OK Then
+            Dim filePath As String = ofd.FileName
+            Dim fileName As String = IO.Path.GetFileName(filePath)
+            txtFilePath.Text = filePath
             TxtAttachment.Text = fileName
             TxtAttachment.Focus()
-            SaveImageToLocalAndServer(sSource)
+            'MessageBox.Show("Selected File: " & fileName)
         End If
-        'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-        '    Dim filePath As String = OpenFileDialog1.FileName
-        '    TxtAttachment.Text = Path.GetFileName(filePath)
-        '    TxtAttachment.Focus()
-        '    ' File ko Byte Array me Read karo
-        '    FileBytes = File.ReadAllBytes(filePath)
+        'If txtFilePath.Text <> "" AndAlso TxtAttachment.Text <> "" Then
+        If _FORMMODE = "ADD" Then
+            flagstring = "save"
+            SubmitComplaintAsync(flagstring)
+        ElseIf _FORMMODE = "EDIT" Then
+            flagstring = "update"
+            SubmitComplaintAsync(flagstring)
+        End If
         'End If
     End Sub
+    Private Async Sub SubmitComplaintAsync(ByVal falgstring As String)
+        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+        Try
+            Using client As New HttpClient()
+                Using form As New MultipartFormDataContent()
+                    If _FORMMODE = "EDIT" Then
+                        flagstring = "update"
+                        If txtimageid.Text <> "" Then
+                            Dim idValue As Long = Convert.ToInt64(txtimageid.Text)
+                            form.Add(New StringContent(idValue.ToString()), "Id")
+                        End If
+                    End If
+                    Dim filePath As String = txtFilePath.Text.Trim()
 
+                    ' 🔹 Update case me hi check
+                    If _FORMMODE = "EDIT" Then
+                        flagstring = "update"
+                        ' 👉 New image selected (local file)
+                        If IO.File.Exists(filePath) Then
+                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+                            Dim fileContent As New ByteArrayContent(fileBytes)
+                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+                        Else
+                            ' 👉 Old image (URL / API path) → kuch mat bhejo
+                            ' API existing image hi rakhegi
+                        End If
+
+                    Else
+                        ' 🔹 Save case me image mandatory
+                        If IO.File.Exists(filePath) Then
+                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+                            Dim fileContent As New ByteArrayContent(fileBytes)
+                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+
+                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+                        Else
+                            'MessageBox.Show("❌ Please select image file.")
+                            'Exit Sub
+                        End If
+                    End If
+
+                    ' 🔹 POST API
+                    Dim postResponse As HttpResponseMessage =
+                    Await client.PostAsync(postUrl, form)
+
+                    Dim result As String =
+                    Await postResponse.Content.ReadAsStringAsync()
+
+                    If postResponse.IsSuccessStatusCode Then
+                        'MessageBox.Show("✅ Complaint submitted successfully!")
+                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
+                        txtFilePath.Text = responseJson("imageURl")?.ToString()
+                        txtFilePath.Visible = False
+                        txtimageid.Text = responseJson("id")?.ToString()
+                        txtimageid.Visible = False
+                        'MessageBox.Show("✅ " & message, "Success")
+                        'Me.Close()   ' Complaint form close
+                    Else
+                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
+                        Me.Close()
+                    End If
+
+                End Using
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
+        End Try
+
+    End Sub
     Private Sub BtnView1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
-        _ImageView_Click(TxtAttachment.Text)
-        'Try
-        '    If conn.State = ConnectionState.Closed Then
-        '        conn.Open()
-        '    End If
-        '    Dim cmd As New SqlCommand("SELECT OP26 AS Attachment FROM TrnPackingSlip WHERE GODOWNCODE=@GodownCode AND EntryNo=@EntryNo", conn)
-        '    cmd.Parameters.AddWithValue("@GodownCode", txtUnitCode.Text)
-        '    cmd.Parameters.AddWithValue("@EntryNo", txtEntryNo.Text)
-        '    Dim dr As SqlDataReader = cmd.ExecuteReader()
-        '    If dr.Read() Then
-        '        If Not IsDBNull(dr("Attachment")) Then
-        '            'Dim imgBytes() As Byte = CType(dr("Attachment"), Byte())
-        '            'Using ms As New MemoryStream(imgBytes)
-        '            '    PictureBox1.Image = Image.FromStream(ms)
-        '            'End Using
-        '            Dim base64 As String = dr("Attachment").ToString().Trim()
-        '            'MessageBox.Show(base64.Substring(0, Math.Min(100, base64.Length)))
-        '            ShowImageFromBase64(base64)
-        '        Else
+        '_ImageView_Click(TxtAttachment.Text)
+        _ImageView_Click(txtFilePath.Text, flagstring)
+    End Sub
+    Public Sub _ImageView_Click(ByVal _IamgePath As String, ByVal _flagstring As String)
+        Try
+            If _FORMMODE = "ADD" Then
+                flagstring = "save"
+                Dim _FilePath As String = _IamgePath
+                If System.IO.File.Exists(_FilePath) = True Then
+                    Process.Start(_FilePath)
+                    Dim frm As New Form With
+                    {
+                    .Text = "Preview",
+                    .Width = 900,
+                    .Height = 600,
+                    .StartPosition = FormStartPosition.CenterScreen,
+                    .FormBorderStyle = FormBorderStyle.FixedDialog,
+                    .MaximizeBox = False,
+                    .MinimizeBox = False
+                    }
+                    Dim pic As New PictureBox With {
+                            .Dock = DockStyle.Fill,
+                            .SizeMode = PictureBoxSizeMode.Zoom,
+                            .ImageLocation = _FilePath
+                        }
+                    frm.KeyPreview = True
+                    frm.Controls.Add(pic)
+                    'frm.Controls.Add(wb)
+                    AddHandler frm.KeyDown,
+                    Sub(s, e)
+                        If e.KeyCode = Keys.Escape Then
+                            frm.Close()
+                        End If
+                    End Sub
+                    frm.ShowDialog()
+                Else
+                    Process.Start(_FilePath)
+                    'MsgBox("File Does Not Exist")
+                End If
+            ElseIf _FORMMODE = "EDIT" Then
+                flagstring = "update"
+                Dim _FilePath As String = _IamgePath
+                If System.IO.File.Exists(_FilePath) = True Then
+                    Process.Start(_FilePath)
+                ElseIf _FilePath.StartsWith("HTTP", StringComparison.OrdinalIgnoreCase) Then
+                    'Process.Start(New ProcessStartInfo(_FilePath) With {.UseShellExecute = True})
+                    Dim frm As New Form With
+                    {
+                    .Text = "Preview",
+                    .Width = 900,
+                    .Height = 600,
+                    .StartPosition = FormStartPosition.CenterScreen,
+                    .FormBorderStyle = FormBorderStyle.FixedDialog,
+                    .MaximizeBox = False,
+                    .MinimizeBox = False
+                    }
+                    Dim pic As New PictureBox With {
+                            .Dock = DockStyle.Fill,
+                            .SizeMode = PictureBoxSizeMode.Zoom,
+                            .ImageLocation = _FilePath
+                        }
+                    frm.KeyPreview = True
+                    frm.Controls.Add(pic)
+                    'frm.Controls.Add(wb)
+                    AddHandler frm.KeyDown,
+                    Sub(s, e)
+                        If e.KeyCode = Keys.Escape Then
+                            frm.Close()
+                        End If
+                    End Sub
+                    frm.ShowDialog()
 
-        '            PictureBox1.Image = Nothing
-        '            MessageBox.Show("Image Not Found.")
-        '        End If
-        '    Else
-        '        PictureBox1.Image = Nothing
-        '        MessageBox.Show("Record Not Found.")
-        '    End If
-        '    dr.Close()
-        'Catch ex As Exception
-        '    MessageBox.Show(ex.Message)
-        'Finally
-        '    If conn.State = ConnectionState.Open Then
-        '        conn.Close()
-        '    End If
-        'End Try
+                Else
+                    MsgBox("File Does Not Exist")
+                End If
+            Else
+                Dim _FilePath As String = _IamgePath
+                If System.IO.File.Exists(_FilePath) = True Then
+                    Process.Start(_FilePath)
+                Else
+                    MsgBox("File Does Not Exist")
+                End If
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
     End Sub
 #End Region
 End Class

@@ -24,7 +24,7 @@ Partial Class RawGateInward
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RawGateInward))
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
@@ -72,6 +72,10 @@ Partial Class RawGateInward
         Me.Label34 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.OpenFileDialog2 = New System.Windows.Forms.OpenFileDialog()
+        Me.txtimageid2 = New ctl_TextBox.ctl_TextBox()
+        Me.txtFilePath2 = New ctl_TextBox.ctl_TextBox()
+        Me.txtimageid = New ctl_TextBox.ctl_TextBox()
+        Me.txtFilePath = New ctl_TextBox.ctl_TextBox()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -903,12 +907,192 @@ Partial Class RawGateInward
         '
         Me.OpenFileDialog2.FileName = "OpenFileDialog2"
         '
+        'txtimageid2
+        '
+        Me.txtimageid2._AllowSpace = True
+        Me.txtimageid2.AcceptsReturn = True
+        Me.txtimageid2.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtimageid2.BackColor = System.Drawing.Color.Honeydew
+        Me.txtimageid2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtimageid2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtimageid2.Check_End_Date_Value_FY = "YES"
+        Me.txtimageid2.Check_Start_Date_Value_FY = "YES"
+        Me.txtimageid2.ClearField = True
+        Me.txtimageid2.CustomInputTypeString = Nothing
+        Me.txtimageid2.Date_for_Database = Nothing
+        Me.txtimageid2.Date_Tag = Nothing
+        Me.txtimageid2.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtimageid2.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtimageid2.ExtraValue = ""
+        Me.txtimageid2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtimageid2.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtimageid2.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtimageid2.ForeColor = System.Drawing.Color.Black
+        Me.txtimageid2.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtimageid2.IsValidated = False
+        Me.txtimageid2.LeaveFocusColor = System.Drawing.Color.Honeydew
+        Me.txtimageid2.Location = New System.Drawing.Point(924, 100)
+        Me.txtimageid2.MandatoryColor = System.Drawing.Color.Honeydew
+        Me.txtimageid2.MandatoryField = False
+        Me.txtimageid2.MaxDate = Nothing
+        Me.txtimageid2.MinDate = Nothing
+        Me.txtimageid2.Name = "txtimageid2"
+        Me.txtimageid2.NormalBorderColor = System.Drawing.Color.Honeydew
+        Me.txtimageid2.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtimageid2.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtimageid2.RegularExpression = Nothing
+        Me.txtimageid2.RegularExpressionErrorMessage = Nothing
+        Me.txtimageid2.ShowMessage = False
+        Me.txtimageid2.Size = New System.Drawing.Size(84, 22)
+        Me.txtimageid2.SpacerString = ""
+        Me.txtimageid2.TabIndex = 82340
+        Me.txtimageid2.Tag = "MSTFABRIC_ITEM_CATEGORY"
+        Me.txtimageid2.TransparentBox = True
+        Me.txtimageid2.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.txtimageid2.Visible = False
+        '
+        'txtFilePath2
+        '
+        Me.txtFilePath2._AllowSpace = True
+        Me.txtFilePath2.AcceptsReturn = True
+        Me.txtFilePath2.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtFilePath2.BackColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtFilePath2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtFilePath2.Check_End_Date_Value_FY = "YES"
+        Me.txtFilePath2.Check_Start_Date_Value_FY = "YES"
+        Me.txtFilePath2.ClearField = True
+        Me.txtFilePath2.CustomInputTypeString = Nothing
+        Me.txtFilePath2.Date_for_Database = Nothing
+        Me.txtFilePath2.Date_Tag = Nothing
+        Me.txtFilePath2.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtFilePath2.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtFilePath2.ExtraValue = ""
+        Me.txtFilePath2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFilePath2.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtFilePath2.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtFilePath2.ForeColor = System.Drawing.Color.Black
+        Me.txtFilePath2.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtFilePath2.IsValidated = False
+        Me.txtFilePath2.LeaveFocusColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath2.Location = New System.Drawing.Point(924, 69)
+        Me.txtFilePath2.MandatoryColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath2.MandatoryField = False
+        Me.txtFilePath2.MaxDate = Nothing
+        Me.txtFilePath2.MinDate = Nothing
+        Me.txtFilePath2.Name = "txtFilePath2"
+        Me.txtFilePath2.NormalBorderColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath2.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtFilePath2.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtFilePath2.RegularExpression = Nothing
+        Me.txtFilePath2.RegularExpressionErrorMessage = Nothing
+        Me.txtFilePath2.ShowMessage = False
+        Me.txtFilePath2.Size = New System.Drawing.Size(84, 22)
+        Me.txtFilePath2.SpacerString = ""
+        Me.txtFilePath2.TabIndex = 82339
+        Me.txtFilePath2.Tag = "MSTFABRIC_ITEM_CATEGORY"
+        Me.txtFilePath2.TransparentBox = True
+        Me.txtFilePath2.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.txtFilePath2.Visible = False
+        '
+        'txtimageid
+        '
+        Me.txtimageid._AllowSpace = True
+        Me.txtimageid.AcceptsReturn = True
+        Me.txtimageid.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtimageid.BackColor = System.Drawing.Color.Honeydew
+        Me.txtimageid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtimageid.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtimageid.Check_End_Date_Value_FY = "YES"
+        Me.txtimageid.Check_Start_Date_Value_FY = "YES"
+        Me.txtimageid.ClearField = True
+        Me.txtimageid.CustomInputTypeString = Nothing
+        Me.txtimageid.Date_for_Database = Nothing
+        Me.txtimageid.Date_Tag = Nothing
+        Me.txtimageid.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtimageid.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtimageid.ExtraValue = ""
+        Me.txtimageid.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtimageid.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtimageid.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtimageid.ForeColor = System.Drawing.Color.Black
+        Me.txtimageid.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtimageid.IsValidated = False
+        Me.txtimageid.LeaveFocusColor = System.Drawing.Color.Honeydew
+        Me.txtimageid.Location = New System.Drawing.Point(924, 40)
+        Me.txtimageid.MandatoryColor = System.Drawing.Color.Honeydew
+        Me.txtimageid.MandatoryField = False
+        Me.txtimageid.MaxDate = Nothing
+        Me.txtimageid.MinDate = Nothing
+        Me.txtimageid.Name = "txtimageid"
+        Me.txtimageid.NormalBorderColor = System.Drawing.Color.Honeydew
+        Me.txtimageid.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtimageid.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtimageid.RegularExpression = Nothing
+        Me.txtimageid.RegularExpressionErrorMessage = Nothing
+        Me.txtimageid.ShowMessage = False
+        Me.txtimageid.Size = New System.Drawing.Size(84, 22)
+        Me.txtimageid.SpacerString = ""
+        Me.txtimageid.TabIndex = 82338
+        Me.txtimageid.Tag = "MSTFABRIC_ITEM_CATEGORY"
+        Me.txtimageid.TransparentBox = True
+        Me.txtimageid.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.txtimageid.Visible = False
+        '
+        'txtFilePath
+        '
+        Me.txtFilePath._AllowSpace = True
+        Me.txtFilePath.AcceptsReturn = True
+        Me.txtFilePath.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtFilePath.BackColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtFilePath.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtFilePath.Check_End_Date_Value_FY = "YES"
+        Me.txtFilePath.Check_Start_Date_Value_FY = "YES"
+        Me.txtFilePath.ClearField = True
+        Me.txtFilePath.CustomInputTypeString = Nothing
+        Me.txtFilePath.Date_for_Database = Nothing
+        Me.txtFilePath.Date_Tag = Nothing
+        Me.txtFilePath.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtFilePath.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtFilePath.ExtraValue = ""
+        Me.txtFilePath.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFilePath.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtFilePath.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtFilePath.ForeColor = System.Drawing.Color.Black
+        Me.txtFilePath.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtFilePath.IsValidated = False
+        Me.txtFilePath.LeaveFocusColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath.Location = New System.Drawing.Point(924, 12)
+        Me.txtFilePath.MandatoryColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath.MandatoryField = False
+        Me.txtFilePath.MaxDate = Nothing
+        Me.txtFilePath.MinDate = Nothing
+        Me.txtFilePath.Name = "txtFilePath"
+        Me.txtFilePath.NormalBorderColor = System.Drawing.Color.Honeydew
+        Me.txtFilePath.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtFilePath.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtFilePath.RegularExpression = Nothing
+        Me.txtFilePath.RegularExpressionErrorMessage = Nothing
+        Me.txtFilePath.ShowMessage = False
+        Me.txtFilePath.Size = New System.Drawing.Size(84, 22)
+        Me.txtFilePath.SpacerString = ""
+        Me.txtFilePath.TabIndex = 82337
+        Me.txtFilePath.Tag = "MSTFABRIC_ITEM_CATEGORY"
+        Me.txtFilePath.TransparentBox = True
+        Me.txtFilePath.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.txtFilePath.Visible = False
+        '
         'RawGateInward
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Honeydew
         Me.ClientSize = New System.Drawing.Size(1012, 621)
+        Me.Controls.Add(Me.txtimageid2)
+        Me.Controls.Add(Me.txtFilePath2)
+        Me.Controls.Add(Me.txtimageid)
+        Me.Controls.Add(Me.txtFilePath)
         Me.Controls.Add(Me.BtnView2)
         Me.Controls.Add(Me.BtnOpen2)
         Me.Controls.Add(Me.TxtAttachment2)
@@ -1009,4 +1193,8 @@ Partial Class RawGateInward
     Friend WithEvents Label34 As Label
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents OpenFileDialog2 As OpenFileDialog
+    Friend WithEvents txtimageid2 As ctl_TextBox.ctl_TextBox
+    Friend WithEvents txtFilePath2 As ctl_TextBox.ctl_TextBox
+    Friend WithEvents txtimageid As ctl_TextBox.ctl_TextBox
+    Friend WithEvents txtFilePath As ctl_TextBox.ctl_TextBox
 End Class

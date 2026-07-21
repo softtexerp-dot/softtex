@@ -46,6 +46,8 @@ Public Class MachineMaster
         'GridControl1.Width = PNL_View.Width - 20
         'PNL_View.Location = New Point(0, 0)
         AutoResizeGrid(PNL_View, GridControl1)
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
         old_Me_text = Me.Text
         _FrmLoad = True
         Call defineColName()
@@ -241,6 +243,8 @@ Public Class MachineMaster
             txtAlter_code.Text = ""
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
             Call Ctrl_Visible_True(Me.Controls)
+            txtFilePath.Visible = False
+            txtimageid.Visible = False
             BtnOpen.Visible = True
             BtnView.Visible = True
             txtEntryNo.Focus()
@@ -255,6 +259,8 @@ Public Class MachineMaster
             Call Ctrl_Visible_True(Me.Controls)
             BtnOpen.Visible = True
             BtnView.Visible = True
+            txtFilePath.Visible = False
+            txtimageid.Visible = False
             txtEntryNo.Focus()
             txtEntryNo.Select()
         End If
@@ -385,10 +391,11 @@ Public Class MachineMaster
                 Using form As New MultipartFormDataContent()
                     If _FORMMODE = "EDIT" Then
                         flagstring = "update"
-                        Dim idValue As Long = Convert.ToInt64(txtimageid.Text)
-                        form.Add(New StringContent(idValue.ToString()), "Id")
+                        If txtimageid.Text <> "" Then
+                            Dim idValue As Long = Convert.ToInt64(txtimageid.Text)
+                            form.Add(New StringContent(idValue.ToString()), "Id")
+                        End If
                     End If
-
                     Dim filePath As String = txtFilePath.Text.Trim()
 
                     ' 🔹 Update case me hi check
@@ -431,7 +438,9 @@ Public Class MachineMaster
                         Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
                         Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
                         txtFilePath.Text = responseJson("imageURl")?.ToString()
+                        txtFilePath.Visible = False
                         txtimageid.Text = responseJson("id")?.ToString()
+                        txtimageid.Visible = False
                         'MessageBox.Show("✅ " & message, "Success")
                         'Me.Close()   ' Complaint form close
                     Else
@@ -443,7 +452,7 @@ Public Class MachineMaster
             End Using
 
         Catch ex As Exception
-            MessageBox.Show("❌ Error while submitting complaint." & vbCrLf & ex.Message)
+            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
         End Try
 
     End Sub
@@ -635,6 +644,7 @@ Public Class MachineMaster
                 End If
             End If
             'TxtUOm.Enabled = False
+            TxtHsn.Focus()
         End If
     End Sub
 
@@ -651,6 +661,7 @@ Public Class MachineMaster
                 End If
             End If
             'TxtDepartMent.Enabled = False
+            BtnOpen.Focus()
         End If
     End Sub
 #End Region
@@ -739,15 +750,15 @@ Public Class MachineMaster
             TxtAttachment.Text = fileName
             'MessageBox.Show("Selected File: " & fileName)
         End If
-        If txtFilePath.Text <> "" AndAlso TxtAttachment.Text <> "" Then
-            If _FORMMODE = "ADD" Then
+        'If txtFilePath.Text <> "" AndAlso TxtAttachment.Text <> "" Then
+        If _FORMMODE = "ADD" Then
                 flagstring = "save"
                 SubmitComplaintAsync(flagstring)
             ElseIf _FORMMODE = "EDIT" Then
                 flagstring = "update"
                 SubmitComplaintAsync(flagstring)
             End If
-        End If
+        'End If
     End Sub
 
     Private Sub BtnView_Click(sender As Object, e As EventArgs) Handles BtnView.Click
@@ -761,6 +772,31 @@ Public Class MachineMaster
                 Dim _FilePath As String = _IamgePath
                 If System.IO.File.Exists(_FilePath) = True Then
                     Process.Start(_FilePath)
+                    Dim frm As New Form With
+                    {
+                    .Text = "Preview",
+                    .Width = 900,
+                    .Height = 600,
+                    .StartPosition = FormStartPosition.CenterScreen,
+                    .FormBorderStyle = FormBorderStyle.FixedDialog,
+                    .MaximizeBox = False,
+                    .MinimizeBox = False
+                    }
+                    Dim pic As New PictureBox With {
+                            .Dock = DockStyle.Fill,
+                            .SizeMode = PictureBoxSizeMode.Zoom,
+                            .ImageLocation = _FilePath
+                        }
+                    frm.KeyPreview = True
+                    frm.Controls.Add(pic)
+                    'frm.Controls.Add(wb)
+                    AddHandler frm.KeyDown,
+                    Sub(s, e)
+                        If e.KeyCode = Keys.Escape Then
+                            frm.Close()
+                        End If
+                    End Sub
+                    frm.ShowDialog()
                 Else
                     MsgBox("File Does Not Exist")
                 End If
@@ -769,7 +805,7 @@ Public Class MachineMaster
                 Dim _FilePath As String = _IamgePath
                 If System.IO.File.Exists(_FilePath) = True Then
                     Process.Start(_FilePath)
-                ElseIf _FilePath.StartsWith("http", StringComparison.OrdinalIgnoreCase) Then
+                ElseIf _FilePath.StartsWith("HTTP", StringComparison.OrdinalIgnoreCase) Then
                     'Process.Start(New ProcessStartInfo(_FilePath) With {.UseShellExecute = True})
                     Dim frm As New Form With
                     {
@@ -804,32 +840,6 @@ Public Class MachineMaster
                 Dim _FilePath As String = _IamgePath
                 If System.IO.File.Exists(_FilePath) = True Then
                     Process.Start(_FilePath)
-                    'Dim frm As New Form With
-                    '{
-                    '.Text = "Preview",
-                    '.Width = 900,
-                    '.Height = 600,
-                    '.StartPosition = FormStartPosition.CenterScreen,
-                    '.FormBorderStyle = FormBorderStyle.FixedDialog,
-                    '.MaximizeBox = False,
-                    '.MinimizeBox = False
-                    '}
-                    'Dim pic As New PictureBox With {
-                    '        .Dock = DockStyle.Fill,
-                    '        .SizeMode = PictureBoxSizeMode.Zoom,
-                    '        .ImageLocation = _FilePath
-                    '    }
-                    'frm.KeyPreview = True
-                    'frm.Controls.Add(pic)
-                    ''frm.Controls.Add(wb)
-                    'AddHandler frm.KeyDown,
-                    'Sub(s, e)
-                    '    If e.KeyCode = Keys.Escape Then
-                    '        frm.Close()
-                    '    End If
-                    'End Sub
-                    'frm.ShowDialog()
-
                 Else
                     MsgBox("File Does Not Exist")
                 End If
