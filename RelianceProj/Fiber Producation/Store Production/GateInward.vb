@@ -1,6 +1,7 @@
 ﻿Imports System.Net.Http
 Imports System.Text
 Imports DevExpress.Utils.CommonDialogs
+Imports DevExpress.XtraEditors
 Imports DevExpress.XtraGrid
 
 Public Class GateInward
@@ -1019,10 +1020,10 @@ Public Class GateInward
             .Append(txtHeader_Remark.Text & ",")
             .Append(TxtAttachment.Text & ",")
             .Append(TxtAttachment2.Text & ",")
-            .Append(txtFilePath.Text & ",")
-            .Append(txtimageid.Text & ",")
-            .Append(txtFilePath2.Text & ",")
-            .Append(txtimageid2.Text & "")
+            .Append(_Imagepath1 & ",")
+            .Append(_ImageId1 & ",")
+            .Append(_Imagepath2 & ",")
+            .Append(_Imageid2 & "")
         End With
 
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -2195,21 +2196,9 @@ Public Class GateInward
             MsgBox("No Record Found", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
         End If
     End Sub
-
-
-
 #End Region
 #Region "Attachment 1"
     Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
-        'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-        '    Dim pathSource As String = OpenFileDialog1.FileName
-        '    Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-        '    Dim sSource As String = pathSource
-        '    If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
-        '    TxtAttachment.Text = fileName
-        '    TxtAttachment.Focus()
-        '    SaveImageToLocalAndServer(sSource)
-        'End If
         Dim ofd As New OpenFileDialog()
         ofd.Title = "Select File"
         ofd.Filter = "All Files (*.*)|*.*|PDF Files (*.pdf)|*.pdf|Image Files (*.jpg;*.png)|*.jpg;*.png"
@@ -2226,189 +2215,39 @@ Public Class GateInward
         'If txtFilePath.Text <> "" AndAlso TxtAttachment.Text <> "" Then
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            SubmitComplaintAsync(flagstring)
+            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
+            txtFilePath.Visible = False
+            txtimageid.Visible = False
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
-            SubmitComplaintAsync(flagstring)
+            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
+            txtFilePath.Visible = False
+            txtimageid.Visible = False
         End If
         'End If
     End Sub
-    Private Async Sub SubmitComplaintAsync(ByVal falgstring As String)
-
-        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
-
-        Try
-            Using client As New HttpClient()
-                Using form As New MultipartFormDataContent()
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        If txtimageid.Text <> "" Then
-                            Dim idValue As Long = Convert.ToInt64(txtimageid.Text)
-                            form.Add(New StringContent(idValue.ToString()), "Id")
-                        End If
-                    End If
-                    Dim filePath As String = txtFilePath.Text.Trim()
-
-                    ' 🔹 Update case me hi check
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        ' 👉 New image selected (local file)
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            ' 👉 Old image (URL / API path) → kuch mat bhejo
-                            ' API existing image hi rakhegi
-                        End If
-
-                    Else
-                        ' 🔹 Save case me image mandatory
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            'MessageBox.Show("❌ Please select image file.")
-                            'Exit Sub
-                        End If
-                    End If
-
-                    ' 🔹 POST API
-                    Dim postResponse As HttpResponseMessage =
-                    Await client.PostAsync(postUrl, form)
-
-                    Dim result As String =
-                    Await postResponse.Content.ReadAsStringAsync()
-
-                    If postResponse.IsSuccessStatusCode Then
-                        'MessageBox.Show("✅ Complaint submitted successfully!")
-                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
-                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                        txtFilePath.Text = responseJson("imageURl")?.ToString()
-                        txtFilePath.Visible = False
-                        txtimageid.Text = responseJson("id")?.ToString()
-                        txtimageid.Visible = False
-                        'MessageBox.Show("✅ " & message, "Success")
-                        'Me.Close()   ' Complaint form close
-                    Else
-                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
-                        Me.Close()
-                    End If
-
-                End Using
-            End Using
-
-        Catch ex As Exception
-            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
-        End Try
-
-    End Sub
     Private Sub BtnView1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
-        '_ImageView_Click(TxtAttachment.Text)
-        _ImageView_Click(txtFilePath.Text, flagstring)
-    End Sub
-    Public Sub _ImageView_Click(ByVal _IamgePath As String, ByVal _flagstring As String)
-        Try
-            If _FORMMODE = "ADD" Then
-                flagstring = "save"
-                Dim _FilePath As String = _IamgePath
-                If System.IO.File.Exists(_FilePath) = True Then
-                    Process.Start(_FilePath)
-                    Dim frm As New Form With
-                    {
-                    .Text = "Preview",
-                    .Width = 900,
-                    .Height = 600,
-                    .StartPosition = FormStartPosition.CenterScreen,
-                    .FormBorderStyle = FormBorderStyle.FixedDialog,
-                    .MaximizeBox = False,
-                    .MinimizeBox = False
-                    }
-                    Dim pic As New PictureBox With {
-                            .Dock = DockStyle.Fill,
-                            .SizeMode = PictureBoxSizeMode.Zoom,
-                            .ImageLocation = _FilePath
-                        }
-                    frm.KeyPreview = True
-                    frm.Controls.Add(pic)
-                    'frm.Controls.Add(wb)
-                    AddHandler frm.KeyDown,
-                    Sub(s, e)
-                        If e.KeyCode = Keys.Escape Then
-                            frm.Close()
-                        End If
-                    End Sub
-                    frm.ShowDialog()
-                Else
-                    Process.Start(_FilePath)
-                    'MsgBox("File Does Not Exist")
-                End If
-            ElseIf _FORMMODE = "EDIT" Then
-                flagstring = "update"
-                Dim _FilePath As String = _IamgePath
-                If System.IO.File.Exists(_FilePath) = True Then
-                    Process.Start(_FilePath)
-                ElseIf _FilePath.StartsWith("HTTP", StringComparison.OrdinalIgnoreCase) Then
-                    'Process.Start(New ProcessStartInfo(_FilePath) With {.UseShellExecute = True})
-                    Dim frm As New Form With
-                    {
-                    .Text = "Preview",
-                    .Width = 900,
-                    .Height = 600,
-                    .StartPosition = FormStartPosition.CenterScreen,
-                    .FormBorderStyle = FormBorderStyle.FixedDialog,
-                    .MaximizeBox = False,
-                    .MinimizeBox = False
-                    }
-                    Dim pic As New PictureBox With {
-                            .Dock = DockStyle.Fill,
-                            .SizeMode = PictureBoxSizeMode.Zoom,
-                            .ImageLocation = _FilePath
-                        }
-                    frm.KeyPreview = True
-                    frm.Controls.Add(pic)
-                    'frm.Controls.Add(wb)
-                    AddHandler frm.KeyDown,
-                    Sub(s, e)
-                        If e.KeyCode = Keys.Escape Then
-                            frm.Close()
-                        End If
-                    End Sub
-                    frm.ShowDialog()
-
-                Else
-                    MsgBox("File Does Not Exist")
-                End If
+        If _FORMMODE = "ADD" Then
+            flagstring = "save"
+            txtFilePath.Text = _Imagepath1
+            txtimageid.Text = _ImageId1
+        ElseIf _FORMMODE = "EDIT" Then
+            flagstring = "update"
+            'ALTER_FORM(txtAlter_code.Text)
+            If txtFilePath.Text = "" Then
+                txtFilePath.Text = _Imagepath1
+                txtimageid.Text = _ImageId1
             Else
-                Dim _FilePath As String = _IamgePath
-                If System.IO.File.Exists(_FilePath) = True Then
-                    Process.Start(_FilePath)
-                Else
-                    MsgBox("File Does Not Exist")
-                End If
+                _Imagepath1 = txtFilePath.Text
+                _ImageId1 = txtimageid.Text
             End If
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
+
+        End If
+        _ImageView_Click(_Imagepath1, flagstring, _FORMMODE)
     End Sub
-
-
 #End Region
 #Region "Attachment 2"
     Private Sub BtnOpen2_Click(sender As Object, e As EventArgs) Handles BtnOpen2.Click
-        'If OpenFileDialog2.ShowDialog() = DialogResult.OK Then
-        '    Dim pathSource As String = OpenFileDialog2.FileName
-        '    Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog2.FileName)
-        '    Dim sSource As String = pathSource
-        '    If sSource = "OpenFileDialog2" Or sSource.Trim = "" Then Exit Sub
-        '    TxtAttachment2.Text = fileName
-        '    TxtAttachment2.Focus()
-        '    SaveImageToLocalAndServer(sSource)
-        'End If
         Dim ofd As New OpenFileDialog()
         ofd.Title = "Select File"
         ofd.Filter = "All Files (*.*)|*.*|PDF Files (*.pdf)|*.pdf|Image Files (*.jpg;*.png)|*.jpg;*.png"
@@ -2425,175 +2264,36 @@ Public Class GateInward
         'If txtFilePath2.Text <> "" AndAlso TxtAttachment2.Text <> "" Then
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            SubmitComplaintAsync1(flagstring)
+            SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
+            txtFilePath2.Visible = False
+            txtimageid2.Visible = False
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
-            SubmitComplaintAsync1(flagstring)
+            SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
+            txtFilePath2.Visible = False
+            txtimageid2.Visible = False
         End If
         'End If
     End Sub
-    Private Async Sub SubmitComplaintAsync1(ByVal falgstring As String)
-
-        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
-
-        Try
-            Using client As New HttpClient()
-                Using form As New MultipartFormDataContent()
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        If txtimageid2.Text <> "" Then
-                            Dim idValue As Long = Convert.ToInt64(txtimageid2.Text)
-                            form.Add(New StringContent(idValue.ToString()), "Id")
-                        End If
-                    End If
-                    Dim filePath As String = txtFilePath2.Text.Trim()
-
-                    ' 🔹 Update case me hi check
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        ' 👉 New image selected (local file)
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            ' 👉 Old image (URL / API path) → kuch mat bhejo
-                            ' API existing image hi rakhegi
-                        End If
-
-                    Else
-                        ' 🔹 Save case me image mandatory
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            'MessageBox.Show("❌ Please select image file.")
-                            'Exit Sub
-                        End If
-                    End If
-
-                    ' 🔹 POST API
-                    Dim postResponse As HttpResponseMessage =
-                    Await client.PostAsync(postUrl, form)
-
-                    Dim result As String =
-                    Await postResponse.Content.ReadAsStringAsync()
-
-                    If postResponse.IsSuccessStatusCode Then
-                        'MessageBox.Show("✅ Complaint submitted successfully!")
-                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
-                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                        txtFilePath2.Text = responseJson("imageURl")?.ToString()
-                        txtFilePath2.Visible = False
-                        txtimageid2.Text = responseJson("id")?.ToString()
-                        txtimageid2.Visible = False
-                        'MessageBox.Show("✅ " & message, "Success")
-                        'Me.Close()   ' Complaint form close
-                    Else
-                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
-                        Me.Close()
-                    End If
-
-                End Using
-            End Using
-
-        Catch ex As Exception
-            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
-        End Try
-
-    End Sub
 
     Private Sub BtnView2_Click(sender As Object, e As EventArgs) Handles BtnView2.Click
-        '_ImageView_Click(TxtAttachment2.Text)
-        _ImageView_Click1(txtFilePath2.Text, flagstring)
-    End Sub
-    Public Sub _ImageView_Click1(ByVal _IamgePath As String, ByVal _flagstring As String)
-        Try
-            If _FORMMODE = "ADD" Then
-                flagstring = "save"
-                Dim _FilePath As String = _IamgePath
-                If System.IO.File.Exists(_FilePath) = True Then
-                    Process.Start(_FilePath)
-                    Dim frm As New Form With
-                    {
-                    .Text = "Preview",
-                    .Width = 900,
-                    .Height = 600,
-                    .StartPosition = FormStartPosition.CenterScreen,
-                    .FormBorderStyle = FormBorderStyle.FixedDialog,
-                    .MaximizeBox = False,
-                    .MinimizeBox = False
-                    }
-                    Dim pic As New PictureBox With {
-                            .Dock = DockStyle.Fill,
-                            .SizeMode = PictureBoxSizeMode.Zoom,
-                            .ImageLocation = _FilePath
-                        }
-                    frm.KeyPreview = True
-                    frm.Controls.Add(pic)
-                    'frm.Controls.Add(wb)
-                    AddHandler frm.KeyDown,
-                    Sub(s, e)
-                        If e.KeyCode = Keys.Escape Then
-                            frm.Close()
-                        End If
-                    End Sub
-                    frm.ShowDialog()
-                Else
-                    Process.Start(_FilePath)
-                    'MsgBox("File Does Not Exist")
-                End If
-            ElseIf _FORMMODE = "EDIT" Then
-                flagstring = "update"
-                Dim _FilePath As String = _IamgePath
-                If System.IO.File.Exists(_FilePath) = True Then
-                    Process.Start(_FilePath)
-                ElseIf _FilePath.StartsWith("HTTP", StringComparison.OrdinalIgnoreCase) Then
-                    'Process.Start(New ProcessStartInfo(_FilePath) With {.UseShellExecute = True})
-                    Dim frm As New Form With
-                    {
-                    .Text = "Preview",
-                    .Width = 900,
-                    .Height = 600,
-                    .StartPosition = FormStartPosition.CenterScreen,
-                    .FormBorderStyle = FormBorderStyle.FixedDialog,
-                    .MaximizeBox = False,
-                    .MinimizeBox = False
-                    }
-                    Dim pic As New PictureBox With {
-                            .Dock = DockStyle.Fill,
-                            .SizeMode = PictureBoxSizeMode.Zoom,
-                            .ImageLocation = _FilePath
-                        }
-                    frm.KeyPreview = True
-                    frm.Controls.Add(pic)
-                    'frm.Controls.Add(wb)
-                    AddHandler frm.KeyDown,
-                    Sub(s, e)
-                        If e.KeyCode = Keys.Escape Then
-                            frm.Close()
-                        End If
-                    End Sub
-                    frm.ShowDialog()
+        If _FORMMODE = "ADD" Then
+            flagstring = "save"
+            txtFilePath.Text = _Imagepath2
+            txtimageid.Text = _Imageid2
+        ElseIf _FORMMODE = "EDIT" Then
+            flagstring = "update"
+            'ALTER_FORM(txtAlter_code.Text)
 
-                Else
-                    MsgBox("File Does Not Exist")
-                End If
+            If txtFilePath.Text = "" Then
+                txtFilePath2.Text = _Imagepath2
+                txtimageid2.Text = _Imageid2
             Else
-                Dim _FilePath As String = _IamgePath
-                If System.IO.File.Exists(_FilePath) = True Then
-                    Process.Start(_FilePath)
-                Else
-                    MsgBox("File Does Not Exist")
-                End If
+                _Imagepath2 = txtFilePath2.Text
+                _Imageid2 = txtimageid2.Text
             End If
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
+        End If
+        _ImageView_Click(_Imagepath2, flagstring, _FORMMODE)
     End Sub
 #End Region
 End Class

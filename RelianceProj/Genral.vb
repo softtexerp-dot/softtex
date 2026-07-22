@@ -1,19 +1,21 @@
-﻿Imports System.IO
+﻿Imports System.Data.OleDb
+Imports System.Data.SqlClient
+Imports System.IO
+Imports System.Net
+Imports System.Net.Http
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Windows.Forms
+Imports CrystalDecisions.CrystalReports.Engine
+Imports DevExpress.XtraEditors
+Imports DevExpress.XtraGrid
+Imports DevExpress.XtraPivotGrid
+Imports DevExpress.XtraPrinting
 Imports Microsoft.VisualBasic.CompilerServices
 Imports RestSharp
 Imports Excel = Microsoft.Office.Interop.Excel
-Imports CrystalDecisions.CrystalReports.Engine
-Imports System.Data.OleDb
-Imports System.Net
-Imports DevExpress.XtraGrid
-Imports DevExpress.XtraPivotGrid
-Imports System.Data.SqlClient
-Imports DevExpress.XtraPrinting
-Imports System.Windows.Forms
 
 Module Genral
     Public _strQuery As StringBuilder
@@ -44,7 +46,10 @@ Module Genral
     Public CompanyCurrencyType As String = ""
     Public _ShadeLoadFabricListWise As String = ""
     Private WithEvents ALterDateBilldate As New ctl_TextBox.ctl_TextBox
-
+    Public _Imagepath1 As String = ""
+    Public _ImageId1 As Integer = 0
+    Public _Imageid2 As String = 0
+    Public _Imagepath2 As String = ""
 
     Public _ProcessStage = New String() {"ALL", "NO", "Washing", "Dyening", "Stenter", "Mechanical", "Folding", "Table Checking", "RT", "Decision", "Re Dyening", "OK", "YES"}
     Public _ProcessStage_2 = New String() {"NO", "Washing", "Dyening", "Stenter", "Mechanical", "Folding", "Table Checking", "RT", "Decision", "Re Dyening", "OK", "YES"}
@@ -3378,4 +3383,497 @@ Module Genral
             Return ""
         End Try
     End Function
+    Public Sub AutoResizeGrid(
+ parentCtrl As Control,
+ gridCtrl As Control,
+ Optional leftMargin As Integer = 3,
+ Optional topMargin As Integer = 53,
+ Optional rightMargin As Integer = 25,
+ Optional bottomMargin As Integer = 105)
+        parentCtrl.Location = New Point(0, 0)
+        parentCtrl.Width = parentCtrl.Parent.Width
+        parentCtrl.Height = parentCtrl.Parent.Height
+
+        gridCtrl.Location = New Point(leftMargin, topMargin)
+        gridCtrl.Width = parentCtrl.Width - rightMargin
+        gridCtrl.Height = parentCtrl.Height - bottomMargin
+    End Sub
+    Public Sub _ImageView_Click(ByVal _IamgePath As String, ByVal _flagstring As String, ByVal _FORMMODE As String)
+        Try
+            If _FORMMODE = "ADD" Then
+
+                'flagstring = "save"
+                Dim _FilePath As String = _IamgePath
+                If System.IO.File.Exists(_FilePath) = True Then
+                    'Process.Start(_FilePath)
+                    'Dim frm As New Form With
+                    '{
+                    '.Text = "Preview",
+                    '.Width = 900,
+                    '.Height = 600,
+                    '.StartPosition = FormStartPosition.CenterScreen,
+                    '.FormBorderStyle = FormBorderStyle.FixedDialog,
+                    '.MaximizeBox = False,
+                    '.MinimizeBox = False
+                    '}
+                    'Dim pic As New PictureBox With {
+                    '        .Dock = DockStyle.Fill,
+                    '        .SizeMode = PictureBoxSizeMode.Zoom,
+                    '        .ImageLocation = _FilePath
+                    '    }
+                    'frm.KeyPreview = True
+                    'frm.Controls.Add(pic)
+                    ''frm.Controls.Add(wb)
+                    'AddHandler frm.KeyDown,
+                    'Sub(s, e)
+                    '    If e.KeyCode = Keys.Escape Then
+                    '        frm.Close()
+                    '    End If
+                    'End Sub
+                    'frm.ShowDialog()
+                    Dim frm As New Form With {
+   .Text = "Preview",
+   .Width = 900,
+   .Height = 600,
+   .StartPosition = FormStartPosition.CenterScreen,
+   .FormBorderStyle = FormBorderStyle.FixedDialog,
+   .MaximizeBox = False,
+   .MinimizeBox = False,
+   .KeyPreview = True
+}
+
+
+
+                    ' Top Panel (Buttons के लिए)
+                    Dim pnl As New Panel With {
+    .Dock = DockStyle.Top,
+    .Height = 45
+}
+
+                    frm.Controls.Add(pnl)
+
+                    ' PictureBox
+                    Dim pic As New PictureBox With {
+    .Dock = DockStyle.Fill,
+    .SizeMode = PictureBoxSizeMode.Zoom,
+    .ImageLocation = _FilePath
+}
+
+                    frm.Controls.Add(pic)
+                    Dim flp As New FlowLayoutPanel With {
+    .Dock = DockStyle.Fill,
+    .FlowDirection = FlowDirection.LeftToRight,
+    .WrapContents = False
+}
+
+
+                    ' Panel हमेशा ऊपर रहे
+                    pnl.BringToFront()
+                    ' Download Button
+                    Dim btnDownload As New SimpleButton With {
+    .Text = "Download",
+    .Width = 100,
+    .Height = 30
+}
+
+                    Dim btnClose As New SimpleButton With {
+    .Text = "Close",
+    .Width = 100,
+    .Height = 30
+}
+                    flp.Controls.Add(btnDownload)
+                    flp.Controls.Add(btnClose)
+
+                    ' Buttons Center
+                    flp.Padding = New Padding((frm.ClientSize.Width - (btnDownload.Width + btnClose.Width + 15)) \ 2, 7, 0, 0)
+
+                    pnl.Controls.Add(flp)
+                    frm.Controls.Add(pnl)
+                    ' Center Top Position
+
+                    AddHandler frm.Shown,
+Sub()
+
+    Dim gap As Integer = 15
+    Dim totalWidth As Integer = btnDownload.Width + btnClose.Width + gap
+
+    btnDownload.Location = New Point((pnl.Width - totalWidth) \ 2, 7)
+    btnClose.Location = New Point(btnDownload.Right + gap, 7)
+
+End Sub
+                    ' Download Button Click
+                    AddHandler btnDownload.Click,
+                    Sub()
+
+                        If pic.Image Is Nothing Then
+                            MessageBox.Show("No image available.")
+                            Exit Sub
+                        End If
+
+                        Using sfd As New SaveFileDialog()
+                            'sfd.Filter = "JPEG Image|*.jpg|PNG Image|*.png|Bitmap Image|*.bmp"
+                            sfd.Filter = "JPEG Image|*.jpg;*.jpeg|PNG Image|*.png|Bitmap Image|*.bmp|JFIF Image|*.jfif|All Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.jfif"
+                            sfd.FileName = IO.Path.GetFileName(_FilePath)
+
+                            If sfd.ShowDialog() = DialogResult.OK Then
+
+                                Select Case IO.Path.GetExtension(sfd.FileName).ToLower()
+                                    Case ".jpg", ".jpeg", ".jfif"
+                                        pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Jpeg)
+                                    Case ".png"
+                                        pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Png)
+                                    Case ".bmp"
+                                        pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Bmp)
+                                End Select
+
+                                MessageBox.Show("Image downloaded successfully.")
+                            End If
+                        End Using
+
+                    End Sub
+
+                    ' Close Button
+                    AddHandler btnClose.Click,
+                    Sub()
+                        frm.Close()
+                    End Sub
+
+                    ' ESC Key
+                    AddHandler frm.KeyDown,
+                    Sub(s, e)
+                        If e.KeyCode = Keys.Escape Then
+                            frm.Close()
+                        End If
+                    End Sub
+
+                    frm.ShowDialog()
+                Else
+                    'Process.Start(_FilePath)
+                    Dim frm As New Form With {.Text = "Preview", .Width = 900, .Height = 600, .StartPosition = FormStartPosition.CenterScreen, .FormBorderStyle = FormBorderStyle.FixedDialog, .MaximizeBox = False, .MinimizeBox = False, .KeyPreview = True}
+                    ' Top Panel (Buttons के लिए)
+                    Dim pnl As New Panel With {.Dock = DockStyle.Top, .Height = 45}
+                    frm.Controls.Add(pnl)
+                    ' PictureBox
+                    Dim pic As New PictureBox With {.Dock = DockStyle.Fill, .SizeMode = PictureBoxSizeMode.Zoom, .ImageLocation = _FilePath}
+                    frm.Controls.Add(pic)
+                    Dim flp As New FlowLayoutPanel With {.Dock = DockStyle.Fill, .FlowDirection = FlowDirection.LeftToRight, .WrapContents = False}
+                    ' Panel हमेशा ऊपर रहे
+                    pnl.BringToFront()
+                    ' Download Button
+                    Dim btnDownload As New SimpleButton With {.Text = "Download", .Width = 100, .Height = 30}
+                    Dim btnClose As New SimpleButton With {.Text = "Close", .Width = 100, .Height = 30}
+                    flp.Controls.Add(btnDownload)
+                    flp.Controls.Add(btnClose)
+                    ' Buttons Center
+                    flp.Padding = New Padding((frm.ClientSize.Width - (btnDownload.Width + btnClose.Width + 15)) \ 2, 7, 0, 0)
+                    pnl.Controls.Add(flp)
+                    frm.Controls.Add(pnl)
+                    ' Center Top Position
+
+                    AddHandler frm.Shown, Sub()
+
+                                              Dim gap As Integer = 15
+                                              Dim totalWidth As Integer = btnDownload.Width + btnClose.Width + gap
+
+                                              btnDownload.Location = New Point((pnl.Width - totalWidth) \ 2, 7)
+                                              btnClose.Location = New Point(btnDownload.Right + gap, 7)
+
+                                          End Sub
+                    ' Download Button Click
+                    AddHandler btnDownload.Click, Sub()
+
+                                                      If pic.Image Is Nothing Then
+                                                          MessageBox.Show("No image available.")
+                                                          Exit Sub
+                                                      End If
+
+                                                      Using sfd As New SaveFileDialog()
+                                                          'sfd.Filter = "JPEG Image|*.jpg|PNG Image|*.png|Bitmap Image|*.bmp"
+                                                          sfd.Filter = "JPEG Image|*.jpg;*.jpeg|PNG Image|*.png|Bitmap Image|*.bmp|JFIF Image|*.jfif|All Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.jfif"
+                                                          sfd.FileName = IO.Path.GetFileName(_FilePath)
+
+                                                          If sfd.ShowDialog() = DialogResult.OK Then
+
+                                                              Select Case IO.Path.GetExtension(sfd.FileName).ToLower()
+                                                                  Case ".jpg", ".jpeg", ".jfif"
+                                                                      pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Jpeg)
+                                                                  Case ".png"
+                                                                      pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Png)
+                                                                  Case ".bmp"
+                                                                      pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Bmp)
+                                                              End Select
+
+                                                              MessageBox.Show("Image downloaded successfully.")
+                                                          End If
+                                                      End Using
+
+                                                  End Sub
+
+                    ' Close Button
+                    AddHandler btnClose.Click,
+                    Sub()
+                        frm.Close()
+                    End Sub
+
+                    ' ESC Key
+                    AddHandler frm.KeyDown,
+                    Sub(s, e)
+                        If e.KeyCode = Keys.Escape Then
+                            frm.Close()
+                        End If
+                    End Sub
+
+                    frm.ShowDialog()
+                    'MsgBox("File Does Not Exist")
+                End If
+            ElseIf _FORMMODE = "EDIT" Then
+                'flagstring = "update"
+                Dim _FilePath As String = _IamgePath
+                If System.IO.File.Exists(_FilePath) = True Then
+                    Process.Start(_FilePath)
+                ElseIf _FilePath.StartsWith("HTTP", StringComparison.OrdinalIgnoreCase) Then
+                    Dim frm As New Form With {.Text = "Preview", .Width = 900, .Height = 600, .StartPosition = FormStartPosition.CenterScreen, .FormBorderStyle = FormBorderStyle.FixedDialog, .MaximizeBox = False, .MinimizeBox = False, .KeyPreview = True}
+                    ' Top Panel (Buttons के लिए)
+                    Dim pnl As New Panel With {.Dock = DockStyle.Top, .Height = 45}
+                    frm.Controls.Add(pnl)
+                    ' PictureBox
+                    Dim pic As New PictureBox With {.Dock = DockStyle.Fill, .SizeMode = PictureBoxSizeMode.Zoom, .ImageLocation = _FilePath}
+                    frm.Controls.Add(pic)
+                    Dim flp As New FlowLayoutPanel With {.Dock = DockStyle.Fill, .FlowDirection = FlowDirection.LeftToRight, .WrapContents = False}
+                    ' Panel हमेशा ऊपर रहे
+                    pnl.BringToFront()
+                    ' Download Button
+                    Dim btnDownload As New SimpleButton With {.Text = "Download", .Width = 100, .Height = 30}
+                    Dim btnClose As New SimpleButton With {.Text = "Close", .Width = 100, .Height = 30}
+                    flp.Controls.Add(btnDownload)
+                    flp.Controls.Add(btnClose)
+
+                    ' Buttons Center
+                    flp.Padding = New Padding((frm.ClientSize.Width - (btnDownload.Width + btnClose.Width + 15)) \ 2, 7, 0, 0)
+                    pnl.Controls.Add(flp)
+                    frm.Controls.Add(pnl)
+                    ' Center Top Position
+
+                    AddHandler frm.Shown, Sub()
+
+                                              Dim gap As Integer = 15
+                                              Dim totalWidth As Integer = btnDownload.Width + btnClose.Width + gap
+
+                                              btnDownload.Location = New Point((pnl.Width - totalWidth) \ 2, 7)
+                                              btnClose.Location = New Point(btnDownload.Right + gap, 7)
+
+                                          End Sub
+                    ' Download Button Click
+                    AddHandler btnDownload.Click,
+                    Sub()
+
+                        If pic.Image Is Nothing Then
+                            MessageBox.Show("No image available.")
+                            Exit Sub
+                        End If
+
+                        Using sfd As New SaveFileDialog()
+                            'sfd.Filter = "JPEG Image|*.jpg|PNG Image|*.png|Bitmap Image|*.bmp"
+                            sfd.Filter = "JPEG Image|*.jpg;*.jpeg|PNG Image|*.png|Bitmap Image|*.bmp|JFIF Image|*.jfif|All Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.jfif"
+                            sfd.FileName = IO.Path.GetFileName(_FilePath)
+
+                            If sfd.ShowDialog() = DialogResult.OK Then
+
+                                Select Case IO.Path.GetExtension(sfd.FileName).ToLower()
+                                    Case ".jpg", ".jpeg", ".jfif"
+                                        pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Jpeg)
+                                    Case ".png"
+                                        pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Png)
+                                    Case ".bmp"
+                                        pic.Image.Save(sfd.FileName, Imaging.ImageFormat.Bmp)
+
+                                End Select
+
+                                MessageBox.Show("Image downloaded successfully.")
+                            End If
+                        End Using
+
+                    End Sub
+
+                    ' Close Button
+                    AddHandler btnClose.Click,
+                    Sub()
+                        frm.Close()
+                    End Sub
+
+                    ' ESC Key
+                    AddHandler frm.KeyDown,
+                    Sub(s, e)
+                        If e.KeyCode = Keys.Escape Then
+                            frm.Close()
+                        End If
+                    End Sub
+
+                    frm.ShowDialog()
+
+                Else
+                    MsgBox("File Does Not Exist")
+                End If
+            Else
+                Dim _FilePath As String = _IamgePath
+                If System.IO.File.Exists(_FilePath) = True Then
+                    Process.Start(_FilePath)
+                Else
+                    MsgBox("File Does Not Exist")
+                End If
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+    End Sub
+    Public Async Sub SubmitComplaintAsync(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
+
+        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+
+        Try
+            Using client As New HttpClient()
+                Using form As New MultipartFormDataContent()
+                    If _FORMMODE = "EDIT" Then
+                        flagstring = "update"
+                        If _txtimageid <> "" Then
+                            Dim idValue As Long = Convert.ToInt64(_txtimageid)
+                            form.Add(New StringContent(idValue.ToString()), "Id")
+                        End If
+                    End If
+                    'Dim filePath As String = txtFilePath.Text.Trim()
+                    Dim filePath As String = _imagepath
+                    ' 🔹 Update case me hi check
+                    If _FORMMODE = "EDIT" Then
+                        flagstring = "update"
+                        ' 👉 New image selected (local file)
+                        If IO.File.Exists(filePath) Then
+                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+                            Dim fileContent As New ByteArrayContent(fileBytes)
+                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+                        Else
+                            ' 👉 Old image (URL / API path) → kuch mat bhejo
+                            ' API existing image hi rakhegi
+                        End If
+
+                    Else
+                        ' 🔹 Save case me image mandatory
+                        If IO.File.Exists(filePath) Then
+                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+                            Dim fileContent As New ByteArrayContent(fileBytes)
+                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+
+                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+                        Else
+                            'MessageBox.Show("❌ Please select image file.")
+                            'Exit Sub
+                        End If
+                    End If
+
+                    ' 🔹 POST API
+                    Dim postResponse As HttpResponseMessage =
+                    Await client.PostAsync(postUrl, form)
+
+                    Dim result As String =
+                    Await postResponse.Content.ReadAsStringAsync()
+
+                    If postResponse.IsSuccessStatusCode Then
+                        'MessageBox.Show("✅ Complaint submitted successfully!")
+                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
+                        'txtFilePath.Text = responseJson("imageURl")?.ToString()
+                        _imagepath = responseJson("imageURl")?.ToString()
+                        _Imagepath1 = _imagepath
+                        _txtimageid = responseJson("id")?.ToString()
+                        _ImageId1 = _txtimageid
+                        'MessageBox.Show("✅ " & message, "Success")
+                        'Me.Close()   ' Complaint form close
+                    Else
+                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
+                        'Me.Close()
+                    End If
+
+                End Using
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
+        End Try
+
+    End Sub
+    Public Async Sub SubmitComplaintAsync2(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
+
+        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+
+        Try
+            Using client As New HttpClient()
+                Using form As New MultipartFormDataContent()
+                    If _FORMMODE = "EDIT" Then
+                        flagstring = "update"
+                        If _txtimageid <> "" Then
+                            Dim idValue As Long = Convert.ToInt64(_txtimageid)
+                            form.Add(New StringContent(idValue.ToString()), "Id")
+                        End If
+                    End If
+                    'Dim filePath As String = txtFilePath.Text.Trim()
+                    Dim filePath As String = _imagepath
+                    ' 🔹 Update case me hi check
+                    If _FORMMODE = "EDIT" Then
+                        flagstring = "update"
+                        ' 👉 New image selected (local file)
+                        If IO.File.Exists(filePath) Then
+                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+                            Dim fileContent As New ByteArrayContent(fileBytes)
+                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+                        Else
+                            ' 👉 Old image (URL / API path) → kuch mat bhejo
+                            ' API existing image hi rakhegi
+                        End If
+
+                    Else
+                        ' 🔹 Save case me image mandatory
+                        If IO.File.Exists(filePath) Then
+                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+                            Dim fileContent As New ByteArrayContent(fileBytes)
+                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+
+                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+                        Else
+                            'MessageBox.Show("❌ Please select image file.")
+                            'Exit Sub
+                        End If
+                    End If
+
+                    ' 🔹 POST API
+                    Dim postResponse As HttpResponseMessage =
+                    Await client.PostAsync(postUrl, form)
+
+                    Dim result As String =
+                    Await postResponse.Content.ReadAsStringAsync()
+
+                    If postResponse.IsSuccessStatusCode Then
+                        'MessageBox.Show("✅ Complaint submitted successfully!")
+                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
+                        'txtFilePath.Text = responseJson("imageURl")?.ToString()
+                        _imagepath = responseJson("imageURl")?.ToString()
+                        _Imagepath2 = _imagepath
+                        _txtimageid = responseJson("id")?.ToString()
+                        _Imageid2 = _txtimageid
+                        'MessageBox.Show("✅ " & message, "Success")
+                        'Me.Close()   ' Complaint form close
+                    Else
+                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
+                        'Me.Close()
+                    End If
+
+                End Using
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
+        End Try
+
+    End Sub
 End Module
