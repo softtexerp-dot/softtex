@@ -145,13 +145,14 @@ Module GetMasterDataJoinInMaster
         Return result
     End Function
     Public Sub HandleMultipleMasterSelection(ByVal masterName As String, ByVal listtype As String)
+        Dim ExtracolumnsToHide = {""}
         Select Case masterName
             Case "ACCOUNT MASTER"
                 Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", "MULTIPLE")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -164,7 +165,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Bill_Agent_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -177,7 +178,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_City_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -190,7 +191,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_State_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim list = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In list
@@ -203,7 +204,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_ITEM_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -216,7 +217,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_DESIGN_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -229,7 +230,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_SHADE_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -242,7 +243,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_Selvedge_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -255,7 +256,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_Yarn_Type_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -268,7 +269,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_YarnItem_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -281,7 +282,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_storeItem_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -294,7 +295,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_store_Sub_Item_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -307,7 +308,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_size_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -320,7 +321,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_Color_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -333,7 +334,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_Remark_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -346,7 +347,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_process_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -359,7 +360,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_Cut_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -372,7 +373,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_STORE_DEPARTMENT_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -385,7 +386,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_POST_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -398,7 +399,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_Employee_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -411,7 +412,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_Fabric_Item_Group_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -424,7 +425,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_Godown_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -437,7 +438,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_GRADER_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -450,7 +451,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_INSURANCE_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -463,7 +464,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_LoomNo_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -476,7 +477,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.Single_SalesMan_Selection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -489,7 +490,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.SINGLE_TRANSPORT_SELECTION("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List
@@ -502,7 +503,7 @@ Module GetMasterDataJoinInMaster
                 Dim _LoadQuery = NewSelectionList.MstBookSelection("")
                 Dim SelectedaccountCode As New List(Of String)
                 'Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), "", listtype)
-                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+                Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
                     For Each dict In List

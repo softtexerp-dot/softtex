@@ -1158,9 +1158,10 @@ Public Class MainFrmDesigner
         Dim DATATYPE As String = ""
         Dim _LoadQuery = _strQuery.ToString
         If _SelectionType = "MULTY" Then
+            Dim ExtracolumnsToHide = {""}
             'Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType([Nothing]), "", _SelectionType)
             Dim SelectedaccountCode As New List(Of String)
-            Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+            Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
             If selectedList IsNot Nothing Then
                 For Each rowDict As Dictionary(Of String, Object) In selectedList
                     If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ColumnName") Then

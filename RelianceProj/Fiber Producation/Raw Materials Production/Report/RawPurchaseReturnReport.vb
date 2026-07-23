@@ -170,7 +170,7 @@ Public Class RawPurchaseReturnReport
 
 
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-
+            Dim ExtracolumnsToHide = {""}
             'Dim _Filterstring As String = " AND A.BOOKCATEGORY='FACTORY-BEAM'"
             'Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring, True)
 
@@ -180,7 +180,7 @@ Public Class RawPurchaseReturnReport
             'Dim selected = MultyAccountSelectionForm(_LoadQuery, Nothing, txtGodownName.Text, "SINGLE")
             'Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtGodownName.Text, "MULTY")
             Dim SelectedaccountCode As New List(Of String)
-            Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode)
+            Dim selectedList1 = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
             If selectedList1 IsNot Nothing AndAlso selectedList1.Count > 0 Then
 
                 txtgodowncode.Text = ""
