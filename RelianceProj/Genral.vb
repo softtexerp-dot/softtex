@@ -48,6 +48,7 @@ Module Genral
     Private WithEvents ALterDateBilldate As New ctl_TextBox.ctl_TextBox
     Public _Imagepath1 As String = ""
     Public _ImageId1 As Integer = 0
+
     Public _Imageid2 As String = 0
     Public _Imagepath2 As String = ""
 
@@ -3733,6 +3734,7 @@ End Sub
         Try
             Using client As New HttpClient()
                 Using form As New MultipartFormDataContent()
+
                     If _FORMMODE = "EDIT" Then
                         flagstring = "update"
                         If _txtimageid <> "" Then
@@ -3769,37 +3771,32 @@ End Sub
                             'Exit Sub
                         End If
                     End If
-
-                    ' 🔹 POST API
-                    Dim postResponse As HttpResponseMessage =
-                    Await client.PostAsync(postUrl, form)
-
-                    Dim result As String =
-                    Await postResponse.Content.ReadAsStringAsync()
-
-                    If postResponse.IsSuccessStatusCode Then
-                        'MessageBox.Show("✅ Complaint submitted successfully!")
-                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
-                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                        'txtFilePath.Text = responseJson("imageURl")?.ToString()
-                        _imagepath = responseJson("imageURl")?.ToString()
-                        _Imagepath1 = _imagepath
-                        _txtimageid = responseJson("id")?.ToString()
-                        _ImageId1 = _txtimageid
-                        'MessageBox.Show("✅ " & message, "Success")
-                        'Me.Close()   ' Complaint form close
-                    Else
-                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
-                        'Me.Close()
+                    If _imagepath <> "" Then
+                        ' 🔹 POST API
+                        Dim postResponse As HttpResponseMessage = Await client.PostAsync(postUrl, form)
+                        Dim result As String = Await postResponse.Content.ReadAsStringAsync()
+                        If postResponse.IsSuccessStatusCode Then
+                            'MessageBox.Show("✅ Complaint submitted successfully!")
+                            Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+                            Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
+                            'txtFilePath.Text = responseJson("imageURl")?.ToString()
+                            _imagepath = responseJson("imageURl")?.ToString()
+                            _Imagepath1 = _imagepath
+                            _txtimageid = responseJson("id")?.ToString()
+                            _ImageId1 = _txtimageid
+                            'MessageBox.Show("✅ " & message, "Success")
+                            'Me.Close()   ' Complaint form close
+                        Else
+                            MessageBox.Show("❌ API Error:" & vbCrLf & result)
+                            'Me.Close()
+                        End If
                     End If
-
                 End Using
             End Using
 
         Catch ex As Exception
             MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
         End Try
-
     End Sub
     Public Async Sub SubmitComplaintAsync2(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
 
@@ -3844,30 +3841,28 @@ End Sub
                             'Exit Sub
                         End If
                     End If
+                    If _imagepath <> "" Then
+                        ' 🔹 POST API
+                        Dim postResponse As HttpResponseMessage = Await client.PostAsync(postUrl, form)
+                        Dim result As String = Await postResponse.Content.ReadAsStringAsync()
 
-                    ' 🔹 POST API
-                    Dim postResponse As HttpResponseMessage =
-                    Await client.PostAsync(postUrl, form)
+                        If postResponse.IsSuccessStatusCode Then
+                            'MessageBox.Show("✅ Complaint submitted successfully!")
+                            Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+                            Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
+                            'txtFilePath.Text = responseJson("imageURl")?.ToString()
+                            _imagepath = responseJson("imageURl")?.ToString()
+                            _Imagepath2 = _imagepath
+                            _txtimageid = responseJson("id")?.ToString()
+                            _Imageid2 = _txtimageid
+                            'MessageBox.Show("✅ " & message, "Success")
+                            'Me.Close()   ' Complaint form close
+                        Else
+                            MessageBox.Show("❌ API Error:" & vbCrLf & result)
+                            'Me.Close()
+                        End If
 
-                    Dim result As String =
-                    Await postResponse.Content.ReadAsStringAsync()
-
-                    If postResponse.IsSuccessStatusCode Then
-                        'MessageBox.Show("✅ Complaint submitted successfully!")
-                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
-                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                        'txtFilePath.Text = responseJson("imageURl")?.ToString()
-                        _imagepath = responseJson("imageURl")?.ToString()
-                        _Imagepath2 = _imagepath
-                        _txtimageid = responseJson("id")?.ToString()
-                        _Imageid2 = _txtimageid
-                        'MessageBox.Show("✅ " & message, "Success")
-                        'Me.Close()   ' Complaint form close
-                    Else
-                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
-                        'Me.Close()
                     End If
-
                 End Using
             End Using
 

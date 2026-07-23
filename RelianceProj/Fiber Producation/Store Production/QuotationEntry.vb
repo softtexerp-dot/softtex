@@ -2232,42 +2232,19 @@ Friend Class QuotationEntry
             TxtAttachment.Focus()
             'MessageBox.Show("Selected File: " & fileName)
         End If
-        'If txtFilePath.Text <> "" AndAlso TxtAttachment.Text <> "" Then
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
-            txtFilePath.Visible = False
-            txtimageid.Visible = False
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
-            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
-            txtFilePath.Visible = False
-            txtimageid.Visible = False
         End If
-        'End If
+        SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
+
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
     End Sub
 
     Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
-        If _FORMMODE = "ADD" Then
-            flagstring = "save"
-            txtFilePath.Text = _Imagepath1
-            txtimageid.Text = _ImageId1
-        ElseIf _FORMMODE = "EDIT" Then
-            flagstring = "update"
-            'ALTER_FORM(txtAlter_code.Text)
-            If txtFilePath.Text = "" Then
-                txtFilePath.Text = _Imagepath1
-                txtimageid.Text = _ImageId1
-            Else
-                _Imagepath1 = txtFilePath.Text
-                If txtimageid.Text.Trim() = "" Then
-                    _ImageId1 = 0
-                Else
-                    _ImageId1 = CInt(txtimageid.Text)
-                End If
-            End If
-        End If
-        _ImageView_Click(_Imagepath1, flagstring, _FORMMODE)
+        _ImageView_Click(txtFilePath.Text, flagstring, _FORMMODE)
     End Sub
 #End Region
 End Class

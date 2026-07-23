@@ -2188,39 +2188,19 @@ Public Class PetGateInward
             TxtAttachment.Focus()
             'MessageBox.Show("Selected File: " & fileName)
         End If
-        'If txtFilePath.Text <> "" AndAlso TxtAttachment.Text <> "" Then
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
-            txtFilePath.Visible = False
-            txtimageid.Visible = False
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
-            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
-            txtFilePath.Visible = False
-            txtimageid.Visible = False
         End If
-        'End If
+        SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
+
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
     End Sub
 
     Private Sub BtnView1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
-        If _FORMMODE = "ADD" Then
-            flagstring = "save"
-            txtFilePath.Text = _Imagepath1
-            txtimageid.Text = _ImageId1
-        ElseIf _FORMMODE = "EDIT" Then
-            flagstring = "update"
-            'ALTER_FORM(txtAlter_code.Text)
-            If txtFilePath.Text = "" Then
-                txtFilePath.Text = _Imagepath1
-                txtimageid.Text = _ImageId1
-            Else
-                _Imagepath1 = txtFilePath.Text
-                _ImageId1 = txtimageid.Text
-            End If
-
-        End If
-        _ImageView_Click(_Imagepath1, flagstring, _FORMMODE)
+        _ImageView_Click(txtFilePath.Text, flagstring, _FORMMODE)
     End Sub
 
 
@@ -2240,39 +2220,19 @@ Public Class PetGateInward
             TxtAttachment2.Focus()
             'MessageBox.Show("Selected File: " & fileName)
         End If
-        'If txtFilePath2.Text <> "" AndAlso TxtAttachment2.Text <> "" Then
+
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
-            txtFilePath2.Visible = False
-            txtimageid2.Visible = False
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
-            SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
-            txtFilePath2.Visible = False
-            txtimageid2.Visible = False
         End If
-        'End If
+        SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
+        txtFilePath2.Visible = False
+        txtimageid2.Visible = False
     End Sub
 
     Private Sub BtnView2_Click(sender As Object, e As EventArgs) Handles BtnView2.Click
-        If _FORMMODE = "ADD" Then
-            flagstring = "save"
-            txtFilePath2.Text = _Imagepath2
-            txtimageid2.Text = _Imageid2
-        ElseIf _FORMMODE = "EDIT" Then
-            flagstring = "update"
-            'ALTER_FORM(txtAlter_code.Text)
-
-            If txtFilePath2.Text = "" Then
-                txtFilePath2.Text = _Imagepath2
-                txtimageid2.Text = _Imageid2
-            Else
-                _Imagepath2 = txtFilePath2.Text
-                _Imageid2 = txtimageid2.Text
-            End If
-        End If
-        _ImageView_Click(_Imagepath2, flagstring, _FORMMODE)
+        _ImageView_Click(txtFilePath2.Text, flagstring, _FORMMODE)
     End Sub
 #End Region
 End Class

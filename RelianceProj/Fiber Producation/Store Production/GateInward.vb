@@ -3,6 +3,7 @@ Imports System.Text
 Imports DevExpress.Utils.CommonDialogs
 Imports DevExpress.XtraEditors
 Imports DevExpress.XtraGrid
+Imports DevExpress.XtraReports.UI
 
 Public Class GateInward
 
@@ -962,7 +963,10 @@ Public Class GateInward
         Dim Query_Auto_Grid(_DataTableGrid.Rows.Count, 4) As String
 
         strFilterString = "MTR_WEIGHT>0 "
-
+        txtFilePath.Text = _Imagepath1
+        txtimageid.Text = _ImageId1
+        txtFilePath2.Text = _Imagepath2
+        txtimageid2.Text = _Imageid2
         _ExtraFieldDataTable = New StringBuilder
         With _ExtraFieldDataTable
             .Append("DESPATCHCODE,")
@@ -1020,10 +1024,10 @@ Public Class GateInward
             .Append(txtHeader_Remark.Text & ",")
             .Append(TxtAttachment.Text & ",")
             .Append(TxtAttachment2.Text & ",")
-            .Append(_Imagepath1 & ",")
-            .Append(_ImageId1 & ",")
-            .Append(_Imagepath2 & ",")
-            .Append(_Imageid2 & "")
+            .Append(txtFilePath.Text & ",")
+            .Append(txtimageid.Text & ",")
+            .Append(txtFilePath2.Text & ",")
+            .Append(txtimageid2.Text & "")
         End With
 
         QueryDetailTable = ObjCls_General.GetQueryArray(_ChallanTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -1425,7 +1429,7 @@ Public Class GateInward
             If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text = "YES" Then
                 GrdItem.Row(j).Locked = True
             Else
-                    GrdItem.Row(j).Locked = False
+                GrdItem.Row(j).Locked = False
             End If
             If GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP24") + 1).Text = "APPROVAL" AndAlso GrdItem.Cell(j, _DataTableGrid.Columns.IndexOf("OP19") + 1).Text = "REJECTION" Then
                 GrdItem.Row(j).Locked = True
@@ -2212,38 +2216,17 @@ Public Class GateInward
             TxtAttachment.Focus()
             'MessageBox.Show("Selected File: " & fileName)
         End If
-        'If txtFilePath.Text <> "" AndAlso TxtAttachment.Text <> "" Then
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
-            txtFilePath.Visible = False
-            txtimageid.Visible = False
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
-            SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
-            txtFilePath.Visible = False
-            txtimageid.Visible = False
         End If
-        'End If
+        SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
+        txtFilePath.Visible = False
+        txtimageid.Visible = False
     End Sub
     Private Sub BtnView1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
-        If _FORMMODE = "ADD" Then
-            flagstring = "save"
-            txtFilePath.Text = _Imagepath1
-            txtimageid.Text = _ImageId1
-        ElseIf _FORMMODE = "EDIT" Then
-            flagstring = "update"
-            'ALTER_FORM(txtAlter_code.Text)
-            If txtFilePath.Text = "" Then
-                txtFilePath.Text = _Imagepath1
-                txtimageid.Text = _ImageId1
-            Else
-                _Imagepath1 = txtFilePath.Text
-                _ImageId1 = txtimageid.Text
-            End If
-
-        End If
-        _ImageView_Click(_Imagepath1, flagstring, _FORMMODE)
+        _ImageView_Click(txtFilePath.Text, flagstring, _FORMMODE)
     End Sub
 #End Region
 #Region "Attachment 2"
@@ -2262,38 +2245,27 @@ Public Class GateInward
             'MessageBox.Show("Selected File: " & fileName)
         End If
         'If txtFilePath2.Text <> "" AndAlso TxtAttachment2.Text <> "" Then
+
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
-            txtFilePath2.Visible = False
-            txtimageid2.Visible = False
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
-            SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
-            txtFilePath2.Visible = False
-            txtimageid2.Visible = False
         End If
+
+        SubmitComplaintAsync2(txtFilePath2.Text, flagstring, txtimageid2.Text, _FORMMODE)
+        'If _Imagepath2 <> "" Then
+        '    txtFilePath2.Text = _Imagepath2
+        '    txtimageid2.Text = _Imageid2
+        'End If
+
+        txtFilePath2.Visible = False
+        txtimageid2.Visible = False
+
         'End If
     End Sub
 
     Private Sub BtnView2_Click(sender As Object, e As EventArgs) Handles BtnView2.Click
-        If _FORMMODE = "ADD" Then
-            flagstring = "save"
-            txtFilePath2.Text = _Imagepath2
-            txtimageid2.Text = _Imageid2
-        ElseIf _FORMMODE = "EDIT" Then
-            flagstring = "update"
-            'ALTER_FORM(txtAlter_code.Text)
-
-            If txtFilePath2.Text = "" Then
-                txtFilePath2.Text = _Imagepath2
-                txtimageid2.Text = _Imageid2
-            Else
-                _Imagepath2 = txtFilePath2.Text
-                _Imageid2 = txtimageid2.Text
-            End If
-        End If
-        _ImageView_Click(_Imagepath2, flagstring, _FORMMODE)
+        _ImageView_Click(txtFilePath2.Text, flagstring, _FORMMODE)
     End Sub
 #End Region
 End Class
