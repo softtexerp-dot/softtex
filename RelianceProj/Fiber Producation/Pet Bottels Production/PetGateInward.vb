@@ -2254,90 +2254,17 @@ Public Class PetGateInward
         End If
         'End If
     End Sub
-    Private Async Sub SubmitComplaintAsync1(ByVal falgstring As String)
 
-        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
-
-        Try
-            Using client As New HttpClient()
-                Using form As New MultipartFormDataContent()
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        If txtimageid2.Text <> "" Then
-                            Dim idValue As Long = Convert.ToInt64(txtimageid2.Text)
-                            form.Add(New StringContent(idValue.ToString()), "Id")
-                        End If
-                    End If
-                    Dim filePath As String = txtFilePath2.Text.Trim()
-
-                    ' 🔹 Update case me hi check
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        ' 👉 New image selected (local file)
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            ' 👉 Old image (URL / API path) → kuch mat bhejo
-                            ' API existing image hi rakhegi
-                        End If
-
-                    Else
-                        ' 🔹 Save case me image mandatory
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            'MessageBox.Show("❌ Please select image file.")
-                            'Exit Sub
-                        End If
-                    End If
-
-                    ' 🔹 POST API
-                    Dim postResponse As HttpResponseMessage =
-                    Await client.PostAsync(postUrl, form)
-
-                    Dim result As String =
-                    Await postResponse.Content.ReadAsStringAsync()
-
-                    If postResponse.IsSuccessStatusCode Then
-                        'MessageBox.Show("✅ Complaint submitted successfully!")
-                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
-                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                        txtFilePath2.Text = responseJson("imageURl")?.ToString()
-                        txtFilePath2.Visible = False
-                        txtimageid2.Text = responseJson("id")?.ToString()
-                        txtimageid2.Visible = False
-                        'MessageBox.Show("✅ " & message, "Success")
-                        'Me.Close()   ' Complaint form close
-                    Else
-                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
-                        Me.Close()
-                    End If
-
-                End Using
-            End Using
-
-        Catch ex As Exception
-            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
-        End Try
-
-    End Sub
     Private Sub BtnView2_Click(sender As Object, e As EventArgs) Handles BtnView2.Click
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            txtFilePath.Text = _Imagepath2
-            txtimageid.Text = _Imageid2
+            txtFilePath2.Text = _Imagepath2
+            txtimageid2.Text = _Imageid2
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
             'ALTER_FORM(txtAlter_code.Text)
 
-            If txtFilePath.Text = "" Then
+            If txtFilePath2.Text = "" Then
                 txtFilePath2.Text = _Imagepath2
                 txtimageid2.Text = _Imageid2
             Else

@@ -2279,13 +2279,13 @@ Public Class GateInward
     Private Sub BtnView2_Click(sender As Object, e As EventArgs) Handles BtnView2.Click
         If _FORMMODE = "ADD" Then
             flagstring = "save"
-            txtFilePath.Text = _Imagepath2
-            txtimageid.Text = _Imageid2
+            txtFilePath2.Text = _Imagepath2
+            txtimageid2.Text = _Imageid2
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
             'ALTER_FORM(txtAlter_code.Text)
 
-            If txtFilePath.Text = "" Then
+            If txtFilePath2.Text = "" Then
                 txtFilePath2.Text = _Imagepath2
                 txtimageid2.Text = _Imageid2
             Else
