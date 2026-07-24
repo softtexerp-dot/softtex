@@ -375,7 +375,7 @@ Partial Class StockEntryPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "StockEntryPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "StockEntryPrint"
+        Me.Text = "Store Stock Entry Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

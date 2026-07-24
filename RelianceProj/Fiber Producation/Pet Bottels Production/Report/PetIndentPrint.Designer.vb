@@ -375,7 +375,7 @@ Partial Class PetIndentPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetIndentPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "PetIndentPrint"
+        Me.Text = "Pet Indent Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

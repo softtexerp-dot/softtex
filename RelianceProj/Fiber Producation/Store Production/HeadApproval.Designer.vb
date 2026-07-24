@@ -23,9 +23,6 @@ Partial Class HeadApproval
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HeadApproval))
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.TxtType = New ctl_TextBox.ctl_TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txt_Status = New ctl_TextBox.ctl_TextBox()
@@ -53,77 +50,6 @@ Partial Class HeadApproval
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(824, 17)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(12, 14)
-        Me.Label4.TabIndex = 82251
-        Me.Label4.Text = ":"
-        Me.Label4.Visible = False
-        '
-        'Label5
-        '
-        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.Color.Black
-        Me.Label5.Location = New System.Drawing.Point(783, 16)
-        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(45, 14)
-        Me.Label5.TabIndex = 82250
-        Me.Label5.Text = "Type"
-        Me.Label5.Visible = False
-        '
-        'TxtType
-        '
-        Me.TxtType._AllowSpace = True
-        Me.TxtType.AcceptsReturn = True
-        Me.TxtType.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.TxtType.BackColor = System.Drawing.Color.LightCyan
-        Me.TxtType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TxtType.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.TxtType.Check_End_Date_Value_FY = "YES"
-        Me.TxtType.Check_Start_Date_Value_FY = "YES"
-        Me.TxtType.ClearField = True
-        Me.TxtType.CustomInputTypeString = Nothing
-        Me.TxtType.Date_for_Database = Nothing
-        Me.TxtType.Date_Tag = Nothing
-        Me.TxtType.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.TxtType.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
-        Me.TxtType.ExtraValue = ""
-        Me.TxtType.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtType.FontFocusColor = System.Drawing.Color.Blue
-        Me.TxtType.FontLeaveColor = System.Drawing.Color.Black
-        Me.TxtType.ForeColor = System.Drawing.Color.Black
-        Me.TxtType.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
-        Me.TxtType.IsValidated = False
-        Me.TxtType.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TxtType.Location = New System.Drawing.Point(836, 14)
-        Me.TxtType.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.TxtType.MandatoryField = False
-        Me.TxtType.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.TxtType.MaxDate = Nothing
-        Me.TxtType.MinDate = Nothing
-        Me.TxtType.Name = "TxtType"
-        Me.TxtType.NormalBorderColor = System.Drawing.Color.White
-        Me.TxtType.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.TxtType.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.TxtType.ReadOnly = True
-        Me.TxtType.RegularExpression = Nothing
-        Me.TxtType.RegularExpressionErrorMessage = Nothing
-        Me.TxtType.ShortcutsEnabled = False
-        Me.TxtType.ShowMessage = False
-        Me.TxtType.Size = New System.Drawing.Size(67, 22)
-        Me.TxtType.SpacerString = "APPROVE,PENDING,ALL"
-        Me.TxtType.TabIndex = 82238
-        Me.TxtType.Tag = "OP19"
-        Me.TxtType.Text = "ALL"
-        Me.TxtType.TransparentBox = True
-        Me.TxtType.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        Me.TxtType.Visible = False
         '
         'Label2
         '
@@ -488,9 +414,6 @@ Partial Class HeadApproval
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.txtUnitName)
         Me.Controls.Add(Me.Label50)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.TxtType)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txt_Status)
@@ -521,10 +444,6 @@ Partial Class HeadApproval
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents Label4 As Label
-    Friend WithEvents Label5 As Label
-    Friend WithEvents TxtType As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents txt_Status As ctl_TextBox.ctl_TextBox

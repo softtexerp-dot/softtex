@@ -1535,7 +1535,7 @@ Public Class GateInward
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _BookCode & "'" & " ")
             .Append(" AND A.GODOWNCODE='" & txtgodowncode.Text & "'" & " ")
-            .Append(" ORDER BY A.Id DESC ")
+            .Append(" ORDER BY A.Entryno DESC ")
         End With
 
         Dim Str_Qry As String = _strQuery.ToString

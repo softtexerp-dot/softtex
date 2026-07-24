@@ -375,7 +375,7 @@ Partial Class GateInwardPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "GateInwardPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Gate Inward Print"
+        Me.Text = "Store Gate Inward Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

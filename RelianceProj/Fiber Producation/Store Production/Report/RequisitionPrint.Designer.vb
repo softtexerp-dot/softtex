@@ -377,7 +377,7 @@ Partial Class RequisitionPrint
         Me.MinimizeBox = False
         Me.Name = "RequisitionPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Requisition Print"
+        Me.Text = "Store Requisition Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

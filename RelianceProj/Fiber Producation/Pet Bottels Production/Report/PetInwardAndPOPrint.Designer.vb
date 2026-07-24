@@ -375,7 +375,7 @@ Partial Class PetInwardAndPOPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetInwardAndPOPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "PetInwardAndPOPrint"
+        Me.Text = "Pet Inward And PO Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

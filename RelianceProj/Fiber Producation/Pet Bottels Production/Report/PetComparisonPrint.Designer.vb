@@ -375,7 +375,7 @@ Partial Class PetComparisonPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetComparisonPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "PetComparisonPrint"
+        Me.Text = "Pet Comparison Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

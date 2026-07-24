@@ -161,6 +161,7 @@ Public Class RawDepartmentApproval
             .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS F_ENTRYDATE,  ")
             .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             .Append(" H.TYPE_NAME  AS COMPANYNAME ")
+            .Append(" ,CASE WHEN K.NetRate IS NULL THEN B.Purchase_rate ELSE K.NetRate END AS LastPurchaseRate")
             .Append(" ,IIF(ISNULL(G.USEBOOKVNO,'')='','NO','YES') AS USEBY")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")
@@ -171,6 +172,24 @@ Public Class RawDepartmentApproval
             .Append(" LEFT JOIN MstStoreItemType H ON  A.SHADECODE = H.TYPE_ID ")
             .Append(" Left Join ( SELECT OP7 AS USEBOOKVNO,ITEMCODE AS USEITEMCODE  FROM TrnPackingSlip GROUP BY OP7,ITEMCODE ) AS G ON ( A.BOOKVNO=G.USEBOOKVNO AND A.ITEMCODE=G.USEITEMCODE ) ")
             .Append("  Left Join ( SELECT  OP19 AS TrueStatus,BOOKVNO  FROM TrnPackingSlip  WHERE OP19='YES' AND  BookTrType='RAW06' AND GodownCode='" & txtUnitCode.Text.Trim & "' GROUP BY OP19,BOOKVNO ) AS J ON ( A.BOOKVNO= J.BOOKVNO ) ")
+            .Append(" Left Join ( ")
+            .Append("     SELECT AccountCode, ItemCode, Rate AS NetRate ")
+            .Append("     FROM ( ")
+            .Append("         SELECT AccountCode, ")
+            .Append("                ItemCode, ")
+            .Append("                Rate, ")
+            .Append("                ROW_NUMBER() OVER ( ")
+            .Append("                    PARTITION BY AccountCode, ItemCode ")
+            .Append("                    ORDER BY EntryDate DESC, EntryNo DESC ")
+            .Append("                ) AS RN ")
+            .Append("         FROM TrnPackingSlip ")
+            .Append("         WHERE BookTrType='RAW09' ")
+            .Append("           AND GodownCode='" & txtUnitCode.Text.Trim & "' ")
+            .Append("     ) X ")
+            .Append("     WHERE RN = 1 ")
+            .Append(" ) AS K ")
+            .Append(" ON ( A.AccountCode = K.AccountCode ")
+            .Append("      AND A.ItemCode = K.ItemCode ) ")
             .Append(" WHERE 1=1  ")
             .Append(" AND  A.BookTrType='RAW06'")
             If UCase(txt_Status.Text.Trim) = "NO" Then
@@ -195,6 +214,7 @@ Public Class RawDepartmentApproval
         dtPivot.Columns.Add("EntryNo")
         dtPivot.Columns.Add("ItemName")
         dtPivot.Columns.Add("UOM")
+        dtPivot.Columns.Add("LastPurchaseRate")
         dtPivot.Columns.Add("BOOKVNO")
         dtPivot.Columns.Add("ItemCode")
         dtPivot.Columns.Add("SupplierCode")
@@ -231,6 +251,7 @@ Public Class RawDepartmentApproval
             newRow("EntryNo") = firstRow("EntryNo").ToString()
             newRow("ItemName") = firstRow("ITEMNAME").ToString()
             newRow("UOM") = firstRow("CUTNAME").ToString()
+            newRow("LastPurchaseRate") = firstRow("LastPurchaseRate").ToString()
             newRow("BOOKVNO") = firstRow("BOOKVNO").ToString()
             newRow("ItemCode") = firstRow("ItemCode").ToString()
             newRow("SupplierCode") = firstRow("SupplierCode").ToString()
@@ -293,6 +314,7 @@ Public Class RawDepartmentApproval
             bandItem.Columns.Add(AddBandedColumn(bandedView, "EntryNo", "EntryNo"))
             bandItem.Columns.Add(AddBandedColumn(bandedView, "ItemName", "Item"))
             bandItem.Columns.Add(AddBandedColumn(bandedView, "UOM", "UOM"))
+            bandItem.Columns.Add(AddBandedColumn(bandedView, "LastPurchaseRate", "Last Purchase Rate"))
             bandedView.Bands.Add(bandItem)
             MinRateByRow.Clear()
             For i As Integer = 0 To dtPivot.Rows.Count - 1
@@ -500,6 +522,9 @@ Public Class RawDepartmentApproval
     End Sub
     Private Sub bandedView_ShowingEditor(sender As Object, e As System.ComponentModel.CancelEventArgs)
         Dim view As BandedGridView = CType(sender, BandedGridView)
+        If view.FocusedColumn.FieldName.EndsWith("_View") Then
+            Return    ' View button clickable rahega
+        End If
         If view.FocusedColumn.FieldName.EndsWith("_Status") Then
             e.Cancel = True
         End If

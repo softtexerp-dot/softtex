@@ -377,7 +377,7 @@ Partial Class QuotationEntryPrint
         Me.MinimizeBox = False
         Me.Name = "QuotationEntryPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Quotation Entry Print"
+        Me.Text = "Store Quotation Entry Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
