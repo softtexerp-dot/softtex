@@ -188,11 +188,11 @@ Public Class GateInward
             .Append("COLORNAME:Color,")
             .Append("DESCR:Descr,")
             .Append("MTR_WEIGHT:Qty,")
-            .Append("CUT_MTR:Gross Rate,")
-            .Append("RATE:Net Rate,")
+            .Append("CUT_MTR:Gross Weight,")
+            .Append("RATE:Net Weight,")
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
-            .Append("AMOUNT:Amount,")
+            .Append("AMOUNT:Difference,")
             .Append("OP11:Gst,") 'gst
             .Append("OP12:Fright,") 'Fright
             .Append("OP13:Delivery,")  'Delivery
@@ -271,7 +271,7 @@ Public Class GateInward
             .Append("DESPATCHCODE:N,")
             .Append("ACOFCODE:N,")
             .Append("SHADECODE:N,")
-            .Append("CUT_MTR:N,")
+            .Append("CUT_MTR:Y,")
             .Append("SRNO:Y,")
             .Append("ITEMNAME:Y,")
             .Append("ITEMCODE:N,")
@@ -288,8 +288,8 @@ Public Class GateInward
             .Append("CUTCODE:N,")
             .Append("PIECE_ID:N,")
             .Append("MTR_WEIGHT:Y,")
-            .Append("RATE:N,")
-            .Append("AMOUNT:N,")
+            .Append("RATE:Y,")
+            .Append("AMOUNT:Y,")
             .Append("USEBY:N,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,") 'GodownCode
@@ -370,11 +370,11 @@ Public Class GateInward
         _FieldMasking = New StringBuilder
         With _FieldMasking
             .Append("MTR_WEIGHT:NO-2,")
-            .Append("RATE:NO-2,")
+            .Append("RATE:NO-3,")
             .Append("RDVALUE:NO-2,")
             .Append("WEIGHT:NO-2,")
-            .Append("CUT_MTR:NO-2,")
-            .Append("AMOUNT:NO-2")
+            .Append("CUT_MTR:NO-3,")
+            .Append("AMOUNT:NO-3")
         End With
 
         With _FieldNameSameValueCopy
@@ -1678,15 +1678,29 @@ Public Class GateInward
     End Sub
 
     Private Sub Calc_Net_Rate()
+        'Dim Commu_Net_Rate As Double = 0
+        'Dim GROSS_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
+        'Dim TAX_PER As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
+        'Dim QTY As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
+
+        'Dim AMOUNT As Double = Math.Round(QTY * GROSS_RATE, 2, MidpointRounding.AwayFromZero)
+        'Dim _GstTAxAmt As Double = AMOUNT * TAX_PER / 100
+        'AMOUNT = AMOUNT + _GstTAxAmt
+        'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = AMOUNT
+        'Call Total_Upto_All_Grid_All_Row()
         Dim Commu_Net_Rate As Double = 0
-        Dim GROSS_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
+        Dim Gross_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
+        Dim Net_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
         Dim TAX_PER As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
         Dim QTY As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
 
-        Dim AMOUNT As Double = Math.Round(QTY * GROSS_RATE, 2, MidpointRounding.AwayFromZero)
-        Dim _GstTAxAmt As Double = AMOUNT * TAX_PER / 100
-        AMOUNT = AMOUNT + _GstTAxAmt
-        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = AMOUNT
+        'Dim AMOUNT As Double = Math.Round(QTY - GROSS_RATE, 2, MidpointRounding.AwayFromZero)
+        Dim AMOUNT As Double = Math.Round(Gross_RATE - Net_RATE, 3, MidpointRounding.AwayFromZero)
+        If AMOUNT < 0 Then
+            MessageBox.Show("Negative difference is not permitted. The difference has been automatically set to 0.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            AMOUNT = 0
+        End If
+        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = AMOUNT.ToString("0.000")
         Call Total_Upto_All_Grid_All_Row()
     End Sub
 

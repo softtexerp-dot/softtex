@@ -69,6 +69,8 @@ Partial Class Main_MDI_Frm
         Me.StoreInwardAndPOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StrorePurchaseReturnReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VendorMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StoreBulkContractToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StoreWestageEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.APIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PetBottelsProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -90,9 +92,12 @@ Partial Class Main_MDI_Frm
         Me.PetInwardAndPoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StockReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PetRecievedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PetBulkContractToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PetWestageentryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawMaterialsProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawStockEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawRequitionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawApprovalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawIssuetoMachineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawApprovalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawIndentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -108,7 +113,8 @@ Partial Class Main_MDI_Frm
         Me.RawInwardAndPOToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawStockReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RawApprovalToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawBulkContractToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RawWestageEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -293,7 +299,7 @@ Partial Class Main_MDI_Frm
         '
         'FiberProductionToolStripMenuItem
         '
-        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.StoreApprovalToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem, Me.GateInwardToolStripMenuItem, Me.QualityCheckerToolStripMenuItem, Me.ApprovalRejectionToolStripMenuItem, Me.StorePurchaseReturnToolStripMenuItem, Me.StoreInwardAndPOToolStripMenuItem, Me.StrorePurchaseReturnReportToolStripMenuItem, Me.VendorMasterToolStripMenuItem})
+        Me.FiberProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StockEntryToolStripMenuItem, Me.RequisitionToolStripMenuItem1, Me.StoreApprovalToolStripMenuItem1, Me.IssueToDepartmentToolStripMenuItem, Me.StoreApprovalToolStripMenuItem, Me.IndentToolStripMenuItem, Me.QuotationToolStripMenuItem1, Me.ComparisonToolStripMenuItem, Me.MachineMasterToolStripMenuItem, Me.DepartMentApprovalToolStripMenuItem, Me.HeadApprovalToolStripMenuItem, Me.StoresPOToolStripMenuItem, Me.GateInwardToolStripMenuItem, Me.QualityCheckerToolStripMenuItem, Me.ApprovalRejectionToolStripMenuItem, Me.StorePurchaseReturnToolStripMenuItem, Me.StoreInwardAndPOToolStripMenuItem, Me.StrorePurchaseReturnReportToolStripMenuItem, Me.VendorMasterToolStripMenuItem, Me.StoreBulkContractToolStripMenuItem, Me.StoreWestageEntryToolStripMenuItem})
         Me.FiberProductionToolStripMenuItem.Name = "FiberProductionToolStripMenuItem"
         Me.FiberProductionToolStripMenuItem.Size = New System.Drawing.Size(138, 20)
         Me.FiberProductionToolStripMenuItem.Text = "Fiber Production"
@@ -412,6 +418,18 @@ Partial Class Main_MDI_Frm
         Me.VendorMasterToolStripMenuItem.Size = New System.Drawing.Size(282, 22)
         Me.VendorMasterToolStripMenuItem.Text = "VendorMaster"
         '
+        'StoreBulkContractToolStripMenuItem
+        '
+        Me.StoreBulkContractToolStripMenuItem.Name = "StoreBulkContractToolStripMenuItem"
+        Me.StoreBulkContractToolStripMenuItem.Size = New System.Drawing.Size(282, 22)
+        Me.StoreBulkContractToolStripMenuItem.Text = "StoreBulkContract"
+        '
+        'StoreWestageEntryToolStripMenuItem
+        '
+        Me.StoreWestageEntryToolStripMenuItem.Name = "StoreWestageEntryToolStripMenuItem"
+        Me.StoreWestageEntryToolStripMenuItem.Size = New System.Drawing.Size(282, 22)
+        Me.StoreWestageEntryToolStripMenuItem.Text = "StoreWestageEntry"
+        '
         'APIToolStripMenuItem
         '
         Me.APIToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EnToolStripMenuItem})
@@ -427,7 +445,7 @@ Partial Class Main_MDI_Frm
         '
         'PetBottelsProductionToolStripMenuItem
         '
-        Me.PetBottelsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PetStockEntryToolStripMenuItem, Me.PetRequisitionToolStripMenuItem, Me.PetApprovalToolStripMenuItem1, Me.PetIssueToMachineToolStripMenuItem, Me.PetApprovalToolStripMenuItem, Me.PetIndentToolStripMenuItem, Me.PetQuotationToolStripMenuItem, Me.PetComparisonToolStripMenuItem, Me.PetMachineApprovalToolStripMenuItem, Me.PetHeadApprovalToolStripMenuItem, Me.PetPOToolStripMenuItem, Me.PetGateInwardToolStripMenuItem, Me.PetQualityCheckerToolStripMenuItem, Me.PetRejectionApprovalToolStripMenuItem, Me.PetPurcahseReturnToolStripMenuItem, Me.PetInwardAndPoToolStripMenuItem, Me.StockReportToolStripMenuItem, Me.PetRecievedToolStripMenuItem})
+        Me.PetBottelsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PetStockEntryToolStripMenuItem, Me.PetRequisitionToolStripMenuItem, Me.PetApprovalToolStripMenuItem1, Me.PetIssueToMachineToolStripMenuItem, Me.PetApprovalToolStripMenuItem, Me.PetIndentToolStripMenuItem, Me.PetQuotationToolStripMenuItem, Me.PetComparisonToolStripMenuItem, Me.PetMachineApprovalToolStripMenuItem, Me.PetHeadApprovalToolStripMenuItem, Me.PetPOToolStripMenuItem, Me.PetGateInwardToolStripMenuItem, Me.PetQualityCheckerToolStripMenuItem, Me.PetRejectionApprovalToolStripMenuItem, Me.PetPurcahseReturnToolStripMenuItem, Me.PetInwardAndPoToolStripMenuItem, Me.StockReportToolStripMenuItem, Me.PetRecievedToolStripMenuItem, Me.PetBulkContractToolStripMenuItem, Me.PetWestageentryToolStripMenuItem})
         Me.PetBottelsProductionToolStripMenuItem.Name = "PetBottelsProductionToolStripMenuItem"
         Me.PetBottelsProductionToolStripMenuItem.Size = New System.Drawing.Size(181, 20)
         Me.PetBottelsProductionToolStripMenuItem.Text = "Pet Bottels Production"
@@ -540,9 +558,21 @@ Partial Class Main_MDI_Frm
         Me.PetRecievedToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
         Me.PetRecievedToolStripMenuItem.Text = "Pet Recieved"
         '
+        'PetBulkContractToolStripMenuItem
+        '
+        Me.PetBulkContractToolStripMenuItem.Name = "PetBulkContractToolStripMenuItem"
+        Me.PetBulkContractToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.PetBulkContractToolStripMenuItem.Text = "PetBulkContract"
+        '
+        'PetWestageentryToolStripMenuItem
+        '
+        Me.PetWestageentryToolStripMenuItem.Name = "PetWestageentryToolStripMenuItem"
+        Me.PetWestageentryToolStripMenuItem.Size = New System.Drawing.Size(235, 22)
+        Me.PetWestageentryToolStripMenuItem.Text = "PetWestageentry"
+        '
         'RawMaterialsProductionToolStripMenuItem
         '
-        Me.RawMaterialsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RawStockEntryToolStripMenuItem, Me.RawRequitionToolStripMenuItem, Me.RawApprovalToolStripMenuItem1, Me.RawIssuetoMachineToolStripMenuItem, Me.RawApprovalToolStripMenuItem, Me.RawIndentToolStripMenuItem, Me.RawQuotationToolStripMenuItem, Me.RawCompariToolStripMenuItem, Me.RawDepartmentApprovalToolStripMenuItem, Me.RawHeadApprovalToolStripMenuItem, Me.RawPOToolStripMenuItem, Me.RawGateInwardToolStripMenuItem, Me.RawQualityCheckerToolStripMenuItem, Me.RawRejectionApprovalToolStripMenuItem, Me.RawPurchaseReturnToolStripMenuItem, Me.RawInwardAndPOToolStripMenuItem, Me.RawStockReportToolStripMenuItem, Me.RawToolStripMenuItem})
+        Me.RawMaterialsProductionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RawStockEntryToolStripMenuItem, Me.RawRequitionToolStripMenuItem, Me.RawApprovalToolStripMenuItem1, Me.RawIssuetoMachineToolStripMenuItem, Me.RawApprovalToolStripMenuItem, Me.RawIndentToolStripMenuItem, Me.RawQuotationToolStripMenuItem, Me.RawCompariToolStripMenuItem, Me.RawDepartmentApprovalToolStripMenuItem, Me.RawHeadApprovalToolStripMenuItem, Me.RawPOToolStripMenuItem, Me.RawGateInwardToolStripMenuItem, Me.RawQualityCheckerToolStripMenuItem, Me.RawRejectionApprovalToolStripMenuItem, Me.RawPurchaseReturnToolStripMenuItem, Me.RawInwardAndPOToolStripMenuItem, Me.RawStockReportToolStripMenuItem, Me.RawToolStripMenuItem, Me.RawBulkContractToolStripMenuItem, Me.RawWestageEntryToolStripMenuItem})
         Me.RawMaterialsProductionToolStripMenuItem.Name = "RawMaterialsProductionToolStripMenuItem"
         Me.RawMaterialsProductionToolStripMenuItem.Size = New System.Drawing.Size(202, 20)
         Me.RawMaterialsProductionToolStripMenuItem.Text = "Raw Materials Production"
@@ -558,6 +588,12 @@ Partial Class Main_MDI_Frm
         Me.RawRequitionToolStripMenuItem.Name = "RawRequitionToolStripMenuItem"
         Me.RawRequitionToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawRequitionToolStripMenuItem.Text = "Raw Requisition"
+        '
+        'RawApprovalToolStripMenuItem1
+        '
+        Me.RawApprovalToolStripMenuItem1.Name = "RawApprovalToolStripMenuItem1"
+        Me.RawApprovalToolStripMenuItem1.Size = New System.Drawing.Size(256, 22)
+        Me.RawApprovalToolStripMenuItem1.Text = "RawApproval"
         '
         'RawIssuetoMachineToolStripMenuItem
         '
@@ -649,11 +685,17 @@ Partial Class Main_MDI_Frm
         Me.RawToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawToolStripMenuItem.Text = "RawRecieved"
         '
-        'RawApprovalToolStripMenuItem1
+        'RawBulkContractToolStripMenuItem
         '
-        Me.RawApprovalToolStripMenuItem1.Name = "RawApprovalToolStripMenuItem1"
-        Me.RawApprovalToolStripMenuItem1.Size = New System.Drawing.Size(256, 22)
-        Me.RawApprovalToolStripMenuItem1.Text = "RawApproval"
+        Me.RawBulkContractToolStripMenuItem.Name = "RawBulkContractToolStripMenuItem"
+        Me.RawBulkContractToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawBulkContractToolStripMenuItem.Text = "RawBulkContract"
+        '
+        'RawWestageEntryToolStripMenuItem
+        '
+        Me.RawWestageEntryToolStripMenuItem.Name = "RawWestageEntryToolStripMenuItem"
+        Me.RawWestageEntryToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+        Me.RawWestageEntryToolStripMenuItem.Text = "RawWestageEntry"
         '
         'Main_MDI_Frm
         '
@@ -765,4 +807,10 @@ Partial Class Main_MDI_Frm
     Friend WithEvents VendorMasterToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PetApprovalToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents RawApprovalToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents StoreBulkContractToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents StoreWestageEntryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PetBulkContractToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PetWestageentryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawBulkContractToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RawWestageEntryToolStripMenuItem As ToolStripMenuItem
 End Class

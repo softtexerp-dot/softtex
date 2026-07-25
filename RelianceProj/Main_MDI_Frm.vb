@@ -375,6 +375,29 @@
         RawIssuetoDepartmentApproval.Show()
     End Sub
 
+    Private Sub StoreBulkContractToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StoreBulkContractToolStripMenuItem.Click
+        StoreBulkcontract.Show()
+    End Sub
+
+    Private Sub StoreWestageEntryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StoreWestageEntryToolStripMenuItem.Click
+        StoreWestageEntry.Show()
+    End Sub
+
+    Private Sub PetBulkContractToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetBulkContractToolStripMenuItem.Click
+        PetBulkContract.Show()
+    End Sub
+
+    Private Sub PetWestageentryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PetWestageentryToolStripMenuItem.Click
+        PetWestageEntry.Show()
+    End Sub
+
+    Private Sub RawBulkContractToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawBulkContractToolStripMenuItem.Click
+        RawBulkContract.Show()
+    End Sub
+
+    Private Sub RawWestageEntryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RawWestageEntryToolStripMenuItem.Click
+        RawWestageEntry.Show()
+    End Sub
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()
