@@ -537,7 +537,7 @@ Public Class StoreWestageEntry
 
 
         txtBookCode.Text = "0001-000010024"
-        _BookTrType = "WSE01"
+        _BookTrType = "STP23"
         _BookCode = txtBookCode.Text
         BtnOpen.Visible = False
         BtnView1.Visible = False

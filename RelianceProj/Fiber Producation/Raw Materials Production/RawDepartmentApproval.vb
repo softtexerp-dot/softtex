@@ -161,7 +161,7 @@ Public Class RawDepartmentApproval
             .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS F_ENTRYDATE,  ")
             .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
             .Append(" H.TYPE_NAME  AS COMPANYNAME ")
-            .Append(" ,CASE WHEN K.NetRate IS NULL THEN B.Purchase_rate ELSE K.NetRate END AS LastPurchaseRate")
+            .Append(" ,CASE WHEN isnull(K.NetRate,0)=0 THEN B.Purchase_rate ELSE K.NetRate END AS LastPurchaseRate")
             .Append(" ,IIF(ISNULL(G.USEBOOKVNO,'')='','NO','YES') AS USEBY")
             .Append(" FROM  ")
             .Append(" TrnPackingSlip AS A  ")

@@ -537,7 +537,7 @@ Public Class StoreBulkcontract
 
 
         txtBookCode.Text = "0001-000010023"
-        _BookTrType = "SBC01"
+        _BookTrType = "STP23"
         _BookCode = txtBookCode.Text
         BtnOpen.Visible = False
         BtnView1.Visible = False

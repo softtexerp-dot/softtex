@@ -109,7 +109,7 @@ Public Class HeadApproval
                 .Append(" FORMAT(A.ENTRYDATE,'yyyy-MM-dd HH:mm:ss.fff') AS F_ENTRYDATE,  ")
                 .Append(" FORMAT(A.MODYFIDATE,'yyyy-MM-dd HH:mm:ss.fff') AS MODYFIDATE,  ")
                 .Append(" H.TYPE_NAME  AS COMPANYNAME ")
-                .Append(" ,CASE WHEN K.NetRate IS NULL THEN B.Purchase_rate ELSE K.NetRate END AS LastPurchaseRate")
+                .Append(" ,CASE WHEN isnull(K.NetRate,0)=0 THEN B.Purchase_rate ELSE K.NetRate END AS LastPurchaseRate")
                 .Append(" ,IIF(ISNULL(G.USEBOOKVNO,'')='','NO','YES') AS USEBY,")
                 .Append(" CASE WHEN ISDATE(A.OP25) = 1 THEN CONVERT(VARCHAR(10), CAST(A.OP25 AS DATETIME), 103)  ELSE '' END AS OP25,")  'Head Approval Date
                 .Append("  CASE WHEN UPPER(A.OP24) = 'YES' THEN 'YES' ELSE 'NO' END AS Status2") 'Head Approval Status
