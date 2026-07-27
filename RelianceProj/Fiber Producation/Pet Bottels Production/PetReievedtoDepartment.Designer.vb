@@ -46,7 +46,7 @@ Partial Class PetRecievedtoDepartment
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
@@ -751,7 +751,7 @@ Partial Class PetRecievedtoDepartment
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetRecievedtoDepartment"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Recieved To Machine"
+        Me.Text = "Consumables Recieved To Machine"
         Me.PNL_View.ResumeLayout(False)
         Me.PNL_View.PerformLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()

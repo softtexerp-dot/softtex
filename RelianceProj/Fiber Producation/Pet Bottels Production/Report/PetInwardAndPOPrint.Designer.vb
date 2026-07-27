@@ -343,7 +343,7 @@ Partial Class PetInwardAndPOPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 89
-        Me.Label1.Text = "Pet Inward and PO Report"
+        Me.Label1.Text = "Consumables Inward and PO Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetInwardAndPOPrint
@@ -375,7 +375,7 @@ Partial Class PetInwardAndPOPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetInwardAndPOPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Inward And PO Print"
+        Me.Text = "Consumables Inward And PO Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

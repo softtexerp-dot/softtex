@@ -343,7 +343,7 @@ Partial Class PetComparisonPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 72
-        Me.Label1.Text = "Pet Comparison Entry Report"
+        Me.Label1.Text = "Consumables Comparison Entry Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetComparisonPrint
@@ -375,7 +375,7 @@ Partial Class PetComparisonPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetComparisonPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Comparison Print"
+        Me.Text = "Consumables Comparison Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

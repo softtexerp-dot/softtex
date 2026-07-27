@@ -343,7 +343,7 @@ Partial Class PetIssueDepartmentPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 72
-        Me.Label1.Text = "Pet Issue To Machine Report"
+        Me.Label1.Text = "Consumables Issue To Machine Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetIssueDepartmentPrint
@@ -375,7 +375,7 @@ Partial Class PetIssueDepartmentPrint
         Me.Margin = New System.Windows.Forms.Padding(5, 4, 5, 4)
         Me.Name = "PetIssueDepartmentPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Issue Machine Print"
+        Me.Text = "Consumables Issue Machine Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

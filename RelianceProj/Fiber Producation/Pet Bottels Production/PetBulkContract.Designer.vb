@@ -1309,7 +1309,7 @@ Partial Class PetBulkContract
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetBulkContract"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Bulk Contract Entry"
+        Me.Text = "Consumables Bulk Contract Entry"
         Me.PNL_View.ResumeLayout(False)
         Me.PNL_View.PerformLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()

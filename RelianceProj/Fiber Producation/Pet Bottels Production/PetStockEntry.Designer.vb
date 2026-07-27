@@ -36,7 +36,7 @@ Partial Class PetStockEntry
         Me.txtChallanNo = New ctl_TextBox.ctl_TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.GrdItem = New FlexCell.Grid()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Total = New System.Windows.Forms.Label()
@@ -757,7 +757,7 @@ Partial Class PetStockEntry
         Me.Margin = New System.Windows.Forms.Padding(5, 4, 5, 4)
         Me.Name = "PetStockEntry"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Opening Stock Entry"
+        Me.Text = "Consumables Opening Stock Entry"
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()

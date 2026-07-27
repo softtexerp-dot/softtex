@@ -343,7 +343,7 @@ Partial Class PetPurchaseReturnPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 89
-        Me.Label1.Text = "Pet Purchase Return Report"
+        Me.Label1.Text = "Consumables Purchase Return Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetPurchaseReturnPrint
@@ -375,7 +375,7 @@ Partial Class PetPurchaseReturnPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetPurchaseReturnPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Purchase Return Print"
+        Me.Text = "Consumables Purchase Return Print"
         Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()

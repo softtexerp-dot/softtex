@@ -343,7 +343,7 @@ Partial Class PetwestageEntryPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 89
-        Me.Label1.Text = "Pet Westage Entry Report"
+        Me.Label1.Text = "Consumables Westage Entry Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetwestageEntryPrint
@@ -375,7 +375,7 @@ Partial Class PetwestageEntryPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetwestageEntryPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Westage Entry Print"
+        Me.Text = "Consumables Westage Entry Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

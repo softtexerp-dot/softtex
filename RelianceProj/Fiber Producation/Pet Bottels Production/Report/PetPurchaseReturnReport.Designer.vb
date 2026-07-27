@@ -275,7 +275,7 @@ Partial Class PetPurchaseReturnReport
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetPurchaseReturnReport"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Purchase Return Report"
+        Me.Text = "Consumables Purchase Return Report"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

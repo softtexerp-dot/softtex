@@ -343,7 +343,7 @@ Partial Class PetRecievedEntryPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 89
-        Me.Label1.Text = "Pet Recieved To Machine Report"
+        Me.Label1.Text = "Consumables Recieved To Machine Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetRecievedEntryPrint
@@ -375,7 +375,7 @@ Partial Class PetRecievedEntryPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetRecievedEntryPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Recieved To Machine Print"
+        Me.Text = "Consumables Recieved To Machine Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

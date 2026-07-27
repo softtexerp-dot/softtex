@@ -434,7 +434,7 @@ Partial Class PetQualityChecker
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetQualityChecker"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Quality Checker"
+        Me.Text = "Consumables Quality Checker"
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()

@@ -343,7 +343,7 @@ Partial Class PetIndentPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 89
-        Me.Label1.Text = "Pet Indent Report"
+        Me.Label1.Text = "Consumables Indent Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetIndentPrint
@@ -375,7 +375,7 @@ Partial Class PetIndentPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetIndentPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Indent Print"
+        Me.Text = "Consumables Indent Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

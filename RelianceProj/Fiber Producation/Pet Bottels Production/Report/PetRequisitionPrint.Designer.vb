@@ -343,7 +343,7 @@ Partial Class PetRequisitionPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(513, 26)
         Me.Label1.TabIndex = 40
-        Me.Label1.Text = "Pet Requisition Report"
+        Me.Label1.Text = "Consumables Requisition Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetRequisitionPrint
@@ -375,7 +375,7 @@ Partial Class PetRequisitionPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetRequisitionPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Requisition Print"
+        Me.Text = "Consumables Requisition Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

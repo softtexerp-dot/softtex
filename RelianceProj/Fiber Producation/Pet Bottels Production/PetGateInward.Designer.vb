@@ -1131,7 +1131,7 @@ Partial Class PetGateInward
         Me.Margin = New System.Windows.Forms.Padding(5, 4, 5, 4)
         Me.Name = "PetGateInward"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Gate Inward"
+        Me.Text = "Consumables Gate Inward"
         Me.PNL_View.ResumeLayout(False)
         Me.PNL_View.PerformLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()

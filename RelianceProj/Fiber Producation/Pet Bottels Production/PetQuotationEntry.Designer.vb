@@ -1379,7 +1379,7 @@ Partial Class PetQuotationEntry
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetQuotationEntry"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Quotation Entry"
+        Me.Text = "Consumables Quotation Entry"
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()

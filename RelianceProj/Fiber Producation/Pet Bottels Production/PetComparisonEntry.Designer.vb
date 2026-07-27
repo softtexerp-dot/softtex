@@ -72,7 +72,7 @@ Partial Class PetComparisonEntry
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.lbl_Grid_Header = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdItem = New FlexCell.Grid()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1050,7 +1050,7 @@ Partial Class PetComparisonEntry
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetComparisonEntry"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Comparison Entry"
+        Me.Text = "Consumables Comparison Entry"
         Me.PNL_View.ResumeLayout(False)
         Me.PNL_View.PerformLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()

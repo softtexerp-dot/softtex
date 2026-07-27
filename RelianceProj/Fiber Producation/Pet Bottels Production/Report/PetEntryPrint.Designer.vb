@@ -343,7 +343,7 @@ Partial Class PetEntryPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 72
-        Me.Label1.Text = "Pet Stock Entry Report"
+        Me.Label1.Text = "Consumables Stock Entry Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetEntryPrint
@@ -374,7 +374,7 @@ Partial Class PetEntryPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetEntryPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Stock Entry Print"
+        Me.Text = "Consumables Stock Entry Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

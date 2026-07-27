@@ -343,7 +343,7 @@ Partial Class PetGateInwardPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(540, 26)
         Me.Label1.TabIndex = 61
-        Me.Label1.Text = "Pet Gate Inward Report"
+        Me.Label1.Text = "Consumables Gate Inward Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetGateInwardPrint
@@ -375,7 +375,7 @@ Partial Class PetGateInwardPrint
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetGateInwardPrint"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Gate Inward Print"
+        Me.Text = "Consumables Gate Inward Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

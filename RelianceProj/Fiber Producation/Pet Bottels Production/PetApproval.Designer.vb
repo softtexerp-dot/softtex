@@ -434,7 +434,7 @@ Partial Class PetApproval
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetApproval"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Pet Approval By Plant Head"
+        Me.Text = "Consumables Approval By Plant Head"
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()

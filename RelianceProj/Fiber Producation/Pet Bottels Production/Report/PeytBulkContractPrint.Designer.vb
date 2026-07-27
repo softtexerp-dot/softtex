@@ -343,7 +343,7 @@ Partial Class PetBulkContractPrint
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(515, 26)
         Me.Label1.TabIndex = 72
-        Me.Label1.Text = "Pet Bulk Contract Entry Report"
+        Me.Label1.Text = "Consumables Bulk Contract Entry Report"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'PetBulkContractPrint
@@ -374,7 +374,8 @@ Partial Class PetBulkContractPrint
         Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "PetBulkContractPrint"
-        Me.Text = "Pet Bulk Contract Print"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Consumables Bulk Contract Print"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
