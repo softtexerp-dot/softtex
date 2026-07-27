@@ -124,6 +124,9 @@ Public Class GateInward
             .Append("WEIGHT,") 'dis amount
             .Append("RATE,")
             .Append("AMOUNT,")
+            .Append("AVG_WEIGHT,")
+            .Append("CDVALUE,")
+            .Append("BALE_WEIGHT,")
             .Append("ROWREMARK,")
             .Append("PIECE_ID,")
             .Append("SHADECODE,") 'companycode
@@ -161,7 +164,10 @@ Public Class GateInward
             .Append("RATE:N,")
             .Append("RDVALUE:N,")
             .Append("PIECE_ID:N,")
-            .Append("AMOUNT:N")
+            .Append("AMOUNT:N,")
+            .Append("AVG_WEIGHT:N,")
+            .Append("CDVALUE:N,")
+            .Append("BALE_WEIGHT:N")
         End With
 
         _GridColValidate = New StringBuilder
@@ -188,11 +194,14 @@ Public Class GateInward
             .Append("COLORNAME:Color,")
             .Append("DESCR:Descr,")
             .Append("MTR_WEIGHT:Qty,")
-            .Append("CUT_MTR:Gross Weight,")
-            .Append("RATE:Net Weight,")
+            .Append("CUT_MTR:Gross Rate,")
+            .Append("RATE:Net Rate,")
             .Append("RDVALUE:Dis%,")
             .Append("WEIGHT:Dis Amt,")
-            .Append("AMOUNT:Difference,")
+            .Append("AMOUNT:Amount,")
+            .Append("AVG_WEIGHT:Gross Weight,")
+            .Append("CDVALUE:Net Weight,")
+            .Append("BALE_WEIGHT:Difference,")
             .Append("OP11:Gst,") 'gst
             .Append("OP12:Fright,") 'Fright
             .Append("OP13:Delivery,")  'Delivery
@@ -218,6 +227,9 @@ Public Class GateInward
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("AVG_WEIGHT:R,")
+            .Append("CDVALUE:R,")
+            .Append("BALE_WEIGHT:R,")
             .Append("OP11:L,") 'gst
             .Append("OP12:L,") 'Fright
             .Append("OP13:L,")  'Delivery
@@ -244,6 +256,9 @@ Public Class GateInward
             .Append("MTR_WEIGHT:R,")
             .Append("RATE:R,")
             .Append("AMOUNT:R,")
+            .Append("AVG_WEIGHT:R,")
+            .Append("CDVALUE:R,")
+            .Append("BALE_WEIGHT:R,")
             .Append("OP11:L,") 'gst
             .Append("OP12:L,") 'Fright
             .Append("OP13:L,")  'Delivery
@@ -271,7 +286,7 @@ Public Class GateInward
             .Append("DESPATCHCODE:N,")
             .Append("ACOFCODE:N,")
             .Append("SHADECODE:N,")
-            .Append("CUT_MTR:Y,")
+            .Append("CUT_MTR:N,")
             .Append("SRNO:Y,")
             .Append("ITEMNAME:Y,")
             .Append("ITEMCODE:N,")
@@ -288,8 +303,11 @@ Public Class GateInward
             .Append("CUTCODE:N,")
             .Append("PIECE_ID:N,")
             .Append("MTR_WEIGHT:Y,")
-            .Append("RATE:Y,")
-            .Append("AMOUNT:Y,")
+            .Append("RATE:N,")
+            .Append("AMOUNT:N,")
+            .Append("AVG_WEIGHT:Y,")
+            .Append("CDVALUE:Y,")
+            .Append("BALE_WEIGHT:Y,")
             .Append("USEBY:N,")
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,") 'GodownCode
@@ -345,7 +363,10 @@ Public Class GateInward
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("ROWREMARK:42")
+            .Append("AVG_WEIGHT:10,")
+            .Append("CDVALUE:8,")
+            .Append("BALE_WEIGHT:8,")
+            .Append("ROWREMARK:18")
         End With
 
         _FieldDefaultValues = New StringBuilder
@@ -358,23 +379,30 @@ Public Class GateInward
             .Append("WEIGHT:0,")
             .Append("PIECE_ID:0,")
             .Append("OP19:NO,") 'Approve status
-            .Append("AMOUNT:0")
+            .Append("AMOUNT:0,")
+            .Append("AVG_WEIGHT:0,")
+            .Append("CDVALUE:0,")
+            .Append("BALE_WEIGHT:0")
         End With
         _FieldLocked = New StringBuilder
         With _FieldLocked
             .Append("SRNO:Y,")
             '.Append("MTR_WEIGHT:Y,")
-            .Append("AMOUNT:Y")
+            '.Append("AMOUNT:Y")
+            .Append("BALE_WEIGHT:Y")
         End With
 
         _FieldMasking = New StringBuilder
         With _FieldMasking
             .Append("MTR_WEIGHT:NO-2,")
-            .Append("RATE:NO-3,")
+            .Append("RATE:NO-2,")
             .Append("RDVALUE:NO-2,")
             .Append("WEIGHT:NO-2,")
-            .Append("CUT_MTR:NO-3,")
-            .Append("AMOUNT:NO-3")
+            .Append("CUT_MTR:NO-2,")
+            .Append("AMOUNT:NO-2,")
+            .Append("AVG_WEIGHT:NO-3,")
+            .Append("CDVALUE:NO-3,")
+            .Append("BALE_WEIGHT:NO-3")
         End With
 
         With _FieldNameSameValueCopy
@@ -1622,7 +1650,7 @@ Public Class GateInward
         If _ActivatedColName = "TAX_PER" Then
             'MsgBox("GOPAL")
         End If
-        If _ActivatedColName = "QTY" Or _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "AMOUNT" Then
+        If _ActivatedColName = "QTY" Or _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "AMOUNT" Or _ActivatedColName = "CDVALUE" Then
             Calc_Net_Rate()
         End If
     End Sub
@@ -1678,29 +1706,25 @@ Public Class GateInward
     End Sub
 
     Private Sub Calc_Net_Rate()
-        'Dim Commu_Net_Rate As Double = 0
-        'Dim GROSS_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
-        'Dim TAX_PER As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
-        'Dim QTY As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
-
-        'Dim AMOUNT As Double = Math.Round(QTY * GROSS_RATE, 2, MidpointRounding.AwayFromZero)
-        'Dim _GstTAxAmt As Double = AMOUNT * TAX_PER / 100
-        'AMOUNT = AMOUNT + _GstTAxAmt
-        'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = AMOUNT
-        'Call Total_Upto_All_Grid_All_Row()
         Dim Commu_Net_Rate As Double = 0
-        Dim Gross_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CUT_MTR") + 1).Text)
-        Dim Net_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
+        Dim GROSS_RATE As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RATE") + 1).Text)
         Dim TAX_PER As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("RDVALUE") + 1).Text)
         Dim QTY As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("MTR_WEIGHT") + 1).Text)
 
-        'Dim AMOUNT As Double = Math.Round(QTY - GROSS_RATE, 2, MidpointRounding.AwayFromZero)
-        Dim AMOUNT As Double = Math.Round(Gross_RATE - Net_RATE, 3, MidpointRounding.AwayFromZero)
-        If AMOUNT < 0 Then
+        Dim AMOUNT As Double = Math.Round(QTY * GROSS_RATE, 2, MidpointRounding.AwayFromZero)
+        Dim _GstTAxAmt As Double = AMOUNT * TAX_PER / 100
+        AMOUNT = AMOUNT + _GstTAxAmt
+        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = AMOUNT
+        'Call Total_Upto_All_Grid_All_Row()
+
+        Dim Gross_Weight As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text)
+        Dim Net_Weight As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("CDVALUE") + 1).Text)
+        Dim Difference As Double = Math.Round(Gross_Weight - Net_Weight, 3, MidpointRounding.AwayFromZero)
+        If Difference < 0 Then
             MessageBox.Show("Negative difference is not permitted. The difference has been automatically set to 0.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            AMOUNT = 0
+            Difference = 0
         End If
-        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = AMOUNT.ToString("0.000")
+        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("BALE_WEIGHT") + 1).Text = Difference.ToString("0.000")
         Call Total_Upto_All_Grid_All_Row()
     End Sub
 

@@ -3125,23 +3125,23 @@ Public Class RawPurchaseOrder
             End If
             txt_Name_For_Grid_Selection.Text = ""
         ElseIf _ActivatedColName = "ITEMGROUPNAME" Then
-            If e.KeyCode = Keys.Enter Then
-                txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMGROUPNAME") + 1).Text
-                txt_Code_For_Grid_Selection.Text = ""
-                Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
-                obj_Party_Selection.SINGLE_StoreItemGroup_SELECTION()
-                If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                    txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
-                    txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
+            'If e.KeyCode = Keys.Enter Then
+            '    txt_Name_For_Grid_Selection.Text = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMGROUPNAME") + 1).Text
+            '    txt_Code_For_Grid_Selection.Text = ""
+            '    Party_selection.txtSearch.Text = txt_Name_For_Grid_Selection.Text
+            '    obj_Party_Selection.SINGLE_StoreItemGroup_SELECTION()
+            '    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+            '        txt_Name_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_1_DATA
+            '        txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
 
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMGROUPNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMGROUPCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
-                    If txt_Name_For_Grid_Selection.Text <> "" Then
-                        'SendKeys.Send("{ENTER}")
-                    End If
-                End If
-            End If
-            txt_Name_For_Grid_Selection.Text = ""
+            '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMGROUPNAME") + 1).Text = txt_Name_For_Grid_Selection.Text
+            '        GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("ITEMGROUPCODE") + 1).Text = txt_Code_For_Grid_Selection.Text
+            '        If txt_Name_For_Grid_Selection.Text <> "" Then
+            '            'SendKeys.Send("{ENTER}")
+            '        End If
+            '    End If
+            'End If
+            'txt_Name_For_Grid_Selection.Text = ""
 
         ElseIf _ActivatedColName = "LOTNO" Then
             If e.KeyCode = Keys.Space Then
