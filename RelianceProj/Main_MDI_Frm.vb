@@ -399,6 +399,10 @@
         RawWestageEntry.Show()
     End Sub
 
+    Private Sub BookMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BookMasterToolStripMenuItem.Click
+        BookMaster.Show()
+    End Sub
+
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()
     'End Sub
