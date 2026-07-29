@@ -9,12 +9,12 @@ Public Class BookMaster
     Private WithEvents txt_Sale_Purc_Code As New TextBox
     Private _ColNames As New StringBuilder
     Private FieldNameAndValues(1) As String
-    Private tblFormValues As New DataTable
+    Private tblFormValues1 As New DataTable
     Private _ErrorValue As String = ""
     Private _FORMMODE As String = ""
     Private _KeyFieldValue As String = ""
-    Private _KeyFieldName As String = "BOOKID"
-    Private _TblName As String = "MstBook"
+    Private _KeyFieldName As String = "BookId"
+    'Private _TblName As String = "MstBook"
     Private _FrmLoad As Boolean = False
     Private WithEvents txtAlter_code As New TextBox
     Private WithEvents txtAlter_Name As New TextBox
@@ -47,16 +47,16 @@ Public Class BookMaster
         _strQuery = New StringBuilder
         With _strQuery
             .Append(" SELECT A.* ")
-            .Append(" FROM " & _TblName & " A WHERE 1=1 AND " & _KeyFieldName & " =" & strKeyID & "")
+            .Append(" FROM MstBook A WHERE 1=1 AND " & _KeyFieldName & " =" & strKeyID & "")
         End With
         Return _strQuery.ToString
     End Function
     Private Function getSaveQuery()
         _strQuery = New StringBuilder
         If _FORMMODE = "ADD" Then
-            _strQuery.Append(" INSERT INTO " & _TblName & "(" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
+            _strQuery.Append(" INSERT INTO MstBook (" & FieldNameAndValues(0) & ")  VALUES  (" & FieldNameAndValues(1) & ")")
         ElseIf _FORMMODE = "EDIT" Then
-            _strQuery.Append(" UPDATE " & _TblName & " SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
+            _strQuery.Append(" UPDATE MstBook SET " & FieldNameAndValues(1) & " WHERE " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
         End If
         getSaveQuery = _strQuery.ToString
     End Function
@@ -67,39 +67,40 @@ Public Class BookMaster
     Private Sub defineColName()
         With _ColNames
             .Append("BookId")
-            .Append(" ,BookCode ")
-            .Append(" ,BookTrType ")
-            .Append(" ,BookName ")
-            .Append(" ,NATURE ")
-            .Append(" ,BEHAVIOUR ")
-            .Append(" ,alies ")
-            .Append(" ,BOOKCATEGORY ")
-            .Append(" ,ROW_FOR_DETAIL_PLAIN")
-            .Append(" ,ROW_FOR_DETAIL_PRINTED ")
-            .Append(" ,ON_LINE_PRINTING ")
-            .Append(" ,DRCR ")
-            .Append(" ,BOOKORDER ")
-            .Append(" ,DisplayForm ")
-            .Append(" ,RCPT_ISSUE ")
-            .Append(" ,RptFileName_Plain")
-            .Append(" ,Group_Code_Filter_String ")
-            .Append(" ,REPORT_TITLE ")
-            .Append(" ,IDP ")
-            .Append(" ,DESIGN_SHADE_REQUIRED ")
-            .Append(" ,USE_FOR_YARN_STOCK ")
-            .Append(" ,USE_FOR_FINISH_STOCK ")
-            .Append(" ,GRADING_DESPATCH_BOOK ")
-            .Append(" ,STK_FILTER_STRING ")
-            .Append(" ,BookPreFix ")
-            .Append(" ,UseChallan ")
-            .Append(" ,ACTIVE_STATUS ")
+            .Append(",BookCode")
+            .Append(",BookTrType")
+            .Append(",BookName")
+            .Append(",NATURE")
+            .Append(",BEHAVIOUR")
+            .Append(",alies")
+            .Append(",BOOKCATEGORY")
+            .Append(",ROW_FOR_DETAIL_PLAIN")
+            .Append(",ROW_FOR_DETAIL_PRINTED")
+            .Append(",ON_LINE_PRINTING")
+            .Append(",DRCR")
+            .Append(",BOOKORDER")
+            .Append(",DisplayForm")
+            .Append(",RCPT_ISSUE")
+            .Append(",RptFileName_Plain")
+            .Append(",RptFileName_Printed")
+            .Append(",Group_Code_Filter_String")
+            .Append(",REPORT_TITLE")
+            .Append(",IDP")
+            .Append(",DESIGN_SHADE_REQUIRED")
+            .Append(",USE_FOR_YARN_STOCK")
+            .Append(",USE_FOR_FINISH_STOCK")
+            .Append(",GRADING_DESPATCH_BOOK")
+            .Append(",STK_FILTER_STRING")
+            .Append(",BookPreFix")
+            .Append(",UseChallan")
+            .Append(",ACTIVE_STATUS")
         End With
     End Sub
 #End Region
 
 #Region "FORM EVENTS"
     Private Sub MenuFormAdd_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
+        '_SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
         Me.KeyPreview = True
         Me.Location = New Point(0, 0)
         _FrmLoad = True
@@ -115,7 +116,7 @@ Public Class BookMaster
         Me.Location = New Point(x, y)
         _FrmLoad = True
         Call defineColName()
-        ObjCls_General.CreateDataTable(tblFormValues, _ColNames.ToString, "YES")
+        ObjCls_General.CreateDataTable(tblFormValues1, _ColNames.ToString, "YES")
         old_Me_text = Me.Text
         Ctrl_Visible_False(Me.Controls)
         _FrmLoad = False
@@ -180,7 +181,7 @@ Public Class BookMaster
     Private Sub _GetMaxId()
         Dim LASTCODE As String = ""
         Dim BookCode As String = ""
-        RS = "SELECT TOP 1  * FROM " & _TblName & "  ORDER BY " & _KeyFieldName & " DESC"
+        RS = "SELECT TOP 1  * FROM MstBook  ORDER BY " & _KeyFieldName & " DESC"
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId") + 1
@@ -193,7 +194,10 @@ Public Class BookMaster
         End If
         BookCode = "0001" & "-" & Txt_BookId.Text.PadLeft(9, "0")
         Txt_BookCode.Text = BookCode
-        txttrtype.Text = txttrtype.Text & Txt_BookId.Text
+        ''txttrtype.Text = txttrtype.Text & Txt_BookId.Text
+        'If Not txttrtype.Text.EndsWith(Txt_BookId.Text) Then
+        '    txttrtype.Text &= Txt_BookId.Text
+        'End If
     End Sub
 
 #Region "ALTER FORM METHOD"
@@ -204,15 +208,41 @@ Public Class BookMaster
         RS = getAlter_Form_Query(strKeyID)
         MenuDesign_QueryLoad()
         tblTmp = DefaltSoftTable.Copy
-        tblFormValues.Rows.Clear()
+        tblFormValues1.Rows.Clear()
         For Each dr As DataRow In tblTmp.Rows
-            tblFormValues.ImportRow(dr)
+            tblFormValues1.ImportRow(dr)
         Next
 
-        ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblFormValues)
-        'Txt_MenuShortCutKey.Text = tblFormValues.Rows(0)("MenuType")
-
+        ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblFormValues1)
+        'Txt_BookCode.Text = tblFormValues1.Rows(0)("BookCode")
+        'txttrtype.Text = tblFormValues1.Rows(0)("BookTrType")
+        'Txt_BookName.Text = tblFormValues1.Rows(0)("BookName")
+        'txtnature.Text = tblFormValues1.Rows(0)("Nature")
+        'Txt_Behaviour.Text = tblFormValues1.Rows(0)("Behaviour")
+        'Txt_Alies.Text = tblFormValues1.Rows(0)("alies")
+        'Txt_Bookcategory.Text = tblFormValues1.Rows(0)("BOOKCATEGORY")
+        'Txt_RcptIssue.Text = tblFormValues1.Rows(0)("RCPT_ISSUE")
+        'Txt_RptFileNamePlain.Text = tblFormValues1.Rows(0)("BookName")
+        'txtGroupCode.Text = tblFormValues1.Rows(0)("Group_Code_Filter_String")
+        'txtReportTitle.Text = tblFormValues1.Rows(0)("REPORT_TITLE")
+        'txtUseChallan.Text = tblFormValues1.Rows(0)("UseChallan")
+        'Txt_MenuActive.Text = tblFormValues1.Rows(0)("ACTIVE_STATUS")
         If tblTmp.Rows.Count > 0 Then
+            Txt_BookId.Focus()
+            Txt_BookId.Text = tblTmp.Rows(0)("BookId")
+            Txt_BookCode.Text = tblTmp.Rows(0)("BookCode")
+            txttrtype.Text = tblTmp.Rows(0)("BookTrType")
+            Txt_BookName.Text = tblTmp.Rows(0)("BookName")
+            txtnature.Text = tblTmp.Rows(0)("Nature")
+            Txt_Behaviour.Text = tblTmp.Rows(0)("Behaviour")
+            Txt_Alies.Text = tblTmp.Rows(0)("alies")
+            Txt_Bookcategory.Text = tblTmp.Rows(0)("BOOKCATEGORY")
+            Txt_RcptIssue.Text = tblTmp.Rows(0)("RCPT_ISSUE")
+            Txt_RptFileNamePlain.Text = tblTmp.Rows(0)("BookName")
+            txtGroupCode.Text = tblTmp.Rows(0)("Group_Code_Filter_String")
+            txtReportTitle.Text = tblTmp.Rows(0)("REPORT_TITLE")
+            txtUseChallan.Text = tblTmp.Rows(0)("UseChallan")
+            Txt_MenuActive.Text = tblTmp.Rows(0)("ACTIVE_STATUS")
             If tblTmp.Rows.Count = 0 Then
                 ObjCls_General.Blank_Object(Me)
                 Txt_MenuActive.Text = "YES"
@@ -228,7 +258,7 @@ Public Class BookMaster
         Dim _entryNo As Integer = 0
         _strQuery = New StringBuilder
         With _strQuery
-            .Append("DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
+            .Append("DELETE FROM MstBook WHERE " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
         End With
         RS = _strQuery.ToString
         MenuDesign_QueryLoad()
@@ -253,21 +283,16 @@ Public Class BookMaster
     Private Sub _MenuPositiomset()
         If _FORMMODE = "ADD" Then
             If Txt_BookId.Text.Trim > "" Then
-                'RS = "SELECT TOP 1 A.MenuOrderNo  FROM MenuName AS A WHERE A.MenuPositionId=" & Txt_UnderMenuPositionId.Text & " ORDER BY A.MenuPositionId DESC "
-                RS = "SELECT Max(A.BookId) As BookId FROM " & _TblName & " AS A WHERE 1=1 order by BookId desc "
+                RS = "SELECT Max(A.BookId) As BookId FROM MstBook AS A WHERE 1=1 order by BookId desc "
                 MenuDesign_QueryLoad()
                 If DefaltSoftTable.Rows.Count > 0 AndAlso Not IsDBNull(DefaltSoftTable.Rows(0)("BookId")) AndAlso Val(DefaltSoftTable.Rows(0)("BookId")) > 0 Then
                     Txt_BookId.Text = Val(DefaltSoftTable.Rows(0)("BookId")) + 1
-
                 Else
                     Txt_BookId.Text = 1
                 End If
             End If
         End If
     End Sub
-
-
-
 #End Region
 
 #Region "Button Click"
@@ -279,7 +304,6 @@ Public Class BookMaster
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
             Last_Focused_Btn = "ADD"
-            'Call Command_Button_Visibility("BTNADD")
             Call Ctrl_Visible_True(Me.Controls)
             txtUseChallan.Text = "NO"
             Txt_MenuActive.Text = "NO"
@@ -297,17 +321,11 @@ Public Class BookMaster
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "EDIT" Then
-            '_GetMaxId()
-            'Txt_MenuType.Text = "SUB MENU"
-            'Txt_MenuActive.Text = "NO"
-            'Txt_MenuSepartor.Text = "False"
-            RS = "SELECT TOP 1  * FROM " & _TblName & " ORDER BY " & _KeyFieldName & " DESC"
+            RS = "SELECT TOP 1  * FROM MstBook ORDER BY " & _KeyFieldName & " DESC"
             MenuDesign_QueryLoad()
             If DefaltSoftTable.Rows.Count > 0 Then
                 Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId")
                 _KeyFieldValue = Txt_BookId.Text
-                'Else
-                '    Txt_MenuId.Text = 1
             End If
             Call ALTER_FORM(Txt_BookId.Text)
         End If
@@ -348,9 +366,9 @@ Public Class BookMaster
         Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
             If Txt_BookId.Text = "" Then
-                RS = "SELECT TOP 1  * FROM " & _TblName & " ORDER BY " & _KeyFieldName & " DESC"
+                RS = "SELECT TOP 1  * FROM MstBook ORDER BY " & _KeyFieldName & " DESC"
             Else
-                RS = "SELECT TOP 1  * FROM " & _TblName & "  where " & _KeyFieldName & "=" & Txt_BookId.Text & " ORDER BY " & _KeyFieldName & " DESC"
+                RS = "SELECT TOP 1  * FROM MstBook  where " & _KeyFieldName & "=" & Txt_BookId.Text & " ORDER BY " & _KeyFieldName & " DESC"
             End If
             MenuDesign_QueryLoad()
             If DefaltSoftTable.Rows.Count > 0 Then
@@ -371,7 +389,7 @@ Public Class BookMaster
         _FormCloseMode = False
         Call Ctrl_Visible_True(Me.Controls)
         If _FORMMODE = "EDIT" Then
-            RS = "SELECT TOP 1  * FROM " & _TblName & " where " & _KeyFieldName & "=" & Txt_BookId.Text & "  ORDER BY " & _KeyFieldName & " DESC"
+            RS = "SELECT TOP 1  * FROM MstBook where " & _KeyFieldName & "=" & Txt_BookId.Text & "  ORDER BY " & _KeyFieldName & " DESC"
             MenuDesign_QueryLoad()
             If DefaltSoftTable.Rows.Count > 0 Then
                 Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId")
@@ -398,45 +416,42 @@ Public Class BookMaster
                 LASTCODE = "1"
             End If
         Else
-            'LASTCODE = DefaltSoftTable.Rows(0)("MainId")
             LASTCODE = Txt_BookId.Text
             _KeyFieldValue = LASTCODE
-
         End If
         BookCode = "0001" & "-" & LASTCODE.PadLeft(9, "0")
-        tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
+        tblFormValues1.Rows(0)(_KeyFieldName) = LASTCODE
         Dim txtmenuname As String = Txt_BookName.Text.Trim().ToLower()
         Dim properText As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmenuname)
         Txt_BookCode.Text = BookCode
-        tblFormValues.Rows(0)("BookTrType") = txttrtype.Text & LASTCODE
-        tblFormValues.Rows(0)("BookCode") = Txt_BookCode.Text
-        tblFormValues.Rows(0)("BookName") = properText.Replace("'", "''")
-        tblFormValues.Rows(0)("NATURE") = Val(txtnature.Text)
-        tblFormValues.Rows(0)("BEHAVIOUR") = Txt_Behaviour.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("alies") = Txt_Alies.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("BOOKCATEGORY") = Txt_Bookcategory.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("ROW_FOR_DETAIL_PLAIN") = "15"
-        tblFormValues.Rows(0)("ROW_FOR_DETAIL_PRINTED") = "15"
-        tblFormValues.Rows(0)("ON_LINE_PRINTING") = "NO"
-        tblFormValues.Rows(0)("DRCR") = ""
-        tblFormValues.Rows(0)("BOOKORDER") = "0"
-        tblFormValues.Rows(0)("DisplayForm") = ""
-
-        tblFormValues.Rows(0)("RCPT_ISSUE") = Txt_RcptIssue.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("RptFileName_Plain") = Txt_RptFileNamePlain.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("RptFileName_Printed") = Txt_RptFileNamePlain.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("Group_Code_Filter_String") = txtGroupCode.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("REPORT_TITLE") = txtReportTitle.Text.Replace("'", "''")
-        tblFormValues.Rows(0)("IDP") = ""
-        tblFormValues.Rows(0)("DESIGN_SHADE_REQUIRED") = "CURRENT DATE"
-        tblFormValues.Rows(0)("USE_FOR_YARN_STOCK") = ""
-        tblFormValues.Rows(0)("USE_FOR_FINISH_STOCK") = ""
-        tblFormValues.Rows(0)("GRADING_DESPATCH_BOOK") = ""
-        tblFormValues.Rows(0)("STK_FILTER_STRING") = ""
-        tblFormValues.Rows(0)("BookPreFix") = ""
-        tblFormValues.Rows(0)("UseChallan") = txtUseChallan.Text
-        tblFormValues.Rows(0)("ACTIVE_STATUS") = Txt_MenuActive.Text
-        ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
+        tblFormValues1.Rows(0)("BookTrType") = txttrtype.Text
+        tblFormValues1.Rows(0)("BookCode") = Txt_BookCode.Text
+        tblFormValues1.Rows(0)("BookName") = properText.Replace("'", "''")
+        tblFormValues1.Rows(0)("NATURE") = txtnature.Text
+        tblFormValues1.Rows(0)("BEHAVIOUR") = Txt_Behaviour.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("alies") = Txt_Alies.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("BOOKCATEGORY") = Txt_Bookcategory.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("ROW_FOR_DETAIL_PLAIN") = "15"
+        tblFormValues1.Rows(0)("ROW_FOR_DETAIL_PRINTED") = "15"
+        tblFormValues1.Rows(0)("ON_LINE_PRINTING") = "NO"
+        tblFormValues1.Rows(0)("DRCR") = ""
+        tblFormValues1.Rows(0)("BOOKORDER") = "0"
+        tblFormValues1.Rows(0)("DisplayForm") = ""
+        tblFormValues1.Rows(0)("RCPT_ISSUE") = Txt_RcptIssue.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("RptFileName_Plain") = Txt_RptFileNamePlain.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("RptFileName_Printed") = Txt_RptFileNamePlain.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("Group_Code_Filter_String") = txtGroupCode.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("REPORT_TITLE") = txtReportTitle.Text.Replace("'", "''")
+        tblFormValues1.Rows(0)("IDP") = ""
+        tblFormValues1.Rows(0)("DESIGN_SHADE_REQUIRED") = "CURRENT DATE"
+        tblFormValues1.Rows(0)("USE_FOR_YARN_STOCK") = ""
+        tblFormValues1.Rows(0)("USE_FOR_FINISH_STOCK") = ""
+        tblFormValues1.Rows(0)("GRADING_DESPATCH_BOOK") = ""
+        tblFormValues1.Rows(0)("STK_FILTER_STRING") = ""
+        tblFormValues1.Rows(0)("BookPreFix") = ""
+        tblFormValues1.Rows(0)("UseChallan") = txtUseChallan.Text
+        tblFormValues1.Rows(0)("ACTIVE_STATUS") = Txt_MenuActive.Text
+        ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues1, FieldNameAndValues)
         SaveQuery = getSaveQuery()
         RS = SaveQuery.ToString
         MenuDesign_QuerySaveUpdateDelete()
@@ -534,8 +549,7 @@ Public Class BookMaster
 
 #End Region
     Private Sub View_Record()
-        'RS = "SELECT MenuName.MainId, MenuName.MenuName, MenuName.MenuPositionId, MenuName.MainMenuPositionId, MenuName.MenuOrderNo, MenuName.ActiveStatus, MenuName.MenuPosition, MenuName.MainMenuName, MenuName.SelectedFormName, MenuName.ShortCutKey, MenuName.MenuType FROM " & _TblName & " ORDER BY " & _TblName & "." & _KeyFieldName & ";"
-        RS = "SELECT * FROM " & _TblName & " where 1=1 ORDER BY " & _KeyFieldName & " ASC"
+        RS = "SELECT * FROM MstBook where 1=1 ORDER BY " & _KeyFieldName & " ASC"
         MenuDesign_QueryLoad()
         Dim tblTmp As DataTable
         tblTmp = DefaltSoftTable.Copy
@@ -568,6 +582,14 @@ Public Class BookMaster
 
             ' Step 2: Sirf required columns editable
             FirstStage.Columns("BookName").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("NATURE").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("BEHAVIOUR").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("alies").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("BOOKCATEGORY").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("RCPT_ISSUE").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("RptFileName_Plain").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("Group_Code_Filter_String").OptionsColumn.AllowEdit = True
+            FirstStage.Columns("REPORT_TITLE").OptionsColumn.AllowEdit = True
             DevGridFitColumn(GridControl1, FirstStage)
             PnlGrdView.Visible = True
 
@@ -595,6 +617,15 @@ Public Class BookMaster
 
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
         If e.KeyCode = Keys.Space Then
+            If FirstStage.FocusedColumn.FieldName = "UseChallan" Then
+                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("UseChallan").ToString().ToUpper()
+                If currentValue = "YES" Then
+                    FirstStage.SetFocusedRowCellValue("UseChallan", "NO")
+                Else
+                    FirstStage.SetFocusedRowCellValue("UseChallan", "YES")
+                End If
+                e.Handled = True
+            End If
             If FirstStage.FocusedColumn.FieldName = "ACTIVE_STATUS" Then
                 Dim currentValue As String = FirstStage.GetFocusedRowCellValue("ACTIVE_STATUS").ToString().ToUpper()
                 If currentValue = "YES" Then
@@ -616,7 +647,7 @@ Public Class BookMaster
                     MenuDesignConnection.Open()
                 End If
                 cmd.CommandText =
-                    "UPDATE " & _TblName & " SET " &
+                    "UPDATE MstBook SET " &
                     "BookName = ?, " &
                     "NATURE = ?, " &
                     "BEHAVIOUR = ?, " &
@@ -649,6 +680,19 @@ Public Class BookMaster
         Next
         MenuDesignConnection.Close()
         MessageBox.Show("Data Updated Successfully")
+    End Sub
+
+    Private Sub Txt_BookName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_BookName.KeyDown
+        Dim words() As String = Txt_BookName.Text.Trim().Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
+
+        Dim result As String = ""
+
+        For Each word As String In words
+            result &= word.Substring(0, 1).ToUpper()
+        Next
+
+        ' 01 ya dusre TextBox ki value append karna
+        txttrtype.Text = result & Txt_BookId.Text
     End Sub
     'Private Sub _NewBookCreate(book As BookInfo)
 

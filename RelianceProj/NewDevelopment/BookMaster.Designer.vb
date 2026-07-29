@@ -583,7 +583,7 @@ Partial Class BookMaster
         Me.Txt_BookId.RegularExpression = Nothing
         Me.Txt_BookId.RegularExpressionErrorMessage = Nothing
         Me.Txt_BookId.ShowMessage = False
-        Me.Txt_BookId.Size = New System.Drawing.Size(114, 22)
+        Me.Txt_BookId.Size = New System.Drawing.Size(72, 22)
         Me.Txt_BookId.SpacerString = ""
         Me.Txt_BookId.TabIndex = 1
         Me.Txt_BookId.Tag = "MainId"
@@ -894,7 +894,7 @@ Partial Class BookMaster
         Me.txtGroupCode.FontFocusColor = System.Drawing.Color.Blue
         Me.txtGroupCode.FontLeaveColor = System.Drawing.Color.Black
         Me.txtGroupCode.ForeColor = System.Drawing.Color.Black
-        Me.txtGroupCode.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.AlphaNumeric
+        Me.txtGroupCode.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtGroupCode.IsValidated = False
         Me.txtGroupCode.LeaveFocusColor = System.Drawing.Color.Bisque
         Me.txtGroupCode.Location = New System.Drawing.Point(224, 296)
@@ -1029,7 +1029,6 @@ Partial Class BookMaster
         Me.txttrtype.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txttrtype.MandatoryField = False
         Me.txttrtype.MaxDate = Nothing
-        Me.txttrtype.MaxLength = 6
         Me.txttrtype.MinDate = Nothing
         Me.txttrtype.Name = "txttrtype"
         Me.txttrtype.NormalBorderColor = System.Drawing.Color.GhostWhite
@@ -1038,7 +1037,7 @@ Partial Class BookMaster
         Me.txttrtype.RegularExpression = Nothing
         Me.txttrtype.RegularExpressionErrorMessage = Nothing
         Me.txttrtype.ShowMessage = False
-        Me.txttrtype.Size = New System.Drawing.Size(72, 22)
+        Me.txttrtype.Size = New System.Drawing.Size(470, 22)
         Me.txttrtype.SpacerString = ""
         Me.txttrtype.TabIndex = 3
         Me.txttrtype.Tag = "MenuName"
@@ -1126,7 +1125,7 @@ Partial Class BookMaster
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1216, 559)
+        Me.ClientSize = New System.Drawing.Size(732, 515)
         Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.Txt_BookCode)
         Me.Controls.Add(Me.Label28)
