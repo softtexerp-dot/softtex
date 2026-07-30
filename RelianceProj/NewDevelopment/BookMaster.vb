@@ -684,6 +684,12 @@ Public Class BookMaster
 
     Private Sub Txt_BookName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_BookName.KeyDown
         Dim words() As String = Txt_BookName.Text.Trim().Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
+        ' Agar 5 se jyada words hain to kuch fill na kare
+        If words.Length > 5 Then
+            'txttrtype.Text = ""
+            'MessageBox.Show("Book Name me maximum 5 words hi allow hain.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
 
         Dim result As String = ""
 
@@ -691,102 +697,7 @@ Public Class BookMaster
             result &= word.Substring(0, 1).ToUpper()
         Next
 
-        ' 01 ya dusre TextBox ki value append karna
+        ' BookId append kare
         txttrtype.Text = result & Txt_BookId.Text
     End Sub
-    'Private Sub _NewBookCreate(book As BookInfo)
-
-    '    _strQuery = New StringBuilder
-    '    With _strQuery
-    '        .Append(" INSERT INTO MstBook ")
-    '        .Append(" ( ")
-    '        .Append(" BookCode,BookTrType,BookName,NATURE ")
-    '        .Append(" ,BEHAVIOUR,alies,BOOKCATEGORY ")
-    '        .Append(" ,RptFileName_Plain,RptFileName_Printed ")
-    '        .Append(" ,ROW_FOR_DETAIL_PLAIN,ROW_FOR_DETAIL_PRINTED,ON_LINE_PRINTING ")
-    '        .Append(" ,DRCR ")
-    '        .Append(" ,BOOKORDER ")
-    '        .Append(" ,DisplayForm ")
-    '        .Append(" ,RCPT_ISSUE ")
-    '        .Append(" ,UseChallan ")
-    '        .Append(" ,Y_OWN_STK ")
-    '        .Append(" ,UseOFFER ")
-    '        .Append(" ,ACTIVE_STATUS ")
-    '        .Append(" ,OFFER_LESS_BY ")
-    '        .Append(" ,Group_Code_Filter_String ")
-    '        .Append(" ,REPORT_TITLE ")
-    '        .Append(" ,IDP ")
-    '        .Append(" ,DESIGN_SHADE_REQUIRED ")
-    '        .Append(" ,USE_FOR_YARN_STOCK ")
-    '        .Append(" ,USE_FOR_FINISH_STOCK ")
-    '        .Append(" ,GRADING_DESPATCH_BOOK ")
-    '        .Append(" ,STK_FILTER_STRING ")
-    '        .Append(" ,BookPreFix ")
-    '        .Append(" ) ")
-    '        .Append(" VALUES ")
-    '        .Append(" ( ")
-    '        .Append("'" & book.BookCode & "'")
-    '        .Append(",'" & book.BookTrType & "'")
-    '        .Append(",'" & book.BookName & "'")
-    '        .Append(",'" & book.Nature & "'")
-    '        .Append(",'" & book.Behaviour & "'")
-    '        .Append(",'" & book.Alies & "'")
-    '        .Append(",'" & book.BookCategory & "'")
-    '        .Append(",'" & book.RptFileNamePlain & "'")
-    '        .Append(",'" & book.RptFileNamePlain & "'")
-    '        .Append(" ,'15'")
-    '        .Append(" ,'15'")
-    '        .Append(" ,'NO'")
-    '        .Append(",'" & book.DrCr & "'")
-    '        .Append(",'" & book.BookOrder & "'")
-    '        .Append(",'" & book.DisplayFormName & "'")
-    '        .Append(",'" & book.RcptIssue & "'")
-    '        .Append(",'" & book.UseChallan & "'")
-    '        .Append(",'" & book.YOwnStk & "'")
-    '        .Append(",'" & book.UseOffer & "'")
-    '        .Append(",'" & book.ActiveStatus & "'")
-    '        .Append(",'" & book.OfferLessBy & "'")
-    '        .Append(",'" & book.GroupCode & "'")
-    '        .Append(",'" & book.ReportTitle & "'")
-    '        .Append(",'" & book.Idp & "'")
-    '        .Append(",'" & book.DesignShadeRequired & "'")
-    '        .Append(",'" & book.UseForYarnStock & "'")
-    '        .Append(",'" & book.UseForFinishStock & "'")
-    '        .Append(",'" & book.GradingDespatchBook & "'")
-    '        .Append(",'" & book.StkFilterString & "'")
-    '        .Append(",'" & book.BookPreFix & "'")
-    '        .Append(" ) ")
-    '    End With
-    '    sqL = _strQuery.ToString
-    '    sql_Data_Save_Delete_Update()
-
-    'End Sub
-    'Public Class BookInfo
-    '    Public Property BookCode As String = ""
-    '    Public Property BookTrType As String = ""
-    '    Public Property BookName As String = ""
-    '    Public Property Nature As String = ""
-    '    Public Property Behaviour As String = ""
-    '    Public Property Alies As String = ""
-    '    Public Property BookCategory As String = ""
-    '    Public Property RptFileNamePlain As String = ""
-    '    Public Property DrCr As String = ""
-    '    Public Property BookOrder As String = "0"
-    '    Public Property DisplayFormName As String = ""
-    '    Public Property RcptIssue As String = ""
-    '    Public Property UseChallan As String = ""
-    '    Public Property YOwnStk As String = ""
-    '    Public Property UseOffer As String = ""
-    '    Public Property ActiveStatus As String = ""
-    '    Public Property OfferLessBy As String = ""
-    '    Public Property GroupCode As String = ""
-    '    Public Property ReportTitle As String = ""
-    '    Public Property Idp As String = ""
-    '    Public Property DesignShadeRequired As String = "CURRENT DATE"
-    '    Public Property UseForYarnStock As String = ""
-    '    Public Property UseForFinishStock As String = ""
-    '    Public Property GradingDespatchBook As String = ""
-    '    Public Property StkFilterString As String = ""
-    '    Public Property BookPreFix As String = ""
-    'End Class
 End Class
