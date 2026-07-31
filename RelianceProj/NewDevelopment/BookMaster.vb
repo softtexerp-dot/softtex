@@ -496,7 +496,7 @@ Public Class BookMaster
 
 #End Region
     Private Sub View_Record()
-        RS = "SELECT BookName,NATURE,BEHAVIOUR,BOOKCATEGORY FROM MstBook where 1=1 ORDER BY " & _KeyFieldName & " ASC"
+        RS = "SELECT BookName,Nature,Behaviour,BookCategory FROM MstBook where 1=1 ORDER BY " & _KeyFieldName & " ASC"
         MenuDesign_QueryLoad()
         Dim tblTmp As DataTable
         tblTmp = DefaltSoftTable.Copy
