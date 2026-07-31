@@ -153,26 +153,6 @@ Public Class BookMaster
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
     End Sub
     Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        'If e.KeyCode = Keys.Escape Then
-        '    If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
-        '        PnlGrdView.Visible = False
-        '        UC_Buttons1._ButtonEnableDisable("LOAD")
-        '        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-        '        Exit Sub
-        '    ElseIf _FormCloseMode = False Then
-        '        UC_Buttons1._ButtonEnableDisable("LOAD")
-        '        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-        '        _FormCloseMode = True
-        '        'Exit Sub
-        '    End If
-        '    If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
-        '        _FrmLoad = True
-        '        If _FormCloseMode = True Then
-        '            Me.Close()
-        '            Dispose(True)
-        '        End If
-        '    End If
-        'End If
         If e.KeyCode = Keys.Escape Then
             If PnlGrdView.Visible = True Then
                 _FrmLoad = True
