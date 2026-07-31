@@ -153,24 +153,58 @@ Public Class BookMaster
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
     End Sub
     Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        'If e.KeyCode = Keys.Escape Then
+        '    If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
+        '        PnlGrdView.Visible = False
+        '        UC_Buttons1._ButtonEnableDisable("LOAD")
+        '        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        '        Exit Sub
+        '    ElseIf _FormCloseMode = False Then
+        '        UC_Buttons1._ButtonEnableDisable("LOAD")
+        '        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        '        _FormCloseMode = True
+        '        'Exit Sub
+        '    End If
+        '    If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+        '        _FrmLoad = True
+        '        If _FormCloseMode = True Then
+        '            Me.Close()
+        '            Dispose(True)
+        '        End If
+        '    End If
+        'End If
         If e.KeyCode = Keys.Escape Then
-            If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
-                PnlGrdView.Visible = False
-                UC_Buttons1._ButtonEnableDisable("LOAD")
-                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                Exit Sub
-            ElseIf _FormCloseMode = False Then
-                UC_Buttons1._ButtonEnableDisable("LOAD")
-                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                _FormCloseMode = True
-                'Exit Sub
-            End If
-            If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+            If PnlGrdView.Visible = True Then
                 _FrmLoad = True
-                If _FormCloseMode = True Then
+                ObjCls_General.Blank_Object(Me)
+                _KeyFieldValue = 0
+                AttachButtonFocusEvents(Me)
+                Call Ctrl_Visible_False(Me.Controls)
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                _FrmLoad = False
+                _FORMMODE = ""
+                PnlGrdView.Visible = False
+                Exit Sub
+            End If
+            _FrmLoad = True
+            If _FORMMODE = "" Then
+                'Me.Close()
+                If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
                     Me.Close()
                     Dispose(True)
                 End If
+            ElseIf _FORMMODE <> "" Then
+                _FrmLoad = True
+                _FORMMODE = "LOAD"
+                ObjCls_General.Blank_Object(Me)
+                _KeyFieldValue = 0
+                AttachButtonFocusEvents(Me)
+                Call Ctrl_Visible_False(Me.Controls)
+                UC_Buttons1._ButtonEnableDisable("LOAD")
+                UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                _FrmLoad = False
+                _FORMMODE = ""
             End If
         End If
     End Sub
@@ -200,7 +234,7 @@ Public Class BookMaster
     Private Sub ALTER_FORM(ByVal strKeyID As String)
 
         Dim tblTmp As New DataTable
-        _FORMMODE = "EDIT"
+        '_FORMMODE = "EDIT"
         RS = getAlter_Form_Query(strKeyID)
         MenuDesign_QueryLoad()
         tblTmp = DefaltSoftTable.Copy
@@ -296,16 +330,10 @@ Public Class BookMaster
         _FormCloseMode = False
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
+        Txt_BookName.Visible = True
+        Txt_BookName.Focus()
+        Txt_BookName.Select()
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If _FORMMODE = "EDIT" Then
-            RS = "SELECT TOP 1  * FROM MstBook ORDER BY " & _KeyFieldName & " DESC"
-            MenuDesign_QueryLoad()
-            If DefaltSoftTable.Rows.Count > 0 Then
-                Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId")
-                _KeyFieldValue = Txt_BookId.Text
-            End If
-            Call ALTER_FORM(Txt_BookId.Text)
-        End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
 
@@ -318,24 +346,13 @@ Public Class BookMaster
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If _FORMMODE = "DELETE" Then
-            _GetMaxId()
-            If _KeyFieldValue <> "" Then
-                Ctrl_Visible_True(Me.Controls)
-                If (Mid(_KeyFieldValue, 1, 4)) = "0000" Then
-                    MsgBox("It's A Default Record, Can't Delete", MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                Else
-                    If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
-                        Call Delete_Record()
-                    End If
-
-                End If
-            End If
-            ObjCls_General.Blank_Object(Me)
-            Ctrl_Visible_False(Me.Controls)
+        If _FORMMODE = "DELETE" AndAlso Txt_BookName.Text = "" Then
+            Txt_BookName.Visible = True
+            Txt_BookName.Focus()
+            Txt_BookName.Select()
+            Ctrl_Visible_True(Me.Controls)
+            Exit Sub
         End If
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
     Private Sub UC_Buttons1_BackClick()
         _FrmLoad = False
@@ -499,7 +516,7 @@ Public Class BookMaster
 
 #End Region
     Private Sub View_Record()
-        RS = "SELECT * FROM MstBook where 1=1 ORDER BY " & _KeyFieldName & " ASC"
+        RS = "SELECT BookName,NATURE,BEHAVIOUR,BOOKCATEGORY FROM MstBook where 1=1 ORDER BY " & _KeyFieldName & " ASC"
         MenuDesign_QueryLoad()
         Dim tblTmp As DataTable
         tblTmp = DefaltSoftTable.Copy
@@ -531,15 +548,7 @@ Public Class BookMaster
             Next
 
             ' Step 2: Sirf required columns editable
-            FirstStage.Columns("BookName").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("NATURE").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("BEHAVIOUR").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("alies").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("BOOKCATEGORY").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("RCPT_ISSUE").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("RptFileName_Plain").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("Group_Code_Filter_String").OptionsColumn.AllowEdit = True
-            FirstStage.Columns("REPORT_TITLE").OptionsColumn.AllowEdit = True
+            'FirstStage.Columns("BookName").OptionsColumn.AllowEdit = True
             DevGridFitColumn(GridControl1, FirstStage)
             PnlGrdView.Visible = True
 
@@ -589,5 +598,51 @@ Public Class BookMaster
     End Sub
     Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
         txtReportTitle.Text = Txt_BookName.Text
+    End Sub
+
+    Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
+        If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
+        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+            If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
+                Dim _Filterstring As String = " "
+                'Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring)
+
+                RS = "SELECT 'False' as TickMark,A.BookName,A.Bookcategory,A.BookCode AS ACCOUNTCODE FROM MstBook A WHERE 1=1 ORDER BY  A.Bookcategory, A.BookName"
+                MenuDesign_QueryLoad()
+                Dim selected = SingleAccountSelectionFormaccess(RS, GetType(BookMaster), Txt_BookName.Text, "SINGLE")
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("ACCOUNTCODE") Then Txt_BookCode.Text = selected("ACCOUNTCODE").ToString()
+                    If selected.ContainsKey("BookName") Then Txt_BookName.Text = selected("BookName").ToString()
+                End If
+                '_BookCode = txtBookCode.Text
+                'SendKeys.Send("{TAB}")
+
+                RS = "SELECT * FROM MstBook WHERE BookName='" & Txt_BookName.Text & "'"
+                MenuDesign_QueryLoad()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId").ToString
+                Else
+                    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+                    Call Ctrl_Visible_False(Me.Controls)
+                    Exit Sub
+                End If
+
+                ALTER_FORM(Txt_BookId.Text)
+
+                If _FORMMODE = "DELETE" Then
+                    If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+                        Delete_Record()
+                        MsgBox("Records Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                    End If
+                    ObjCls_General.Blank_Object(Me)
+                    Ctrl_Visible_False(Me.Controls)
+                    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+                ElseIf _FORMMODE = "EDIT" Then
+                    txtnature.Focus()
+                End If
+            End If
+        End If
+
     End Sub
 End Class

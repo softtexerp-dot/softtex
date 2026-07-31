@@ -110,6 +110,7 @@ Partial Class BookMaster
         Me.BtnExport.Size = New System.Drawing.Size(90, 34)
         Me.BtnExport.TabIndex = 81965
         Me.BtnExport.Text = "Export"
+        Me.BtnExport.Visible = False
         '
         'SimpleButton2
         '
@@ -134,6 +135,7 @@ Partial Class BookMaster
         Me.BtnPrint.Size = New System.Drawing.Size(90, 34)
         Me.BtnPrint.TabIndex = 81964
         Me.BtnPrint.Text = "Print"
+        Me.BtnPrint.Visible = False
         '
         'Btn_LayoutLoad
         '
@@ -253,7 +255,7 @@ Partial Class BookMaster
         Me.Txt_Bookcategory.Size = New System.Drawing.Size(470, 22)
         Me.Txt_Bookcategory.SpacerString = ""
         Me.Txt_Bookcategory.TabIndex = 7
-        Me.Txt_Bookcategory.Tag = "MenuPosition"
+        Me.Txt_Bookcategory.Tag = "BookCategory"
         Me.Txt_Bookcategory.TransparentBox = True
         Me.Txt_Bookcategory.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -318,7 +320,7 @@ Partial Class BookMaster
         Me.Txt_Behaviour.Size = New System.Drawing.Size(470, 22)
         Me.Txt_Behaviour.SpacerString = ""
         Me.Txt_Behaviour.TabIndex = 6
-        Me.Txt_Behaviour.Tag = "MenuPosition"
+        Me.Txt_Behaviour.Tag = "Behaviour"
         Me.Txt_Behaviour.TransparentBox = True
         Me.Txt_Behaviour.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -448,7 +450,7 @@ Partial Class BookMaster
         Me.Txt_Alies.Size = New System.Drawing.Size(72, 22)
         Me.Txt_Alies.SpacerString = ""
         Me.Txt_Alies.TabIndex = 9
-        Me.Txt_Alies.Tag = "MainMenuName"
+        Me.Txt_Alies.Tag = "Alies"
         Me.Txt_Alies.TransparentBox = True
         Me.Txt_Alies.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -490,7 +492,7 @@ Partial Class BookMaster
         Me.Txt_RptFileNamePlain.Size = New System.Drawing.Size(470, 22)
         Me.Txt_RptFileNamePlain.SpacerString = ""
         Me.Txt_RptFileNamePlain.TabIndex = 10
-        Me.Txt_RptFileNamePlain.Tag = "ShortCutKey"
+        Me.Txt_RptFileNamePlain.Tag = "RptFileName_Plain"
         Me.Txt_RptFileNamePlain.TransparentBox = True
         Me.Txt_RptFileNamePlain.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -533,7 +535,7 @@ Partial Class BookMaster
         Me.Txt_RcptIssue.Size = New System.Drawing.Size(72, 22)
         Me.Txt_RcptIssue.SpacerString = "NONE,IN,OUT"
         Me.Txt_RcptIssue.TabIndex = 8
-        Me.Txt_RcptIssue.Tag = "MenuOrderNo"
+        Me.Txt_RcptIssue.Tag = "RCPT_ISSUE"
         Me.Txt_RcptIssue.Text = "NONE"
         Me.Txt_RcptIssue.TransparentBox = True
         Me.Txt_RcptIssue.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -576,7 +578,7 @@ Partial Class BookMaster
         Me.Txt_BookId.Size = New System.Drawing.Size(122, 22)
         Me.Txt_BookId.SpacerString = ""
         Me.Txt_BookId.TabIndex = 1
-        Me.Txt_BookId.Tag = "MainId"
+        Me.Txt_BookId.Tag = "BookId"
         Me.Txt_BookId.TransparentBox = True
         Me.Txt_BookId.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -619,7 +621,7 @@ Partial Class BookMaster
         Me.Txt_BookName.Size = New System.Drawing.Size(470, 22)
         Me.Txt_BookName.SpacerString = ""
         Me.Txt_BookName.TabIndex = 4
-        Me.Txt_BookName.Tag = "MenuName"
+        Me.Txt_BookName.Tag = "BookName"
         Me.Txt_BookName.TransparentBox = True
         Me.Txt_BookName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -663,7 +665,7 @@ Partial Class BookMaster
         Me.Txt_MenuActive.Size = New System.Drawing.Size(72, 22)
         Me.Txt_MenuActive.SpacerString = "NO,YES"
         Me.Txt_MenuActive.TabIndex = 14
-        Me.Txt_MenuActive.Tag = "ActiveStatus"
+        Me.Txt_MenuActive.Tag = "ACTIVE_STATUS"
         Me.Txt_MenuActive.Text = "NO"
         Me.Txt_MenuActive.TransparentBox = True
         Me.Txt_MenuActive.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -806,7 +808,7 @@ Partial Class BookMaster
         Me.txtnature.Size = New System.Drawing.Size(470, 22)
         Me.txtnature.SpacerString = ""
         Me.txtnature.TabIndex = 5
-        Me.txtnature.Tag = "MenuPosition"
+        Me.txtnature.Tag = "Nature"
         Me.txtnature.TransparentBox = True
         Me.txtnature.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -850,7 +852,7 @@ Partial Class BookMaster
         Me.txtUseChallan.Size = New System.Drawing.Size(72, 22)
         Me.txtUseChallan.SpacerString = "NO,YES"
         Me.txtUseChallan.TabIndex = 13
-        Me.txtUseChallan.Tag = "ActiveStatus"
+        Me.txtUseChallan.Tag = "UseChallan"
         Me.txtUseChallan.Text = "NO"
         Me.txtUseChallan.TransparentBox = True
         Me.txtUseChallan.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -904,7 +906,7 @@ Partial Class BookMaster
         Me.txtGroupCode.Size = New System.Drawing.Size(470, 22)
         Me.txtGroupCode.SpacerString = ""
         Me.txtGroupCode.TabIndex = 11
-        Me.txtGroupCode.Tag = "ShortCutKey"
+        Me.txtGroupCode.Tag = "Group_Code_Filter_String"
         Me.txtGroupCode.TransparentBox = True
         Me.txtGroupCode.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -968,7 +970,7 @@ Partial Class BookMaster
         Me.txtReportTitle.Size = New System.Drawing.Size(470, 22)
         Me.txtReportTitle.SpacerString = ""
         Me.txtReportTitle.TabIndex = 12
-        Me.txtReportTitle.Tag = "ShortCutKey"
+        Me.txtReportTitle.Tag = "REPORT_TITLE"
         Me.txtReportTitle.TransparentBox = True
         Me.txtReportTitle.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1033,7 +1035,7 @@ Partial Class BookMaster
         Me.txttrtype.Size = New System.Drawing.Size(470, 22)
         Me.txttrtype.SpacerString = ""
         Me.txttrtype.TabIndex = 3
-        Me.txttrtype.Tag = "MenuName"
+        Me.txttrtype.Tag = "BookTrType"
         Me.txttrtype.TransparentBox = True
         Me.txttrtype.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1097,7 +1099,7 @@ Partial Class BookMaster
         Me.Txt_BookCode.Size = New System.Drawing.Size(471, 22)
         Me.Txt_BookCode.SpacerString = ""
         Me.Txt_BookCode.TabIndex = 2
-        Me.Txt_BookCode.Tag = "MenuName"
+        Me.Txt_BookCode.Tag = "BookCode"
         Me.Txt_BookCode.TransparentBox = True
         Me.Txt_BookCode.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1167,7 +1169,7 @@ Partial Class BookMaster
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "BookMaster"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "BookMaster"
+        Me.Text = "Book Master"
         Me.PnlGrdView.ResumeLayout(False)
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
