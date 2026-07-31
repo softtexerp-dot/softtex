@@ -125,12 +125,9 @@ Public Class BookMaster
             Me.Left = 177
             Me.Top = 80
         End If
-        PnlGrdView.Width = Me.Width
-        PnlGrdView.Height = Me.Height
-        PnlGrdView.Location = New Point(0, 0)
-        GridControl1.Width = PnlGrdView.Width - 25
-        GridControl1.Height = PnlGrdView.Height - 100
-        GridControl1.Location = New Point(3, 53)
+
+        AutoResizeGrid(PnlGrdView, GridControl1)
+
     End Sub
     Private Sub CreateButtonsControl()
         UC_Buttons1 = New UC_Buttons()
@@ -179,25 +176,24 @@ Public Class BookMaster
     End Sub
 #End Region
     Private Sub _GetMaxId()
-        Dim LASTCODE As String = ""
-        Dim BookCode As String = ""
-        RS = "SELECT TOP 1  * FROM MstBook  ORDER BY " & _KeyFieldName & " DESC"
-        MenuDesign_QueryLoad()
-        If DefaltSoftTable.Rows.Count > 0 Then
-            Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId") + 1
-            If _FORMMODE = "DELETE" Then
-                Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId")
-                _KeyFieldValue = Txt_BookId.Text
+        If Txt_BookId.Text.Trim = "" Then
+            Dim LASTCODE As String = ""
+            Dim BookCode As String = ""
+            RS = "SELECT TOP 1  * FROM MstBook  ORDER BY " & _KeyFieldName & " DESC"
+            MenuDesign_QueryLoad()
+            If DefaltSoftTable.Rows.Count > 0 Then
+                Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId") + 1
+                If _FORMMODE = "DELETE" Then
+                    Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId")
+                    _KeyFieldValue = Txt_BookId.Text
+                End If
+            Else
+                Txt_BookId.Text = 1
             End If
-        Else
-            Txt_BookId.Text = 1
         End If
-        BookCode = "0001" & "-" & Txt_BookId.Text.PadLeft(9, "0")
-        Txt_BookCode.Text = BookCode
-        ''txttrtype.Text = txttrtype.Text & Txt_BookId.Text
-        'If Not txttrtype.Text.EndsWith(Txt_BookId.Text) Then
-        '    txttrtype.Text &= Txt_BookId.Text
-        'End If
+
+        Txt_BookCode.Text = "0001" & "-" & Txt_BookId.Text.PadLeft(9, "0")
+        txttrtype.Text = "M" & Txt_BookId.Text.PadLeft(4, "0")
     End Sub
 
 #Region "ALTER FORM METHOD"
@@ -214,19 +210,6 @@ Public Class BookMaster
         Next
 
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblFormValues1)
-        'Txt_BookCode.Text = tblFormValues1.Rows(0)("BookCode")
-        'txttrtype.Text = tblFormValues1.Rows(0)("BookTrType")
-        'Txt_BookName.Text = tblFormValues1.Rows(0)("BookName")
-        'txtnature.Text = tblFormValues1.Rows(0)("Nature")
-        'Txt_Behaviour.Text = tblFormValues1.Rows(0)("Behaviour")
-        'Txt_Alies.Text = tblFormValues1.Rows(0)("alies")
-        'Txt_Bookcategory.Text = tblFormValues1.Rows(0)("BOOKCATEGORY")
-        'Txt_RcptIssue.Text = tblFormValues1.Rows(0)("RCPT_ISSUE")
-        'Txt_RptFileNamePlain.Text = tblFormValues1.Rows(0)("BookName")
-        'txtGroupCode.Text = tblFormValues1.Rows(0)("Group_Code_Filter_String")
-        'txtReportTitle.Text = tblFormValues1.Rows(0)("REPORT_TITLE")
-        'txtUseChallan.Text = tblFormValues1.Rows(0)("UseChallan")
-        'Txt_MenuActive.Text = tblFormValues1.Rows(0)("ACTIVE_STATUS")
         If tblTmp.Rows.Count > 0 Then
             Txt_BookId.Focus()
             Txt_BookId.Text = tblTmp.Rows(0)("BookId")
@@ -238,17 +221,16 @@ Public Class BookMaster
             Txt_Alies.Text = tblTmp.Rows(0)("alies")
             Txt_Bookcategory.Text = tblTmp.Rows(0)("BOOKCATEGORY")
             Txt_RcptIssue.Text = tblTmp.Rows(0)("RCPT_ISSUE")
-            Txt_RptFileNamePlain.Text = tblTmp.Rows(0)("BookName")
+            Txt_RptFileNamePlain.Text = tblTmp.Rows(0)("RptFileName_Plain")
             txtGroupCode.Text = tblTmp.Rows(0)("Group_Code_Filter_String")
             txtReportTitle.Text = tblTmp.Rows(0)("REPORT_TITLE")
             txtUseChallan.Text = tblTmp.Rows(0)("UseChallan")
             Txt_MenuActive.Text = tblTmp.Rows(0)("ACTIVE_STATUS")
-            If tblTmp.Rows.Count = 0 Then
-                ObjCls_General.Blank_Object(Me)
-                Txt_MenuActive.Text = "YES"
-                UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-                MsgBox("Record Not Found")
-            End If
+        Else
+            ObjCls_General.Blank_Object(Me)
+            Txt_MenuActive.Text = "YES"
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+            MsgBox("Record Not Found")
         End If
     End Sub
 #End Region
@@ -280,24 +262,12 @@ Public Class BookMaster
         End If
     End Sub
 
-    Private Sub _MenuPositiomset()
-        If _FORMMODE = "ADD" Then
-            If Txt_BookId.Text.Trim > "" Then
-                RS = "SELECT Max(A.BookId) As BookId FROM MstBook AS A WHERE 1=1 order by BookId desc "
-                MenuDesign_QueryLoad()
-                If DefaltSoftTable.Rows.Count > 0 AndAlso Not IsDBNull(DefaltSoftTable.Rows(0)("BookId")) AndAlso Val(DefaltSoftTable.Rows(0)("BookId")) > 0 Then
-                    Txt_BookId.Text = Val(DefaltSoftTable.Rows(0)("BookId")) + 1
-                Else
-                    Txt_BookId.Text = 1
-                End If
-            End If
-        End If
-    End Sub
 #End Region
 
 #Region "Button Click"
     Private Sub UC_Buttons1_AddClick()
         _FORMMODE = "ADD"
+        ObjCls_General.Blank_Object(Me)
         _FrmLoad = False
         _FormCloseMode = False
         Call Ctrl_Visible_True(Me.Controls)
@@ -307,6 +277,12 @@ Public Class BookMaster
             Call Ctrl_Visible_True(Me.Controls)
             txtUseChallan.Text = "NO"
             Txt_MenuActive.Text = "NO"
+            Txt_RcptIssue.Text = "NONE"
+            Txt_RptFileNamePlain.Text = "FINISH_PACKING_SLIP_PLAIN"
+            txtGroupCode.Text = "(#0000-000000030#,#0000-000000033#,#0000-000000055#)"
+
+            Txt_Alies.Text = "P-Slip"
+
             _GetMaxId()
             Txt_BookName.Focus()
             Txt_BookName.Select()
@@ -316,6 +292,7 @@ Public Class BookMaster
     Private Sub UC_Buttons1_EditClick()
         Dim LASTCODE As String = ""
         _FORMMODE = "EDIT"
+        ObjCls_General.Blank_Object(Me)
         _FormCloseMode = False
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
@@ -405,25 +382,9 @@ Public Class BookMaster
     Private Sub UC_Buttons1_SaveClick()
         _FrmLoad = True
         Dim SaveQuery As String = ""
-        Dim LASTCODE As String = ""
-        Dim BookCode As String = ""
-        '_MenuPositiomset()
-        If _FORMMODE = "ADD" Then
-            _GetMaxId()
-            If DefaltSoftTable.Rows.Count > 0 Then
-                LASTCODE = Txt_BookId.Text
-            Else
-                LASTCODE = "1"
-            End If
-        Else
-            LASTCODE = Txt_BookId.Text
-            _KeyFieldValue = LASTCODE
-        End If
-        BookCode = "0001" & "-" & LASTCODE.PadLeft(9, "0")
-        tblFormValues1.Rows(0)(_KeyFieldName) = LASTCODE
+        tblFormValues1.Rows(0)(_KeyFieldName) = Txt_BookId.Text
         Dim txtmenuname As String = Txt_BookName.Text.Trim().ToLower()
         Dim properText As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtmenuname)
-        Txt_BookCode.Text = BookCode
         tblFormValues1.Rows(0)("BookTrType") = txttrtype.Text
         tblFormValues1.Rows(0)("BookCode") = Txt_BookCode.Text
         tblFormValues1.Rows(0)("BookName") = properText.Replace("'", "''")
@@ -462,27 +423,11 @@ Public Class BookMaster
         End If
 
         Call Ctrl_Visible_False(Me.Controls)
-        Clear()
+        ObjCls_General.Blank_Object(Me)
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
-    Private Sub Clear()
-        Txt_BookId.Text = ""
-        txttrtype.Text = ""
-        Txt_BookName.Text = ""
-        txtnature.Text = ""
-        Txt_Behaviour.Text = ""
-        Txt_Alies.Text = ""
-        Txt_Bookcategory.Text = ""
-        Txt_RcptIssue.Text = ""
-        Txt_RptFileNamePlain.Text = ""
-        txtGroupCode.Text = ""
-        txtReportTitle.Text = ""
-        txtUseChallan.Text = "NO"
-        Txt_MenuActive.Text = "NO"
-    End Sub
-
     Private Sub UC_Buttons1_CloseClick()
 
         If _FORMMODE = "" Then
@@ -536,9 +481,14 @@ Public Class BookMaster
     End Sub
 
     Private Sub Txt_MenuId_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_BookId.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            If Txt_BookId.Text <> "" Then
+
+        If Txt_BookId.Text <> "" AndAlso (_FORMMODE = "EDIT" Or _FORMMODE = "DELETE") Then
+            If e.KeyCode = Keys.Enter Then
                 Call ALTER_FORM(Txt_BookId.Text)
+            End If
+        Else
+            If e.KeyCode = Keys.Enter Then
+                _GetMaxId()
             End If
         End If
     End Sub
@@ -637,67 +587,7 @@ Public Class BookMaster
             End If
         End If
     End Sub
-
-    Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
-        Dim dt As DataTable = CType(GridControl1.DataSource, DataTable)
-        For Each dr As DataRow In dt.Rows
-            If dr.RowState = DataRowState.Modified Then
-                Dim cmd As New OleDb.OleDbCommand(RS, MenuDesignConnection)
-                If MenuDesignConnection.State = ConnectionState.Closed Then
-                    MenuDesignConnection.Open()
-                End If
-                cmd.CommandText =
-                    "UPDATE MstBook SET " &
-                    "BookName = ?, " &
-                    "NATURE = ?, " &
-                    "BEHAVIOUR = ?, " &
-                    "alies = ?, " &
-                    "BOOKCATEGORY = ?, " &
-                    "RCPT_ISSUE = ?, " &
-                    "RptFileName_Plain = ?, " &
-                    "Group_Code_Filter_String = ?, " &
-                    "REPORT_TITLE = ?, " &
-                    "UseChallan = ?, " &
-                    "ACTIVE_STATUS = ? " &
-                    "WHERE BookId = ?"
-                cmd.Parameters.Clear()
-                cmd.Parameters.AddWithValue("", dr("BookName").ToString())
-                cmd.Parameters.AddWithValue("", dr("NATURE"))
-                cmd.Parameters.AddWithValue("", dr("BEHAVIOUR").ToString())
-                cmd.Parameters.AddWithValue("", dr("alies").ToString())
-                cmd.Parameters.AddWithValue("", dr("BOOKCATEGORY"))
-                cmd.Parameters.AddWithValue("", dr("RCPT_ISSUE"))
-                cmd.Parameters.AddWithValue("", dr("RptFileName_Plain"))
-                cmd.Parameters.AddWithValue("", dr("Group_Code_Filter_String"))
-                cmd.Parameters.AddWithValue("", dr("REPORT_TITLE"))
-                cmd.Parameters.AddWithValue("", dr("UseChallan"))
-                cmd.Parameters.AddWithValue("", dr("ACTIVE_STATUS").ToString())
-                ' WHERE condition
-                cmd.Parameters.AddWithValue("", dr("BookId"))
-                cmd.ExecuteNonQuery()
-                cmd.Dispose()
-            End If
-        Next
-        MenuDesignConnection.Close()
-        MessageBox.Show("Data Updated Successfully")
-    End Sub
-
-    Private Sub Txt_BookName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_BookName.KeyDown
-        Dim words() As String = Txt_BookName.Text.Trim().Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
-        ' Agar 5 se jyada words hain to kuch fill na kare
-        If words.Length > 5 Then
-            'txttrtype.Text = ""
-            'MessageBox.Show("Book Name me maximum 5 words hi allow hain.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-
-        Dim result As String = ""
-
-        For Each word As String In words
-            result &= word.Substring(0, 1).ToUpper()
-        Next
-
-        ' BookId append kare
-        txttrtype.Text = result & Txt_BookId.Text
+    Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
+        txtReportTitle.Text = Txt_BookName.Text
     End Sub
 End Class
