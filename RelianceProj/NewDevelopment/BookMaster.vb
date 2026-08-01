@@ -554,28 +554,6 @@ Public Class BookMaster
         _DevExpressExcelExport(GridControl1)
     End Sub
 
-    Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
-        If e.KeyCode = Keys.Space Then
-            If FirstStage.FocusedColumn.FieldName = "UseChallan" Then
-                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("UseChallan").ToString().ToUpper()
-                If currentValue = "YES" Then
-                    FirstStage.SetFocusedRowCellValue("UseChallan", "NO")
-                Else
-                    FirstStage.SetFocusedRowCellValue("UseChallan", "YES")
-                End If
-                e.Handled = True
-            End If
-            If FirstStage.FocusedColumn.FieldName = "ACTIVE_STATUS" Then
-                Dim currentValue As String = FirstStage.GetFocusedRowCellValue("ACTIVE_STATUS").ToString().ToUpper()
-                If currentValue = "YES" Then
-                    FirstStage.SetFocusedRowCellValue("ACTIVE_STATUS", "NO")
-                Else
-                    FirstStage.SetFocusedRowCellValue("ACTIVE_STATUS", "YES")
-                End If
-                e.Handled = True
-            End If
-        End If
-    End Sub
     Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
         txtReportTitle.Text = Txt_BookName.Text
     End Sub
