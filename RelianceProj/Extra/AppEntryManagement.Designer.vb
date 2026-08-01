@@ -410,7 +410,7 @@ Partial Class AppEntryManagement
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "AppEntryManagement"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "AppEntryManagement"
+        Me.Text = "App Entry Management"
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()

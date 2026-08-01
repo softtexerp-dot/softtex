@@ -1,7 +1,6 @@
 ﻿Imports System.Net.Http
 Imports System.Text
 Imports DevExpress.XtraEditors.Repository
-Imports DevExpress.XtraExport.Helpers
 Imports DevExpress.XtraGrid.Views.Grid
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
@@ -181,20 +180,14 @@ Public Class AppEntryManagement
                     dr("OfferDate") = r("OfferDate").ToString()
                     dr("PartyOfferNo") = r("PartyOfferNo").ToString()
                     dr("MeterWeight") = r("MeterWeight").ToString()
-
                     dr("ItemCode") = r("ItemCode").ToString()
                     dr("AccountCode") = r("AccountCode").ToString()
-
                     dr("DespatchCode") = r("DespatchCode").ToString()
-
                     dr("TransportCode") = r("TransportCode").ToString()
-
                     dr("SalesManCode") = r("SalesManCode").ToString()
-
                     dr("CutCode") = r("CutCode").ToString()
                     dr("DesignCode") = r("DesignCode").ToString()
                     dr("ShadeCode") = r("ShadeCode").ToString()
-
                     dr("ItemName") = If(ItemDict.ContainsKey(r("ItemCode").ToString()), ItemDict(r("ItemCode").ToString()), "")
                     dr("AccountName") = If(AccDict.ContainsKey(r("AccountCode").ToString()), AccDict(r("AccountCode").ToString()), "")
                     dr("DispatchName") = If(CityDict.ContainsKey(r("DespatchCode").ToString()), CityDict(r("DespatchCode").ToString()), "")
@@ -228,7 +221,6 @@ Public Class AppEntryManagement
                     dr("RateNo") = r("RateNo").ToString()
                     dr("QtyMtr") = r("QtyMtr").ToString()
                     dr("Id") = r("Id").ToString()
-
                     dtSource.Rows.Add(dr)
                 Next
                 dtSource.Columns.Add("SelectRow", GetType(Boolean))
@@ -242,28 +234,19 @@ Public Class AppEntryManagement
                         dr("SelectRow") = False
                     End If
                     'If Convert.ToBoolean(dr("SelectRow")) Then
-
                     '    Select Case dr("Status").ToString().ToUpper()
-
                     '        Case "PENDING"
                     '            dr("Status") = "HOLD"
-
                     '        Case "HOLD"
                     '            dr("Status") = "APPROVE"
-
                     '        Case "APPROVE"
                     '            dr("Status") = "CANCEL"
-
                     '        Case "CANCEL"
                     '            dr("Status") = "PENDING"
-
                     '    End Select
-
                     'End If
                 Next
-
                 GridControl1.DataSource = dtSource
-
                 Dim view As GridView = CType(GridControl1.MainView, GridView)
                 view.Columns("BookVno").Visible = False
                 view.Columns("ItemCode").Visible = False
@@ -286,7 +269,6 @@ Public Class AppEntryManagement
                 view.Columns("DiscountPercentage").Visible = False
                 view.Columns("DiscountAmount").Visible = False
 
-
                 Dim chk As New RepositoryItemCheckEdit
                 chk.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked
                 chk.ValueChecked = True
@@ -295,7 +277,6 @@ Public Class AppEntryManagement
                 view.Columns("SelectRow").ColumnEdit = chk
                 view.Columns("SelectRow").VisibleIndex = 0
                 view = CType(GridControl1.MainView, GridView)
-
 
                 view.OptionsView.ColumnAutoWidth = False
                 view.OptionsBehavior.Editable = True
@@ -313,7 +294,6 @@ Public Class AppEntryManagement
                 AddHandler view.KeyDown, AddressOf GridView1_KeyDown
                 AddHandler view.RowCellStyle, AddressOf GridView1_RowCellStyle
             End If
-
         End Using
     End Sub
     Private Function GetDataTable(ByVal Query As String) As DataTable
@@ -340,13 +320,9 @@ Public Class AppEntryManagement
         End If
         ' Sirf checked row par hi status change ho
         If Not IsChecked Then
-            MessageBox.Show("Please select the row before changing its status.",
-                    "Selection Required",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information)
+            MessageBox.Show("Please select the row before changing its status.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-
         Dim CurrentStatus As String = Convert.ToString(view.GetRowCellValue(RowHandle, "Status")).Trim().ToUpper()
         Select Case CurrentStatus
             Case "PENDING"
@@ -360,8 +336,6 @@ Public Class AppEntryManagement
             Case Else
                 view.SetRowCellValue(RowHandle, "Status", "PENDING")
         End Select
-        'view.UpdateCurrentRow()
-        'view.RefreshRow(RowHandle)
         e.Handled = True
     End Sub
     Private Sub GridView1_RowCellStyle(sender As Object, e As DevExpress.XtraGrid.Views.Grid.RowCellStyleEventArgs)
@@ -426,8 +400,7 @@ Public Class AppEntryManagement
 #Region "Save Grid Layout"
     Private Sub btnviewupdate_Click(sender As Object, e As EventArgs) Handles btnviewupdate.Click
         Dim view As GridView = CType(GridControl1.MainView, GridView)
-        Generate_Date_For_DataBase(txt_From)
-        Generate_Date_For_DataBase(txt_To)
+
         Dim UpdatedCount As Integer = 0
         'If txtUnitName.Text <> "" Then
         Dim srno As Integer = 0
@@ -522,7 +495,7 @@ Public Class AppEntryManagement
                             .Append(" ,Process_Weight_Rate")
                             .Append(" ,Process_Weight_Range")
                             .Append(" ,Process_Net_Rate")
-                        .Append(" ,OP1") ' grid online BookVno
+                        .Append(" ,OP1") 'grid online BookVno
                         .Append(" ,cancel_Qty")
                         .Append(" ,PICK")
                         .Append(" ,WESTAGE")
@@ -593,17 +566,12 @@ Public Class AppEntryManagement
                     End If
                 End If
         Next
-            If UpdatedCount > 0 Then
-                MessageBox.Show(UpdatedCount & " row(s) updated successfully.")
-            Else
-                MessageBox.Show("No row selected.")
-            End If
-
-            _Zooming_Load()
-        'Else
-        '    MessageBox.Show("Please select Book First.")
-        '    txtUnitName.Focus()
-        'End If
+        If UpdatedCount > 0 Then
+            MessageBox.Show(UpdatedCount & " row(s) updated successfully.")
+        Else
+            MessageBox.Show("No row selected.")
+        End If
+        _Zooming_Load()
     End Sub
 
     Private Sub TxtType_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtType.KeyDown
