@@ -341,97 +341,59 @@ Public Class AppEntryManagement
     '    e.Handled = True
     'End Sub
     Private Sub GridView1_KeyDown(sender As Object, e As KeyEventArgs)
-
         If e.KeyCode <> Keys.Space Then Exit Sub
-
         ' Ek Space press ko sirf ek baar process kare
         If SpaceKeyPressed Then
             e.Handled = True
             e.SuppressKeyPress = True
             Exit Sub
         End If
-
         SpaceKeyPressed = True
-
         Dim view As GridView = TryCast(sender, GridView)
         If view Is Nothing Then Exit Sub
-
         Dim RowHandle As Integer = view.FocusedRowHandle
-
         If RowHandle < 0 Then Exit Sub
-
         ' Sirf Status column par hi chale
-        If view.FocusedColumn Is Nothing OrElse
-       view.FocusedColumn.FieldName <> "Status" Then Exit Sub
-
+        If view.FocusedColumn Is Nothing OrElse view.FocusedColumn.FieldName <> "Status" Then Exit Sub
         '---------------------------------------
         ' SelectRow check
         '---------------------------------------
         Dim IsChecked As Boolean = False
-
-        Dim SelectValue As Object =
-        view.GetRowCellValue(RowHandle, "SelectRow")
-
-        If SelectValue IsNot Nothing AndAlso
-       SelectValue IsNot DBNull.Value Then
-
+        Dim SelectValue As Object = view.GetRowCellValue(RowHandle, "SelectRow")
+        If SelectValue IsNot Nothing AndAlso SelectValue IsNot DBNull.Value Then
             IsChecked = Convert.ToBoolean(SelectValue)
-
         End If
-
         ' Sirf checked row par status change ho
         If Not IsChecked Then
-
-            MessageBox.Show(
-            "Please select the row before changing its status.",
-            "Selection Required",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information
-        )
-
+            MessageBox.Show("Please select the row before changing its status.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             e.Handled = True
             e.SuppressKeyPress = True
             Exit Sub
-
         End If
-
         '---------------------------------------
         ' Current Status
         '---------------------------------------
-        Dim CurrentStatus As String =
-        Convert.ToString(
-            view.GetRowCellValue(RowHandle, "Status")
-        ).Trim().ToUpper()
-
+        Dim CurrentStatus As String = Convert.ToString(view.GetRowCellValue(RowHandle, "Status")).Trim().ToUpper()
         '---------------------------------------
         ' Change Status
         '---------------------------------------
         Select Case CurrentStatus
-
             Case "PENDING"
                 view.SetRowCellValue(RowHandle, "Status", "HOLD")
-
             Case "HOLD"
                 view.SetRowCellValue(RowHandle, "Status", "APPROVE")
-
             Case "APPROVE"
                 view.SetRowCellValue(RowHandle, "Status", "CANCEL")
-
             Case "CANCEL"
                 view.SetRowCellValue(RowHandle, "Status", "PENDING")
-
             Case Else
                 view.SetRowCellValue(RowHandle, "Status", "PENDING")
-
         End Select
-
         view.PostEditor()
         view.UpdateCurrentRow()
-
         ' Space ko Grid ke default action tak jane se roke
         e.Handled = True
         e.SuppressKeyPress = True
-
     End Sub
     Private Sub GridView1_KeyUp(sender As Object, e As KeyEventArgs)
         If e.KeyCode = Keys.Space Then
