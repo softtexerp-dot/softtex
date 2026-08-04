@@ -287,8 +287,8 @@ Partial Class AppEntryManagement
         Me.TxtType.RegularExpressionErrorMessage = Nothing
         Me.TxtType.ShortcutsEnabled = False
         Me.TxtType.ShowMessage = False
-        Me.TxtType.Size = New System.Drawing.Size(76, 22)
-        Me.TxtType.SpacerString = "ORDER,INVOICE"
+        Me.TxtType.Size = New System.Drawing.Size(89, 22)
+        Me.TxtType.SpacerString = "ORDER,INVOICE,LR UPDATE"
         Me.TxtType.TabIndex = 4
         Me.TxtType.Tag = "OP19"
         Me.TxtType.Text = "ORDER"
