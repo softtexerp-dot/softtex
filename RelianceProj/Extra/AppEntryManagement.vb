@@ -625,13 +625,16 @@ Public Class AppEntryManagement
                     sqL = _strQuery.ToString
                     sql_Data_Save_Delete_Update()
                     UpdatedCount += 1
+                Else
+                    UpdatedCount += 1
                 End If
             End If
         Next
         If UpdatedCount > 0 Then
             MessageBox.Show(UpdatedCount & " row(s) updated successfully.")
         Else
-            MessageBox.Show("No row selected.")
+            MessageBox.Show(UpdatedCount & " row(s) updated successfully.")
+            'MessageBox.Show("No row selected.")
         End If
         _Zooming_Load()
     End Sub
