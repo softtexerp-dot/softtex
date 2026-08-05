@@ -738,7 +738,7 @@ Public Class PetInwardAndPO
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-        PetInwardandPOPrint.Show()
+        PetInwardAndPOPrint.Show()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
