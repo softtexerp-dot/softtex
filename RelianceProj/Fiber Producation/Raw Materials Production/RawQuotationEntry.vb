@@ -824,6 +824,8 @@ Public Class RawQuotationEntry
             Old_Date = txtChallanDate.Text
             ObjCls_General.Blank_Object(Me)
             txtChallanDate.Text = Old_Date
+            UC_Buttons1._ButtonEnableDisable("LOAD")
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         Catch ex As Exception
             MsgBox("Error While Delete Entry")
         Finally

@@ -559,7 +559,9 @@ Public Class MachineMaster
         'Command_Button_Visibility("LOAD")
         AttachButtonFocusEvents(Me)
         'Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        UC_Buttons1._ButtonEnableDisable("LOAD")
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        'UC_Buttons1._ButtonEnableDisable(_FORMMODE)
     End Sub
 
     Private Sub TxtUOm_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtUOm.KeyDown

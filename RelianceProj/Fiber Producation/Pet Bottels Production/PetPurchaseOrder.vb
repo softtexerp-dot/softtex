@@ -2048,6 +2048,8 @@ Public Class PetPurchaseOrder
             Old_Date = txtOfferDate.Text
             ObjCls_General.Blank_Object(Me)
             txtOfferDate.Text = Old_Date
+            UC_Buttons1._ButtonEnableDisable("LOAD")
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         Catch ex As Exception
             MsgBox("Error While Delete Entry")
         Finally

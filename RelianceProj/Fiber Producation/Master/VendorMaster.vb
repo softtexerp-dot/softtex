@@ -484,7 +484,9 @@ Public Class VendorMaster
         _FORMMODE = ""
         Ctrl_Visible_False(Me.Controls)
         AttachButtonFocusEvents(Me)
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        UC_Buttons1._ButtonEnableDisable("LOAD")
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        'UC_Buttons1._ButtonEnableDisable(_FORMMODE)
     End Sub
 
 #End Region
