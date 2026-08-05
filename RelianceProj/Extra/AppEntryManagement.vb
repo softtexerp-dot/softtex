@@ -13,8 +13,8 @@ Public Class AppEntryManagement
     Dim _CloseCheck As Boolean = False
     Private IsUpdating As Boolean = False
     Dim dbName As String = "Accounts39_142026103929"    'Top textbox या variable से
-    'Dim gst As String = "08AAECM5759M1ZT"    'Second textbox से
-    Dim gst As String = "08DEMOGST123456"    'Second textbox से
+    Dim gst As String = "08AAECM5759M1ZT"    'Second textbox से
+    'Dim gst As String = "08DEMOGST123456"    'Second textbox से
     'Dim BookTrtype As String = "O0001"
     'Dim BookVno As String = "O0001*00000*0039*00000094"
     'Dim BookCode As String = "0001-000000121"
@@ -300,9 +300,6 @@ Public Class AppEntryManagement
             '========================================
             ' EVENTS
             '========================================
-            'RemoveHandler FirstStage.KeyDown, AddressOf GridView1_KeyDown
-            'RemoveHandler FirstStage.KeyUp, AddressOf GridView1_KeyUp
-            'RemoveHandler FirstStage.RowCellStyle, AddressOf GridView1_RowCellStyle
             AddHandler FirstStage.KeyDown, AddressOf GridView1_KeyDown
             AddHandler FirstStage.KeyUp, AddressOf GridView1_KeyUp
             AddHandler FirstStage.RowCellStyle, AddressOf GridView1_RowCellStyle
@@ -548,10 +545,9 @@ Public Class AppEntryManagement
             End With
 
             FirstStage.BestFitColumns()
-
-            'RemoveHandler FirstStage.KeyDown, AddressOf GridView1_KeyDown
-            'RemoveHandler FirstStage.KeyUp, AddressOf GridView1_KeyUp
-            'RemoveHandler FirstStage.RowCellStyle, AddressOf GridView1_RowCellStyle
+            '========================================
+            ' EVENTS
+            '========================================
             AddHandler FirstStage.KeyDown, AddressOf GridView1_KeyDown
             AddHandler FirstStage.KeyUp, AddressOf GridView1_KeyUp
             AddHandler FirstStage.RowCellStyle, AddressOf GridView1_RowCellStyle
@@ -618,8 +614,8 @@ Public Class AppEntryManagement
             Case Else
                 view.SetRowCellValue(RowHandle, "Status", "PENDING")
         End Select
-        view.PostEditor()
-        view.UpdateCurrentRow()
+        'view.PostEditor()
+        'view.UpdateCurrentRow()
         ' Space ko Grid ke default action tak jane se roke
         e.Handled = True
         e.SuppressKeyPress = True
@@ -742,21 +738,19 @@ Public Class AppEntryManagement
                     sqL = "SELECT * FROM TrnInvoiceHeader WHERE BOOKVNO='" & view.GetRowCellValue(i, "BookVno").ToString() & "' "
                     sql_connect_slect()
                     TmpTbl = DefaltSoftTable.Copy
-
                     If TmpTbl.Rows.Count > 0 Then
                         BOOKVNO = TmpTbl(0)("BOOKVNO").ToString
                     End If
-
                     _strQuery = New StringBuilder
                     If BOOKVNO <> "" Then
-                        Status = view.GetRowCellValue(i, "Status").ToString()
+                        Status = view.GetRowCellValue(i, "Status").ToString().Trim().ToUpper()
                         UpdateOfferStatusLR(Id, Status, i)
                         If Status = "APPROVE" Then
                             srno += 1
                             With _strQuery
                                 .Append(" update TrnInvoiceHeader Set ")
-                                .Append("OP5='" & view.GetRowCellValue(i, "EntryNo").ToString() & "'")
-                                .Append(",OP6='" & view.GetRowCellValue(i, "ImageUrl").ToString() & "'")
+                                .Append("PORTCODE='" & view.GetRowCellValue(i, "EntryNo").ToString() & "'")
+                                .Append(",SHIPPINGBILLNO='" & view.GetRowCellValue(i, "ImageUrl").ToString() & "'")
                                 .Append(" Where BOOKVNO='" & BOOKVNO & "'")
                             End With
                             sqL = _strQuery.ToString
@@ -781,17 +775,24 @@ Public Class AppEntryManagement
                     End If
                     If BookCode <> "" Then
                         Dim TmpTbl As New DataTable
-                        sqL = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" & BookCode & "' "
-                        sql_connect_slect()
+                        'sqL = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" & BookCode & "' "
+                        'sql_connect_slect()
+                        RS = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" & BookCode & "'"
+                        MenuDesign_QueryLoad()
                         TmpTbl = DefaltSoftTable.Copy
 
                         If TmpTbl.Rows.Count > 0 Then
                             BookTrtype = TmpTbl(0)("BOOKTRTYPE").ToString
                             BookVno = Generate_Book_Vno(EntryNo, BookTrtype)
                         End If
+                        Status = view.GetRowCellValue(i, "Status").ToString()
+                        UpdateOfferStatus(Id, Status, i)
+                    Else
+                        MessageBox.Show("Book Voucher Number mismatch. Please verify the BookVno.", "BookVno Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        IsChecked = False
+                        Exit Sub
                     End If
-                    Status = view.GetRowCellValue(i, "Status").ToString()
-                    UpdateOfferStatus(Id, Status, i)
+
                     Dim QtyMtr As String = "0.00"
                     Dim Rate As String = "0.00"
                     Dim PickRate As String = "0.00"
@@ -930,9 +931,9 @@ Public Class AppEntryManagement
             End If
         Next
         If UpdatedCount > 0 Then
-            MessageBox.Show(TxtType.Text & "" & UpdatedCount & " row(s) updated successfully.")
+            MessageBox.Show(TxtType.Text & " " & UpdatedCount & " row(s) updated successfully.")
         Else
-            MessageBox.Show(TxtType.Text & "" & UpdatedCount & " row(s) updated successfully.")
+            MessageBox.Show(TxtType.Text & " " & UpdatedCount & " row(s) updated successfully.")
             'MessageBox.Show("No row selected.")
         End If
         _Zooming_Load()
@@ -971,7 +972,6 @@ Public Class AppEntryManagement
                     BookTrtype = "ONL30"
                 End If
             End If
-
         End If
     End Sub
 #End Region
