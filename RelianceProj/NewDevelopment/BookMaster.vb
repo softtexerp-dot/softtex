@@ -153,6 +153,26 @@ Public Class BookMaster
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
     End Sub
     Private Sub Transport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        'If e.KeyCode = Keys.Escape Then
+        '    If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
+        '        PnlGrdView.Visible = False
+        '        UC_Buttons1._ButtonEnableDisable("LOAD")
+        '        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        '        Exit Sub
+        '    ElseIf _FormCloseMode = False Then
+        '        UC_Buttons1._ButtonEnableDisable("LOAD")
+        '        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        '        _FormCloseMode = True
+        '        'Exit Sub
+        '    End If
+        '    If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+        '        _FrmLoad = True
+        '        If _FormCloseMode = True Then
+        '            Me.Close()
+        '            Dispose(True)
+        '        End If
+        '    End If
+        'End If
         If e.KeyCode = Keys.Escape Then
             If PnlGrdView.Visible = True Then
                 _FrmLoad = True
@@ -227,6 +247,7 @@ Public Class BookMaster
         If tblTmp.Rows.Count > 0 Then
             Txt_BookId.Focus()
             Txt_BookId.Text = tblTmp.Rows(0)("BookId")
+            _KeyFieldValue = tblTmp.Rows(0)("BookId")
             Txt_BookCode.Text = tblTmp.Rows(0)("BookCode")
             txttrtype.Text = tblTmp.Rows(0)("BookTrType")
             Txt_BookName.Text = tblTmp.Rows(0)("BookName")
@@ -306,7 +327,29 @@ Public Class BookMaster
     Private Sub UC_Buttons1_EditClick()
         Dim LASTCODE As String = ""
         _FORMMODE = "EDIT"
-        ObjCls_General.Blank_Object(Me)
+        RS = "SELECT 'False' as TickMark,A.BookName,A.Bookcategory,A.BookCode AS ACCOUNTCODE FROM MstBook A WHERE 1=1 ORDER BY  A.Bookcategory, A.BookName"
+        MenuDesign_QueryLoad()
+        Dim selected = SingleAccountSelectionFormaccess(RS, GetType(BookMaster), Txt_BookName.Text, "SINGLE")
+        If selected IsNot Nothing Then
+            If selected.ContainsKey("ACCOUNTCODE") Then Txt_BookCode.Text = selected("ACCOUNTCODE").ToString()
+            If selected.ContainsKey("BookName") Then Txt_BookName.Text = selected("BookName").ToString()
+        End If
+        RS = "SELECT * FROM MstBook WHERE BookName='" & Txt_BookName.Text & "' order by BookId Desc"
+        MenuDesign_QueryLoad()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId").ToString
+
+        Else
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            Call Ctrl_Visible_False(Me.Controls)
+            Exit Sub
+        End If
+
+        ALTER_FORM(Txt_BookId.Text)
+        'ObjCls_General.Blank_Object(Me)
+        'If _FORMMODE = "EDIT" Then
+        '    txtnature.Focus()
+        'End If
         _FormCloseMode = False
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
@@ -324,14 +367,36 @@ Public Class BookMaster
         Last_Focused_Btn = "DELETE"
         _FORMMODE = "DELETE"
         _FrmLoad = False
+        RS = "SELECT 'False' as TickMark,A.BookName,A.Bookcategory,A.BookCode AS ACCOUNTCODE FROM MstBook A WHERE 1=1 ORDER BY  A.Bookcategory, A.BookName"
+        MenuDesign_QueryLoad()
+        Dim selected = SingleAccountSelectionFormaccess(RS, GetType(BookMaster), Txt_BookName.Text, "SINGLE")
+        If selected IsNot Nothing Then
+            If selected.ContainsKey("ACCOUNTCODE") Then Txt_BookCode.Text = selected("ACCOUNTCODE").ToString()
+            If selected.ContainsKey("BookName") Then Txt_BookName.Text = selected("BookName").ToString()
+        End If
+        RS = "SELECT * FROM MstBook WHERE BookName='" & Txt_BookName.Text & "' order by Bookid desc"
+        MenuDesign_QueryLoad()
+        If DefaltSoftTable.Rows.Count > 0 Then
+            Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId").ToString
+        Else
+            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            Call Ctrl_Visible_False(Me.Controls)
+            Exit Sub
+        End If
+
+        ALTER_FORM(Txt_BookId.Text)
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If _FORMMODE = "DELETE" AndAlso Txt_BookName.Text = "" Then
-            Txt_BookName.Visible = True
-            Txt_BookName.Focus()
-            Txt_BookName.Select()
-            Ctrl_Visible_True(Me.Controls)
-            Exit Sub
+
+        If _FORMMODE = "DELETE" Then
+            If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+                Delete_Record()
+                MsgBox("Records Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+            End If
+            ObjCls_General.Blank_Object(Me)
+            Ctrl_Visible_False(Me.Controls)
+            UC_Buttons1._ButtonEnableDisable("LOAD")
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         End If
     End Sub
     Private Sub UC_Buttons1_BackClick()
@@ -554,53 +619,33 @@ Public Class BookMaster
         _DevExpressExcelExport(GridControl1)
     End Sub
 
+    'Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown, FirstStage.KeyDown
+    '    If e.KeyCode = Keys.Space Then
+    '        If FirstStage.FocusedColumn.FieldName = "UseChallan" Then
+    '            Dim currentValue As String = FirstStage.GetFocusedRowCellValue("UseChallan").ToString().ToUpper()
+    '            If currentValue = "YES" Then
+    '                FirstStage.SetFocusedRowCellValue("UseChallan", "NO")
+    '            Else
+    '                FirstStage.SetFocusedRowCellValue("UseChallan", "YES")
+    '            End If
+    '            e.Handled = True
+    '        End If
+    '        If FirstStage.FocusedColumn.FieldName = "ACTIVE_STATUS" Then
+    '            Dim currentValue As String = FirstStage.GetFocusedRowCellValue("ACTIVE_STATUS").ToString().ToUpper()
+    '            If currentValue = "YES" Then
+    '                FirstStage.SetFocusedRowCellValue("ACTIVE_STATUS", "NO")
+    '            Else
+    '                FirstStage.SetFocusedRowCellValue("ACTIVE_STATUS", "YES")
+    '            End If
+    '            e.Handled = True
+    '        End If
+    '    End If
+    'End Sub
     Private Sub Txt_BookName_Validated(sender As Object, e As EventArgs) Handles Txt_BookName.Validated
         txtReportTitle.Text = Txt_BookName.Text
     End Sub
 
     Private Sub Txt_BookName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Txt_BookName.KeyPress
-        If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
-        If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
-                Dim _Filterstring As String = " "
-                'Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring)
-
-                RS = "SELECT 'False' as TickMark,A.BookName,A.Bookcategory,A.BookCode AS ACCOUNTCODE FROM MstBook A WHERE 1=1 ORDER BY  A.Bookcategory, A.BookName"
-                MenuDesign_QueryLoad()
-                Dim selected = SingleAccountSelectionFormaccess(RS, GetType(BookMaster), Txt_BookName.Text, "SINGLE")
-                If selected IsNot Nothing Then
-                    If selected.ContainsKey("ACCOUNTCODE") Then Txt_BookCode.Text = selected("ACCOUNTCODE").ToString()
-                    If selected.ContainsKey("BookName") Then Txt_BookName.Text = selected("BookName").ToString()
-                End If
-                '_BookCode = txtBookCode.Text
-                'SendKeys.Send("{TAB}")
-
-                RS = "SELECT * FROM MstBook WHERE BookName='" & Txt_BookName.Text & "'"
-                MenuDesign_QueryLoad()
-                If DefaltSoftTable.Rows.Count > 0 Then
-                    Txt_BookId.Text = DefaltSoftTable.Rows(0).Item("BookId").ToString
-                Else
-                    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-                    Call Ctrl_Visible_False(Me.Controls)
-                    Exit Sub
-                End If
-
-                ALTER_FORM(Txt_BookId.Text)
-
-                If _FORMMODE = "DELETE" Then
-                    If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
-                        Delete_Record()
-                        MsgBox("Records Successfully Deleted", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                    End If
-                    ObjCls_General.Blank_Object(Me)
-                    Ctrl_Visible_False(Me.Controls)
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-                ElseIf _FORMMODE = "EDIT" Then
-                    txtnature.Focus()
-                End If
-            End If
-        End If
 
     End Sub
 End Class
