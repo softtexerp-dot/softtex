@@ -403,6 +403,14 @@
         BookMaster.Show()
     End Sub
 
+    Private Sub MismatchTypeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MismatchTypeToolStripMenuItem.Click
+        MismatchcostingType.Show()
+    End Sub
+
+    Private Sub MismatchcostingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MismatchcostingToolStripMenuItem.Click
+        MismatchCosting.Show()
+    End Sub
+
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
     '    'ReportsSelectionSettingForm.Show()
     'End Sub

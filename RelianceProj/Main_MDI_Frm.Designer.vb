@@ -49,6 +49,7 @@ Partial Class Main_MDI_Frm
         Me.ScanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserMenuUpdateToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BookMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FiberProductionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StockEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RequisitionToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -115,7 +116,8 @@ Partial Class Main_MDI_Frm
         Me.RawToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawBulkContractToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RawWestageEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BookMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MismatchTypeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MismatchcostingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -159,7 +161,7 @@ Partial Class Main_MDI_Frm
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem, Me.LogbookToolStripMenuItem, Me.ReadMadeStockReportToolStripMenuItem, Me.GetChallanDetailsToolStripMenuItem, Me.ComplaintdetailToolStripMenuItem, Me.CostdetailToolStripMenuItem, Me.CostdetailnewToolStripMenuItem, Me.SundaryTypeToolStripMenuItem, Me.BlankRateUpdateToolStripMenuItem, Me.OfferWiseBeamStockreportToolStripMenuItem, Me.TableformToolStripMenuItem, Me.TableDetailToolStripMenuItem, Me.MasterFormDetailToolStripMenuItem, Me.QueryToolStripMenuItem, Me.MenuMasterToolStripMenuItem, Me.MenuLoadToolStripMenuItem, Me.DToolStripMenuItem, Me.QrcodeToolStripMenuItem, Me.ScanToolStripMenuItem, Me.TestToolStripMenuItem, Me.UserMenuUpdateToolStripMenuItem1, Me.BookMasterToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DashbordToolStripMenuItem, Me.StoreConsToolStripMenuItem, Me.LogbookToolStripMenuItem, Me.ReadMadeStockReportToolStripMenuItem, Me.GetChallanDetailsToolStripMenuItem, Me.ComplaintdetailToolStripMenuItem, Me.CostdetailToolStripMenuItem, Me.CostdetailnewToolStripMenuItem, Me.SundaryTypeToolStripMenuItem, Me.BlankRateUpdateToolStripMenuItem, Me.OfferWiseBeamStockreportToolStripMenuItem, Me.TableformToolStripMenuItem, Me.TableDetailToolStripMenuItem, Me.MasterFormDetailToolStripMenuItem, Me.QueryToolStripMenuItem, Me.MenuMasterToolStripMenuItem, Me.MenuLoadToolStripMenuItem, Me.DToolStripMenuItem, Me.QrcodeToolStripMenuItem, Me.ScanToolStripMenuItem, Me.TestToolStripMenuItem, Me.UserMenuUpdateToolStripMenuItem1, Me.BookMasterToolStripMenuItem, Me.MismatchTypeToolStripMenuItem, Me.MismatchcostingToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -297,6 +299,12 @@ Partial Class Main_MDI_Frm
         Me.UserMenuUpdateToolStripMenuItem1.Name = "UserMenuUpdateToolStripMenuItem1"
         Me.UserMenuUpdateToolStripMenuItem1.Size = New System.Drawing.Size(272, 22)
         Me.UserMenuUpdateToolStripMenuItem1.Text = "UserMenuUpdate"
+        '
+        'BookMasterToolStripMenuItem
+        '
+        Me.BookMasterToolStripMenuItem.Name = "BookMasterToolStripMenuItem"
+        Me.BookMasterToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.BookMasterToolStripMenuItem.Text = "BookMaster"
         '
         'FiberProductionToolStripMenuItem
         '
@@ -698,11 +706,17 @@ Partial Class Main_MDI_Frm
         Me.RawWestageEntryToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
         Me.RawWestageEntryToolStripMenuItem.Text = "RawWestageEntry"
         '
-        'BookMasterToolStripMenuItem
+        'MismatchTypeToolStripMenuItem
         '
-        Me.BookMasterToolStripMenuItem.Name = "BookMasterToolStripMenuItem"
-        Me.BookMasterToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
-        Me.BookMasterToolStripMenuItem.Text = "BookMaster"
+        Me.MismatchTypeToolStripMenuItem.Name = "MismatchTypeToolStripMenuItem"
+        Me.MismatchTypeToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.MismatchTypeToolStripMenuItem.Text = "MismatchType"
+        '
+        'MismatchcostingToolStripMenuItem
+        '
+        Me.MismatchcostingToolStripMenuItem.Name = "MismatchcostingToolStripMenuItem"
+        Me.MismatchcostingToolStripMenuItem.Size = New System.Drawing.Size(272, 22)
+        Me.MismatchcostingToolStripMenuItem.Text = "Mismatchcosting"
         '
         'Main_MDI_Frm
         '
@@ -821,4 +835,6 @@ Partial Class Main_MDI_Frm
     Friend WithEvents RawBulkContractToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents RawWestageEntryToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BookMasterToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MismatchTypeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MismatchcostingToolStripMenuItem As ToolStripMenuItem
 End Class
