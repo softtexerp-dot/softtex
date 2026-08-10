@@ -26,30 +26,8 @@ Public Class MismatchCosting
     Private Grid_Table_ColNames() As String
 #End Region
 
-#Region "GRID STRING BUILDER VARIABLE YARN"
-    Private _YarnGridColNames As New StringBuilder
-    Private _YarnGridColType As New StringBuilder
-    Private _YarnGridColValidate As New StringBuilder
-    Private _YarnGridCol_FocusByPass As New StringBuilder
-    Private _YarnFieldDefaultValues As New StringBuilder
-    Private _YarnFieldHeader As New StringBuilder
-    Private _YarnFieldHeaderAlignment As New StringBuilder
-    Private _YarnFieldNotRequiredForSave As New StringBuilder
-    Private _YarnFieldNotVisibile As New StringBuilder
-    Private _YarnFieldWidthSet As New StringBuilder
-    Private _YarnFieldLocked As New StringBuilder
-    Private _YarnFieldMasking As New StringBuilder
-    Private _YarnFieldAlignMent As New StringBuilder
-    Private _YarnExtraFieldDataTable As New StringBuilder
-    Private _YarnExtraField_Values_DataTable As New StringBuilder
-    Private _YarnExtraFieldOthers As New StringBuilder
-    Private _YarnExtraField_Values_Others As New StringBuilder
-    Private _YarnFieldNameSameValueCopy As New StringBuilder
-    'Private _FieldNameForTotal As New StringBuilder
-    Private _YarnDataTableGrid As New DataTable
-    Private YarnGrid_Table_ColNames() As String
-#End Region
-#Region "GRID STRING BUILDER VARIABLE WEAVING AND GRAYCOST"
+
+#Region "GRID STRING BUILDER VARIABLE PACKING"
     Private _WeavingGridColNames As New StringBuilder
     Private _WeavingGridColType As New StringBuilder
     Private _WeavingGridColValidate As New StringBuilder
@@ -73,7 +51,7 @@ Public Class MismatchCosting
     Private WeavingGrid_Table_ColNames() As String
 #End Region
 
-#Region "GRID STRING BUILDER VARIABLE FINISH COST"
+#Region "GRID STRING BUILDER VARIABLE OVERHEAD"
     Private _FINISHGridColNames As New StringBuilder
     Private _FINISHGridColType As New StringBuilder
     Private _FINISHGridColValidate As New StringBuilder
@@ -96,29 +74,7 @@ Public Class MismatchCosting
     Private _FINISHDataTableGrid As New DataTable
     Private FINISHGrid_Table_ColNames() As String
 #End Region
-    '#Region "GRID STRING BUILDER VARIABLE SALES COST"
-    '    Private _SALESGridColNames As New StringBuilder
-    '    Private _SALESGridColType As New StringBuilder
-    '    Private _SALESGridColValidate As New StringBuilder
-    '    Private _SALESGridCol_FocusByPass As New StringBuilder
-    '    Private _SALESFieldDefaultValues As New StringBuilder
-    '    Private _SALESFieldHeader As New StringBuilder
-    '    Private _SALESFieldHeaderAlignment As New StringBuilder
-    '    Private _SALESFieldNotRequiredForSave As New StringBuilder
-    '    Private _SALESFieldNotVisibile As New StringBuilder
-    '    Private _SALESFieldWidthSet As New StringBuilder
-    '    Private _SALESFieldLocked As New StringBuilder
-    '    Private _SALESFieldMasking As New StringBuilder
-    '    Private _SALESFieldAlignMent As New StringBuilder
-    '    Private _SALESExtraFieldDataTable As New StringBuilder
-    '    Private _SALESExtraField_Values_DataTable As New StringBuilder
-    '    Private _SALESExtraFieldOthers As New StringBuilder
-    '    Private _SALESExtraField_Values_Others As New StringBuilder
-    '    Private _SALESFieldNameSameValueCopy As New StringBuilder
-    '    'Private _FieldNameForTotal As New StringBuilder
-    '    Private _SALESDataTableGrid As New DataTable
-    '    Private SALESGrid_Table_ColNames() As String
-    '#End Region
+
 #Region "GRID GENERAL VARIABLE"
 
     'Private _FindColIndex As Integer = 0
@@ -207,13 +163,12 @@ Public Class MismatchCosting
             .Append("Reed_Space,")
             .Append("srno,")
             .Append("Yarn_For,")
-            .Append("Countname,")
+            .Append("countcode,")
             .Append("NETCOUNT,")
             .Append("PATTERN,")
             .Append("Yarn_Rate,")
             .Append("Avg_weight,")
             .Append("PROFIT_PER,")
-            .Append("countcode,")
             .Append("yarn_west_per,")
             .Append("yarn_west_amt,")
             .Append("Net_Yarn_Cost,")
@@ -283,7 +238,7 @@ Public Class MismatchCosting
             .Append("AgencyPerMtrAmt,")
             .Append("ProftPerMtrAmt,")
             .Append("Fabric_Design_No,")
-
+            .Append("OP1,")
             .Append("Yarn_Amount")
         End With
 
@@ -386,7 +341,7 @@ Public Class MismatchCosting
         With _FieldHeader
             .Append("SRNO:S.No,")
             .Append("Yarn_For:Fabric For,")
-            .Append("Countname:Cut,")
+            .Append("Countcode:Cut,")
             .Append("Pattern:Pattern,")
             .Append("Yarn_Rate:Rate,")
             .Append("Avg_weight:GST Diff. %,")
@@ -398,7 +353,7 @@ Public Class MismatchCosting
         With _FieldHeaderAlignment
             .Append("SRNO:L,")
             .Append("Yarn_For:L,")
-            .Append("Countname:L,")
+            .Append("Countcode:L,")
             .Append("Pattern:R,")
             .Append("Yarn_Rate:R,")
             .Append("Avg_weight:R,")
@@ -410,7 +365,7 @@ Public Class MismatchCosting
         With _FieldAlignMent
             .Append("SRNO:L,")
             .Append("Yarn_For:L,")
-            .Append("Countname:L,")
+            .Append("Countcode:L,")
             .Append("Pattern:R,")
             .Append("Yarn_Rate:R,")
             .Append("Avg_weight:R,")
@@ -435,13 +390,12 @@ Public Class MismatchCosting
             .Append("NETCOUNT:N,")
             .Append("SRNO:Y,")
             .Append("Yarn_For:Y,")
-            .Append("Countname:Y,")
+            .Append("countcode:Y,")
             .Append("Pattern:N,")
             .Append("Yarn_Rate:Y,")
             .Append("Avg_weight:Y,")
             .Append("PROFIT_PER:N,")
             .Append("Yarn_Amount:Y,")
-            .Append("countcode:N,")
             .Append("yarn_west_per:N,")
             .Append("yarn_west_amt:N,")
             .Append("Net_Yarn_Cost:N,")
@@ -508,6 +462,7 @@ Public Class MismatchCosting
             .Append("CdPerMtrAmt:N,")
             .Append("AgencyPerMtrAmt:N,")
             .Append("ProftPerMtrAmt:N,")
+            .Append("OP1:N,")
             .Append("sales_cost:N")
         End With
 
@@ -522,7 +477,7 @@ Public Class MismatchCosting
         With _FieldWidthSet
             .Append("SRNO:6,")
             .Append("Yarn_For:11,")
-            .Append("Countname:15,")
+            .Append("CountCode:15,")
             .Append("Pattern:11,")
             .Append("Yarn_Rate:15,")
             .Append("Avg_weight:15,")
@@ -536,7 +491,23 @@ Public Class MismatchCosting
             .Append("pattern:0,")
             .Append("Avg_weight:0,")
             .Append("PROFIT_PER:0,")
-            .Append("Yarn_Amount:0")
+            .Append("OTHEREXP_1:0,")
+            .Append("TOTAL_ENDS:0,")
+            .Append("LOOM:0,")
+            .Append("PICK:0,")
+            .Append("REED_SPACE:0,")
+            .Append("NET_YARN_COST:0,")
+            .Append("NET_WEAVING_COST:0,")
+            .Append("NET_FINISH_COST:0,")
+            .Append("YARN_SUB_TOTAL_AMT:0,")
+            .Append("NET_GREY_COST:0,")
+            .Append("NET_SALES_COST:0,")
+            .Append("WEAV_COST:0,")
+            .Append("FINISH_COST:0,")
+            .Append("SALES_COST:0,")
+            .Append("YARN_AMOUNT:0,")
+            .Append("Dent:0,")
+            .Append("GREY_COST:0,")
             .Append("VALUE_LOSS_PER_MTR:0")
         End With
 
@@ -550,6 +521,7 @@ Public Class MismatchCosting
         _FieldMasking = New StringBuilder
         With _FieldMasking
             .Append("Yarn_Rate:NO-2,")
+            .Append("CountCode:NO-2,")
             .Append("Avg_weight:NO-3,")
             .Append("PROFIT_PER:NO-3,")
             .Append("Yarn_Amount:NO-2")
@@ -583,189 +555,6 @@ Public Class MismatchCosting
         Next
     End Sub
 #End Region
-    '#Region "GRID COL. DEFINE AND FORMATTING YARN"
-
-
-    '    Private Sub defineGridColNameyarn()
-    '        _YarnGridColNames = New StringBuilder
-    '        With _YarnGridColNames
-    '            .Append("Fabric_Design_No,")
-    '            .Append("Fabric_Item_Name,")
-    '            .Append("yarn_for,")
-    '            .Append("countcode,")
-    '            .Append("FD_PD,")
-    '            .Append("Reed,")
-    '            .Append("OTHEREXP_1,")
-    '            .Append("TOTAL_ENDS,")
-    '            .Append("LOOM,")
-    '            .Append("EntryNo,")
-    '            .Append("Entry_Date,")
-    '            .Append("Dent,")
-    '            .Append("Pick,")
-    '            .Append("Reed_Space,")
-    '            .Append("Net_Yarn_Cost,")
-    '            .Append("Net_Weaving_Cost,")
-    '            .Append("Net_Grey_Cost,")
-    '            .Append("Net_Finish_Cost,")
-    '            .Append("Net_Sales_Cost,")
-    '            .Append("yarn_Sub_Total_amt,")
-    '            .Append("weav_cost,")
-    '            .Append("grey_Cost,")
-    '            .Append("finish_cost,")
-    '            .Append("OP1,")
-    '            .Append("sales_cost,")
-    '            .Append("Yarn_Amount")
-    '        End With
-
-    '        _YarnGridColType = New StringBuilder
-    '        With _YarnGridColType
-    '            '.Append("Fabric_Design_No:N,")
-    '            '.Append("Fabric_Item_Name:N,")
-    '            '.Append("yarn_for:N,")
-    '            '.Append("countcode:N,")
-    '            '.Append("FD_PD:N,")
-    '            .Append("Reed:N,")
-    '            .Append("Yarn_Amount:N")
-    '        End With
-
-    '        _YarnGridColValidate = New StringBuilder
-    '        With _YarnGridColValidate
-    '        End With
-
-    '        _YarnGridCol_FocusByPass = New StringBuilder
-    '        With _YarnGridCol_FocusByPass
-
-    '        End With
-
-    '        _YarnFieldHeader = New StringBuilder
-    '        With _YarnFieldHeader
-    '            .Append("yarn_for:Yarn Sundary,")
-    '            .Append("COUNTCODE:Add/Less,")
-    '            .Append("FD_PD:Calc. By,")
-    '            .Append("Reed:Per/Amt,")
-    '            .Append("Yarn_Amount:Amount")
-    '        End With
-
-    '        _YarnFieldHeaderAlignment = New StringBuilder
-    '        With _YarnFieldHeaderAlignment
-    '            .Append("Fabric_Design_No:R,")
-    '            .Append("Fabric_Item_Name:L,")
-    '            .Append("yarn_for:L,")
-    '            .Append("countcode:L,")
-    '            .Append("FD_PD:L,")
-    '            .Append("Reed:R,")
-    '            .Append("Yarn_Amount:R")
-    '        End With
-
-    '        _YarnFieldAlignMent = New StringBuilder
-    '        With _YarnFieldAlignMent
-    '            .Append("Fabric_Design_No:R,")
-    '            .Append("Fabric_Item_Name:L,")
-    '            .Append("yarn_for:L,")
-    '            .Append("countcode:L,")
-    '            .Append("FD_PD:L,")
-    '            .Append("Reed:R,")
-    '            .Append("Yarn_Amount:R")
-    '        End With
-
-    '        _YarnFieldNotVisibile = New StringBuilder
-    '        With _YarnFieldNotVisibile
-    '            .Append("Fabric_Design_No:N,")
-    '            .Append("Fabric_Item_Name:N,")
-    '            .Append("yarn_for:Y,")
-    '            .Append("countcode:Y,")
-    '            .Append("FD_PD:Y,")
-    '            .Append("Reed:Y,")
-    '            .Append("OTHEREXP_1:N,")
-    '            .Append("TOTAL_ENDS:N,")
-    '            .Append("LOOM:N,")
-    '            .Append("EntryNo:N,")
-    '            .Append("Entry_Date:N,")
-    '            .Append("Dent:N,")
-    '            .Append("Pick:N,")
-    '            .Append("Reed_Space:N,")
-    '            .Append("Net_Yarn_Cost:N,")
-    '            .Append("Net_Weaving_Cost:N,")
-    '            .Append("Net_Grey_Cost:N,")
-    '            .Append("Net_Finish_Cost:N,")
-    '            .Append("Net_Sales_Cost:N,")
-    '            .Append("yarn_Sub_Total_amt:N,")
-    '            .Append("weav_cost:N,")
-    '            .Append("grey_Cost:N,")
-    '            .Append("finish_cost:N,")
-    '            .Append("OP1:N,")
-    '            .Append("sales_cost:N,")
-    '            .Append("Yarn_Amount:Y")
-    '        End With
-
-    '        _YarnFieldNotRequiredForSave = New StringBuilder
-    '        With _YarnFieldNotRequiredForSave
-
-    '        End With
-
-    '        _YarnFieldWidthSet = New StringBuilder
-    '        With _YarnFieldWidthSet
-    '            .Append("Fabric_Design_No:0,")
-    '            .Append("Fabric_Item_Name:0,")
-    '            .Append("yarn_for:40,")
-    '            .Append("countcode:15,")
-    '            .Append("FD_PD:13,")
-    '            .Append("Reed:15,")
-    '            .Append("Yarn_Amount:10")
-    '        End With
-
-    '        _YarnFieldDefaultValues = New StringBuilder
-    '        With _YarnFieldDefaultValues
-    '            .Append("YARN_SUB_TOTAL_AMT:0,")
-    '            .Append("GREY_COST:0")
-    '        End With
-
-    '        _YarnFieldLocked = New StringBuilder
-    '        With _YarnFieldLocked
-    '            .Append("Fabric_Item_Name:Y,")
-    '            .Append("yarn_for:Y,")
-    '            .Append("countcode:Y,")
-    '            .Append("FD_PD:Y,")
-    '            .Append("Reed:N,")
-    '            .Append("Yarn_Amount:Y")
-    '        End With
-
-    '        _YarnFieldMasking = New StringBuilder
-    '        With _YarnFieldMasking
-    '            '.Append("Yarn_Rate:NO-2,")
-    '        End With
-
-    '        With _YarnFieldNameSameValueCopy
-
-    '        End With
-
-    '        YarnGrid_Table_ColNames = _YarnGridColNames.ToString.ToUpper.Split(",")
-
-    '    End Sub
-
-
-
-    '    Private Sub GenerateTableYarn(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
-    '        ObjCls_General.CreateDataTable(gridTable, _YarnGridColNames.ToString.ToUpper, "NO", _YarnGridColType.ToString)
-    '        grdObj.ExtendLastCol = True
-    '        _GridLastColNo = gridTable.Columns.Count
-    '        grdObj.Cols = gridTable.Columns.Count + 1
-    '        grdObj.Rows = 7
-    '    End Sub
-    '    Private Sub GridFormattingYarn(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
-    '        Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "VISIBLE", _YarnFieldNotVisibile.ToString)
-    '        Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "WIDTH", _YarnFieldWidthSet.ToString)
-    '        Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "HEADER", _YarnFieldHeader.ToString)
-    '        Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "LOCK", _YarnFieldLocked.ToString)
-    '        Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "MASK", _YarnFieldMasking.ToString)
-    '        Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "ALIGNMENT", _YarnFieldAlignMent.ToString)
-    '        Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "HALIGNMENT", _YarnFieldHeaderAlignment.ToString)
-    '        Dim xFont = New Font("Verdana", 9, FontStyle.Regular)
-    '        For i As Integer = 0 To grdObj.Cols - 1
-    '            grdObj.Cell(0, i).Font = xFont
-    '        Next
-    '    End Sub
-    '#End Region
 
 #Region "GRID COL. DEFINE AND FORMATTING PACKING"
     Private Sub defineGridColNameWeaving()
@@ -899,6 +688,22 @@ Public Class MismatchCosting
         _WeavingFieldDefaultValues = New StringBuilder
         With _WeavingFieldDefaultValues
             .Append("YARN_SUB_TOTAL_AMT:0,")
+            .Append("OTHEREXP_1:0,")
+            .Append("TOTAL_ENDS:0,")
+            .Append("LOOM:0,")
+            .Append("PICK:0,")
+            .Append("REED_SPACE:0,")
+            .Append("NET_YARN_COST:0,")
+            .Append("NET_WEAVING_COST:0,")
+            .Append("NET_FINISH_COST:0,")
+            .Append("YARN_SUB_TOTAL_AMT:0,")
+            .Append("NET_GREY_COST:0,")
+            .Append("NET_SALES_COST:0,")
+            .Append("WEAV_COST:0,")
+            .Append("FINISH_COST:0,")
+            .Append("SALES_COST:0,")
+            .Append("YARN_AMOUNT:0,")
+            .Append("Dent:0,")
             .Append("GREY_COST:0")
         End With
 
@@ -914,7 +719,9 @@ Public Class MismatchCosting
 
         _WeavingFieldMasking = New StringBuilder
         With _WeavingFieldMasking
-            '.Append("Yarn_Rate:NO-2,")
+            .Append("COUNTCODE:NO-2,")
+            .Append("FD_PD:NO-2,")
+            .Append("Reed:NO-2")
         End With
 
         With _WeavingFieldNameSameValueCopy
@@ -1072,16 +879,32 @@ Public Class MismatchCosting
         With _FINISHFieldWidthSet
             .Append("Fabric_Design_No:0,")
             .Append("Fabric_Item_Name:0,")
-            .Append("yarn_for:40,")
+            .Append("yarn_for:30,")
             .Append("countcode:15,")
             .Append("FD_PD:13,")
-            .Append("Reed:15,")
+            .Append("Reed:25,")
             .Append("Yarn_Amount:10")
         End With
 
         _FINISHFieldDefaultValues = New StringBuilder
         With _FINISHFieldDefaultValues
             .Append("YARN_SUB_TOTAL_AMT:0,")
+            .Append("OTHEREXP_1:0,")
+            .Append("TOTAL_ENDS:0,")
+            .Append("LOOM:0,")
+            .Append("PICK:0,")
+            .Append("REED_SPACE:0,")
+            .Append("NET_YARN_COST:0,")
+            .Append("NET_WEAVING_COST:0,")
+            .Append("NET_FINISH_COST:0,")
+            .Append("YARN_SUB_TOTAL_AMT:0,")
+            .Append("NET_GREY_COST:0,")
+            .Append("NET_SALES_COST:0,")
+            .Append("WEAV_COST:0,")
+            .Append("FINISH_COST:0,")
+            .Append("SALES_COST:0,")
+            .Append("YARN_AMOUNT:0,")
+            .Append("Dent:0,")
             .Append("GREY_COST:0")
         End With
 
@@ -1097,7 +920,10 @@ Public Class MismatchCosting
 
         _FINISHFieldMasking = New StringBuilder
         With _FINISHFieldMasking
-            '.Append("Yarn_Rate:NO-2,")
+            .Append("COUNTCODE:NO-2,")
+            .Append("FD_PD:NO-2,")
+            .Append("Reed:NO-2,")
+            .Append("Yarn_Amount:NO-2")
         End With
 
         With _FINISHFieldNameSameValueCopy
@@ -1389,51 +1215,51 @@ Public Class MismatchCosting
     '    End Sub
 
     '#End Region
-    '#Region "Form Default values on Load Packing"
-    '    Private Sub DefineDafaultValuesWeaving()
-    '        Dim _Fieldqry = New StringBuilder
-    '        With _Fieldqry
-    '            .Append("SELECT BEHAVIOUR as Fabric_Design_No")
-    '            .Append(",BookName As Fabric_Item_Name")
-    '            .Append(",RCPT_ISSUE As yarn_for")
-    '            .Append(",NATURE As countcode")
-    '            .Append(",Y_OWN_STK As FD_PD")
-    '            .Append(",Y_OWN_STK_FLD As Reed")
-    '            .Append(",Bookorder As OTHEREXP_1")
-    '            .Append(",'' as TOTAL_ENDS")
-    '            .Append(",'' as LOOM")
-    '            .Append(",'' as EntryNo")
-    '            .Append(",'' as Entry_Date")
-    '            .Append(",'' as Dent")
-    '            .Append(",'' as Pick")
-    '            .Append(",'' as Reed_Space")
-    '            .Append(",'' as Net_Yarn_Cost")
-    '            .Append(",'' as Net_Weaving_Cost")
-    '            .Append(",'' as Net_Grey_Cost")
-    '            .Append(",'' as Net_Finish_Cost")
-    '            .Append(",'' as Net_Sales_Cost")
-    '            .Append(",'' as yarn_Sub_Total_amt")
-    '            .Append(",'' as weav_cost")
-    '            .Append(",'' as grey_Cost")
-    '            .Append(",'' as finish_cost")
-    '            .Append(",'' as OP1")
-    '            .Append(",'' as sales_cost")
-    '            .Append(", 0.00 AS Amount")
-    '            .Append(" FROM Query1 where 1=1 and BookName='PACKING' and Y_JOB_WORKER_STK_OWN='Mismatch Cost Setting' and Y_JOB_PARTY_STK_FLD='YES' order by Bookorder")
-    '        End With
-    '        strQuery = _Fieldqry.ToString()
-    '        sqL = strQuery
-    '        sql_connect_slect()
+#Region "Form Default values on Load Packing"
+    Private Sub DefineDafaultValuesWeaving()
+        Dim _Fieldqry = New StringBuilder
+        With _Fieldqry
+            .Append("SELECT BEHAVIOUR as Fabric_Design_No")
+            .Append(",BookName As Fabric_Item_Name")
+            .Append(",RCPT_ISSUE As yarn_for")
+            .Append(",NATURE As countcode")
+            .Append(",Y_OWN_STK As FD_PD")
+            .Append(",Y_OWN_STK_FLD As Reed")
+            .Append(",Bookorder As OTHEREXP_1")
+            .Append(",'' as TOTAL_ENDS")
+            .Append(",'' as LOOM")
+            .Append(",'' as EntryNo")
+            .Append(",'' as Entry_Date")
+            .Append(",'' as Dent")
+            .Append(",'' as Pick")
+            .Append(",'' as Reed_Space")
+            .Append(",'' as Net_Yarn_Cost")
+            .Append(",'' as Net_Weaving_Cost")
+            .Append(",'' as Net_Grey_Cost")
+            .Append(",'' as Net_Finish_Cost")
+            .Append(",'' as Net_Sales_Cost")
+            .Append(",'' as yarn_Sub_Total_amt")
+            .Append(",'' as weav_cost")
+            .Append(",'' as grey_Cost")
+            .Append(",'' as finish_cost")
+            .Append(",'' as OP1")
+            .Append(",'' as sales_cost")
+            .Append(", 0.00 AS Amount")
+            .Append(" FROM Query1 where 1=1 and BookName='PACKING' and Y_JOB_WORKER_STK_OWN='Mismatch Cost Setting' and Y_JOB_PARTY_STK_FLD='YES' order by Bookorder")
+        End With
+        strQuery = _Fieldqry.ToString()
+        sqL = strQuery
+        sql_connect_slect()
 
-    '        If DefaltSoftTable.Rows.Count > 0 Then
-    '            GrdWeavingcost.DataSource = DefaltSoftTable.Copy
-    '        End If
-    '        GrdWeavingcost.Locked = True
-    '        GrdWeavingcost.BoldFixedCell = True
-    '        GrdWeavingcost.Locked = False
-    '    End Sub
+        If DefaltSoftTable.Rows.Count > 0 Then
+            GrdWeavingcost.DataSource = DefaltSoftTable.Copy
+        End If
+        GrdWeavingcost.Locked = True
+        GrdWeavingcost.BoldFixedCell = True
+        GrdWeavingcost.Locked = False
+    End Sub
 
-    '#End Region
+#End Region
 
 #Region "Form Default values on Load OverHead"
     Private Sub DefineDafaultValuesFinishcost()
@@ -1480,51 +1306,6 @@ Public Class MismatchCosting
     End Sub
 
 #End Region
-    '#Region "Form Default values on Load SALES COST"
-    '    Private Sub DefineDafaultValuesSalescost()
-    '        Dim _Fieldqry = New StringBuilder
-    '        With _Fieldqry
-    '            .Append("SELECT BEHAVIOUR as Fabric_Design_No")
-    '            .Append(",BookName As Fabric_Item_Name")
-    '            .Append(",RCPT_ISSUE As yarn_for")
-    '            .Append(",NATURE As countcode")
-    '            .Append(",Y_OWN_STK As FD_PD")
-    '            .Append(",Y_OWN_STK_FLD As Reed")
-    '            .Append(",Bookorder As OTHEREXP_1")
-    '            .Append(",'' as TOTAL_ENDS")
-    '            .Append(",'' as LOOM")
-    '            .Append(",'' as EntryNo")
-    '            .Append(",'' as Entry_Date")
-    '            .Append(",'' as Dent")
-    '            .Append(",'' as Pick")
-    '            .Append(",'' as Reed_Space")
-    '            .Append(",'' as Net_Yarn_Cost")
-    '            .Append(",'' as Net_Weaving_Cost")
-    '            .Append(",'' as Net_Grey_Cost")
-    '            .Append(",'' as Net_Finish_Cost")
-    '            .Append(",'' as Net_Sales_Cost")
-    '            .Append(",'' as yarn_Sub_Total_amt")
-    '            .Append(",'' as weav_cost")
-    '            .Append(",'' as grey_Cost")
-    '            .Append(",'' as finish_cost")
-    '            .Append(",'' as OP1")
-    '            .Append(",'' as sales_cost")
-    '            .Append(", 0.00 AS Amount")
-    '            .Append(" FROM Query1 where 1=1 and BookName='SALES COST' and Y_JOB_WORKER_STK_OWN='Mismatch Cost Setting' and Y_JOB_PARTY_STK_FLD='YES' order by Bookorder")
-    '        End With
-    '        strQuery = _Fieldqry.ToString()
-    '        sqL = strQuery
-    '        sql_connect_slect()
-
-    '        If DefaltSoftTable.Rows.Count > 0 Then
-    '            Grdsalescost.DataSource = DefaltSoftTable.Copy
-    '        End If
-    '        Grdsalescost.Locked = True
-    '        Grdsalescost.BoldFixedCell = True
-    '        Grdsalescost.Locked = False
-    '    End Sub
-
-    '#End Region
 #Region "FORM EVENTS"
 
     Private Sub Coastsheetentry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -1546,7 +1327,7 @@ Public Class MismatchCosting
         GridControl1.Location = New Point(3, 53)
 
         _FrmLoad = True
-        'Grid Default Fill
+        'Grid Fabric Fill
         Call defineGridColName()
         Call GenerateTable(_DataTableGrid, GrdItem)
         Call GridFormatting(_DataTableGrid, GrdItem)
@@ -1556,16 +1337,8 @@ Public Class MismatchCosting
         GrdItem.DefaultRowHeight = 20
         _old_Me_text = Me.Text
 
-        ''Grid Yarn fill
-        'Call DefineDafaultValuesYarn()
-        'Call defineGridColNameyarn()
-        'Call GenerateTableYarn(_YarnDataTableGrid, Grdyarn)
-        'Call GridFormattingYarn(_YarnDataTableGrid, Grdyarn)
-        'Grdyarn.Column(0).Visible = False
-        'Grdyarn.Row(0).Height = 31
-        'Grdyarn.DefaultRowHeight = 20
 
-        'Grid Weaving and Grey Cost fill
+        'Grid Packing fill
         'Call DefineDafaultValuesWeaving()
         Call defineGridColNameWeaving()
         Call GenerateTableWeaving(_WeavingDataTableGrid, GrdWeavingcost)
@@ -1574,7 +1347,7 @@ Public Class MismatchCosting
         GrdWeavingcost.Row(0).Height = 31
         GrdWeavingcost.DefaultRowHeight = 20
 
-        'Grid Finish Cost fill
+        'Grid OverHead fill
         Call DefineDafaultValuesFinishcost()
         Call defineGridColNameFinish()
         Call GenerateTableFinish(_FINISHDataTableGrid, GrdFinishcost)
@@ -1583,14 +1356,6 @@ Public Class MismatchCosting
         GrdFinishcost.Row(0).Height = 31
         GrdFinishcost.DefaultRowHeight = 20
 
-        'Grid Sales Cost fill
-        'Call DefineDafaultValuesSalescost()
-        'Call defineGridColNamesalescost()
-        'Call GenerateTableSalescost(_SALESDataTableGrid, Grdsalescost)
-        'Call GridFormattingSalescost(_SALESDataTableGrid, Grdsalescost)
-        'Grdsalescost.Column(0).Visible = False
-        'Grdsalescost.Row(0).Height = 31
-        'Grdsalescost.DefaultRowHeight = 20
 
         If _isCallerByOther = True Then
             Call Alter_Form(_KeyFieldValue)
@@ -1632,21 +1397,42 @@ Public Class MismatchCosting
                         Total_Upto_All_Grid_All_Row()
                         GrdItem.BoldFixedCell = False
                         txt_EntryNo.Focus()
-                    Case "TERM1"
-                        txt_EntryNo.Focus()
-                    Case "TXTOFFERDATE"
+
+                    Case "TXT_ENTRYNO"
                         _FrmLoad = True
-                        'txtEntryNo.Focus()
+                        txt_EntryNo.Focus()
                         txt_Entry_Date.Text = ObjCls_General.GetTodayDate_British
                         _FORMMODE = ""
                         Old_Date = txt_Entry_Date.Text
                         ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
                         Clear_Grid(GrdItem, 2)
-                        _KeyFieldValue = 0
+                        Clear_Grid(GrdWeavingcost, 2)
+                        Clear_Grid(GrdFinishcost, 2)
+                        _KeyFieldValue = 1
                         Cost_Sheet_Ctrl_Visible_False()
                         GrdItem.BoldFixedCell = False
+                        GrdWeavingcost.BoldFixedCell = False
+                        GrdFinishcost.BoldFixedCell = False
                         _FrmLoad = False
+                    Case "TXT_ENTRY_DATE"
+                        _FrmLoad = True
+                        txt_EntryNo.Focus()
+                        txt_Entry_Date.Text = ObjCls_General.GetTodayDate_British
+                        _FORMMODE = ""
+                        Old_Date = txt_Entry_Date.Text
+                        ObjCls_General.Blank_Object(Me)
+                        txt_Entry_Date.Text = Old_Date
+                        Clear_Grid(GrdItem, 2)
+                        Clear_Grid(GrdWeavingcost, 2)
+                        Clear_Grid(GrdFinishcost, 2)
+                        _KeyFieldValue = 1
+                        Cost_Sheet_Ctrl_Visible_False()
+                        GrdItem.BoldFixedCell = False
+                        GrdWeavingcost.BoldFixedCell = False
+                        GrdFinishcost.BoldFixedCell = False
+                        _FrmLoad = False
+
                     Case Else
                         _FrmLoad = True
                         _FORMMODE = ""
@@ -1654,9 +1440,16 @@ Public Class MismatchCosting
                         ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
                         Clear_Grid(GrdItem, 2)
+                        Clear_Grid(GrdWeavingcost, 2)
+                        Clear_Grid(GrdFinishcost, 2)
                         _KeyFieldValue = 0
+                        txt_EntryNo.Focus()
                         Cost_Sheet_Ctrl_Visible_False()
                         GrdItem.BoldFixedCell = False
+                        GrdWeavingcost.BoldFixedCell = False
+                        GrdFinishcost.BoldFixedCell = False
+                        'UC_Buttons1._ButtonEnableDisable("LOAD")
+                        'UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
                         _FrmLoad = False
                 End Select
             End If
@@ -1671,7 +1464,7 @@ Public Class MismatchCosting
         ElseIf e.KeyCode = Keys.F1 Then
             Select Case _STRTRNOBJECT
                 Case "GRDITEM"
-                    If (Val(lbl_AvgWt.Text) + Val(txt_yarn_Sub_Total_amt.Text)) = 0 Then
+                    If (Val(txt_yarn_Sub_Total_amt.Text)) = 0 Then
                         MsgBox("Blank Count Detail, Can't Save")
                         Exit Sub
                     Else
@@ -1805,7 +1598,6 @@ Public Class MismatchCosting
         Call Fill_Grid_Records_Into_DataTables()
         Try
             SAVE_INTO_DATABASE()
-            'If _LastID > 0 Then
             Old_Date = txt_Entry_Date.Text
             _Last_Saved_Entry_No = Val(txt_EntryNo.Text)
             MsgBox("Record Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex ERP")
@@ -1829,33 +1621,19 @@ Public Class MismatchCosting
             GrdItem.BoldFixedCell = False
             Clear_Grid(GrdItem, 2)
             _FrmLoad = True
-            'Yarn sundary default load
-            'Grdyarn.BoldFixedCell = False
-            'Clear_Grid(Grdyarn, 2)
-            'Call DefineDafaultValuesYarn()
-            'Call GridFormattingYarn(_YarnDataTableGrid, Grdyarn)
-            'Grdyarn.Column(0).Visible = False
-            'Weaving sundary default load
+
+            'Packing default load
             GrdWeavingcost.BoldFixedCell = False
             Clear_Grid(GrdWeavingcost, 2)
-            'Call DefineDafaultValuesWeaving()
+            Call DefineDafaultValuesWeaving()
             Call GridFormattingWeaving(_WeavingDataTableGrid, GrdWeavingcost)
             GrdWeavingcost.Column(0).Visible = False
-            'Finish sundary default load
+            'OverHead default load
             GrdFinishcost.BoldFixedCell = False
             Clear_Grid(GrdFinishcost, 2)
             Call DefineDafaultValuesFinishcost()
             Call GridFormattingFinish(_FINISHDataTableGrid, GrdFinishcost)
             GrdFinishcost.Column(0).Visible = False
-            'Sales sundary default load
-            'Grdsalescost.BoldFixedCell = False
-            'Clear_Grid(Grdsalescost, 2)
-            'Call DefineDafaultValuesSalescost()
-            'Call GridFormattingSalescost(_SALESDataTableGrid, Grdsalescost)
-            'Grdsalescost.Column(0).Visible = False
-
-            lbl_AvgWt.Visible = False
-            'End If
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -1897,8 +1675,8 @@ Public Class MismatchCosting
         Dim WeavingFieldDr As DataRow
         _WeavingDataTableGrid.Rows.Clear()
         For i As Int16 = 1 To GrdWeavingcost.Rows - 1
-            'If Val(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
-            WeavingFieldDr = _WeavingDataTableGrid.NewRow
+            If Val(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
+                WeavingFieldDr = _WeavingDataTableGrid.NewRow
                 For j As Int16 = 1 To GrdWeavingcost.Cols - 1
                     If WeavingFieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
                         WeavingFieldDr(j - 1) = Val(GrdWeavingcost.Cell(i, j).Text)
@@ -1907,14 +1685,14 @@ Public Class MismatchCosting
                     End If
                 Next
                 _WeavingDataTableGrid.Rows.Add(WeavingFieldDr)
-            'End If
+            End If
         Next
         '---Fill Finish Grid Records-------------------
         Dim FinishFieldDr As DataRow
         _FINISHDataTableGrid.Rows.Clear()
         For i As Int16 = 1 To GrdFinishcost.Rows - 1
-            'If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
-            FinishFieldDr = _FINISHDataTableGrid.NewRow
+            If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
+                FinishFieldDr = _FINISHDataTableGrid.NewRow
                 For j As Int16 = 1 To GrdFinishcost.Cols - 1
                     If FinishFieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
                         FinishFieldDr(j - 1) = Val(GrdFinishcost.Cell(i, j).Text)
@@ -1923,7 +1701,7 @@ Public Class MismatchCosting
                     End If
                 Next
                 _FINISHDataTableGrid.Rows.Add(FinishFieldDr)
-            'End If
+            End If
         Next
         '---Fill Sales Grid Records-------------------
         'Dim SalesFieldDr As DataRow
@@ -2004,13 +1782,17 @@ Public Class MismatchCosting
         Dim WeavingQueryDetailTable As String = ""
         Dim strFilterString As String = ""
         Dim WeavingQuery_Auto_Grid(_WeavingDataTableGrid.Rows.Count, 4) As String
-        strFilterString = "Fabric_Design_No<>''"
+        'strFilterString = "Fabric_Design_No<>''"
+        strFilterString = ""
         Dim yarntype As String = ""
         yarntype = "COSTING INFORMATION"
+        Dim strtype As String = ""
+        strtype = "PACKING"
         _ExtraFieldDataTable = New StringBuilder
         With _ExtraFieldDataTable
             .Append("EntryNo,")
             .Append("Entry_Date,")
+            .Append("Fabric_Item_Name,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
             .Append("yarn_Sub_Total_amt,")
@@ -2021,14 +1803,24 @@ Public Class MismatchCosting
 
         _ExtraField_Values_DataTable = New StringBuilder
         With _ExtraField_Values_DataTable
-            .Append(txt_EntryNo.Text & ",")
+            '.Append(txt_EntryNo.Text & ",")
+            '.Append(txt_Entry_Date.Date_for_Database & ",")
+            '.Append(TXT_Net_Weaving_Cost.Text & ",")
+            '.Append(TXT_Net_Finish_Cost.Text & ",")
+            '.Append(txt_yarn_Sub_Total_amt.Text & ",")
+            '.Append(TXT_Net_Weaving_Cost.Text & ",")
+            '.Append(TXT_Net_Finish_Cost.Text & ",")
+            '.Append("'" & yarntype & "'")
+            .Append(GetNumericValue(txt_EntryNo.Text) & ",")
             .Append(txt_Entry_Date.Date_for_Database & ",")
-            .Append(TXT_Net_Weaving_Cost.Text & ",")
-            .Append(TXT_Net_Finish_Cost.Text & ",")
-            .Append(txt_yarn_Sub_Total_amt.Text & ",")
-            .Append(TXT_Net_Weaving_Cost.Text & ",")
-            .Append(TXT_Net_Finish_Cost.Text & ",")
-            .Append("'" & yarntype.Replace("'", "''") & "'")
+            .Append(strtype & ",")
+            .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            .Append(GetNumericValue(txt_yarn_Sub_Total_amt.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            ' OP1 - NVARCHAR
+            .Append(yarntype)
         End With
 
         WeavingQueryDetailTable = ObjCls_General.GetQueryArray(_OfferTableName, "FORCELY_ADDED", strFilterString, WeavingQuery_Auto_Grid, _WeavingDataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -2044,10 +1836,13 @@ Public Class MismatchCosting
         strFilterString = "Fabric_Design_No<>''"
         Dim yarntype As String = ""
         yarntype = "COSTING INFORMATION"
+        Dim strtype As String = ""
+        strtype = "OVERHEAD"
         _ExtraFieldDataTable = New StringBuilder
         With _ExtraFieldDataTable
             .Append("EntryNo,")
             .Append("Entry_Date,")
+            .Append("Fabric_Item_Name,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
             .Append("yarn_Sub_Total_amt,")
@@ -2058,14 +1853,27 @@ Public Class MismatchCosting
 
         _ExtraField_Values_DataTable = New StringBuilder
         With _ExtraField_Values_DataTable
-            .Append(txt_EntryNo.Text & ",")
+            '.Append(txt_EntryNo.Text & ",")
+            '.Append(txt_Entry_Date.Date_for_Database & ",")
+            '.Append(TXT_Net_Weaving_Cost.Text & ",")
+            '.Append(TXT_Net_Finish_Cost.Text & ",")
+            '.Append(txt_yarn_Sub_Total_amt.Text & ",")
+            '.Append(TXT_Net_Weaving_Cost.Text & ",")
+            '.Append(TXT_Net_Finish_Cost.Text & ",")
+            '.Append("'" & yarntype & "'")
+            ' Numeric
+            .Append(GetNumericValue(txt_EntryNo.Text) & ",")
+            ' Date
             .Append(txt_Entry_Date.Date_for_Database & ",")
-            .Append(TXT_Net_Weaving_Cost.Text & ",")
-            .Append(TXT_Net_Finish_Cost.Text & ",")
-            .Append(txt_yarn_Sub_Total_amt.Text & ",")
-            .Append(TXT_Net_Weaving_Cost.Text & ",")
-            .Append(TXT_Net_Finish_Cost.Text & ",")
-            .Append("'" & yarntype.Replace("'", "''") & "'")
+            .Append(strtype & ",")
+            ' Numeric
+            .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            .Append(GetNumericValue(txt_yarn_Sub_Total_amt.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            ' NVARCHAR
+            .Append(yarntype)
         End With
 
         FinishQueryDetailTable = ObjCls_General.GetQueryArray(_OfferTableName, "FORCELY_ADDED", strFilterString, FinishQuery_Auto_Grid, _FINISHDataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -2138,31 +1946,42 @@ Public Class MismatchCosting
 
         Dim Query_Auto_Grid(_DataTableGrid.Rows.Count, 4) As String
         strFilterString = "YARN_AMOUNT>0"
-
+        Dim yarntype As String = ""
+        yarntype = "COSTING INFORMATION"
+        Dim strtype As String = ""
+        strtype = "FABRIC"
         _ExtraFieldDataTable = New StringBuilder
         With _ExtraFieldDataTable
             .Append("EntryNo,")
             .Append("Entry_Date,")
+            .Append("Fabric_Item_Name,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("finish_cost,")
             .Append("Fabric_Design_No,")
+            .Append("OP1,")
             .Append("process_cost")
         End With
 
         _ExtraField_Values_DataTable = New StringBuilder
         With _ExtraField_Values_DataTable
-            .Append(txt_EntryNo.Text & ",")
+            ' EntryNo - Numeric
+            .Append(GetNumericValue(txt_EntryNo.Text) & ",")
             .Append(txt_Entry_Date.Date_for_Database & ",")
-            .Append(TXT_Net_Weaving_Cost.Text & ",")
-            .Append(TXT_Net_Finish_Cost.Text & ",")
-            .Append(txt_yarn_Sub_Total_amt.Text & ",")
-            .Append(TXT_Net_Weaving_Cost.Text & ",")
-            .Append(TXT_Net_Finish_Cost.Text & ",")
-            .Append(txt_FabricItemCode.Text & ",")
-            .Append(Lblprocesscost.Text & "")
+            .Append(strtype & ",")
+            ' Numeric Fields
+            .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            .Append(GetNumericValue(txt_yarn_Sub_Total_amt.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
+            .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            ' Fabric Design No - NVARCHAR
+            .Append("'" & txt_FabricItemCode.Text.Replace("'", "''") & "',")
+            ' Process Cost - Numeric
+            .Append(yarntype & ",")
+            .Append(GetNumericValue(Lblprocesscost.Text))
         End With
 
         QueryDetailTable = ObjCls_General.GetQueryArray(_OfferTableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _ExtraFieldDataTable.ToString.ToUpper, _ExtraField_Values_DataTable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
@@ -2170,6 +1989,18 @@ Public Class MismatchCosting
         arr_object = Query_Auto_Grid
 
     End Function
+
+    Private Function GetNumericValue(ByVal Value As String) As String
+        Dim Number As Decimal
+        If String.IsNullOrWhiteSpace(Value) Then
+            Return "0"
+        End If
+        If Decimal.TryParse(Value.Trim(), Number) Then
+            Return Number.ToString(System.Globalization.CultureInfo.InvariantCulture)
+        End If
+        Return "0"
+    End Function
+
     Private Function SAVE_INTO_DATABASE() As Integer
         Dim strQuery As String = ""
         Dim I As Integer = 0
@@ -2182,7 +2013,7 @@ Public Class MismatchCosting
             sql_Data_Save_Delete_Update()
 
 
-
+            'FABRIC Grid
             Dim Array_Opening(0, 4) As String
             '------ INSERT RECORDS SALES INVOICE -------------------------------
             GridDetailsSaveQuery(Array_Opening)
@@ -2193,21 +2024,7 @@ Public Class MismatchCosting
                     sql_Data_Save_Delete_Update()
                 End If
             Next
-
-
-
-            'yarn Grid
-            'Dim Array_Opening_Yarn(0, 4) As String
-            ''------ INSERT RECORDS SALES INVOICE -------------------------------
-            'YarnGridDetailsSaveQuery(Array_Opening_Yarn)
-            'For I = 0 To UBound(Array_Opening_Yarn)
-            '    If Array_Opening_Yarn(I, 4) <> "" Then
-            '        strQuery = Array_Opening_Yarn(I, 4)
-            '        sqL = strQuery.ToString
-            '        sql_Data_Save_Delete_Update()
-            '    End If
-            'Next
-            'weaving Grid
+            'Packing Grid
             Dim Array_Opening_weaving(0, 4) As String
             '------ INSERT RECORDS SALES INVOICE -------------------------------
             WeavingGridDetailsSaveQuery(Array_Opening_weaving)
@@ -2219,7 +2036,7 @@ Public Class MismatchCosting
                 End If
             Next
 
-            'weaving Grid
+            'OverHead Grid
             Dim Array_Opening_Finish(0, 4) As String
             '------ INSERT RECORDS SALES INVOICE -------------------------------
             FinishGridDetailsSaveQuery(Array_Opening_Finish)
@@ -2230,17 +2047,6 @@ Public Class MismatchCosting
                     sql_Data_Save_Delete_Update()
                 End If
             Next
-            'weaving Grid
-            'Dim Array_Opening_Sales(0, 4) As String
-            ''------ INSERT RECORDS SALES INVOICE -------------------------------
-            'SalesGridDetailsSaveQuery(Array_Opening_Sales)
-            'For I = 0 To UBound(Array_Opening_Sales)
-            '    If Array_Opening_Sales(I, 4) <> "" Then
-            '        strQuery = Array_Opening_Sales(I, 4)
-            '        sqL = strQuery.ToString
-            '        sql_Data_Save_Delete_Update()
-            '    End If
-            'Next
 
         Catch ex As Exception
             MsgBox("new error comes :" & ex.Message & "-" & strQuery)
@@ -2276,61 +2082,29 @@ Public Class MismatchCosting
 #Region "CTRL VISIBLE FALSE"
     Private Sub Cost_Sheet_Ctrl_Visible_False()
         GrdItem.Enabled = False
-        'Grdyarn.Enabled = False
         GrdWeavingcost.Enabled = False
         GrdFinishcost.Enabled = False
-        'Grdsalescost.Enabled = False
         txt_EntryNo.Visible = False
         txt_Entry_Date.Visible = False
-        'txt_Fabric_Item_name.Visible = False
-        'txt_reed.Visible = False
-        'txt_dent.Visible = False
-        'txt_pick.Visible = False
-        'txt_reed_space.Visible = False
         TXT_Net_Weaving_Cost.Visible = False
-        'TXT_Net_Grey_Cost.Visible = False
         TXT_Net_Finish_Cost.Visible = False
-        'TXT_Net_Sales_Cost.Visible = False
         txt_yarn_Sub_Total_amt.Visible = False
         TXT_Net_Weaving_Cost.Visible = False
-        'TXT_Net_Grey_Cost.Visible = False
         TXT_Net_Finish_Cost.Visible = False
-        'TXT_Net_Sales_Cost.Visible = False
-
-        'txt_FD_PD.Visible = False
-        'txt_Total_Ends.Visible = False
-        'txt_Loom.Visible = False
-        'TXT_Final_Grey_Cost.Visible = False
     End Sub
 #End Region
 #Region "CTRL VISIBLE TRUE"
     Private Sub Cost_Sheet_Ctrl_Visible_True()
         GrdItem.Enabled = True
-        'Grdyarn.Enabled = True
         GrdWeavingcost.Enabled = True
         GrdFinishcost.Enabled = True
-        'Grdsalescost.Enabled = True
         txt_EntryNo.Visible = True
         txt_Entry_Date.Visible = True
-        'txt_Fabric_Item_name.Visible = True
-        'txt_reed.Visible = True
-        'txt_dent.Visible = True
-        'txt_pick.Visible = True
-        'txt_reed_space.Visible = True
-        'txt_Net_Yarn_Cost.Visible = True
         TXT_Net_Weaving_Cost.Visible = True
-        'TXT_Net_Grey_Cost.Visible = True
         TXT_Net_Finish_Cost.Visible = True
-        'TXT_Net_Sales_Cost.Visible = True
         txt_yarn_Sub_Total_amt.Visible = True
         TXT_Net_Weaving_Cost.Visible = True
-        'TXT_Net_Grey_Cost.Visible = True
         TXT_Net_Finish_Cost.Visible = True
-        'TXT_Net_Sales_Cost.Visible = True
-        'txt_FD_PD.Visible = True
-        'txt_Total_Ends.Visible = True
-        'txt_Loom.Visible = True
-        'TXT_Final_Grey_Cost.Visible = True
     End Sub
 #End Region
 
@@ -2350,13 +2124,16 @@ Public Class MismatchCosting
     End Function
 #End Region
 #Region "ALTER FORM QUERY Yarn"
-    Private Function getAlter_YarnForm_Query_Details(ByVal strKeyID As String) As String
+    Private Function getAlter_FabricForm_Query_Details(ByVal strKeyID As String) As String
         _strQuery = New StringBuilder
         With _strQuery
-            .Append("SELECT Fabric_Design_No")
+            .Append("SELECT SRNO,Fabric_Design_No")
             .Append(",Fabric_Item_Name")
             .Append(",yarn_for")
             .Append(",countcode")
+            .Append(",Yarn_Rate")
+            .Append(",Avg_weight")
+            .Append(",Yarn_Amount")
             .Append(",FD_PD")
             .Append(",Reed")
             .Append(",OTHEREXP_1")
@@ -2389,7 +2166,7 @@ Public Class MismatchCosting
 #End Region
 
 #Region "ALTER FORM QUERY Weaving"
-    Private Function getAlter_WeavingForm_Query_Details(ByVal strKeyID As String) As String
+    Private Function getAlter_PackingForm_Query_Details(ByVal strKeyID As String) As String
         _strQuery = New StringBuilder
         With _strQuery
             .Append("SELECT Fabric_Design_No")
@@ -2427,7 +2204,7 @@ Public Class MismatchCosting
     End Function
 #End Region
 #Region "ALTER FORM QUERY FINISH COST"
-    Private Function getAlter_FinishForm_Query_Details(ByVal strKeyID As String) As String
+    Private Function getAlter_OverHeadForm_Query_Details(ByVal strKeyID As String) As String
         _strQuery = New StringBuilder
         With _strQuery
             .Append("SELECT Fabric_Design_No")
@@ -2464,45 +2241,7 @@ Public Class MismatchCosting
         Return _strQuery.ToString
     End Function
 #End Region
-#Region "ALTER FORM QUERY SALES COST"
-    'Private Function getAlter_SalesForm_Query_Details(ByVal strKeyID As String) As String
-    '    _strQuery = New StringBuilder
-    '    With _strQuery
-    '        .Append("SELECT Fabric_Design_No")
-    '        .Append(",Fabric_Item_Name")
-    '        .Append(",yarn_for")
-    '        .Append(",countcode")
-    '        .Append(",FD_PD")
-    '        .Append(",Reed")
-    '        .Append(",OTHEREXP_1")
-    '        .Append(",TOTAL_ENDS")
-    '        .Append(",LOOM")
-    '        .Append(",EntryNo")
-    '        .Append(",Entry_Date")
-    '        .Append(",Dent")
-    '        .Append(",Pick")
-    '        .Append(",Reed_Space")
-    '        .Append(",Net_Yarn_Cost")
-    '        .Append(",Net_Weaving_Cost")
-    '        .Append(",Net_Grey_Cost")
-    '        .Append(",Net_Finish_Cost")
-    '        .Append(",Net_Sales_Cost")
-    '        .Append(",yarn_Sub_Total_amt")
-    '        .Append(",weav_cost")
-    '        .Append(",grey_Cost")
-    '        .Append(",finish_cost")
-    '        .Append(",OP1")
-    '        .Append(",sales_cost")
-    '        .Append(", Yarn_Amount AS Amount")
-    '        .Append(" FROM  TRNFABRICCOST")
-    '        .Append(" WHERE 1=1  ")
-    '        .Append(" AND ENTRYNO=" & Val(strKeyID) & " AND UPPER(ISNULL(OP1,''))= 'YARN INFORMATION' and Fabric_Item_Name='SALES COST' ")
-    '        .Append(" ORDER BY OTHEREXP_1 ")
 
-    '    End With
-    '    Return _strQuery.ToString
-    'End Function
-#End Region
 
 #Region "ALTER FORM"
     Private Sub Alter_Form(ByVal strKeyID As String)
@@ -2526,51 +2265,33 @@ Public Class MismatchCosting
         txt_Entry_Date.Text = tblTmp.Rows(0)("F_OFFERDATE").ToString
         txt_FabricItemCode.Text = tblTmp.Rows(0)("Fabric_Design_No").ToString
 
-        lbl_AvgWt.Text = tblTmp.Compute("SUM(AVG_WEIGHT)", "").ToString
-        txt_yarn_Sub_Total_amt.Text = tblTmp.Compute("SUM(YARN_AMOUNT)", "").ToString
+        ' Fabric Grid
+        strQuery = getAlter_FabricForm_Query_Details(strKeyID)
+        Dim _yarnstrquery As New StringBuilder
+        Dim tblTmpyarn As New DataTable
 
+        sqL = strQuery.ToString
+        sql_connect_slect()
+        tblTmpyarn = DefaltSoftTable.Copy
         GrdItem.Visible = False
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
-        Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
+        Fill_Records(tblTmpyarn, Grid_Table_ColNames, GrdItem, 0, True, "", False)
+        txt_yarn_Sub_Total_amt.Text = tblTmpyarn.Compute("SUM(YARN_AMOUNT)", "").ToString
         GrdItem.Rows = GrdItem.Rows + 1
 
         GrdItem.Refresh()
         GrdItem.Visible = True
 
-        'Yarn grid
-        Dim _yarnstrquery As New StringBuilder
-        Dim tblTmpyarn As New DataTable
-
-        'strQuery = getAlter_YarnForm_Query_Details()
-        strQuery = getAlter_YarnForm_Query_Details(strKeyID)
-
-        sqL = strQuery.ToString
-        sql_connect_slect()
-        tblTmpyarn = DefaltSoftTable.Copy
-
-
-        'ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmpyarn)
-        'Grdyarn.Visible = False
-        ''Grdyarn.Range(0, 0, Grdyarn.Rows - 1, Grdyarn.Cols - 1).DeleteByRow()
-        'Fill_Records(tblTmpyarn, YarnGrid_Table_ColNames, Grdyarn, 0, True, "", False)
-        'Grdyarn.Rows = Grdyarn.Rows + 1
-
-        'Grdyarn.Refresh()
-        'Grdyarn.Visible = True
-
-        'Weaving And GreyCost grid
+        'Packing grid
         Dim _Weavingstrquery As New StringBuilder
         Dim tblTmpWeaving As New DataTable
 
-        'strQuery = getAlter_WeavingForm_Query_Details()
-        strQuery = getAlter_WeavingForm_Query_Details(strKeyID)
+        strQuery = getAlter_PackingForm_Query_Details(strKeyID)
 
         sqL = strQuery.ToString
         sql_connect_slect()
         tblTmpWeaving = DefaltSoftTable.Copy
 
-
-        'ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmpWeaving)
         GrdWeavingcost.Visible = False
         'GrdWeavingcost.Range(0, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).DeleteByRow()
         Fill_Records(tblTmpWeaving, WeavingGrid_Table_ColNames, GrdWeavingcost, 0, True, "", False)
@@ -2579,18 +2300,15 @@ Public Class MismatchCosting
         GrdWeavingcost.Refresh()
         GrdWeavingcost.Visible = True
 
-        'Finish Cost grid
+        'OverHead grid
         Dim _Finishstrquery As New StringBuilder
         Dim tblTmpfinishcost As New DataTable
 
-        strQuery = getAlter_FinishForm_Query_Details(strKeyID)
+        strQuery = getAlter_OverHeadForm_Query_Details(strKeyID)
 
         sqL = strQuery.ToString
         sql_connect_slect()
         tblTmpfinishcost = DefaltSoftTable.Copy
-
-
-        'ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmpfinishcost)
         GrdFinishcost.Visible = False
         'GrdFinishcost.Range(0, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).DeleteByRow()
         Fill_Records(tblTmpfinishcost, FINISHGrid_Table_ColNames, GrdFinishcost, 0, True, "", False)
@@ -2598,25 +2316,6 @@ Public Class MismatchCosting
 
         GrdFinishcost.Refresh()
         GrdFinishcost.Visible = True
-        'Sales Cost grid
-        Dim _Salesstrquery As New StringBuilder
-        Dim tblTmpsalescost As New DataTable
-
-        'strQuery = getAlter_SalesForm_Query_Details(strKeyID)
-
-        'sqL = strQuery.ToString
-        'sql_connect_slect()
-        'tblTmpsalescost = DefaltSoftTable.Copy
-
-
-        ''ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmpsalescost)
-        'Grdsalescost.Visible = False
-        ''Grdsalescost.Range(0, 0, Grdsalescost.Rows - 1, Grdsalescost.Cols - 1).DeleteByRow()
-        'Fill_Records(tblTmpsalescost, SALESGrid_Table_ColNames, Grdsalescost, 0, True, "", False)
-        'Grdsalescost.Rows = Grdsalescost.Rows + 1
-
-        'Grdsalescost.Refresh()
-        'Grdsalescost.Visible = True
         Cost_Sheet_Ctrl_Visible_True()
         _FrmLoad = False
     End Sub
@@ -2661,7 +2360,7 @@ Public Class MismatchCosting
         _strQuery = New StringBuilder
 
         Try
-            strQuery = " DELETE FROM trnfabriccost WHERE entryno=" & Val(txt_EntryNo.Text) & " "
+            strQuery = " DELETE FROM trnfabriccost WHERE entryno=" & Val(txt_EntryNo.Text) & " AND UPPER(ISNULL(OP1,'')) = 'COSTING INFORMATION' "
             sqL = strQuery.ToString
             sql_Data_Save_Delete_Update()
             '-----------------------------------------------------------------------
@@ -2740,14 +2439,14 @@ Public Class MismatchCosting
         Dim CountCode As String = ""
         Dim Yarn_Rate As Double = 0
 
-        CountCode = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COUNTNAME") + 1).Text
+        CountCode = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text
         Yarn_Rate = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text)
 
         If CountCode = "" Or Yarn_Rate = 0 Then
             If _ActivatedColName = "YARN_AMOUNT" Then
                 e.Cancel = True
                 If CountCode = "" Then
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COUNTNAME") + 1).SetFocus()
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COUNTCODE") + 1).SetFocus()
                     Exit Sub
                 ElseIf Yarn_Rate = 0 Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).SetFocus()
@@ -2758,15 +2457,6 @@ Public Class MismatchCosting
     End Sub
     Private Sub GrdItem_KeyPress(Sender As Object, e As KeyPressEventArgs) Handles GrdItem.KeyPress
         If _FrmLoad = True Then Exit Sub
-
-        'If Validate_All_Upper_Rows_For_Grid_Item() = False Then
-        '    If GrdItem.ActiveCell.Row > 1 Then
-        '        MsgBox("Invalid Upper Record/Rows")
-        '        e.KeyChar = ""
-        '        Exit Sub
-        '    End If
-        'End If
-
         GrdItem.ActiveCell.BackColor = Color.Transparent
 
         If _ActivatedColName = "PATTERN" Then
@@ -2791,7 +2481,7 @@ Public Class MismatchCosting
         If _FrmLoad = True Then Exit Sub
 
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text = "SUITING"
-        If _ActivatedColName = "COUNTNAME" Then
+        If _ActivatedColName = "COUNTCODE" Then
             If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
                 Dim Net_Cnt As Double = 0
                 GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("NETCOUNT") + 1).Text = Net_Cnt
@@ -2803,18 +2493,11 @@ Public Class MismatchCosting
         ElseIf _ActivatedColName = "AVG_WEIGHT" Then
             Call Rate_Calc()
         ElseIf _ActivatedColName = "YARN_RATE" Then
-            'Dim Avg_Wt As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text)
-            'Dim Yarn_Rate As Double = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text)
-            'GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text = Yarn_Rate * Avg_Wt
             Call Rate_Calc()
         ElseIf _ActivatedColName = "YARN_AMOUNT" Then
             If e.KeyCode = 13 Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
-                'Dim Count_Code As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text
                 Dim Yarn_Amt As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text)
-                'If Count_Code = "" Then
-                '    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("COUNTNAME") + 1).Text = ""
-                'End If
                 Yarn_Amt = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text)
                 If Yarn_Amt = 0 Then
                     GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text = ""
@@ -2824,6 +2507,9 @@ Public Class MismatchCosting
                     If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
                         GrdItem.Rows = GrdItem.Rows + 1
                         Fill_Current_Row_Sr_No(_DataTableGrid, GrdItem)
+                    Else
+                        GrdItem.Rows = GrdItem.Rows + 1
+                        Fill_Current_Row_Sr_No(_DataTableGrid, GrdItem)
                     End If
                 Else
                     GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
@@ -2831,19 +2517,6 @@ Public Class MismatchCosting
             End If
         End If
     End Sub
-    'Private Function Validate_All_Upper_Rows_For_Grid_Item()
-    '    Dim Return_Flag As Boolean = True
-    '    If GrdItem.ActiveCell.Row > 1 Then
-    '        Dim i As Integer = GrdItem.ActiveCell.Row - 1
-    '        Dim Count_Code As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("countcode") + 1).Text
-    '        Dim Yarn_Amt As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("yarn_amount") + 1).Text)
-    '        Dim Yarn_Rate As Double = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("yarn_rate") + 1).Text)
-    '        If Count_Code = "" Or Yarn_Amt = 0 Or Yarn_Rate = 0 Then
-    '            Return_Flag = False
-    '        End If
-    '    End If
-    '    Return Return_Flag
-    'End Function
 #End Region
 #Region "TXT BOX ENTRY NO EVENT CODE"
     Private Sub txt_EntryNo_KeyDown(sender As Object, e As KeyEventArgs) Handles txt_EntryNo.KeyDown
@@ -2887,7 +2560,7 @@ Public Class MismatchCosting
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
 
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " WHERE ENTRYNO=" & Val(txt_EntryNo.Text) & " "
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " WHERE ENTRYNO=" & Val(txt_EntryNo.Text) & " AND UPPER(ISNULL(OP1,'')) = 'COSTING INFORMATION' "
         _TransctionNo = 0
 
         sqL = strQuery
@@ -2947,9 +2620,6 @@ Public Class MismatchCosting
     End Sub
 #End Region
 #Region "VIEW RECORD "
-    Private Sub btn_View_Ok_Click(sender As Object, e As EventArgs) Handles btn_View_Ok.Click
-        View_Record()
-    End Sub
     Private Sub View_Record()
 
 
@@ -2965,15 +2635,12 @@ Public Class MismatchCosting
             .Append(" SELECT ")
             .Append(" A.EntryNo AS EntryNo")
             .Append(" ,format(A.Entry_Date ,'dd/MM/yyyy') as EntDate")
-            .Append(" ,A.Fabric_Item_Name AS Item")
-            .Append(" ,A.Reed ")
-            .Append(" ,A.Dent")
-            .Append(" ,A.Pick")
-            .Append(" ,A.Reed_Space as ReadSp")
-            .Append(" ,A.Net_Yarn_Cost as YarnCost")
-            .Append(" ,A.Net_Weaving_Cost as GreyCost")
-            .Append(" ,A.process_cost as ProcessCost")
-            .Append(" ,a.Net_Sales_Cost as SalesCost")
+            .Append(" ,A.Fabric_Item_Name AS Type")
+            .Append(" ,A.yarn_for As Name ")
+            .Append(" ,A.countcode As Qty")
+            .Append(" ,ISNULL(A.Yarn_Rate, A.FD_PD) AS Rate")
+            .Append(" ,ISNULL(A.Avg_weight, A.Reed) AS [GstDiff.%]")
+            .Append(" ,A.Yarn_Amount As Amount")
             .Append(" FROM TrnFabricCost AS A ")
             .Append(" WHERE 1=1")
             .Append(View_Filter_Condition)
@@ -2981,17 +2648,15 @@ Public Class MismatchCosting
             .Append(" A.EntryNo")
             .Append(" ,A.Entry_Date")
             .Append(" ,A.Fabric_Item_Name")
+            .Append(" ,A.Yarn_For ")
+            .Append(" ,A.countcode")
+            .Append(" ,A.Yarn_Rate")
+            .Append(" ,A.FD_PD ")
+            .Append(" ,A.Avg_weight ")
             .Append(" ,A.Reed ")
-            .Append(" ,A.Dent")
-            .Append(" ,A.Pick")
-            .Append(" ,A.Reed_Space ")
-            .Append(" ,A.Net_Yarn_Cost ")
-            .Append(" ,A.Net_Grey_Cost ")
-            .Append(" ,A.Net_Finish_Cost ")
-            .Append(" ,a.Net_Sales_Cost ")
-            .Append(" ,a.Net_Weaving_Cost ")
-            .Append(" ,a.process_cost ")
-            .Append(" ORDER BY A.EntryNo,A.Entry_Date")
+            .Append(" ,A.Yarn_Amount ")
+            .Append(" ,A.ID ")
+            .Append(" ORDER BY A.EntryNo,A.Entry_Date,A.ID")
 
         End With
         sqL = _strQuery.ToString
@@ -3068,65 +2733,6 @@ Public Class MismatchCosting
         Return Return_Value
     End Function
 
-    '    Private Sub txt_Fabric_Item_name_KeyDown(sender As Object, e As KeyEventArgs)
-    '        If e.KeyCode = Keys.Escape Then Exit Sub
-
-    '        If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
-    '            Party_selection.txtSearch.Text = txt_Fabric_Item_name.Text
-    '            Party_selection.txtSearch.SelectAll()
-    '            obj_Party_Selection.SINGLE_ITEM_SELECTION()
-    '            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-    '                txt_Fabric_Item_name.Text = MULTY_SELECTION_COLOUM_1_DATA
-    '                txt_FabricItemCode.Text = MULTY_SELECTION_COLOUM_3_DATA
-    '            End If
-
-    '            If _FORMMODE = "ADD" Then
-    '                sqL = "SELECT*FROM MstFabricItem WHERE ID='" & txt_FabricItemCode.Text & "'"
-    '                sql_connect_slect()
-    '                If DefaltSoftTable.Rows.Count > 0 Then
-    '                    txt_reed.Text = DefaltSoftTable.Rows(0).Item("REED").ToString
-    '                    txt_dent.Text = DefaltSoftTable.Rows(0).Item("OP22").ToString
-    '                    txt_pick.Text = DefaltSoftTable.Rows(0).Item("PICK").ToString
-    '                    txt_reed_space.Text = DefaltSoftTable.Rows(0).Item("OP23").ToString
-    '                    txt_FD_PD.Text = DefaltSoftTable.Rows(0).Item("FABRICTYP").ToString
-    '                End If
-
-
-    '                _strQuery = New StringBuilder
-    '                With _strQuery
-    '                    .Append(" SELECT ")
-    '                    .Append(" A.SRNO")
-    '                    .Append(",A.Yarn_For")
-    '                    .Append(",A.Pattern")
-    '                    .Append(",A.Yarn_Rate")
-    '                    .Append(",A.Avg_weight")
-    '                    .Append(",A.PROFIT_PER")
-    '                    .Append(",A.Yarn_Amount")
-    '                    .Append(",A.CountCode")
-    '                    .Append(",B.CountName")
-    '                    .Append(" FROM MstFabricItemCons as a ")
-    '                    .Append("  LEFT JOIN MstYarnCount AS B  ON A.CountCode=B.CountCode")
-    '                    .Append(" WHERE 1=1 ")
-    '                    .Append(" and a.Fabric_ItemCode ='" & txt_FabricItemCode.Text & "'")
-    '                    .Append(" ORDER BY A.SRNO")
-    '                End With
-
-    '                sqL = _strQuery.ToString
-    '                sql_connect_slect()
-    '                Dim _consttbl As New DataTable
-    '                _consttbl = DefaltSoftTable.Copy
-
-    '                If _consttbl.Rows.Count > 0 Then
-    '                    GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
-    '                    Fill_Records(_consttbl, Grid_Table_ColNames, GrdItem, 0, True, "", False)
-    '                    GrdItem.Rows = GrdItem.Rows + 1
-    '                    Rate_Calc()
-    '                End If
-    '            End If
-
-    '            SendKeys.Send("{TAB}")
-    '        End If
-    '    End Sub
 #End Region
 
     Private Sub txt_Loom_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -3193,7 +2799,7 @@ Public Class MismatchCosting
         '------------------- yarn Start
         For i As Int16 = 1 To GrdItem.Rows - 1
 
-            Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("COUNTNAME") + 1).Text, CountNameValue)
+            Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text, CountNameValue)
             Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text, YarnRateValue)
             Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text, AvgWeightValue)
             YarnAmount = CountNameValue * YarnRateValue
@@ -3207,42 +2813,12 @@ Public Class MismatchCosting
             GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text = YarnAmount.ToString("0.00")
             Tot_Cost_Amt = Tot_Cost_Amt + Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text)
         Next
-        lbl_AvgWt.Text = FormatNumber(Tot_AvgWt, 3, TriState.True, TriState.False, TriState.False)
         GrandTotal += Tot_Cost_Amt
         txt_yarn_Sub_Total_amt.Text = FormatNumber(GrandTotal, 2, TriState.True, TriState.False, TriState.False)
 
 
         Dim subTotal As Decimal = GrandTotal
         Tot_Cost_Amt = 0
-        'For i As Int16 = 1 To Grdyarn.Rows - 1
-        '    Dim reedValue As Decimal = 0D
-        '    Decimal.TryParse(Grdyarn.Cell(i, _YarnDataTableGrid.Columns.IndexOf("Reed") + 1).Text, reedValue)
-        '    Dim yarnAmount As Decimal = 0
-        '    If Grdyarn.Cell(i, _YarnDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-        '        yarnAmount = Math.Round((reedValue), 2)
-        '        'yarnAmount = Math.Round((reedValue + subTotal), 2)
-        '    Else
-        '        yarnAmount = Math.Round((reedValue * subTotal) / 100D, 2)
-        '    End If
-
-        '    If Grdyarn.Cell(i, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS" Then
-        '        yarnAmount = "-" & yarnAmount
-        '    End If
-        '    If Grdyarn.Cell(i, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON" Then
-        '        yarnAmount = 0
-        '    End If
-
-        '    'Grdyarn.Cell(i, _YarnDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text = yarnAmount
-
-        '    subTotal = subTotal + yarnAmount
-
-        '    'Tot_Cost_Amt = Tot_Cost_Amt + Val(Grdyarn.Cell(i, _YarnDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text)
-        'Next
-
-        'GrandTotal += Tot_Cost_Amt
-
-        'txt_Net_Yarn_Cost.Text = FormatNumber(GrandTotal, 2, TriState.True, TriState.False, TriState.False)
-
 
         Dim weavingsubTotal As Decimal = GrandTotal
         Dim PackingYarnAmount As Decimal = 0D
@@ -3255,12 +2831,9 @@ Public Class MismatchCosting
             Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text, PackingCountNameValue)
             Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text, PackingYarnRateValue)
             Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("Reed") + 1).Text, PackingAvgWeightValue)
-            'GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT"
-
             ' COUNTNAME × YARN_RATE
             PackingYarnAmount = PackingCountNameValue * PackingYarnRateValue
 
-            ' AVG_WEIGHT percentage apply karein
             If PackingAvgWeightValue <> 0 Then
                 PackingYarnAmount = PackingYarnAmount + (PackingYarnAmount * PackingAvgWeightValue / 100D)
             End If
@@ -3281,23 +2854,15 @@ Public Class MismatchCosting
         Dim OverheadCountNameValue As Decimal = 0D
         Dim OverheadYarnRateValue As Decimal = 0D
         Dim OverheadAvgWeightValue As Decimal = 0D
-        'Dim finishCost As Decimal = Val(txt_Net_Yarn_Cost.Text)
-        'Dim weavingCost As Decimal = Val(TXT_Net_Weaving_Cost.Text)
 
-        'TXT_Net_Grey_Cost.Text = (finishCost + weavingCost).ToString("0.00")
-        'Dim shirkageCost As Decimal = Val(TXT_Net_Grey_Cost.Text)
         Tot_Cost_Amt = 0
         For i As Int16 = 1 To GrdFinishcost.Rows - 1
             Dim reedValue As Decimal = 0D
             Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text, OverheadCountNameValue)
             Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text, OverheadYarnRateValue)
             Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Reed") + 1).Text, OverheadAvgWeightValue)
-            'GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT"
-
             ' COUNTNAME × YARN_RATE
             OverheadYarnAmount = OverheadCountNameValue * OverheadYarnRateValue
-
-            ' AVG_WEIGHT percentage apply karein
             If OverheadAvgWeightValue <> 0 Then
                 OverheadYarnAmount = OverheadYarnAmount + (OverheadYarnAmount * OverheadAvgWeightValue / 100D)
             End If
@@ -3305,80 +2870,13 @@ Public Class MismatchCosting
             GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text = OverheadYarnAmount.ToString("0.00")
 
             Tot_Cost_Amt = Tot_Cost_Amt + Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text)
-            'Dim finishAmount As Decimal = 0
-            'If GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Fabric_Design_No") + 1).Text = "0000-000000013" And GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-            '    finishAmount = Math.Round((reedValue), 2)
-            'ElseIf GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Fabric_Design_No") + 1).Text = "0000-000000013" Then
-            '    'finishAmount = Math.Round((reedValue * shirkageCost) / 100, 2)
-            'ElseIf GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-            '    'finishAmount = Math.Round((reedValue + finishsubTotal), 2)
-            '    finishAmount = Math.Round((reedValue), 2)
-            'Else
-            '    finishAmount = Math.Round((reedValue * finishsubTotal) / 100D, 2)
-            'End If
-            'If GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS" Then
-            '    finishAmount = "-" & finishAmount
-            'End If
-            'If GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON" Then
-            '    finishAmount = 0
-            'End If
-            'Dim colIndex As Integer = _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1
-            'GrdFinishcost.Cell(i, colIndex).Text = finishAmount.ToString("0.00")
-            'finishsubTotal = finishsubTotal + finishAmount
-            'Tot_Cost_Amt = Tot_Cost_Amt + Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text)
             Lblprocesscost.Text = Tot_Cost_Amt
-            'Process_cost=Tot_Cost_Amt
         Next
         GrandTotal += Tot_Cost_Amt
-        'TXT_Net_Finish_Cost.Text = FormatNumber(Tot_Cost_Amt, 2, TriState.True, TriState.False, TriState.False)
         TXT_Net_Finish_Cost.Text = FormatNumber(GrandTotal, 2, TriState.True, TriState.False, TriState.False)
-
-
         Dim Int_Calc_Amt As Double = Val(TXT_Net_Finish_Cost.Text)
         Dim salesubTotal As Decimal = GrandTotal
-
         Tot_Cost_Amt = 0
-        'Grid for Sales cost calc
-        'For i As Int16 = 1 To Grdsalescost.Rows - 1
-        '    Dim reedValue As Decimal = 0D
-        '    Decimal.TryParse(Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("Reed") + 1).Text, reedValue)
-        '    Dim salesAmount As Decimal = 0
-
-        '    If Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("Fabric_Design_No") + 1).Text = "0000-000000022" And Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-        '        salesAmount = Math.Round((reedValue), 2)
-        '    ElseIf Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("Fabric_Design_No") + 1).Text = "0000-000000022" Then
-        '        salesAmount = FormatNumber(Math.Round((reedValue * salesubTotal) / 100, 2), 2, TriState.True, TriState.False, TriState.False)
-        '    ElseIf Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("Fabric_Design_No") + 1).Text = "0000-000000024" And Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-        '        salesAmount = Math.Round((reedValue), 2)
-        '    ElseIf Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("Fabric_Design_No") + 1).Text = "0000-000000024" Then
-        '        salesAmount = FormatNumber(Math.Round((reedValue * salesubTotal) / 100, 2), 2, TriState.True, TriState.False, TriState.False)
-        '    ElseIf Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-        '        'salesAmount = Math.Round((reedValue + salesubTotal), 2)
-        '        salesAmount = Math.Round((reedValue), 2)
-        '    Else
-        '        'salesAmount = FormatNumber(Math.Round((reedValue * salesubTotal) / 100, 2), 2, TriState.True, TriState.False, TriState.False)
-        '        salesAmount = FormatNumber(Math.Round((reedValue * Int_Calc_Amt) / 100, 2), 2, TriState.True, TriState.False, TriState.False)
-
-        '    End If
-        '    If Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS" Then
-        '        salesAmount = "-" & salesAmount
-        '    End If
-        '    If Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON" Then
-        '        salesAmount = 0
-        '    End If
-
-        '    Dim colIndex As Integer = _SALESDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1
-        '    Grdsalescost.Cell(i, colIndex).Text = salesAmount.ToString("0.00")
-        '    Grdsalescost.Cell(i, colIndex).Locked = True
-        '    salesubTotal = salesubTotal + salesAmount
-        '    Tot_Cost_Amt = Tot_Cost_Amt + Val(Grdsalescost.Cell(i, _SALESDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text)
-        'Next
-        'GrandTotal += Tot_Cost_Amt
-        'TXT_Net_Sales_Cost.Text = FormatNumber(GrandTotal, 2, TriState.True, TriState.False, TriState.False)
-
-        'If Val(TXT_Net_Grey_Cost.Text) > 0 Then TXT_Final_Grey_Cost.Text = TXT_Net_Grey_Cost.Text
-        'If Val(Tot_Cost_Amt) = 0 Then Tot_Cost_Amt = TXT_Final_Grey_Cost.Text
-
     End Sub
 #End Region
 
@@ -3433,14 +2931,7 @@ Public Class MismatchCosting
     Private Sub TXT_Final_Grey_Cost_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
         Rate_Calc()
     End Sub
-    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles But_print.Click
-        Dim _RptTiltle = "Mix Match Costing Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
-        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
-    End Sub
 
-    Private Sub Btn_Export_Excel_Click(sender As Object, e As EventArgs) Handles But_export.Click
-        _DevExpressExcelExport(GridControl1)
-    End Sub
 #Region "Save Grid Layout"
     Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
         'OnLoomPlaningEntry.SaveLayout(FirstStage, Me.Name)
@@ -3452,99 +2943,7 @@ Public Class MismatchCosting
 
 
 
-    '#Region "GRID ITEM EVENTS FOR YARN"
-    '    Private Sub Grdyarn_EnterRow(Sender As Object, e As FlexCell.Grid.EnterRowEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _FrmLoad = True
 
-    '        Grdyarn.ActiveCell.BackColor = Color.Transparent
-    '        _FrmLoad = False
-    '    End Sub
-    '    Private Sub Grdyarn_Click(Sender As Object, e As EventArgs)
-    '        _ActivatedColName = Trim(UCase(Sender.Cell(0, Sender.ActiveCell.Col).TAG))
-    '        _FrmLoad = False
-    '    End Sub
-    '    Private Sub Grdyarn_RowColChange(Sender As Object, e As FlexCell.Grid.RowColChangeEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _RowNo = e.Row
-    '        _ColNo = e.Col
-    '        _ActivatedColName = Trim(UCase(Sender.Cell(0, Sender.ActiveCell.Col).TAG))
-    '        Grdyarn.ActiveCell.BackColor = Color.Transparent
-    '    End Sub
-    '    Private Sub Grdyarn_LeaveCell(Sender As Object, e As FlexCell.Grid.LeaveCellEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        If _AllowMoveFromCell = False Then e.Cancel = True
-    '        Grdyarn.ActiveCell.BackColor = Grdyarn.BackColor1
-    '    End Sub
-    '    Private Sub Grdyarn_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs)
-    '        _ActivatedColName = UCase(sender.Cell(0, sender.ActiveCell.Col).Tag)
-    '        Grdyarn.ActiveCell.BackColor = Color.Transparent
-    '        _FrmLoad = False
-    '    End Sub
-    '    Private Sub Grdyarn_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _LastRow = sender.ActiveCell.Row
-    '    End Sub
-    '    Private Sub Grdyarn_Validated(sender As Object, e As EventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        Grdyarn.Refresh()
-    '    End Sub
-    '    Private Sub Grdyarn_LeaveRow(Sender As Object, e As FlexCell.Grid.LeaveRowEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _LastRow = Sender.ActiveCell.Row
-    '    End Sub
-    '    Private Sub Grdyarn_KeyDown(Sender As Object, e As KeyEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-
-    '        If _ActivatedColName = "COUNTCODE" Then
-    '            If e.KeyCode = Keys.Space Then
-    '                If Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD" Then
-    '                    Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS"
-    '                ElseIf Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS" Then
-    '                    Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON"
-    '                ElseIf Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON" Then
-    '                    Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD"
-    '                End If
-    '            End If
-
-    '        ElseIf _ActivatedColName = "FD_PD" Then
-    '            If e.KeyCode = Keys.Space Then
-    '                If Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-    '                    Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER"
-    '                ElseIf Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER" Then
-    '                    Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT"
-    '                End If
-    '            End If
-    '        ElseIf _ActivatedColName = "REED" Then
-    '            If e.KeyCode = Keys.Enter Then
-    '                SendKeys.Send("{DOWN}")
-    '                SendKeys.Send("{LEFT}")
-    '            End If
-    '            If e.KeyCode = Keys.F1 Then
-
-    '                GrdWeavingcost.ActiveCell.BackColor = GrdWeavingcost.BackColor1
-    '                GrdWeavingcost.Cell(1, _WeavingDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
-    '                GrdWeavingcost.Range(1, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).BackColor = GrdWeavingcost.BackColor1
-    '                GrdWeavingcost.Focus()
-    '            End If
-    '        End If
-
-    '        Rate_Calc()
-    '    End Sub
-
-    '    Private Sub Label19_Click(sender As Object, e As EventArgs)
-
-    '    End Sub
-
-    '    Private Sub Label91_Click(sender As Object, e As EventArgs)
-
-    '    End Sub
-
-    '    Private Sub TXT_Net_Sales_Cost_OnVaidationError(_ErrorMsg As String)
-
-    '    End Sub
-
-    '#End Region
 
 #Region "GRID ITEM EVENTS FOR WEAVING AND GREY COST"
     Private Sub GrdWeavingcost_EnterRow(Sender As Object, e As FlexCell.Grid.EnterRowEventArgs) Handles GrdWeavingcost.EnterRow
@@ -3591,15 +2990,7 @@ Public Class MismatchCosting
         If _FrmLoad = True Then Exit Sub
 
         If _ActivatedColName = "YARN_FOR" Then
-            'If e.KeyCode = Keys.Space Then
-            '    If GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD" Then
-            '        GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS"
-            '    ElseIf GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS" Then
-            '        GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON"
-            '    ElseIf GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON" Then
-            '        GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD"
-            '    End If
-            'End If
+
             If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
                 txt_Name_For_Grid_Selection.Text = GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text
                 txt_Code_For_Grid_Selection.Text = ""
@@ -3610,35 +3001,11 @@ Public Class MismatchCosting
 
                 GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text = txt_Name_For_Grid_Selection.Text
                 GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("OP1") + 1).Text = txt_Code_For_Grid_Selection.Text
-                'If txt_Name_For_Grid_Selection.Text <> "" Then
-                '    SendKeys.Send("{RIGHT}")
-                'End If
-                'txt_Name_For_Grid_Selection.Text = ""
-                'Dim Count_Code As String = GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("OP1") + 1).Text
-                'Dim Str_Qry As String = "select top 1 netcount from mstyarncount where countcode='" & Count_Code & "'"
-                'Dim Net_Cnt As Double = 0
-                'sqL = Str_Qry
-                'sql_connect_slect()
-                'If DefaltSoftTable.Rows.Count > 0 Then
-                '    Net_Cnt = (DefaltSoftTable.Rows(0).Item(0))
-                'End If
 
-                'GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("NETCOUNT") + 1).Text = Net_Cnt
-
-                'If Val(GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("PATTERN") + 1).Text) = 0 Then
-                '    GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("PATTERN") + 1).Text = 1
-                'End If
-                'GrdWeavingcost.Cell(1, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).SetFocus()
                 Rate_Calc()
             End If
         ElseIf _ActivatedColName = "FD_PD" Then
-            'If e.KeyCode = Keys.Space Then
-            '    If GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-            '        GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER"
-            '    ElseIf GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER" Then
-            '        GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT"
-            '    End If
-            'End If
+
             Rate_Calc()
         ElseIf _ActivatedColName = "REED" Then
             'If e.KeyCode = Keys.Enter Then
@@ -3713,25 +3080,9 @@ Public Class MismatchCosting
         If _FrmLoad = True Then Exit Sub
 
         If _ActivatedColName = "COUNTCODE" Then
-            'If e.KeyCode = Keys.Space Then
-            '    If GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD" Then
-            '        GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS"
-            '    ElseIf GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS" Then
-            '        GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON"
-            '    ElseIf GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON" Then
-            '        GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD"
-            '    End If
-            'End If
             Rate_Calc()
 
         ElseIf _ActivatedColName = "FD_PD" Then
-            'If e.KeyCode = Keys.Space Then
-            '    If GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-            '        GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER"
-            '    ElseIf GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER" Then
-            '        GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT"
-            '    End If
-            'End If
             Rate_Calc()
         ElseIf _ActivatedColName = "REED" Then
             'If e.KeyCode = Keys.Enter Then
@@ -3761,83 +3112,6 @@ Public Class MismatchCosting
     End Sub
 
 #End Region
-    '#Region "GRID ITEM EVENTS FOR SALES COST"
-    '    Private Sub Grdsalescost_EnterRow(Sender As Object, e As FlexCell.Grid.EnterRowEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _FrmLoad = True
-
-    '        Grdsalescost.ActiveCell.BackColor = Color.Transparent
-    '        _FrmLoad = False
-    '    End Sub
-    '    Private Sub Grdsalescost_Click(Sender As Object, e As EventArgs)
-    '        _ActivatedColName = Trim(UCase(Sender.Cell(0, Sender.ActiveCell.Col).TAG))
-    '        _FrmLoad = False
-    '    End Sub
-    '    Private Sub Grdsalescost_RowColChange(Sender As Object, e As FlexCell.Grid.RowColChangeEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _RowNo = e.Row
-    '        _ColNo = e.Col
-    '        _ActivatedColName = Trim(UCase(Sender.Cell(0, Sender.ActiveCell.Col).TAG))
-    '        Grdsalescost.ActiveCell.BackColor = Color.Transparent
-    '    End Sub
-    '    Private Sub Grdsalescost_LeaveCell(Sender As Object, e As FlexCell.Grid.LeaveCellEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        If _AllowMoveFromCell = False Then e.Cancel = True
-    '        Grdsalescost.ActiveCell.BackColor = Grdsalescost.BackColor1
-    '    End Sub
-    '    Private Sub Grdsalescost_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs)
-    '        _ActivatedColName = UCase(sender.Cell(0, sender.ActiveCell.Col).Tag)
-    '        Grdsalescost.ActiveCell.BackColor = Color.Transparent
-    '        _FrmLoad = False
-    '    End Sub
-    '    Private Sub Grdsalescost_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _LastRow = sender.ActiveCell.Row
-    '    End Sub
-    '    Private Sub Grdsalescost_Validated(sender As Object, e As EventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        Grdsalescost.Refresh()
-    '    End Sub
-    '    Private Sub Grdsalescost_LeaveRow(Sender As Object, e As FlexCell.Grid.LeaveRowEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-    '        _LastRow = Sender.ActiveCell.Row
-    '    End Sub
-    '    Private Sub Grdsalescost_KeyDown(Sender As Object, e As KeyEventArgs)
-    '        If _FrmLoad = True Then Exit Sub
-
-    '        If _ActivatedColName = "COUNTCODE" Then
-    '            If e.KeyCode = Keys.Space Then
-    '                If Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD" Then
-    '                    Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS"
-    '                ElseIf Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "LESS" Then
-    '                    Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON"
-    '                ElseIf Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "NON" Then
-    '                    Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text = "ADD"
-    '                End If
-    '            End If
-    '        ElseIf _ActivatedColName = "FD_PD" Then
-    '            If e.KeyCode = Keys.Space Then
-    '                If Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
-    '                    Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER"
-    '                ElseIf Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER" Then
-    '                    Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT"
-    '                End If
-    '            End If
-    '        ElseIf _ActivatedColName = "REED" Then
-    '            If e.KeyCode = Keys.Enter Then
-    '                SendKeys.Send("{DOWN}")
-    '                SendKeys.Send("{LEFT}")
-    '            End If
-    '            If e.KeyCode = Keys.F1 Then
-    '                UC_Buttons1.BtnSave.Focus()
-    '            End If
-
-    '        End If
-
-    '        Rate_Calc()
-    '    End Sub
-
-    '#End Region
 
 #Region "Button Click"
     Private Sub UC_Buttons1_AddClick() Handles UC_Buttons1.AddClick
@@ -3861,10 +3135,10 @@ Public Class MismatchCosting
         'txt_Loom.Text = "SULZER"
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
-        Last_Focused_Btn = "MODIFY"
+        Last_Focused_Btn = "EDIT"
         _FORMMODE = "EDIT"
         txt_EntryNo.Visible = True
-        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST ORDER BY ENTRYNO DESC"
+        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST where 1=1 AND UPPER(ISNULL(OP1,'')) = 'COSTING INFORMATION' ORDER BY ENTRYNO DESC"
         txt_EntryNo.Text.IndexOf("'")
         txt_EntryNo.Text = 1
 
@@ -3879,6 +3153,7 @@ Public Class MismatchCosting
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         'ObjCls_General.Blank_Object(Me)
         Change_Grid_Data = True
     End Sub
@@ -3886,7 +3161,7 @@ Public Class MismatchCosting
         _FrmLoad = False
         Last_Focused_Btn = "DELETE"
         _FORMMODE = "DELETE"
-        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST ORDER BY ENTRYNO DESC"
+        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST where 1=1 AND UPPER(ISNULL(OP1,'')) = 'COSTING INFORMATION' ORDER BY ENTRYNO DESC"
         txt_EntryNo.Text.IndexOf("'")
         txt_EntryNo.Text = 1
         sqL = strQuery
@@ -3904,6 +3179,7 @@ Public Class MismatchCosting
             Cost_Sheet_Ctrl_Visible_False()
         End If
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         'ObjCls_General.Blank_Object(Me)
         _FrmLoad = False
     End Sub
@@ -3966,7 +3242,7 @@ Public Class MismatchCosting
         _FORMMODE = "VIEW"
         _FORMMODE = "VIEW"
         Last_Focused_Btn = "VIEW"
-        sqL = "SELECT min(ENTRY_DATE) as ENTRY_DATE FROM TRNFABRICCOST"
+        sqL = "SELECT min(ENTRY_DATE) as ENTRY_DATE FROM TRNFABRICCOST where 1=1 AND UPPER(ISNULL(OP1,'')) = 'COSTING INFORMATION'"
         sql_connect_slect()
         If DefaltSoftTable.Rows.Count > 0 Then
             Txt_ViewFrom.Text = (DefaltSoftTable.Rows(0).Item("ENTRY_DATE"))
@@ -3979,7 +3255,7 @@ Public Class MismatchCosting
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST ORDER BY ENTRYNO DESC"
+        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST where 1=1 AND UPPER(ISNULL(OP1,'')) = 'COSTING INFORMATION' ORDER BY ENTRYNO DESC"
         sqL = strQuery
         sql_connect_slect()
         If DefaltSoftTable.Rows.Count > 0 Then
@@ -3996,6 +3272,19 @@ Public Class MismatchCosting
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
         _FORMMODE = "REPORTS"
+    End Sub
+
+    Private Sub btn_View_Ok_Click(sender As Object, e As EventArgs) Handles btn_View_Ok.Click
+        View_Record()
+    End Sub
+
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
+        Dim _RptTiltle = "Mix Match Costing Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
+        _DevExpressPrintPrivew(_RptTiltle, FirstStage)
+    End Sub
+
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
+        _DevExpressExcelExport(GridControl1)
     End Sub
 #End Region
 End Class

@@ -47,9 +47,6 @@ Partial Class MismatchCosting
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label30 = New System.Windows.Forms.Label()
-        Me.btn_View_Ok = New System.Windows.Forms.Button()
-        Me.But_export = New System.Windows.Forms.Button()
-        Me.But_print = New System.Windows.Forms.Button()
         Me.lbl_To = New System.Windows.Forms.Label()
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.Txt_ViewFrom = New ctl_TextBox.ctl_TextBox()
@@ -61,6 +58,9 @@ Partial Class MismatchCosting
         Me.Btn_LayoutLoad = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnLayOutSave = New DevExpress.XtraEditors.SimpleButton()
         Me.PnlGrdView = New System.Windows.Forms.GroupBox()
+        Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
+        Me.btn_View_Ok = New DevExpress.XtraEditors.SimpleButton()
         Me.Txt_ViewTO = New ctl_TextBox.ctl_TextBox()
         Me.txt_EntryNo = New ctl_TextBox.ctl_TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -72,7 +72,6 @@ Partial Class MismatchCosting
         Me.TXT_Net_Finish_Cost = New ctl_TextBox.ctl_TextBox()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
-        Me.lbl_AvgWt = New System.Windows.Forms.Label()
         Me.Label62 = New System.Windows.Forms.Label()
         Me.txt_yarn_Sub_Total_amt = New ctl_TextBox.ctl_TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -182,10 +181,10 @@ Partial Class MismatchCosting
         Me.pnl_Print.Controls.Add(Me.txt_From)
         Me.pnl_Print.Controls.Add(Me.Label106)
         Me.pnl_Print.Controls.Add(Me.Label107)
-        Me.pnl_Print.Location = New System.Drawing.Point(1066, 293)
+        Me.pnl_Print.Location = New System.Drawing.Point(1045, 390)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
-        Me.pnl_Print.Size = New System.Drawing.Size(276, 275)
+        Me.pnl_Print.Size = New System.Drawing.Size(367, 205)
         Me.pnl_Print.TabIndex = 82099
         Me.pnl_Print.Visible = False
         '
@@ -592,49 +591,6 @@ Partial Class MismatchCosting
         Me.Label30.Text = " Packing Calculation System"
         Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'btn_View_Ok
-        '
-        Me.btn_View_Ok.BackColor = System.Drawing.SystemColors.Menu
-        Me.btn_View_Ok.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_View_Ok.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btn_View_Ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_View_Ok.Location = New System.Drawing.Point(740, 13)
-        Me.btn_View_Ok.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btn_View_Ok.Name = "btn_View_Ok"
-        Me.btn_View_Ok.Size = New System.Drawing.Size(76, 35)
-        Me.btn_View_Ok.TabIndex = 81893
-        Me.btn_View_Ok.Text = "Ok"
-        Me.btn_View_Ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_View_Ok.UseVisualStyleBackColor = False
-        '
-        'But_export
-        '
-        Me.But_export.BackColor = System.Drawing.SystemColors.Menu
-        Me.But_export.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.But_export.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.But_export.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.But_export.Location = New System.Drawing.Point(859, 12)
-        Me.But_export.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.But_export.Name = "But_export"
-        Me.But_export.Size = New System.Drawing.Size(45, 37)
-        Me.But_export.TabIndex = 81895
-        Me.But_export.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.But_export.UseVisualStyleBackColor = False
-        '
-        'But_print
-        '
-        Me.But_print.BackColor = System.Drawing.SystemColors.Menu
-        Me.But_print.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.But_print.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.But_print.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.But_print.Location = New System.Drawing.Point(816, 12)
-        Me.But_print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.But_print.Name = "But_print"
-        Me.But_print.Size = New System.Drawing.Size(43, 36)
-        Me.But_print.TabIndex = 81894
-        Me.But_print.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.But_print.UseVisualStyleBackColor = False
-        '
         'lbl_To
         '
         Me.lbl_To.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -757,44 +713,80 @@ Partial Class MismatchCosting
         Me.Btn_LayoutLoad.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_LayoutLoad.Appearance.Options.UseFont = True
         Me.Btn_LayoutLoad.ImageOptions.Image = CType(resources.GetObject("Btn_LayoutLoad.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(945, 14)
+        Me.Btn_LayoutLoad.Location = New System.Drawing.Point(990, 13)
         Me.Btn_LayoutLoad.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Btn_LayoutLoad.Name = "Btn_LayoutLoad"
         Me.Btn_LayoutLoad.Size = New System.Drawing.Size(37, 32)
         Me.Btn_LayoutLoad.TabIndex = 81914
+        Me.Btn_LayoutLoad.Visible = False
         '
         'BtnLayOutSave
         '
         Me.BtnLayOutSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnLayOutSave.Appearance.Options.UseFont = True
         Me.BtnLayOutSave.ImageOptions.Image = CType(resources.GetObject("BtnLayOutSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnLayOutSave.Location = New System.Drawing.Point(907, 14)
+        Me.BtnLayOutSave.Location = New System.Drawing.Point(950, 13)
         Me.BtnLayOutSave.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.BtnLayOutSave.Name = "BtnLayOutSave"
         Me.BtnLayOutSave.Size = New System.Drawing.Size(35, 32)
         Me.BtnLayOutSave.TabIndex = 81913
+        Me.BtnLayOutSave.Visible = False
         '
         'PnlGrdView
         '
         Me.PnlGrdView.BackColor = System.Drawing.Color.LightCyan
+        Me.PnlGrdView.Controls.Add(Me.BtnExport)
+        Me.PnlGrdView.Controls.Add(Me.BtnPrint)
+        Me.PnlGrdView.Controls.Add(Me.btn_View_Ok)
         Me.PnlGrdView.Controls.Add(Me.Btn_LayoutLoad)
         Me.PnlGrdView.Controls.Add(Me.BtnLayOutSave)
         Me.PnlGrdView.Controls.Add(Me.GridControl1)
-        Me.PnlGrdView.Controls.Add(Me.btn_View_Ok)
-        Me.PnlGrdView.Controls.Add(Me.But_export)
-        Me.PnlGrdView.Controls.Add(Me.But_print)
         Me.PnlGrdView.Controls.Add(Me.lbl_To)
         Me.PnlGrdView.Controls.Add(Me.lbl_From)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewTO)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
-        Me.PnlGrdView.Location = New System.Drawing.Point(946, 2)
+        Me.PnlGrdView.Location = New System.Drawing.Point(758, 12)
         Me.PnlGrdView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.PnlGrdView.Name = "PnlGrdView"
         Me.PnlGrdView.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.PnlGrdView.Size = New System.Drawing.Size(148, 122)
+        Me.PnlGrdView.Size = New System.Drawing.Size(341, 122)
         Me.PnlGrdView.TabIndex = 82079
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
+        '
+        'BtnExport
+        '
+        Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnExport.Appearance.Options.UseFont = True
+        Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnExport.Location = New System.Drawing.Point(853, 12)
+        Me.BtnExport.Name = "BtnExport"
+        Me.BtnExport.Size = New System.Drawing.Size(90, 34)
+        Me.BtnExport.TabIndex = 81893
+        Me.BtnExport.Text = "Export"
+        '
+        'BtnPrint
+        '
+        Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPrint.Appearance.Options.UseFont = True
+        Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnPrint.Location = New System.Drawing.Point(757, 12)
+        Me.BtnPrint.Name = "BtnPrint"
+        Me.BtnPrint.Size = New System.Drawing.Size(90, 34)
+        Me.BtnPrint.TabIndex = 81892
+        Me.BtnPrint.Text = "Print"
+        '
+        'btn_View_Ok
+        '
+        Me.btn_View_Ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_View_Ok.Appearance.Options.UseFont = True
+        Me.btn_View_Ok.ImageOptions.Image = CType(resources.GetObject("btn_View_Ok.ImageOptions.Image"), System.Drawing.Image)
+        Me.btn_View_Ok.Location = New System.Drawing.Point(686, 12)
+        Me.btn_View_Ok.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btn_View_Ok.Name = "btn_View_Ok"
+        Me.btn_View_Ok.Size = New System.Drawing.Size(64, 34)
+        Me.btn_View_Ok.TabIndex = 81891
+        Me.btn_View_Ok.Text = "OK"
         '
         'Txt_ViewTO
         '
@@ -940,12 +932,12 @@ Partial Class MismatchCosting
         Me.TXT_Net_Weaving_Cost.ExtraValue = ""
         Me.TXT_Net_Weaving_Cost.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TXT_Net_Weaving_Cost.FontFocusColor = System.Drawing.Color.Blue
-        Me.TXT_Net_Weaving_Cost.FontLeaveColor = System.Drawing.Color.Black
-        Me.TXT_Net_Weaving_Cost.ForeColor = System.Drawing.Color.Black
+        Me.TXT_Net_Weaving_Cost.FontLeaveColor = System.Drawing.Color.Red
+        Me.TXT_Net_Weaving_Cost.ForeColor = System.Drawing.Color.Red
         Me.TXT_Net_Weaving_Cost.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.TXT_Net_Weaving_Cost.IsValidated = False
         Me.TXT_Net_Weaving_Cost.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.TXT_Net_Weaving_Cost.Location = New System.Drawing.Point(500, 547)
+        Me.TXT_Net_Weaving_Cost.Location = New System.Drawing.Point(496, 551)
         Me.TXT_Net_Weaving_Cost.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.TXT_Net_Weaving_Cost.MandatoryField = False
         Me.TXT_Net_Weaving_Cost.Margin = New System.Windows.Forms.Padding(5, 3, 5, 3)
@@ -1062,19 +1054,10 @@ Partial Class MismatchCosting
         Me.Label22.Text = "Overhead Calculation System"
         Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'lbl_AvgWt
-        '
-        Me.lbl_AvgWt.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_AvgWt.Location = New System.Drawing.Point(418, 236)
-        Me.lbl_AvgWt.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.lbl_AvgWt.Name = "lbl_AvgWt"
-        Me.lbl_AvgWt.Size = New System.Drawing.Size(111, 15)
-        Me.lbl_AvgWt.TabIndex = 82062
-        Me.lbl_AvgWt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
         'Label62
         '
         Me.Label62.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label62.ForeColor = System.Drawing.Color.Red
         Me.Label62.Location = New System.Drawing.Point(527, 236)
         Me.Label62.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label62.Name = "Label62"
@@ -1099,10 +1082,10 @@ Partial Class MismatchCosting
         Me.txt_yarn_Sub_Total_amt.EnterFocusColor = System.Drawing.Color.Bisque
         Me.txt_yarn_Sub_Total_amt.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
         Me.txt_yarn_Sub_Total_amt.ExtraValue = ""
-        Me.txt_yarn_Sub_Total_amt.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_yarn_Sub_Total_amt.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txt_yarn_Sub_Total_amt.FontFocusColor = System.Drawing.Color.Blue
-        Me.txt_yarn_Sub_Total_amt.FontLeaveColor = System.Drawing.Color.Black
-        Me.txt_yarn_Sub_Total_amt.ForeColor = System.Drawing.Color.Black
+        Me.txt_yarn_Sub_Total_amt.FontLeaveColor = System.Drawing.Color.Red
+        Me.txt_yarn_Sub_Total_amt.ForeColor = System.Drawing.Color.Red
         Me.txt_yarn_Sub_Total_amt.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.txt_yarn_Sub_Total_amt.IsValidated = False
         Me.txt_yarn_Sub_Total_amt.LeaveFocusColor = System.Drawing.Color.Lavender
@@ -1264,7 +1247,6 @@ Partial Class MismatchCosting
         Me.Controls.Add(Me.TXT_Net_Finish_Cost)
         Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.Label22)
-        Me.Controls.Add(Me.lbl_AvgWt)
         Me.Controls.Add(Me.Label62)
         Me.Controls.Add(Me.txt_yarn_Sub_Total_amt)
         Me.Controls.Add(Me.Label3)
@@ -1317,9 +1299,6 @@ Partial Class MismatchCosting
     Friend WithEvents Label2 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label30 As Label
-    Friend WithEvents btn_View_Ok As Button
-    Friend WithEvents But_export As Button
-    Friend WithEvents But_print As Button
     Friend WithEvents lbl_To As Label
     Friend WithEvents lbl_From As Label
     Friend WithEvents Txt_ViewFrom As ctl_TextBox.ctl_TextBox
@@ -1342,7 +1321,6 @@ Partial Class MismatchCosting
     Friend WithEvents TXT_Net_Finish_Cost As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label20 As Label
     Friend WithEvents Label22 As Label
-    Friend WithEvents lbl_AvgWt As Label
     Friend WithEvents Label62 As Label
     Friend WithEvents txt_yarn_Sub_Total_amt As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label3 As Label
@@ -1350,4 +1328,7 @@ Partial Class MismatchCosting
     Friend WithEvents lblTotRem As Label
     Friend WithEvents Txt_ImportEntry As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label111 As Label
+    Friend WithEvents btn_View_Ok As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
 End Class

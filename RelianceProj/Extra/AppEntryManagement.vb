@@ -931,15 +931,14 @@ Public Class AppEntryManagement
                     If SaveApprovedInvoiceSundryRow(view, i, srno) Then
                         'UpdatedCount += 1
                     End If
-                    'If SaveApprovedInvoiceTrnledgerRow(view, i, srno) Then
-                    '    'UpdatedCount += 1
-                    'End If
-
-                    'If SaveApprovedInvoiceOutstandingRow(view, i, srno) Then
-                    '    'UpdatedCount += 1
-                    'End If
+                    If SaveApprovedInvoiceTrnledgerRow(view, i, srno) Then
+                        '    'UpdatedCount += 1
+                    End If
+                    If SaveApprovedInvoiceOutstandingRow(view, i, srno) Then
+                        '    'UpdatedCount += 1
+                    End If
                     UpdatedCount += 1
-                End If
+                    End If
                 End If
         Next
         If UpdatedCount > 0 Then
@@ -1566,6 +1565,13 @@ Public Class AppEntryManagement
     Private Function SaveApprovedInvoiceSundryRow(view As DevExpress.XtraGrid.Views.Grid.GridView, i As Integer, ByRef srno As Integer) As Boolean
         Try
             Dim EntryNo As Integer = 1
+            Dim SP_ACCOUNTCODE As String = ""
+            Dim TAX_ACCOUNTCODE As String = ""
+            Dim AMOUNT_FOR_TAX As String = ""
+            Dim DRCR As String = "DR"
+            Dim OPPACCOUNTCODE As String = ""
+            Dim TRANS_FOR As String = ""
+            Dim FINACCOUNTCODE As String = ""
             Dim Status As String = ""
             Dim IsChecked As Boolean = False
             strQuery = "SELECT ISNULL(MAX(ENTRYNO),0) + 1 AS ENTRYNO FROM trninvoicesundry AS A WHERE A.BookTrType='" & BookTrtype & "' AND A.BookCode='" & BookCode & "'"
@@ -1600,127 +1606,67 @@ Public Class AppEntryManagement
             If Status <> "APPROVE" Then
                 Return True
             End If
-            'Dim QtyMtr As String = "0.00"
-            'Dim Rate As String = "0.00"
-            'Dim PickRate As String = "0.00"
-            'If Not IsDBNull(view.GetRowCellValue(i, "QtyMtr")) Then
-            '    QtyMtr = Val(view.GetRowCellValue(i, "QtyMtr")).ToString("0.00")
-            'End If
-            'If Not IsDBNull(view.GetRowCellValue(i, "Rate")) Then
-            '    Rate = Val(view.GetRowCellValue(i, "Rate")).ToString("0.00")
-            'End If
-            'If Not IsDBNull(view.GetRowCellValue(i, "PickRate")) Then
-            '    PickRate = Val(view.GetRowCellValue(i, "PickRate")).ToString("0.00")
-            'End If
             srno += 1
             _strQuery = New StringBuilder
             With _strQuery
                 .Append("INSERT INTO trninvoicesundry (")
-                .Append("ENTRYNO")
+                .Append("SP_ACCOUNTCODE")
+                .Append(",TAX_ACCOUNTCODE")
+                .Append(",AMOUNT_FOR_TAX")
+                .Append(",DRCR")
+                .Append(",OPPACCOUNTCODE")
+                .Append(",TRANS_FOR")
+                .Append(",ENTRYNO")
                 .Append(",BookTrtype")
                 .Append(",BookVno")
                 .Append(",BookCode")
                 .Append(",BILLNO")
                 .Append(",BILLDate")
-                '.Append(",PartyOfferNo")
-                '.Append(",ACOFCODE")
                 .Append(",AccountCode")
-                '.Append(",TransportCode")
-                '.Append(",DespatchCode")
-                '.Append(",HeaderRemark")
                 .Append(",SRNO")
-                '.Append(",ItemCode")
-                '.Append(",CutCode")
-                '.Append(",DesignCode")
-                '.Append(",ShadeCode")
-                '.Append(",Mtr_Weight")
-                'If TxtType.Text.Trim.ToUpper() = "ORDER" Then
-                '    .Append(",PICK_RATE")
-                '    .Append(",Rate")
-                'ElseIf TxtType.Text.Trim.ToUpper() = "INVOICE" Then
-                '    .Append(",PICK_RATE")
-                '    .Append(",Rate")
-                'End If
-                '.Append(",CDVALUE")
-                '.Append(",clear")
-                '.Append(",Gross_Rate")
-                '.Append(",Net_Rate")
-                '.Append(",SalesManCode")
-                '.Append(",MENDING_CHG")
-                '.Append(",Pcs_Bales")
-                '.Append(",AvgWeight")
-                '.Append(",RDVALUE")
-                '.Append(",Descr")
-                '.Append(",RowRemark")
-                '.Append(",LOTNO")
-                '.Append(",loomtype")
-                '.Append(",QTYMTR")
-                '.Append(",Process_Slab_Weight")
-                '.Append(",Process_Weight_Rate")
-                '.Append(",Process_Weight_Range")
-                '.Append(",Process_Net_Rate")
-                '.Append(",OP1")
-                '.Append(",cancel_Qty")
-                '.Append(",PICK")
-                '.Append(",WESTAGE")
-                '.Append(",NO_OF_BEAM")
-                '.Append(",EXTRA_CHG")
-                '.Append(",Process_Slab_Rate")
-                '.Append(",OP11")
-                .Append(") VALUES (")
-                .Append("'" & EntryNo & "'")
+                .Append(",FINACCOUNTCODE")
+                .Append(",SUNCODE")
+                .Append(",AUTOROUNDOFF")
+                .Append(",COMMU_TOTAL")
+                .Append(",TAX_PER")
+                .Append(",SUNNATURE")
+                .Append(",FINANCEPOST")
+                .Append(",ADDLESSTYPE")
+                .Append(",CALCBY")
+                .Append(",CALCON")
+                .Append(",CALCRATE")
+                .Append(",CALCAMOUNT")
+                .Append(") select ")
+                .Append("'" & SP_ACCOUNTCODE & "'")
+                .Append(",'" & TAX_ACCOUNTCODE & "'")
+                .Append("," & GetNumericValue(AMOUNT_FOR_TAX))
+                .Append(",'" & DRCR & "'")
+                .Append(",'" & OPPACCOUNTCODE & "'")
+                .Append(",'" & TRANS_FOR & "'")
+                .Append("," & GetNumericValue(EntryNo))
                 .Append(",'" & BookTrtype & "'")
                 .Append(",'" & BookVno & "'")
                 .Append(",'" & BookCode & "'")
                 .Append(",'" & view.GetRowCellValue(i, "OfferNo").ToString() & "'")
                 .Append(",'" & Format(CDate(view.GetRowCellValue(i, "OfferDate")),
                                       "yyyy-MM-dd HH:mm:ss") & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "PartyOfferNo").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "AcofCode").ToString() & "'")
                 .Append(",'" & view.GetRowCellValue(i, "AccountCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "TransportCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "DespatchCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "HeaderRemark").ToString() & "'")
-                .Append(",'" & srno & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "ItemCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "CutCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "DesignCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "ShadeCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "MeterWeight").ToString() & "'")
-                'If TxtType.Text.Trim.ToUpper() = "ORDER" Then
-                '    .Append(",'" & PickRate & "'")
-                '    .Append(",'0.00'")
-                'ElseIf TxtType.Text.Trim.ToUpper() = "INVOICE" Then
-                '    .Append(",'0.00'")
-                '    .Append(",'" & Rate & "'")
-                'End If
-                '.Append(",'" & view.GetRowCellValue(i, "DiscountAmount").ToString() & "'")
-                '.Append(",'NO'")
-                '.Append(",'" & view.GetRowCellValue(i, "Amount").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "NetAmount").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "SalesManCode").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "Pcs").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "TaxPercentage").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "TaxAmount").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "DiscountPercentage").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "Description").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "RowRemark").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "QtyType").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "RateNo").ToString() & "'")
-                '.Append(",'" & QtyMtr & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "DiscountPercentage").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "DiscountAmount").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "TaxPercentage").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "TaxAmount").ToString() & "'")
-                '.Append(",'" & view.GetRowCellValue(i, "BookVno").ToString() & "'")
-                '.Append(",'0.00'")
-                '.Append(",'0.00'")
-                '.Append(",'0.00'")
-                '.Append(",'0.00'")
-                '.Append(",'0.00'")
-                '.Append(",'0.00'")
-                '.Append(",'0.00'")
-                .Append(")")
+                .Append("," & GetNumericValue(srno))
+                .Append(",'" & FINACCOUNTCODE & "'")
+                .Append(",SUNCODE")
+                .Append(",AUTOROUND")
+                .Append(",0")
+                .Append(",0")
+                .Append(",SUNNATURE")
+                .Append(",FINANCEPOST")
+                .Append(",ADDLESSTYPE")
+                .Append(",CALCBY")
+                .Append(",CALCON")
+                .Append(",0")
+                .Append(",0")
+                .Append(" FROM TrnBillSundry ")
+                .Append(" Where 1=1 and BookCode='0001-000000029'")
+                '.Append(" Where 1=1 and BookCode='" & BookCode & "'")
             End With
             sqL = _strQuery.ToString
             sql_Data_Save_Delete_Update()
@@ -1730,13 +1676,33 @@ Public Class AppEntryManagement
             Return False
         End Try
     End Function
+    Private Function GetNumericValue(ByVal Value As String) As String
+        Dim Number As Decimal
+        If String.IsNullOrWhiteSpace(Value) Then
+            Return "0"
+        End If
+        If Decimal.TryParse(Value.Trim(), Number) Then
+            Return Number.ToString(Globalization.CultureInfo.InvariantCulture)
+        End If
+        Return "0"
+    End Function
+
 
     Private Function SaveApprovedInvoiceTrnledgerRow(view As DevExpress.XtraGrid.Views.Grid.GridView, i As Integer, ByRef srno As Integer) As Boolean
         Try
             Dim EntryNo As Integer = 1
+            Dim DEBITAMT As Integer = 0
+            Dim CREDITAMT As Integer = 0
+            Dim DRCR As String = "CR"
+            Dim OPPACCOUNTCODE As String = ""
+            Dim NARRATION As String = ""
+            Dim MTRC As String = ""
+            Dim TRANS_FOR As String = "SUNDRY"
+            Dim LONGNARR As String = ""
+
             Dim Status As String = ""
             Dim IsChecked As Boolean = False
-            strQuery = "SELECT ISNULL(MAX(ENTRYNO),0) + 1 AS ENTRYNO FROM trnledger AS A WHERE A.BookTrType='" & BookTrtype & "' AND A.BookCode='" & BookCode & "'"
+            strQuery = "Select ISNULL(MAX(ENTRYNO),0) + 1 As ENTRYNO FROM trnledger As A WHERE A.BookTrType='" & BookTrtype & "' AND A.BookCode='" & BookCode & "'"
             sqL = strQuery
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
@@ -1768,20 +1734,11 @@ Public Class AppEntryManagement
             If Status <> "APPROVE" Then
                 Return True
             End If
-            '-------------------------------------------------------
-            ' 7. Prepare Values
-            '-------------------------------------------------------
             Dim Rate As String = "0.00"
             If Not IsDBNull(view.GetRowCellValue(i, "Rate")) Then
                 Rate = Val(view.GetRowCellValue(i, "Rate")).ToString("0.00")
             End If
-            '-------------------------------------------------------
-            ' 8. SRNO
-            '-------------------------------------------------------
             srno += 1
-            '-------------------------------------------------------
-            ' 9. Insert Query
-            '-------------------------------------------------------
             _strQuery = New StringBuilder
             With _strQuery
                 .Append("INSERT INTO trnledger (")
@@ -1789,53 +1746,18 @@ Public Class AppEntryManagement
                 .Append(",BookTrtype")
                 .Append(",BookVno")
                 .Append(",BookCode")
-                .Append(",OfferNo")
+                .Append(",BillNo")
                 .Append(",BillDate")
-                .Append(",AccountCode")
-                .Append(",TransportCode")
-                .Append(",DespatchCode")
+                .Append(",AccountCode") ' account code
                 .Append(",SRNO")
-                .Append(",ItemCode")
-                .Append(",CutCode")
-                .Append(",DesignCode")
-                .Append(",ShadeCode")
-                .Append(",Mtr_Weight")
-                .Append(",Rate")
-                .Append(",Gross_Rate")
-                .Append(",NET_AMOUNT")
-                .Append(",PCS")
-                .Append(",Pcs_Bales")
-                .Append(",taxper")
-                .Append(",taxamount")
-                .Append(",Amount")
-                .Append(",Net_Rate")
-                .Append(",RATE_DIS_PER")
-                .Append(",OFFERENTRYNO")
-                .Append(",OTHER_ADD")
-                .Append(",OTHER_LESS")
-                .Append(",CGST_TAX_RATE")
-                .Append(",SGST_TAX_RATE")
-                .Append(",IGST_TAX_RATE")
-                .Append(",CGST_TAX_AMT")
-                .Append(",SGST_TAX_AMT")
-                .Append(",IGST_TAX_AMT")
-                .Append(",AVGWEIGHT")
-                .Append(",PICKRATE")
-                .Append(",WEIGHT")
-                .Append(",DIS_PER")
-                .Append(",DIS_AMOUNT")
-                .Append(",QTY")
-                .Append(",RD")
-                .Append(",CD")
-                .Append(",CESS_TAX_RATE")
-                .Append(",CESS_TAX_AMT")
-
-                .Append(",Descr")
-                .Append(",RowRemark")
-                .Append(",LOTNO")
-                .Append(",RATEON")
-                .Append(",ROUND_OFF")
-                .Append(",PICK")
+                .Append(",DEBITAMT")
+                .Append(",CREDITAMT")
+                .Append(",DRCR")
+                .Append(",OPPACCOUNTCODE")
+                .Append(",NARRATION")
+                .Append(",MTRC")
+                .Append(",TRANS_FOR")
+                .Append(",LONGNARR")
                 .Append(") VALUES (")
                 .Append("'" & EntryNo & "'")
                 .Append(",'" & BookTrtype & "'")
@@ -1845,54 +1767,17 @@ Public Class AppEntryManagement
                 .Append(",'" & Format(CDate(view.GetRowCellValue(i, "OfferDate")),
                                       "yyyy-MM-dd HH:mm:ss") & "'")
                 .Append(",'" & view.GetRowCellValue(i, "AccountCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TransportCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "DespatchCode").ToString() & "'")
                 .Append(",'" & srno & "'")
-                .Append(",'" & view.GetRowCellValue(i, "ItemCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "CutCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "DesignCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "ShadeCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "MeterWeight").ToString() & "'")
-                .Append(",'" & Rate & "'")
-                .Append(",'" & view.GetRowCellValue(i, "Amount").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "NetAmount").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "Pcs").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TaxPercentage").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TaxAmount").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TaxAmount").ToString() & "'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'" & view.GetRowCellValue(i, "DiscountPercentage").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "Description").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "RowRemark").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "QtyType").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "RateNo").ToString() & "'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
+                .Append("," & GetNumericValue(DEBITAMT))
+                .Append("," & GetNumericValue(CREDITAMT))
+                .Append(",'" & DRCR & "'")
+                .Append(",'" & OPPACCOUNTCODE & "'")
+                .Append(",'" & NARRATION & "'")
+                .Append(",'" & MTRC & "'")
+                .Append(",'" & TRANS_FOR & "'")
+                .Append(",'" & LONGNARR & "'")
                 .Append(")")
             End With
-            '-------------------------------------------------------
-            ' 10. Save
-            '-------------------------------------------------------
             sqL = _strQuery.ToString
             sql_Data_Save_Delete_Update()
             Return True
@@ -1905,9 +1790,16 @@ Public Class AppEntryManagement
     Private Function SaveApprovedInvoiceOutstandingRow(view As DevExpress.XtraGrid.Views.Grid.GridView, i As Integer, ByRef srno As Integer) As Boolean
         Try
             Dim EntryNo As Integer = 1
+            Dim DEBITAMT As Integer = 0
+            Dim BILLAMT As Integer = 0
+            Dim QTY As Integer = 0
+            Dim CREDITAMT As Integer = 0
+            Dim DRCR As String = ""
+            Dim OP1 As String = ""
+            Dim OP2 As String = ""
             Dim Status As String = ""
             Dim IsChecked As Boolean = False
-            strQuery = "SELECT ISNULL(MAX(ENTRYNO),0) + 1 AS ENTRYNO FROM trnOutstanding AS A WHERE A.BookTrType='" & BookTrtype & "' AND A.BookCode='" & BookCode & "'"
+            strQuery = "Select ISNULL(MAX(ENTRYNO),0) + 1 As ENTRYNO FROM trnOutstanding As A WHERE A.BookTrType='" & BookTrtype & "' AND A.BookCode='" & BookCode & "'"
             sqL = strQuery
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
@@ -1939,20 +1831,11 @@ Public Class AppEntryManagement
             If Status <> "APPROVE" Then
                 Return True
             End If
-            '-------------------------------------------------------
-            ' 7. Prepare Values
-            '-------------------------------------------------------
             Dim Rate As String = "0.00"
             If Not IsDBNull(view.GetRowCellValue(i, "Rate")) Then
                 Rate = Val(view.GetRowCellValue(i, "Rate")).ToString("0.00")
             End If
-            '-------------------------------------------------------
-            ' 8. SRNO
-            '-------------------------------------------------------
             srno += 1
-            '-------------------------------------------------------
-            ' 9. Insert Query
-            '-------------------------------------------------------
             _strQuery = New StringBuilder
             With _strQuery
                 .Append("INSERT INTO trnOutstanding (")
@@ -1960,53 +1843,17 @@ Public Class AppEntryManagement
                 .Append(",BookTrtype")
                 .Append(",BookVno")
                 .Append(",BookCode")
-                .Append(",OfferNo")
+                .Append(",BillNo")
                 .Append(",BillDate")
                 .Append(",AccountCode")
-                .Append(",TransportCode")
-                .Append(",DespatchCode")
                 .Append(",SRNO")
-                .Append(",ItemCode")
-                .Append(",CutCode")
-                .Append(",DesignCode")
-                .Append(",ShadeCode")
-                .Append(",Mtr_Weight")
-                .Append(",Rate")
-                .Append(",Gross_Rate")
-                .Append(",NET_AMOUNT")
-                .Append(",PCS")
-                .Append(",Pcs_Bales")
-                .Append(",taxper")
-                .Append(",taxamount")
-                .Append(",Amount")
-                .Append(",Net_Rate")
-                .Append(",RATE_DIS_PER")
-                .Append(",OFFERENTRYNO")
-                .Append(",OTHER_ADD")
-                .Append(",OTHER_LESS")
-                .Append(",CGST_TAX_RATE")
-                .Append(",SGST_TAX_RATE")
-                .Append(",IGST_TAX_RATE")
-                .Append(",CGST_TAX_AMT")
-                .Append(",SGST_TAX_AMT")
-                .Append(",IGST_TAX_AMT")
-                .Append(",AVGWEIGHT")
-                .Append(",PICKRATE")
-                .Append(",WEIGHT")
-                .Append(",DIS_PER")
-                .Append(",DIS_AMOUNT")
+                .Append(",DEBITAMT")
+                .Append(",BILLAMT")
                 .Append(",QTY")
-                .Append(",RD")
-                .Append(",CD")
-                .Append(",CESS_TAX_RATE")
-                .Append(",CESS_TAX_AMT")
-
-                .Append(",Descr")
-                .Append(",RowRemark")
-                .Append(",LOTNO")
-                .Append(",RATEON")
-                .Append(",ROUND_OFF")
-                .Append(",PICK")
+                .Append(",CREDITAMT")
+                .Append(",DRCR ")
+                .Append(",OP1")
+                .Append(",OP2")
                 .Append(") VALUES (")
                 .Append("'" & EntryNo & "'")
                 .Append(",'" & BookTrtype & "'")
@@ -2016,54 +1863,16 @@ Public Class AppEntryManagement
                 .Append(",'" & Format(CDate(view.GetRowCellValue(i, "OfferDate")),
                                       "yyyy-MM-dd HH:mm:ss") & "'")
                 .Append(",'" & view.GetRowCellValue(i, "AccountCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TransportCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "DespatchCode").ToString() & "'")
                 .Append(",'" & srno & "'")
-                .Append(",'" & view.GetRowCellValue(i, "ItemCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "CutCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "DesignCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "ShadeCode").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "MeterWeight").ToString() & "'")
-                .Append(",'" & Rate & "'")
-                .Append(",'" & view.GetRowCellValue(i, "Amount").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "NetAmount").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "Pcs").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TaxPercentage").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TaxAmount").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "TaxAmount").ToString() & "'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'" & view.GetRowCellValue(i, "DiscountPercentage").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "Description").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "RowRemark").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "QtyType").ToString() & "'")
-                .Append(",'" & view.GetRowCellValue(i, "RateNo").ToString() & "'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
+                .Append("," & GetNumericValue(DEBITAMT))
+                .Append("," & GetNumericValue(BILLAMT))
+                .Append("," & GetNumericValue(QTY))
+                .Append("," & GetNumericValue(CREDITAMT))
+                .Append(",'" & DRCR & "'")
+                .Append(",'" & OP1 & "'")
+                .Append(",'" & OP2 & "'")
                 .Append(")")
             End With
-            '-------------------------------------------------------
-            ' 10. Save
-            '-------------------------------------------------------
             sqL = _strQuery.ToString
             sql_Data_Save_Delete_Update()
             Return True
