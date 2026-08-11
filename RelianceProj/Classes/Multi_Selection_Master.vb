@@ -6996,7 +6996,6 @@ Public Class Multi_Selection_Master
                 .Append(" where A.Y_JOB_WORKER_STK_OWN='Mismatch Cost Setting' AND A.BOOKNAME='" & _SundaryType & "' ")
                 .Append("  ORDER BY  BookName ")
             End With
-            '.Append(" where A.Y_JOB_WORKER_STK_OWN='Cost Sheet Setting' AND BOOKNAME='" & _SundaryType & "' ")
             sqL = _strQuery.ToString
             sql_connect_slect()
             Party_selection.dgw.DataSource = DefaltSoftTable.Copy
