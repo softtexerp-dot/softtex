@@ -64,18 +64,23 @@ Public Class MismatchcostingType
 #End Region
 
 #Region "FORM EVENTS"
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
+        End If
+    End Sub
     Private Sub Transport_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         InsertCostSheetSetting()
         Me.KeyPreview = True
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
-        If F2_OPEN_FROM = True Then
-            Dim x As Integer = 0
-            Dim y As Integer
-            y = (Screen_Height - Screen_Height) + Main_MDI_Frm.MenuStrip1.Height + 30
-            Me.Location = New Point(x, y)
-        Else
-            Me.Location = New Point(0, 0)
-        End If
+        'If F2_OPEN_FROM = True Then
+        '    Dim x As Integer = 0
+        '    Dim y As Integer
+        '    y = (Screen_Height - Screen_Height) + Main_MDI_Frm.MenuStrip1.Height + 30
+        '    Me.Location = New Point(x, y)
+        'Else
+        '    Me.Location = New Point(0, 0)
+        'End If
 
         PnlGrdView.Width = 494
         PnlGrdView.Height = 252
@@ -155,6 +160,7 @@ Public Class MismatchcostingType
         If e.KeyCode = Keys.Escape Then
             _FrmLoad = True
             Me.Close()
+            Me.Dispose(True)
             If _FORMMODE = "" Then
                 'If Label2.Text = "Frm_Grader" Then
                 Me.Close()

@@ -53,7 +53,7 @@ Partial Class MismatchcostingType
         Me.Label6 = New System.Windows.Forms.Label()
         Me.PnlGrdView = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New UC_Buttons()
         Me.PnlGrdView.SuspendLayout()
         Me.SuspendLayout()
         '

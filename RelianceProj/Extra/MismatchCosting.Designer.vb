@@ -24,15 +24,12 @@ Partial Class MismatchCosting
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MismatchCosting))
         Me.Lblprocesscost = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.UC_Buttons1 = New Textile.UC_Buttons()
         Me.GrdFinishcost = New FlexCell.Grid()
         Me.GrdWeavingcost = New FlexCell.Grid()
         Me.pnl_Print = New System.Windows.Forms.Panel()
         Me.Btn_Print = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnClose = New DevExpress.XtraEditors.SimpleButton()
-        Me.Label108 = New System.Windows.Forms.Label()
-        Me.txt_Print_For = New ctl_TextBox.ctl_TextBox()
-        Me.Label109 = New System.Windows.Forms.Label()
         Me.Label101 = New System.Windows.Forms.Label()
         Me.txt_Paper_Type = New ctl_TextBox.ctl_TextBox()
         Me.Label102 = New System.Windows.Forms.Label()
@@ -65,12 +62,9 @@ Partial Class MismatchCosting
         Me.txt_EntryNo = New ctl_TextBox.ctl_TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label54 = New System.Windows.Forms.Label()
         Me.TXT_Net_Weaving_Cost = New ctl_TextBox.ctl_TextBox()
         Me.Label13 = New System.Windows.Forms.Label()
-        Me.Label61 = New System.Windows.Forms.Label()
         Me.TXT_Net_Finish_Cost = New ctl_TextBox.ctl_TextBox()
-        Me.Label20 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label62 = New System.Windows.Forms.Label()
         Me.txt_yarn_Sub_Total_amt = New ctl_TextBox.ctl_TextBox()
@@ -79,6 +73,7 @@ Partial Class MismatchCosting
         Me.lblTotRem = New System.Windows.Forms.Label()
         Me.Txt_ImportEntry = New ctl_TextBox.ctl_TextBox()
         Me.Label111 = New System.Windows.Forms.Label()
+        Me.Btn_CreatOverHeadItem = New DevExpress.XtraEditors.SimpleButton()
         Me.pnl_Print.SuspendLayout()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -123,14 +118,14 @@ Partial Class MismatchCosting
         Me.GrdFinishcost.EnableTabKey = False
         Me.GrdFinishcost.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GrdFinishcost.GridColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.GrdFinishcost.Location = New System.Drawing.Point(670, 161)
+        Me.GrdFinishcost.Location = New System.Drawing.Point(663, 128)
         Me.GrdFinishcost.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GrdFinishcost.MultiSelect = False
         Me.GrdFinishcost.Name = "GrdFinishcost"
         Me.GrdFinishcost.ScrollBars = FlexCell.ScrollBarsEnum.Vertical
         Me.GrdFinishcost.SelectionBorderColor = System.Drawing.Color.Crimson
         Me.GrdFinishcost.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.GrdFinishcost.Size = New System.Drawing.Size(438, 385)
+        Me.GrdFinishcost.Size = New System.Drawing.Size(442, 418)
         Me.GrdFinishcost.TabIndex = 82046
         Me.GrdFinishcost.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdFinishcost.UncheckedImage = Nothing
@@ -168,9 +163,6 @@ Partial Class MismatchCosting
         Me.pnl_Print.BackColor = System.Drawing.Color.SkyBlue
         Me.pnl_Print.Controls.Add(Me.Btn_Print)
         Me.pnl_Print.Controls.Add(Me.BtnClose)
-        Me.pnl_Print.Controls.Add(Me.Label108)
-        Me.pnl_Print.Controls.Add(Me.txt_Print_For)
-        Me.pnl_Print.Controls.Add(Me.Label109)
         Me.pnl_Print.Controls.Add(Me.Label101)
         Me.pnl_Print.Controls.Add(Me.txt_Paper_Type)
         Me.pnl_Print.Controls.Add(Me.Label102)
@@ -184,7 +176,7 @@ Partial Class MismatchCosting
         Me.pnl_Print.Location = New System.Drawing.Point(175, 161)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
-        Me.pnl_Print.Size = New System.Drawing.Size(603, 292)
+        Me.pnl_Print.Size = New System.Drawing.Size(343, 237)
         Me.pnl_Print.TabIndex = 82099
         Me.pnl_Print.Visible = False
         '
@@ -209,75 +201,6 @@ Partial Class MismatchCosting
         Me.BtnClose.Size = New System.Drawing.Size(90, 35)
         Me.BtnClose.TabIndex = 81894
         Me.BtnClose.Text = "Close"
-        '
-        'Label108
-        '
-        Me.Label108.AutoSize = True
-        Me.Label108.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label108.Location = New System.Drawing.Point(239, 188)
-        Me.Label108.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label108.Name = "Label108"
-        Me.Label108.Size = New System.Drawing.Size(12, 14)
-        Me.Label108.TabIndex = 81349
-        Me.Label108.Text = ":"
-        '
-        'txt_Print_For
-        '
-        Me.txt_Print_For._AllowSpace = True
-        Me.txt_Print_For.AcceptsReturn = True
-        Me.txt_Print_For.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txt_Print_For.BackColor = System.Drawing.Color.Lavender
-        Me.txt_Print_For.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txt_Print_For.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txt_Print_For.Check_End_Date_Value_FY = "YES"
-        Me.txt_Print_For.Check_Start_Date_Value_FY = "YES"
-        Me.txt_Print_For.ClearField = True
-        Me.txt_Print_For.CustomInputTypeString = Nothing
-        Me.txt_Print_For.Date_for_Database = Nothing
-        Me.txt_Print_For.Date_Tag = Nothing
-        Me.txt_Print_For.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.txt_Print_For.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
-        Me.txt_Print_For.ExtraValue = ""
-        Me.txt_Print_For.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_Print_For.FontFocusColor = System.Drawing.Color.Blue
-        Me.txt_Print_For.FontLeaveColor = System.Drawing.Color.Black
-        Me.txt_Print_For.ForeColor = System.Drawing.Color.Black
-        Me.txt_Print_For.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
-        Me.txt_Print_For.IsValidated = False
-        Me.txt_Print_For.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.txt_Print_For.Location = New System.Drawing.Point(285, 188)
-        Me.txt_Print_For.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.txt_Print_For.MandatoryField = False
-        Me.txt_Print_For.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.txt_Print_For.MaxDate = Nothing
-        Me.txt_Print_For.MaxLength = 70
-        Me.txt_Print_For.MinDate = Nothing
-        Me.txt_Print_For.Name = "txt_Print_For"
-        Me.txt_Print_For.NormalBorderColor = System.Drawing.Color.Lavender
-        Me.txt_Print_For.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.txt_Print_For.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.txt_Print_For.RegularExpression = Nothing
-        Me.txt_Print_For.RegularExpressionErrorMessage = Nothing
-        Me.txt_Print_For.ShortcutsEnabled = False
-        Me.txt_Print_For.ShowMessage = False
-        Me.txt_Print_For.Size = New System.Drawing.Size(158, 22)
-        Me.txt_Print_For.SpacerString = "FINISH,GREY"
-        Me.txt_Print_For.TabIndex = 81339
-        Me.txt_Print_For.Tag = "LETTNO"
-        Me.txt_Print_For.Text = "FINISH"
-        Me.txt_Print_For.TransparentBox = True
-        Me.txt_Print_For.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
-        '
-        'Label109
-        '
-        Me.Label109.AutoSize = True
-        Me.Label109.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label109.Location = New System.Drawing.Point(124, 188)
-        Me.Label109.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label109.Name = "Label109"
-        Me.Label109.Size = New System.Drawing.Size(65, 14)
-        Me.Label109.TabIndex = 81348
-        Me.Label109.Text = "Print For"
         '
         'Label101
         '
@@ -731,11 +654,11 @@ Partial Class MismatchCosting
         Me.PnlGrdView.Controls.Add(Me.lbl_From)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewTO)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
-        Me.PnlGrdView.Location = New System.Drawing.Point(848, 9)
+        Me.PnlGrdView.Location = New System.Drawing.Point(433, 30)
         Me.PnlGrdView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.PnlGrdView.Name = "PnlGrdView"
         Me.PnlGrdView.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.PnlGrdView.Size = New System.Drawing.Size(263, 122)
+        Me.PnlGrdView.Size = New System.Drawing.Size(263, 46)
         Me.PnlGrdView.TabIndex = 82079
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
@@ -887,17 +810,6 @@ Partial Class MismatchCosting
         Me.Label4.TabIndex = 82081
         Me.Label4.Text = ":"
         '
-        'Label54
-        '
-        Me.Label54.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label54.ForeColor = System.Drawing.Color.Red
-        Me.Label54.Location = New System.Drawing.Point(483, 551)
-        Me.Label54.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(11, 14)
-        Me.Label54.TabIndex = 82073
-        Me.Label54.Text = ":"
-        '
         'TXT_Net_Weaving_Cost
         '
         Me.TXT_Net_Weaving_Cost._AllowSpace = True
@@ -957,17 +869,6 @@ Partial Class MismatchCosting
         Me.Label13.TabIndex = 82072
         Me.Label13.Text = "Total"
         '
-        'Label61
-        '
-        Me.Label61.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label61.ForeColor = System.Drawing.Color.Red
-        Me.Label61.Location = New System.Drawing.Point(960, 554)
-        Me.Label61.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label61.Name = "Label61"
-        Me.Label61.Size = New System.Drawing.Size(11, 14)
-        Me.Label61.TabIndex = 82065
-        Me.Label61.Text = ":"
-        '
         'TXT_Net_Finish_Cost
         '
         Me.TXT_Net_Finish_Cost._AllowSpace = True
@@ -1016,26 +917,15 @@ Partial Class MismatchCosting
         Me.TXT_Net_Finish_Cost.TransparentBox = True
         Me.TXT_Net_Finish_Cost.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
-        'Label20
-        '
-        Me.Label20.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.ForeColor = System.Drawing.Color.Red
-        Me.Label20.Location = New System.Drawing.Point(668, 554)
-        Me.Label20.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(239, 15)
-        Me.Label20.TabIndex = 82064
-        Me.Label20.Text = "Total"
-        '
         'Label22
         '
         Me.Label22.BackColor = System.Drawing.Color.DarkSlateGray
         Me.Label22.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label22.ForeColor = System.Drawing.Color.White
-        Me.Label22.Location = New System.Drawing.Point(668, 141)
+        Me.Label22.Location = New System.Drawing.Point(663, 108)
         Me.Label22.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(443, 19)
+        Me.Label22.Size = New System.Drawing.Size(442, 20)
         Me.Label22.TabIndex = 82063
         Me.Label22.Text = "Overhead Calculation System"
         Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1207,12 +1097,24 @@ Partial Class MismatchCosting
         Me.Label111.TabIndex = 82077
         Me.Label111.Text = "Import Old Entry No :"
         '
+        'Btn_CreatOverHeadItem
+        '
+        Me.Btn_CreatOverHeadItem.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_CreatOverHeadItem.Appearance.Options.UseFont = True
+        Me.Btn_CreatOverHeadItem.ImageOptions.Image = Global.Textile.My.Resources.Resources.publicfix_32x32
+        Me.Btn_CreatOverHeadItem.Location = New System.Drawing.Point(901, 70)
+        Me.Btn_CreatOverHeadItem.Name = "Btn_CreatOverHeadItem"
+        Me.Btn_CreatOverHeadItem.Size = New System.Drawing.Size(204, 35)
+        Me.Btn_CreatOverHeadItem.TabIndex = 82106
+        Me.Btn_CreatOverHeadItem.Text = "Create Overhead Item"
+        '
         'MismatchCosting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(1112, 624)
+        Me.Controls.Add(Me.Btn_CreatOverHeadItem)
         Me.Controls.Add(Me.pnl_Print)
         Me.Controls.Add(Me.Lblprocesscost)
         Me.Controls.Add(Me.UC_Buttons1)
@@ -1226,12 +1128,9 @@ Partial Class MismatchCosting
         Me.Controls.Add(Me.txt_EntryNo)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label54)
         Me.Controls.Add(Me.TXT_Net_Weaving_Cost)
         Me.Controls.Add(Me.Label13)
-        Me.Controls.Add(Me.Label61)
         Me.Controls.Add(Me.TXT_Net_Finish_Cost)
-        Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.Label22)
         Me.Controls.Add(Me.Label62)
         Me.Controls.Add(Me.txt_yarn_Sub_Total_amt)
@@ -1266,9 +1165,6 @@ Partial Class MismatchCosting
     Friend WithEvents GrdFinishcost As FlexCell.Grid
     Friend WithEvents GrdWeavingcost As FlexCell.Grid
     Friend WithEvents pnl_Print As Panel
-    Friend WithEvents Label108 As Label
-    Friend WithEvents txt_Print_For As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Label109 As Label
     Friend WithEvents Label101 As Label
     Friend WithEvents txt_Paper_Type As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label102 As Label
@@ -1298,12 +1194,9 @@ Partial Class MismatchCosting
     Friend WithEvents txt_EntryNo As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Label4 As Label
-    Friend WithEvents Label54 As Label
     Friend WithEvents TXT_Net_Weaving_Cost As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label13 As Label
-    Friend WithEvents Label61 As Label
     Friend WithEvents TXT_Net_Finish_Cost As ctl_TextBox.ctl_TextBox
-    Friend WithEvents Label20 As Label
     Friend WithEvents Label22 As Label
     Friend WithEvents Label62 As Label
     Friend WithEvents txt_yarn_Sub_Total_amt As ctl_TextBox.ctl_TextBox
@@ -1317,4 +1210,5 @@ Partial Class MismatchCosting
     Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnClose As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents Btn_Print As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Btn_CreatOverHeadItem As DevExpress.XtraEditors.SimpleButton
 End Class

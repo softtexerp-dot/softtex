@@ -772,9 +772,18 @@ Public Class MismatchCosting
 #End Region
 #Region "FORM EVENTS"
 
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
+        End If
+    End Sub
+
     Private Sub Coastsheetentry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         _FrmLoad = False
+
+        MismatchcostingType.InsertCostSheetSetting()
+
         UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
         Me.Location = New Point(0, 0)
@@ -850,6 +859,7 @@ Public Class MismatchCosting
             _FrmLoad = True
             If _FORMMODE = "" Then
                 Me.Close()
+                Me.Dispose(True)
             Else
                 'If PnlGrdView.Visible = True Then
                 '    PnlGrdView.Visible = False
@@ -2361,9 +2371,8 @@ Public Class MismatchCosting
         sql_connect_slect()
         Dim Tmp_Data_Table As New DataTable
         Tmp_Data_Table = DefaltSoftTable.Copy
-        If txt_Print_For.Text = "FINISH" Then
-            'Print_Preview(strQuery, IIf(txt_Paper_Type.Text = "PLAIN", "Fabric_Cost_Sheet_2", "Fabric_Cost_Sheet_1P"), "MIXMATCHCOSTING", "", True)
-            Dim RptTitle = "Mix Match Costing Report"
+
+        Dim RptTitle = "Mix Match Costing Report"
             Dim Date_Range = ""
             If Btn_Print.Enabled = True Then
                 If txt_From.Text <> "" AndAlso txt_To.Text <> "" Then
@@ -2371,18 +2380,8 @@ Public Class MismatchCosting
                     NewReportPrint(Tmp_Data_Table, RptTitle, Date_Range)
                 End If
             End If
-        Else
-            'Print_Preview(strQuery, IIf(txt_Paper_Type.Text = "PLAIN", "Fabric_Cost_Sheet_1", "Fabric_Cost_Sheet_2P"), "MIXMATCHCOSTING", "", True)
-            Dim RptTitle = "Mix Match Costing Report"
-            Dim Date_Range = ""
-            If Btn_Print.Enabled = True Then
-                If txt_From.Text <> "" AndAlso txt_To.Text <> "" Then
-                    REPORT_RPT_FILE_NAME = "MixMatchCostingReport"
-                    NewReportPrint(Tmp_Data_Table, RptTitle, Date_Range)
-                End If
-            End If
-        End If
-        pnl_Print.Visible = False
+
+        'pnl_Print.Visible = False
     End Sub
     Private Sub pnl_Print_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles pnl_Print.Validated
         pnl_Print.Visible = False
@@ -2677,6 +2676,7 @@ Public Class MismatchCosting
     Private Sub UC_Buttons1_CloseClick() Handles UC_Buttons1.CloseClick
         If _FORMMODE = "" Then
             Me.Close()
+            Me.Dispose(True)
         Else
             If _FORMMODE = "VIEW" Then
                 PnlGrdView.Visible = False
@@ -2724,7 +2724,7 @@ Public Class MismatchCosting
             txt_To.Text = Val(DefaltSoftTable.Rows(0).Item(0))
         End If
         If txt_Paper_Type.Text = "" Then txt_Paper_Type.Text = "PLAIN"
-        If txt_Print_For.Text = "" Then txt_Print_For.Text = "FINISH"
+
 
         pnl_Print.Visible = True
         txt_From.Focus()
@@ -2750,7 +2750,14 @@ Public Class MismatchCosting
 
     Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles BtnClose.Click
         Me.Close()
+        Me.Dispose(True)
     End Sub
+
+    Private Sub Btn_CreatOverHeadItem_Click(sender As Object, e As EventArgs) Handles Btn_CreatOverHeadItem.Click
+        MismatchcostingType.ShowDialog()
+    End Sub
+
+
 
 #End Region
 End Class
