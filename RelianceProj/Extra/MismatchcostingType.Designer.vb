@@ -662,7 +662,7 @@ Partial Class MismatchcostingType
         Me.Margin = New System.Windows.Forms.Padding(5, 4, 5, 4)
         Me.Name = "MismatchcostingType"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "MismatchcostingType"
+        Me.Text = "Mix Match Costing Type"
         Me.PnlGrdView.ResumeLayout(False)
         Me.PnlGrdView.PerformLayout()
         Me.ResumeLayout(False)
