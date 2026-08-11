@@ -6217,6 +6217,7 @@ Public Class Multi_Selection_Master
             Party_selection.Label4.Text = ""
 
             Dim masters As String() = {
+            "BOOK MASTER",
             "ACCOUNT MASTER",
             "AGENT MASTER",
             "CITY MASTER",
@@ -6960,6 +6961,39 @@ Public Class Multi_Selection_Master
                 .Append(" ,A.BEHAVIOUR")
                 .Append("  from Query1 as A")
                 .Append(" where A.Y_JOB_WORKER_STK_OWN='Cost Sheet Setting' AND A.BOOKNAME='" & _SundaryType & "' ")
+                .Append("  ORDER BY  BookName ")
+            End With
+            '.Append(" where A.Y_JOB_WORKER_STK_OWN='Cost Sheet Setting' AND BOOKNAME='" & _SundaryType & "' ")
+            sqL = _strQuery.ToString
+            sql_connect_slect()
+            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+
+            Party_selection.dgw.Columns(2).Visible = False
+            Party_selection.dgw.Columns(3).Visible = False
+            Party_selection.dgw.Columns(0).Width = 280
+            Party_selection.dgw.Columns(1).Width = 200
+            Party_selection.Width = 506
+            SELECTION_LIST_FIRST_SELECTION()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+
+        End Try
+    End Sub
+    Public Sub SINGLE_MixMatch_SELECTION(ByVal _SundaryType As String)
+        Try
+            Party_selection.Label4.Text = "Frm_Grader"
+
+            _strQuery = New StringBuilder
+            With _strQuery
+                .Append("  SELECT ")
+                .Append(" A.RCPT_ISSUE as SundaryName")
+                .Append(" ,'' as Remark")
+                .Append(" ,A.BEHAVIOUR ")
+                .Append(" ,A.BEHAVIOUR")
+                .Append(" ,A.BEHAVIOUR")
+                .Append("  from Query1 as A")
+                .Append(" where A.Y_JOB_WORKER_STK_OWN='Mismatch Cost Setting' AND A.BOOKNAME='" & _SundaryType & "' ")
                 .Append("  ORDER BY  BookName ")
             End With
             '.Append(" where A.Y_JOB_WORKER_STK_OWN='Cost Sheet Setting' AND BOOKNAME='" & _SundaryType & "' ")
@@ -8469,7 +8503,7 @@ Public Class Multi_Selection_Master
     Public Function Master_GetNameOtherThisEntry(ByVal _TblName As String, ByVal _KeyFieldName As String, ByVal _KeyFieldValue As String, ByVal strChkFieldName As String, ByVal strChkFieldValue As String) As String
         strQuery = New StringBuilder
         With strQuery
-            strQuery.Append(" SELECT TOP 1 Bookcode FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>'" & _KeyFieldValue & "'")
+            strQuery.Append(" SELECT TOP 1 Bookcode FROM " & _TblName & " WHERE  1=1 AND " & strChkFieldName & "='" & strChkFieldValue.ToString & "'" & " AND " & _KeyFieldName & "<>'" & _KeyFieldValue & "' ")
         End With
         Return strQuery.ToString
 

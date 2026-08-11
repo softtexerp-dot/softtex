@@ -32,7 +32,7 @@ Public Class MismatchcostingType
     Private Function getAlter_Form_Query(ByVal strKeyID As String) As String
         _strQuery = New StringBuilder
         With _strQuery
-            .Append(" SELECT * FROM " & _TblName & " WHERE 1=1 AND BEHAVIOUR='" & strKeyID & "'")
+            .Append(" SELECT * FROM " & _TblName & " WHERE 1=1 AND BEHAVIOUR='" & strKeyID & "' and Y_JOB_WORKER_STK_OWN = 'Mismatch Cost Setting'")
         End With
         Return _strQuery.ToString
     End Function
@@ -117,34 +117,15 @@ Public Class MismatchcostingType
 
                 Dim sql As String = _strQuery.ToString()
                 Dim data As New List(Of Object()) From {
-                                        New Object() {"0000-000000002", "OVERHEAD", "OVERHEAD", "", ""},
-                                        New Object() {"0000-000000003", "OVERHEAD", "LABOUR", "", ""},
-                                        New Object() {"0000-000000004", "OVERHEAD", "LESS DISCOUNT", "0.00", "0.00"},
-                                        New Object() {"0000-000000005", "OVERHEAD", "LESS COMMISSION", "0.00", "0.00"},
-                                        New Object() {"0000-000000006", "OVERHEAD", "SELLING RATE %", "0.00", "0.00"},
-                                        New Object() {"0000-000000007", "OVERHEAD", "NETT PROFIT IN PCS", "0.00", "0.00"},
-                    New Object() {"0000-000000008", "OVERHEAD", "NETT PROFIT IN", "0.00", "0.00"}
+                                        New Object() {"0000-000000002", "OVERHEAD", "OVERHEAD", "1.00", "0.00"},
+                                        New Object() {"0000-000000003", "OVERHEAD", "LABOUR", "1.00", "0.00"},
+                                        New Object() {"0000-000000004", "OVERHEAD", "LESS DISCOUNT", "1.00", "0.00"},
+                                        New Object() {"0000-000000005", "OVERHEAD", "LESS COMMISSION", "1.00", "0.00"},
+                                        New Object() {"0000-000000006", "OVERHEAD", "SELLING RATE %", "1.00", "0.00"},
+                                        New Object() {"0000-000000007", "OVERHEAD", "NETT PROFIT IN PCS", "1.00", "0.00"},
+                    New Object() {"0000-000000008", "OVERHEAD", "NETT PROFIT IN", "1.00", "0.00"}
                                     }
                 Using cmd As New SqlCommand(sql, con)
-                    'New Object() {"0000-000000007", "WEAVING AND GREY COST", "MONO PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000008", "WEAVING AND GREY COST", "SELV PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000009", "WEAVING AND GREY COST", "PROFIT PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000010", "WEAVING AND GREY COST", "CD (%)", "ADD", "PER"},
-                    'New Object() {"0000-000000011", "WEAVING AND GREY COST", "AGENCY (%)", "ADD", "PER"},
-                    'New Object() {"0000-000000012", "FINISH COST", "PROCESSING RATE", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000013", "FINISH COST", "SHRINKAGE IN (%)", "ADD", "PER"},
-                    'New Object() {"0000-000000014", "SALES COST", "GRADING EXP. PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000015", "SALES COST", "VALUE LOSS IN (%)", "ADD", "PER"},
-                    'New Object() {"0000-000000016", "SALES COST", "SAMPLING EXP PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000017", "SALES COST", "TOUR EXP PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000018", "SALES COST", "OVERHEADS EXP PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000019", "SALES COST", "PACKING EXP PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000020", "SALES COST", "SALARY EXP PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000021", "SALES COST", "CREDIT DAYS", "NON", "AMOUNT"},
-                    'New Object() {"0000-000000022", "SALES COST", "INTEREST (%)", "ADD", "PER"},
-                    'New Object() {"0000-000000023", "SALES COST", "MIS EXP PER MTR", "ADD", "AMOUNT"},
-                    'New Object() {"0000-000000024", "SALES COST", "AGENCY COMM. IN (%)", "ADD", "PER"},
-                    'New Object() {"0000-000000025", "SALES COST", "PROFIT IN (RS.)", "ADD", "AMOUNT"}
                     cmd.Parameters.Add("@BEHAVIOUR", SqlDbType.VarChar)
                     cmd.Parameters.Add("@BookName", SqlDbType.VarChar)
                     cmd.Parameters.Add("@RCPT_ISSUE", SqlDbType.VarChar)
@@ -191,9 +172,9 @@ Public Class MismatchcostingType
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
-        txtSundaryType.Text = "FABRIC"
-        txtAddless.Text = "ADD"
-        txtCalcby.Text = "AMOUNT"
+        txtSundaryType.Text = "OVERHEAD"
+        txtAddless.Text = "0.00"
+        txtCalcby.Text = "0.00"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
         TxtStatus.Text = "YES"
@@ -207,10 +188,10 @@ Public Class MismatchcostingType
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         txtAlter_code.Text = ""
-        txtSundaryType.Text = "FABRIC"
+        txtSundaryType.Text = "OVERHEAD"
         txtSundaryType.Visible = True
-        txtAddless.Text = "ADD"
-        txtCalcby.Text = "AMOUNT"
+        txtAddless.Text = "0.00"
+        txtCalcby.Text = "0.00"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
         TxtStatus.Text = "YES"
@@ -224,11 +205,11 @@ Public Class MismatchcostingType
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         txtAlter_code.Text = ""
-        txtSundaryType.Text = "FABRIC"
+        txtSundaryType.Text = "OVERHEAD"
         txtSundaryType.Visible = True
 
-        txtAddless.Text = "ADD"
-        txtCalcby.Text = "AMOUNT"
+        txtAddless.Text = "0.00"
+        txtCalcby.Text = "0.00"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
         TxtStatus.Text = "YES"
@@ -471,7 +452,7 @@ Public Class MismatchcostingType
         Dim _lastkEyFieldValue As String = ""
         txtAlter_code.Text = ""
         txtAlter_Name.Text = ""
-        obj_Party_Selection.SINGLE_Sundary_SELECTION(txtSundaryType.Text)
+        obj_Party_Selection.SINGLE_MixMatch_SELECTION(txtSundaryType.Text)
         txtAlter_Name.Text = MULTY_SELECTION_COLOUM_1_DATA
         txtAlter_code.Text = MULTY_SELECTION_COLOUM_3_DATA
         _lastkEyFieldValue = _KeyFieldValue

@@ -28,6 +28,8 @@ Partial Class MismatchCosting
         Me.GrdFinishcost = New FlexCell.Grid()
         Me.GrdWeavingcost = New FlexCell.Grid()
         Me.pnl_Print = New System.Windows.Forms.Panel()
+        Me.Btn_Print = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnClose = New DevExpress.XtraEditors.SimpleButton()
         Me.Label108 = New System.Windows.Forms.Label()
         Me.txt_Print_For = New ctl_TextBox.ctl_TextBox()
         Me.Label109 = New System.Windows.Forms.Label()
@@ -35,8 +37,6 @@ Partial Class MismatchCosting
         Me.txt_Paper_Type = New ctl_TextBox.ctl_TextBox()
         Me.Label102 = New System.Windows.Forms.Label()
         Me.Label103 = New System.Windows.Forms.Label()
-        Me.btn_Cancel = New System.Windows.Forms.Button()
-        Me.btn_Ok = New System.Windows.Forms.Button()
         Me.Label104 = New System.Windows.Forms.Label()
         Me.Label105 = New System.Windows.Forms.Label()
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
@@ -166,6 +166,8 @@ Partial Class MismatchCosting
         'pnl_Print
         '
         Me.pnl_Print.BackColor = System.Drawing.Color.SkyBlue
+        Me.pnl_Print.Controls.Add(Me.Btn_Print)
+        Me.pnl_Print.Controls.Add(Me.BtnClose)
         Me.pnl_Print.Controls.Add(Me.Label108)
         Me.pnl_Print.Controls.Add(Me.txt_Print_For)
         Me.pnl_Print.Controls.Add(Me.Label109)
@@ -173,20 +175,40 @@ Partial Class MismatchCosting
         Me.pnl_Print.Controls.Add(Me.txt_Paper_Type)
         Me.pnl_Print.Controls.Add(Me.Label102)
         Me.pnl_Print.Controls.Add(Me.Label103)
-        Me.pnl_Print.Controls.Add(Me.btn_Cancel)
-        Me.pnl_Print.Controls.Add(Me.btn_Ok)
         Me.pnl_Print.Controls.Add(Me.Label104)
         Me.pnl_Print.Controls.Add(Me.Label105)
         Me.pnl_Print.Controls.Add(Me.txt_To)
         Me.pnl_Print.Controls.Add(Me.txt_From)
         Me.pnl_Print.Controls.Add(Me.Label106)
         Me.pnl_Print.Controls.Add(Me.Label107)
-        Me.pnl_Print.Location = New System.Drawing.Point(1045, 390)
+        Me.pnl_Print.Location = New System.Drawing.Point(175, 161)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
-        Me.pnl_Print.Size = New System.Drawing.Size(367, 205)
+        Me.pnl_Print.Size = New System.Drawing.Size(603, 292)
         Me.pnl_Print.TabIndex = 82099
         Me.pnl_Print.Visible = False
+        '
+        'Btn_Print
+        '
+        Me.Btn_Print.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Print.Appearance.Options.UseFont = True
+        Me.Btn_Print.ImageOptions.Image = CType(resources.GetObject("Btn_Print.ImageOptions.Image"), System.Drawing.Image)
+        Me.Btn_Print.Location = New System.Drawing.Point(226, 228)
+        Me.Btn_Print.Name = "Btn_Print"
+        Me.Btn_Print.Size = New System.Drawing.Size(90, 35)
+        Me.Btn_Print.TabIndex = 81840
+        Me.Btn_Print.Text = "Print"
+        '
+        'BtnClose
+        '
+        Me.BtnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnClose.Appearance.Options.UseFont = True
+        Me.BtnClose.ImageOptions.SvgImage = CType(resources.GetObject("BtnClose.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        Me.BtnClose.Location = New System.Drawing.Point(321, 228)
+        Me.BtnClose.Name = "BtnClose"
+        Me.BtnClose.Size = New System.Drawing.Size(90, 35)
+        Me.BtnClose.TabIndex = 81894
+        Me.BtnClose.Text = "Close"
         '
         'Label108
         '
@@ -261,7 +283,7 @@ Partial Class MismatchCosting
         '
         Me.Label101.AutoSize = True
         Me.Label101.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label101.Location = New System.Drawing.Point(239, 145)
+        Me.Label101.Location = New System.Drawing.Point(239, 153)
         Me.Label101.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label101.Name = "Label101"
         Me.Label101.Size = New System.Drawing.Size(12, 14)
@@ -292,7 +314,7 @@ Partial Class MismatchCosting
         Me.txt_Paper_Type.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.txt_Paper_Type.IsValidated = False
         Me.txt_Paper_Type.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.txt_Paper_Type.Location = New System.Drawing.Point(285, 145)
+        Me.txt_Paper_Type.Location = New System.Drawing.Point(285, 153)
         Me.txt_Paper_Type.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_Paper_Type.MandatoryField = False
         Me.txt_Paper_Type.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -319,7 +341,7 @@ Partial Class MismatchCosting
         '
         Me.Label102.AutoSize = True
         Me.Label102.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label102.Location = New System.Drawing.Point(124, 145)
+        Me.Label102.Location = New System.Drawing.Point(124, 153)
         Me.Label102.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label102.Name = "Label102"
         Me.Label102.Size = New System.Drawing.Size(82, 14)
@@ -334,52 +356,16 @@ Partial Class MismatchCosting
         Me.Label103.Location = New System.Drawing.Point(-3, 2)
         Me.Label103.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label103.Name = "Label103"
-        Me.Label103.Size = New System.Drawing.Size(599, 27)
+        Me.Label103.Size = New System.Drawing.Size(606, 27)
         Me.Label103.TabIndex = 81346
-        Me.Label103.Text = "Fabric Construction/Cost Sheet Printing System"
+        Me.Label103.Text = "Mix Match Costing Printing System"
         Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'btn_Cancel
-        '
-        Me.btn_Cancel.BackColor = System.Drawing.Color.White
-        Me.btn_Cancel.FlatAppearance.BorderColor = System.Drawing.Color.Red
-        Me.btn_Cancel.FlatAppearance.BorderSize = 0
-        Me.btn_Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btn_Cancel.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Cancel.ForeColor = System.Drawing.Color.Black
-        Me.btn_Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_Cancel.Location = New System.Drawing.Point(383, 235)
-        Me.btn_Cancel.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btn_Cancel.Name = "btn_Cancel"
-        Me.btn_Cancel.Size = New System.Drawing.Size(119, 36)
-        Me.btn_Cancel.TabIndex = 81341
-        Me.btn_Cancel.Text = "&Cancel"
-        Me.btn_Cancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_Cancel.UseVisualStyleBackColor = False
-        '
-        'btn_Ok
-        '
-        Me.btn_Ok.BackColor = System.Drawing.Color.White
-        Me.btn_Ok.FlatAppearance.BorderColor = System.Drawing.Color.Red
-        Me.btn_Ok.FlatAppearance.BorderSize = 0
-        Me.btn_Ok.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btn_Ok.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Ok.ForeColor = System.Drawing.Color.Black
-        Me.btn_Ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_Ok.Location = New System.Drawing.Point(259, 236)
-        Me.btn_Ok.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btn_Ok.Name = "btn_Ok"
-        Me.btn_Ok.Size = New System.Drawing.Size(119, 35)
-        Me.btn_Ok.TabIndex = 81340
-        Me.btn_Ok.Text = "&Print"
-        Me.btn_Ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_Ok.UseVisualStyleBackColor = False
         '
         'Label104
         '
         Me.Label104.AutoSize = True
         Me.Label104.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label104.Location = New System.Drawing.Point(239, 62)
+        Me.Label104.Location = New System.Drawing.Point(239, 83)
         Me.Label104.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label104.Name = "Label104"
         Me.Label104.Size = New System.Drawing.Size(12, 14)
@@ -390,7 +376,7 @@ Partial Class MismatchCosting
         '
         Me.Label105.AutoSize = True
         Me.Label105.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label105.Location = New System.Drawing.Point(239, 107)
+        Me.Label105.Location = New System.Drawing.Point(239, 117)
         Me.Label105.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label105.Name = "Label105"
         Me.Label105.Size = New System.Drawing.Size(12, 14)
@@ -421,7 +407,7 @@ Partial Class MismatchCosting
         Me.txt_To.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.txt_To.IsValidated = False
         Me.txt_To.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.txt_To.Location = New System.Drawing.Point(285, 107)
+        Me.txt_To.Location = New System.Drawing.Point(285, 117)
         Me.txt_To.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_To.MandatoryField = False
         Me.txt_To.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -467,7 +453,7 @@ Partial Class MismatchCosting
         Me.txt_From.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.txt_From.IsValidated = False
         Me.txt_From.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.txt_From.Location = New System.Drawing.Point(285, 62)
+        Me.txt_From.Location = New System.Drawing.Point(285, 83)
         Me.txt_From.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txt_From.MandatoryField = False
         Me.txt_From.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -493,7 +479,7 @@ Partial Class MismatchCosting
         '
         Me.Label106.AutoSize = True
         Me.Label106.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label106.Location = New System.Drawing.Point(124, 62)
+        Me.Label106.Location = New System.Drawing.Point(124, 83)
         Me.Label106.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label106.Name = "Label106"
         Me.Label106.Size = New System.Drawing.Size(63, 14)
@@ -504,7 +490,7 @@ Partial Class MismatchCosting
         '
         Me.Label107.AutoSize = True
         Me.Label107.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label107.Location = New System.Drawing.Point(124, 107)
+        Me.Label107.Location = New System.Drawing.Point(124, 117)
         Me.Label107.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label107.Name = "Label107"
         Me.Label107.Size = New System.Drawing.Size(45, 14)
@@ -745,11 +731,11 @@ Partial Class MismatchCosting
         Me.PnlGrdView.Controls.Add(Me.lbl_From)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewTO)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
-        Me.PnlGrdView.Location = New System.Drawing.Point(758, 12)
+        Me.PnlGrdView.Location = New System.Drawing.Point(848, 9)
         Me.PnlGrdView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.PnlGrdView.Name = "PnlGrdView"
         Me.PnlGrdView.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.PnlGrdView.Size = New System.Drawing.Size(341, 122)
+        Me.PnlGrdView.Size = New System.Drawing.Size(263, 122)
         Me.PnlGrdView.TabIndex = 82079
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
@@ -1227,11 +1213,11 @@ Partial Class MismatchCosting
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(1112, 624)
+        Me.Controls.Add(Me.pnl_Print)
         Me.Controls.Add(Me.Lblprocesscost)
         Me.Controls.Add(Me.UC_Buttons1)
         Me.Controls.Add(Me.GrdFinishcost)
         Me.Controls.Add(Me.GrdWeavingcost)
-        Me.Controls.Add(Me.pnl_Print)
         Me.Controls.Add(Me.txt_Entry_Date)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label10)
@@ -1260,7 +1246,7 @@ Partial Class MismatchCosting
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "MismatchCosting"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "MismatchCosting"
+        Me.Text = "Mix Match Costing"
         Me.pnl_Print.ResumeLayout(False)
         Me.pnl_Print.PerformLayout()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1287,8 +1273,6 @@ Partial Class MismatchCosting
     Friend WithEvents txt_Paper_Type As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label102 As Label
     Friend WithEvents Label103 As Label
-    Friend WithEvents btn_Cancel As Button
-    Friend WithEvents btn_Ok As Button
     Friend WithEvents Label104 As Label
     Friend WithEvents Label105 As Label
     Friend WithEvents txt_To As ctl_TextBox.ctl_TextBox
@@ -1331,4 +1315,6 @@ Partial Class MismatchCosting
     Friend WithEvents btn_View_Ok As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnClose As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Btn_Print As DevExpress.XtraEditors.SimpleButton
 End Class

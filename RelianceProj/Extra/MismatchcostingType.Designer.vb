@@ -29,7 +29,6 @@ Partial Class MismatchcostingType
         Me.Lblorderno = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.TxtOrderno = New ctl_TextBox.ctl_TextBox()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.txtCalcby = New ctl_TextBox.ctl_TextBox()
         Me.txtAddless = New ctl_TextBox.ctl_TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -54,6 +53,7 @@ Partial Class MismatchcostingType
         Me.Label6 = New System.Windows.Forms.Label()
         Me.PnlGrdView = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.PnlGrdView.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -185,15 +185,6 @@ Partial Class MismatchcostingType
         Me.TxtOrderno.TransparentBox = True
         Me.TxtOrderno.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
-        'UC_Buttons1
-        '
-        Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(-4, 183)
-        Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
-        Me.UC_Buttons1.Name = "UC_Buttons1"
-        Me.UC_Buttons1.Size = New System.Drawing.Size(544, 44)
-        Me.UC_Buttons1.TabIndex = 81827
-        '
         'txtCalcby
         '
         Me.txtCalcby._AllowSpace = True
@@ -215,7 +206,7 @@ Partial Class MismatchcostingType
         Me.txtCalcby.FontFocusColor = System.Drawing.Color.Blue
         Me.txtCalcby.FontLeaveColor = System.Drawing.Color.Black
         Me.txtCalcby.ForeColor = System.Drawing.Color.Black
-        Me.txtCalcby.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
+        Me.txtCalcby.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.txtCalcby.IsValidated = False
         Me.txtCalcby.LeaveFocusColor = System.Drawing.Color.Lavender
         Me.txtCalcby.Location = New System.Drawing.Point(138, 83)
@@ -235,7 +226,6 @@ Partial Class MismatchcostingType
         Me.txtCalcby.SpacerString = "Per,Amount"
         Me.txtCalcby.TabIndex = 81805
         Me.txtCalcby.Tag = "Y_OWN_STK"
-        Me.txtCalcby.Text = "PER"
         Me.txtCalcby.TransparentBox = True
         Me.txtCalcby.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -260,7 +250,7 @@ Partial Class MismatchcostingType
         Me.txtAddless.FontFocusColor = System.Drawing.Color.Blue
         Me.txtAddless.FontLeaveColor = System.Drawing.Color.Black
         Me.txtAddless.ForeColor = System.Drawing.Color.Black
-        Me.txtAddless.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
+        Me.txtAddless.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.txtAddless.IsValidated = False
         Me.txtAddless.LeaveFocusColor = System.Drawing.Color.Lavender
         Me.txtAddless.Location = New System.Drawing.Point(138, 55)
@@ -280,7 +270,6 @@ Partial Class MismatchcostingType
         Me.txtAddless.SpacerString = "Add,Less,Non"
         Me.txtAddless.TabIndex = 81804
         Me.txtAddless.Tag = "NATURE"
-        Me.txtAddless.Text = "ADD"
         Me.txtAddless.TransparentBox = True
         Me.txtAddless.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -290,9 +279,9 @@ Partial Class MismatchcostingType
         Me.Label11.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.Location = New System.Drawing.Point(6, 84)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(60, 14)
+        Me.Label11.Size = New System.Drawing.Size(37, 14)
         Me.Label11.TabIndex = 81825
-        Me.Label11.Text = "Calc. By"
+        Me.Label11.Text = "Rate"
         '
         'Label12
         '
@@ -310,9 +299,9 @@ Partial Class MismatchcostingType
         Me.Label9.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.Location = New System.Drawing.Point(6, 58)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(70, 14)
+        Me.Label9.Size = New System.Drawing.Size(31, 14)
         Me.Label9.TabIndex = 81823
-        Me.Label9.Text = "Add/Less"
+        Me.Label9.Text = "Qty"
         '
         'Label10
         '
@@ -434,10 +423,10 @@ Partial Class MismatchcostingType
         Me.txtSundaryType.RegularExpressionErrorMessage = Nothing
         Me.txtSundaryType.ShowMessage = False
         Me.txtSundaryType.Size = New System.Drawing.Size(229, 22)
-        Me.txtSundaryType.SpacerString = "FABRIC,PACKING,OVERHEAD"
+        Me.txtSundaryType.SpacerString = "OVERHEAD,FABRIC,PACKING"
         Me.txtSundaryType.TabIndex = 81802
         Me.txtSundaryType.Tag = "BookName"
-        Me.txtSundaryType.Text = "FABRIC"
+        Me.txtSundaryType.Text = "OVERHEAD"
         Me.txtSundaryType.TransparentBox = True
         Me.txtSundaryType.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -621,6 +610,15 @@ Partial Class MismatchcostingType
         Me.Label2.Size = New System.Drawing.Size(111, 16)
         Me.Label2.TabIndex = 81813
         Me.Label2.Text = "form selection"
+        '
+        'UC_Buttons1
+        '
+        Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UC_Buttons1.Location = New System.Drawing.Point(-4, 183)
+        Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
+        Me.UC_Buttons1.Name = "UC_Buttons1"
+        Me.UC_Buttons1.Size = New System.Drawing.Size(544, 44)
+        Me.UC_Buttons1.TabIndex = 81827
         '
         'MismatchcostingType
         '
