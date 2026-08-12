@@ -24,7 +24,7 @@ Partial Class MismatchCosting
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MismatchCosting))
         Me.Lblprocesscost = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New Textile.UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.GrdFinishcost = New FlexCell.Grid()
         Me.GrdWeavingcost = New FlexCell.Grid()
         Me.pnl_Print = New System.Windows.Forms.Panel()
@@ -173,10 +173,10 @@ Partial Class MismatchCosting
         Me.pnl_Print.Controls.Add(Me.txt_From)
         Me.pnl_Print.Controls.Add(Me.Label106)
         Me.pnl_Print.Controls.Add(Me.Label107)
-        Me.pnl_Print.Location = New System.Drawing.Point(175, 161)
+        Me.pnl_Print.Location = New System.Drawing.Point(901, 254)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
-        Me.pnl_Print.Size = New System.Drawing.Size(343, 237)
+        Me.pnl_Print.Size = New System.Drawing.Size(605, 311)
         Me.pnl_Print.TabIndex = 82099
         Me.pnl_Print.Visible = False
         '
@@ -1101,7 +1101,7 @@ Partial Class MismatchCosting
         '
         Me.Btn_CreatOverHeadItem.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_CreatOverHeadItem.Appearance.Options.UseFont = True
-        Me.Btn_CreatOverHeadItem.ImageOptions.Image = Global.Textile.My.Resources.Resources.publicfix_32x32
+        Me.Btn_CreatOverHeadItem.ImageOptions.Image = CType(resources.GetObject("Btn_CreatOverHeadItem.ImageOptions.Image"), System.Drawing.Image)
         Me.Btn_CreatOverHeadItem.Location = New System.Drawing.Point(901, 70)
         Me.Btn_CreatOverHeadItem.Name = "Btn_CreatOverHeadItem"
         Me.Btn_CreatOverHeadItem.Size = New System.Drawing.Size(204, 35)

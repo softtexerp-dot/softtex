@@ -53,7 +53,7 @@ Partial Class MismatchcostingType
         Me.Label6 = New System.Windows.Forms.Label()
         Me.PnlGrdView = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New UC_Buttons()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.PnlGrdView.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -226,6 +226,7 @@ Partial Class MismatchcostingType
         Me.txtCalcby.SpacerString = "Per,Amount"
         Me.txtCalcby.TabIndex = 81805
         Me.txtCalcby.Tag = "Y_OWN_STK"
+        Me.txtCalcby.Text = "0.00"
         Me.txtCalcby.TransparentBox = True
         Me.txtCalcby.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -270,6 +271,7 @@ Partial Class MismatchcostingType
         Me.txtAddless.SpacerString = "Add,Less,Non"
         Me.txtAddless.TabIndex = 81804
         Me.txtAddless.Tag = "NATURE"
+        Me.txtAddless.Text = "1.00"
         Me.txtAddless.TransparentBox = True
         Me.txtAddless.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '

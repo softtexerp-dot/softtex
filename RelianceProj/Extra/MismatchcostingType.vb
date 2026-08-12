@@ -179,7 +179,7 @@ Public Class MismatchcostingType
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         txtSundaryType.Text = "OVERHEAD"
-        txtAddless.Text = "0.00"
+        txtAddless.Text = "1.00"
         txtCalcby.Text = "0.00"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
@@ -196,7 +196,7 @@ Public Class MismatchcostingType
         txtAlter_code.Text = ""
         txtSundaryType.Text = "OVERHEAD"
         txtSundaryType.Visible = True
-        txtAddless.Text = "0.00"
+        txtAddless.Text = "1.00"
         txtCalcby.Text = "0.00"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
@@ -214,7 +214,7 @@ Public Class MismatchcostingType
         txtSundaryType.Text = "OVERHEAD"
         txtSundaryType.Visible = True
 
-        txtAddless.Text = "0.00"
+        txtAddless.Text = "1.00"
         txtCalcby.Text = "0.00"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"

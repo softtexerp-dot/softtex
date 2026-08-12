@@ -26,6 +26,7 @@ Public Class MismatchCosting
     Private Grid_Table_ColNames() As String
 
     Private FirstGridTable As DataTable
+    Dim IsDetailGridOpen As Boolean = False
 #End Region
 
 
@@ -960,16 +961,29 @@ Public Class MismatchCosting
                         Exit Sub
                     Else
                         _FrmLoad = True
-                        GrdItem.ActiveCell.BackColor = GrdItem.BackColor1
-                        GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                        GrdItem.Range(1, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).BackColor = GrdItem.BackColor1
-                        'Grdyarn.ActiveCell.BackColor = Grdyarn.BackColor1
-                        'Grdyarn.Cell(1, _YarnDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
-                        'Grdyarn.Range(1, 0, Grdyarn.Rows - 1, Grdyarn.Cols - 1).BackColor = Grdyarn.BackColor1
-                        'Grdyarn.Focus()
+                        GrdWeavingcost.ActiveCell.BackColor = GrdWeavingcost.BackColor1
+                        GrdWeavingcost.Cell(1, _WeavingDataTableGrid.Columns.IndexOf("yarn_for") + 1).SetFocus()
+                        GrdWeavingcost.Range(1, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).BackColor = GrdWeavingcost.BackColor1
+                        GrdWeavingcost.Focus()
 
                         _FrmLoad = False
                     End If
+                Case "GRDWEAVINGCOST"
+                    If (Val(TXT_Net_Weaving_Cost.Text)) = 0 Then
+                        MsgBox("Blank Count Detail, Can't Save")
+                        Exit Sub
+                    Else
+                        _FrmLoad = True
+                        GrdFinishcost.ActiveCell.BackColor = GrdFinishcost.BackColor1
+                        GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("yarn_for") + 1).SetFocus()
+                        GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
+                        GrdFinishcost.Focus()
+
+                        _FrmLoad = False
+                    End If
+                Case "GRDFINISHCOST"
+                    'TXT_Net_Finish_Cost.Focus()
+                    UC_Buttons1.BtnSave.Focus()
                 Case "BTNSAVE"
                     txt_EntryNo.Focus()
                 Case "TXT_ENTRYNO"
@@ -979,36 +993,6 @@ Public Class MismatchCosting
                     GrdItem.Select()
                     GrdItem.ActiveCell.BackColor = Color.Transparent
                 Case "TXT_ENTRY_DATE"
-                    _FrmLoad = True
-                    GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                    GrdItem.Focus()
-                    GrdItem.Select()
-                    GrdItem.ActiveCell.BackColor = Color.Transparent
-                Case "TXT_FABRIC_ITEM_NAME"
-                    _FrmLoad = True
-                    GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                    GrdItem.Focus()
-                    GrdItem.Select()
-                    GrdItem.ActiveCell.BackColor = Color.Transparent
-                Case "TXT_REED"
-                    _FrmLoad = True
-                    GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                    GrdItem.Focus()
-                    GrdItem.Select()
-                    GrdItem.ActiveCell.BackColor = Color.Transparent
-                Case "TXT_PICK"
-                    _FrmLoad = True
-                    GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                    GrdItem.Focus()
-                    GrdItem.Select()
-                    GrdItem.ActiveCell.BackColor = Color.Transparent
-                Case "TXT_DENT"
-                    _FrmLoad = True
-                    GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                    GrdItem.Focus()
-                    GrdItem.Select()
-                    GrdItem.ActiveCell.BackColor = Color.Transparent
-                Case "TXT_REED_SPACE"
                     _FrmLoad = True
                     GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
                     GrdItem.Focus()
@@ -1092,20 +1076,6 @@ Public Class MismatchCosting
             Old_Date = txt_Entry_Date.Text
             _Last_Saved_Entry_No = Val(txt_EntryNo.Text)
             MsgBox("Record Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex ERP")
-
-            ''**** On Line Printing System Start
-            'If MsgBox("Print", MsgBoxStyle.Question + MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Print ?") = MsgBoxResult.Yes Then
-            '    Dim Dbl_Copy As String = "NO"
-            '    If MsgBox("Dobule Copy", MsgBoxStyle.Question + MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Soft-Tex ERP") = MsgBoxResult.Yes Then
-            '        Dbl_Copy = "YES"
-            '    End If
-            '    Dim Str_Qry As String = Indent_Printing.Get_Offer_Query(" AND A.BOOKVNO='" & _BookVNo & "' ", _BookCode)
-            '    'Wait_Window_Show(Me, "Wait...")
-            '    Indent_Printing.Offer_Preview(Dbl_Copy, "YES", Str_Qry, _BookCode, txt_Entry_Date.Text + " TO " + txt_Entry_Date.Text, True)
-            '    'Wait_Window_Hide()
-            'End If
-            ''**** On Line Printing System Finish
-
             ObjCls_General.Blank_Object(Me)
             txt_Entry_Date.Text = Old_Date
             Cost_Sheet_Ctrl_Visible_False()
@@ -1338,7 +1308,7 @@ Public Class MismatchCosting
 
         Try
             '---------------- Delete Previous Bill Sundry ---------------------------------- '
-            strQuery = "DELETE FROM TRNFABRICCOST WHERE ENTRYNO =" & txt_EntryNo.Text & "  "
+            strQuery = "DELETE FROM TRNFABRICCOST WHERE ENTRYNO =" & txt_EntryNo.Text & " AND UPPER(ISNULL(OP1,'')) = 'COSTING INFORMATION' "
             sqL = strQuery.ToString
             sql_Data_Save_Delete_Update()
 
@@ -2009,26 +1979,91 @@ Public Class MismatchCosting
         End If
     End Sub
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles FirstStage.KeyDown
+        'If e.KeyCode = Keys.Escape Then
+        '    If FirstGridTable IsNot Nothing Then
+        '        FirstStage.Columns.Clear()
+        '        If FirstGridTable.Rows.Count > 0 Then
+        '            GridControl1.DataSource = FirstGridTable.Copy()
+        '            DevGridFitColumn(GridControl1, FirstStage)
+        '            FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        '            FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+        '            PnlGrdView.Visible = True
+        '            FirstStage.BestFitColumns()
+        '            FirstStage.Focus()
+        '            PnlGrdView.BringToFront()
+        '            GridControl1.BringToFront()
+        '            _FORMMODE = "VIEW"
+        '        Else
+        '            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+        '        End If
+        '    End If
+        '    e.Handled = True
+        '    Exit Sub
+        'End If
         If e.KeyCode = Keys.Escape Then
-            If FirstGridTable IsNot Nothing Then
-                FirstStage.Columns.Clear()
-                If FirstGridTable.Rows.Count > 0 Then
+
+            '=========================================================
+            ' SECOND GRID -> FIRST GRID
+            '=========================================================
+            If IsDetailGridOpen Then
+
+                IsDetailGridOpen = False
+
+                If FirstGridTable IsNot Nothing AndAlso FirstGridTable.Rows.Count > 0 Then
+
+                    FirstStage.Columns.Clear()
+
                     GridControl1.DataSource = FirstGridTable.Copy()
+
                     DevGridFitColumn(GridControl1, FirstStage)
-                    FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-                    FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+
+                    If FirstStage.Columns("EntryNo") IsNot Nothing Then
+                        FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment =
+                    DevExpress.Utils.HorzAlignment.Far
+                    End If
+
+                    If FirstStage.Columns("Amount") IsNot Nothing Then
+                        FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment =
+                    DevExpress.Utils.HorzAlignment.Far
+                    End If
+
                     PnlGrdView.Visible = True
                     FirstStage.BestFitColumns()
                     FirstStage.Focus()
+
                     PnlGrdView.BringToFront()
                     GridControl1.BringToFront()
-                Else
-                    MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+
+                    _FORMMODE = "VIEW"
+
                 End If
+
+                e.Handled = True
+                Exit Sub
             End If
-            _FORMMODE = "VIEW"
-            e.Handled = True
-            Exit Sub
+
+
+            '=========================================================
+            ' FIRST GRID -> CLOSE + CLEAR
+            '=========================================================
+            If PnlGrdView.Visible = True Then
+
+                PnlGrdView.Visible = False
+
+                If FirstGridTable IsNot Nothing Then
+                    FirstGridTable.Clear()
+                End If
+
+                GridControl1.DataSource = Nothing
+
+                Me.Text = _old_Me_text
+                _FORMMODE = ""
+
+                e.Handled = True
+                Exit Sub
+
+            End If
+
         End If
         ' Amount column par Enter
         If e.KeyCode <> Keys.Enter Then Exit Sub
@@ -2039,6 +2074,7 @@ Public Class MismatchCosting
         Dim EntryNo As String = Convert.ToString(FirstStage.GetRowCellValue(rowHandle, "EntryNo")).Trim()
         If String.IsNullOrWhiteSpace(EntryNo) Then Exit Sub
         Show_FabricCost_Detail(EntryNo)
+        IsDetailGridOpen = True
         e.Handled = True
     End Sub
     Private Sub Show_FabricCost_Detail(ByVal EntryNo As String)
@@ -2364,7 +2400,9 @@ Public Class MismatchCosting
             .Append(" ,A.Reed ")
             .Append(" ,A.Yarn_Amount ")
             .Append(" ,A.ID ")
-            .Append(" ORDER BY A.EntryNo,A.Entry_Date,A.ID")
+            .Append(" ORDER BY ")
+            .Append("  CASE WHEN A.Fabric_Item_Name = 'FABRIC' THEN 1  WHEN A.Fabric_Item_Name = 'PACKING' THEN 2    WHEN A.Fabric_Item_Name = 'OVERHEAD' THEN 3    ELSE 4    END,")
+            .Append(" A.EntryNo,A.Entry_Date,A.ID")
         End With
         strQuery = _strQuery.ToString
         sqL = _strQuery.ToString
@@ -2756,8 +2794,6 @@ Public Class MismatchCosting
     Private Sub Btn_CreatOverHeadItem_Click(sender As Object, e As EventArgs) Handles Btn_CreatOverHeadItem.Click
         MismatchcostingType.ShowDialog()
     End Sub
-
-
 
 #End Region
 End Class
