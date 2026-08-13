@@ -2387,6 +2387,7 @@ Public Class MismatchCosting
             .Append(" AND A.ENTRYNO>=" & Val(txt_From.Text) & " ")
             .Append(" AND A.ENTRYNO<=" & Val(txt_To.Text) & " ")
             .Append(" AND A.Yarn_Amount<>'0.00'")
+            .Append(" AND UPPER(ISNULL(OP1,''))= 'COSTING INFORMATION'")
             '.Append(" AND A.Fabric_Item_Name='" & Txt_ReportType.Text & "' ")
             .Append(" group BY ")
             .Append(" A.EntryNo")
