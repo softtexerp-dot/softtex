@@ -514,7 +514,7 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No,")
             .Append("Fabric_Item_Name,")
             .Append("yarn_for,")
-            .Append("countcode,")
+            .Append("COUNTCODE,")
             .Append("FD_PD,")
             .Append("Reed,")
             .Append("EntryNo,")
@@ -530,11 +530,11 @@ Public Class MismatchCosting
 
         _FINISHGridColType = New StringBuilder
         With _FINISHGridColType
-            '.Append("Fabric_Design_No:N,")
-            '.Append("Fabric_Item_Name:N,")
-            '.Append("yarn_for:N,")
-            '.Append("countcode:N,")
-            '.Append("FD_PD:N,")
+            .Append("Fabric_Design_No:N,")
+            .Append("Fabric_Item_Name:N,")
+            .Append("yarn_for:N,")
+            .Append("COUNTCODE:N,")
+            .Append("FD_PD:N,")
             .Append("Reed:N,")
             .Append("Yarn_Amount:N")
         End With
@@ -562,7 +562,7 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:R,")
             .Append("Fabric_Item_Name:L,")
             .Append("yarn_for:L,")
-            .Append("countcode:L,")
+            .Append("COUNTCODE:L,")
             .Append("FD_PD:L,")
             .Append("Reed:R,")
             .Append("Yarn_Amount:R")
@@ -573,7 +573,7 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:R,")
             .Append("Fabric_Item_Name:L,")
             .Append("yarn_for:L,")
-            .Append("countcode:L,")
+            .Append("COUNTCODE:L,")
             .Append("FD_PD:L,")
             .Append("Reed:R,")
             .Append("Yarn_Amount:R")
@@ -584,7 +584,7 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:N,")
             .Append("Fabric_Item_Name:N,")
             .Append("yarn_for:Y,")
-            .Append("countcode:Y,")
+            .Append("COUNTCODE:Y,")
             .Append("FD_PD:Y,")
             .Append("Reed:Y,")
             .Append("EntryNo:N,")
@@ -608,7 +608,7 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:0,")
             .Append("Fabric_Item_Name:0,")
             .Append("yarn_for:30,")
-            .Append("countcode:15,")
+            .Append("COUNTCODE:15,")
             .Append("FD_PD:13,")
             .Append("Reed:25,")
             .Append("Yarn_Amount:10")
@@ -883,6 +883,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
+                        Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -905,6 +906,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
+                        Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -928,6 +930,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
+                        Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -1391,6 +1394,7 @@ Public Class MismatchCosting
         txt_yarn_Sub_Total_amt.Visible = False
         TXT_Net_Weaving_Cost.Visible = False
         TXT_Net_Finish_Cost.Visible = False
+        Txt_ImportEntry.Visible = False
     End Sub
 #End Region
 #Region "CTRL VISIBLE TRUE"
@@ -1405,6 +1409,7 @@ Public Class MismatchCosting
         txt_yarn_Sub_Total_amt.Visible = True
         TXT_Net_Weaving_Cost.Visible = True
         TXT_Net_Finish_Cost.Visible = True
+        Txt_ImportEntry.Visible = True
     End Sub
 #End Region
 
@@ -1435,25 +1440,14 @@ Public Class MismatchCosting
             .Append(",Yarn_Amount")
             .Append(",FD_PD")
             .Append(",Reed")
-            '.Append(",OTHEREXP_1")
-            '.Append(",TOTAL_ENDS")
-            '.Append(",LOOM")
             .Append(",EntryNo")
             .Append(",Entry_Date")
-            '.Append(",Dent")
-            '.Append(",Pick")
-            '.Append(",Reed_Space")
-            '.Append(",Net_Yarn_Cost")
             .Append(",Net_Weaving_Cost")
-            '.Append(",Net_Grey_Cost")
             .Append(",Net_Finish_Cost")
-            '.Append(",Net_Sales_Cost")
             .Append(",yarn_Sub_Total_amt")
             .Append(",weav_cost")
-            '.Append(",grey_Cost")
             .Append(",finish_cost")
             .Append(",OP1")
-            '.Append(",sales_cost")
             .Append(", Yarn_Amount AS Amount")
             .Append(" FROM  TRNFABRICCOST")
             .Append(" WHERE 1=1  ")
@@ -1474,25 +1468,14 @@ Public Class MismatchCosting
             .Append(",countcode")
             .Append(",FD_PD")
             .Append(",Reed")
-            '.Append(",OTHEREXP_1")
-            '.Append(",TOTAL_ENDS")
-            '.Append(",LOOM")
             .Append(",EntryNo")
             .Append(",Entry_Date")
-            '.Append(",Dent")
-            '.Append(",Pick")
-            '.Append(",Reed_Space")
-            '.Append(",Net_Yarn_Cost")
             .Append(",Net_Weaving_Cost")
-            '.Append(",Net_Grey_Cost")
             .Append(",Net_Finish_Cost")
-            '.Append(",Net_Sales_Cost")
             .Append(",yarn_Sub_Total_amt")
             .Append(",weav_cost")
-            '.Append(",grey_Cost")
             .Append(",finish_cost")
             .Append(",OP1")
-            '.Append(",sales_cost")
             .Append(", Yarn_Amount AS Amount")
             .Append(" FROM  TRNFABRICCOST")
             .Append(" WHERE 1=1  ")
@@ -1512,29 +1495,18 @@ Public Class MismatchCosting
             .Append(",countcode")
             .Append(",FD_PD")
             .Append(",Reed")
-            '.Append(",OTHEREXP_1")
-            '.Append(",TOTAL_ENDS")
-            '.Append(",LOOM")
             .Append(",EntryNo")
             .Append(",Entry_Date")
-            '.Append(",Dent")
-            '.Append(",Pick")
-            '.Append(",Reed_Space")
-            '.Append(",Net_Yarn_Cost")
-            .Append(",Net_Weaving_Cost")
-            '.Append(",Net_Grey_Cost")
-            .Append(",Net_Finish_Cost")
-            '.Append(",Net_Sales_Cost")
-            .Append(",yarn_Sub_Total_amt")
+            .Append(",Net_Weaving_Cost as NetWeavingCost")
+            .Append(",Net_Finish_Cost As NetFinishCost")
+            .Append(",yarn_Sub_Total_amt As yarnSubTotalamt")
             .Append(",weav_cost")
-            '.Append(",grey_Cost")
-            .Append(",finish_cost")
+            .Append(",finish_cost As finishcost")
             .Append(",OP1")
-            '.Append(",sales_cost")
             .Append(", Yarn_Amount AS Amount")
             .Append(" FROM  TRNFABRICCOST")
             .Append(" WHERE 1=1  ")
-            .Append(" AND ENTRYNO=" & Val(strKeyID) & " AND UPPER(ISNULL(OP1,''))= 'COSTING INFORMATION' and Fabric_Item_Name='OVERHEAD' ")
+            .Append(" AND ENTRYNO='" & Val(strKeyID) & "' AND UPPER(ISNULL(OP1,''))= 'COSTING INFORMATION' and Fabric_Item_Name='OVERHEAD' ")
             .Append(" ORDER BY OTHEREXP_1 ")
         End With
         Return _strQuery.ToString
@@ -1592,7 +1564,6 @@ Public Class MismatchCosting
         tblTmpWeaving = DefaltSoftTable.Copy
 
         GrdWeavingcost.Visible = False
-        'GrdWeavingcost.Range(0, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).DeleteByRow()
         Fill_Records(tblTmpWeaving, WeavingGrid_Table_ColNames, GrdWeavingcost, 0, True, "", False)
         GrdWeavingcost.Rows = GrdWeavingcost.Rows + 1
 
@@ -1609,13 +1580,13 @@ Public Class MismatchCosting
         sql_connect_slect()
         tblTmpfinishcost = DefaltSoftTable.Copy
         GrdFinishcost.Visible = False
-        'GrdFinishcost.Range(0, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).DeleteByRow()
         Fill_Records(tblTmpfinishcost, FINISHGrid_Table_ColNames, GrdFinishcost, 0, True, "", False)
         GrdFinishcost.Rows = GrdFinishcost.Rows + 1
 
         GrdFinishcost.Refresh()
         GrdFinishcost.Visible = True
         Cost_Sheet_Ctrl_Visible_True()
+        Ctrl_Visible_False(Me.Controls)
         _FrmLoad = False
     End Sub
 #End Region
@@ -1815,6 +1786,7 @@ Public Class MismatchCosting
                 End If
             End If
         End If
+        Call Rate_Calc()
     End Sub
 #End Region
 #Region "TXT BOX ENTRY NO EVENT CODE"
@@ -1877,6 +1849,7 @@ Public Class MismatchCosting
                 _FrmLoad = True
                 Call Alter_Form(txt_EntryNo.Text)
                 txt_EntryNo.Focus()
+                Txt_ImportEntry.Enabled = False
                 _DefaultColOfGrid = _DataTableGrid.Columns.IndexOf("SRNO") + 1
                 Cost_Sheet_Ctrl_Visible_True()
                 Change_Grid_Data = True
@@ -2388,7 +2361,6 @@ Public Class MismatchCosting
             .Append(" AND A.ENTRYNO<=" & Val(txt_To.Text) & " ")
             .Append(" AND A.Yarn_Amount<>'0.00'")
             .Append(" AND UPPER(ISNULL(OP1,''))= 'COSTING INFORMATION'")
-            '.Append(" AND A.Fabric_Item_Name='" & Txt_ReportType.Text & "' ")
             .Append(" group BY ")
             .Append(" A.EntryNo")
             .Append(" ,A.Entry_Date")
@@ -2627,7 +2599,7 @@ Public Class MismatchCosting
         Call DefineDafaultValues()
         If txt_Entry_Date.Text = "" Then txt_Entry_Date.Text = "  /  /    "
         Me.txt_Entry_Date.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-
+        Txt_ImportEntry.Enabled = True
         txt_EntryNo.Focus()
         txt_EntryNo.Select()
         'txt_FD_PD.Text = "FD"

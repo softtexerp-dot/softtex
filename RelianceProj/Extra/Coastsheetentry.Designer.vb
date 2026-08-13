@@ -28,6 +28,9 @@ Partial Class Coastsheetentry
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Txt_ViewTO = New ctl_TextBox.ctl_TextBox()
         Me.PnlGrdView = New System.Windows.Forms.GroupBox()
+        Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnPrint = New DevExpress.XtraEditors.SimpleButton()
+        Me.SimpleButton1 = New DevExpress.XtraEditors.SimpleButton()
         Me.Btn_LayoutLoad = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnLayOutSave = New DevExpress.XtraEditors.SimpleButton()
         Me.GridControl1 = New DevExpress.XtraGrid.GridControl()
@@ -35,9 +38,6 @@ Partial Class Coastsheetentry
         Me.LayoutView1 = New DevExpress.XtraGrid.Views.Layout.LayoutView()
         Me.LayoutViewCard1 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.GridView2 = New DevExpress.XtraGrid.Views.Grid.GridView()
-        Me.btn_View_Ok = New System.Windows.Forms.Button()
-        Me.But_export = New System.Windows.Forms.Button()
-        Me.But_print = New System.Windows.Forms.Button()
         Me.lbl_To = New System.Windows.Forms.Label()
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.Txt_ViewFrom = New ctl_TextBox.ctl_TextBox()
@@ -97,6 +97,8 @@ Partial Class Coastsheetentry
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.pnl_Print = New System.Windows.Forms.Panel()
+        Me.BtnClose = New DevExpress.XtraEditors.SimpleButton()
+        Me.Btn_Print = New DevExpress.XtraEditors.SimpleButton()
         Me.Label108 = New System.Windows.Forms.Label()
         Me.txt_Print_For = New ctl_TextBox.ctl_TextBox()
         Me.Label109 = New System.Windows.Forms.Label()
@@ -104,8 +106,6 @@ Partial Class Coastsheetentry
         Me.txt_Paper_Type = New ctl_TextBox.ctl_TextBox()
         Me.Label102 = New System.Windows.Forms.Label()
         Me.Label103 = New System.Windows.Forms.Label()
-        Me.btn_Cancel = New System.Windows.Forms.Button()
-        Me.btn_Ok = New System.Windows.Forms.Button()
         Me.Label104 = New System.Windows.Forms.Label()
         Me.Label105 = New System.Windows.Forms.Label()
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
@@ -245,24 +245,58 @@ Partial Class Coastsheetentry
         'PnlGrdView
         '
         Me.PnlGrdView.BackColor = System.Drawing.Color.LightCyan
+        Me.PnlGrdView.Controls.Add(Me.BtnExport)
+        Me.PnlGrdView.Controls.Add(Me.BtnPrint)
+        Me.PnlGrdView.Controls.Add(Me.SimpleButton1)
         Me.PnlGrdView.Controls.Add(Me.Btn_LayoutLoad)
         Me.PnlGrdView.Controls.Add(Me.BtnLayOutSave)
         Me.PnlGrdView.Controls.Add(Me.GridControl1)
-        Me.PnlGrdView.Controls.Add(Me.btn_View_Ok)
-        Me.PnlGrdView.Controls.Add(Me.But_export)
-        Me.PnlGrdView.Controls.Add(Me.But_print)
         Me.PnlGrdView.Controls.Add(Me.lbl_To)
         Me.PnlGrdView.Controls.Add(Me.lbl_From)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewTO)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
-        Me.PnlGrdView.Location = New System.Drawing.Point(945, 9)
+        Me.PnlGrdView.Location = New System.Drawing.Point(944, 7)
         Me.PnlGrdView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.PnlGrdView.Name = "PnlGrdView"
         Me.PnlGrdView.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.PnlGrdView.Size = New System.Drawing.Size(148, 122)
+        Me.PnlGrdView.Size = New System.Drawing.Size(166, 122)
         Me.PnlGrdView.TabIndex = 82003
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
+        '
+        'BtnExport
+        '
+        Me.BtnExport.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnExport.Appearance.Options.UseFont = True
+        Me.BtnExport.ImageOptions.Image = CType(resources.GetObject("BtnExport.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnExport.Location = New System.Drawing.Point(815, 12)
+        Me.BtnExport.Name = "BtnExport"
+        Me.BtnExport.Size = New System.Drawing.Size(90, 34)
+        Me.BtnExport.TabIndex = 81917
+        Me.BtnExport.Text = "Export"
+        '
+        'BtnPrint
+        '
+        Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnPrint.Appearance.Options.UseFont = True
+        Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnPrint.Location = New System.Drawing.Point(719, 12)
+        Me.BtnPrint.Name = "BtnPrint"
+        Me.BtnPrint.Size = New System.Drawing.Size(90, 34)
+        Me.BtnPrint.TabIndex = 81916
+        Me.BtnPrint.Text = "Print"
+        '
+        'SimpleButton1
+        '
+        Me.SimpleButton1.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SimpleButton1.Appearance.Options.UseFont = True
+        Me.SimpleButton1.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
+        Me.SimpleButton1.Location = New System.Drawing.Point(651, 12)
+        Me.SimpleButton1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.SimpleButton1.Name = "SimpleButton1"
+        Me.SimpleButton1.Size = New System.Drawing.Size(64, 34)
+        Me.SimpleButton1.TabIndex = 81915
+        Me.SimpleButton1.Text = "OK"
         '
         'Btn_LayoutLoad
         '
@@ -335,49 +369,6 @@ Partial Class Coastsheetentry
         Me.GridView2.OptionsFind.AlwaysVisible = True
         Me.GridView2.OptionsMenu.ShowGroupSummaryEditorItem = True
         Me.GridView2.OptionsView.ShowAutoFilterRow = True
-        '
-        'btn_View_Ok
-        '
-        Me.btn_View_Ok.BackColor = System.Drawing.SystemColors.Menu
-        Me.btn_View_Ok.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_View_Ok.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btn_View_Ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_View_Ok.Location = New System.Drawing.Point(740, 13)
-        Me.btn_View_Ok.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btn_View_Ok.Name = "btn_View_Ok"
-        Me.btn_View_Ok.Size = New System.Drawing.Size(76, 35)
-        Me.btn_View_Ok.TabIndex = 81893
-        Me.btn_View_Ok.Text = "Ok"
-        Me.btn_View_Ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_View_Ok.UseVisualStyleBackColor = False
-        '
-        'But_export
-        '
-        Me.But_export.BackColor = System.Drawing.SystemColors.Menu
-        Me.But_export.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.But_export.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.But_export.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.But_export.Location = New System.Drawing.Point(859, 12)
-        Me.But_export.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.But_export.Name = "But_export"
-        Me.But_export.Size = New System.Drawing.Size(45, 37)
-        Me.But_export.TabIndex = 81895
-        Me.But_export.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.But_export.UseVisualStyleBackColor = False
-        '
-        'But_print
-        '
-        Me.But_print.BackColor = System.Drawing.SystemColors.Menu
-        Me.But_print.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.But_print.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.But_print.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.But_print.Location = New System.Drawing.Point(816, 12)
-        Me.But_print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.But_print.Name = "But_print"
-        Me.But_print.Size = New System.Drawing.Size(43, 36)
-        Me.But_print.TabIndex = 81894
-        Me.But_print.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.But_print.UseVisualStyleBackColor = False
         '
         'lbl_To
         '
@@ -1673,6 +1664,8 @@ Partial Class Coastsheetentry
         'pnl_Print
         '
         Me.pnl_Print.BackColor = System.Drawing.Color.SkyBlue
+        Me.pnl_Print.Controls.Add(Me.BtnClose)
+        Me.pnl_Print.Controls.Add(Me.Btn_Print)
         Me.pnl_Print.Controls.Add(Me.Label108)
         Me.pnl_Print.Controls.Add(Me.txt_Print_For)
         Me.pnl_Print.Controls.Add(Me.Label109)
@@ -1680,20 +1673,40 @@ Partial Class Coastsheetentry
         Me.pnl_Print.Controls.Add(Me.txt_Paper_Type)
         Me.pnl_Print.Controls.Add(Me.Label102)
         Me.pnl_Print.Controls.Add(Me.Label103)
-        Me.pnl_Print.Controls.Add(Me.btn_Cancel)
-        Me.pnl_Print.Controls.Add(Me.btn_Ok)
         Me.pnl_Print.Controls.Add(Me.Label104)
         Me.pnl_Print.Controls.Add(Me.Label105)
         Me.pnl_Print.Controls.Add(Me.txt_To)
         Me.pnl_Print.Controls.Add(Me.txt_From)
         Me.pnl_Print.Controls.Add(Me.Label106)
         Me.pnl_Print.Controls.Add(Me.Label107)
-        Me.pnl_Print.Location = New System.Drawing.Point(1065, 300)
+        Me.pnl_Print.Location = New System.Drawing.Point(174, 115)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
-        Me.pnl_Print.Size = New System.Drawing.Size(276, 275)
+        Me.pnl_Print.Size = New System.Drawing.Size(595, 311)
         Me.pnl_Print.TabIndex = 82033
         Me.pnl_Print.Visible = False
+        '
+        'BtnClose
+        '
+        Me.BtnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnClose.Appearance.Options.UseFont = True
+        Me.BtnClose.ImageOptions.SvgImage = CType(resources.GetObject("BtnClose.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        Me.BtnClose.Location = New System.Drawing.Point(331, 233)
+        Me.BtnClose.Name = "BtnClose"
+        Me.BtnClose.Size = New System.Drawing.Size(90, 35)
+        Me.BtnClose.TabIndex = 81895
+        Me.BtnClose.Text = "Close"
+        '
+        'Btn_Print
+        '
+        Me.Btn_Print.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_Print.Appearance.Options.UseFont = True
+        Me.Btn_Print.ImageOptions.Image = CType(resources.GetObject("Btn_Print.ImageOptions.Image"), System.Drawing.Image)
+        Me.Btn_Print.Location = New System.Drawing.Point(235, 233)
+        Me.Btn_Print.Name = "Btn_Print"
+        Me.Btn_Print.Size = New System.Drawing.Size(90, 35)
+        Me.Btn_Print.TabIndex = 81841
+        Me.Btn_Print.Text = "Print"
         '
         'Label108
         '
@@ -1838,49 +1851,13 @@ Partial Class Coastsheetentry
         Me.Label103.BackColor = System.Drawing.Color.DarkSlateGray
         Me.Label103.Font = New System.Drawing.Font("Verdana", 11.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label103.ForeColor = System.Drawing.Color.White
-        Me.Label103.Location = New System.Drawing.Point(-3, 2)
+        Me.Label103.Location = New System.Drawing.Point(-3, 0)
         Me.Label103.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label103.Name = "Label103"
         Me.Label103.Size = New System.Drawing.Size(599, 27)
         Me.Label103.TabIndex = 81346
         Me.Label103.Text = "Fabric Construction/Cost Sheet Printing System"
         Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'btn_Cancel
-        '
-        Me.btn_Cancel.BackColor = System.Drawing.Color.White
-        Me.btn_Cancel.FlatAppearance.BorderColor = System.Drawing.Color.Red
-        Me.btn_Cancel.FlatAppearance.BorderSize = 0
-        Me.btn_Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btn_Cancel.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Cancel.ForeColor = System.Drawing.Color.Black
-        Me.btn_Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_Cancel.Location = New System.Drawing.Point(383, 235)
-        Me.btn_Cancel.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btn_Cancel.Name = "btn_Cancel"
-        Me.btn_Cancel.Size = New System.Drawing.Size(119, 36)
-        Me.btn_Cancel.TabIndex = 81341
-        Me.btn_Cancel.Text = "&Cancel"
-        Me.btn_Cancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_Cancel.UseVisualStyleBackColor = False
-        '
-        'btn_Ok
-        '
-        Me.btn_Ok.BackColor = System.Drawing.Color.White
-        Me.btn_Ok.FlatAppearance.BorderColor = System.Drawing.Color.Red
-        Me.btn_Ok.FlatAppearance.BorderSize = 0
-        Me.btn_Ok.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.btn_Ok.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Ok.ForeColor = System.Drawing.Color.Black
-        Me.btn_Ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_Ok.Location = New System.Drawing.Point(259, 236)
-        Me.btn_Ok.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btn_Ok.Name = "btn_Ok"
-        Me.btn_Ok.Size = New System.Drawing.Size(119, 35)
-        Me.btn_Ok.TabIndex = 81340
-        Me.btn_Ok.Text = "&Print"
-        Me.btn_Ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_Ok.UseVisualStyleBackColor = False
         '
         'Label104
         '
@@ -2251,9 +2228,6 @@ Partial Class Coastsheetentry
     Friend WithEvents LayoutView1 As DevExpress.XtraGrid.Views.Layout.LayoutView
     Friend WithEvents LayoutViewCard1 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents GridView2 As DevExpress.XtraGrid.Views.Grid.GridView
-    Friend WithEvents btn_View_Ok As Button
-    Friend WithEvents But_export As Button
-    Friend WithEvents But_print As Button
     Friend WithEvents lbl_To As Label
     Friend WithEvents lbl_From As Label
     Friend WithEvents Txt_ViewFrom As ctl_TextBox.ctl_TextBox
@@ -2320,8 +2294,6 @@ Partial Class Coastsheetentry
     Friend WithEvents txt_Paper_Type As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label102 As Label
     Friend WithEvents Label103 As Label
-    Friend WithEvents btn_Cancel As Button
-    Friend WithEvents btn_Ok As Button
     Friend WithEvents Label104 As Label
     Friend WithEvents Label105 As Label
     Friend WithEvents txt_To As ctl_TextBox.ctl_TextBox
@@ -2334,4 +2306,9 @@ Partial Class Coastsheetentry
     Friend WithEvents GrdWeavingcost As FlexCell.Grid
     Friend WithEvents UC_Buttons1 As UC_Buttons
     Friend WithEvents Lblprocesscost As Label
+    Friend WithEvents SimpleButton1 As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Btn_Print As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnClose As DevExpress.XtraEditors.SimpleButton
 End Class

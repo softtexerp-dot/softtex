@@ -173,7 +173,7 @@ Partial Class MismatchCosting
         Me.pnl_Print.Controls.Add(Me.txt_From)
         Me.pnl_Print.Controls.Add(Me.Label106)
         Me.pnl_Print.Controls.Add(Me.Label107)
-        Me.pnl_Print.Location = New System.Drawing.Point(901, 254)
+        Me.pnl_Print.Location = New System.Drawing.Point(201, 211)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
         Me.pnl_Print.Size = New System.Drawing.Size(605, 311)
@@ -654,11 +654,11 @@ Partial Class MismatchCosting
         Me.PnlGrdView.Controls.Add(Me.lbl_From)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewTO)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
-        Me.PnlGrdView.Location = New System.Drawing.Point(433, 30)
+        Me.PnlGrdView.Location = New System.Drawing.Point(808, 18)
         Me.PnlGrdView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.PnlGrdView.Name = "PnlGrdView"
         Me.PnlGrdView.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.PnlGrdView.Size = New System.Drawing.Size(263, 46)
+        Me.PnlGrdView.Size = New System.Drawing.Size(335, 66)
         Me.PnlGrdView.TabIndex = 82079
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False

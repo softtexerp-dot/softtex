@@ -1535,7 +1535,11 @@ Friend Class Coastsheetentry
 
 #End Region
 #Region "FORM EVENTS"
-
+    Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        If Not String.IsNullOrWhiteSpace(Me.Tag) Then
+            Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
+        End If
+    End Sub
     Private Sub Coastsheetentry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         _FrmLoad = False
@@ -1544,9 +1548,10 @@ Friend Class Coastsheetentry
         Me.Location = New Point(0, 0)
         _modetype = ""
         _addcoloum()
-        pnl_Print.Width = 449
-        pnl_Print.Height = 303
-        pnl_Print.Location = New Point(169, 118)
+        pnl_Print.Width = 603
+        pnl_Print.Height = 292
+        pnl_Print.Location = New Point(175, 161)
+
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
         PnlGrdView.Location = New Point(0, 0)
@@ -1570,6 +1575,7 @@ Friend Class Coastsheetentry
         Call defineGridColNameyarn()
         Call GenerateTableYarn(_YarnDataTableGrid, Grdyarn)
         Call GridFormattingYarn(_YarnDataTableGrid, Grdyarn)
+        Grdyarn.Rows = 2
         Grdyarn.Column(0).Visible = False
         Grdyarn.Row(0).Height = 31
         Grdyarn.DefaultRowHeight = 20
@@ -1579,6 +1585,7 @@ Friend Class Coastsheetentry
         Call defineGridColNameWeaving()
         Call GenerateTableWeaving(_WeavingDataTableGrid, GrdWeavingcost)
         Call GridFormattingWeaving(_WeavingDataTableGrid, GrdWeavingcost)
+        GrdWeavingcost.Rows = 2
         GrdWeavingcost.Column(0).Visible = False
         GrdWeavingcost.Row(0).Height = 31
         GrdWeavingcost.DefaultRowHeight = 20
@@ -1588,6 +1595,7 @@ Friend Class Coastsheetentry
         Call defineGridColNameFinish()
         Call GenerateTableFinish(_FINISHDataTableGrid, GrdFinishcost)
         Call GridFormattingFinish(_FINISHDataTableGrid, GrdFinishcost)
+        GrdFinishcost.Rows = 2
         GrdFinishcost.Column(0).Visible = False
         GrdFinishcost.Row(0).Height = 31
         GrdFinishcost.DefaultRowHeight = 20
@@ -1597,6 +1605,7 @@ Friend Class Coastsheetentry
         Call defineGridColNamesalescost()
         Call GenerateTableSalescost(_SALESDataTableGrid, Grdsalescost)
         Call GridFormattingSalescost(_SALESDataTableGrid, Grdsalescost)
+        Grdsalescost.Rows = 2
         Grdsalescost.Column(0).Visible = False
         Grdsalescost.Row(0).Height = 31
         Grdsalescost.DefaultRowHeight = 20
@@ -1631,6 +1640,8 @@ Friend Class Coastsheetentry
                 If PnlGrdView.Visible = True Then
                     PnlGrdView.Visible = False
                     Me.Text = _old_Me_text
+                    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                     _FORMMODE = ""
                     Exit Sub
                 End If
@@ -1647,7 +1658,6 @@ Friend Class Coastsheetentry
                         _FrmLoad = True
                         'txtEntryNo.Focus()
                         txt_Entry_Date.Text = ObjCls_General.GetTodayDate_British
-                        _FORMMODE = ""
                         Old_Date = txt_Entry_Date.Text
                         ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -1655,10 +1665,12 @@ Friend Class Coastsheetentry
                         _KeyFieldValue = 0
                         Cost_Sheet_Ctrl_Visible_False()
                         GrdItem.BoldFixedCell = False
+                        UC_Buttons1._ButtonEnableDisable("LOAD")
+                        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                        _FORMMODE = ""
                         _FrmLoad = False
                     Case Else
                         _FrmLoad = True
-                        _FORMMODE = ""
                         Old_Date = txt_Entry_Date.Text
                         ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -1666,6 +1678,13 @@ Friend Class Coastsheetentry
                         _KeyFieldValue = 0
                         Cost_Sheet_Ctrl_Visible_False()
                         GrdItem.BoldFixedCell = False
+                        Grdyarn.BoldFixedCell = False
+                        GrdWeavingcost.BoldFixedCell = False
+                        GrdFinishcost.BoldFixedCell = False
+                        Grdsalescost.BoldFixedCell = False
+                        UC_Buttons1._ButtonEnableDisable("LOAD")
+                        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                        _FORMMODE = ""
                         _FrmLoad = False
                 End Select
             End If
@@ -1685,16 +1704,38 @@ Friend Class Coastsheetentry
                         Exit Sub
                     Else
                         _FrmLoad = True
-                        GrdItem.ActiveCell.BackColor = GrdItem.BackColor1
-                        GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
-                        GrdItem.Range(1, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).BackColor = GrdItem.BackColor1
+                        'GrdItem.ActiveCell.BackColor = GrdItem.BackColor1
+                        'GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
+                        'GrdItem.Range(1, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).BackColor = GrdItem.BackColor1
                         Grdyarn.ActiveCell.BackColor = Grdyarn.BackColor1
                         Grdyarn.Cell(1, _YarnDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
                         Grdyarn.Range(1, 0, Grdyarn.Rows - 1, Grdyarn.Cols - 1).BackColor = Grdyarn.BackColor1
                         Grdyarn.Focus()
-
                         _FrmLoad = False
                     End If
+                Case "GRDYARN"
+                    _FrmLoad = True
+                    GrdWeavingcost.ActiveCell.BackColor = GrdWeavingcost.BackColor1
+                    GrdWeavingcost.Cell(1, _WeavingDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
+                    GrdWeavingcost.Range(1, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).BackColor = GrdWeavingcost.BackColor1
+                    GrdWeavingcost.Focus()
+                    _FrmLoad = False
+                Case "GRDWEAVINGCOST"
+                    _FrmLoad = True
+                    GrdFinishcost.ActiveCell.BackColor = GrdFinishcost.BackColor1
+                    GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
+                    GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
+                    GrdFinishcost.Focus()
+                    _FrmLoad = False
+                Case "GRDFINISHCOST"
+                    _FrmLoad = True
+                    Grdsalescost.ActiveCell.BackColor = Grdsalescost.BackColor1
+                    Grdsalescost.Cell(1, _SALESDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
+                    Grdsalescost.Range(1, 0, Grdsalescost.Rows - 1, Grdsalescost.Cols - 1).BackColor = Grdsalescost.BackColor1
+                    Grdsalescost.Focus()
+                    _FrmLoad = False
+                Case "GRDSALESCOST"
+                    UC_Buttons1.BtnSave.Focus()
                 Case "BTNSAVE"
                     txt_EntryNo.Focus()
                 Case "TXT_ENTRYNO"
@@ -1739,6 +1780,7 @@ Friend Class Coastsheetentry
                     GrdItem.Focus()
                     GrdItem.Select()
                     GrdItem.ActiveCell.BackColor = Color.Transparent
+
                 Case Else
 
             End Select
@@ -1752,6 +1794,39 @@ Friend Class Coastsheetentry
                     Call Fill_Sr_No_Item(GrdItem, _DataTableGrid)
                     _FrmLoad = False
                     Call Rate_Calc()
+                    'Case "GRDYARN"
+                    '    _FrmLoad = True
+                    '    Delete_Row(Grdyarn, _YarnDataTableGrid)
+                    '    Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = ""
+                    '    Grdyarn.Cell(Grdyarn.ActiveCell.Row, _YarnDataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text = ""
+                    '    Call Fill_Sr_No_Item(Grdyarn, _YarnDataTableGrid)
+                    '    _FrmLoad = False
+                    '    Call Rate_Calc()
+                    'Case "GRDWEAVINGCOST"
+                    '    _FrmLoad = True
+                    '    Delete_Row(GrdWeavingcost, _WeavingDataTableGrid)
+                    '    GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = ""
+                    '    GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text = ""
+                    '    Call Fill_Sr_No_Item(GrdWeavingcost, _DataTableGrid)
+                    '    _FrmLoad = False
+                    '    Call Rate_Calc()
+                    'Case "GRDFINISHCOST"
+                    '    _FrmLoad = True
+                    '    Delete_Row(GrdFinishcost, _FINISHDataTableGrid)
+                    '    GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = ""
+                    '    GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text = ""
+                    '    Call Fill_Sr_No_Item(GrdFinishcost, _DataTableGrid)
+                    '    _FrmLoad = False
+                    '    Call Rate_Calc()
+                    'Case "GRDSALESCOST"
+                    '    _FrmLoad = True
+                    '    Delete_Row(Grdsalescost, _SALESDataTableGrid)
+                    '    Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = ""
+                    '    Grdsalescost.Cell(Grdsalescost.ActiveCell.Row, _SALESDataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text = ""
+                    '    Call Fill_Sr_No_Item(Grdsalescost, _DataTableGrid)
+                    '    _FrmLoad = False
+                    '    Call Rate_Calc()
+
             End Select
         End If
     End Sub
@@ -2370,11 +2445,12 @@ Friend Class Coastsheetentry
         TXT_Net_Grey_Cost.Visible = False
         TXT_Net_Finish_Cost.Visible = False
         TXT_Net_Sales_Cost.Visible = False
-
+        txt_Net_Yarn_Cost.Visible = False
         txt_FD_PD.Visible = False
         txt_Total_Ends.Visible = False
         txt_Loom.Visible = False
         TXT_Final_Grey_Cost.Visible = False
+        Txt_ImportEntry.Visible = False
     End Sub
 #End Region
 #Region "CTRL VISIBLE TRUE"
@@ -2405,6 +2481,7 @@ Friend Class Coastsheetentry
         txt_Total_Ends.Visible = True
         txt_Loom.Visible = True
         TXT_Final_Grey_Cost.Visible = True
+        Txt_ImportEntry.Visible = True
     End Sub
 #End Region
 
@@ -3034,6 +3111,7 @@ Friend Class Coastsheetentry
                 _FrmLoad = True
                 Call Alter_Form(txt_EntryNo.Text)
                 txt_EntryNo.Focus()
+                Txt_ImportEntry.Enabled = False
                 _DefaultColOfGrid = _DataTableGrid.Columns.IndexOf("SRNO") + 1
                 Cost_Sheet_Ctrl_Visible_True()
                 Change_Grid_Data = True
@@ -3076,7 +3154,7 @@ Friend Class Coastsheetentry
     End Sub
 #End Region
 #Region "VIEW RECORD "
-    Private Sub btn_View_Ok_Click(sender As Object, e As EventArgs) Handles btn_View_Ok.Click
+    Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles SimpleButton1.Click
         View_Record()
     End Sub
     Private Sub View_Record()
@@ -3087,7 +3165,7 @@ Friend Class Coastsheetentry
         Generate_Date_For_DataBase(Txt_ViewTO)
 
 
-        Dim View_Filter_Condition = " AND A.Entry_Date>='" & Txt_ViewFrom.Date_for_Database & "' AND A.Entry_Date<='" & Txt_ViewTO.Date_for_Database & "' AND UPPER(ISNULL(A.OP1,'')) <> 'YARN INFORMATION'  "
+        Dim View_Filter_Condition = " AND A.Entry_Date>='" & Txt_ViewFrom.Date_for_Database & "' AND A.Entry_Date<='" & Txt_ViewTO.Date_for_Database & "' AND UPPER(ISNULL(A.OP1,'')) <> 'YARN INFORMATION' AND UPPER(ISNULL(A.OP1,'')) <> 'COSTING INFORMATION' "
 
         _strQuery = New StringBuilder
         With _strQuery
@@ -3543,7 +3621,7 @@ Friend Class Coastsheetentry
         Rate_Calc()
     End Sub
 #Region "PRINT CODE "
-    Private Sub btn_Ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Ok.Click
+    Private Sub Btn_Print_Click(sender As Object, e As EventArgs) Handles Btn_Print.Click
         _strQuery = New StringBuilder
         _strQuery = New StringBuilder
         With _strQuery
@@ -3567,7 +3645,10 @@ Friend Class Coastsheetentry
         End If
         pnl_Print.Visible = False
     End Sub
-
+    Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles BtnClose.Click
+        Me.Close()
+        Me.Dispose(True)
+    End Sub
     Private Sub pnl_Print_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles pnl_Print.Validated
         pnl_Print.Visible = False
     End Sub
@@ -3576,12 +3657,11 @@ Friend Class Coastsheetentry
     Private Sub TXT_Final_Grey_Cost_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TXT_Final_Grey_Cost.Validating
         Rate_Calc()
     End Sub
-    Private Sub btn_View_Print_Click(sender As Object, e As EventArgs) Handles But_print.Click
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         Dim _RptTiltle = "Cost Sheet Report From :" & Txt_ViewFrom.Text & " To : " & Txt_ViewTO.Text
         _DevExpressPrintPrivew(_RptTiltle, FirstStage)
     End Sub
-
-    Private Sub Btn_Export_Excel_Click(sender As Object, e As EventArgs) Handles But_export.Click
+    Private Sub BtnExport_Click(sender As Object, e As EventArgs) Handles BtnExport.Click
         _DevExpressExcelExport(GridControl1)
     End Sub
 #Region "Save Grid Layout"
@@ -3936,6 +4016,7 @@ Friend Class Coastsheetentry
 
         _FORMMODE = "ADD"
         Last_Focused_Btn = "ADD"
+        Txt_ImportEntry.Enabled = True
         Cost_Sheet_Ctrl_Visible_True()
         Call DefineDafaultValues()
         If txt_Entry_Date.Text = "" Then txt_Entry_Date.Text = "  /  /    "
@@ -3959,6 +4040,7 @@ Friend Class Coastsheetentry
         If DefaltSoftTable.Rows.Count > 0 Then
             txt_EntryNo.Text = (DefaltSoftTable.Rows(0).Item(0))
         End If
+        Txt_ImportEntry.Enabled = False
         _LastEntryNo = txt_EntryNo.Text
         txt_EntryNo.Visible = True
         txt_EntryNo.Focus()
@@ -4076,8 +4158,12 @@ Friend Class Coastsheetentry
         If txt_Print_For.Text = "" Then txt_Print_For.Text = "FINISH"
 
         pnl_Print.Visible = True
+        pnl_Print.BringToFront()
         txt_From.Focus()
         txt_From.SelectAll()
+        'PnlGrdView.BringToFront()
+        'GridControl1.BringToFront()
+
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
