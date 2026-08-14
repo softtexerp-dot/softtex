@@ -530,9 +530,9 @@ Public Class MismatchCosting
 
         _FINISHGridColType = New StringBuilder
         With _FINISHGridColType
-            .Append("Fabric_Design_No:N,")
-            .Append("Fabric_Item_Name:N,")
-            .Append("yarn_for:N,")
+            '.Append("Fabric_Design_No:N,")
+            '.Append("Fabric_Item_Name:N,")
+            '.Append("yarn_for:N,")
             .Append("COUNTCODE:N,")
             .Append("FD_PD:N,")
             .Append("Reed:N,")
@@ -605,8 +605,8 @@ Public Class MismatchCosting
 
         _FINISHFieldWidthSet = New StringBuilder
         With _FINISHFieldWidthSet
-            .Append("Fabric_Design_No:0,")
-            .Append("Fabric_Item_Name:0,")
+            .Append("Fabric_Design_No:10,")
+            .Append("Fabric_Item_Name:10,")
             .Append("yarn_for:30,")
             .Append("COUNTCODE:15,")
             .Append("FD_PD:13,")
@@ -1157,9 +1157,9 @@ Public Class MismatchCosting
         Dim FinishFieldDr As DataRow
         _FINISHDataTableGrid.Rows.Clear()
         For i As Int16 = 1 To GrdFinishcost.Rows - 1
-            'If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text) > 0 Then
+            'If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text) > 0 Then
             FinishFieldDr = _FINISHDataTableGrid.NewRow
-                For j As Int16 = 1 To GrdFinishcost.Cols - 1
+            For j As Int16 = 1 To GrdFinishcost.Cols - 1
                     If FinishFieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
                         FinishFieldDr(j - 1) = Val(GrdFinishcost.Cell(i, j).Text)
                     Else
@@ -1218,7 +1218,8 @@ Public Class MismatchCosting
         Dim FinishQueryDetailTable As String = ""
         Dim strFilterString As String = ""
         Dim FinishQuery_Auto_Grid(_FINISHDataTableGrid.Rows.Count, 4) As String
-        strFilterString = "Fabric_Design_No<>''"
+        strFilterString = "Fabric_Design_No<>'0'"
+        'strFilterString = ""
         Dim yarntype As String = ""
         yarntype = "COSTING INFORMATION"
         Dim strtype As String = ""
@@ -1603,9 +1604,9 @@ Public Class MismatchCosting
             GrdFinishcost.Visible = False
             GrdFinishcost.Range(0, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).DeleteByRow()
             Fill_Records(tblTmpfinishcost, FINISHGrid_Table_ColNames, GrdFinishcost, 0, True, "", False)
-        GrdFinishcost.Rows = GrdFinishcost.Rows + 1
+            GrdFinishcost.Rows = GrdFinishcost.Rows + 1
 
-        GrdFinishcost.Refresh()
+            GrdFinishcost.Refresh()
         GrdFinishcost.Visible = True
         Cost_Sheet_Ctrl_Visible_True()
             _FrmLoad = False
