@@ -173,7 +173,7 @@ Partial Class MismatchCosting
         Me.pnl_Print.Controls.Add(Me.txt_From)
         Me.pnl_Print.Controls.Add(Me.Label106)
         Me.pnl_Print.Controls.Add(Me.Label107)
-        Me.pnl_Print.Location = New System.Drawing.Point(201, 211)
+        Me.pnl_Print.Location = New System.Drawing.Point(175, 128)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
         Me.pnl_Print.Size = New System.Drawing.Size(605, 311)
@@ -497,7 +497,7 @@ Partial Class MismatchCosting
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(640, 19)
         Me.Label30.TabIndex = 82070
-        Me.Label30.Text = " Packing Calculation System"
+        Me.Label30.Text = " Packing Calculation System( F1=Next Step,F3=Delete Row)"
         Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lbl_To
@@ -927,7 +927,7 @@ Partial Class MismatchCosting
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(442, 20)
         Me.Label22.TabIndex = 82063
-        Me.Label22.Text = "Overhead Calculation System"
+        Me.Label22.Text = "Overhead Calculation System( F1=Next Step)"
         Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label62

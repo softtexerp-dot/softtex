@@ -2260,7 +2260,8 @@ Friend Class Coastsheetentry
 
         Dim Query_Auto_Grid(_DataTableGrid.Rows.Count, 4) As String
         strFilterString = "YARN_AMOUNT>0"
-
+        Dim yarntype As String = ""
+        yarntype = "Yarn Information"
         _ExtraFieldDataTable = New StringBuilder
         With _ExtraFieldDataTable
             .Append("TOTAL_ENDS,")
@@ -2284,8 +2285,8 @@ Friend Class Coastsheetentry
             .Append("finish_cost,")
             .Append("Fabric_Design_No,")
             .Append("process_cost,")
+            .Append("OP1,")
             .Append("sales_cost")
-
         End With
 
         _ExtraField_Values_DataTable = New StringBuilder
@@ -2311,6 +2312,7 @@ Friend Class Coastsheetentry
             .Append(TXT_Net_Finish_Cost.Text & ",")
             .Append(txt_FabricItemCode.Text & ",")
             .Append(Lblprocesscost.Text & ",")
+            .Append(yarntype & ",")
             .Append(TXT_Net_Sales_Cost.Text)
         End With
 
@@ -2326,7 +2328,7 @@ Friend Class Coastsheetentry
 
         Try
             '---------------- Delete Previous Bill Sundry ---------------------------------- '
-            strQuery = "DELETE FROM TRNFABRICCOST WHERE ENTRYNO =" & txt_EntryNo.Text & "  "
+            strQuery = "DELETE FROM TRNFABRICCOST WHERE ENTRYNO =" & txt_EntryNo.Text & " AND UPPER(ISNULL(OP1,''))= 'YARN INFORMATION' AND UPPER(ISNULL(OP1,'')) <> 'COSTING INFORMATION' "
             sqL = strQuery.ToString
             sql_Data_Save_Delete_Update()
 
@@ -2812,7 +2814,7 @@ Friend Class Coastsheetentry
         _strQuery = New StringBuilder
 
         Try
-            strQuery = " DELETE FROM trnfabriccost WHERE entryno=" & Val(txt_EntryNo.Text) & " "
+            strQuery = " DELETE FROM trnfabriccost WHERE entryno=" & Val(txt_EntryNo.Text) & "  AND UPPER(ISNULL(OP1,''))= 'YARN INFORMATION' AND UPPER(ISNULL(OP1,'')) <> 'COSTING INFORMATION' "
             sqL = strQuery.ToString
             sql_Data_Save_Delete_Update()
             '-----------------------------------------------------------------------
@@ -3093,7 +3095,7 @@ Friend Class Coastsheetentry
     End Sub
     Private Sub Validate_Entry_No(ByVal Book_Vno As String, ByVal Table_Name As String)
 
-        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " WHERE ENTRYNO=" & Val(txt_EntryNo.Text) & " "
+        strQuery = "SELECT TOP 1 ENTRYNO FROM " & Table_Name & " WHERE ENTRYNO=" & Val(txt_EntryNo.Text) & "  AND UPPER(ISNULL(OP1,''))= 'YARN INFORMATION' "
         _TransctionNo = 0
 
         sqL = strQuery
@@ -4054,7 +4056,7 @@ Friend Class Coastsheetentry
         _FrmLoad = False
         Last_Focused_Btn = "DELETE"
         _FORMMODE = "DELETE"
-        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST ORDER BY ENTRYNO DESC"
+        strQuery = "SELECT TOP 1 ENTRYNO FROM TRNFABRICCOST where 1=1  AND UPPER(ISNULL(OP1,''))= 'YARN INFORMATION' AND UPPER(ISNULL(OP1,'')) <> 'COSTING INFORMATION' ORDER BY ENTRYNO DESC"
         txt_EntryNo.Text.IndexOf("'")
         txt_EntryNo.Text = 1
         sqL = strQuery

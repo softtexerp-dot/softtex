@@ -1013,6 +1013,22 @@ Public Class MismatchCosting
                     Call Fill_Sr_No_Item(GrdItem, _DataTableGrid)
                     _FrmLoad = False
                     Call Rate_Calc()
+                Case "GRDWEAVINGCOST"
+                    _FrmLoad = True
+                    Delete_Row(GrdWeavingcost, _WeavingDataTableGrid)
+                    GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = ""
+                    GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text = ""
+                    Call Fill_Sr_No_Item(GrdWeavingcost, _WeavingDataTableGrid)
+                    _FrmLoad = False
+                    Call Rate_Calc()
+                    'Case "GRDFINISHCOST"
+                    '    _FrmLoad = True
+                    '    Delete_Row(GrdFinishcost, _FINISHDataTableGrid)
+                    '    GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("AMOUNT") + 1).Text = ""
+                    '    GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text = ""
+                    '    Call Fill_Sr_No_Item(GrdFinishcost, _DataTableGrid)
+                    '    _FrmLoad = False
+                    '    Call Rate_Calc()
             End Select
         End If
     End Sub
@@ -2389,11 +2405,9 @@ Public Class MismatchCosting
         pnl_Print.Visible = False
     End Sub
 #End Region
-
     Private Sub TXT_Final_Grey_Cost_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
         Rate_Calc()
     End Sub
-
 #Region "Save Grid Layout"
     Private Sub BtnLayOutSave_Click(sender As Object, e As EventArgs) Handles BtnLayOutSave.Click
         'OnLoomPlaningEntry.SaveLayout(FirstStage, Me.Name)
@@ -2402,11 +2416,6 @@ Public Class MismatchCosting
         'OnLoomPlaningEntry.Load_GridLayout(FirstStage, Me.Name)
     End Sub
 #End Region
-
-
-
-
-
 #Region "GRID ITEM EVENTS FOR PACKING"
     Private Sub GrdWeavingcost_EnterRow(Sender As Object, e As FlexCell.Grid.EnterRowEventArgs) Handles GrdWeavingcost.EnterRow
         If _FrmLoad = True Then Exit Sub
@@ -2480,16 +2489,32 @@ Public Class MismatchCosting
                 GrdWeavingcost.Range(1, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).BackColor = GrdWeavingcost.BackColor1
                 GrdWeavingcost.Focus()
             End If
-        ElseIf _ActivatedColName = "Yarn_Amount" Then
+        ElseIf _ActivatedColName = "YARN_AMOUNT" Then
             'If e.KeyCode = Keys.Enter Then
             '    SendKeys.Send("{DOWN}")
             '    SendKeys.Send("{LEFT}")
             'End If
             If e.KeyCode = Keys.F1 Then
                 GrdWeavingcost.ActiveCell.BackColor = GrdWeavingcost.BackColor1
-                GrdWeavingcost.Cell(1, _WeavingDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).SetFocus()
+                GrdWeavingcost.Cell(1, _WeavingDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).SetFocus()
                 GrdWeavingcost.Range(1, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).BackColor = GrdWeavingcost.BackColor1
                 GrdWeavingcost.Focus()
+            End If
+            If e.KeyCode = 13 Then
+                Dim i As Integer = GrdWeavingcost.ActiveCell.Row
+                Dim Yarn_Amt As Double = Val(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text)
+                Yarn_Amt = Val(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text)
+                If Yarn_Amt <> 0 Then
+                    If GrdWeavingcost.Rows - 1 = GrdWeavingcost.ActiveCell.Row Then
+                        GrdWeavingcost.Rows = GrdWeavingcost.Rows + 1
+                        Fill_Current_Row_Sr_No(_WeavingDataTableGrid, GrdWeavingcost)
+                    Else
+                        GrdWeavingcost.Rows = GrdWeavingcost.Rows + 1
+                        Fill_Current_Row_Sr_No(_WeavingDataTableGrid, GrdWeavingcost)
+                    End If
+                Else
+                    GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
+                End If
             End If
         End If
 
@@ -2557,14 +2582,14 @@ Public Class MismatchCosting
                 GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
                 GrdFinishcost.Focus()
             End If
-        ElseIf _ActivatedColName = "Yarn_Amount" Then
+        ElseIf _ActivatedColName = "YARN_AMOUNT" Then
             'If e.KeyCode = Keys.Enter Then
             '    SendKeys.Send("{DOWN}")
             '    SendKeys.Send("{LEFT}")
             'End If
             If e.KeyCode = Keys.F1 Then
                 GrdFinishcost.ActiveCell.BackColor = GrdFinishcost.BackColor1
-                GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).SetFocus()
+                GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).SetFocus()
                 GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
                 GrdFinishcost.Focus()
             End If
@@ -2574,7 +2599,6 @@ Public Class MismatchCosting
     End Sub
 
 #End Region
-
 #Region "Button Click"
     Private Sub UC_Buttons1_AddClick() Handles UC_Buttons1.AddClick
         _FORMMODE = "ADD"
@@ -2591,9 +2615,6 @@ Public Class MismatchCosting
         If txt_Entry_Date.Text = "" Then txt_Entry_Date.Text = "  /  /    "
         Me.txt_Entry_Date.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         Txt_ImportEntry.Enabled = True
-        'Clear_Grid(GrdItem, 2)
-        'Clear_Grid(GrdWeavingcost, 2)
-        'Clear_Grid(GrdFinishcost, 2)
         Call DefineDafaultValuesFinishcost()
         Call defineGridColNameFinish()
         Call GenerateTableFinish(_FINISHDataTableGrid, GrdFinishcost)
@@ -2603,8 +2624,6 @@ Public Class MismatchCosting
         GrdFinishcost.DefaultRowHeight = 20
         txt_EntryNo.Focus()
         txt_EntryNo.Select()
-        'txt_FD_PD.Text = "FD"
-        'txt_Loom.Text = "SULZER"
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
         Last_Focused_Btn = "EDIT"
@@ -2633,7 +2652,6 @@ Public Class MismatchCosting
         GrdFinishcost.DefaultRowHeight = 20
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-        'ObjCls_General.Blank_Object(Me)
         Change_Grid_Data = True
     End Sub
     Private Sub UC_Buttons1_DeleteClick() Handles UC_Buttons1.DeleteClick
@@ -2666,7 +2684,6 @@ Public Class MismatchCosting
         GrdFinishcost.DefaultRowHeight = 20
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-        'ObjCls_General.Blank_Object(Me)
         _FrmLoad = False
     End Sub
     Private Sub UC_Buttons1_BackClick() Handles UC_Buttons1.BackClick
@@ -2734,7 +2751,6 @@ Public Class MismatchCosting
         If DefaltSoftTable.Rows.Count > 0 Then
             Txt_ViewFrom.Text = (DefaltSoftTable.Rows(0).Item("ENTRY_DATE"))
         End If
-        'Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
 
         Call View_Record()

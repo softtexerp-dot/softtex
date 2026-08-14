@@ -1,5 +1,6 @@
 ﻿Imports System.Net.Http
 Imports System.Text
+Imports DevExpress.Data.Camera
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid.Views.Grid
 Imports Newtonsoft.Json
@@ -66,7 +67,6 @@ Public Class AppEntryManagement
 
     Private Sub _Zooming_Load()
         Using client As New HttpClient()
-
             Dim statustype As String = ""
             If TxtType.Text.Trim = "ORDER" Then
                 statustype = "Finish Sales Offer Entry"
@@ -938,8 +938,8 @@ Public Class AppEntryManagement
                         '    'UpdatedCount += 1
                     End If
                     UpdatedCount += 1
-                    End If
                 End If
+            End If
         Next
         If UpdatedCount > 0 Then
             MessageBox.Show(TxtType.Text & " " & UpdatedCount & " row(s) updated successfully.")
@@ -1297,6 +1297,8 @@ Public Class AppEntryManagement
             Dim GrossAmount As Decimal = 0D
             Dim NetAmount As Decimal = 0D
             Dim TotalBales As Decimal = 0D
+            Dim TOTAL_BALES As Decimal = 0D
+            'Dim AGENTCODE As String = ""
             Dim TotalPcs As Decimal = 0D
             For RowIndex As Integer = 0 To view.RowCount - 1
                 Dim RowStatus As String = ""
@@ -1428,20 +1430,11 @@ Public Class AppEntryManagement
             If Status <> "APPROVE" Then
                 Return True
             End If
-            '-------------------------------------------------------
-            ' 7. Prepare Values
-            '-------------------------------------------------------
             Dim Rate As String = "0.00"
             If Not IsDBNull(view.GetRowCellValue(i, "Rate")) Then
                 Rate = Val(view.GetRowCellValue(i, "Rate")).ToString("0.00")
             End If
-            '-------------------------------------------------------
-            ' 8. SRNO
-            '-------------------------------------------------------
             srno += 1
-            '-------------------------------------------------------
-            ' 9. Insert Query
-            '-------------------------------------------------------
             _strQuery = New StringBuilder
             With _strQuery
                 .Append("INSERT INTO trninvoicedetail (")
@@ -1489,7 +1482,6 @@ Public Class AppEntryManagement
                 .Append(",CD")
                 .Append(",CESS_TAX_RATE")
                 .Append(",CESS_TAX_AMT")
-
                 .Append(",Descr")
                 .Append(",RowRemark")
                 .Append(",LOTNO")
@@ -1524,12 +1516,12 @@ Public Class AppEntryManagement
                 .Append(",'0.00'")
                 .Append(",'0.00'")
                 .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
-                .Append(",'0.00'")
+                .Append(",'0.00'") 'CGST_TAX_RATE
+                .Append(",'0.00'") 'SGST_TAX_RATE
+                .Append(",'0.00'") 'IGST_TAX_RATE
+                .Append(",'0.00'") 'CGST_TAX_AMT
+                .Append(",'0.00'") ' SGST_TAX_AMT
+                .Append(",'0.00'") 'IGST_TAX_AMT
                 .Append(",'0.00'")
                 .Append(",'0.00'")
                 .Append(",'0.00'")
@@ -1550,9 +1542,6 @@ Public Class AppEntryManagement
                 .Append(",'0.00'")
                 .Append(")")
             End With
-            '-------------------------------------------------------
-            ' 10. Save
-            '-------------------------------------------------------
             sqL = _strQuery.ToString
             sql_Data_Save_Delete_Update()
             Return True
@@ -1567,11 +1556,15 @@ Public Class AppEntryManagement
             Dim EntryNo As Integer = 1
             Dim SP_ACCOUNTCODE As String = ""
             Dim TAX_ACCOUNTCODE As String = ""
-            Dim AMOUNT_FOR_TAX As String = ""
+            Dim COMMU_TOTAL As Integer = "0"
+            Dim TAX_PER As Integer = "0"
+            Dim AMOUNT_FOR_TAX As String = "0"
             Dim DRCR As String = "DR"
             Dim OPPACCOUNTCODE As String = ""
             Dim TRANS_FOR As String = ""
             Dim FINACCOUNTCODE As String = ""
+            Dim CALCRATE As Integer = "0"
+            Dim CALCAMOUNT As Integer = "0"
             Dim Status As String = ""
             Dim IsChecked As Boolean = False
             strQuery = "SELECT ISNULL(MAX(ENTRYNO),0) + 1 AS ENTRYNO FROM trninvoicesundry AS A WHERE A.BookTrType='" & BookTrtype & "' AND A.BookCode='" & BookCode & "'"
@@ -1655,15 +1648,15 @@ Public Class AppEntryManagement
                 .Append(",'" & FINACCOUNTCODE & "'")
                 .Append(",SUNCODE")
                 .Append(",AUTOROUND")
-                .Append(",0")
-                .Append(",0")
+                .Append("," & COMMU_TOTAL & "")
+                .Append("," & TAX_PER & "")
                 .Append(",SUNNATURE")
                 .Append(",FINANCEPOST")
                 .Append(",ADDLESSTYPE")
                 .Append(",CALCBY")
                 .Append(",CALCON")
-                .Append(",0")
-                .Append(",0")
+                .Append("," & CALCRATE & "")
+                .Append("," & CALCAMOUNT & "")
                 .Append(" FROM TrnBillSundry ")
                 .Append(" Where 1=1 and BookCode='0001-000000029'")
                 '.Append(" Where 1=1 and BookCode='" & BookCode & "'")
@@ -1794,7 +1787,7 @@ Public Class AppEntryManagement
             Dim BILLAMT As Integer = 0
             Dim QTY As Integer = 0
             Dim CREDITAMT As Integer = 0
-            Dim DRCR As String = ""
+            Dim DRCR As String = "DR"
             Dim OP1 As String = ""
             Dim OP2 As String = ""
             Dim Status As String = ""
