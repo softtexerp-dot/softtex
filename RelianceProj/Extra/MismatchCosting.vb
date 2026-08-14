@@ -882,7 +882,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
-                        'Txt_ImportEntry.Text = ""
+                        Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -905,7 +905,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
-                        'Txt_ImportEntry.Text = ""
+                        Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -929,7 +929,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
-                        'Txt_ImportEntry.Text = ""
+                        Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -1100,6 +1100,7 @@ Public Class MismatchCosting
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+
     End Sub
     Private Sub Fill_Grid_Records_Into_DataTables()
         Dim FieldDr As DataRow
@@ -1502,7 +1503,7 @@ Public Class MismatchCosting
             .Append(",Net_Finish_Cost As NetFinishCost")
             .Append(",yarn_Sub_Total_amt As yarnSubTotalamt")
             .Append(",weav_cost")
-            .Append(",finish_cost As finishcost")
+            .Append(",finish_cost")
             .Append(",OP1")
             .Append(", Yarn_Amount AS Amount")
             .Append(" FROM  TRNFABRICCOST")
@@ -1517,7 +1518,9 @@ Public Class MismatchCosting
 
 #Region "ALTER FORM"
     Private Sub Alter_Form(ByVal strKeyID As String)
-        _FrmLoad = True
+        Try
+
+            _FrmLoad = True
 
         Cost_Sheet_Ctrl_Visible_False()
         Dim _strquery As New StringBuilder
@@ -1564,8 +1567,9 @@ Public Class MismatchCosting
         sql_connect_slect()
         tblTmpWeaving = DefaltSoftTable.Copy
 
-        GrdWeavingcost.Visible = False
-        Fill_Records(tblTmpWeaving, WeavingGrid_Table_ColNames, GrdWeavingcost, 0, True, "", False)
+            GrdWeavingcost.Visible = False
+            GrdWeavingcost.Range(0, 0, GrdWeavingcost.Rows - 1, GrdWeavingcost.Cols - 1).DeleteByRow()
+            Fill_Records(tblTmpWeaving, WeavingGrid_Table_ColNames, GrdWeavingcost, 0, True, "", False)
         GrdWeavingcost.Rows = GrdWeavingcost.Rows + 1
 
         GrdWeavingcost.Refresh()
@@ -1580,14 +1584,19 @@ Public Class MismatchCosting
         sqL = strQuery.ToString
         sql_connect_slect()
         tblTmpfinishcost = DefaltSoftTable.Copy
-        GrdFinishcost.Visible = False
-        Fill_Records(tblTmpfinishcost, FINISHGrid_Table_ColNames, GrdFinishcost, 0, True, "", False)
+            GrdFinishcost.Visible = False
+            GrdFinishcost.Range(0, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).DeleteByRow()
+            Fill_Records(tblTmpfinishcost, FINISHGrid_Table_ColNames, GrdFinishcost, 0, True, "", False)
         GrdFinishcost.Rows = GrdFinishcost.Rows + 1
 
         GrdFinishcost.Refresh()
         GrdFinishcost.Visible = True
         Cost_Sheet_Ctrl_Visible_True()
-        _FrmLoad = False
+            _FrmLoad = False
+            Call Rate_Calc()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
     End Sub
 #End Region
 #Region "GRID GENERAL FUNCTION"
@@ -1867,21 +1876,24 @@ Public Class MismatchCosting
                 Else
                     If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
                         Call Delete_Entry()
+                        UC_Buttons1._ButtonEnableDisable("LOAD")
+                        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+                    Else
+                        UC_Buttons1._ButtonEnableDisable("LOAD")
+                        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
                     End If
-                End If
-                Clear_Grid(GrdItem, 2)
-                Call Cost_Sheet_Ctrl_Visible_False()
-
-                If _Last_Saved_Entry_No > 0 Then
-
-                Else
-
+                    Clear_Grid(GrdItem, 2)
+                    Clear_Grid(GrdWeavingcost, 2)
+                    Clear_Grid(GrdFinishcost, 2)
+                    Call Cost_Sheet_Ctrl_Visible_False()
                 End If
                 _FrmLoad = False
             End If
         Else
             If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                 Clear_Grid(GrdItem, 2)
+                Clear_Grid(GrdWeavingcost, 2)
+                Clear_Grid(GrdFinishcost, 2)
                 Call Cost_Sheet_Ctrl_Visible_False()
                 MsgBox("Entry No " + Trim(txt_EntryNo.Text) + " Not Found")
                 txt_EntryNo.Visible = True
@@ -1952,27 +1964,6 @@ Public Class MismatchCosting
         End If
     End Sub
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles FirstStage.KeyDown
-        'If e.KeyCode = Keys.Escape Then
-        '    If FirstGridTable IsNot Nothing Then
-        '        FirstStage.Columns.Clear()
-        '        If FirstGridTable.Rows.Count > 0 Then
-        '            GridControl1.DataSource = FirstGridTable.Copy()
-        '            DevGridFitColumn(GridControl1, FirstStage)
-        '            FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-        '            FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
-        '            PnlGrdView.Visible = True
-        '            FirstStage.BestFitColumns()
-        '            FirstStage.Focus()
-        '            PnlGrdView.BringToFront()
-        '            GridControl1.BringToFront()
-        '            _FORMMODE = "VIEW"
-        '        Else
-        '            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-        '        End If
-        '    End If
-        '    e.Handled = True
-        '    Exit Sub
-        'End If
         If e.KeyCode = Keys.Escape Then
 
             '=========================================================
@@ -2600,6 +2591,16 @@ Public Class MismatchCosting
         If txt_Entry_Date.Text = "" Then txt_Entry_Date.Text = "  /  /    "
         Me.txt_Entry_Date.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         Txt_ImportEntry.Enabled = True
+        'Clear_Grid(GrdItem, 2)
+        'Clear_Grid(GrdWeavingcost, 2)
+        'Clear_Grid(GrdFinishcost, 2)
+        Call DefineDafaultValuesFinishcost()
+        Call defineGridColNameFinish()
+        Call GenerateTableFinish(_FINISHDataTableGrid, GrdFinishcost)
+        Call GridFormattingFinish(_FINISHDataTableGrid, GrdFinishcost)
+        GrdFinishcost.Column(0).Visible = False
+        GrdFinishcost.Row(0).Height = 31
+        GrdFinishcost.DefaultRowHeight = 20
         txt_EntryNo.Focus()
         txt_EntryNo.Select()
         'txt_FD_PD.Text = "FD"
@@ -2623,6 +2624,13 @@ Public Class MismatchCosting
         txt_EntryNo.Focus()
         _FrmLoad = False
         Call Ctrl_Visible_True(Me.Controls)
+        Call DefineDafaultValuesFinishcost()
+        Call defineGridColNameFinish()
+        Call GenerateTableFinish(_FINISHDataTableGrid, GrdFinishcost)
+        Call GridFormattingFinish(_FINISHDataTableGrid, GrdFinishcost)
+        GrdFinishcost.Column(0).Visible = False
+        GrdFinishcost.Row(0).Height = 31
+        GrdFinishcost.DefaultRowHeight = 20
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         'ObjCls_General.Blank_Object(Me)
@@ -2649,6 +2657,13 @@ Public Class MismatchCosting
             MsgBox("No Record Found")
             Cost_Sheet_Ctrl_Visible_False()
         End If
+        Call DefineDafaultValuesFinishcost()
+        Call defineGridColNameFinish()
+        Call GenerateTableFinish(_FINISHDataTableGrid, GrdFinishcost)
+        Call GridFormattingFinish(_FINISHDataTableGrid, GrdFinishcost)
+        GrdFinishcost.Column(0).Visible = False
+        GrdFinishcost.Row(0).Height = 31
+        GrdFinishcost.DefaultRowHeight = 20
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
         'ObjCls_General.Blank_Object(Me)

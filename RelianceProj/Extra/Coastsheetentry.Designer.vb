@@ -2132,13 +2132,13 @@ Partial Class Coastsheetentry
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(1112, 624)
+        Me.Controls.Add(Me.pnl_Print)
         Me.Controls.Add(Me.Lblprocesscost)
         Me.Controls.Add(Me.UC_Buttons1)
         Me.Controls.Add(Me.Grdsalescost)
         Me.Controls.Add(Me.GrdFinishcost)
         Me.Controls.Add(Me.GrdWeavingcost)
         Me.Controls.Add(Me.Grdyarn)
-        Me.Controls.Add(Me.pnl_Print)
         Me.Controls.Add(Me.txt_Loom)
         Me.Controls.Add(Me.txt_FD_PD)
         Me.Controls.Add(Me.txt_Total_Ends)
