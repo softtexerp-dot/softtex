@@ -784,7 +784,6 @@ Public Class MismatchCosting
         _FrmLoad = False
 
         MismatchcostingType.InsertCostSheetSetting()
-
         UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
         Me.Location = New Point(0, 0)
@@ -883,7 +882,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
-                        Txt_ImportEntry.Text = ""
+                        'Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -906,7 +905,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
-                        Txt_ImportEntry.Text = ""
+                        'Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -930,7 +929,7 @@ Public Class MismatchCosting
 
                         Old_Date = txt_Entry_Date.Text
                         txt_EntryNo.Focus()
-                        Txt_ImportEntry.Text = ""
+                        'Txt_ImportEntry.Text = ""
                         Txt_ImportEntry.Enabled = False
                         'ObjCls_General.Blank_Object(Me)
                         txt_Entry_Date.Text = Old_Date
@@ -1395,6 +1394,7 @@ Public Class MismatchCosting
         TXT_Net_Weaving_Cost.Visible = False
         TXT_Net_Finish_Cost.Visible = False
         Txt_ImportEntry.Visible = False
+        Btn_CreatOverHeadItem.Visible = False
     End Sub
 #End Region
 #Region "CTRL VISIBLE TRUE"
@@ -1410,6 +1410,7 @@ Public Class MismatchCosting
         TXT_Net_Weaving_Cost.Visible = True
         TXT_Net_Finish_Cost.Visible = True
         Txt_ImportEntry.Visible = True
+        Btn_CreatOverHeadItem.Visible = True
     End Sub
 #End Region
 
@@ -1586,7 +1587,6 @@ Public Class MismatchCosting
         GrdFinishcost.Refresh()
         GrdFinishcost.Visible = True
         Cost_Sheet_Ctrl_Visible_True()
-        Ctrl_Visible_False(Me.Controls)
         _FrmLoad = False
     End Sub
 #End Region
