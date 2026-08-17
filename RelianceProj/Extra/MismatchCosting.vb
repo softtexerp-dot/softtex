@@ -300,6 +300,7 @@ Public Class MismatchCosting
         With _FieldLocked
             .Append("SRNO:Y,")
             '.Append("AVG_WEIGHT:Y,")
+            .Append("Yarn_For:Y,")
             .Append("YARN_AMOUNT:Y")
         End With
 
@@ -2580,23 +2581,23 @@ Public Class MismatchCosting
             '    SendKeys.Send("{DOWN}")
             '    SendKeys.Send("{LEFT}")
             'End If
-            If e.KeyCode = Keys.F1 Then
-                GrdFinishcost.ActiveCell.BackColor = GrdFinishcost.BackColor1
-                GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
-                GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
-                GrdFinishcost.Focus()
-            End If
+            'If e.KeyCode = Keys.F1 Then
+            '    GrdFinishcost.ActiveCell.BackColor = GrdFinishcost.BackColor1
+            '    GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("Reed") + 1).SetFocus()
+            '    GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
+            '    GrdFinishcost.Focus()
+            'End If
         ElseIf _ActivatedColName = "YARN_AMOUNT" Then
             'If e.KeyCode = Keys.Enter Then
             '    SendKeys.Send("{DOWN}")
             '    SendKeys.Send("{LEFT}")
             'End If
-            If e.KeyCode = Keys.F1 Then
-                GrdFinishcost.ActiveCell.BackColor = GrdFinishcost.BackColor1
-                GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).SetFocus()
-                GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
-                GrdFinishcost.Focus()
-            End If
+            'If e.KeyCode = Keys.F1 Then
+            '    GrdFinishcost.ActiveCell.BackColor = GrdFinishcost.BackColor1
+            '    GrdFinishcost.Cell(1, _FINISHDataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).SetFocus()
+            '    GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
+            '    GrdFinishcost.Focus()
+            'End If
         End If
 
         Rate_Calc()
