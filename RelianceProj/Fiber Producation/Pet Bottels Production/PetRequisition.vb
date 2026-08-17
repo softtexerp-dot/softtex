@@ -302,8 +302,8 @@ Friend Class PetRequisition
             .Append("WEIGHT:10,")
             .Append("COMPANYNAME:9,")
             .Append("AMOUNT:8,")
-            .Append("OP30:10,")
-            .Append("ROWREMARK:32")
+            .Append("OP30:5,")
+            .Append("ROWREMARK:18")
         End With
 
         _FieldDefaultValues = New StringBuilder
