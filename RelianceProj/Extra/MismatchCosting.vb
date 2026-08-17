@@ -154,14 +154,14 @@ Public Class MismatchCosting
         _GridColNames = New StringBuilder
         With _GridColNames
             .Append("ID,")
-            .Append("FD_PD,")
+            .Append("Pick,")
             .Append("EntryNo,")
             .Append("Entry_Date,")
             .Append("Fabric_Item_Name,")
             .Append("Reed,")
             .Append("srno,")
             .Append("Yarn_For,")
-            .Append("countcode,")
+            .Append("Dent,")
             .Append("PATTERN,")
             .Append("Yarn_Rate,")
             .Append("Avg_weight,")
@@ -206,7 +206,7 @@ Public Class MismatchCosting
         With _FieldHeader
             .Append("SRNO:S.No,")
             .Append("Yarn_For:Fabric For,")
-            .Append("Countcode:Cut,")
+            .Append("Dent:Cut,")
             .Append("Pattern:Pattern,")
             .Append("Yarn_Rate:Rate,")
             .Append("Avg_weight:GST Diff. %,")
@@ -218,7 +218,7 @@ Public Class MismatchCosting
         With _FieldHeaderAlignment
             .Append("SRNO:L,")
             .Append("Yarn_For:L,")
-            .Append("Countcode:L,")
+            .Append("Dent:L,")
             .Append("Pattern:R,")
             .Append("Yarn_Rate:R,")
             .Append("Avg_weight:R,")
@@ -230,7 +230,7 @@ Public Class MismatchCosting
         With _FieldAlignMent
             .Append("SRNO:L,")
             .Append("Yarn_For:L,")
-            .Append("Countcode:L,")
+            .Append("Dent:L,")
             .Append("Pattern:R,")
             .Append("Yarn_Rate:R,")
             .Append("Avg_weight:R,")
@@ -241,7 +241,7 @@ Public Class MismatchCosting
         _FieldNotVisibile = New StringBuilder
         With _FieldNotVisibile
             .Append("ID:N,")
-            .Append("FD_PD:N,")
+            .Append("Pick:N,")
             .Append("Fabric_Design_No:N,")
             .Append("EntryNo:N,")
             .Append("Entry_Date:N,")
@@ -249,7 +249,7 @@ Public Class MismatchCosting
             .Append("Reed:N,")
             .Append("SRNO:Y,")
             .Append("Yarn_For:Y,")
-            .Append("countcode:Y,")
+            .Append("Dent:Y,")
             .Append("Pattern:N,")
             .Append("Yarn_Rate:Y,")
             .Append("Avg_weight:Y,")
@@ -273,7 +273,7 @@ Public Class MismatchCosting
         With _FieldWidthSet
             .Append("SRNO:6,")
             .Append("Yarn_For:11,")
-            .Append("CountCode:15,")
+            .Append("Dent:15,")
             .Append("Pattern:11,")
             .Append("Yarn_Rate:15,")
             .Append("Avg_weight:15,")
@@ -286,6 +286,8 @@ Public Class MismatchCosting
             .Append("Yarn_Rate:0,")
             .Append("pattern:0,")
             .Append("Avg_weight:0,")
+            .Append("Dent:0,")
+            .Append("Pick:0,")
             .Append("NET_WEAVING_COST:0,")
             .Append("NET_FINISH_COST:0,")
             .Append("YARN_SUB_TOTAL_AMT:0,")
@@ -304,7 +306,7 @@ Public Class MismatchCosting
         _FieldMasking = New StringBuilder
         With _FieldMasking
             .Append("Yarn_Rate:NO-2,")
-            .Append("CountCode:NO-2,")
+            .Append("Dent:NO-2,")
             .Append("SRNO:NO-0,")
             .Append("Avg_weight:NO-3,")
             .Append("PROFIT_PER:NO-3,")
@@ -347,8 +349,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No,")
             .Append("Fabric_Item_Name,")
             .Append("yarn_for,")
-            .Append("countcode,")
-            .Append("FD_PD,")
+            .Append("Dent,")
+            .Append("Pick,")
             .Append("Reed,")
             .Append("EntryNo,")
             .Append("Entry_Date,")
@@ -367,8 +369,8 @@ Public Class MismatchCosting
             '.Append("Fabric_Design_No:N,")
             '.Append("Fabric_Item_Name:N,")
             '.Append("yarn_for:N,")
-            '.Append("countcode:N,")
-            '.Append("FD_PD:N,")
+            '.Append("Dent:N,")
+            '.Append("Pick:N,")
             .Append("Reed:N,")
             .Append("Yarn_Amount:N")
         End With
@@ -385,8 +387,8 @@ Public Class MismatchCosting
         _WeavingFieldHeader = New StringBuilder
         With _WeavingFieldHeader
             .Append("yarn_for:Packing,")
-            .Append("COUNTCODE:Qty,")
-            .Append("FD_PD:Rate,")
+            .Append("Dent:Qty,")
+            .Append("Pick:Rate,")
             .Append("Reed:GST Diff. %,")
             .Append("Yarn_Amount:Amount")
         End With
@@ -396,8 +398,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:R,")
             .Append("Fabric_Item_Name:L,")
             .Append("yarn_for:L,")
-            .Append("countcode:L,")
-            .Append("FD_PD:L,")
+            .Append("Dent:L,")
+            .Append("Pick:L,")
             .Append("Reed:R,")
             .Append("Yarn_Amount:R")
         End With
@@ -407,8 +409,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:R,")
             .Append("Fabric_Item_Name:L,")
             .Append("yarn_for:L,")
-            .Append("countcode:L,")
-            .Append("FD_PD:L,")
+            .Append("Dent:L,")
+            .Append("Pick:L,")
             .Append("Reed:R,")
             .Append("Yarn_Amount:R")
         End With
@@ -418,8 +420,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:N,")
             .Append("Fabric_Item_Name:N,")
             .Append("yarn_for:Y,")
-            .Append("countcode:Y,")
-            .Append("FD_PD:Y,")
+            .Append("Dent:Y,")
+            .Append("Pick:Y,")
             .Append("Reed:Y,")
             .Append("EntryNo:N,")
             .Append("Entry_Date:N,")
@@ -443,8 +445,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:0,")
             .Append("Fabric_Item_Name:0,")
             .Append("yarn_for:40,")
-            .Append("countcode:15,")
-            .Append("FD_PD:13,")
+            .Append("Dent:15,")
+            .Append("Pick:13,")
             .Append("Reed:15,")
             .Append("Yarn_Amount:10")
         End With
@@ -463,16 +465,16 @@ Public Class MismatchCosting
         With _WeavingFieldLocked
             .Append("Fabric_Item_Name:Y,")
             .Append("yarn_for:Y,")
-            '.Append("countcode:Y,")
-            '.Append("FD_PD:Y,")
+            '.Append("Dent:Y,")
+            '.Append("Pick:Y,")
             '.Append("Reed:N,")
             .Append("Yarn_Amount:Y")
         End With
 
         _WeavingFieldMasking = New StringBuilder
         With _WeavingFieldMasking
-            .Append("COUNTCODE:NO-2,")
-            .Append("FD_PD:NO-2,")
+            .Append("Dent:NO-2,")
+            .Append("Pick:NO-2,")
             .Append("Reed:NO-2")
         End With
 
@@ -516,8 +518,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No,")
             .Append("Fabric_Item_Name,")
             .Append("yarn_for,")
-            .Append("COUNTCODE,")
-            .Append("FD_PD,")
+            .Append("Dent,")
+            .Append("Pick,")
             .Append("Reed,")
             .Append("EntryNo,")
             .Append("Entry_Date,")
@@ -535,8 +537,8 @@ Public Class MismatchCosting
             '.Append("Fabric_Design_No:N,")
             '.Append("Fabric_Item_Name:N,")
             '.Append("yarn_for:N,")
-            .Append("COUNTCODE:N,")
-            .Append("FD_PD:N,")
+            .Append("Dent:N,")
+            .Append("Pick:N,")
             .Append("Reed:N,")
             .Append("Yarn_Amount:N")
         End With
@@ -553,8 +555,8 @@ Public Class MismatchCosting
         _FINISHFieldHeader = New StringBuilder
         With _FINISHFieldHeader
             .Append("yarn_for:Overhead,")
-            .Append("COUNTCODE:Qty,")
-            .Append("FD_PD:Rate,")
+            .Append("Dent:Qty,")
+            .Append("Pick:Rate,")
             .Append("Reed:GST Diff. %,")
             .Append("Yarn_Amount:Amount")
         End With
@@ -564,8 +566,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:R,")
             .Append("Fabric_Item_Name:L,")
             .Append("yarn_for:L,")
-            .Append("COUNTCODE:L,")
-            .Append("FD_PD:L,")
+            .Append("Dent:L,")
+            .Append("Pick:L,")
             .Append("Reed:R,")
             .Append("Yarn_Amount:R")
         End With
@@ -575,8 +577,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:R,")
             .Append("Fabric_Item_Name:L,")
             .Append("yarn_for:L,")
-            .Append("COUNTCODE:L,")
-            .Append("FD_PD:L,")
+            .Append("Dent:L,")
+            .Append("Pick:L,")
             .Append("Reed:R,")
             .Append("Yarn_Amount:R")
         End With
@@ -586,8 +588,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:N,")
             .Append("Fabric_Item_Name:N,")
             .Append("yarn_for:Y,")
-            .Append("COUNTCODE:Y,")
-            .Append("FD_PD:Y,")
+            .Append("Dent:Y,")
+            .Append("Pick:Y,")
             .Append("Reed:Y,")
             .Append("EntryNo:N,")
             .Append("Entry_Date:N,")
@@ -610,8 +612,8 @@ Public Class MismatchCosting
             .Append("Fabric_Design_No:10,")
             .Append("Fabric_Item_Name:10,")
             .Append("yarn_for:30,")
-            .Append("COUNTCODE:15,")
-            .Append("FD_PD:13,")
+            .Append("Dent:15,")
+            .Append("Pick:13,")
             .Append("Reed:25,")
             .Append("Yarn_Amount:10")
         End With
@@ -630,16 +632,16 @@ Public Class MismatchCosting
         With _FINISHFieldLocked
             .Append("Fabric_Item_Name:Y,")
             .Append("yarn_for:Y,")
-            '.Append("countcode:Y,")
-            '.Append("FD_PD:Y,")
+            '.Append("Dent:Y,")
+            '.Append("Pick:Y,")
             '.Append("Reed:N,")
             .Append("Yarn_Amount:Y")
         End With
 
         _FINISHFieldMasking = New StringBuilder
         With _FINISHFieldMasking
-            .Append("COUNTCODE:NO-2,")
-            .Append("FD_PD:NO-2,")
+            .Append("Dent:NO-2,")
+            .Append("Pick:NO-2,")
             .Append("Reed:NO-2,")
             .Append("Yarn_Amount:NO-2")
         End With
@@ -711,8 +713,8 @@ Public Class MismatchCosting
             .Append("SELECT BEHAVIOUR as Fabric_Design_No")
             .Append(",BookName As Fabric_Item_Name")
             .Append(",RCPT_ISSUE As yarn_for")
-            .Append(",NATURE As countcode")
-            .Append(",Y_OWN_STK As FD_PD")
+            .Append(",NATURE As Dent")
+            .Append(",Y_OWN_STK As Pick")
             .Append(",Y_OWN_STK_FLD As Reed")
             .Append(",'' as EntryNo")
             .Append(",'' as Entry_Date")
@@ -746,8 +748,8 @@ Public Class MismatchCosting
             .Append("SELECT BEHAVIOUR as Fabric_Design_No")
             .Append(",BookName As Fabric_Item_Name")
             .Append(",RCPT_ISSUE As yarn_for")
-            .Append(",NATURE As countcode")
-            .Append(",Y_OWN_STK As FD_PD")
+            .Append(",NATURE As Dent")
+            .Append(",Y_OWN_STK As Pick")
             .Append(",Y_OWN_STK_FLD As Reed")
             .Append(",'' as EntryNo")
             .Append(",'' as Entry_Date")
@@ -1159,7 +1161,7 @@ Public Class MismatchCosting
         Dim FinishFieldDr As DataRow
         _FINISHDataTableGrid.Rows.Clear()
         For i As Int16 = 1 To GrdFinishcost.Rows - 1
-            If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text) > 0 Then
+            If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Dent") + 1).Text) > 0 Then
                 FinishFieldDr = _FINISHDataTableGrid.NewRow
                 For j As Int16 = 1 To GrdFinishcost.Cols - 1
                     If FinishFieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
@@ -1454,11 +1456,11 @@ Public Class MismatchCosting
             .Append("SELECT SRNO,Fabric_Design_No")
             .Append(",Fabric_Item_Name")
             .Append(",yarn_for")
-            .Append(",countcode")
+            .Append(",Dent")
             .Append(",Yarn_Rate")
             .Append(",Avg_weight")
             .Append(",Yarn_Amount")
-            .Append(",FD_PD")
+            .Append(",Pick")
             .Append(",Reed")
             .Append(",EntryNo")
             .Append(",Entry_Date")
@@ -1485,8 +1487,8 @@ Public Class MismatchCosting
             .Append("SELECT Fabric_Design_No")
             .Append(",Fabric_Item_Name")
             .Append(",yarn_for")
-            .Append(",countcode")
-            .Append(",FD_PD")
+            .Append(",Dent")
+            .Append(",Pick")
             .Append(",Reed")
             .Append(",EntryNo")
             .Append(",Entry_Date")
@@ -1512,8 +1514,8 @@ Public Class MismatchCosting
             .Append("SELECT Fabric_Design_No")
             .Append(",Fabric_Item_Name")
             .Append(",yarn_for")
-            .Append(",countcode")
-            .Append(",FD_PD")
+            .Append(",Dent")
+            .Append(",Pick")
             .Append(",Reed")
             .Append(",EntryNo")
             .Append(",Entry_Date")
@@ -1733,17 +1735,17 @@ Public Class MismatchCosting
     Private Sub GrdItem_LeaveRow(Sender As Object, e As FlexCell.Grid.LeaveRowEventArgs) Handles GrdItem.LeaveRow
         If _FrmLoad = True Then Exit Sub
         _LastRow = Sender.ActiveCell.Row
-        Dim CountCode As String = ""
+        Dim Dent As String = ""
         Dim Yarn_Rate As Double = 0
 
-        CountCode = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text
+        Dent = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Dent") + 1).Text
         Yarn_Rate = Val(GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text)
 
-        If CountCode = "" Or Yarn_Rate = 0 Then
+        If Dent = "" Or Yarn_Rate = 0 Then
             If _ActivatedColName = "YARN_AMOUNT" Then
                 e.Cancel = True
-                If CountCode = "" Then
-                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COUNTCODE") + 1).SetFocus()
+                If Dent = "" Then
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Dent") + 1).SetFocus()
                     Exit Sub
                 ElseIf Yarn_Rate = 0 Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).SetFocus()
@@ -1778,7 +1780,7 @@ Public Class MismatchCosting
         If _FrmLoad = True Then Exit Sub
 
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text = "SUITING"
-        If _ActivatedColName = "COUNTCODE" Then
+        If _ActivatedColName = "Dent" Then
             If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
                 Dim Net_Cnt As Double = 0
                 GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("NETCOUNT") + 1).Text = Net_Cnt
@@ -1946,9 +1948,9 @@ Public Class MismatchCosting
             .Append(" ,A.Entry_Date")
             .Append(" ,A.Fabric_Item_Name")
             .Append(" ,A.Yarn_For ")
-            .Append(" ,A.countcode")
+            .Append(" ,A.Dent")
             .Append(" ,A.Yarn_Rate")
-            .Append(" ,A.FD_PD ")
+            .Append(" ,A.Pick ")
             .Append(" ,A.Avg_weight ")
             .Append(" ,A.Reed ")
             .Append(" ,A.Yarn_Amount ")
@@ -2071,8 +2073,8 @@ Public Class MismatchCosting
                 .Append(" ,FORMAT(A.Entry_Date ,'dd/MM/yyyy') AS Date")
                 .Append(" ,A.Fabric_Item_Name AS Type")
                 .Append(" ,A.Yarn_For AS Name ")
-                .Append(" ,A.CountCode AS Qty")
-                .Append(" ,ISNULL(A.Yarn_Rate, A.FD_PD) AS Rate")
+                .Append(" ,A.Dent AS Qty")
+                .Append(" ,ISNULL(A.Yarn_Rate, A.Pick) AS Rate")
                 .Append(" ,ISNULL(A.Avg_weight, A.Reed) AS [GstDiff.%]")
                 .Append(" ,A.Yarn_Amount AS Amount")
                 .Append(" FROM TrnFabricCost AS A ")
@@ -2083,9 +2085,9 @@ Public Class MismatchCosting
                 .Append(" ,A.Entry_Date")
                 .Append(" ,A.Fabric_Item_Name")
                 .Append(" ,A.Yarn_For ")
-                .Append(" ,A.CountCode")
+                .Append(" ,A.Dent")
                 .Append(" ,A.Yarn_Rate")
-                .Append(" ,A.FD_PD ")
+                .Append(" ,A.Pick ")
                 .Append(" ,A.Avg_weight ")
                 .Append(" ,A.Reed ")
                 .Append(" ,A.Yarn_Amount ")
@@ -2252,7 +2254,7 @@ Public Class MismatchCosting
         '------------------- yarn Start
         For i As Int16 = 1 To GrdItem.Rows - 1
 
-            Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text, CountNameValue)
+            Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Dent") + 1).Text, CountNameValue)
             Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text, YarnRateValue)
             Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text, AvgWeightValue)
             YarnAmount = CountNameValue * YarnRateValue
@@ -2281,8 +2283,8 @@ Public Class MismatchCosting
         Tot_Cost_Amt = 0
         For i As Int16 = 1 To GrdWeavingcost.Rows - 1
             Dim reedValue As Decimal = 0D
-            Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text, PackingCountNameValue)
-            Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text, PackingYarnRateValue)
+            Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("Dent") + 1).Text, PackingCountNameValue)
+            Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("Pick") + 1).Text, PackingYarnRateValue)
             Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("Reed") + 1).Text, PackingAvgWeightValue)
             ' COUNTNAME × YARN_RATE
             PackingYarnAmount = PackingCountNameValue * PackingYarnRateValue
@@ -2311,8 +2313,8 @@ Public Class MismatchCosting
         Tot_Cost_Amt = 0
         For i As Int16 = 1 To GrdFinishcost.Rows - 1
             Dim reedValue As Decimal = 0D
-            Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text, OverheadCountNameValue)
-            Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text, OverheadYarnRateValue)
+            Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Dent") + 1).Text, OverheadCountNameValue)
+            Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Pick") + 1).Text, OverheadYarnRateValue)
             Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Reed") + 1).Text, OverheadAvgWeightValue)
             ' COUNTNAME × YARN_RATE
             OverheadYarnAmount = OverheadCountNameValue * OverheadYarnRateValue
@@ -2360,8 +2362,8 @@ Public Class MismatchCosting
             .Append(" ,format(A.Entry_Date ,'dd/MM/yyyy') as Date")
             .Append(" ,A.Fabric_Item_Name AS Type")
             .Append(" ,A.yarn_for As Name ")
-            .Append(" ,A.countcode As Qty")
-            .Append(" ,ISNULL(A.Yarn_Rate, A.FD_PD) AS Rate")
+            .Append(" ,A.Dent As Qty")
+            .Append(" ,ISNULL(A.Yarn_Rate, A.Pick) AS Rate")
             .Append(" ,ISNULL(A.Avg_weight, A.Reed) AS [GstDiff%]")
             .Append(" ,A.Yarn_Amount As Amount")
             .Append(" FROM TrnFabricCost AS A ")
@@ -2375,9 +2377,9 @@ Public Class MismatchCosting
             .Append(" ,A.Entry_Date")
             .Append(" ,A.Fabric_Item_Name")
             .Append(" ,A.Yarn_For ")
-            .Append(" ,A.countcode")
+            .Append(" ,A.Dent")
             .Append(" ,A.Yarn_Rate")
-            .Append(" ,A.FD_PD ")
+            .Append(" ,A.Pick ")
             .Append(" ,A.Avg_weight ")
             .Append(" ,A.Reed ")
             .Append(" ,A.Yarn_Amount ")
@@ -2477,7 +2479,7 @@ Public Class MismatchCosting
 
                 Rate_Calc()
             End If
-        ElseIf _ActivatedColName = "FD_PD" Then
+        ElseIf _ActivatedColName = "Pick" Then
 
             Rate_Calc()
         ElseIf _ActivatedColName = "REED" Then
@@ -2568,10 +2570,10 @@ Public Class MismatchCosting
     Private Sub GrdFinishcost_KeyDown(Sender As Object, e As KeyEventArgs) Handles GrdFinishcost.KeyDown
         If _FrmLoad = True Then Exit Sub
 
-        If _ActivatedColName = "COUNTCODE" Then
+        If _ActivatedColName = "Dent" Then
             Rate_Calc()
 
-        ElseIf _ActivatedColName = "FD_PD" Then
+        ElseIf _ActivatedColName = "Pick" Then
             Rate_Calc()
         ElseIf _ActivatedColName = "REED" Then
             'If e.KeyCode = Keys.Enter Then
