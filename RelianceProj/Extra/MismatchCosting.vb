@@ -357,7 +357,8 @@ Public Class MismatchCosting
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("finish_cost,")
-            .Append("OP1,") ' ItemCode
+            .Append("OP1,")
+            .Append("OP2,") ' ItemCode
             .Append("Yarn_Amount")
         End With
 
@@ -428,6 +429,7 @@ Public Class MismatchCosting
             .Append("weav_cost:N,")
             .Append("finish_cost:N,")
             .Append("OP1:N,")
+            .Append("OP2:N,")
             .Append("Yarn_Amount:Y")
         End With
 
@@ -1157,9 +1159,9 @@ Public Class MismatchCosting
         Dim FinishFieldDr As DataRow
         _FINISHDataTableGrid.Rows.Clear()
         For i As Int16 = 1 To GrdFinishcost.Rows - 1
-            'If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text) > 0 Then
-            FinishFieldDr = _FINISHDataTableGrid.NewRow
-            For j As Int16 = 1 To GrdFinishcost.Cols - 1
+            If Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("COUNTCODE") + 1).Text) > 0 Then
+                FinishFieldDr = _FINISHDataTableGrid.NewRow
+                For j As Int16 = 1 To GrdFinishcost.Cols - 1
                     If FinishFieldDr.Table.Columns(j - 1).DataType.ToString <> "System.String" Then
                         FinishFieldDr(j - 1) = Val(GrdFinishcost.Cell(i, j).Text)
                     Else
@@ -1167,7 +1169,7 @@ Public Class MismatchCosting
                     End If
                 Next
                 _FINISHDataTableGrid.Rows.Add(FinishFieldDr)
-            'End If
+            End If
         Next
     End Sub
     Private Function WeavingGridDetailsSaveQuery(ByRef arr_object(,) As String) As String
@@ -1218,8 +1220,7 @@ Public Class MismatchCosting
         Dim FinishQueryDetailTable As String = ""
         Dim strFilterString As String = ""
         Dim FinishQuery_Auto_Grid(_FINISHDataTableGrid.Rows.Count, 4) As String
-        strFilterString = "Fabric_Design_No<>'0'"
-        'strFilterString = ""
+        strFilterString = "Fabric_Design_No<>''"
         Dim yarntype As String = ""
         yarntype = "COSTING INFORMATION"
         Dim strtype As String = ""
@@ -2472,7 +2473,7 @@ Public Class MismatchCosting
                 txt_Code_For_Grid_Selection.Text = MULTY_SELECTION_COLOUM_3_DATA
 
                 GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text = txt_Name_For_Grid_Selection.Text
-                GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("OP1") + 1).Text = txt_Code_For_Grid_Selection.Text
+                GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("OP2") + 1).Text = txt_Code_For_Grid_Selection.Text
 
                 Rate_Calc()
             End If
