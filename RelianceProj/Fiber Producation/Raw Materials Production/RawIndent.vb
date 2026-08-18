@@ -1516,7 +1516,6 @@ Public Class RawIndent
                     .Append(" And A.Bookcode = '0001-000010012'")
                     .Append(" AND A.BookTrType = 'RAW02' ")
                     .Append(" AND A.OP19 = 'YES'")
-                    '.Append(" AND A.OP8 = 'YES'")
                     .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
                     .Append(" UNION ALL ")
                     .Append(" SELECT ")

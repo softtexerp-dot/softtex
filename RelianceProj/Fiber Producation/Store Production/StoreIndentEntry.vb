@@ -1548,7 +1548,6 @@ Public Class StoreIndentEntry
                     .Append(" And A.Bookcode = 'RQSS-000000001'")
                     .Append(" AND A.BookTrType = 'RQSS1' ")
                     .Append(" AND A.OP19 = 'YES'")
-                    '.Append(" AND A.OP8 = 'YES'")
                     .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
                     .Append(" UNION ALL ")
                     .Append(" SELECT ")

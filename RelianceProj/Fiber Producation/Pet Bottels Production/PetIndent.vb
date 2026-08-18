@@ -1547,7 +1547,6 @@ Public Class PetIndent
                     .Append(" And A.Bookcode = '0001-000010002'")
                     .Append(" AND A.BookTrType = 'PET02' ")
                     .Append(" AND A.OP19 = 'YES'")
-                    '.Append(" AND A.OP8 = 'YES'")
                     .Append(" AND A.GODOWNCODE='" & txtUnitCode.Text & "'" & " ")
                     .Append(" UNION ALL ")
                     .Append(" SELECT ")
