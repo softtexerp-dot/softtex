@@ -71,7 +71,8 @@ Public Class PetRejectionApproval
                  " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
                  " AND CAST(ISNULL(A.OP25,'1900-01-01 00:00:00.000') AS DATE) <= '" & txt_To.Date_for_Database & "' "
                 ElseIf UCase(txt_Status.Text.Trim) = "REJECTION" Then
-                    StatusFilter = " AND UPPER(A.OP19) = 'REJECTION' AND UPPER(A.OP24) <> 'APPROVAL'"
+                    'StatusFilter = " AND UPPER(A.OP19) = 'REJECTION' AND UPPER(A.OP24) <> 'APPROVAL'"
+                    StatusFilter = "  AND UPPER(A.OP24) = 'REJECTION'"
                 ElseIf UCase(txt_Status.Text.Trim) = "CANCEL" Then
                     StatusFilter = " AND UPPER(A.OP24) = 'CANCEL' " &
                         " AND CAST(ISNULL(A.OP22,'1900-01-01 00:00:00.000') AS DATE) >= '" & txt_From.Date_for_Database & "' " &
@@ -97,7 +98,8 @@ Public Class PetRejectionApproval
                 .Append(" C.AccountName, ")
                 .Append(" FORMAT( A.Mtr_weight,'0.00') AS Qty, ")
                 .Append(" CASE WHEN ISDATE(A.OP25) = 1 THEN  FORMAT(TRY_CAST(A.OP25 AS DATETIME),'dd/MM/yyyy hh:mm:ss.fff tt')  ELSE '' END AS ApprovalDate,")  'Approval Rejection Date
-                .Append("  CASE WHEN ISNULL(A.OP24, '') = '' THEN 'PENDING' WHEN UPPER(A.OP24) = 'APPROVAL' THEN 'APPROVAL' WHEN UPPER(A.OP24) = 'REJECTION' THEN 'REJECTION' ELSE 'CANCEL' END AS Status") 'Approval Rejection Status
+                '.Append("  CASE WHEN ISNULL(A.OP24, '') = '' THEN 'PENDING'  WHEN UPPER(A.OP24) = 'NO' THEN 'PENDING'  WHEN UPPER(A.OP24) = 'APPROVAL' THEN 'APPROVAL'   WHEN UPPER(A.OP24) = 'REJECTION' THEN 'REJECTION'    ELSE 'CANCEL' END AS Status") 'Approval Rejection Status
+                .Append(" CASE WHEN ISNULL(A.OP24, '') = '' THEN 'PENDING' WHEN UPPER(A.OP24) = 'PENDING' THEN 'PENDING' WHEN UPPER(A.OP24) = 'APPROVAL' THEN 'APPROVAL' WHEN UPPER(A.OP24) = 'REJECTION' THEN 'REJECTION' ELSE 'CANCEL' END AS Status ") 'Approval Rejection Status
                 .Append(" ,CASE WHEN L.BOOKVNO IS NULL THEN 'NO'  ELSE 'APPROVAL'END AS Status1")
                 .Append(" FROM  ")
                 .Append(" " & _TblName & " AS A  ")
@@ -109,7 +111,7 @@ Public Class PetRejectionApproval
                 .Append(" LEFT JOIN (SELECT OP7 AS BOOKVNO ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE,ITEMCODE FROM TrnPackingSlip   WHERE BOOKTRTYPE in ('PET08') GROUP BY OP7,ITEMCODE ,AccountCode,DESIGNCODE,SHADECODE,GODOWNCODE ) AS L ON  A.BOOKVNO = L.BOOKVNO and A.GodownCode = L.GodownCode and A.AccountCode = L.AccountCode and A.DESIGNCODE = L.DESIGNCODE and A.SHADECODE = L.SHADECODE  and A.ITEMCODE = L.ITEMCODE   ")
                 .Append(" WHERE 1=1  ")
                 .Append(" And A.BOOKTRTYPE In ('PET07')  ")
-                .Append(" And A.OP19='REJECTION'  ") 'Quality Checker status
+                '.Append(" And A.OP19='REJECTION'  ") 'Quality Checker status
                 .Append(Unitfilter)
                 .Append(dateFilter)
                 .Append(StatusFilter)
