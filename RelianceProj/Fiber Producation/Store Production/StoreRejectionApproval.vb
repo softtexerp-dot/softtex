@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports DevExpress.XtraRichEdit.Model
 
 Public Class StoreRejectionApproval
     Private _TblName As String = "TrnPackingSlip"
