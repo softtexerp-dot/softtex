@@ -58,7 +58,8 @@ Public Class MismatchcostingType
             .Append("Y_OWN_STK_FLD,")
             .Append("Y_JOB_WORKER_STK_OWN,")
             .Append("BOOKORDER,")
-            .Append("Y_JOB_PARTY_STK_FLD")
+            .Append("Y_JOB_PARTY_STK_FLD,")
+            .Append("Y_JOB_PARTY_STK")
         End With
     End Sub
 #End Region
@@ -114,21 +115,21 @@ Public Class MismatchcostingType
                     .AppendLine("INSERT INTO " & _TblName & "")
                     .AppendLine("(BEHAVIOUR, BookName, RCPT_ISSUE, NATURE,")
                     .AppendLine(" Y_OWN_STK, Y_OWN_STK_FLD,")
-                    .AppendLine(" Y_JOB_WORKER_STK_OWN, BOOKORDER, Y_JOB_PARTY_STK_FLD)")
+                    .AppendLine(" Y_JOB_WORKER_STK_OWN, BOOKORDER, Y_JOB_PARTY_STK_FLD,Y_JOB_PARTY_STK)")
                     .AppendLine("VALUES")
                     .AppendLine("(@BEHAVIOUR, @BookName, @RCPT_ISSUE, @NATURE,")
-                    .AppendLine(" @Y_OWN_STK, 0.00, 'Mismatch Cost Setting', 0, 'YES')")
+                    .AppendLine(" @Y_OWN_STK, 0.00, 'Mismatch Cost Setting', 0, 'YES','AMOUNT')")
                 End With
 
                 Dim sql As String = _strQuery.ToString()
                 Dim data As New List(Of Object()) From {
-                                        New Object() {"0000-000000002", "OVERHEAD", "OVERHEAD", "1.00", "0.00"},
-                                        New Object() {"0000-000000003", "OVERHEAD", "LABOUR", "1.00", "0.00"},
-                                        New Object() {"0000-000000004", "OVERHEAD", "LESS DISCOUNT", "1.00", "0.00"},
-                                        New Object() {"0000-000000005", "OVERHEAD", "LESS COMMISSION", "1.00", "0.00"},
-                                        New Object() {"0000-000000006", "OVERHEAD", "SELLING RATE %", "1.00", "0.00"},
-                                        New Object() {"0000-000000007", "OVERHEAD", "NETT PROFIT IN PCS", "1.00", "0.00"},
-                    New Object() {"0000-000000008", "OVERHEAD", "NETT PROFIT IN", "1.00", "0.00"}
+                                        New Object() {"0000-000000002", "OVERHEAD", "OVERHEAD", "1.00", "0.00", "PER"},
+                                        New Object() {"0000-000000003", "OVERHEAD", "LABOUR", "1.00", "0.00", "PER"},
+                                        New Object() {"0000-000000004", "OVERHEAD", "LESS DISCOUNT", "1.00", "0.00", "AMOUNT"},
+                                        New Object() {"0000-000000005", "OVERHEAD", "LESS COMMISSION", "1.00", "0.00", "AMOUNT"},
+                                        New Object() {"0000-000000006", "OVERHEAD", "SELLING RATE %", "1.00", "0.00", "AMOUNT"},
+                                        New Object() {"0000-000000007", "OVERHEAD", "NETT PROFIT IN PCS", "1.00", "0.00", "AMOUNT"},
+                    New Object() {"0000-000000008", "OVERHEAD", "NETT PROFIT IN", "1.00", "0.00", "AMOUNT"}
                                     }
                 Using cmd As New SqlCommand(sql, con)
                     cmd.Parameters.Add("@BEHAVIOUR", SqlDbType.VarChar)
@@ -136,6 +137,7 @@ Public Class MismatchcostingType
                     cmd.Parameters.Add("@RCPT_ISSUE", SqlDbType.VarChar)
                     cmd.Parameters.Add("@NATURE", SqlDbType.VarChar)
                     cmd.Parameters.Add("@Y_OWN_STK", SqlDbType.VarChar)
+                    cmd.Parameters.Add("@Y_JOB_PARTY_STK", SqlDbType.VarChar)
 
                     For Each row In data
                         cmd.Parameters("@BEHAVIOUR").Value = row(0)
@@ -143,6 +145,7 @@ Public Class MismatchcostingType
                         cmd.Parameters("@RCPT_ISSUE").Value = row(2)
                         cmd.Parameters("@NATURE").Value = row(3)
                         cmd.Parameters("@Y_OWN_STK").Value = row(4)
+                        cmd.Parameters("@Y_JOB_PARTY_STK").Value = row(5)
 
                         cmd.ExecuteNonQuery()
                     Next
@@ -180,10 +183,11 @@ Public Class MismatchcostingType
         ObjCls_General.Blank_Object(Me)
         txtSundaryType.Text = "OVERHEAD"
         txtAddless.Text = "1.00"
-        txtCalcby.Text = "0.00"
+        txtRate.Text = "0.00"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
         TxtStatus.Text = "YES"
+        txtCalcby.Text = "AMOUNT"
         txtSundaryType.Focus()
         txtSundaryType.Select()
     End Sub
@@ -197,7 +201,8 @@ Public Class MismatchcostingType
         txtSundaryType.Text = "OVERHEAD"
         txtSundaryType.Visible = True
         txtAddless.Text = "1.00"
-        txtCalcby.Text = "0.00"
+        txtRate.Text = "0.00"
+        txtCalcby.Text = "AMOUNT"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
         TxtStatus.Text = "YES"
@@ -215,7 +220,8 @@ Public Class MismatchcostingType
         txtSundaryType.Visible = True
 
         txtAddless.Text = "1.00"
-        txtCalcby.Text = "0.00"
+        txtRate.Text = "0.00"
+        txtCalcby.Text = "AMOUNT"
         txtdefaultper.Text = "0.00"
         TxtOrderno.Text = "0"
         TxtStatus.Text = "YES"
@@ -311,8 +317,9 @@ Public Class MismatchcostingType
             .Append(" A.BEHAVIOUR As [SNo.]")
             .Append(" ,A.BookName as [Sundary Type]")
             .Append(" ,A.RCPT_ISSUE as [Sundary Name] ")
-            .Append(" ,A.NATURE as [Add/Less]")
-            .Append(" ,A.Y_OWN_STK as [Clac. By]")
+            .Append(" ,A.NATURE as [Qty]")
+            .Append(" ,A.Y_OWN_STK as [Rate]")
+            .Append(" ,A.Y_JOB_PARTY_STK as [Clac. By]")
             .Append(" ,A.Y_OWN_STK_FLD as [Percentage]")
             .Append(" FROM " & _TblName & " AS A ")
             .Append(" WHERE 1=1")
@@ -332,7 +339,7 @@ Public Class MismatchcostingType
 
         grdView.Column(1).Width = 30
         grdView.Column(2).Width = 120
-        grdView.Column(6).Width = 90
+        grdView.Column(7).Width = 90
         grdView.Column(0).Alignment = FlexCell.AlignmentEnum.LeftCenter
         grdView.Column(1).Alignment = FlexCell.AlignmentEnum.LeftCenter
         grdView.Column(2).Alignment = FlexCell.AlignmentEnum.LeftCenter
@@ -340,6 +347,7 @@ Public Class MismatchcostingType
         grdView.Column(4).Alignment = FlexCell.AlignmentEnum.LeftCenter
         grdView.Column(5).Alignment = FlexCell.AlignmentEnum.LeftCenter
         grdView.Column(6).Alignment = FlexCell.AlignmentEnum.RightCenter
+        grdView.Column(7).Alignment = FlexCell.AlignmentEnum.RightCenter
         grdView.ExtendLastCol = False
 
         Me.Text = old_Me_text + Space(30) + " List of All Record"

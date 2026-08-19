@@ -29,7 +29,7 @@ Partial Class MismatchcostingType
         Me.Lblorderno = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.TxtOrderno = New ctl_TextBox.ctl_TextBox()
-        Me.txtCalcby = New ctl_TextBox.ctl_TextBox()
+        Me.txtRate = New ctl_TextBox.ctl_TextBox()
         Me.txtAddless = New ctl_TextBox.ctl_TextBox()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -54,6 +54,9 @@ Partial Class MismatchcostingType
         Me.PnlGrdView = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.txtCalcby = New ctl_TextBox.ctl_TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
         Me.PnlGrdView.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -81,7 +84,7 @@ Partial Class MismatchcostingType
         Me.TxtStatus.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
         Me.TxtStatus.IsValidated = False
         Me.TxtStatus.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.TxtStatus.Location = New System.Drawing.Point(138, 161)
+        Me.TxtStatus.Location = New System.Drawing.Point(138, 196)
         Me.TxtStatus.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.TxtStatus.MandatoryField = False
         Me.TxtStatus.MaxDate = Nothing
@@ -106,7 +109,7 @@ Partial Class MismatchcostingType
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(6, 164)
+        Me.Label15.Location = New System.Drawing.Point(6, 199)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(48, 14)
         Me.Label15.TabIndex = 81830
@@ -116,7 +119,7 @@ Partial Class MismatchcostingType
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(127, 163)
+        Me.Label16.Location = New System.Drawing.Point(127, 198)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(12, 14)
         Me.Label16.TabIndex = 81831
@@ -126,7 +129,7 @@ Partial Class MismatchcostingType
         '
         Me.Lblorderno.AutoSize = True
         Me.Lblorderno.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lblorderno.Location = New System.Drawing.Point(5, 140)
+        Me.Lblorderno.Location = New System.Drawing.Point(5, 175)
         Me.Lblorderno.Name = "Lblorderno"
         Me.Lblorderno.Size = New System.Drawing.Size(68, 14)
         Me.Lblorderno.TabIndex = 81828
@@ -136,7 +139,7 @@ Partial Class MismatchcostingType
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(127, 140)
+        Me.Label14.Location = New System.Drawing.Point(127, 175)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(12, 14)
         Me.Label14.TabIndex = 81829
@@ -166,7 +169,7 @@ Partial Class MismatchcostingType
         Me.TxtOrderno.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SerialNumber
         Me.TxtOrderno.IsValidated = False
         Me.TxtOrderno.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.TxtOrderno.Location = New System.Drawing.Point(139, 136)
+        Me.TxtOrderno.Location = New System.Drawing.Point(139, 171)
         Me.TxtOrderno.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.TxtOrderno.MandatoryField = False
         Me.TxtOrderno.MaxDate = Nothing
@@ -185,50 +188,50 @@ Partial Class MismatchcostingType
         Me.TxtOrderno.TransparentBox = True
         Me.TxtOrderno.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
-        'txtCalcby
+        'txtRate
         '
-        Me.txtCalcby._AllowSpace = True
-        Me.txtCalcby.AcceptsReturn = True
-        Me.txtCalcby.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
-        Me.txtCalcby.BackColor = System.Drawing.Color.Lavender
-        Me.txtCalcby.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtCalcby.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCalcby.Check_End_Date_Value_FY = "YES"
-        Me.txtCalcby.Check_Start_Date_Value_FY = "YES"
-        Me.txtCalcby.ClearField = True
-        Me.txtCalcby.CustomInputTypeString = Nothing
-        Me.txtCalcby.Date_for_Database = Nothing
-        Me.txtCalcby.Date_Tag = Nothing
-        Me.txtCalcby.EnterFocusColor = System.Drawing.Color.Bisque
-        Me.txtCalcby.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
-        Me.txtCalcby.ExtraValue = ""
-        Me.txtCalcby.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCalcby.FontFocusColor = System.Drawing.Color.Blue
-        Me.txtCalcby.FontLeaveColor = System.Drawing.Color.Black
-        Me.txtCalcby.ForeColor = System.Drawing.Color.Black
-        Me.txtCalcby.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
-        Me.txtCalcby.IsValidated = False
-        Me.txtCalcby.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.txtCalcby.Location = New System.Drawing.Point(138, 83)
-        Me.txtCalcby.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.txtCalcby.MandatoryField = False
-        Me.txtCalcby.MaxDate = Nothing
-        Me.txtCalcby.MinDate = Nothing
-        Me.txtCalcby.Name = "txtCalcby"
-        Me.txtCalcby.NormalBorderColor = System.Drawing.Color.Lavender
-        Me.txtCalcby.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
-        Me.txtCalcby.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
-        Me.txtCalcby.ReadOnly = True
-        Me.txtCalcby.RegularExpression = Nothing
-        Me.txtCalcby.RegularExpressionErrorMessage = Nothing
-        Me.txtCalcby.ShowMessage = False
-        Me.txtCalcby.Size = New System.Drawing.Size(229, 22)
-        Me.txtCalcby.SpacerString = "Per,Amount"
-        Me.txtCalcby.TabIndex = 81805
-        Me.txtCalcby.Tag = "Y_OWN_STK"
-        Me.txtCalcby.Text = "0.00"
-        Me.txtCalcby.TransparentBox = True
-        Me.txtCalcby.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        Me.txtRate._AllowSpace = True
+        Me.txtRate.AcceptsReturn = True
+        Me.txtRate.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtRate.BackColor = System.Drawing.Color.Lavender
+        Me.txtRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtRate.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtRate.Check_End_Date_Value_FY = "YES"
+        Me.txtRate.Check_Start_Date_Value_FY = "YES"
+        Me.txtRate.ClearField = True
+        Me.txtRate.CustomInputTypeString = Nothing
+        Me.txtRate.Date_for_Database = Nothing
+        Me.txtRate.Date_Tag = Nothing
+        Me.txtRate.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtRate.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtRate.ExtraValue = ""
+        Me.txtRate.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRate.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtRate.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtRate.ForeColor = System.Drawing.Color.Black
+        Me.txtRate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
+        Me.txtRate.IsValidated = False
+        Me.txtRate.LeaveFocusColor = System.Drawing.Color.Lavender
+        Me.txtRate.Location = New System.Drawing.Point(138, 83)
+        Me.txtRate.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txtRate.MandatoryField = False
+        Me.txtRate.MaxDate = Nothing
+        Me.txtRate.MinDate = Nothing
+        Me.txtRate.Name = "txtRate"
+        Me.txtRate.NormalBorderColor = System.Drawing.Color.Lavender
+        Me.txtRate.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtRate.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtRate.ReadOnly = True
+        Me.txtRate.RegularExpression = Nothing
+        Me.txtRate.RegularExpressionErrorMessage = Nothing
+        Me.txtRate.ShowMessage = False
+        Me.txtRate.Size = New System.Drawing.Size(229, 22)
+        Me.txtRate.SpacerString = "Per,Amount"
+        Me.txtRate.TabIndex = 81805
+        Me.txtRate.Tag = "Y_OWN_STK"
+        Me.txtRate.Text = "0.00"
+        Me.txtRate.TransparentBox = True
+        Me.txtRate.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
         'txtAddless
         '
@@ -475,7 +478,7 @@ Partial Class MismatchcostingType
         Me.txtdefaultper.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.txtdefaultper.IsValidated = False
         Me.txtdefaultper.LeaveFocusColor = System.Drawing.Color.Lavender
-        Me.txtdefaultper.Location = New System.Drawing.Point(139, 109)
+        Me.txtdefaultper.Location = New System.Drawing.Point(139, 147)
         Me.txtdefaultper.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtdefaultper.MandatoryField = False
         Me.txtdefaultper.MaxDate = Nothing
@@ -579,7 +582,7 @@ Partial Class MismatchcostingType
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(6, 113)
+        Me.Label5.Location = New System.Drawing.Point(6, 148)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(111, 14)
         Me.Label5.TabIndex = 81819
@@ -589,7 +592,7 @@ Partial Class MismatchcostingType
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(127, 113)
+        Me.Label6.Location = New System.Drawing.Point(127, 148)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 14)
         Me.Label6.TabIndex = 81820
@@ -616,18 +619,86 @@ Partial Class MismatchcostingType
         'UC_Buttons1
         '
         Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UC_Buttons1.Location = New System.Drawing.Point(-4, 183)
+        Me.UC_Buttons1.Location = New System.Drawing.Point(-4, 223)
         Me.UC_Buttons1.Margin = New System.Windows.Forms.Padding(4)
         Me.UC_Buttons1.Name = "UC_Buttons1"
         Me.UC_Buttons1.Size = New System.Drawing.Size(544, 44)
         Me.UC_Buttons1.TabIndex = 81827
+        '
+        'txtCalcby
+        '
+        Me.txtCalcby._AllowSpace = True
+        Me.txtCalcby.AcceptsReturn = True
+        Me.txtCalcby.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtCalcby.BackColor = System.Drawing.Color.Lavender
+        Me.txtCalcby.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtCalcby.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCalcby.Check_End_Date_Value_FY = "YES"
+        Me.txtCalcby.Check_Start_Date_Value_FY = "YES"
+        Me.txtCalcby.ClearField = True
+        Me.txtCalcby.CustomInputTypeString = Nothing
+        Me.txtCalcby.Date_for_Database = Nothing
+        Me.txtCalcby.Date_Tag = Nothing
+        Me.txtCalcby.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtCalcby.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtCalcby.ExtraValue = ""
+        Me.txtCalcby.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCalcby.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtCalcby.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtCalcby.ForeColor = System.Drawing.Color.Black
+        Me.txtCalcby.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.SpacerType
+        Me.txtCalcby.IsValidated = False
+        Me.txtCalcby.LeaveFocusColor = System.Drawing.Color.Lavender
+        Me.txtCalcby.Location = New System.Drawing.Point(138, 110)
+        Me.txtCalcby.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txtCalcby.MandatoryField = False
+        Me.txtCalcby.MaxDate = Nothing
+        Me.txtCalcby.MinDate = Nothing
+        Me.txtCalcby.Name = "txtCalcby"
+        Me.txtCalcby.NormalBorderColor = System.Drawing.Color.Lavender
+        Me.txtCalcby.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtCalcby.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtCalcby.ReadOnly = True
+        Me.txtCalcby.RegularExpression = Nothing
+        Me.txtCalcby.RegularExpressionErrorMessage = Nothing
+        Me.txtCalcby.ShowMessage = False
+        Me.txtCalcby.Size = New System.Drawing.Size(229, 22)
+        Me.txtCalcby.SpacerString = "Per,Amount"
+        Me.txtCalcby.TabIndex = 81832
+        Me.txtCalcby.Tag = "Y_JOB_PARTY_STK"
+        Me.txtCalcby.Text = "PER"
+        Me.txtCalcby.TransparentBox = True
+        Me.txtCalcby.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(6, 114)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(60, 14)
+        Me.Label13.TabIndex = 81833
+        Me.Label13.Text = "Calc. By"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Location = New System.Drawing.Point(127, 112)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(12, 14)
+        Me.Label17.TabIndex = 81834
+        Me.Label17.Text = ":"
         '
         'MismatchcostingType
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Lavender
-        Me.ClientSize = New System.Drawing.Size(547, 234)
+        Me.ClientSize = New System.Drawing.Size(547, 281)
+        Me.Controls.Add(Me.txtCalcby)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.Label17)
         Me.Controls.Add(Me.TxtStatus)
         Me.Controls.Add(Me.Label15)
         Me.Controls.Add(Me.Label16)
@@ -635,7 +706,7 @@ Partial Class MismatchcostingType
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.TxtOrderno)
         Me.Controls.Add(Me.UC_Buttons1)
-        Me.Controls.Add(Me.txtCalcby)
+        Me.Controls.Add(Me.txtRate)
         Me.Controls.Add(Me.txtAddless)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label12)
@@ -679,7 +750,7 @@ Partial Class MismatchcostingType
     Friend WithEvents Label14 As Label
     Friend WithEvents TxtOrderno As ctl_TextBox.ctl_TextBox
     Friend WithEvents UC_Buttons1 As UC_Buttons
-    Friend WithEvents txtCalcby As ctl_TextBox.ctl_TextBox
+    Friend WithEvents txtRate As ctl_TextBox.ctl_TextBox
     Friend WithEvents txtAddless As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label11 As Label
     Friend WithEvents Label12 As Label
@@ -703,4 +774,7 @@ Partial Class MismatchcostingType
     Friend WithEvents Label6 As Label
     Friend WithEvents PnlGrdView As Panel
     Friend WithEvents Label2 As Label
+    Friend WithEvents txtCalcby As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Label17 As Label
 End Class

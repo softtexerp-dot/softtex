@@ -1,6 +1,5 @@
 ﻿Imports System.Net.Http
 Imports System.Text
-Imports DevExpress.Data.Camera
 Imports DevExpress.XtraEditors.Repository
 Imports DevExpress.XtraGrid.Views.Grid
 Imports Newtonsoft.Json
@@ -1520,7 +1519,7 @@ Public Class AppEntryManagement
                 .Append(",'0.00'") 'SGST_TAX_RATE
                 .Append(",'0.00'") 'IGST_TAX_RATE
                 .Append(",'0.00'") 'CGST_TAX_AMT
-                .Append(",'0.00'") ' SGST_TAX_AMT
+                .Append(",'0.00'") 'SGST_TAX_AMT
                 .Append(",'0.00'") 'IGST_TAX_AMT
                 .Append(",'0.00'")
                 .Append(",'0.00'")
@@ -1908,6 +1907,11 @@ Public Class AppEntryManagement
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub BtnClose_Click(sender As Object, e As EventArgs) Handles BtnClose.Click
+        Me.Close()
+        Me.Dispose(True)
     End Sub
 #End Region
 End Class
