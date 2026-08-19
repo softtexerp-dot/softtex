@@ -402,6 +402,7 @@ Public Class NewSelectionListQuery
                 .Append(" ,A.ItemName as ItemName ")
                 .Append(" ,B.GroupName as GroupName ")
                 .Append(" ,A.ItemCode As ACCOUNTCODE")
+                .Append(" ,A.OP10 As PartCode")
                 .Append(" ,A.Descr ")
                 .Append(" ,A.Hsncode ")
                 .Append(" FROM ")
