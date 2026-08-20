@@ -2245,6 +2245,18 @@ Public Class MismatchCosting
                 If FirstStage.Columns("Amount") IsNot Nothing Then
                     FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
                 End If
+                If FirstStage.Columns("Net Cost") IsNot Nothing Then
+                    FirstStage.Columns("Net Cost").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
+                If FirstStage.Columns("SellingRate") IsNot Nothing Then
+                    FirstStage.Columns("SellingRate").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
+                If FirstStage.Columns("Net Proft In Pcs") IsNot Nothing Then
+                    FirstStage.Columns("Net Proft In Pcs").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
+                If FirstStage.Columns("Net Profit In %") IsNot Nothing Then
+                    FirstStage.Columns("Net Profit In %").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
                 PnlGrdView.Visible = True
                 '_FORMMODE = "VIEW"
                 FirstStage.BestFitColumns()
