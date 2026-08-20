@@ -168,6 +168,9 @@ Public Class MismatchCosting
             .Append("Avg_weight,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
+            .Append("yarn_west_per,") ' selling rate
+            .Append("yarn_west_amt,") ' net profit pcs
+            .Append("Net_Yarn_Cost,") ' net profit rate
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("process_cost,")
@@ -187,6 +190,9 @@ Public Class MismatchCosting
             .Append("Avg_weight:N,")
             .Append("Net_Weaving_Cost:N,")
             .Append("Net_Finish_Cost:N,")
+            .Append("yarn_west_per:N,,") ' selling rate
+            .Append("yarn_west_amt:N,,") ' net profit pcs
+            .Append("Net_Yarn_Cost:N,,") ' net profit rate
             .Append("yarn_Sub_Total_amt:N,")
             .Append("weav_cost:N,")
             .Append("process_cost:N,")
@@ -258,6 +264,9 @@ Public Class MismatchCosting
             .Append("Yarn_Amount:Y,")
             .Append("Net_Weaving_Cost:N,")
             .Append("Net_Finish_Cost:N,")
+            .Append("yarn_west_per:N,") ' selling rate
+            .Append("yarn_west_amt:N,") ' net profit pcs
+            .Append("Net_Yarn_Cost:N,") ' net profit rate
             .Append("yarn_Sub_Total_amt:N,")
             .Append("weav_cost:N,")
             .Append("process_cost:N,")
@@ -292,6 +301,9 @@ Public Class MismatchCosting
             .Append("Pick:0,")
             .Append("NET_WEAVING_COST:0,")
             .Append("NET_FINISH_COST:0,")
+            .Append("yarn_west_per:0,") ' selling rate
+            .Append("yarn_west_amt:0,") ' net profit pcs
+            .Append("Net_Yarn_Cost:0,") ' net profit rate
             .Append("YARN_SUB_TOTAL_AMT:0,")
             .Append("WEAV_COST:0,")
             .Append("FINISH_COST:0,")
@@ -360,6 +372,9 @@ Public Class MismatchCosting
             .Append("Entry_Date,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
+            .Append("yarn_west_per,") ' selling rate
+            .Append("yarn_west_amt,") ' net profit pcs
+            .Append("Net_Yarn_Cost,") ' net profit rate
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("finish_cost,")
@@ -435,6 +450,9 @@ Public Class MismatchCosting
             .Append("Entry_Date:N,")
             .Append("Net_Weaving_Cost:N,")
             .Append("Net_Finish_Cost:N,")
+            .Append("yarn_west_per:N,") ' selling rate
+            .Append("yarn_west_amt:N,") ' net profit pcs
+            .Append("Net_Yarn_Cost:N,") ' net profit rate
             .Append("yarn_Sub_Total_amt:N,")
             .Append("weav_cost:N,")
             .Append("finish_cost:N,")
@@ -464,7 +482,11 @@ Public Class MismatchCosting
         With _WeavingFieldDefaultValues
             .Append("YARN_SUB_TOTAL_AMT:0,")
             .Append("NET_WEAVING_COST:0,")
+            .Append("Reed:0,")
             .Append("NET_FINISH_COST:0,")
+            .Append("yarn_west_per:0,") ' selling rate
+            .Append("yarn_west_amt:0,") ' net profit pcs
+            .Append("Net_Yarn_Cost:0,") ' net profit rate
             .Append("WEAV_COST:0,")
             .Append("FINISH_COST:0,")
             .Append("YARN_AMOUNT:0")
@@ -503,7 +525,7 @@ Public Class MismatchCosting
         grdObj.ExtendLastCol = True
         _GridLastColNo = gridTable.Columns.Count
         grdObj.Cols = gridTable.Columns.Count + 1
-        grdObj.Rows = 7
+        grdObj.Rows = 2
     End Sub
     Private Sub GridFormattingWeaving(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
         Call ObjCls_General._LibGridFormatting(gridTable, grdObj, "VISIBLE", _WeavingFieldNotVisibile.ToString)
@@ -536,6 +558,9 @@ Public Class MismatchCosting
             .Append("Entry_Date,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
+            .Append("yarn_west_per,") ' selling rate
+            .Append("yarn_west_amt,") ' net profit pcs
+            .Append("Net_Yarn_Cost,") ' net profit rate
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("finish_cost,")
@@ -610,6 +635,9 @@ Public Class MismatchCosting
             .Append("Entry_Date:N,")
             .Append("Net_Weaving_Cost:N,")
             .Append("Net_Finish_Cost:N,")
+            .Append("yarn_west_per:N,") ' selling rate
+            .Append("yarn_west_amt:N,") ' net profit pcs
+            .Append("Net_Yarn_Cost:N,") ' net profit rate
             .Append("yarn_Sub_Total_amt:N,")
             .Append("weav_cost:N,")
             .Append("finish_cost:N,")
@@ -624,14 +652,14 @@ Public Class MismatchCosting
 
         _FINISHFieldWidthSet = New StringBuilder
         With _FINISHFieldWidthSet
-            .Append("Fabric_Design_No:10,")
-            .Append("Fabric_Item_Name:10,")
+            .Append("Fabric_Design_No:0,")
+            .Append("Fabric_Item_Name:0,")
             .Append("yarn_for:30,")
             .Append("Dent:15,")
-            .Append("Pick:13,")
+            .Append("Pick:10,")
             .Append("FD_PD:13,")
-            .Append("Reed:12,")
-            .Append("Yarn_Amount:10")
+            .Append("Reed:17,")
+            .Append("Yarn_Amount:8")
         End With
 
         _FINISHFieldDefaultValues = New StringBuilder
@@ -639,6 +667,9 @@ Public Class MismatchCosting
             .Append("YARN_SUB_TOTAL_AMT:0,")
             .Append("NET_WEAVING_COST:0,")
             .Append("NET_FINISH_COST:0,")
+            .Append("yarn_west_per:0,") ' selling rate
+            .Append("yarn_west_amt:0,") ' net profit pcs
+            .Append("Net_Yarn_Cost:0,") ' net profit rate
             .Append("WEAV_COST:0,")
             .Append("FINISH_COST:0,")
             .Append("YARN_AMOUNT:0")
@@ -738,6 +769,9 @@ Public Class MismatchCosting
             .Append(",'' as Entry_Date")
             .Append(",'' as Net_Weaving_Cost")
             .Append(",'' as Net_Finish_Cost")
+            .Append(",'' as yarn_west_per") ' selling rate
+            .Append(",'' as yarn_west_amt") ' net profit pcs
+            .Append(",'' as Net_Yarn_Cost") ' net profit rate
             .Append(",'' as yarn_Sub_Total_amt")
             .Append(",'' as weav_cost")
             .Append(",'' as finish_cost")
@@ -774,6 +808,9 @@ Public Class MismatchCosting
             .Append(",'' as Entry_Date")
             .Append(",'' as Net_Weaving_Cost")
             .Append(",'' as Net_Finish_Cost")
+            .Append(",'' as yarn_west_per") ' selling rate
+            .Append(",'' as yarn_west_amt") ' net profit pcs
+            .Append(",'' as Net_Yarn_Cost") ' net profit rate
             .Append(",'' as yarn_Sub_Total_amt")
             .Append(",'' as weav_cost")
             .Append(",'' as finish_cost")
@@ -1007,8 +1044,10 @@ Public Class MismatchCosting
                         _FrmLoad = False
                     End If
                 Case "GRDFINISHCOST"
-                    'TXT_Net_Finish_Cost.Focus()
-                    UC_Buttons1.BtnSave.Focus()
+                    TXT_Net_Finish_Cost.Focus()
+                 'UC_Buttons1.BtnSave.Focus()
+                Case "TXT_Net_Finish_Cost"
+                    txtsellingrate.Focus()
                 Case "BTNSAVE"
                     txt_EntryNo.Focus()
                 Case "TXT_ENTRYNO"
@@ -1023,6 +1062,8 @@ Public Class MismatchCosting
                     GrdItem.Focus()
                     GrdItem.Select()
                     GrdItem.ActiveCell.BackColor = Color.Transparent
+                Case "TXTSELLINGRATE"
+                    UC_Buttons1.BtnSave.Focus()
                 Case Else
 
             End Select
@@ -1211,6 +1252,9 @@ Public Class MismatchCosting
             .Append("Fabric_Item_Name,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
+            .Append("yarn_west_per,") ' selling rate
+            .Append("yarn_west_amt,") ' net profit pcs
+            .Append("Net_Yarn_Cost,") ' net profit rate
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("finish_cost,")
@@ -1224,6 +1268,9 @@ Public Class MismatchCosting
             .Append(strtype & ",")
             .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            .Append(GetNumericValue(txtsellingrate.Text) & ",")
+            .Append(GetNumericValue(txt_net_profit_pcs.Text) & ",")
+            .Append(GetNumericValue(txt_Net_Profit_In_per.Text) & ",")
             .Append(GetNumericValue(txt_yarn_Sub_Total_amt.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
@@ -1253,6 +1300,9 @@ Public Class MismatchCosting
             .Append("Fabric_Item_Name,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
+            .Append("yarn_west_per,") ' selling rate
+            .Append("yarn_west_amt,") ' net profit pcs
+            .Append("Net_Yarn_Cost,") ' net profit rate
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("finish_cost,")
@@ -1269,6 +1319,9 @@ Public Class MismatchCosting
             ' Numeric
             .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            .Append(GetNumericValue(txtsellingrate.Text) & ",")
+            .Append(GetNumericValue(txt_net_profit_pcs.Text) & ",")
+            .Append(GetNumericValue(txt_Net_Profit_In_per.Text) & ",")
             .Append(GetNumericValue(txt_yarn_Sub_Total_amt.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
@@ -1299,6 +1352,9 @@ Public Class MismatchCosting
             .Append("Fabric_Item_Name,")
             .Append("Net_Weaving_Cost,")
             .Append("Net_Finish_Cost,")
+            .Append("yarn_west_per,") ' selling rate
+            .Append("yarn_west_amt,") ' net profit pcs
+            .Append("Net_Yarn_Cost,") ' net profit rate
             .Append("yarn_Sub_Total_amt,")
             .Append("weav_cost,")
             .Append("finish_cost,")
@@ -1316,6 +1372,9 @@ Public Class MismatchCosting
             ' Numeric Fields
             .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
+            .Append(GetNumericValue(txtsellingrate.Text) & ",")
+            .Append(GetNumericValue(txt_net_profit_pcs.Text) & ",")
+            .Append(GetNumericValue(txt_Net_Profit_In_per.Text) & ",")
             .Append(GetNumericValue(txt_yarn_Sub_Total_amt.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Weaving_Cost.Text) & ",")
             .Append(GetNumericValue(TXT_Net_Finish_Cost.Text) & ",")
@@ -1430,9 +1489,11 @@ Public Class MismatchCosting
         txt_Entry_Date.Visible = False
         TXT_Net_Weaving_Cost.Visible = False
         TXT_Net_Finish_Cost.Visible = False
+        txtsellingrate.Visible = False
+        txt_net_profit_pcs.Visible = False
+        txt_Net_Profit_In_per.Visible = False
         txt_yarn_Sub_Total_amt.Visible = False
         TXT_Net_Weaving_Cost.Visible = False
-        TXT_Net_Finish_Cost.Visible = False
         Txt_ImportEntry.Visible = False
         Btn_CreatOverHeadItem.Visible = False
     End Sub
@@ -1446,9 +1507,11 @@ Public Class MismatchCosting
         txt_Entry_Date.Visible = True
         TXT_Net_Weaving_Cost.Visible = True
         TXT_Net_Finish_Cost.Visible = True
+        txtsellingrate.Visible = True
+        txt_net_profit_pcs.Visible = True
+        txt_Net_Profit_In_per.Visible = True
         txt_yarn_Sub_Total_amt.Visible = True
         TXT_Net_Weaving_Cost.Visible = True
-        TXT_Net_Finish_Cost.Visible = True
         Txt_ImportEntry.Visible = True
         Btn_CreatOverHeadItem.Visible = True
     End Sub
@@ -1485,6 +1548,9 @@ Public Class MismatchCosting
             .Append(",Entry_Date")
             .Append(",Net_Weaving_Cost")
             .Append(",Net_Finish_Cost")
+            .Append(",yarn_west_per") ' selling rate
+            .Append(",yarn_west_amt") ' net profit pcs
+            .Append(",Net_Yarn_Cost") ' net profit rate
             .Append(",yarn_Sub_Total_amt")
             .Append(",weav_cost")
             .Append(",finish_cost")
@@ -1514,6 +1580,9 @@ Public Class MismatchCosting
             .Append(",Entry_Date")
             .Append(",Net_Weaving_Cost")
             .Append(",Net_Finish_Cost")
+            .Append(",yarn_west_per") ' selling rate
+            .Append(",yarn_west_amt") ' net profit pcs
+            .Append(",Net_Yarn_Cost") ' net profit rate
             .Append(",yarn_Sub_Total_amt")
             .Append(",weav_cost")
             .Append(",finish_cost")
@@ -1542,6 +1611,9 @@ Public Class MismatchCosting
             .Append(",Entry_Date")
             .Append(",Net_Weaving_Cost as NetWeavingCost")
             .Append(",Net_Finish_Cost As NetFinishCost")
+            .Append(",yarn_west_per") ' selling rate
+            .Append(",yarn_west_amt") ' net profit pcs
+            .Append(",Net_Yarn_Cost") ' net profit rate
             .Append(",yarn_Sub_Total_amt As yarnSubTotalamt")
             .Append(",weav_cost")
             .Append(",finish_cost")
@@ -1641,14 +1713,36 @@ Public Class MismatchCosting
     End Sub
 #End Region
 #Region "GRID GENERAL FUNCTION"
-    Private Sub Fill_Current_Row_Sr_No(ByRef Data_Table_Obj As DataTable, ByRef grdObj As FlexCell.Grid)
-        If grdObj.Cell(GrdItem.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = "" Then
-            grdObj.Cell(GrdItem.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = grdObj.ActiveCell.Row
+    'Private Sub Fill_Current_Row_Sr_No(ByRef Data_Table_Obj As DataTable, ByRef grdObj As FlexCell.Grid)
+    '    If grdObj.Cell(GrdItem.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = "" Then
+    '        grdObj.Cell(GrdItem.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = grdObj.ActiveCell.Row
+    '    End If
+
+    '    If grdObj.Cell(grdObj.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = "" Then
+    '        grdObj.Cell(grdObj.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = grdObj.ActiveCell.Row
+    '    End If
+    'End Sub
+    Private Sub Fill_Current_Row_Sr_No(
+    ByRef Data_Table_Obj As DataTable,
+    ByRef grdObj As FlexCell.Grid)
+
+        Dim SrNoColumn As Integer =
+        Data_Table_Obj.Columns.IndexOf("SRNO") + 1
+
+        If SrNoColumn <= 0 Then Exit Sub
+        If grdObj Is Nothing Then Exit Sub
+        If grdObj.ActiveCell Is Nothing Then Exit Sub
+
+        Dim CurrentRow As Integer = grdObj.ActiveCell.Row
+
+        If String.IsNullOrWhiteSpace(
+        grdObj.Cell(CurrentRow, SrNoColumn).Text) Then
+
+            grdObj.Cell(CurrentRow, SrNoColumn).Text =
+            CurrentRow.ToString()
+
         End If
 
-        If grdObj.Cell(grdObj.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = "" Then
-            grdObj.Cell(grdObj.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = grdObj.ActiveCell.Row
-        End If
     End Sub
 #End Region
 #Region "TOTAL ALL ROWS"
@@ -2098,6 +2192,10 @@ Public Class MismatchCosting
                 .Append(" ,ISNULL(A.Yarn_Rate, A.Pick) AS Rate")
                 .Append(" ,ISNULL(A.Avg_weight, A.Reed) AS [GstDiff.%]")
                 .Append(" ,A.Yarn_Amount AS Amount")
+                .Append(" ,A.Net_Finish_Cost as [Net Cost]")
+                .Append(" ,A.yarn_west_per as SellingRate")
+                .Append(" ,A.yarn_west_amt As [Net Proft In Pcs]")
+                .Append(" ,A.Net_Yarn_Cost As [Net Profit In %]")
                 .Append(" FROM TrnFabricCost AS A ")
                 .Append(" WHERE 1=1")
                 .Append(View_Filter_Condition)
@@ -2114,6 +2212,10 @@ Public Class MismatchCosting
                 .Append(" ,A.Yarn_Amount ")
                 .Append(" ,A.Finish_Cost ")
                 .Append(" ,A.ID ")
+                .Append(" ,A.Net_Finish_Cost ")
+                .Append(" ,A.yarn_west_per ")
+                .Append(" ,A.yarn_west_amt ")
+                .Append(" ,A.Net_Yarn_Cost ")
                 .Append(" ORDER BY A.EntryNo,A.Entry_Date,A.ID")
             End With
             sqL = _strQuery.ToString
@@ -2224,20 +2326,10 @@ Public Class MismatchCosting
         Dim Dent_Value As Double = 0
 
         If Dent_Value > 2 Then
-            'Reed_Value = Val(txt_reed.Text) / 2
             Extra_Reed_Value = Reed_Value * (Dent_Value - 2)
-            'Reed_Value = Val(txt_reed.Text) + Extra_Reed_Value
         ElseIf Dent_Value = 2 Then
             'Reed_Value = Val(txt_reed.Text) / Val(txt_dent.Text)
         End If
-
-        'Dim RS_Value As Double = Val(txt_reed_space.Text)
-
-        'If Dent_Value = 2 Then
-        '    txt_Total_Ends.Text = (Reed_Value * RS_Value) * 2
-        'Else
-        '    txt_Total_Ends.Text = (Reed_Value * RS_Value)
-        'End If
     End Sub
     Private Sub Rate_Calc()
         If _FrmLoad = True Then Exit Sub
@@ -2261,7 +2353,6 @@ Public Class MismatchCosting
         Dim AvgWeightPercent As Decimal = 0D
         Dim YarnAmount As Decimal = 0D
         Dim AvgWeightValue As Decimal = 0D
-        'If TXT_Final_Grey_Cost.Text = "" Then TXT_Final_Grey_Cost.Text = "0.00"
         For i As Int16 = 1 To GrdItem.Rows - 1
             Yarn_For = Trim(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_FOR") + 1).Text)
             If Yarn_For = "SUITING" Then
@@ -2271,28 +2362,25 @@ Public Class MismatchCosting
                 Total_Weft_Pattern = Total_Weft_Pattern + Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("PATTERN") + 1).Text)
             End If
         Next
-
-        '------------------- yarn Start
         For i As Int16 = 1 To GrdItem.Rows - 1
-
             Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Dent") + 1).Text, CountNameValue)
             Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_RATE") + 1).Text, YarnRateValue)
             Decimal.TryParse(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("AVG_WEIGHT") + 1).Text, AvgWeightValue)
             YarnAmount = CountNameValue * YarnRateValue
-
-            ' AVG_WEIGHT percentage apply karein
             If AvgWeightValue <> 0 Then
                 YarnAmount = YarnAmount + (YarnAmount * AvgWeightValue / 100D)
             End If
-
-
-            GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text = YarnAmount.ToString("0.00")
+            If YarnAmount > 0 Then
+                GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text = YarnAmount.ToString("0.00")
+            End If
             Tot_Cost_Amt = Tot_Cost_Amt + Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("YARN_AMOUNT") + 1).Text)
         Next
         GrandTotal += Tot_Cost_Amt
         txt_yarn_Sub_Total_amt.Text = FormatNumber(GrandTotal, 2, TriState.True, TriState.False, TriState.False)
+
         Dim subTotal As Decimal = GrandTotal
         Tot_Cost_Amt = 0D
+
         Dim PackingYarnAmount As Decimal = 0D
         Dim PackingCountNameValue As Decimal = 0D
         Dim PackingYarnRateValue As Decimal = 0D
@@ -2304,75 +2392,63 @@ Public Class MismatchCosting
             Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("Dent") + 1).Text, PackingCountNameValue)
             Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("Pick") + 1).Text, PackingYarnRateValue)
             Decimal.TryParse(GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("Reed") + 1).Text, PackingAvgWeightValue)
-            '----------------------------------------
-            ' Calculate Amount
-            '----------------------------------------
-            If GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text.Trim().ToUpper() = "AMOUNT" Then
-                ' AMOUNT = Previous SubTotal + Rate
+            Dim CalcBy As String = GrdWeavingcost.Cell(i, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text.Trim().ToUpper()
+            If CalcBy = "AMOUNT" Then
                 PackingYarnAmount = subTotal + PackingYarnRateValue
             Else
-                ' Percentage calculation
-                PackingYarnAmount = Math.Round((PackingYarnRateValue * subTotal) / 100D, 2)
+                Dim PercentageValue As Decimal = Math.Round((subTotal * PackingYarnRateValue) / 100D, 2)
+                PackingYarnAmount = subTotal + PercentageValue
             End If
-            '----------------------------------------
-            ' GST Diff %
-            '----------------------------------------
             If PackingAvgWeightValue <> 0D Then
-                PackingYarnAmount = PackingYarnAmount + (PackingYarnAmount * PackingAvgWeightValue / 100D)
+                PackingYarnAmount = PackingYarnAmount + Math.Round((PackingYarnAmount * PackingAvgWeightValue) / 100D, 2)
             End If
-            '----------------------------------------
-            ' Set Yarn Amount
-            '----------------------------------------
             PackingYarnAmount = Math.Round(PackingYarnAmount, 2)
-            Dim yarnAmountCol As Integer = _WeavingDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1
-            GrdWeavingcost.Cell(i, yarnAmountCol).Text = PackingYarnAmount.ToString("0.00")
-            '----------------------------------------
-            ' IMPORTANT:
-            ' AMOUNT me next row previous calculated amount
-            ' se continue hogi.
-            ' Percentage me subtotal me calculated amount add hoga.
-            '----------------------------------------
+            If PackingYarnRateValue > 0 Then
+                Dim yarnAmountCol As Integer = _WeavingDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1
+                GrdWeavingcost.Cell(i, yarnAmountCol).Text = PackingYarnAmount.ToString("0.00")
+            End If
             subTotal = PackingYarnAmount
-            Tot_Cost_Amt = Tot_Cost_Amt + PackingYarnAmount
         Next
-
-        TXT_Net_Weaving_Cost.Text = FormatNumber(Tot_Cost_Amt, 2, TriState.True, TriState.False, TriState.False)
-        'GrandTotal += Tot_Cost_Amt
-        Dim finishsubTotal As Decimal = GrandTotal
+        TXT_Net_Weaving_Cost.Text = FormatNumber(PackingYarnAmount, 2, TriState.True, TriState.False, TriState.False)
+        Dim FinishCost As Decimal = Val(TXT_Net_Weaving_Cost.Text)
         Dim OverheadYarnAmount As Decimal = 0D
-        Dim OverheadCountNameValue As Decimal = 0D
         Dim OverheadYarnRateValue As Decimal = 0D
         Dim OverheadAvgWeightValue As Decimal = 0D
-        Dim FinishCost As Decimal = Val(TXT_Net_Weaving_Cost.Text)
-        Tot_Cost_Amt = 0
+        Tot_Cost_Amt = 0D
         For i As Int16 = 1 To GrdFinishcost.Rows - 1
-            Dim reedValue As Decimal = 0D
-            Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Dent") + 1).Text, OverheadCountNameValue)
+            OverheadYarnRateValue = 0D
+            OverheadAvgWeightValue = 0D
             Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Pick") + 1).Text, OverheadYarnRateValue)
             Decimal.TryParse(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Reed") + 1).Text, OverheadAvgWeightValue)
-            ' COUNTNAME × YARN_RATE
-            'OverheadYarnAmount = OverheadCountNameValue * OverheadYarnRateValue
-            If GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" And OverheadYarnRateValue>0 Then
-                OverheadYarnAmount = OverheadYarnRateValue + FinishCost
+            Dim CalcBy As String = GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text.Trim().ToUpper()
+            If OverheadYarnRateValue <= 0D Then
+                Continue For
+            End If
+            If CalcBy = "AMOUNT" Then
+                OverheadYarnAmount = FinishCost + OverheadYarnRateValue
             Else
-                OverheadYarnAmount = Math.Round((OverheadYarnRateValue * FinishCost) / 100D, 2)
+                Dim PercentageValue As Decimal = Math.Round((FinishCost * OverheadYarnRateValue) / 100D, 2)
+                OverheadYarnAmount = FinishCost + PercentageValue
             End If
-            If OverheadAvgWeightValue <> 0 Then
-                OverheadYarnAmount = OverheadYarnAmount + (OverheadYarnAmount * OverheadAvgWeightValue / 100D)
+            If OverheadAvgWeightValue <> 0D Then
+                OverheadYarnAmount = OverheadYarnAmount + Math.Round((OverheadYarnAmount * OverheadAvgWeightValue) / 100D, 2)
             End If
-            Dim colIndex As Integer = _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1
-            GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text = OverheadYarnAmount.ToString("0.00")
+            OverheadYarnAmount = Math.Round(OverheadYarnAmount, 2)
+            Dim AmountCol As Integer = _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1
+            GrdFinishcost.Cell(i, AmountCol).Text = OverheadYarnAmount.ToString("0.00")
             FinishCost = OverheadYarnAmount
-            Tot_Cost_Amt = Tot_Cost_Amt + Val(GrdFinishcost.Cell(i, _FINISHDataTableGrid.Columns.IndexOf("Yarn_Amount") + 1).Text)
-            Lblprocesscost.Text = Tot_Cost_Amt
         Next
-        GrandTotal += Tot_Cost_Amt
-        ' TXT_Net_Finish_Cost.Text = FormatNumber(GrandTotal, 2, TriState.True, TriState.False, TriState.False)
-        TXT_Net_Finish_Cost.Text = Tot_Cost_Amt
-        'Dim Int_Calc_Amt As Double = Val(TXT_Net_Finish_Cost.Text)
-        'If Val(Tot_Cost_Amt) = 0 Then Tot_Cost_Amt = TXT_Net_Finish_Cost.Text
-        Dim salesubTotal As Decimal = GrandTotal
-        Tot_Cost_Amt = 0
+        TXT_Net_Finish_Cost.Text = FormatNumber(FinishCost, 2, TriState.True, TriState.False, TriState.False)
+        Dim SellingRate As Decimal = Val(txtsellingrate.Text)
+        Dim NetCost As Decimal = FinishCost
+        Dim NetProfit As Decimal = SellingRate - NetCost
+        txt_net_profit_pcs.Text = NetProfit.ToString("0.00")
+        If SellingRate <> 0D Then
+            Dim ProfitPercentage As Decimal = Math.Round((NetProfit / SellingRate) * 100D, 2)
+            txt_Net_Profit_In_per.Text = ProfitPercentage.ToString("0.00")
+        Else
+            txt_Net_Profit_In_per.Text = "0.00"
+        End If
     End Sub
 #End Region
 
@@ -2407,6 +2483,10 @@ Public Class MismatchCosting
             .Append(" ,ISNULL(A.Yarn_Rate, A.Pick) AS Rate")
             .Append(" ,ISNULL(A.Avg_weight, A.Reed) AS [GstDiff%]")
             .Append(" ,A.Yarn_Amount As Amount")
+            .Append(" ,A.Net_Finish_Cost as [Net Cost]")
+            .Append(" ,A.yarn_west_per as SellingRate")
+            .Append(" ,A.yarn_west_amt As [Net Proft In Pcs]")
+            .Append(" ,A.Net_Yarn_Cost As [Net Profit In %]")
             .Append(" FROM TrnFabricCost AS A ")
             .Append(" WHERE 1=1")
             .Append(" AND A.ENTRYNO>=" & Val(txt_From.Text) & " ")
@@ -2425,6 +2505,10 @@ Public Class MismatchCosting
             .Append(" ,A.Reed ")
             .Append(" ,A.Yarn_Amount ")
             .Append(" ,A.ID ")
+            .Append(" ,A.Net_Finish_Cost ")
+            .Append(" ,A.yarn_west_per ")
+            .Append(" ,A.yarn_west_amt ")
+            .Append(" ,A.Net_Yarn_Cost ")
             .Append(" ORDER BY ")
             .Append("  CASE WHEN A.Fabric_Item_Name = 'FABRIC' THEN 1  WHEN A.Fabric_Item_Name = 'PACKING' THEN 2    WHEN A.Fabric_Item_Name = 'OVERHEAD' THEN 3    ELSE 4    END,")
             .Append(" A.EntryNo,A.Entry_Date,A.ID")
@@ -2504,7 +2588,8 @@ Public Class MismatchCosting
     End Sub
     Private Sub GrdWeavingcost_KeyDown(Sender As Object, e As KeyEventArgs) Handles GrdWeavingcost.KeyDown
         If _FrmLoad = True Then Exit Sub
-        If GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "" Then GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "PER"
+        If GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "" Then GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT"
+        If GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("REED") + 1).Text = "" Then GrdWeavingcost.Cell(GrdWeavingcost.ActiveCell.Row, _WeavingDataTableGrid.Columns.IndexOf("REED") + 1).Text = "0.00"
         If _ActivatedColName = "YARN_FOR" Then
 
             If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
@@ -2636,6 +2721,7 @@ Public Class MismatchCosting
             '    GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
             '    GrdFinishcost.Focus()
             'End If
+            Rate_Calc()
         ElseIf _ActivatedColName = "YARN_AMOUNT" Then
             'If e.KeyCode = Keys.Enter Then
             '    SendKeys.Send("{DOWN}")
@@ -2647,6 +2733,7 @@ Public Class MismatchCosting
             '    GrdFinishcost.Range(1, 0, GrdFinishcost.Rows - 1, GrdFinishcost.Cols - 1).BackColor = GrdFinishcost.BackColor1
             '    GrdFinishcost.Focus()
             'End If
+            Rate_Calc()
         ElseIf _ActivatedColName = "FD_PD" Then
             If e.KeyCode = Keys.Space Then
                 If GrdFinishcost.Cell(GrdFinishcost.ActiveCell.Row, _FINISHDataTableGrid.Columns.IndexOf("FD_PD") + 1).Text = "AMOUNT" Then
@@ -2657,7 +2744,6 @@ Public Class MismatchCosting
             End If
             Rate_Calc()
         End If
-
         Rate_Calc()
     End Sub
 
@@ -2860,6 +2946,10 @@ Public Class MismatchCosting
 
     Private Sub Btn_CreatOverHeadItem_Click(sender As Object, e As EventArgs) Handles Btn_CreatOverHeadItem.Click
         MismatchcostingType.ShowDialog()
+    End Sub
+
+    Private Sub txtsellingrate_KeyDown(sender As Object, e As KeyEventArgs) Handles txtsellingrate.KeyDown
+        Call Rate_Calc()
     End Sub
 
 #End Region

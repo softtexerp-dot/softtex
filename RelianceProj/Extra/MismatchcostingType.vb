@@ -102,55 +102,86 @@ Public Class MismatchcostingType
     Public Sub InsertCostSheetSetting()
         Try
             Using con As New SqlConnection(Module2.SqlServerConnectionString)
+
                 con.Open()
-                Dim _strQuery As New StringBuilder()
 
-                With _strQuery
-                    .AppendLine("IF NOT EXISTS (")
-                    .AppendLine(" SELECT 1 FROM " & _TblName & "")
-                    .AppendLine(" WHERE BEHAVIOUR = @BEHAVIOUR")
-                    .AppendLine(" AND BookName = @BookName")
-                    .AppendLine(" AND Y_JOB_WORKER_STK_OWN = 'Mismatch Cost Setting'")
-                    .AppendLine(")")
-                    .AppendLine("INSERT INTO " & _TblName & "")
-                    .AppendLine("(BEHAVIOUR, BookName, RCPT_ISSUE, NATURE,")
-                    .AppendLine(" Y_OWN_STK, Y_OWN_STK_FLD,")
-                    .AppendLine(" Y_JOB_WORKER_STK_OWN, BOOKORDER, Y_JOB_PARTY_STK_FLD,Y_JOB_PARTY_STK)")
-                    .AppendLine("VALUES")
-                    .AppendLine("(@BEHAVIOUR, @BookName, @RCPT_ISSUE, @NATURE,")
-                    .AppendLine(" @Y_OWN_STK, 0.00, 'Mismatch Cost Setting', 0, 'YES','AMOUNT')")
-                End With
+                Using tran As SqlTransaction = con.BeginTransaction()
 
-                Dim sql As String = _strQuery.ToString()
-                Dim data As New List(Of Object()) From {
-                                        New Object() {"0000-000000002", "OVERHEAD", "OVERHEAD", "1.00", "0.00", "PER"},
-                                        New Object() {"0000-000000003", "OVERHEAD", "LABOUR", "1.00", "0.00", "PER"},
-                                        New Object() {"0000-000000004", "OVERHEAD", "LESS DISCOUNT", "1.00", "0.00", "AMOUNT"},
-                                        New Object() {"0000-000000005", "OVERHEAD", "LESS COMMISSION", "1.00", "0.00", "AMOUNT"},
-                                        New Object() {"0000-000000006", "OVERHEAD", "SELLING RATE %", "1.00", "0.00", "AMOUNT"},
-                                        New Object() {"0000-000000007", "OVERHEAD", "NETT PROFIT IN PCS", "1.00", "0.00", "AMOUNT"},
-                    New Object() {"0000-000000008", "OVERHEAD", "NETT PROFIT IN", "1.00", "0.00", "AMOUNT"}
-                                    }
-                Using cmd As New SqlCommand(sql, con)
-                    cmd.Parameters.Add("@BEHAVIOUR", SqlDbType.VarChar)
-                    cmd.Parameters.Add("@BookName", SqlDbType.VarChar)
-                    cmd.Parameters.Add("@RCPT_ISSUE", SqlDbType.VarChar)
-                    cmd.Parameters.Add("@NATURE", SqlDbType.VarChar)
-                    cmd.Parameters.Add("@Y_OWN_STK", SqlDbType.VarChar)
-                    cmd.Parameters.Add("@Y_JOB_PARTY_STK", SqlDbType.VarChar)
+                    Try
+                        '========================================================
+                        ' 1. Delete existing Mismatch Cost Setting entries
+                        '========================================================
+                        Dim deleteSql As StringBuilder = New StringBuilder()
 
-                    For Each row In data
-                        cmd.Parameters("@BEHAVIOUR").Value = row(0)
-                        cmd.Parameters("@BookName").Value = row(1)
-                        cmd.Parameters("@RCPT_ISSUE").Value = row(2)
-                        cmd.Parameters("@NATURE").Value = row(3)
-                        cmd.Parameters("@Y_OWN_STK").Value = row(4)
-                        cmd.Parameters("@Y_JOB_PARTY_STK").Value = row(5)
-
-                        cmd.ExecuteNonQuery()
-                    Next
+                        With deleteSql
+                            .AppendLine("DELETE FROM " & _TblName)
+                            .AppendLine("WHERE Y_JOB_WORKER_STK_OWN = 'Mismatch Cost Setting'")
+                            .AppendLine("AND BEHAVIOUR IN (")
+                            .AppendLine("    '0000-000000006',")
+                            .AppendLine("    '0000-000000007',")
+                            .AppendLine("    '0000-000000008'")
+                            .AppendLine(")")
+                        End With
+                        Using deleteCmd As New SqlCommand(deleteSql.ToString(), con, tran)
+                            deleteCmd.ExecuteNonQuery()
+                        End Using
+                        '========================================================
+                        ' 2. Insert query
+                        '========================================================
+                        Dim insertSql As StringBuilder = New StringBuilder()
+                        With insertSql
+                            .AppendLine("IF NOT EXISTS (")
+                            .AppendLine(" SELECT 1 FROM " & _TblName & "")
+                            .AppendLine(" WHERE BEHAVIOUR = @BEHAVIOUR")
+                            .AppendLine(" AND BookName = @BookName")
+                            .AppendLine(" AND Y_JOB_WORKER_STK_OWN = 'Mismatch Cost Setting'")
+                            .AppendLine(")")
+                            .AppendLine("INSERT INTO " & _TblName)
+                            .AppendLine("(BEHAVIOUR, BookName, RCPT_ISSUE, NATURE,")
+                            .AppendLine(" Y_OWN_STK, Y_OWN_STK_FLD,")
+                            .AppendLine(" Y_JOB_WORKER_STK_OWN, BOOKORDER,")
+                            .AppendLine(" Y_JOB_PARTY_STK_FLD, Y_JOB_PARTY_STK)")
+                            .AppendLine("VALUES")
+                            .AppendLine("(@BEHAVIOUR, @BookName, @RCPT_ISSUE, @NATURE,")
+                            .AppendLine(" @Y_OWN_STK, 0.00,")
+                            .AppendLine(" 'Mismatch Cost Setting',")
+                            .AppendLine(" 0, 'YES', @Y_JOB_PARTY_STK)")
+                        End With
+                        Dim data As New List(Of Object()) From {
+                New Object() {"0000-000000002", "OVERHEAD", "OVERHEAD", "1.00", "0.00", "PER"},
+                New Object() {"0000-000000003", "OVERHEAD", "LABOUR", "1.00", "0.00", "PER"},
+                New Object() {"0000-000000004", "OVERHEAD", "LESS DISCOUNT", "1.00", "0.00", "AMOUNT"},
+                New Object() {"0000-000000005", "OVERHEAD", "LESS COMMISSION", "1.00", "0.00", "AMOUNT"}
+            }
+                        '========================================================
+                        ' 3. Insert all rows
+                        '========================================================
+                        Using insertCmd As New SqlCommand(insertSql.ToString(), con, tran)
+                            insertCmd.Parameters.Add("@BEHAVIOUR", SqlDbType.VarChar)
+                            insertCmd.Parameters.Add("@BookName", SqlDbType.VarChar)
+                            insertCmd.Parameters.Add("@RCPT_ISSUE", SqlDbType.VarChar)
+                            insertCmd.Parameters.Add("@NATURE", SqlDbType.VarChar)
+                            insertCmd.Parameters.Add("@Y_OWN_STK", SqlDbType.VarChar)
+                            insertCmd.Parameters.Add("@Y_JOB_PARTY_STK", SqlDbType.VarChar)
+                            For Each row As Object() In data
+                                insertCmd.Parameters("@BEHAVIOUR").Value = row(0)
+                                insertCmd.Parameters("@BookName").Value = row(1)
+                                insertCmd.Parameters("@RCPT_ISSUE").Value = row(2)
+                                insertCmd.Parameters("@NATURE").Value = row(3)
+                                insertCmd.Parameters("@Y_OWN_STK").Value = row(4)
+                                insertCmd.Parameters("@Y_JOB_PARTY_STK").Value = row(5)
+                                insertCmd.ExecuteNonQuery()
+                            Next
+                        End Using
+                        '========================================================
+                        ' 4. Commit
+                        '========================================================
+                        tran.Commit()
+                    Catch ex As Exception
+                        tran.Rollback()
+                        MessageBox.Show("Mismatch Cost Setting data save karte samay error aaya." & vbCrLf & vbCrLf & "Details: " & ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Try
                 End Using
-                con.Close()
             End Using
         Catch ex As Exception
             MsgBox(ex.Message)

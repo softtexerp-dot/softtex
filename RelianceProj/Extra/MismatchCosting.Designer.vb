@@ -74,6 +74,17 @@ Partial Class MismatchCosting
         Me.Txt_ImportEntry = New ctl_TextBox.ctl_TextBox()
         Me.Label111 = New System.Windows.Forms.Label()
         Me.Btn_CreatOverHeadItem = New DevExpress.XtraEditors.SimpleButton()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txtsellingrate = New ctl_TextBox.ctl_TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.txt_net_profit_pcs = New ctl_TextBox.ctl_TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.txt_Net_Profit_In_per = New ctl_TextBox.ctl_TextBox()
         Me.pnl_Print.SuspendLayout()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -125,7 +136,7 @@ Partial Class MismatchCosting
         Me.GrdFinishcost.ScrollBars = FlexCell.ScrollBarsEnum.Vertical
         Me.GrdFinishcost.SelectionBorderColor = System.Drawing.Color.Crimson
         Me.GrdFinishcost.SelectionMode = FlexCell.SelectionModeEnum.ByCell
-        Me.GrdFinishcost.Size = New System.Drawing.Size(442, 418)
+        Me.GrdFinishcost.Size = New System.Drawing.Size(442, 324)
         Me.GrdFinishcost.TabIndex = 82046
         Me.GrdFinishcost.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdFinishcost.UncheckedImage = Nothing
@@ -173,7 +184,7 @@ Partial Class MismatchCosting
         Me.pnl_Print.Controls.Add(Me.txt_From)
         Me.pnl_Print.Controls.Add(Me.Label106)
         Me.pnl_Print.Controls.Add(Me.Label107)
-        Me.pnl_Print.Location = New System.Drawing.Point(175, 128)
+        Me.pnl_Print.Location = New System.Drawing.Point(40, 69)
         Me.pnl_Print.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnl_Print.Name = "pnl_Print"
         Me.pnl_Print.Size = New System.Drawing.Size(605, 311)
@@ -893,7 +904,7 @@ Partial Class MismatchCosting
         Me.TXT_Net_Finish_Cost.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
         Me.TXT_Net_Finish_Cost.IsValidated = False
         Me.TXT_Net_Finish_Cost.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.TXT_Net_Finish_Cost.Location = New System.Drawing.Point(986, 552)
+        Me.TXT_Net_Finish_Cost.Location = New System.Drawing.Point(983, 458)
         Me.TXT_Net_Finish_Cost.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.TXT_Net_Finish_Cost.MandatoryField = False
         Me.TXT_Net_Finish_Cost.Margin = New System.Windows.Forms.Padding(5, 3, 5, 3)
@@ -1108,12 +1119,257 @@ Partial Class MismatchCosting
         Me.Btn_CreatOverHeadItem.TabIndex = 82106
         Me.Btn_CreatOverHeadItem.Text = "Create Overhead Item"
         '
+        'Label5
+        '
+        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.Black
+        Me.Label5.Location = New System.Drawing.Point(663, 463)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(218, 14)
+        Me.Label5.TabIndex = 82107
+        Me.Label5.Text = "Net Cost"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(961, 462)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(12, 14)
+        Me.Label6.TabIndex = 82108
+        Me.Label6.Text = ":"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(961, 490)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(12, 14)
+        Me.Label7.TabIndex = 82111
+        Me.Label7.Text = ":"
+        '
+        'Label8
+        '
+        Me.Label8.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.ForeColor = System.Drawing.Color.Black
+        Me.Label8.Location = New System.Drawing.Point(663, 491)
+        Me.Label8.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(218, 14)
+        Me.Label8.TabIndex = 82110
+        Me.Label8.Text = "Selling Rate"
+        '
+        'txtsellingrate
+        '
+        Me.txtsellingrate._AllowSpace = True
+        Me.txtsellingrate.AcceptsReturn = True
+        Me.txtsellingrate.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtsellingrate.BackColor = System.Drawing.Color.Lavender
+        Me.txtsellingrate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtsellingrate.CausesValidation = False
+        Me.txtsellingrate.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtsellingrate.Check_End_Date_Value_FY = "YES"
+        Me.txtsellingrate.Check_Start_Date_Value_FY = "YES"
+        Me.txtsellingrate.ClearField = True
+        Me.txtsellingrate.CustomInputTypeString = Nothing
+        Me.txtsellingrate.Date_for_Database = Nothing
+        Me.txtsellingrate.Date_Tag = Nothing
+        Me.txtsellingrate.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtsellingrate.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtsellingrate.ExtraValue = ""
+        Me.txtsellingrate.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtsellingrate.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtsellingrate.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtsellingrate.ForeColor = System.Drawing.Color.Red
+        Me.txtsellingrate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
+        Me.txtsellingrate.IsValidated = False
+        Me.txtsellingrate.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txtsellingrate.Location = New System.Drawing.Point(983, 486)
+        Me.txtsellingrate.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txtsellingrate.MandatoryField = False
+        Me.txtsellingrate.Margin = New System.Windows.Forms.Padding(5, 3, 5, 3)
+        Me.txtsellingrate.MaxDate = Nothing
+        Me.txtsellingrate.MaxLength = 8
+        Me.txtsellingrate.MinDate = Nothing
+        Me.txtsellingrate.Name = "txtsellingrate"
+        Me.txtsellingrate.NormalBorderColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.txtsellingrate.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtsellingrate.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.TwoDecimal
+        Me.txtsellingrate.RegularExpression = Nothing
+        Me.txtsellingrate.RegularExpressionErrorMessage = Nothing
+        Me.txtsellingrate.ShortcutsEnabled = False
+        Me.txtsellingrate.ShowMessage = False
+        Me.txtsellingrate.Size = New System.Drawing.Size(125, 22)
+        Me.txtsellingrate.SpacerString = ""
+        Me.txtsellingrate.TabIndex = 82048
+        Me.txtsellingrate.Tag = "yarn_west_per"
+        Me.txtsellingrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtsellingrate.TransparentBox = True
+        Me.txtsellingrate.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(961, 523)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(12, 14)
+        Me.Label9.TabIndex = 82114
+        Me.Label9.Text = ":"
+        '
+        'Label11
+        '
+        Me.Label11.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label11.ForeColor = System.Drawing.Color.Black
+        Me.Label11.Location = New System.Drawing.Point(663, 524)
+        Me.Label11.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(218, 14)
+        Me.Label11.TabIndex = 82113
+        Me.Label11.Text = "Net Profit In Pcs"
+        '
+        'txt_net_profit_pcs
+        '
+        Me.txt_net_profit_pcs._AllowSpace = True
+        Me.txt_net_profit_pcs.AcceptsReturn = True
+        Me.txt_net_profit_pcs.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txt_net_profit_pcs.BackColor = System.Drawing.Color.Lavender
+        Me.txt_net_profit_pcs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txt_net_profit_pcs.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txt_net_profit_pcs.Check_End_Date_Value_FY = "YES"
+        Me.txt_net_profit_pcs.Check_Start_Date_Value_FY = "YES"
+        Me.txt_net_profit_pcs.ClearField = True
+        Me.txt_net_profit_pcs.CustomInputTypeString = Nothing
+        Me.txt_net_profit_pcs.Date_for_Database = Nothing
+        Me.txt_net_profit_pcs.Date_Tag = Nothing
+        Me.txt_net_profit_pcs.Enabled = False
+        Me.txt_net_profit_pcs.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txt_net_profit_pcs.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txt_net_profit_pcs.ExtraValue = ""
+        Me.txt_net_profit_pcs.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_net_profit_pcs.FontFocusColor = System.Drawing.Color.Blue
+        Me.txt_net_profit_pcs.FontLeaveColor = System.Drawing.Color.Black
+        Me.txt_net_profit_pcs.ForeColor = System.Drawing.Color.Red
+        Me.txt_net_profit_pcs.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
+        Me.txt_net_profit_pcs.IsValidated = False
+        Me.txt_net_profit_pcs.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_net_profit_pcs.Location = New System.Drawing.Point(983, 519)
+        Me.txt_net_profit_pcs.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txt_net_profit_pcs.MandatoryField = False
+        Me.txt_net_profit_pcs.Margin = New System.Windows.Forms.Padding(5, 3, 5, 3)
+        Me.txt_net_profit_pcs.MaxDate = Nothing
+        Me.txt_net_profit_pcs.MaxLength = 8
+        Me.txt_net_profit_pcs.MinDate = Nothing
+        Me.txt_net_profit_pcs.Name = "txt_net_profit_pcs"
+        Me.txt_net_profit_pcs.NormalBorderColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.txt_net_profit_pcs.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txt_net_profit_pcs.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.TwoDecimal
+        Me.txt_net_profit_pcs.ReadOnly = True
+        Me.txt_net_profit_pcs.RegularExpression = Nothing
+        Me.txt_net_profit_pcs.RegularExpressionErrorMessage = Nothing
+        Me.txt_net_profit_pcs.ShortcutsEnabled = False
+        Me.txt_net_profit_pcs.ShowMessage = False
+        Me.txt_net_profit_pcs.Size = New System.Drawing.Size(125, 22)
+        Me.txt_net_profit_pcs.SpacerString = ""
+        Me.txt_net_profit_pcs.TabIndex = 82049
+        Me.txt_net_profit_pcs.Tag = "yarn_west_amt"
+        Me.txt_net_profit_pcs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txt_net_profit_pcs.TransparentBox = True
+        Me.txt_net_profit_pcs.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label12.Location = New System.Drawing.Point(961, 552)
+        Me.Label12.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(12, 14)
+        Me.Label12.TabIndex = 82117
+        Me.Label12.Text = ":"
+        '
+        'Label14
+        '
+        Me.Label14.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.ForeColor = System.Drawing.Color.Black
+        Me.Label14.Location = New System.Drawing.Point(663, 553)
+        Me.Label14.Margin = New System.Windows.Forms.Padding(5, 0, 5, 0)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(218, 14)
+        Me.Label14.TabIndex = 82116
+        Me.Label14.Text = "Net Profit In %"
+        '
+        'txt_Net_Profit_In_per
+        '
+        Me.txt_Net_Profit_In_per._AllowSpace = True
+        Me.txt_Net_Profit_In_per.AcceptsReturn = True
+        Me.txt_Net_Profit_In_per.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txt_Net_Profit_In_per.BackColor = System.Drawing.Color.Lavender
+        Me.txt_Net_Profit_In_per.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txt_Net_Profit_In_per.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txt_Net_Profit_In_per.Check_End_Date_Value_FY = "YES"
+        Me.txt_Net_Profit_In_per.Check_Start_Date_Value_FY = "YES"
+        Me.txt_Net_Profit_In_per.ClearField = True
+        Me.txt_Net_Profit_In_per.CustomInputTypeString = Nothing
+        Me.txt_Net_Profit_In_per.Date_for_Database = Nothing
+        Me.txt_Net_Profit_In_per.Date_Tag = Nothing
+        Me.txt_Net_Profit_In_per.Enabled = False
+        Me.txt_Net_Profit_In_per.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txt_Net_Profit_In_per.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txt_Net_Profit_In_per.ExtraValue = ""
+        Me.txt_Net_Profit_In_per.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_Net_Profit_In_per.FontFocusColor = System.Drawing.Color.Blue
+        Me.txt_Net_Profit_In_per.FontLeaveColor = System.Drawing.Color.Black
+        Me.txt_Net_Profit_In_per.ForeColor = System.Drawing.Color.Red
+        Me.txt_Net_Profit_In_per.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
+        Me.txt_Net_Profit_In_per.IsValidated = False
+        Me.txt_Net_Profit_In_per.LeaveFocusColor = System.Drawing.Color.LightCyan
+        Me.txt_Net_Profit_In_per.Location = New System.Drawing.Point(983, 548)
+        Me.txt_Net_Profit_In_per.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txt_Net_Profit_In_per.MandatoryField = False
+        Me.txt_Net_Profit_In_per.Margin = New System.Windows.Forms.Padding(5, 3, 5, 3)
+        Me.txt_Net_Profit_In_per.MaxDate = Nothing
+        Me.txt_Net_Profit_In_per.MaxLength = 8
+        Me.txt_Net_Profit_In_per.MinDate = Nothing
+        Me.txt_Net_Profit_In_per.Name = "txt_Net_Profit_In_per"
+        Me.txt_Net_Profit_In_per.NormalBorderColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.txt_Net_Profit_In_per.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txt_Net_Profit_In_per.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.TwoDecimal
+        Me.txt_Net_Profit_In_per.ReadOnly = True
+        Me.txt_Net_Profit_In_per.RegularExpression = Nothing
+        Me.txt_Net_Profit_In_per.RegularExpressionErrorMessage = Nothing
+        Me.txt_Net_Profit_In_per.ShortcutsEnabled = False
+        Me.txt_Net_Profit_In_per.ShowMessage = False
+        Me.txt_Net_Profit_In_per.Size = New System.Drawing.Size(125, 22)
+        Me.txt_Net_Profit_In_per.SpacerString = ""
+        Me.txt_Net_Profit_In_per.TabIndex = 82050
+        Me.txt_Net_Profit_In_per.Tag = "Net_Yarn_Cost"
+        Me.txt_Net_Profit_In_per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txt_Net_Profit_In_per.TransparentBox = True
+        Me.txt_Net_Profit_In_per.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
         'MismatchCosting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Lavender
         Me.ClientSize = New System.Drawing.Size(1112, 624)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.txt_Net_Profit_In_per)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.txt_net_profit_pcs)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.txtsellingrate)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Btn_CreatOverHeadItem)
         Me.Controls.Add(Me.pnl_Print)
         Me.Controls.Add(Me.Lblprocesscost)
@@ -1211,4 +1467,15 @@ Partial Class MismatchCosting
     Friend WithEvents BtnClose As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents Btn_Print As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents Btn_CreatOverHeadItem As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents txtsellingrate As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents txt_net_profit_pcs As ctl_TextBox.ctl_TextBox
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents txt_Net_Profit_In_per As ctl_TextBox.ctl_TextBox
 End Class
