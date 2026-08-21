@@ -2040,15 +2040,9 @@ Public Class MismatchCosting
 #End Region
 #Region "VIEW RECORD "
     Private Sub View_Record()
-
-
-
         Generate_Date_For_DataBase(Txt_ViewFrom)
         Generate_Date_For_DataBase(Txt_ViewTO)
-
-
         Dim View_Filter_Condition = " AND A.Entry_Date>='" & Txt_ViewFrom.Date_for_Database & "' AND A.Entry_Date<='" & Txt_ViewTO.Date_for_Database & "' AND UPPER(ISNULL(A.OP1,'')) = 'COSTING INFORMATION' "
-
         _strQuery = New StringBuilder
         With _strQuery
             .Append(" SELECT ")
@@ -2075,15 +2069,12 @@ Public Class MismatchCosting
         sqL = _strQuery.ToString
         sql_connect_slect()
         Dim tblTmp As DataTable
-
         tblTmp = DefaltSoftTable.Copy
         FirstStage.Columns.Clear()
         Dim Qty As String = ""
         If tblTmp.Rows.Count > 0 Then
-
             'GridControl1.DataSource = tblTmp.Copy
             FirstGridTable = tblTmp.Copy()
-
             GridControl1.DataSource = FirstGridTable.Copy()
             DevGridFitColumn(GridControl1, FirstStage)
             FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
@@ -2093,6 +2084,11 @@ Public Class MismatchCosting
             FirstStage.Focus()
             PnlGrdView.BringToFront()
             GridControl1.BringToFront()
+            If FirstStage.Columns("Amount") IsNot Nothing Then
+                FirstStage.FocusedRowHandle = 0
+                FirstStage.FocusedColumn = FirstStage.Columns("Amount")
+                FirstStage.MakeColumnVisible(FirstStage.Columns("Amount"))
+            End If
         Else
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
 
@@ -2100,69 +2096,54 @@ Public Class MismatchCosting
     End Sub
     Private Sub FirstStage_KeyDown(sender As Object, e As KeyEventArgs) Handles FirstStage.KeyDown
         If e.KeyCode = Keys.Escape Then
-
             '=========================================================
             ' SECOND GRID -> FIRST GRID
             '=========================================================
             If IsDetailGridOpen Then
-
                 IsDetailGridOpen = False
-
                 If FirstGridTable IsNot Nothing AndAlso FirstGridTable.Rows.Count > 0 Then
-
                     FirstStage.Columns.Clear()
-
                     GridControl1.DataSource = FirstGridTable.Copy()
-
                     DevGridFitColumn(GridControl1, FirstStage)
-
                     If FirstStage.Columns("EntryNo") IsNot Nothing Then
-                        FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment =
-                    DevExpress.Utils.HorzAlignment.Far
+                        FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
                     End If
 
                     If FirstStage.Columns("Amount") IsNot Nothing Then
-                        FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment =
-                    DevExpress.Utils.HorzAlignment.Far
+                        FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                        FirstStage.FocusedColumn = FirstStage.Columns("Amount")
                     End If
 
                     PnlGrdView.Visible = True
                     FirstStage.BestFitColumns()
-                    FirstStage.Focus()
-
                     PnlGrdView.BringToFront()
                     GridControl1.BringToFront()
+                    FirstStage.Focus()
+                    If FirstStage.Columns("Amount") IsNot Nothing Then
+                        FirstStage.FocusedRowHandle = 0
+                        FirstStage.FocusedColumn = FirstStage.Columns("Amount")
+                        FirstStage.MakeColumnVisible(FirstStage.Columns("Amount"))
+                    End If
 
                     _FORMMODE = "VIEW"
-
                 End If
-
                 e.Handled = True
                 Exit Sub
             End If
-
-
             '=========================================================
             ' FIRST GRID -> CLOSE + CLEAR
             '=========================================================
             If PnlGrdView.Visible = True Then
-
                 PnlGrdView.Visible = False
-
                 If FirstGridTable IsNot Nothing Then
                     FirstGridTable.Clear()
                 End If
-
                 GridControl1.DataSource = Nothing
-
                 Me.Text = _old_Me_text
                 _FORMMODE = ""
-
                 e.Handled = True
                 Exit Sub
-
             End If
-
         End If
         ' Amount column par Enter
         If e.KeyCode <> Keys.Enter Then Exit Sub
@@ -2177,9 +2158,7 @@ Public Class MismatchCosting
         e.Handled = True
     End Sub
     Private Sub Show_FabricCost_Detail(ByVal EntryNo As String)
-
         Try
-
             Dim View_Filter_Condition As String = " AND A.EntryNo='" & EntryNo.Replace("'", "''") & "' AND UPPER(ISNULL(A.OP1,'')) = 'COSTING INFORMATION' "
             _strQuery = New StringBuilder
             With _strQuery
@@ -2193,9 +2172,9 @@ Public Class MismatchCosting
                 .Append(" ,ISNULL(A.Avg_weight, A.Reed) AS [GstDiff.%]")
                 .Append(" ,A.Yarn_Amount AS Amount")
                 .Append(" ,A.Net_Finish_Cost as [Net Cost]")
-                .Append(" ,A.yarn_west_per as SellingRate")
-                .Append(" ,A.yarn_west_amt As [Net Proft In Pcs]")
-                .Append(" ,A.Net_Yarn_Cost As [Net Profit In %]")
+                .Append(" ,isnull(A.yarn_west_per,0.00) as SellingRate")
+                .Append(" ,isnull(A.yarn_west_amt,0.00) As [Net Proft In Pcs]")
+                .Append(" ,isnull(A.Net_Yarn_Cost,0.00) As [Net Profit In %]")
                 .Append(" FROM TrnFabricCost AS A ")
                 .Append(" WHERE 1=1")
                 .Append(View_Filter_Condition)
@@ -2229,9 +2208,7 @@ Public Class MismatchCosting
             GridControl1.DataSource = tblDetail
             FirstStage.Columns.Clear()
             If tblDetail.Rows.Count > 0 Then
-
                 GridControl1.DataSource = tblDetail.Copy
-
                 DevGridFitColumn(GridControl1, FirstStage)
                 If FirstStage.Columns("EntryNo") IsNot Nothing Then
                     FirstStage.Columns("EntryNo").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
@@ -2499,9 +2476,9 @@ Public Class MismatchCosting
             .Append(" ,ISNULL(A.Avg_weight, A.Reed) AS [GstDiff%]")
             .Append(" ,A.Yarn_Amount As Amount")
             .Append(" ,A.Net_Finish_Cost as [Net Cost]")
-            .Append(" ,A.yarn_west_per as SellingRate")
-            .Append(" ,A.yarn_west_amt As [Net Proft In Pcs]")
-            .Append(" ,A.Net_Yarn_Cost As [Net Profit In %]")
+            .Append(" ,isnull(A.yarn_west_per,0.00) as SellingRate")
+            .Append(" ,isnull(A.yarn_west_amt,0.00) As [Net Proft In Pcs]")
+            .Append(" ,isnull(A.Net_Yarn_Cost,0.00) As [Net Profit In %]")
             .Append(" FROM TrnFabricCost AS A ")
             .Append(" WHERE 1=1")
             .Append(" AND A.ENTRYNO>=" & Val(txt_From.Text) & " ")
