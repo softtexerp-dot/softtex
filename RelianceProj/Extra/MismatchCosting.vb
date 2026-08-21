@@ -2242,6 +2242,9 @@ Public Class MismatchCosting
                 If FirstStage.Columns("Rate") IsNot Nothing Then
                     FirstStage.Columns("Rate").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
                 End If
+                If FirstStage.Columns("GstDiff.%") IsNot Nothing Then
+                    FirstStage.Columns("GstDiff.%").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
+                End If
                 If FirstStage.Columns("Amount") IsNot Nothing Then
                     FirstStage.Columns("Amount").AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far
                 End If
