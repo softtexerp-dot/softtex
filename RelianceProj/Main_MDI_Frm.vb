@@ -1,4 +1,6 @@
-﻿Public Class Main_MDI_Frm
+﻿Imports SalesAnalyticsLib
+
+Public Class Main_MDI_Frm
 
     Public LastOpenedMenuPath As String = ""
 
@@ -409,6 +411,14 @@
 
     Private Sub MismatchcostingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MismatchcostingToolStripMenuItem.Click
         MismatchCosting.Show()
+    End Sub
+
+    Private Sub ChartformToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChartformToolStripMenuItem.Click
+        'ChartForm.Show()
+        Dim fromdate As String = FINE_YEAR_START.Text
+        Dim todate As String = Now.ToString("dd/MM/yyyy")
+        Dim myConnStr As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts39_142026103929;Integrated Security=SSPI;persist security info=True"
+        DashboardLauncher.ShowChartDashboard(myConnStr, Me, fromdate, todate)
     End Sub
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
