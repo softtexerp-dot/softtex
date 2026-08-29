@@ -27,13 +27,23 @@ Partial Class LiveChartForm
         Me.Partywise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AccordionControlElement1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AccordionControlElement5 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.AccordionControlElement3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.AccordionControlElement4 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.AccordionControlElement11 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.AccordionControlElement12 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AccordionControlElement2 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.MainAgentwise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.Agentwaise1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AgentWise2 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AgentWise3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.MainCityWise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.CityWise1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.Citywise2 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.CityWise3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.ItemWiseMain = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.ItemWise1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement9 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement4 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement11 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement12 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.MainMonthWise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.pnlCardAmount = New System.Windows.Forms.Panel()
         Me.lblTotalAmountTitle = New System.Windows.Forms.Label()
         Me.lblTotalAmountVal = New System.Windows.Forms.Label()
@@ -61,16 +71,6 @@ Partial Class LiveChartForm
         Me.DevExpressChartControl = New DevExpress.XtraCharts.ChartControl()
         Me.pnlMainContent = New DevExpress.XtraEditors.PanelControl()
         Me.pnlViewToggle = New System.Windows.Forms.Panel()
-        Me.MainAgentwise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.Agentwaise1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.MainCityWise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.CityWise1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.Citywise2 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.CityWise3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.ItemWiseMain = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.ItemWise1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.AccordionControlElement9 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
-        Me.MainMonthWise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         CType(Me.AccordionControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCardAmount.SuspendLayout()
         Me.pnlCardQty.SuspendLayout()
@@ -128,16 +128,121 @@ Partial Class LiveChartForm
         Me.AccordionControlElement5.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.AccordionControlElement5.Text = "Party+Item Wise"
         '
-        'AccordionControlElement3
+        'AccordionControlElement2
         '
-        Me.AccordionControlElement3.Appearance.Default.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AccordionControlElement3.Appearance.Default.Options.UseFont = True
-        Me.AccordionControlElement3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AccordionControlElement3.Appearance.Normal.Options.UseFont = True
-        Me.AccordionControlElement3.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement3.ImageOptions.Image"), System.Drawing.Image)
-        Me.AccordionControlElement3.Name = "AccordionControlElement3"
-        Me.AccordionControlElement3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.AccordionControlElement3.Text = "Shade Wise"
+        Me.AccordionControlElement2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AccordionControlElement2.Appearance.Normal.Options.UseFont = True
+        Me.AccordionControlElement2.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement2.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement2.Name = "AccordionControlElement2"
+        Me.AccordionControlElement2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement2.Text = "Month+Party Wise"
+        '
+        'MainAgentwise
+        '
+        Me.MainAgentwise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MainAgentwise.Appearance.Normal.FontStyleDelta = System.Drawing.FontStyle.Bold
+        Me.MainAgentwise.Appearance.Normal.Options.UseFont = True
+        Me.MainAgentwise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.Agentwaise1, Me.AgentWise2, Me.AgentWise3})
+        Me.MainAgentwise.Expanded = True
+        Me.MainAgentwise.ImageOptions.Image = CType(resources.GetObject("MainAgentwise.ImageOptions.Image"), System.Drawing.Image)
+        Me.MainAgentwise.Name = "MainAgentwise"
+        Me.MainAgentwise.Text = "Agent  Wise"
+        '
+        'Agentwaise1
+        '
+        Me.Agentwaise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Agentwaise1.Appearance.Normal.Options.UseFont = True
+        Me.Agentwaise1.ImageOptions.Image = CType(resources.GetObject("Agentwaise1.ImageOptions.Image"), System.Drawing.Image)
+        Me.Agentwaise1.Name = "Agentwaise1"
+        Me.Agentwaise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.Agentwaise1.Text = "Agent Wise"
+        '
+        'AgentWise2
+        '
+        Me.AgentWise2.Appearance.Default.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AgentWise2.Appearance.Default.Options.UseFont = True
+        Me.AgentWise2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AgentWise2.Appearance.Normal.Options.UseFont = True
+        Me.AgentWise2.ImageOptions.Image = CType(resources.GetObject("AgentWise2.ImageOptions.Image"), System.Drawing.Image)
+        Me.AgentWise2.Name = "AgentWise2"
+        Me.AgentWise2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AgentWise2.Text = "Agent+Item Wise"
+        '
+        'AgentWise3
+        '
+        Me.AgentWise3.Appearance.Default.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AgentWise3.Appearance.Default.Options.UseFont = True
+        Me.AgentWise3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AgentWise3.Appearance.Normal.Options.UseFont = True
+        Me.AgentWise3.ImageOptions.Image = CType(resources.GetObject("AgentWise3.ImageOptions.Image"), System.Drawing.Image)
+        Me.AgentWise3.Name = "AgentWise3"
+        Me.AgentWise3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AgentWise3.Text = "Month+Agent Wise"
+        '
+        'MainCityWise
+        '
+        Me.MainCityWise.Appearance.Normal.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MainCityWise.Appearance.Normal.Options.UseFont = True
+        Me.MainCityWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.CityWise1, Me.Citywise2, Me.CityWise3})
+        Me.MainCityWise.Expanded = True
+        Me.MainCityWise.ImageOptions.Image = CType(resources.GetObject("MainCityWise.ImageOptions.Image"), System.Drawing.Image)
+        Me.MainCityWise.Name = "MainCityWise"
+        Me.MainCityWise.Text = "City  Wise"
+        '
+        'CityWise1
+        '
+        Me.CityWise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CityWise1.Appearance.Normal.Options.UseFont = True
+        Me.CityWise1.ImageOptions.Image = CType(resources.GetObject("CityWise1.ImageOptions.Image"), System.Drawing.Image)
+        Me.CityWise1.Name = "CityWise1"
+        Me.CityWise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.CityWise1.Text = "City Wise"
+        '
+        'Citywise2
+        '
+        Me.Citywise2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Citywise2.Appearance.Normal.Options.UseFont = True
+        Me.Citywise2.ImageOptions.Image = CType(resources.GetObject("Citywise2.ImageOptions.Image"), System.Drawing.Image)
+        Me.Citywise2.Name = "Citywise2"
+        Me.Citywise2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.Citywise2.Text = "City+Item Wise"
+        '
+        'CityWise3
+        '
+        Me.CityWise3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CityWise3.Appearance.Normal.Options.UseFont = True
+        Me.CityWise3.ImageOptions.Image = CType(resources.GetObject("CityWise3.ImageOptions.Image"), System.Drawing.Image)
+        Me.CityWise3.Name = "CityWise3"
+        Me.CityWise3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.CityWise3.Text = "Month+City Wise"
+        '
+        'ItemWiseMain
+        '
+        Me.ItemWiseMain.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ItemWiseMain.Appearance.Normal.Options.UseFont = True
+        Me.ItemWiseMain.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.ItemWise1, Me.AccordionControlElement9, Me.AccordionControlElement4, Me.AccordionControlElement11, Me.AccordionControlElement3, Me.AccordionControlElement12})
+        Me.ItemWiseMain.Expanded = True
+        Me.ItemWiseMain.ImageOptions.Image = CType(resources.GetObject("ItemWiseMain.ImageOptions.Image"), System.Drawing.Image)
+        Me.ItemWiseMain.Name = "ItemWiseMain"
+        Me.ItemWiseMain.Text = "Item  Wise"
+        '
+        'ItemWise1
+        '
+        Me.ItemWise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ItemWise1.Appearance.Normal.Options.UseFont = True
+        Me.ItemWise1.ImageOptions.Image = CType(resources.GetObject("ItemWise1.ImageOptions.Image"), System.Drawing.Image)
+        Me.ItemWise1.Name = "ItemWise1"
+        Me.ItemWise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.ItemWise1.Text = "Item Wise"
+        '
+        'AccordionControlElement9
+        '
+        Me.AccordionControlElement9.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AccordionControlElement9.Appearance.Normal.Options.UseFont = True
+        Me.AccordionControlElement9.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement9.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement9.Name = "AccordionControlElement9"
+        Me.AccordionControlElement9.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement9.Text = "Month+Item Wise"
         '
         'AccordionControlElement4
         '
@@ -161,6 +266,17 @@ Partial Class LiveChartForm
         Me.AccordionControlElement11.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.AccordionControlElement11.Text = "Month+Item+Design"
         '
+        'AccordionControlElement3
+        '
+        Me.AccordionControlElement3.Appearance.Default.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AccordionControlElement3.Appearance.Default.Options.UseFont = True
+        Me.AccordionControlElement3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AccordionControlElement3.Appearance.Normal.Options.UseFont = True
+        Me.AccordionControlElement3.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement3.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement3.Name = "AccordionControlElement3"
+        Me.AccordionControlElement3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement3.Text = "Shade Wise"
+        '
         'AccordionControlElement12
         '
         Me.AccordionControlElement12.Appearance.Default.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -172,36 +288,13 @@ Partial Class LiveChartForm
         Me.AccordionControlElement12.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.AccordionControlElement12.Text = "Month+Item+Design+Shade"
         '
-        'AccordionControlElement2
+        'MainMonthWise
         '
-        Me.AccordionControlElement2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AccordionControlElement2.Appearance.Normal.Options.UseFont = True
-        Me.AccordionControlElement2.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement2.ImageOptions.Image"), System.Drawing.Image)
-        Me.AccordionControlElement2.Name = "AccordionControlElement2"
-        Me.AccordionControlElement2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.AccordionControlElement2.Text = "Month+Party Wise"
-        '
-        'AgentWise2
-        '
-        Me.AgentWise2.Appearance.Default.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AgentWise2.Appearance.Default.Options.UseFont = True
-        Me.AgentWise2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AgentWise2.Appearance.Normal.Options.UseFont = True
-        Me.AgentWise2.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement6.ImageOptions.Image"), System.Drawing.Image)
-        Me.AgentWise2.Name = "AgentWise2"
-        Me.AgentWise2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.AgentWise2.Text = "Agent+Item Wise"
-        '
-        'AgentWise3
-        '
-        Me.AgentWise3.Appearance.Default.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AgentWise3.Appearance.Default.Options.UseFont = True
-        Me.AgentWise3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AgentWise3.Appearance.Normal.Options.UseFont = True
-        Me.AgentWise3.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement10.ImageOptions.Image"), System.Drawing.Image)
-        Me.AgentWise3.Name = "AgentWise3"
-        Me.AgentWise3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.AgentWise3.Text = "Month+Agent Wise"
+        Me.MainMonthWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MainMonthWise.Appearance.Normal.Options.UseFont = True
+        Me.MainMonthWise.ImageOptions.Image = CType(resources.GetObject("MainMonthWise.ImageOptions.Image"), System.Drawing.Image)
+        Me.MainMonthWise.Name = "MainMonthWise"
+        Me.MainMonthWise.Text = "Month Wise"
         '
         'pnlCardAmount
         '
@@ -397,7 +490,7 @@ Partial Class LiveChartForm
         Me.BtnView.Location = New System.Drawing.Point(359, 9)
         Me.BtnView.Name = "BtnView"
         Me.BtnView.Size = New System.Drawing.Size(75, 37)
-        Me.BtnView.TabIndex = 5
+        Me.BtnView.TabIndex = 3
         Me.BtnView.Text = "View"
         '
         'dtpToDate1
@@ -553,99 +646,6 @@ Partial Class LiveChartForm
         Me.pnlViewToggle.Name = "pnlViewToggle"
         Me.pnlViewToggle.Size = New System.Drawing.Size(760, 0)
         Me.pnlViewToggle.TabIndex = 10
-        '
-        'MainAgentwise
-        '
-        Me.MainAgentwise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MainAgentwise.Appearance.Normal.FontStyleDelta = System.Drawing.FontStyle.Bold
-        Me.MainAgentwise.Appearance.Normal.Options.UseFont = True
-        Me.MainAgentwise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.Agentwaise1, Me.AgentWise2, Me.AgentWise3})
-        Me.MainAgentwise.Expanded = True
-        Me.MainAgentwise.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement13.ImageOptions.Image"), System.Drawing.Image)
-        Me.MainAgentwise.Name = "MainAgentwise"
-        Me.MainAgentwise.Text = "Agent  Wise"
-        '
-        'Agentwaise1
-        '
-        Me.Agentwaise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Agentwaise1.Appearance.Normal.Options.UseFont = True
-        Me.Agentwaise1.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement17.ImageOptions.Image"), System.Drawing.Image)
-        Me.Agentwaise1.Name = "Agentwaise1"
-        Me.Agentwaise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.Agentwaise1.Text = "Agent Wise"
-        '
-        'MainCityWise
-        '
-        Me.MainCityWise.Appearance.Normal.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MainCityWise.Appearance.Normal.Options.UseFont = True
-        Me.MainCityWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.CityWise1, Me.Citywise2, Me.CityWise3})
-        Me.MainCityWise.Expanded = True
-        Me.MainCityWise.ImageOptions.Image = CType(resources.GetObject("CityWiseMain.ImageOptions.Image"), System.Drawing.Image)
-        Me.MainCityWise.Name = "MainCityWise"
-        Me.MainCityWise.Text = "City  Wise"
-        '
-        'CityWise1
-        '
-        Me.CityWise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CityWise1.Appearance.Normal.Options.UseFont = True
-        Me.CityWise1.ImageOptions.Image = CType(resources.GetObject("CityWise1.ImageOptions.Image"), System.Drawing.Image)
-        Me.CityWise1.Name = "CityWise1"
-        Me.CityWise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.CityWise1.Text = "City Wise"
-        '
-        'Citywise2
-        '
-        Me.Citywise2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Citywise2.Appearance.Normal.Options.UseFont = True
-        Me.Citywise2.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement13.ImageOptions.Image1"), System.Drawing.Image)
-        Me.Citywise2.Name = "Citywise2"
-        Me.Citywise2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.Citywise2.Text = "City+Item Wise"
-        '
-        'CityWise3
-        '
-        Me.CityWise3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CityWise3.Appearance.Normal.Options.UseFont = True
-        Me.CityWise3.ImageOptions.Image = CType(resources.GetObject("CityWise3.ImageOptions.Image"), System.Drawing.Image)
-        Me.CityWise3.Name = "CityWise3"
-        Me.CityWise3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.CityWise3.Text = "Month+City Wise"
-        '
-        'ItemWiseMain
-        '
-        Me.ItemWiseMain.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ItemWiseMain.Appearance.Normal.Options.UseFont = True
-        Me.ItemWiseMain.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.ItemWise1, Me.AccordionControlElement9, Me.AccordionControlElement4, Me.AccordionControlElement11, Me.AccordionControlElement3, Me.AccordionControlElement12})
-        Me.ItemWiseMain.Expanded = True
-        Me.ItemWiseMain.ImageOptions.Image = CType(resources.GetObject("ItemWiseMain.ImageOptions.Image"), System.Drawing.Image)
-        Me.ItemWiseMain.Name = "ItemWiseMain"
-        Me.ItemWiseMain.Text = "Item  Wise"
-        '
-        'ItemWise1
-        '
-        Me.ItemWise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ItemWise1.Appearance.Normal.Options.UseFont = True
-        Me.ItemWise1.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement6.ImageOptions.Image1"), System.Drawing.Image)
-        Me.ItemWise1.Name = "ItemWise1"
-        Me.ItemWise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.ItemWise1.Text = "Item Wise"
-        '
-        'AccordionControlElement9
-        '
-        Me.AccordionControlElement9.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AccordionControlElement9.Appearance.Normal.Options.UseFont = True
-        Me.AccordionControlElement9.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement9.ImageOptions.Image"), System.Drawing.Image)
-        Me.AccordionControlElement9.Name = "AccordionControlElement9"
-        Me.AccordionControlElement9.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.AccordionControlElement9.Text = "Month+Item Wise"
-        '
-        'MainMonthWise
-        '
-        Me.MainMonthWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MainMonthWise.Appearance.Normal.Options.UseFont = True
-        Me.MainMonthWise.ImageOptions.Image = CType(resources.GetObject("MainMonthWise.ImageOptions.Image"), System.Drawing.Image)
-        Me.MainMonthWise.Name = "MainMonthWise"
-        Me.MainMonthWise.Text = "Month Wise"
         '
         'LiveChartForm
         '

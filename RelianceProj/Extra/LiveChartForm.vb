@@ -1,8 +1,5 @@
 ﻿Imports System.Data.SqlClient
-Imports System.Drawing
 Imports System.Text
-Imports System.Windows.Forms
-Imports DevExpress.CodeParser
 Imports DevExpress.Utils
 Imports DevExpress.XtraBars.Navigation
 Imports DevExpress.XtraCharts
@@ -50,6 +47,7 @@ Public Class LiveChartForm
         'dtpFromDate1.Text = FromDate
         'dtpToDate1.Text = ToDate
         dtpFromDate1.Text = Main_MDI_Frm.FINE_YEAR_START.Text
+
         dtpToDate1.Text = Now.ToString("dd/MM/yyyy")
         Generate_Date_For_DataBase(dtpFromDate1)
         Generate_Date_For_DataBase(dtpToDate1)
@@ -62,6 +60,7 @@ Public Class LiveChartForm
         ' Set default view button style
         SetActiveViewButton(btnViewPie)
         ShowView("PIE")
+        dtpFromDate1.Focus()
     End Sub
 
     ' 🔹 SQL DATA FETCH & UPDATE ENGINE
