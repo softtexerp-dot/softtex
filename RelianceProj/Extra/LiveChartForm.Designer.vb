@@ -583,7 +583,7 @@ Partial Class LiveChartForm
         Me.lblTopBannerSub.ForeColor = System.Drawing.Color.FromArgb(CType(CType(200, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.lblTopBannerSub.Location = New System.Drawing.Point(385, 30)
         Me.lblTopBannerSub.Name = "lblTopBannerSub"
-        Me.lblTopBannerSub.Size = New System.Drawing.Size(373, 23)
+        Me.lblTopBannerSub.Size = New System.Drawing.Size(387, 23)
         Me.lblTopBannerSub.TabIndex = 1
         Me.lblTopBannerSub.Text = "Amt: ₹ 0.00   |   Qty: 0.00"
         '
@@ -593,7 +593,7 @@ Partial Class LiveChartForm
         Me.lblTopBannerTitle.ForeColor = System.Drawing.Color.White
         Me.lblTopBannerTitle.Location = New System.Drawing.Point(385, 5)
         Me.lblTopBannerTitle.Name = "lblTopBannerTitle"
-        Me.lblTopBannerTitle.Size = New System.Drawing.Size(371, 23)
+        Me.lblTopBannerTitle.Size = New System.Drawing.Size(389, 23)
         Me.lblTopBannerTitle.TabIndex = 0
         Me.lblTopBannerTitle.Text = "TOP CATEGORY"
         '
