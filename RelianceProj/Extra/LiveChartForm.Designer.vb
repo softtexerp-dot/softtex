@@ -143,6 +143,7 @@ Partial Class LiveChartForm
         Me.MainAgentwise.Appearance.Normal.FontStyleDelta = System.Drawing.FontStyle.Bold
         Me.MainAgentwise.Appearance.Normal.Options.UseFont = True
         Me.MainAgentwise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.Agentwise1, Me.AgentWise2, Me.AgentWise3})
+        Me.MainAgentwise.Expanded = True
         Me.MainAgentwise.ImageOptions.Image = CType(resources.GetObject("MainAgentwise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainAgentwise.Name = "MainAgentwise"
         Me.MainAgentwise.Text = "Agent  Wise"
@@ -183,6 +184,7 @@ Partial Class LiveChartForm
         Me.MainCityWise.Appearance.Normal.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MainCityWise.Appearance.Normal.Options.UseFont = True
         Me.MainCityWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.CityWise1, Me.Citywise2, Me.CityWise3})
+        Me.MainCityWise.Expanded = True
         Me.MainCityWise.ImageOptions.Image = CType(resources.GetObject("MainCityWise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainCityWise.Name = "MainCityWise"
         Me.MainCityWise.Text = "City  Wise"
@@ -219,6 +221,7 @@ Partial Class LiveChartForm
         Me.MainItemWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MainItemWise.Appearance.Normal.Options.UseFont = True
         Me.MainItemWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.ItemWise1, Me.Itemwise2, Me.Itemwise3, Me.Itemwise4, Me.Itemwise5, Me.Itemwise6})
+        Me.MainItemWise.Expanded = True
         Me.MainItemWise.ImageOptions.Image = CType(resources.GetObject("ItemWiseMain.ImageOptions.Image"), System.Drawing.Image)
         Me.MainItemWise.Name = "MainItemWise"
         Me.MainItemWise.Text = "Item  Wise"
@@ -583,7 +586,7 @@ Partial Class LiveChartForm
         Me.lblTopBannerSub.ForeColor = System.Drawing.Color.FromArgb(CType(CType(200, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.lblTopBannerSub.Location = New System.Drawing.Point(385, 30)
         Me.lblTopBannerSub.Name = "lblTopBannerSub"
-        Me.lblTopBannerSub.Size = New System.Drawing.Size(387, 23)
+        Me.lblTopBannerSub.Size = New System.Drawing.Size(389, 23)
         Me.lblTopBannerSub.TabIndex = 1
         Me.lblTopBannerSub.Text = "Amt: ₹ 0.00   |   Qty: 0.00"
         '
