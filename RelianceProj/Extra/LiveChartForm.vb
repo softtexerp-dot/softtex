@@ -569,7 +569,7 @@ Public Class LiveChartForm
 
             lblTopBannerTitle.Text = hoverName
 
-            lblTopBannerSub.Text = "Qty : " & hoverQty.ToString("#,##0.00") & "    |    Amount : " & hoverAmount.ToString("#,##0.00")
+            lblTopBannerSub.Text = "Amt : " & hoverAmount.ToString("#,##0.00") & "  |   Qty : " & hoverQty.ToString("#,##0.00")
 
             lblTopBannerTitle.ForeColor = Color.White
             lblTopBannerSub.ForeColor = Color.White
@@ -636,8 +636,8 @@ Public Class LiveChartForm
             '==========================================
             e.LabelText =
             argumentName & vbCrLf &
-            "Qty: " & qty.ToString("#,##0.00") & vbCrLf &
-            "Amount: " & amount.ToString("#,##0.00")
+            "Amt: " & amount.ToString("#,##0.00") & vbCrLf &
+            "Qty: " & qty.ToString("#,##0.00")
 
         Catch ex As Exception
         End Try
