@@ -300,10 +300,7 @@ Public Class LiveChartForm
             ' Show Label Above Bar
             '==========================================
             series.LabelsVisibility = DefaultBoolean.True
-
-            Dim barLabel As SideBySideBarSeriesLabel =
-        TryCast(series.Label, SideBySideBarSeriesLabel)
-
+            Dim barLabel As SideBySideBarSeriesLabel = TryCast(series.Label, SideBySideBarSeriesLabel)
             If barLabel IsNot Nothing Then
                 barLabel.Position = BarSeriesLabelPosition.Top
             End If
@@ -326,68 +323,39 @@ Public Class LiveChartForm
         Next
     End Sub
 
-    Private Sub DevExpressChartControl_MouseMove(
-    sender As Object,
-    e As MouseEventArgs
-) Handles DevExpressChartControl.MouseMove
-
+    Private Sub DevExpressChartControl_MouseMove(sender As Object, e As MouseEventArgs) Handles DevExpressChartControl.MouseMove
         Try
             Dim chart As ChartControl = TryCast(sender, ChartControl)
             If chart Is Nothing Then Exit Sub
-
             Dim hitInfo As ChartHitInfo = chart.CalcHitInfo(e.X, e.Y)
-
             If hitInfo Is Nothing OrElse hitInfo.SeriesPoint Is Nothing Then
                 Exit Sub
             End If
-
             '==========================================
             ' Selected Graph Point
             '==========================================
             Dim hoverName As String = hitInfo.SeriesPoint.Argument
-
             Dim hoverAmount As Decimal = 0D
-            If hitInfo.SeriesPoint.Values IsNot Nothing AndAlso
-           hitInfo.SeriesPoint.Values.Length > 0 Then
-
+            If hitInfo.SeriesPoint.Values IsNot Nothing AndAlso hitInfo.SeriesPoint.Values.Length > 0 Then
                 hoverAmount = Convert.ToDecimal(hitInfo.SeriesPoint.Values(0))
             End If
-
             '==========================================
             ' Find Qty from DataTable
             '==========================================
             Dim hoverQty As Decimal = 0D
-
-            If mainDataTable IsNot Nothing AndAlso
-           mainDataTable.Columns.Contains("Qty") Then
-
-                Dim foundRows() As DataRow =
-                mainDataTable.Select(
-                    "[" & currentChartXColumn & "] = '" &
-                    hoverName.Replace("'", "''") & "'"
-                )
-
-                If foundRows.Length > 0 AndAlso
-               Not IsDBNull(foundRows(0)("Qty")) Then
-
+            If mainDataTable IsNot Nothing AndAlso mainDataTable.Columns.Contains("Qty") Then
+                Dim foundRows() As DataRow = mainDataTable.Select("[" & currentChartXColumn & "] = '" & hoverName.Replace("'", "''") & "'")
+                If foundRows.Length > 0 AndAlso Not IsDBNull(foundRows(0)("Qty")) Then
                     hoverQty = Convert.ToDecimal(foundRows(0)("Qty"))
                 End If
-
             End If
-
             '==========================================
             ' Update Hover Banner
             '==========================================
-            UpdateChartHoverBanner(
-            hoverName,
-            hoverAmount,
-            hoverQty
-        )
-
+            UpdateChartHoverBanner(hoverName, hoverAmount, hoverQty)
         Catch ex As Exception
             ' Optional: Debug.Print(ex.Message)
         End Try
-
     End Sub
     Private Sub DevExpressChartControl_MouseLeave(sender As Object, e As EventArgs) Handles DevExpressChartControl.MouseLeave
         isChartHovered = False
@@ -399,131 +367,81 @@ Public Class LiveChartForm
     End Sub
 
     Private Sub HandleBarHover(chart As ChartControl, mouseLocation As Point)
-
         Try
-
-            If mainDataTable Is Nothing OrElse
-           mainDataTable.Rows.Count = 0 Then Exit Sub
-
+            If mainDataTable Is Nothing OrElse mainDataTable.Rows.Count = 0 Then Exit Sub
             If chart.Series.Count = 0 Then Exit Sub
-
             Dim series As Series = chart.Series(0)
-
             '==================================================
             ' Chart Hit Information
             '==================================================
-            Dim hitInfo As ChartHitInfo =
-            chart.CalcHitInfo(mouseLocation)
-
+            Dim hitInfo As ChartHitInfo = chart.CalcHitInfo(mouseLocation)
             If hitInfo Is Nothing Then Exit Sub
-
             '==================================================
             ' BAR POINT FOUND
             '==================================================
             If hitInfo.SeriesPoint IsNot Nothing Then
-
                 Dim point As SeriesPoint = hitInfo.SeriesPoint
-
-                If point.Values Is Nothing OrElse
-               point.Values.Length = 0 Then Exit Sub
-
+                If point.Values Is Nothing OrElse point.Values.Length = 0 Then Exit Sub
                 '-------------------------------
                 ' Name / Argument
                 '-------------------------------
                 hoveredArgument = Convert.ToString(point.Argument)
-
                 '-------------------------------
                 ' Amount
                 '-------------------------------
                 hoveredAmount = Convert.ToDecimal(point.Values(0))
-
                 '-------------------------------
                 ' Qty from DataTable
                 '-------------------------------
                 hoveredQty = GetHoverQty(hoveredArgument)
-
                 isChartHovered = True
-
                 '-------------------------------
                 ' Update Banner
                 '-------------------------------
-                UpdateChartHoverBanner(
-                hoveredArgument,
-                hoveredAmount,
-                hoveredQty
-            )
-
+                UpdateChartHoverBanner(hoveredArgument, hoveredAmount, hoveredQty)
                 chart.Invalidate()
                 Exit Sub
-
             End If
-
             '==================================================
             ' If SeriesPoint is Nothing
             '==================================================
             If hitInfo.Series Is Nothing Then Exit Sub
-
             '==================================================
             ' Find closest bar
             '==================================================
             Dim bestPoint As SeriesPoint = Nothing
             Dim bestDistance As Double = Double.MaxValue
-
             For Each point As SeriesPoint In series.Points
-
-                If point.Values Is Nothing OrElse
-               point.Values.Length = 0 Then Continue For
-
+                If point.Values Is Nothing OrElse point.Values.Length = 0 Then Continue For
                 'Aapka existing closest-point logic yahan rahega
-
             Next
-
             If bestPoint Is Nothing Then Exit Sub
-
             '==================================================
             ' Get Name & Amount
             '==================================================
             hoveredArgument = Convert.ToString(bestPoint.Argument)
             hoveredAmount = Convert.ToDecimal(bestPoint.Values(0))
-
             '==================================================
             ' Get Qty
             '==================================================
             hoveredQty = GetHoverQty(hoveredArgument)
-
             isChartHovered = True
-
             '==================================================
             ' Banner
             '==================================================
-            UpdateChartHoverBanner(
-            hoveredArgument,
-            hoveredAmount,
-            hoveredQty
-        )
-
+            UpdateChartHoverBanner(hoveredArgument, hoveredAmount, hoveredQty)
             chart.Invalidate()
-
         Catch ex As Exception
             Debug.Print("HandleBarHover Error: " & ex.Message)
         End Try
-
     End Sub
     Private Function GetHoverQty(argumentName As String) As Decimal
-
         Try
-            If mainDataTable Is Nothing OrElse
-           mainDataTable.Rows.Count = 0 Then Return 0D
-
+            If mainDataTable Is Nothing OrElse mainDataTable.Rows.Count = 0 Then Return 0D
             If Not mainDataTable.Columns.Contains("Qty") Then Return 0D
-
             If String.IsNullOrWhiteSpace(currentChartXColumn) Then Return 0D
-
             For Each row As DataRow In mainDataTable.Rows
-
-                If Convert.ToString(row(currentChartXColumn)).Trim() =
-               argumentName.Trim() Then
-
+                If Convert.ToString(row(currentChartXColumn)).Trim() = argumentName.Trim() Then
                     If Not IsDBNull(row("Qty")) Then
                         Return Convert.ToDecimal(row("Qty"))
                     End If
@@ -533,47 +451,28 @@ Public Class LiveChartForm
             Debug.Print("GetHoverQty Error: " & ex.Message)
         End Try
         Return 0D
-
     End Function
-
-
-
-    Private Sub UpdateChartHoverBanner(
-    hoverName As String,
-    hoverAmount As Decimal,
-    hoverQty As Decimal
-)
-
+    Private Sub UpdateChartHoverBanner(hoverName As String, hoverAmount As Decimal, hoverQty As Decimal)
         Try
-
             Dim selectedColor As Color = Color.LightGray
-
             If chartPointColors.ContainsKey(hoverName) Then
                 selectedColor = chartPointColors(hoverName)
             End If
-
-            Dim hoverColor As Color =
-            ControlPaint.Light(selectedColor, 0.25F)
-
+            Dim hoverColor As Color = ControlPaint.Light(selectedColor, 0.25F)
             '==========================================
             ' Maximum Amount Highlight
             '==========================================
             If Math.Abs(hoverAmount - maxChartAmount) < 0.0001D Then
                 hoverColor = Color.FromArgb(0, 137, 123)
             End If
-
             '==========================================
             ' Update Banner
             '==========================================
             pnlTopBanner.BackColor = hoverColor
-
             lblTopBannerTitle.Text = hoverName
-
             lblTopBannerSub.Text = "Amt : " & hoverAmount.ToString("#,##0.00") & "  |   Qty : " & hoverQty.ToString("#,##0.00")
-
             lblTopBannerTitle.ForeColor = Color.White
             lblTopBannerSub.ForeColor = Color.White
-
         Catch ex As Exception
             Debug.Print(ex.Message)
         End Try
@@ -618,27 +517,17 @@ Public Class LiveChartForm
                 e.SeriesDrawOptions.Color = pointColor
             End If
             Dim amount As Decimal = 0D
-
-            If e.SeriesPoint.Values IsNot Nothing AndAlso
-           e.SeriesPoint.Values.Length > 0 Then
-
+            If e.SeriesPoint.Values IsNot Nothing AndAlso e.SeriesPoint.Values.Length > 0 Then
                 amount = Convert.ToDecimal(e.SeriesPoint.Values(0))
-
             End If
-
             '==========================================
             ' Get Qty from DataTable
             '==========================================
             Dim qty As Decimal = GetHoverQty(argumentName)
-
             '==========================================
             ' Show Qty + Amount on all Graph Types
             '==========================================
-            e.LabelText =
-            argumentName & vbCrLf &
-            "Amt: " & amount.ToString("#,##0.00") & vbCrLf &
-            "Qty: " & qty.ToString("#,##0.00")
-
+            e.LabelText = argumentName & vbCrLf & "Amt: " & amount.ToString("#,##0.00") & vbCrLf & "Qty: " & qty.ToString("#,##0.00")
         Catch ex As Exception
         End Try
     End Sub
