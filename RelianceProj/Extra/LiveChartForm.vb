@@ -9,8 +9,8 @@ Imports System.Globalization
 
 Public Class LiveChartForm
     ' 🔹 APNI LOCAL SQL CONNECTION STRING YAHA SET KAREIN
-    Public Property ConnectionString As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts39_142026103929;Integrated Security=SSPI;persist security info=True"
-    'Public Property ConnectionString As String
+    'Public Property ConnectionString As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts39_142026103929;Integrated Security=SSPI;persist security info=True"
+    Public Property ConnectionString As String = SqlServerConnectionString
     Public Property FromDate As String
 
     Public Property ToDate As String
@@ -57,6 +57,12 @@ Public Class LiveChartForm
             btn.Appearance.BorderColor = Color.FromArgb(200, 210, 220)
             btn.Appearance.Options.UseBorderColor = True
         Next
+
+        MainPartywise.Expanded = True
+        MainAgentwise.Expanded = False
+        MainCityWise.Expanded = False
+        MainItemWise.Expanded = False
+        MainMonthWise.Expanded = False
         ' Set default view button style
         SetActiveViewButton(btnViewPie)
         ShowView("PIE")
@@ -542,7 +548,7 @@ Public Class LiveChartForm
             ' 2. Ensure GridControl Exists
             ' ==============================
             If DevExpressGridControl Is Nothing Then
-                MessageBox.Show("DevExpressGridControl Is Not initialized. Please add the GridControl To the form designer.", "Grid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show("DevExpressGridControl is not initialized. " & "Please add the GridControl to the form designer.", "Grid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
             ' ==============================
@@ -552,48 +558,127 @@ Public Class LiveChartForm
             ' ==============================
             ' 4. Get / Create GridView
             ' ==============================
-            Dim gridView As GridView = TryCast(DevExpressGridControl.MainView, GridView)
+            Dim gridView As GridView =
+            TryCast(DevExpressGridControl.MainView, GridView)
             If gridView Is Nothing Then
                 gridView = New GridView(DevExpressGridControl)
-
                 DevExpressGridControl.MainView = gridView
                 DevExpressGridControl.ViewCollection.Add(gridView)
             End If
-            If gridView IsNot Nothing Then
-                If gridView.Columns("ChartName") IsNot Nothing Then
-                    gridView.Columns("ChartName").Visible = False
-                End If
+            ' ==============================
+            ' 5. Hide ChartName Column
+            ' ==============================
+            If gridView.Columns("ChartName") IsNot Nothing Then
+                gridView.Columns("ChartName").Visible = False
             End If
             ' ==============================
-            ' 5. Grid Settings
+            ' 6. Grid Settings
             ' ==============================
+            ' Read Only
             gridView.OptionsBehavior.Editable = False
+            gridView.OptionsBehavior.ReadOnly = True
             ' Auto Filter Row
             gridView.OptionsView.ShowAutoFilterRow = True
+            ' Hide Group Panel
             gridView.OptionsView.ShowGroupPanel = False
-            ' Find Panel
+            ' ==============================
+            ' 7. Find Panel
+            ' ==============================
             gridView.OptionsFind.AlwaysVisible = True
             gridView.OptionsFind.FindMode = FindMode.Always
-            ' Filtering
+            ' ==============================
+            ' 8. Filtering
+            ' ==============================
             gridView.OptionsCustomization.AllowFilter = True
-            ' Column Size
+            ' ==============================
+            ' 9. Column Size
+            ' ==============================
             gridView.BestFitColumns()
             ' ==============================
-            ' 6. Amount Format
+            ' 10. Amount Format
             ' ==============================
             If gridView.Columns.ColumnByFieldName("Amount") IsNot Nothing Then
                 gridView.Columns("Amount").DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric
                 gridView.Columns("Amount").DisplayFormat.FormatString = "₹ #,##0.00"
             End If
             ' ==============================
-            ' 7. Qty Format
+            ' 11. Qty Format
             ' ==============================
             If gridView.Columns.ColumnByFieldName("Qty") IsNot Nothing Then
                 gridView.Columns("Qty").DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric
                 gridView.Columns("Qty").DisplayFormat.FormatString = "#,##0.00"
             End If
+            gridView.Focus()
+            DevExpressGridControl.Focus()
+            ' ==============================
+            ' 12. Ctrl + X = Export To Excel
+            ' ==============================
+            ' Remove first so handler is not added multiple times
+            RemoveHandler gridView.KeyDown, AddressOf GridView_KeyDown
+            AddHandler gridView.KeyDown, AddressOf GridView_KeyDown
         Catch ex As Exception
-            MessageBox.Show("Unable To render grid: " & ex.Message, "Grid Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            MessageBox.Show(
+            "Unable To render grid:" &
+            Environment.NewLine &
+            Environment.NewLine &
+            ex.Message,
+            "Grid Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        )
+
+        End Try
+
+    End Sub
+
+
+    '==========================================================
+    ' Ctrl + X = Export Grid To Excel
+    '==========================================================
+    Private Sub GridView_KeyDown(sender As Object, e As KeyEventArgs)
+        Try
+            ' ==============================================
+            ' Ctrl + X = Export
+            ' ==============================================
+            If e.Control AndAlso e.KeyCode = Keys.X Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                Dim gridView As GridView = TryCast(sender, GridView)
+                If gridView Is Nothing Then Exit Sub
+                ExportGridToExcel(gridView)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Grid Key Error:" & Environment.NewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+    Private Sub ExportGridToExcel(gridView As GridView)
+        Try
+            If gridView Is Nothing OrElse gridView.RowCount = 0 Then
+                MessageBox.Show("There is no data available to export.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Using saveDialog As New SaveFileDialog()
+                saveDialog.Title = "Export Grid To Excel"
+                saveDialog.Filter = "Excel Files (*.xlsx)|*.xlsx"
+                saveDialog.FileName = "Report_" & DateTime.Now.ToString("yyyyMMdd_HHmmss") & ".xlsx"
+                saveDialog.DefaultExt = "xlsx"
+                saveDialog.AddExtension = True
+                saveDialog.OverwritePrompt = True
+                If saveDialog.ShowDialog() <> DialogResult.OK Then
+                    Exit Sub
+                End If
+                gridView.ExportToXlsx(saveDialog.FileName)
+                MessageBox.Show("Excel file exported successfully.", "Export Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Using
+            ' ==============================================
+            ' Export ke baad Grid par focus
+            ' ==============================================
+            gridView.Focus()
+
+        Catch ex As Exception
+            MessageBox.Show("Unable to export grid to Excel." & Environment.NewLine & ex.Message, "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
     Private Sub EnsureGridControl()

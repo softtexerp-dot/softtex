@@ -71,6 +71,7 @@ Partial Class LiveChartForm
         Me.DevExpressChartControl = New DevExpress.XtraCharts.ChartControl()
         Me.pnlMainContent = New DevExpress.XtraEditors.PanelControl()
         Me.pnlViewToggle = New System.Windows.Forms.Panel()
+        Me.AccordionControlElement1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         CType(Me.AccordionControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCardAmount.SuspendLayout()
         Me.pnlCardQty.SuspendLayout()
@@ -143,7 +144,6 @@ Partial Class LiveChartForm
         Me.MainAgentwise.Appearance.Normal.FontStyleDelta = System.Drawing.FontStyle.Bold
         Me.MainAgentwise.Appearance.Normal.Options.UseFont = True
         Me.MainAgentwise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.Agentwise1, Me.AgentWise2, Me.AgentWise3})
-        Me.MainAgentwise.Expanded = True
         Me.MainAgentwise.ImageOptions.Image = CType(resources.GetObject("MainAgentwise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainAgentwise.Name = "MainAgentwise"
         Me.MainAgentwise.Text = "Agent  Wise"
@@ -184,7 +184,6 @@ Partial Class LiveChartForm
         Me.MainCityWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MainCityWise.Appearance.Normal.Options.UseFont = True
         Me.MainCityWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.CityWise1, Me.Citywise2, Me.CityWise3})
-        Me.MainCityWise.Expanded = True
         Me.MainCityWise.ImageOptions.Image = CType(resources.GetObject("MainCityWise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainCityWise.Name = "MainCityWise"
         Me.MainCityWise.Text = "City  Wise"
@@ -221,7 +220,6 @@ Partial Class LiveChartForm
         Me.MainItemWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MainItemWise.Appearance.Normal.Options.UseFont = True
         Me.MainItemWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.ItemWise1, Me.Itemwise2, Me.Itemwise3, Me.Itemwise4, Me.Itemwise5, Me.Itemwise6})
-        Me.MainItemWise.Expanded = True
         Me.MainItemWise.ImageOptions.Image = CType(resources.GetObject("MainItemWise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainItemWise.Name = "MainItemWise"
         Me.MainItemWise.Text = "Item  Wise"
@@ -292,9 +290,11 @@ Partial Class LiveChartForm
         '
         Me.MainMonthWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MainMonthWise.Appearance.Normal.Options.UseFont = True
+        Me.MainMonthWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.AccordionControlElement1})
+        Me.MainMonthWise.Expanded = True
         Me.MainMonthWise.ImageOptions.Image = CType(resources.GetObject("MainMonthWise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainMonthWise.Name = "MainMonthWise"
-        Me.MainMonthWise.Text = "Month Wise"
+        Me.MainMonthWise.Text = "Month  Wise"
         '
         'pnlCardAmount
         '
@@ -372,9 +372,9 @@ Partial Class LiveChartForm
         Me.btnViewPie.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnViewPie.Appearance.Options.UseFont = True
         Me.btnViewPie.ImageOptions.Image = CType(resources.GetObject("btnViewPie.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnViewPie.Location = New System.Drawing.Point(439, 9)
+        Me.btnViewPie.Location = New System.Drawing.Point(437, 9)
         Me.btnViewPie.Name = "btnViewPie"
-        Me.btnViewPie.Size = New System.Drawing.Size(69, 37)
+        Me.btnViewPie.Size = New System.Drawing.Size(81, 37)
         Me.btnViewPie.TabIndex = 4
         Me.btnViewPie.Text = "Pie"
         '
@@ -383,9 +383,9 @@ Partial Class LiveChartForm
         Me.btnViewBar.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnViewBar.Appearance.Options.UseFont = True
         Me.btnViewBar.ImageOptions.Image = CType(resources.GetObject("btnViewBar.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnViewBar.Location = New System.Drawing.Point(513, 9)
+        Me.btnViewBar.Location = New System.Drawing.Point(524, 9)
         Me.btnViewBar.Name = "btnViewBar"
-        Me.btnViewBar.Size = New System.Drawing.Size(68, 37)
+        Me.btnViewBar.Size = New System.Drawing.Size(79, 37)
         Me.btnViewBar.TabIndex = 5
         Me.btnViewBar.Text = "Bar"
         '
@@ -394,9 +394,9 @@ Partial Class LiveChartForm
         Me.btnViewLine.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnViewLine.Appearance.Options.UseFont = True
         Me.btnViewLine.ImageOptions.Image = CType(resources.GetObject("btnViewLine.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnViewLine.Location = New System.Drawing.Point(587, 9)
+        Me.btnViewLine.Location = New System.Drawing.Point(609, 9)
         Me.btnViewLine.Name = "btnViewLine"
-        Me.btnViewLine.Size = New System.Drawing.Size(71, 37)
+        Me.btnViewLine.Size = New System.Drawing.Size(74, 37)
         Me.btnViewLine.TabIndex = 6
         Me.btnViewLine.Text = "Line"
         '
@@ -405,17 +405,17 @@ Partial Class LiveChartForm
         Me.btnViewTable.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnViewTable.Appearance.Options.UseFont = True
         Me.btnViewTable.ImageOptions.Image = CType(resources.GetObject("btnViewTable.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnViewTable.Location = New System.Drawing.Point(662, 9)
+        Me.btnViewTable.Location = New System.Drawing.Point(686, 9)
         Me.btnViewTable.Name = "btnViewTable"
-        Me.btnViewTable.Size = New System.Drawing.Size(78, 37)
+        Me.btnViewTable.Size = New System.Drawing.Size(83, 37)
         Me.btnViewTable.TabIndex = 7
         Me.btnViewTable.Text = "Table"
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(742, 19)
+        Me.ProgressBar1.Location = New System.Drawing.Point(10, 3)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(25, 14)
+        Me.ProgressBar1.Size = New System.Drawing.Size(340, 14)
         Me.ProgressBar1.TabIndex = 4
         Me.ProgressBar1.Visible = False
         '
@@ -647,6 +647,15 @@ Partial Class LiveChartForm
         Me.pnlViewToggle.Size = New System.Drawing.Size(776, 0)
         Me.pnlViewToggle.TabIndex = 10
         '
+        'AccordionControlElement1
+        '
+        Me.AccordionControlElement1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AccordionControlElement1.Appearance.Normal.Options.UseFont = True
+        Me.AccordionControlElement1.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement1.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement1.Name = "AccordionControlElement1"
+        Me.AccordionControlElement1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement1.Text = "Month Wise"
+        '
         'LiveChartForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
@@ -729,4 +738,5 @@ Partial Class LiveChartForm
     Friend WithEvents ItemWise1 As DevExpress.XtraBars.Navigation.AccordionControlElement
     Friend WithEvents Itemwise2 As DevExpress.XtraBars.Navigation.AccordionControlElement
     Friend WithEvents MainMonthWise As DevExpress.XtraBars.Navigation.AccordionControlElement
+    Friend WithEvents AccordionControlElement1 As DevExpress.XtraBars.Navigation.AccordionControlElement
 End Class
