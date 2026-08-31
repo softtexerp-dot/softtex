@@ -415,7 +415,7 @@ Partial Class LiveChartForm
         '
         Me.ProgressBar1.Location = New System.Drawing.Point(10, 3)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(340, 14)
+        Me.ProgressBar1.Size = New System.Drawing.Size(340, 12)
         Me.ProgressBar1.TabIndex = 4
         Me.ProgressBar1.Visible = False
         '
@@ -670,6 +670,7 @@ Partial Class LiveChartForm
         Me.Controls.Add(Me.AccordionControl1)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "LiveChartForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

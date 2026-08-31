@@ -14,7 +14,7 @@ Public Class LiveChartForm
     Public Property FromDate As String
 
     Public Property ToDate As String
-    Private selectedDimension As String = "CityWise"
+    Private selectedDimension As String = "Party"
     Private mainDataTable As DataTable
     Private currentView As String = "PIE" ' Default view: PIE, BAR, LINE, TABLE
 
@@ -47,7 +47,8 @@ Public Class LiveChartForm
         'dtpFromDate1.Text = FromDate
         'dtpToDate1.Text = ToDate
         dtpFromDate1.Text = Main_MDI_Frm.FINE_YEAR_START.Text
-
+        dtpFromDate1.Focus()
+        dtpFromDate1.Select()
         dtpToDate1.Text = Now.ToString("dd/MM/yyyy")
         Generate_Date_For_DataBase(dtpFromDate1)
         Generate_Date_For_DataBase(dtpToDate1)
@@ -66,7 +67,6 @@ Public Class LiveChartForm
         ' Set default view button style
         SetActiveViewButton(btnViewPie)
         ShowView("PIE")
-        dtpFromDate1.Focus()
     End Sub
 
     ' 🔹 SQL DATA FETCH & UPDATE ENGINE
@@ -1461,5 +1461,14 @@ Public Class LiveChartForm
     End Function
     Public Sub SetConnectionString(ByVal connStr As String)
         Me.ConnectionString = connStr
+    End Sub
+
+    Private Sub LiveChartForm_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            chartPointColors.Clear()
+            DevExpressChartControl.Series.Clear()
+            Close()
+            Me.Dispose(True)
+        End If
     End Sub
 End Class
