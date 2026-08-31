@@ -102,7 +102,7 @@ Partial Class LiveChartForm
         Me.MainPartywise.Appearance.Normal.Options.UseFont = True
         Me.MainPartywise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.Partywise1, Me.Partywise2, Me.Partywise3})
         Me.MainPartywise.Expanded = True
-        Me.MainPartywise.ImageOptions.Image = CType(resources.GetObject("Partywise.ImageOptions.Image"), System.Drawing.Image)
+        Me.MainPartywise.ImageOptions.Image = CType(resources.GetObject("MainPartywise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainPartywise.Name = "MainPartywise"
         Me.MainPartywise.Text = "Party  Wise"
         '
@@ -112,7 +112,7 @@ Partial Class LiveChartForm
         Me.Partywise1.Appearance.Default.Options.UseFont = True
         Me.Partywise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Partywise1.Appearance.Normal.Options.UseFont = True
-        Me.Partywise1.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement1.ImageOptions.Image"), System.Drawing.Image)
+        Me.Partywise1.ImageOptions.Image = CType(resources.GetObject("Partywise1.ImageOptions.Image"), System.Drawing.Image)
         Me.Partywise1.Name = "Partywise1"
         Me.Partywise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Partywise1.Text = "Party Wise"
@@ -123,7 +123,7 @@ Partial Class LiveChartForm
         Me.Partywise2.Appearance.Default.Options.UseFont = True
         Me.Partywise2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Partywise2.Appearance.Normal.Options.UseFont = True
-        Me.Partywise2.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement5.ImageOptions.Image"), System.Drawing.Image)
+        Me.Partywise2.ImageOptions.Image = CType(resources.GetObject("Partywise2.ImageOptions.Image"), System.Drawing.Image)
         Me.Partywise2.Name = "Partywise2"
         Me.Partywise2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Partywise2.Text = "Party+Item Wise"
@@ -132,7 +132,7 @@ Partial Class LiveChartForm
         '
         Me.Partywise3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Partywise3.Appearance.Normal.Options.UseFont = True
-        Me.Partywise3.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement2.ImageOptions.Image"), System.Drawing.Image)
+        Me.Partywise3.ImageOptions.Image = CType(resources.GetObject("Partywise3.ImageOptions.Image"), System.Drawing.Image)
         Me.Partywise3.Name = "Partywise3"
         Me.Partywise3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Partywise3.Text = "Month+Party Wise"
@@ -152,7 +152,7 @@ Partial Class LiveChartForm
         '
         Me.Agentwise1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Agentwise1.Appearance.Normal.Options.UseFont = True
-        Me.Agentwise1.ImageOptions.Image = CType(resources.GetObject("Agentwaise1.ImageOptions.Image"), System.Drawing.Image)
+        Me.Agentwise1.ImageOptions.Image = CType(resources.GetObject("Agentwise1.ImageOptions.Image"), System.Drawing.Image)
         Me.Agentwise1.Name = "Agentwise1"
         Me.Agentwise1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Agentwise1.Text = "Agent Wise"
@@ -181,7 +181,7 @@ Partial Class LiveChartForm
         '
         'MainCityWise
         '
-        Me.MainCityWise.Appearance.Normal.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MainCityWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MainCityWise.Appearance.Normal.Options.UseFont = True
         Me.MainCityWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.CityWise1, Me.Citywise2, Me.CityWise3})
         Me.MainCityWise.Expanded = True
@@ -222,7 +222,7 @@ Partial Class LiveChartForm
         Me.MainItemWise.Appearance.Normal.Options.UseFont = True
         Me.MainItemWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.ItemWise1, Me.Itemwise2, Me.Itemwise3, Me.Itemwise4, Me.Itemwise5, Me.Itemwise6})
         Me.MainItemWise.Expanded = True
-        Me.MainItemWise.ImageOptions.Image = CType(resources.GetObject("ItemWiseMain.ImageOptions.Image"), System.Drawing.Image)
+        Me.MainItemWise.ImageOptions.Image = CType(resources.GetObject("MainItemWise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainItemWise.Name = "MainItemWise"
         Me.MainItemWise.Text = "Item  Wise"
         '
@@ -239,7 +239,7 @@ Partial Class LiveChartForm
         '
         Me.Itemwise2.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Itemwise2.Appearance.Normal.Options.UseFont = True
-        Me.Itemwise2.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement9.ImageOptions.Image"), System.Drawing.Image)
+        Me.Itemwise2.ImageOptions.Image = CType(resources.GetObject("Itemwise2.ImageOptions.Image"), System.Drawing.Image)
         Me.Itemwise2.Name = "Itemwise2"
         Me.Itemwise2.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Itemwise2.Text = "Month+Item Wise"
@@ -250,7 +250,7 @@ Partial Class LiveChartForm
         Me.Itemwise3.Appearance.Default.Options.UseFont = True
         Me.Itemwise3.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Itemwise3.Appearance.Normal.Options.UseFont = True
-        Me.Itemwise3.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement4.ImageOptions.Image"), System.Drawing.Image)
+        Me.Itemwise3.ImageOptions.Image = CType(resources.GetObject("Itemwise3.ImageOptions.Image"), System.Drawing.Image)
         Me.Itemwise3.Name = "Itemwise3"
         Me.Itemwise3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Itemwise3.Text = "Design Wise"
@@ -261,7 +261,7 @@ Partial Class LiveChartForm
         Me.Itemwise4.Appearance.Default.Options.UseFont = True
         Me.Itemwise4.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Itemwise4.Appearance.Normal.Options.UseFont = True
-        Me.Itemwise4.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement11.ImageOptions.Image"), System.Drawing.Image)
+        Me.Itemwise4.ImageOptions.Image = CType(resources.GetObject("Itemwise4.ImageOptions.Image"), System.Drawing.Image)
         Me.Itemwise4.Name = "Itemwise4"
         Me.Itemwise4.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Itemwise4.Text = "Month+Item+Design"
@@ -272,7 +272,7 @@ Partial Class LiveChartForm
         Me.Itemwise5.Appearance.Default.Options.UseFont = True
         Me.Itemwise5.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Itemwise5.Appearance.Normal.Options.UseFont = True
-        Me.Itemwise5.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement3.ImageOptions.Image"), System.Drawing.Image)
+        Me.Itemwise5.ImageOptions.Image = CType(resources.GetObject("Itemwise5.ImageOptions.Image"), System.Drawing.Image)
         Me.Itemwise5.Name = "Itemwise5"
         Me.Itemwise5.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Itemwise5.Text = "Shade Wise"
@@ -283,7 +283,7 @@ Partial Class LiveChartForm
         Me.Itemwise6.Appearance.Default.Options.UseFont = True
         Me.Itemwise6.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Itemwise6.Appearance.Normal.Options.UseFont = True
-        Me.Itemwise6.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement12.ImageOptions.Image"), System.Drawing.Image)
+        Me.Itemwise6.ImageOptions.Image = CType(resources.GetObject("Itemwise6.ImageOptions.Image"), System.Drawing.Image)
         Me.Itemwise6.Name = "Itemwise6"
         Me.Itemwise6.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.Itemwise6.Text = "Month+Item+Design+Shade"
@@ -415,7 +415,7 @@ Partial Class LiveChartForm
         '
         Me.ProgressBar1.Location = New System.Drawing.Point(742, 19)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(14, 14)
+        Me.ProgressBar1.Size = New System.Drawing.Size(25, 14)
         Me.ProgressBar1.TabIndex = 4
         Me.ProgressBar1.Visible = False
         '
