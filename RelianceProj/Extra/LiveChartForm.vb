@@ -82,11 +82,11 @@ Public Class LiveChartForm
             Dim fromDateValue As Date
             Dim toDateValue As Date
             If Not Date.TryParseExact(dtpFromDate1.Text.Trim(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, fromDateValue) Then
-                MessageBox.Show("Please enter a valid From Date in dd/MM/yyyy format.")
+                MsgBox("Please enter a valid From Date in dd/MM/yyyy format.")
                 Exit Function
             End If
             If Not Date.TryParseExact(dtpToDate1.Text.Trim(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, toDateValue) Then
-                MessageBox.Show("Please enter a valid To Date in dd/MM/yyyy format.")
+                MsgBox("Please enter a valid To Date in dd/MM/yyyy format.")
                 Exit Function
             End If
             '==================================================
@@ -126,7 +126,7 @@ Public Class LiveChartForm
             ' CHECK DATA AVAILABLE OR NOT
             '==================================================
             If mainDataTable Is Nothing OrElse mainDataTable.Rows.Count = 0 Then
-                MessageBox.Show("No data found for the selected date range.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MsgBox("No data found for the selected date range.")
                 Exit Function
             End If
             '==================================================
@@ -138,7 +138,7 @@ Public Class LiveChartForm
             '==================================================
             RenderCurrentView()
         Catch ex As Exception
-            MessageBox.Show("Unable to load chart data. " & ex.Message, "Data Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MsgBox("Unable to load chart data.")
         Finally
             ProgressBar1.Visible = False
             BtnView.Enabled = True
@@ -553,7 +553,7 @@ Public Class LiveChartForm
             ' 2. Ensure GridControl Exists
             ' ==============================
             If DevExpressGridControl Is Nothing Then
-                MessageBox.Show("DevExpressGridControl is not initialized. " & "Please add the GridControl to the form designer.", "Grid Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MsgBox("DevExpressGridControl is not initialized. " & "Please add the GridControl to the form designer.")
                 Exit Sub
             End If
             ' ==============================
@@ -639,7 +639,7 @@ Public Class LiveChartForm
             RemoveHandler gridView.KeyDown, AddressOf GridView_KeyDown
             AddHandler gridView.KeyDown, AddressOf GridView_KeyDown
         Catch ex As Exception
-            MessageBox.Show("Unable To render grid:" & Environment.NewLine & Environment.NewLine & ex.Message, "Grid Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MsgBox("Unable To render grid")
         End Try
     End Sub
 
@@ -661,13 +661,13 @@ Public Class LiveChartForm
                 Exit Sub
             End If
         Catch ex As Exception
-            MessageBox.Show("Grid Key Error:" & Environment.NewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MsgBox("Grid Key Error")
         End Try
     End Sub
     Private Sub ExportGridToExcel(gridView As GridView)
         Try
             If gridView Is Nothing OrElse gridView.RowCount = 0 Then
-                MessageBox.Show("There is no data available to export.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MsgBox("There is no data available to export.")
                 Exit Sub
             End If
             Using saveDialog As New SaveFileDialog()
@@ -681,7 +681,7 @@ Public Class LiveChartForm
                     Exit Sub
                 End If
                 gridView.ExportToXlsx(saveDialog.FileName)
-                MessageBox.Show("Excel file exported successfully.", "Export Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MsgBox("Excel file exported successfully.")
             End Using
             ' ==============================================
             ' Export ke baad Grid par focus
@@ -689,7 +689,7 @@ Public Class LiveChartForm
             gridView.Focus()
 
         Catch ex As Exception
-            MessageBox.Show("Unable to export grid to Excel." & Environment.NewLine & ex.Message, "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MsgBox("Unable to export grid to Excel.")
         End Try
     End Sub
     Private Sub EnsureGridControl()
@@ -1047,7 +1047,7 @@ Public Class LiveChartForm
             fromDateValue = Date.ParseExact(fromDate, "dd/MM/yyyy", Globalization.CultureInfo.InvariantCulture)
             toDateValue = Date.ParseExact(toDate, "dd/MM/yyyy", Globalization.CultureInfo.InvariantCulture)
         Catch ex As Exception
-            MessageBox.Show("Invalid date format. Please use dd/MM/yyyy.", "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MsgBox("Invalid date format. Please use dd/MM/yyyy.")
             Return String.Empty
         End Try
         '==========================================================
@@ -1465,7 +1465,7 @@ Public Class LiveChartForm
             Debug.WriteLine("==============================================")
             Return finalQuery
         Catch ex As Exception
-            MessageBox.Show("Error while generating Month Chart SQL:" & Environment.NewLine & ex.Message, "SQL Query Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MsgBox("Error while generating Month Chart SQL")
             Return String.Empty
         End Try
     End Function
