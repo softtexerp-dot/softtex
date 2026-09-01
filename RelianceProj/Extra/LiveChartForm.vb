@@ -613,28 +613,34 @@ Public Class LiveChartForm
                 gridView.Columns("Qty").DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric
                 gridView.Columns("Qty").DisplayFormat.FormatString = "#,##0.00"
             End If
+            ' ==============================
+            ' 12. Sort Amount DESC, Qty DESC
+            ' ==============================
+            gridView.BeginSort()
+            Try
+                gridView.ClearSorting()
+                If gridView.Columns.ColumnByFieldName("Amount") IsNot Nothing Then
+                    gridView.SortInfo.Add(gridView.Columns("Amount"), DevExpress.Data.ColumnSortOrder.Descending)
+                End If
+                If gridView.Columns.ColumnByFieldName("Qty") IsNot Nothing Then
+                    gridView.SortInfo.Add(gridView.Columns("Qty"), DevExpress.Data.ColumnSortOrder.Descending)
+                End If
+            Finally
+                gridView.EndSort()
+            End Try
+            ' ==============================
+            ' 13. Focus
+            ' ==============================
             gridView.Focus()
             DevExpressGridControl.Focus()
             ' ==============================
-            ' 12. Ctrl + X = Export To Excel
+            ' 14. Ctrl + X = Export To Excel
             ' ==============================
-            ' Remove first so handler is not added multiple times
             RemoveHandler gridView.KeyDown, AddressOf GridView_KeyDown
             AddHandler gridView.KeyDown, AddressOf GridView_KeyDown
         Catch ex As Exception
-
-            MessageBox.Show(
-            "Unable To render grid:" &
-            Environment.NewLine &
-            Environment.NewLine &
-            ex.Message,
-            "Grid Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        )
-
+            MessageBox.Show("Unable To render grid:" & Environment.NewLine & Environment.NewLine & ex.Message, "Grid Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
 
 
