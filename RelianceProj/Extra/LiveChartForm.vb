@@ -33,6 +33,7 @@ Public Class LiveChartForm
     Private hoveredBarIndex As Integer = -1
     Private currentChartXColumn As String = ""
     Private hoveredQty As Decimal = 0D
+    Private selectedMonth As String = ""
     ' Sleek UI Color Palette matching your images
     Private ReadOnly colorPalette As Color() = {
         Color.FromArgb(40, 53, 147),   ' Dark Navy Blue (#283593)
@@ -130,9 +131,17 @@ Public Class LiveChartForm
                 Exit Function
             End If
             '==================================================
+            ' SET SELECTED MONTH
+            '==================================================
+            selectedMonth = ""
+            If mainDataTable.Columns.Contains("Month") AndAlso mainDataTable.Rows.Count > 0 Then
+                selectedMonth = mainDataTable.Rows(0)("Month").ToString().Trim()
+            End If
+            '==================================================
             ' KPI Cards
             '==================================================
-            UpdateKPICards(mainDataTable)
+            'UpdateKPICards(mainDataTable)
+            UpdateKPICards(mainDataTable, selectedMonth)
             '==================================================
             ' Current View Render
             '==================================================
@@ -707,7 +716,56 @@ Public Class LiveChartForm
     End Sub
 
     ' 🔹 TOP KPI CARDS & HIGHLIGHT BANNER UPDATE
-    Private Sub UpdateKPICards(ByVal dt As DataTable)
+    'Private Sub UpdateKPICards(ByVal dt As DataTable)
+    '    If dt Is Nothing OrElse dt.Rows.Count = 0 Then
+    '        lblTotalAmountVal.Text = "₹ 0.00"
+    '        lblTotalQtyVal.Text = "0.00"
+    '        pnlTopBanner.Visible = False
+    '        Exit Sub
+    '    End If
+    '    '==================================================
+    '    ' TOTAL AMOUNT & QTY
+    '    '==================================================
+    '    Dim totalAmt As Decimal = 0D
+    '    Dim totalQty As Decimal = 0D
+    '    If Not IsDBNull(dt.Compute("SUM(Amount)", "")) Then
+    '        totalAmt = Convert.ToDecimal(dt.Compute("SUM(Amount)", ""))
+    '    End If
+    '    If Not IsDBNull(dt.Compute("SUM(Qty)", "")) Then
+    '        totalQty = Convert.ToDecimal(dt.Compute("SUM(Qty)", ""))
+    '    End If
+    '    lblTotalAmountVal.Text = "₹ " & totalAmt.ToString("#,##0.00")
+    '    lblTotalQtyVal.Text = totalQty.ToString("#,##0.00")
+    '    '==================================================
+    '    ' TOP ROW
+    '    '==================================================
+    '    Dim topRow As DataRow = dt.Rows(0)
+    '    ' City + Item + Party etc. ke according name
+    '    Dim topName As String = GetCombinedDimensionName(topRow, dt)
+    '    Dim topAmt As Decimal = 0D
+    '    Dim topQty As Decimal = 0D
+    '    If Not IsDBNull(topRow("Amount")) Then
+    '        topAmt = Convert.ToDecimal(topRow("Amount"))
+    '    End If
+    '    If Not IsDBNull(topRow("Qty")) Then
+    '        topQty = Convert.ToDecimal(topRow("Qty"))
+    '    End If
+    '    '==================================================
+    '    ' BANNER
+    '    '==================================================
+    '    lblTopBannerTitle.Text = topName.ToUpper()
+    '    lblTopBannerSub.AutoSize = True
+    '    lblTopBannerSub.Text = "Amt: ₹ " & topAmt.ToString("#,##0.00") & "   |   Qty: " & topQty.ToString("#,##0.00")
+    '    pnlTopBanner.Visible = True
+    '    '==================================================
+    '    ' GRAPH COLOR
+    '    '==================================================
+    '    If chartPointColors.ContainsKey(topName) Then
+    '        maxChartColor = chartPointColors(topName)
+    '    End If
+
+    'End Sub
+    Private Sub UpdateKPICards(ByVal dt As DataTable, Optional ByVal selectedMonth As String = "")
         If dt Is Nothing OrElse dt.Rows.Count = 0 Then
             lblTotalAmountVal.Text = "₹ 0.00"
             lblTotalQtyVal.Text = "0.00"
@@ -715,24 +773,43 @@ Public Class LiveChartForm
             Exit Sub
         End If
         '==================================================
+        ' MONTH FILTER
+        '==================================================
+        Dim filterDt As DataTable = dt
+        If Not String.IsNullOrWhiteSpace(selectedMonth) AndAlso dt.Columns.Contains("Month") Then
+            Dim rows() As DataRow = dt.Select("Month = '" & selectedMonth.Replace("'", "''") & "'")
+            If rows.Length = 0 Then
+                lblTotalAmountVal.Text = "₹ 0.00"
+                lblTotalQtyVal.Text = "0.00"
+                pnlTopBanner.Visible = False
+                Exit Sub
+            End If
+            filterDt = rows.CopyToDataTable()
+        End If
+        '==================================================
         ' TOTAL AMOUNT & QTY
         '==================================================
         Dim totalAmt As Decimal = 0D
         Dim totalQty As Decimal = 0D
-        If Not IsDBNull(dt.Compute("SUM(Amount)", "")) Then
-            totalAmt = Convert.ToDecimal(dt.Compute("SUM(Amount)", ""))
+        If filterDt.Columns.Contains("Amount") Then
+            Dim result = filterDt.Compute("SUM(Amount)", "")
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                totalAmt = Convert.ToDecimal(result)
+            End If
         End If
-        If Not IsDBNull(dt.Compute("SUM(Qty)", "")) Then
-            totalQty = Convert.ToDecimal(dt.Compute("SUM(Qty)", ""))
+        If filterDt.Columns.Contains("Qty") Then
+            Dim result = filterDt.Compute("SUM(Qty)", "")
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                totalQty = Convert.ToDecimal(result)
+            End If
         End If
         lblTotalAmountVal.Text = "₹ " & totalAmt.ToString("#,##0.00")
         lblTotalQtyVal.Text = totalQty.ToString("#,##0.00")
         '==================================================
         ' TOP ROW
         '==================================================
-        Dim topRow As DataRow = dt.Rows(0)
-        ' City + Item + Party etc. ke according name
-        Dim topName As String = GetCombinedDimensionName(topRow, dt)
+        Dim topRow As DataRow = filterDt.Rows(0)
+        Dim topName As String = GetCombinedDimensionName(topRow, filterDt)
         Dim topAmt As Decimal = 0D
         Dim topQty As Decimal = 0D
         If Not IsDBNull(topRow("Amount")) Then
@@ -754,7 +831,6 @@ Public Class LiveChartForm
         If chartPointColors.ContainsKey(topName) Then
             maxChartColor = chartPointColors(topName)
         End If
-
     End Sub
 
     Private Function GetCombinedDimensionName(ByVal row As DataRow, ByVal dt As DataTable) As String

@@ -537,7 +537,7 @@ Partial Class LiveChartForm
         Me.dtpToDate1.RegularExpression = Nothing
         Me.dtpToDate1.RegularExpressionErrorMessage = Nothing
         Me.dtpToDate1.ShowMessage = False
-        Me.dtpToDate1.Size = New System.Drawing.Size(94, 22)
+        Me.dtpToDate1.Size = New System.Drawing.Size(92, 22)
         Me.dtpToDate1.SpacerString = ""
         Me.dtpToDate1.TabIndex = 2
         Me.dtpToDate1.Tag = "BOOKNAME"
