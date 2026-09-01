@@ -328,9 +328,9 @@ Partial Class LiveChartForm
         'lblTotalAmountVal
         '
         Me.lblTotalAmountVal.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.lblTotalAmountVal.Location = New System.Drawing.Point(7, 26)
+        Me.lblTotalAmountVal.Location = New System.Drawing.Point(-1, 26)
         Me.lblTotalAmountVal.Name = "lblTotalAmountVal"
-        Me.lblTotalAmountVal.Size = New System.Drawing.Size(176, 23)
+        Me.lblTotalAmountVal.Size = New System.Drawing.Size(184, 23)
         Me.lblTotalAmountVal.TabIndex = 1
         Me.lblTotalAmountVal.Text = "₹ 0.00"
         Me.lblTotalAmountVal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -338,9 +338,9 @@ Partial Class LiveChartForm
         'lblTotalQtyTitle
         '
         Me.lblTotalQtyTitle.ForeColor = System.Drawing.Color.Gray
-        Me.lblTotalQtyTitle.Location = New System.Drawing.Point(3, 5)
+        Me.lblTotalQtyTitle.Location = New System.Drawing.Point(0, 5)
         Me.lblTotalQtyTitle.Name = "lblTotalQtyTitle"
-        Me.lblTotalQtyTitle.Size = New System.Drawing.Size(179, 23)
+        Me.lblTotalQtyTitle.Size = New System.Drawing.Size(182, 23)
         Me.lblTotalQtyTitle.TabIndex = 0
         Me.lblTotalQtyTitle.Text = "Total Quantity"
         Me.lblTotalQtyTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -348,9 +348,9 @@ Partial Class LiveChartForm
         'lblTotalQtyVal
         '
         Me.lblTotalQtyVal.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.lblTotalQtyVal.Location = New System.Drawing.Point(3, 28)
+        Me.lblTotalQtyVal.Location = New System.Drawing.Point(-1, 28)
         Me.lblTotalQtyVal.Name = "lblTotalQtyVal"
-        Me.lblTotalQtyVal.Size = New System.Drawing.Size(179, 23)
+        Me.lblTotalQtyVal.Size = New System.Drawing.Size(183, 23)
         Me.lblTotalQtyVal.TabIndex = 1
         Me.lblTotalQtyVal.Text = "0.00"
         Me.lblTotalQtyVal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
