@@ -44,6 +44,7 @@ Partial Class LiveChartForm
         Me.Itemwise5 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.Itemwise6 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.MainMonthWise = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.pnlCardAmount = New System.Windows.Forms.Panel()
         Me.lblTotalAmountTitle = New System.Windows.Forms.Label()
         Me.lblTotalAmountVal = New System.Windows.Forms.Label()
@@ -71,7 +72,6 @@ Partial Class LiveChartForm
         Me.DevExpressChartControl = New DevExpress.XtraCharts.ChartControl()
         Me.pnlMainContent = New DevExpress.XtraEditors.PanelControl()
         Me.pnlViewToggle = New System.Windows.Forms.Panel()
-        Me.AccordionControlElement1 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         CType(Me.AccordionControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCardAmount.SuspendLayout()
         Me.pnlCardQty.SuspendLayout()
@@ -291,10 +291,18 @@ Partial Class LiveChartForm
         Me.MainMonthWise.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MainMonthWise.Appearance.Normal.Options.UseFont = True
         Me.MainMonthWise.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.AccordionControlElement1})
-        Me.MainMonthWise.Expanded = True
         Me.MainMonthWise.ImageOptions.Image = CType(resources.GetObject("MainMonthWise.ImageOptions.Image"), System.Drawing.Image)
         Me.MainMonthWise.Name = "MainMonthWise"
         Me.MainMonthWise.Text = "Month  Wise"
+        '
+        'AccordionControlElement1
+        '
+        Me.AccordionControlElement1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.AccordionControlElement1.Appearance.Normal.Options.UseFont = True
+        Me.AccordionControlElement1.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement1.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement1.Name = "AccordionControlElement1"
+        Me.AccordionControlElement1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement1.Text = "Month Wise"
         '
         'pnlCardAmount
         '
@@ -517,7 +525,7 @@ Partial Class LiveChartForm
         Me.dtpToDate1.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.dtpToDate1.IsValidated = False
         Me.dtpToDate1.LeaveFocusColor = System.Drawing.Color.LightCyan
-        Me.dtpToDate1.Location = New System.Drawing.Point(258, 18)
+        Me.dtpToDate1.Location = New System.Drawing.Point(259, 18)
         Me.dtpToDate1.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.dtpToDate1.MandatoryField = False
         Me.dtpToDate1.MaxDate = Nothing
@@ -529,7 +537,7 @@ Partial Class LiveChartForm
         Me.dtpToDate1.RegularExpression = Nothing
         Me.dtpToDate1.RegularExpressionErrorMessage = Nothing
         Me.dtpToDate1.ShowMessage = False
-        Me.dtpToDate1.Size = New System.Drawing.Size(92, 22)
+        Me.dtpToDate1.Size = New System.Drawing.Size(94, 22)
         Me.dtpToDate1.SpacerString = ""
         Me.dtpToDate1.TabIndex = 2
         Me.dtpToDate1.Tag = "BOOKNAME"
@@ -646,15 +654,6 @@ Partial Class LiveChartForm
         Me.pnlViewToggle.Name = "pnlViewToggle"
         Me.pnlViewToggle.Size = New System.Drawing.Size(776, 0)
         Me.pnlViewToggle.TabIndex = 10
-        '
-        'AccordionControlElement1
-        '
-        Me.AccordionControlElement1.Appearance.Normal.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AccordionControlElement1.Appearance.Normal.Options.UseFont = True
-        Me.AccordionControlElement1.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement1.ImageOptions.Image"), System.Drawing.Image)
-        Me.AccordionControlElement1.Name = "AccordionControlElement1"
-        Me.AccordionControlElement1.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
-        Me.AccordionControlElement1.Text = "Month Wise"
         '
         'LiveChartForm
         '

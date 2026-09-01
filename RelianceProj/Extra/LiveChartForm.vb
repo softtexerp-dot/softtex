@@ -44,8 +44,6 @@ Public Class LiveChartForm
     }
     Private Sub ChartForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Location = New Point(0, 0)
-        'dtpFromDate1.Text = FromDate
-        'dtpToDate1.Text = ToDate
         dtpFromDate1.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         dtpFromDate1.Focus()
         dtpFromDate1.Select()
@@ -124,6 +122,13 @@ Public Class LiveChartForm
                                End Using
                            End Sub
         )
+            '==================================================
+            ' CHECK DATA AVAILABLE OR NOT
+            '==================================================
+            If mainDataTable Is Nothing OrElse mainDataTable.Rows.Count = 0 Then
+                MessageBox.Show("No data found for the selected date range.", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Function
+            End If
             '==================================================
             ' KPI Cards
             '==================================================
@@ -1156,7 +1161,6 @@ Public Class LiveChartForm
         End Select
         Await FetchAndRenderData()
     End Sub
-
     'Month Wise
     Private Function GetDynamicChartMonthSqlQuery(chartType As String, allCode As String, role As String, Optional partyName As String = Nothing, Optional partyCode As String = Nothing, Optional cityName As String = Nothing, Optional cityCode As String = Nothing, Optional agentName As String = Nothing, Optional agentCode As String = Nothing, Optional designName As String = Nothing, Optional designCode As String = Nothing, Optional fromDate As Date? = Nothing, Optional toDate As Date? = Nothing) As String
         Try
