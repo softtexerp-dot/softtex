@@ -716,55 +716,6 @@ Public Class LiveChartForm
     End Sub
 
     ' 🔹 TOP KPI CARDS & HIGHLIGHT BANNER UPDATE
-    'Private Sub UpdateKPICards(ByVal dt As DataTable)
-    '    If dt Is Nothing OrElse dt.Rows.Count = 0 Then
-    '        lblTotalAmountVal.Text = "₹ 0.00"
-    '        lblTotalQtyVal.Text = "0.00"
-    '        pnlTopBanner.Visible = False
-    '        Exit Sub
-    '    End If
-    '    '==================================================
-    '    ' TOTAL AMOUNT & QTY
-    '    '==================================================
-    '    Dim totalAmt As Decimal = 0D
-    '    Dim totalQty As Decimal = 0D
-    '    If Not IsDBNull(dt.Compute("SUM(Amount)", "")) Then
-    '        totalAmt = Convert.ToDecimal(dt.Compute("SUM(Amount)", ""))
-    '    End If
-    '    If Not IsDBNull(dt.Compute("SUM(Qty)", "")) Then
-    '        totalQty = Convert.ToDecimal(dt.Compute("SUM(Qty)", ""))
-    '    End If
-    '    lblTotalAmountVal.Text = "₹ " & totalAmt.ToString("#,##0.00")
-    '    lblTotalQtyVal.Text = totalQty.ToString("#,##0.00")
-    '    '==================================================
-    '    ' TOP ROW
-    '    '==================================================
-    '    Dim topRow As DataRow = dt.Rows(0)
-    '    ' City + Item + Party etc. ke according name
-    '    Dim topName As String = GetCombinedDimensionName(topRow, dt)
-    '    Dim topAmt As Decimal = 0D
-    '    Dim topQty As Decimal = 0D
-    '    If Not IsDBNull(topRow("Amount")) Then
-    '        topAmt = Convert.ToDecimal(topRow("Amount"))
-    '    End If
-    '    If Not IsDBNull(topRow("Qty")) Then
-    '        topQty = Convert.ToDecimal(topRow("Qty"))
-    '    End If
-    '    '==================================================
-    '    ' BANNER
-    '    '==================================================
-    '    lblTopBannerTitle.Text = topName.ToUpper()
-    '    lblTopBannerSub.AutoSize = True
-    '    lblTopBannerSub.Text = "Amt: ₹ " & topAmt.ToString("#,##0.00") & "   |   Qty: " & topQty.ToString("#,##0.00")
-    '    pnlTopBanner.Visible = True
-    '    '==================================================
-    '    ' GRAPH COLOR
-    '    '==================================================
-    '    If chartPointColors.ContainsKey(topName) Then
-    '        maxChartColor = chartPointColors(topName)
-    '    End If
-
-    'End Sub
     Private Sub UpdateKPICards(ByVal dt As DataTable, Optional ByVal selectedMonth As String = "")
         If dt Is Nothing OrElse dt.Rows.Count = 0 Then
             lblTotalAmountVal.Text = "₹ 0.00"
@@ -806,20 +757,36 @@ Public Class LiveChartForm
         lblTotalAmountVal.Text = "₹ " & totalAmt.ToString("#,##0.00")
         lblTotalQtyVal.Text = totalQty.ToString("#,##0.00")
         '==================================================
-        ' TOP ROW
+        ' TOP ROW = MAXIMUM AMOUNT
         '==================================================
-        Dim topRow As DataRow = filterDt.Rows(0)
+        Dim topRow As DataRow = Nothing
+        If filterDt.Columns.Contains("Amount") Then
+            Dim sortedRows() As DataRow = filterDt.Select("", "Amount DESC")
+            If sortedRows.Length > 0 Then
+                topRow = sortedRows(0)
+            End If
+        Else
+            'Fallback
+            topRow = filterDt.Rows(0)
+        End If
+        If topRow Is Nothing Then
+            pnlTopBanner.Visible = False
+            Exit Sub
+        End If
+        '==================================================
+        ' TOP NAME
+        '==================================================
         Dim topName As String = GetCombinedDimensionName(topRow, filterDt)
         Dim topAmt As Decimal = 0D
         Dim topQty As Decimal = 0D
-        If Not IsDBNull(topRow("Amount")) Then
+        If filterDt.Columns.Contains("Amount") AndAlso Not IsDBNull(topRow("Amount")) Then
             topAmt = Convert.ToDecimal(topRow("Amount"))
         End If
-        If Not IsDBNull(topRow("Qty")) Then
+        If filterDt.Columns.Contains("Qty") AndAlso Not IsDBNull(topRow("Qty")) Then
             topQty = Convert.ToDecimal(topRow("Qty"))
         End If
         '==================================================
-        ' BANNER
+        ' TOP BANNER
         '==================================================
         lblTopBannerTitle.Text = topName.ToUpper()
         lblTopBannerSub.AutoSize = True
