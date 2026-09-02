@@ -167,39 +167,263 @@ Public Class MasterMenuLoad
                 If Frm_Name_For_Active.ToString.ToUpper = "COMPANY_CHANGE" Or Frm_Name_For_Active.ToString.ToUpper = "YEAR_CHANGE" Then
                     frm.ShowDialog()
                 Else
+                    sqL = "SELECT Distinct(FormType) As FormType,MainFormSizeX,MainFormSizeY FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
                     'sqL = "SELECT Distinct(FormType) As FormType FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
-                    'sql_connect_slect1()
-                    sqL = "SELECT Distinct(FormType) As FormType FROM FormControl where FormName='" & Frm_Name_For_Active & "' "
                     RS = sqL.ToString
                     MenuDesign_QueryLoad()
                     Dim tbl As New DataTable
                     tbl = DefaltSoftTable.Copy
+                    Dim FormHeight As Integer = 0
+                    Dim FormWidth As Integer = 0
                     If tbl.Rows.Count > 0 Then
                         menuformname = tbl.Rows(0)("FormType")
+                        FormHeight = tbl.Rows(0)("MainFormSizeX")
+                        FormWidth = tbl.Rows(0)("MainFormSizeY")
                     End If
                     If menuformname = "MASTER FORM" Then
                         Dim Loadfrm As New MainMasterFormRead()
                         Loadfrm.MainMasterLoadFormName = Frm_Name_For_Active.ToString()
+                        'Loadfrm.Size = New Size(1028, 660)
+                        Loadfrm.Size = New Size(FormWidth, FormHeight)
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Loadfrm)
                     ElseIf menuformname = "REPORT" Then
                         Dim Reportfrm As New ReportForm()
                         Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
+                        'Reportfrm.Size = New Size(1028, 660)
+                        'Reportfrm.Size = New Size(FormWidth, FormHeight)
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
                     ElseIf menuformname = "ENTRY FORM" Then
                         Dim Entryfrm As New MainFormRead()
                         Entryfrm.MainLoadFormName = Frm_Name_For_Active.ToString
+                        'Entryfrm.Size = New Size(1028, 660)
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)
+                    Else
+                        frm.Show()
                     End If
                 End If
-                End If
+            End If
         End If
     End Sub
+    'Private Sub MenuItem_Click(sender As Object, e As EventArgs)
+    '    Try
+    '        '==========================================================
+    '        ' MENU ITEM / PREVIOUS ITEM LOGIC
+    '        '==========================================================
+    '        If Topprevious_SubItem Is Nothing Then
+
+    '        Else
+    '            If FirstStep_SubItem Is Nothing Then
+    '                FirstStep_SubItem = sender
+    '            End If
+    '            Topprevious_SubItem = Nothing
+    '        End If
+    '        If Topprevious_SubItem Is Nothing Then
+    '            Topprevious_SubItem = sender
+    '        End If
+    '        Dim mnuItem As ToolStripMenuItem =
+    '        TryCast(sender, ToolStripMenuItem)
+
+    '        If mnuItem Is Nothing Then Exit Sub
+
+    '        previous_SubItem = sender
+    '        '==========================================================
+    '        ' TAG CHECK
+    '        '==========================================================
+    '        If mnuItem.Tag Is Nothing Then Exit Sub
+    '        If mnuItem.Tag.ToString().Trim() = "" Then Exit Sub
+    '        '==========================================================
+    '        ' GET FORM NAME FROM TAG
+    '        '==========================================================
+    '        Dim TagSplit As String() = mnuItem.Tag.ToString().Split(":"c)
+    '        If TagSplit.Length = 0 Then Exit Sub
+    '        Dim Frm_Name_For_Active As String = TagSplit(0).Trim()
+
+    '        If Frm_Name_For_Active = "" Then Exit Sub
+    '        '==========================================================
+    '        ' CREATE FORM USING REFLECTION
+    '        '==========================================================
+    '        Dim frm As Form = Nothing
+    '        Dim asm As System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly()
+    '        Dim myTypes As Type() = asm.GetTypes()
+    '        For Each t As Type In myTypes
+    '            If t.IsSubclassOf(GetType(System.Windows.Forms.Form)) AndAlso String.Equals(Frm_Name_For_Active, t.Name, StringComparison.OrdinalIgnoreCase) Then
+    '                frm = CType(Activator.CreateInstance(t), Form)
+    '                Exit For
+    '            End If
+    '        Next
+    '        '==========================================================
+    '        ' FORM NOT FOUND
+    '        '==========================================================
+    '        If frm Is Nothing Then
+    '            MsgBox("Form '" & Frm_Name_For_Active & "' could not be found.")
+    '            Exit Sub
+    '        End If
+    '        '==========================================================
+    '        ' CHECK MODAL FORM
+    '        '==========================================================
+    '        Dim isDialogForm As Boolean = String.Equals(Frm_Name_For_Active, "COMPANY_CHANGE", StringComparison.OrdinalIgnoreCase) OrElse String.Equals(Frm_Name_For_Active, "YEAR_CHANGE", StringComparison.OrdinalIgnoreCase)
+    '        '==========================================================
+    '        ' MDI / DIALOG SETUP
+    '        '==========================================================
+    '        If isDialogForm Then
+    '            '------------------------------------------------------
+    '            ' COMPANY_CHANGE / YEAR_CHANGE
+    '            ' These must NOT be MDI children.
+    '            '------------------------------------------------------
+    '            frm.MdiParent = Nothing
+    '            If frm.Parent IsNot Nothing Then
+    '                frm.Parent.Controls.Remove(frm)
+    '            End If
+    '            frm.TopLevel = True
+    '            frm.MaximizeBox = False
+    '            frm.MinimizeBox = False
+    '            frm.StartPosition = FormStartPosition.CenterScreen
+    '        Else
+    '            '------------------------------------------------------
+    '            ' ALL OTHER FORMS = OLD MDI BEHAVIOUR
+    '            '------------------------------------------------------
+    '            frm.MdiParent = Me
+    '            frm.MaximizeBox = False
+    '            frm.MinimizeBox = False
+    '            frm.StartPosition = FormStartPosition.Manual
+    '        End If
+    '        '==========================================================
+    '        ' QUIT WITH BACKUP
+    '        '==========================================================
+    '        If String.Equals(Frm_Name_For_Active, "QuitWithBackup", StringComparison.OrdinalIgnoreCase) Then
+    '            Dim portfolioPath As String = My.Application.Info.DirectoryPath
+    '            Dim Cur_Date As String = ""
+    '            Dim Backup_Directory As String = Trim(Mid(portfolioPath, 1, 3)) & "SoftTex Agency Backup\" & Cur_Date
+    '            If Not Directory.Exists(Backup_Directory) Then
+    '                Directory.CreateDirectory(Backup_Directory)
+    '            End If
+    '            Dim FILE_NAME As String = ""
+    '            RS = "SELECT * FROM MstCompany "
+    '            SQLDBMENU_CONNECT()
+    '            Dim tbl As New DataTable
+    '            tbl = DefaltSoftTable.Copy
+    '            Dim Backup__OtherPcAddress As String = ""
+    '            Dim _OtherPcAddress As String = ""
+    '            For Each dr As DataRow In tbl.Select()
+    '                FILE_NAME = dr("Data_Folder_Name").ToString()
+    '                '--------------------------------------------------
+    '                ' Delete existing backup file
+    '                '--------------------------------------------------
+    '                If My.Computer.FileSystem.FileExists(Backup_Directory & "\" & FILE_NAME) Then
+    '                    For i As Integer = 1 To 10
+    '                        My.Computer.FileSystem.DeleteFile(Backup_Directory & "\" & FILE_NAME)
+    '                        Exit For
+    '                    Next
+    '                End If
+    '                '--------------------------------------------------
+    '                ' SQL BACKUP
+    '                '--------------------------------------------------
+    '                sqL = ""
+    '                sqL = " backup database " & dr("Data_Folder_Name").ToString() & " to disk='" & Backup_Directory & "\" & dr("Data_Folder_Name").ToString() & "' "
+    '                sql_connect_slect()
+    '                '--------------------------------------------------
+    '                ' OTHER PC BACKUP PATH
+    '                '--------------------------------------------------
+    '                If dr("COMP_CIN").ToString() > "" Then
+    '                    _OtherPcAddress = dr("COMP_CIN").ToString()
+    '                    Backup__OtherPcAddress = _OtherPcAddress & "SoftTex Agency Backup\"
+    '                    If Not Directory.Exists(Backup__OtherPcAddress) Then
+    '                        Directory.CreateDirectory(Backup__OtherPcAddress)
+    '                    End If
+    '                End If
+    '            Next
+    '            '------------------------------------------------------
+    '            ' COPY BACKUP TO OTHER PC
+    '            '------------------------------------------------------
+    '            If _OtherPcAddress > "" Then
+    '                My.Computer.FileSystem.CopyDirectory(Backup_Directory, Backup__OtherPcAddress, True)
+    '            End If
+    '            '------------------------------------------------------
+    '            ' CLOSE APPLICATION
+    '            '------------------------------------------------------
+    '            Close()
+    '            Me.Dispose(True)
+    '            Exit Sub
+    '        End If
+    '        '==========================================================
+    '        ' QUIT WITHOUT BACKUP
+    '        '==========================================================
+    '        If String.Equals(Frm_Name_For_Active, "QuitWithoutBackup", StringComparison.OrdinalIgnoreCase) Then
+    '            Close()
+    '            Me.Dispose(True)
+    '            Exit Sub
+    '        End If
+    '        '==========================================================
+    '        ' COMPANY CHANGE / YEAR CHANGE
+    '        '==========================================================
+    '        If isDialogForm Then
+    '            '------------------------------------------------------
+    '            ' VERY IMPORTANT
+    '            ' Before ShowDialog:
+    '            '   MdiParent = Nothing
+    '            '   Parent = Nothing
+    '            '   TopLevel = True
+    '            '------------------------------------------------------
+    '            frm.MdiParent = Nothing
+    '            If frm.Parent IsNot Nothing Then
+    '                frm.Parent.Controls.Remove(frm)
+    '            End If
+    '            frm.TopLevel = True
+    '            frm.StartPosition = FormStartPosition.CenterScreen
+    '            frm.ShowDialog(Me)
+    '            frm.Dispose()
+    '            Exit Sub
+    '        End If
+    '        '==========================================================
+    '        ' NORMAL FORM
+    '        '==========================================================
+    '        ' FormControl table ke according form open hoga.
+    '        '==========================================================
+    '        sqL = "SELECT Distinct(FormType) As FormType " & "FROM FormControl " & "WHERE FormName='" & Frm_Name_For_Active.Replace("'", "''") & "'"
+    '        RS = sqL.ToString
+    '        MenuDesign_QueryLoad()
+    '        Dim tblFormControl As New DataTable
+    '        tblFormControl = DefaltSoftTable.Copy
+    '        '==========================================================
+    '        ' FORM CONTROL ENTRY FOUND
+    '        '==========================================================
+    '        If tblFormControl.Rows.Count > 0 Then
+    '            Dim menuformname As String = tblFormControl.Rows(0)("FormType").ToString().Trim()
+    '            '======================================================
+    '            ' MASTER FORM
+    '            '======================================================
+    '            If String.Equals(menuformname, "MASTER FORM", StringComparison.OrdinalIgnoreCase) Then
+    '                Dim Loadfrm As New MainMasterFormRead()
+    '                Loadfrm.MainMasterLoadFormName = Frm_Name_For_Active.ToString()
+    '                ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Loadfrm)
+    '                '======================================================
+    '                ' REPORT
+    '                '======================================================
+    '            ElseIf String.Equals(menuformname, "REPORT", StringComparison.OrdinalIgnoreCase) Then
+    '                Dim Reportfrm As New ReportForm()
+    '                Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString()
+    '                ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
+    '                '======================================================
+    '                ' ENTRY FORM
+    '                '======================================================
+    '            ElseIf String.Equals(menuformname, "ENTRY FORM", StringComparison.OrdinalIgnoreCase) Then
+    '                Dim Entryfrm As New MainFormRead()
+    '                Entryfrm.MainLoadFormName =
+    '                Frm_Name_For_Active.ToString()
+    '                ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)
+    '            End If
+
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox("Error While opening menu form.")
+    '    End Try
+    'End Sub
     Private Sub ShortCutMenuLoad()
         Dim _Query = New StringBuilder
         With _Query
-            .Append(" SELECT ")
-            .Append(" A.MenuName as ShortCutMenu  ")
-            .Append(" ,IIF(A.ShortCutKey >'', A.ShortCutControlKey & '-' &  A.ShortCutKey,A.ShortCutControlKey  ) as ShortKey  ")
+            .Append(" Select ")
+            .Append(" A.MenuName As ShortCutMenu  ")
+            .Append(" , IIf(A.ShortCutKey >'', A.ShortCutControlKey & '-' &  A.ShortCutKey,A.ShortCutControlKey  ) as ShortKey  ")
             .Append(" ,A.MenuFormName ")
             .Append(" FROM ShortCutMenuTable as A ")
             .Append(" WHERE 1=1 ")

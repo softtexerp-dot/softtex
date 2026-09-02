@@ -43,6 +43,7 @@ Partial Class MainMasterFormRead
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.Txt_ViewTO = New ctl_TextBox.ctl_TextBox()
         Me.Txt_ViewFrom = New ctl_TextBox.ctl_TextBox()
+        Me.PanlPropartiesWindow = New System.Windows.Forms.Panel()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlGrdView.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -50,15 +51,15 @@ Partial Class MainMasterFormRead
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanlPropartiesWindow.SuspendLayout()
         Me.SuspendLayout()
         '
         'PropertyGrid1
         '
-        Me.PropertyGrid1.Location = New System.Drawing.Point(871, 112)
+        Me.PropertyGrid1.Location = New System.Drawing.Point(6, 51)
         Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(228, 525)
+        Me.PropertyGrid1.Size = New System.Drawing.Size(298, 525)
         Me.PropertyGrid1.TabIndex = 81935
-        Me.PropertyGrid1.Visible = False
         '
         'BtnUpdatepos
         '
@@ -66,13 +67,12 @@ Partial Class MainMasterFormRead
         Me.BtnUpdatepos.Appearance.Options.UseFont = True
         Me.BtnUpdatepos.Enabled = False
         Me.BtnUpdatepos.ImageOptions.Image = CType(resources.GetObject("BtnUpdatepos.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnUpdatepos.Location = New System.Drawing.Point(900, 13)
+        Me.BtnUpdatepos.Location = New System.Drawing.Point(156, 6)
         Me.BtnUpdatepos.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.BtnUpdatepos.Name = "BtnUpdatepos"
         Me.BtnUpdatepos.Size = New System.Drawing.Size(142, 39)
         Me.BtnUpdatepos.TabIndex = 81934
         Me.BtnUpdatepos.Text = "SavePosition"
-        Me.BtnUpdatepos.Visible = False
         '
         'ErrorProvider1
         '
@@ -84,13 +84,12 @@ Partial Class MainMasterFormRead
         Me.btnmovecontrol.Appearance.Options.UseFont = True
         Me.btnmovecontrol.Enabled = False
         Me.btnmovecontrol.ImageOptions.Image = CType(resources.GetObject("btnmovecontrol.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnmovecontrol.Location = New System.Drawing.Point(750, 12)
+        Me.btnmovecontrol.Location = New System.Drawing.Point(6, 6)
         Me.btnmovecontrol.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnmovecontrol.Name = "btnmovecontrol"
         Me.btnmovecontrol.Size = New System.Drawing.Size(142, 39)
         Me.btnmovecontrol.TabIndex = 81936
         Me.btnmovecontrol.Text = "MoveControl"
-        Me.btnmovecontrol.Visible = False
         '
         'PnlGrdView
         '
@@ -324,16 +323,26 @@ Partial Class MainMasterFormRead
         Me.Txt_ViewFrom.TransparentBox = True
         Me.Txt_ViewFrom.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
+        'PanlPropartiesWindow
+        '
+        Me.PanlPropartiesWindow.BackColor = System.Drawing.Color.DarkSlateGray
+        Me.PanlPropartiesWindow.Controls.Add(Me.btnmovecontrol)
+        Me.PanlPropartiesWindow.Controls.Add(Me.BtnUpdatepos)
+        Me.PanlPropartiesWindow.Controls.Add(Me.PropertyGrid1)
+        Me.PanlPropartiesWindow.Location = New System.Drawing.Point(785, 12)
+        Me.PanlPropartiesWindow.Name = "PanlPropartiesWindow"
+        Me.PanlPropartiesWindow.Size = New System.Drawing.Size(307, 580)
+        Me.PanlPropartiesWindow.TabIndex = 81938
+        Me.PanlPropartiesWindow.Visible = False
+        '
         'MainMasterFormRead
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1104, 621)
+        Me.Controls.Add(Me.PanlPropartiesWindow)
         Me.Controls.Add(Me.PnlGrdView)
-        Me.Controls.Add(Me.PropertyGrid1)
-        Me.Controls.Add(Me.BtnUpdatepos)
-        Me.Controls.Add(Me.btnmovecontrol)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -348,6 +357,7 @@ Partial Class MainMasterFormRead
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanlPropartiesWindow.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -371,4 +381,5 @@ Partial Class MainMasterFormRead
     Friend WithEvents lbl_From As Label
     Friend WithEvents Txt_ViewTO As ctl_TextBox.ctl_TextBox
     Friend WithEvents Txt_ViewFrom As ctl_TextBox.ctl_TextBox
+    Friend WithEvents PanlPropartiesWindow As Panel
 End Class

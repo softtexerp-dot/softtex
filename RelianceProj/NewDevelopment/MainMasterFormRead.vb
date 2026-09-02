@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.XtraEditors
 Imports DevExpress.XtraEditors.TextEditController.Win32
 Imports DevExpress.XtraGrid.Views
 Imports FlexCell
@@ -80,7 +81,8 @@ Public Class MainMasterFormRead
     Dim tmptbl As New DataTable
 
     Dim _FormCloseMode As Boolean = False
-
+    Private PropertyGridPanel As Panel
+    Private PositionButtonPanel As Panel
     Dim GetformName As String = ""
 
 
@@ -106,6 +108,7 @@ Public Class MainMasterFormRead
         AddHandler UC_Buttons1.PrintClick, AddressOf UC_Buttons1_PrintClick
         AddHandler UC_Buttons1.ReportsClick, AddressOf UC_Buttons1_ReportsClick
     End Sub
+
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnDelete")
     End Sub
@@ -230,10 +233,10 @@ Public Class MainMasterFormRead
                 CurrentBackNumber += 1
                 'End If
                 LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
-                    _KeyFieldValue = LASTCODE
-                    Dim tblTmp1 As DataTable = Alter_Form()
-                End If
+                _KeyFieldValue = LASTCODE
+                Dim tblTmp1 As DataTable = Alter_Form()
             End If
+        End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_SaveClick()
@@ -627,7 +630,7 @@ Public Class MainMasterFormRead
                         AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                         AddHandler lbl.MouseMove, AddressOf Control_MouseMove
                         AddHandler lbl.MouseUp, AddressOf Control_MouseUp
-                        If colType = "TextBox" AndAlso Visible = "Y" Then
+                        If colType = "TextBox" AndAlso visible = "Y" Then
                             Dim LblSize As Int16 = lbl.Width
                             Dim txt As New TextBox()
                             txt.Name = Name
@@ -665,9 +668,7 @@ Public Class MainMasterFormRead
 
 
                         ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
-                            Dim cmb As New ComboBox()
-
-
+                            'Dim cmb As New ComboBox()
                             'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
                         End If
                         topPos += 35
@@ -882,9 +883,9 @@ Public Class MainMasterFormRead
                 SaveControlPosition(ctrl)
             End If
         Next
-        PropertyGrid1.Visible = False
-        'txtFormName.Text = ""
-        'txtFormName.Focus()
+        MsgBox("Update Successfully")
+        'PropertyGrid1.Visible = False
+        PanlPropartiesWindow.Visible = False
         isMoveMode = False
         isDragging = False
     End Sub
@@ -893,25 +894,29 @@ Public Class MainMasterFormRead
         isMoveMode = True
         If isMoveMode = False Then
             'MessageBox.Show("Move mode enabled. Drag any control.")
-            PropertyGrid1.Visible = False
+            'PropertyGrid1.Visible = False
+            PanlPropartiesWindow.Visible = False
         End If
         If isMoveMode Then
-            PropertyGrid1.Visible = True
-
+            'PropertyGrid1.Visible = True
+            PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
         Else
-            PropertyGrid1.Visible = False
+            'PropertyGrid1.Visible = False
+            PanlPropartiesWindow.Visible = False
         End If
     End Sub
 
     Private Sub MainMasterFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
-            If PropertyGrid1.Visible = True Then
-                PropertyGrid1.Visible = False
+            'If PropertyGrid1.Visible = True Then
+            '    PropertyGrid1.Visible = False
+            'End If
+            If PanlPropartiesWindow.Visible = True Then
+                PanlPropartiesWindow.Visible = False
             End If
-
 
             If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
                 PnlGrdView.Visible = False
@@ -931,11 +936,11 @@ Public Class MainMasterFormRead
                 End If
             End If
         ElseIf e.KeyCode = Keys.F6 Then
-            btnmovecontrol.Visible = True
-            BtnUpdatepos.Visible = True
+            'btnmovecontrol.Visible = True
+            'BtnUpdatepos.Visible = True
+            PanlPropartiesWindow.Visible = True
         ElseIf e.KeyCode = Keys.F4 Then
-            PropertyGrid1.Visible = True
-
+            PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
@@ -948,11 +953,13 @@ Public Class MainMasterFormRead
 
     End Sub
 
+
     Private Sub MainMasterFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
         Me.KeyPreview = True
         Me.Location = New POINT(0, 0)
         _FrmLoad = True
+
         CreateButtonsControl()
 
         'UC_Buttons1._ButtonEnableDisable("LOAD")
@@ -961,10 +968,20 @@ Public Class MainMasterFormRead
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
         PnlGrdView.Location = New POINT(0, 0)
+        'Propaerties Grid
+        Dim X As Integer = 0
+        Dim Y As Integer = 0
+
+        X = Me.Location.X
+        Y = Me.Location.Y
+        PropertyGrid1.Width = PanlPropartiesWindow.Width - 10
+        PropertyGrid1.Height = PanlPropartiesWindow.Height - 200
+        PanlPropartiesWindow.Location = New POINT(X + 580, 0)
 
         GridControl1.Width = PnlGrdView.Width - 25
         GridControl1.Height = PnlGrdView.Height - 100
         GridControl1.Location = New POINT(3, 53)
+
         _LoadDefaultData()
         'LoadViewData(tmptbl)
         Ctrl_Visible_False(Me.Controls)
