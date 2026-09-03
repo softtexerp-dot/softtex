@@ -939,11 +939,14 @@ Public Class MainMasterFormRead
             'btnmovecontrol.Visible = True
             'BtnUpdatepos.Visible = True
             PanlPropartiesWindow.Visible = True
-        ElseIf e.KeyCode = Keys.F4 Then
-            PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
+            'ElseIf e.KeyCode = Keys.F4 Then
+            '    PanlPropartiesWindow.Visible = True
+            '    If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
+            '        PropertyGrid1.SelectedObject = Me.ActiveControl
+            '    End If
         ElseIf e.Control AndAlso e.KeyCode = Keys.Q Then
             Dim entryformname As New QueryLoad()
             entryformname.GetformName = Me._getformName()
@@ -965,19 +968,19 @@ Public Class MainMasterFormRead
         'UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
         'FormNameValue = _getformName()
+
+        'Propaerties Grid
+
+        'PanlPropartiesWindow.Width = Me.Width
+        PanlPropartiesWindow.Height = Me.Height - 80
+        PropertyGrid1.Width = PanlPropartiesWindow.Width - 10
+        PropertyGrid1.Height = PanlPropartiesWindow.Height - 55
+        PanlPropartiesWindow.Location = New POINT(Me.Width - 320, 0)
+
+        'View Report grid
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
         PnlGrdView.Location = New POINT(0, 0)
-        'Propaerties Grid
-        Dim X As Integer = 0
-        Dim Y As Integer = 0
-
-        X = Me.Location.X
-        Y = Me.Location.Y
-        PropertyGrid1.Width = PanlPropartiesWindow.Width - 10
-        PropertyGrid1.Height = PanlPropartiesWindow.Height - 200
-        PanlPropartiesWindow.Location = New POINT(X + 580, 0)
-
         GridControl1.Width = PnlGrdView.Width - 25
         GridControl1.Height = PnlGrdView.Height - 100
         GridControl1.Location = New POINT(3, 53)

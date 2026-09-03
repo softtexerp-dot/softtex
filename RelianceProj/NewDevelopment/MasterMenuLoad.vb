@@ -189,13 +189,14 @@ Public Class MasterMenuLoad
                     ElseIf menuformname = "REPORT" Then
                         Dim Reportfrm As New ReportForm()
                         Reportfrm.ReportFormLoadFormName = Frm_Name_For_Active.ToString
-                        'Reportfrm.Size = New Size(1028, 660)
+                        Reportfrm.Size = New Size(1232, 660)
                         'Reportfrm.Size = New Size(FormWidth, FormHeight)
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Reportfrm)
                     ElseIf menuformname = "ENTRY FORM" Then
                         Dim Entryfrm As New MainFormRead()
                         Entryfrm.MainLoadFormName = Frm_Name_For_Active.ToString
                         'Entryfrm.Size = New Size(1028, 660)
+                        Entryfrm.Size = New Size(FormWidth, FormHeight)
                         ShowFormFromMenu(TryCast(sender, ToolStripMenuItem), Entryfrm)
                     Else
                         frm.Show()

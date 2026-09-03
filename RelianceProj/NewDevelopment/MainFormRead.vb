@@ -101,6 +101,13 @@ Public Class MainFormRead
         _FrmLoad = True
         CreateButtonsControl()
         AttachButtonFocusEvents(Me)
+        'Propaerties Grid
+        'PanlPropartiesWindow.Width = Me.Width
+        PanlPropartiesWindow.Height = Me.Height - 80
+        PropertyGrid1.Width = PanlPropartiesWindow.Width - 10
+        PropertyGrid1.Height = PanlPropartiesWindow.Height - 55
+        PanlPropartiesWindow.Location = New POINT(Me.Width - 320, 0)
+        'View Report Grid
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
         PnlGrdView.Location = New POINT(0, 0)
@@ -1569,8 +1576,11 @@ Public Class MainFormRead
 
     Private Sub MainFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
-            If PropertyGrid1.Visible = True Then
-                PropertyGrid1.Visible = False
+            'If PropertyGrid1.Visible = True Then
+            '    PropertyGrid1.Visible = False
+            'End If
+            If PanlPropartiesWindow.Visible = True Then
+                PanlPropartiesWindow.Visible = False
             End If
             If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
                 PnlGrdView.Visible = False
@@ -1590,13 +1600,18 @@ Public Class MainFormRead
                 End If
             End If
         ElseIf e.KeyCode = Keys.F6 Then
-            btnmovecontrol.Visible = True
-            BtnUpdatepos.Visible = True
-        ElseIf e.KeyCode = Keys.F4 Then
-            PropertyGrid1.Visible = True
+            PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
+            'btnmovecontrol.Visible = True
+            'BtnUpdatepos.Visible = True
+            'ElseIf e.KeyCode = Keys.F4 Then
+            '    'PropertyGrid1.Visible = True
+            '    PanlPropartiesWindow.Visible = True
+            '    If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
+            '        PropertyGrid1.SelectedObject = Me.ActiveControl
+            '    End If
         ElseIf e.Control AndAlso e.KeyCode = Keys.Q Then
             Dim entryformname As New QueryLoad()
             entryformname.GetformName = Me._getformName()
@@ -1642,10 +1657,10 @@ Public Class MainFormRead
         Next
         isMoveMode = False
         isDragging = False
+        MsgBox("Update Successfully")
+        'PropertyGrid1.Visible = False
+        PanlPropartiesWindow.Visible = False
         Ctrl_Visible_True(Me.Controls)
-        PropertyGrid1.Visible = False
-        'txtFormName.Text = ""
-        'txtFormName.Focus()
     End Sub
 
     Private Sub _GridEnable()
@@ -1663,16 +1678,16 @@ Public Class MainFormRead
         isMoveMode = True
         If isMoveMode = False Then
             'MessageBox.Show("Move mode enabled. Drag any control.")
-            PropertyGrid1.Visible = False
+            'PropertyGrid1.Visible = False
+            PanlPropartiesWindow.Visible = False
         End If
         If isMoveMode Then
-            PropertyGrid1.Visible = True
-
+            PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
         Else
-            PropertyGrid1.Visible = False
+            PanlPropartiesWindow.Visible = False
         End If
         Ctrl_Visible_True(Me.Controls)
         _GridEnable()

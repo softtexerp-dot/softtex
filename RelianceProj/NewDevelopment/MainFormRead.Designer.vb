@@ -23,9 +23,6 @@ Partial Class MainFormRead
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainFormRead))
-        Me.BtnUpdatepos = New DevExpress.XtraEditors.SimpleButton()
-        Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
-        Me.btnmovecontrol = New DevExpress.XtraEditors.SimpleButton()
         Me.PnlGrdView = New System.Windows.Forms.GroupBox()
         Me.BtnExport = New DevExpress.XtraEditors.SimpleButton()
         Me.SimpleButton2 = New DevExpress.XtraEditors.SimpleButton()
@@ -41,49 +38,18 @@ Partial Class MainFormRead
         Me.lbl_From = New System.Windows.Forms.Label()
         Me.Txt_ViewTO = New ctl_TextBox.ctl_TextBox()
         Me.Txt_ViewFrom = New ctl_TextBox.ctl_TextBox()
+        Me.PanlPropartiesWindow = New System.Windows.Forms.Panel()
+        Me.btnmovecontrol = New DevExpress.XtraEditors.SimpleButton()
+        Me.BtnUpdatepos = New DevExpress.XtraEditors.SimpleButton()
+        Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
         Me.PnlGrdView.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanlPropartiesWindow.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'BtnUpdatepos
-        '
-        Me.BtnUpdatepos.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnUpdatepos.Appearance.Options.UseFont = True
-        Me.BtnUpdatepos.Enabled = False
-        Me.BtnUpdatepos.ImageOptions.Image = CType(resources.GetObject("BtnUpdatepos.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnUpdatepos.Location = New System.Drawing.Point(933, 3)
-        Me.BtnUpdatepos.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.BtnUpdatepos.Name = "BtnUpdatepos"
-        Me.BtnUpdatepos.Size = New System.Drawing.Size(142, 39)
-        Me.BtnUpdatepos.TabIndex = 81926
-        Me.BtnUpdatepos.Text = "SavePosition"
-        Me.BtnUpdatepos.Visible = False
-        '
-        'PropertyGrid1
-        '
-        Me.PropertyGrid1.Location = New System.Drawing.Point(874, 93)
-        Me.PropertyGrid1.Name = "PropertyGrid1"
-        Me.PropertyGrid1.Size = New System.Drawing.Size(228, 546)
-        Me.PropertyGrid1.TabIndex = 81927
-        Me.PropertyGrid1.Visible = False
-        '
-        'btnmovecontrol
-        '
-        Me.btnmovecontrol.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnmovecontrol.Appearance.Options.UseFont = True
-        Me.btnmovecontrol.Enabled = False
-        Me.btnmovecontrol.ImageOptions.Image = CType(resources.GetObject("btnmovecontrol.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnmovecontrol.Location = New System.Drawing.Point(788, 3)
-        Me.btnmovecontrol.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.btnmovecontrol.Name = "btnmovecontrol"
-        Me.btnmovecontrol.Size = New System.Drawing.Size(142, 39)
-        Me.btnmovecontrol.TabIndex = 81929
-        Me.btnmovecontrol.Text = "MoveControl"
-        Me.btnmovecontrol.Visible = False
         '
         'PnlGrdView
         '
@@ -317,16 +283,59 @@ Partial Class MainFormRead
         Me.Txt_ViewFrom.TransparentBox = True
         Me.Txt_ViewFrom.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
+        'PanlPropartiesWindow
+        '
+        Me.PanlPropartiesWindow.BackColor = System.Drawing.Color.DarkSlateGray
+        Me.PanlPropartiesWindow.Controls.Add(Me.btnmovecontrol)
+        Me.PanlPropartiesWindow.Controls.Add(Me.BtnUpdatepos)
+        Me.PanlPropartiesWindow.Controls.Add(Me.PropertyGrid1)
+        Me.PanlPropartiesWindow.Location = New System.Drawing.Point(789, 12)
+        Me.PanlPropartiesWindow.Name = "PanlPropartiesWindow"
+        Me.PanlPropartiesWindow.Size = New System.Drawing.Size(307, 580)
+        Me.PanlPropartiesWindow.TabIndex = 81939
+        Me.PanlPropartiesWindow.Visible = False
+        '
+        'btnmovecontrol
+        '
+        Me.btnmovecontrol.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnmovecontrol.Appearance.Options.UseFont = True
+        Me.btnmovecontrol.Enabled = False
+        Me.btnmovecontrol.ImageOptions.Image = CType(resources.GetObject("btnmovecontrol.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnmovecontrol.Location = New System.Drawing.Point(6, 6)
+        Me.btnmovecontrol.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.btnmovecontrol.Name = "btnmovecontrol"
+        Me.btnmovecontrol.Size = New System.Drawing.Size(142, 39)
+        Me.btnmovecontrol.TabIndex = 81936
+        Me.btnmovecontrol.Text = "MoveControl"
+        '
+        'BtnUpdatepos
+        '
+        Me.BtnUpdatepos.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnUpdatepos.Appearance.Options.UseFont = True
+        Me.BtnUpdatepos.Enabled = False
+        Me.BtnUpdatepos.ImageOptions.Image = CType(resources.GetObject("BtnUpdatepos.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnUpdatepos.Location = New System.Drawing.Point(156, 6)
+        Me.BtnUpdatepos.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.BtnUpdatepos.Name = "BtnUpdatepos"
+        Me.BtnUpdatepos.Size = New System.Drawing.Size(142, 39)
+        Me.BtnUpdatepos.TabIndex = 81934
+        Me.BtnUpdatepos.Text = "SavePosition"
+        '
+        'PropertyGrid1
+        '
+        Me.PropertyGrid1.Location = New System.Drawing.Point(6, 51)
+        Me.PropertyGrid1.Name = "PropertyGrid1"
+        Me.PropertyGrid1.Size = New System.Drawing.Size(298, 525)
+        Me.PropertyGrid1.TabIndex = 81935
+        '
         'MainFormRead
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1104, 621)
+        Me.Controls.Add(Me.PanlPropartiesWindow)
         Me.Controls.Add(Me.PnlGrdView)
-        Me.Controls.Add(Me.btnmovecontrol)
-        Me.Controls.Add(Me.PropertyGrid1)
-        Me.Controls.Add(Me.BtnUpdatepos)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
@@ -341,12 +350,10 @@ Partial Class MainFormRead
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanlPropartiesWindow.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents BtnUpdatepos As DevExpress.XtraEditors.SimpleButton
-    Friend WithEvents PropertyGrid1 As PropertyGrid
-    Friend WithEvents btnmovecontrol As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents PnlGrdView As GroupBox
     Friend WithEvents Btn_LayoutLoad As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnLayOutSave As DevExpress.XtraEditors.SimpleButton
@@ -362,4 +369,8 @@ Partial Class MainFormRead
     Friend WithEvents SimpleButton2 As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnExport As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnPrint As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents PanlPropartiesWindow As Panel
+    Friend WithEvents btnmovecontrol As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents BtnUpdatepos As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents PropertyGrid1 As PropertyGrid
 End Class

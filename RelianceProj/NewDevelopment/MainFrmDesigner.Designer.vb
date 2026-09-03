@@ -77,6 +77,7 @@ Partial Class MainFrmDesigner
         Me.txtfrmtype = New ctl_TextBox.ctl_TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
+        Me.BtnCreateSQLTable = New DevExpress.XtraEditors.SimpleButton()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -1173,12 +1174,25 @@ Partial Class MainFrmDesigner
         Me.UC_Buttons1.Size = New System.Drawing.Size(932, 44)
         Me.UC_Buttons1.TabIndex = 82039
         '
+        'BtnCreateSQLTable
+        '
+        Me.BtnCreateSQLTable.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCreateSQLTable.Appearance.Options.UseFont = True
+        Me.BtnCreateSQLTable.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnCreateSQLTable.Location = New System.Drawing.Point(903, 147)
+        Me.BtnCreateSQLTable.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.BtnCreateSQLTable.Name = "BtnCreateSQLTable"
+        Me.BtnCreateSQLTable.Size = New System.Drawing.Size(201, 39)
+        Me.BtnCreateSQLTable.TabIndex = 82051
+        Me.BtnCreateSQLTable.Text = "SoftDLLtoSQLDB"
+        '
         'MainFrmDesigner
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1216, 621)
+        Me.Controls.Add(Me.BtnCreateSQLTable)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.txtfrmtype)
         Me.Controls.Add(Me.Label9)
@@ -1294,4 +1308,5 @@ Partial Class MainFrmDesigner
     Friend WithEvents Label8 As Label
     Friend WithEvents txtfrmtype As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label9 As Label
+    Friend WithEvents BtnCreateSQLTable As DevExpress.XtraEditors.SimpleButton
 End Class
