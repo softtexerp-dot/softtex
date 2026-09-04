@@ -76,8 +76,8 @@ Partial Class MainFrmDesigner
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtfrmtype = New ctl_TextBox.ctl_TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.BtnCreateSQLTable = New DevExpress.XtraEditors.SimpleButton()
+        Me.UC_Buttons1 = New RelianceProj.UC_Buttons()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -1165,6 +1165,18 @@ Partial Class MainFrmDesigner
         Me.Label9.TabIndex = 82048
         Me.Label9.Text = "Form Type"
         '
+        'BtnCreateSQLTable
+        '
+        Me.BtnCreateSQLTable.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCreateSQLTable.Appearance.Options.UseFont = True
+        Me.BtnCreateSQLTable.ImageOptions.Image = CType(resources.GetObject("BtnCreateSQLTable.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnCreateSQLTable.Location = New System.Drawing.Point(903, 147)
+        Me.BtnCreateSQLTable.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.BtnCreateSQLTable.Name = "BtnCreateSQLTable"
+        Me.BtnCreateSQLTable.Size = New System.Drawing.Size(201, 39)
+        Me.BtnCreateSQLTable.TabIndex = 81910
+        Me.BtnCreateSQLTable.Text = "SoftDLLtoSQLDB"
+        '
         'UC_Buttons1
         '
         Me.UC_Buttons1.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1173,18 +1185,6 @@ Partial Class MainFrmDesigner
         Me.UC_Buttons1.Name = "UC_Buttons1"
         Me.UC_Buttons1.Size = New System.Drawing.Size(932, 44)
         Me.UC_Buttons1.TabIndex = 82039
-        '
-        'BtnCreateSQLTable
-        '
-        Me.BtnCreateSQLTable.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCreateSQLTable.Appearance.Options.UseFont = True
-        Me.BtnCreateSQLTable.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnCreateSQLTable.Location = New System.Drawing.Point(903, 147)
-        Me.BtnCreateSQLTable.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.BtnCreateSQLTable.Name = "BtnCreateSQLTable"
-        Me.BtnCreateSQLTable.Size = New System.Drawing.Size(201, 39)
-        Me.BtnCreateSQLTable.TabIndex = 82051
-        Me.BtnCreateSQLTable.Text = "SoftDLLtoSQLDB"
         '
         'MainFrmDesigner
         '
