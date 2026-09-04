@@ -1955,32 +1955,38 @@ Public Class PetBulkContract
 #End Region
 #Region "Attachment 1"
     Private Sub BtnOpen_Click(sender As Object, e As EventArgs) Handles BtnOpen.Click
-        Dim ofd As New OpenFileDialog()
-        ofd.Title = "Select File"
-        ofd.Filter = "All Files (*.*)|*.*|PDF Files (*.pdf)|*.pdf|Image Files (*.jpg;*.png)|*.jpg;*.png"
-        ofd.Multiselect = False
-
-        If ofd.ShowDialog() = DialogResult.OK Then
-            Dim filePath As String = ofd.FileName
-            Dim fileName As String = IO.Path.GetFileName(filePath)
-            txtFilePath.Text = filePath
-            TxtAttachment.Text = fileName
-            TxtAttachment.Focus()
-            'MessageBox.Show("Selected File: " & fileName)
-        End If
         If _FORMMODE = "ADD" Then
             flagstring = "save"
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
         End If
-        SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            Dim pathSource As String = OpenFileDialog1.FileName
+            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+            Dim sSource As String = pathSource
+            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+            TxtAttachment.Text = fileName
+            SaveImageToLocalAndServer(sSource)
 
+            _Imagepath1 = ""
+
+            If My.Computer.Network.IsAvailable Then
+                Dim filePath As String = OpenFileDialog1.FileName
+                SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+            End If
+        End If
         txtFilePath.Visible = False
         txtimageid.Visible = False
     End Sub
 
     Private Sub SimpleButton1_Click(sender As Object, e As EventArgs) Handles BtnView1.Click
-        _ImageView_Click(txtFilePath.Text, flagstring, _FORMMODE)
+        Dim hasValidPath As Boolean = Not String.IsNullOrWhiteSpace(txtFilePath.Text)
+
+        If hasValidPath AndAlso My.Computer.Network.IsAvailable Then
+            _ImageView_Click(txtFilePath.Text.Trim(), flagstring, _FORMMODE)
+        Else
+            _ImageView_Click(txtFilePath.Text.Trim())
+        End If
     End Sub
 #End Region
 End Class

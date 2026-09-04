@@ -136,7 +136,7 @@ Partial Class RawGateInward
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 387)
-        Me.GrdItem.TabIndex = 82261
+        Me.GrdItem.TabIndex = 82259
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -741,7 +741,7 @@ Partial Class RawGateInward
         Me.BtnView2.Location = New System.Drawing.Point(881, 69)
         Me.BtnView2.Name = "BtnView2"
         Me.BtnView2.Size = New System.Drawing.Size(39, 36)
-        Me.BtnView2.TabIndex = 82336
+        Me.BtnView2.TabIndex = 82263
         '
         'BtnOpen2
         '
@@ -751,7 +751,7 @@ Partial Class RawGateInward
         Me.BtnOpen2.Location = New System.Drawing.Point(836, 69)
         Me.BtnOpen2.Name = "BtnOpen2"
         Me.BtnOpen2.Size = New System.Drawing.Size(39, 36)
-        Me.BtnOpen2.TabIndex = 82259
+        Me.BtnOpen2.TabIndex = 82262
         '
         'TxtAttachment2
         '
@@ -791,7 +791,7 @@ Partial Class RawGateInward
         Me.TxtAttachment2.ShowMessage = False
         Me.TxtAttachment2.Size = New System.Drawing.Size(250, 22)
         Me.TxtAttachment2.SpacerString = ""
-        Me.TxtAttachment2.TabIndex = 82260
+        Me.TxtAttachment2.TabIndex = 82258
         Me.TxtAttachment2.Tag = "OP26"
         Me.TxtAttachment2.TransparentBox = True
         Me.TxtAttachment2.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -824,7 +824,7 @@ Partial Class RawGateInward
         Me.BtnView1.Location = New System.Drawing.Point(881, 31)
         Me.BtnView1.Name = "BtnView1"
         Me.BtnView1.Size = New System.Drawing.Size(39, 36)
-        Me.BtnView1.TabIndex = 82333
+        Me.BtnView1.TabIndex = 82261
         '
         'BtnOpen
         '
@@ -834,7 +834,7 @@ Partial Class RawGateInward
         Me.BtnOpen.Location = New System.Drawing.Point(836, 31)
         Me.BtnOpen.Name = "BtnOpen"
         Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
-        Me.BtnOpen.TabIndex = 82257
+        Me.BtnOpen.TabIndex = 82260
         '
         'TxtAttachment
         '
@@ -874,7 +874,7 @@ Partial Class RawGateInward
         Me.TxtAttachment.ShowMessage = False
         Me.TxtAttachment.Size = New System.Drawing.Size(250, 22)
         Me.TxtAttachment.SpacerString = ""
-        Me.TxtAttachment.TabIndex = 82258
+        Me.TxtAttachment.TabIndex = 82257
         Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
         Me.TxtAttachment.TransparentBox = True
         Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes

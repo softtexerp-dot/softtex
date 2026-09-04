@@ -361,7 +361,7 @@ Partial Class RawBulkContract
         Me.BtnView1.Location = New System.Drawing.Point(856, 57)
         Me.BtnView1.Name = "BtnView1"
         Me.BtnView1.Size = New System.Drawing.Size(39, 36)
-        Me.BtnView1.TabIndex = 82366
+        Me.BtnView1.TabIndex = 82367
         '
         'BtnOpen
         '
@@ -371,7 +371,7 @@ Partial Class RawBulkContract
         Me.BtnOpen.Location = New System.Drawing.Point(811, 57)
         Me.BtnOpen.Name = "BtnOpen"
         Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
-        Me.BtnOpen.TabIndex = 82364
+        Me.BtnOpen.TabIndex = 82366
         '
         'TxtAttachment
         '
@@ -411,7 +411,7 @@ Partial Class RawBulkContract
         Me.TxtAttachment.ShowMessage = False
         Me.TxtAttachment.Size = New System.Drawing.Size(250, 22)
         Me.TxtAttachment.SpacerString = ""
-        Me.TxtAttachment.TabIndex = 82365
+        Me.TxtAttachment.TabIndex = 82364
         Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
         Me.TxtAttachment.TransparentBox = True
         Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -922,7 +922,7 @@ Partial Class RawBulkContract
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 268)
-        Me.GrdItem.TabIndex = 82367
+        Me.GrdItem.TabIndex = 82365
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '

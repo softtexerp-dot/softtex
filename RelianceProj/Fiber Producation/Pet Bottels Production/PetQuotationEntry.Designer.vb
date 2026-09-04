@@ -818,7 +818,7 @@ Partial Class PetQuotationEntry
         Me.GrdItem.SelectionBorderColor = System.Drawing.Color.Blue
         Me.GrdItem.SelectionMode = FlexCell.SelectionModeEnum.ByCell
         Me.GrdItem.Size = New System.Drawing.Size(999, 268)
-        Me.GrdItem.TabIndex = 10
+        Me.GrdItem.TabIndex = 9
         Me.GrdItem.TabKeyMoveTo = FlexCell.TabKeyMoveToEnum.CurrentRow
         Me.GrdItem.UncheckedImage = CType(resources.GetObject("GrdItem.UncheckedImage"), System.Drawing.Bitmap)
         '
@@ -1151,7 +1151,7 @@ Partial Class PetQuotationEntry
         Me.BtnView1.Location = New System.Drawing.Point(857, 83)
         Me.BtnView1.Name = "BtnView1"
         Me.BtnView1.Size = New System.Drawing.Size(39, 36)
-        Me.BtnView1.TabIndex = 82312
+        Me.BtnView1.TabIndex = 11
         '
         'BtnOpen
         '
@@ -1161,7 +1161,7 @@ Partial Class PetQuotationEntry
         Me.BtnOpen.Location = New System.Drawing.Point(812, 83)
         Me.BtnOpen.Name = "BtnOpen"
         Me.BtnOpen.Size = New System.Drawing.Size(39, 36)
-        Me.BtnOpen.TabIndex = 8
+        Me.BtnOpen.TabIndex = 10
         '
         'TxtAttachment
         '
@@ -1201,7 +1201,7 @@ Partial Class PetQuotationEntry
         Me.TxtAttachment.ShowMessage = False
         Me.TxtAttachment.Size = New System.Drawing.Size(250, 22)
         Me.TxtAttachment.SpacerString = ""
-        Me.TxtAttachment.TabIndex = 9
+        Me.TxtAttachment.TabIndex = 8
         Me.TxtAttachment.Tag = "MSTFABRIC_ITEM_CATEGORY"
         Me.TxtAttachment.TransparentBox = True
         Me.TxtAttachment.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
