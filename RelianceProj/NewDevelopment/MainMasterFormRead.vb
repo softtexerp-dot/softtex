@@ -274,15 +274,71 @@ Public Class MainMasterFormRead
         'tblFormValues.Rows(0)("USEMASTERKEY") = "Y"
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         ' 🔹 Yaha UniqueValues add karna hai
+        'For Each item In _UniqueValues
+
+        '    Dim ctrlName As String = item.Item1
+        '    Dim offMasterCode As String = item.Item2
+        '    Dim codeValue As String = item.Item3
+        '    If tblFormValues.Columns.Contains(offMasterCode) Then
+        '        tblFormValues.Rows(0)(offMasterCode) = codeValue
+        '    End If
+        'Next
+        Dim fieldNames As New List(Of String)
+        Dim fieldValues As New List(Of String)
+
         For Each item In _UniqueValues
 
             Dim ctrlName As String = item.Item1
             Dim offMasterCode As String = item.Item2
             Dim codeValue As String = item.Item3
-            If tblFormValues.Columns.Contains(offMasterCode) Then
-                tblFormValues.Rows(0)(offMasterCode) = codeValue
+
+            '===========================================
+            ' Skip NO COLUMN USE 1, 2, 3...
+            '===========================================
+            If offMasterCode.Trim().StartsWith(
+        "NO COLUMN USE ",
+        StringComparison.OrdinalIgnoreCase) Then
+
+                Continue For
             End If
+
+            If tblFormValues.Columns.Contains(offMasterCode) Then
+
+                tblFormValues.Rows(0)(offMasterCode) = codeValue
+
+                fieldNames.Add(offMasterCode)
+                fieldValues.Add("'" & codeValue.Replace("'", "''") & "'")
+
+            End If
+
         Next
+
+        '===========================================
+        ' Remove NO COLUMN USE columns from DataTable
+        '===========================================
+        Dim removeColumns As New List(Of DataColumn)
+
+        For Each col As DataColumn In tblFormValues.Columns
+
+            If col.ColumnName.Trim().StartsWith(
+        "NO COLUMN USE ",
+        StringComparison.OrdinalIgnoreCase) Then
+
+                removeColumns.Add(col)
+
+            End If
+
+        Next
+
+        For Each col As DataColumn In removeColumns
+            tblFormValues.Columns.Remove(col)
+        Next
+
+        '===========================================
+        ' Set FieldNameAndValues
+        '===========================================
+        FieldNameAndValues(0) = String.Join(",", fieldNames)
+        FieldNameAndValues(1) = String.Join(",", fieldValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
         SaveQuery = getSaveQuery()
         sqL = SaveQuery
@@ -297,28 +353,65 @@ Public Class MainMasterFormRead
         GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
     End Function
     Private Function getAlter_Form_Query() As String
-        Dim leftJoin As String = ""
-        Dim joinHeader As String = ""
-        For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
-            'Dim _DatabaseHeaderName As String = dr("Text").ToString()
+        'Dim leftJoin As String = ""
+        'Dim joinHeader As String = ""
+        'For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > ''")
+        '    'Dim _DatabaseHeaderName As String = dr("Text").ToString()
+        '    Dim _DatabaseHeaderName As String = dr("UserText").ToString()
+        '    Dim _OppositCode As String = dr("OppMasterCode").ToString()
+        '    Dim _SelectionMastrName As String = dr("MasterList").ToString()
+        '    Dim res = GetAccountMaster(_DatabaseHeaderName, _OppositCode, _SelectionMastrName)
+        '    leftJoin = res.LeftJoin
+        '    joinHeader = res.JoinHeader
+        'Next
+        '_strQuery = New StringBuilder
+        'With _strQuery
+        '    .Append(" SELECT A.* ")
+        '    .Append(joinHeader)
+        '    .Append(" FROM " & _TblName & " as A")
+        '    .Append(leftJoin)
+        '    .Append(" WHERE 1=1 ")
+        '    .Append(" And A." & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'")
+        '    .Append(" ORDER BY ID DESC")
+        'End With
+        'Return _strQuery.ToString
+        Dim leftJoin As New StringBuilder()
+        Dim joinHeader As New StringBuilder()
+        For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' AND MasterList > ''")
             Dim _DatabaseHeaderName As String = dr("UserText").ToString()
             Dim _OppositCode As String = dr("OppMasterCode").ToString()
             Dim _SelectionMastrName As String = dr("MasterList").ToString()
             Dim res = GetAccountMaster(_DatabaseHeaderName, _OppositCode, _SelectionMastrName)
-            leftJoin = res.LeftJoin
-            joinHeader = res.JoinHeader
+            If res IsNot Nothing Then
+                If Not String.IsNullOrWhiteSpace(res.LeftJoin) Then
+                    leftJoin.Append(" ")
+                    leftJoin.Append(res.LeftJoin)
+                End If
+                If Not String.IsNullOrWhiteSpace(res.JoinHeader) Then
+                    joinHeader.Append(" ")
+                    joinHeader.Append(res.JoinHeader)
+                End If
+            End If
         Next
-        _strQuery = New StringBuilder
+        _strQuery = New StringBuilder()
         With _strQuery
-            .Append(" SELECT A.* ")
-            .Append(joinHeader)
-            .Append(" FROM " & _TblName & " as A")
-            .Append(leftJoin)
+            .Append("SELECT DISTINCT A.* ")
+            'Master fields
+            .Append(joinHeader.ToString())
+            .Append(" FROM ")
+            .Append(_TblName)
+            .Append(" AS A ")
+            'All master joins
+            .Append(leftJoin.ToString())
             .Append(" WHERE 1=1 ")
-            .Append(" And A." & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'")
-            .Append(" ORDER BY ID DESC")
+            .Append(" AND A.")
+            .Append(_KeyFieldName)
+            .Append(" = '")
+            .Append(_KeyFieldValue.Replace("'", "''"))
+            .Append("' ")
+            .Append(" ORDER BY A.ID DESC")
         End With
-        Return _strQuery.ToString
+        Return _strQuery.ToString()
     End Function
     Private Function getSaveQuery()
         _strQuery = New StringBuilder
@@ -638,7 +731,12 @@ Public Class MainMasterFormRead
                             txt.Top = topPos
                             txt.Width = width
                             txt.Height = height
-                            txt.Tag = Tag
+                            Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+                            If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
+                                txt.Tag = dr("UserText").ToString()
+                            Else
+                                txt.Tag = databaseColumn
+                            End If
                             txt.TabIndex = Tabindex
                             If _Readonly = "Y" Then
                                 txt.ReadOnly = True
