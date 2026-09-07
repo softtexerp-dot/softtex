@@ -2525,32 +2525,78 @@ Public Class MainFrmDesigner
                 '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = CurrentLocationY
                 '    End If
                 'End If
+
+                'second time set 
+                'Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
+                'If textValue <> "" Then
+                '    If textValue = "BOOKCODE" OrElse textValue = "BOOKTRTYPE" OrElse textValue = "BOOKVNO" OrElse textValue = "BOOKNAME" Then
+                '        'In fields ke liye LocationY = 10
+                '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = "10"
+                '    Else
+                '        'LocationY me jo value already hai usko same rehne do
+                '        CurrentLocationY = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text)
+                '    End If
+                'End If
                 Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
                 If textValue <> "" Then
                     Dim locationYCol As Integer = _DataTableGrid.Columns.IndexOf("LocationY") + 1
+                    Dim IdCol As Integer = _DataTableGrid.Columns.IndexOf("ID") + 1
                     If textValue = "BOOKCODE" OrElse textValue = "BOOKTRTYPE" OrElse textValue = "BOOKVNO" OrElse textValue = "BOOKNAME" Then
-                        GrdItem.Cell(i, locationYCol).Text = 10
-                    Else
-                        ' Existing Grid LocationY me se maximum value find karo
-                        CurrentLocationY = 0
-                        For row As Integer = 1 To GrdItem.Rows
-                            ' Current row ko skip karo
-                            If row <> i Then
-                                Dim locationY As Integer
-                                If Integer.TryParse(GrdItem.Cell(row, locationYCol).Text.Trim(), locationY) Then
-                                    If locationY > CurrentLocationY Then
-                                        CurrentLocationY = locationY
-                                    End If
-                                End If
-                            End If
-                        Next
-                        ' Agar existing LocationY mil gaya hai to +30
+                        '==================================================
+                        ' Fixed controls
+                        '==================================================
+                        GrdItem.Cell(i, locationYCol).Text = "10"
+                    ElseIf _FORMMODE <> "EDIT" Then
+                        '==================================================
+                        ' NEW MODE
+                        '==================================================
                         If CurrentLocationY = 0 Then
                             CurrentLocationY = 10
                         Else
                             CurrentLocationY += 30
                         End If
-                        GrdItem.Cell(i, locationYCol).Text = CurrentLocationY
+                        GrdItem.Cell(i, locationYCol).Text = CurrentLocationY.ToString()
+                    Else
+                        '==================================================
+                        ' EDIT MODE
+                        '==================================================
+                        Dim Id As Integer = 0
+                        Integer.TryParse(GrdItem.Cell(i, IdCol).Text.Trim(), Id)
+                        '==================================================
+                        ' ID > 0 = OLD ROW
+                        ' ID = 0 = NEW ROW
+                        '==================================================
+                        If Id > 0 Then
+                            'OLD ROW
+                            'LocationY ko bilkul change nahi karna
+                        Else
+                            '==================================================
+                            ' NEW ROW
+                            'Existing rows ka MAX LocationY find karo
+                            '==================================================
+                            Dim maxLocationY As Integer = 0
+                            For row As Integer = 1 To GrdItem.Rows - 1
+                                If row <> i Then
+                                    Dim cell = GrdItem.Cell(row, locationYCol)
+                                    If cell IsNot Nothing Then
+                                        Dim locationY As Integer = 0
+                                        If Integer.TryParse(cell.Text.Trim(), locationY) Then
+                                            If locationY > maxLocationY Then
+                                                maxLocationY = locationY
+                                            End If
+                                        End If
+                                    End If
+                                End If
+                            Next
+                            '==================================================
+                            ' NEW ROW = MAX + 30
+                            '==================================================
+                            If maxLocationY = 0 Then
+                                GrdItem.Cell(i, locationYCol).Text = "10"
+                            Else
+                                GrdItem.Cell(i, locationYCol).Text = (maxLocationY + 30).ToString()
+                            End If
+                        End If
                     End If
                 End If
             End If
@@ -2643,7 +2689,6 @@ Public Class MainFrmDesigner
                 ' MAX ROWID + 1
                 '----------------------------------------------
                 CurrentRowId = Last_RowId
-
             End If
             '======================================================
             ' INSERT QUERY
@@ -2727,9 +2772,7 @@ Public Class MainFrmDesigner
                 If _FORMMODE <> "EDIT" Then
                     Last_RowId += 1
                 End If
-
             End If
-
         Next
     End Sub
     Private Sub Fill_DetailGrid_Records_Into_DataTables()

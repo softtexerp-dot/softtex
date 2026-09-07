@@ -731,11 +731,32 @@ Public Class MainMasterFormRead
                             txt.Top = topPos
                             txt.Width = width
                             txt.Height = height
-                            Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
-                            If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
-                                txt.Tag = dr("UserText").ToString()
+                            'txt.Tag = Tag
+                            'If _FORMMODE = "EDIT" Then
+                            '    Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+                            '    If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
+                            '        txt.Tag = dr("UserText").ToString()
+                            '        'txt.Tag = databaseColumn
+                            '    Else
+                            '        txt.Tag = databaseColumn
+                            '    End If
+                            'Else
+                            '    txt.Tag = Tag
+                            'End If
+                            If _FORMMODE = "EDIT" Then
+                                Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+                                Dim userText As String = dr("UserText").ToString().Trim()
+                                'Original Database Column list selection ke liye
+                                txt.AccessibleDescription = databaseColumn
+                                'Edit mode logic
+                                If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
+                                    txt.Tag = userText
+                                Else
+                                    txt.Tag = databaseColumn
+                                End If
                             Else
-                                txt.Tag = databaseColumn
+                                txt.Tag = Tag
+                                txt.AccessibleDescription = Tag
                             End If
                             txt.TabIndex = Tabindex
                             If _Readonly = "Y" Then
@@ -754,17 +775,24 @@ Public Class MainMasterFormRead
                             'Master list Bind karne ke liye
                             AddHandler txt.KeyDown, AddressOf Control_KeyDown
                         ElseIf colType = "Button" Then
-                            Dim btn As New Button()
+                            'Window Button
+                            'Dim btn As New Button()
+                            'Simple Button
+                            Dim btn As New SimpleButton()
                             btn.Name = Name
                             btn.Left = leftPos + 130
                             btn.Top = topPos
                             btn.Width = width
+                            'New
+                            btn.Text = HeaderName
+                            If Name = "Button1" Or Name = "Button2" Or Name = "Button3" Or Name = "Button4" Or Name = "Button5" Then
+                                lbl.Visible = False
+                            End If
                             Me.Controls.Add(btn)
                             AddHandler btn.MouseDown, AddressOf Control_MouseDown
                             AddHandler btn.MouseMove, AddressOf Control_MouseMove
                             AddHandler btn.MouseUp, AddressOf Control_MouseUp
-
-
+                            AddHandler btn.Click, AddressOf Button_Click
                         ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
                             'Dim cmb As New ComboBox()
                             'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
@@ -820,24 +848,52 @@ Public Class MainMasterFormRead
         Finally
         End Try
     End Sub
+    Private Sub Button_Click(sender As Object, e As EventArgs)
 
+        Dim btn As SimpleButton = TryCast(sender, SimpleButton)
+
+        If btn IsNot Nothing Then
+            MessageBox.Show(btn.Text)
+        End If
+
+    End Sub
     Private Sub Grid_RowColChange(sender As Object, ByVal e As FlexCell.Grid.RowColChangeEventArgs)
         _ActivatedColName = Trim(UCase(sender.Cell(0, sender.ActiveCell.Col).TAG))
     End Sub
 
     Private Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
+        'Dim ctrl As Control = TryCast(sender, Control)
+        'If ctrl Is Nothing Then Exit Sub
+        'If e.KeyCode = Keys.Enter Then
+        '    e.SuppressKeyPress = True
+        '    Dim ActivetextName As String = ctrl.Text
+        '    RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
+        '    Me.SelectNextControl(ctrl, True, True, True, True)
+        'ElseIf e.KeyCode = Keys.Up Then
+        '    Dim ActivetextName As String = ctrl.Text
+        '    Me.SelectNextControl(DirectCast(sender, Control), False, True, True, True)
+        'ElseIf e.KeyCode = Keys.Down Then
+        '    Dim ActivetextName As String = ctrl.Text
+        '    Me.SelectNextControl(ctrl, True, True, True, True)
+        'End If
         Dim ctrl As Control = TryCast(sender, Control)
         If ctrl Is Nothing Then Exit Sub
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
+            e.Handled = True
             Dim ActivetextName As String = ctrl.Text
-            RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
+            'Selection List ke liye original DatabaseColumn
+            Dim selectionTag As String = ""
+            If ctrl.AccessibleDescription IsNot Nothing Then
+                selectionTag = ctrl.AccessibleDescription.ToString().Trim()
+            End If
+            If Not String.IsNullOrWhiteSpace(selectionTag) Then
+                RunActivatedColumnMasterSelection(selectionTag, ActivetextName)
+            End If
             Me.SelectNextControl(ctrl, True, True, True, True)
         ElseIf e.KeyCode = Keys.Up Then
-            Dim ActivetextName As String = ctrl.Text
-            Me.SelectNextControl(DirectCast(sender, Control), False, True, True, True)
+            Me.SelectNextControl(ctrl, False, True, True, True)
         ElseIf e.KeyCode = Keys.Down Then
-            Dim ActivetextName As String = ctrl.Text
             Me.SelectNextControl(ctrl, True, True, True, True)
         End If
     End Sub
