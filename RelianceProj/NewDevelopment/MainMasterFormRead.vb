@@ -1,6 +1,8 @@
 ﻿Imports System.IO
 Imports System.Security.Cryptography
 Imports System.Text
+Imports DevExpress.Office.Commands.Internal
+Imports DevExpress.Utils.CommonDialogs
 Imports DevExpress.XtraEditors
 Imports DevExpress.XtraEditors.TextEditController.Win32
 Imports DevExpress.XtraGrid.Views
@@ -86,6 +88,7 @@ Public Class MainMasterFormRead
     Private PropertyGridPanel As Panel
     Private PositionButtonPanel As Panel
     Dim GetformName As String = ""
+    Public flagstring As String = ""
 
 
     Private Sub CreateButtonsControl()
@@ -142,16 +145,77 @@ Public Class MainMasterFormRead
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
+    'Private Function Alter_Form() As DataTable
+    '    _FrmLoad = True
+    '    Dim _strquery As New StringBuilder
+    '    Dim tblTmp As New DataTable
+    '    strQuery = getAlter_Form_Query()
+    '    sqL = strQuery.ToString
+    '    sql_connect_slect()
+    '    tblTmp = DefaltSoftTable.Copy
+    '    ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
+
+    '    If tblTmp.Rows.Count = 0 Then
+    '        ObjCls_General.Blank_Object(Me)
+    '        MsgBox("Record Not Found")
+    '    End If
+    '    _FrmLoad = False
+    '    Return tblTmp
+    'End Function
     Private Function Alter_Form() As DataTable
         _FrmLoad = True
-        Dim _strquery As New StringBuilder
+        Dim _strquery As New StringBuilder()
         Dim tblTmp As New DataTable
         strQuery = getAlter_Form_Query()
-        sqL = strQuery.ToString
+        sqL = strQuery.ToString()
         sql_connect_slect()
         tblTmp = DefaltSoftTable.Copy
+        '========================================
+        ' NORMAL DATABASE VALUES
+        '========================================
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
+        '========================================
+        ' IMAGE 1 : OP8 + OP11
+        '========================================
+        If tblTmp.Rows.Count > 0 Then
+            For Each ctrl As Control In GetAllControls(Me)
 
+                If TypeOf ctrl Is TextBox Then
+
+                    Dim txt As TextBox = DirectCast(ctrl, TextBox)
+
+                    If txt.Tag Is Nothing Then Continue For
+
+                    Dim tagText As String = txt.Tag.ToString().Trim()
+                    If tagText.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
+                        Dim dbColumn As String = ""
+                        If txt.AccessibleName IsNot Nothing Then
+                            dbColumn = txt.AccessibleName.ToString().Trim()
+                        End If
+                        If String.IsNullOrWhiteSpace(dbColumn) Then
+                            Continue For
+                        End If
+                        If tblTmp.Columns.Contains(dbColumn) Then
+                            Dim imagePath As String = ""
+                            If Not IsDBNull(tblTmp.Rows(0)(dbColumn)) Then
+                                imagePath = tblTmp.Rows(0)(dbColumn).ToString().Trim()
+                            End If
+                            'Actual full path
+                            txt.AccessibleDescription = imagePath
+                            'Textbox me filename show hoga
+                            If Not String.IsNullOrWhiteSpace(imagePath) Then
+                                txt.Text = IO.Path.GetFileName(imagePath)
+                            Else
+                                txt.Text = ""
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+        End If
+        '========================================
+        ' RECORD NOT FOUND
+        '========================================
         If tblTmp.Rows.Count = 0 Then
             ObjCls_General.Blank_Object(Me)
             MsgBox("Record Not Found")
@@ -160,6 +224,44 @@ Public Class MainMasterFormRead
         Return tblTmp
     End Function
 
+    'Private Function GetImageColumns(imageNo As Integer) As Tuple(Of String, String)
+    '    Select Case imageNo
+    '        Case 1
+    '            Return Tuple.Create("OP8", "OP11")
+    '        Case 2
+    '            Return Tuple.Create("OP9", "OP13")
+    '        Case 3
+    '            Return Tuple.Create("OP10", "OP15")
+    '        Case 4
+    '            Return Tuple.Create("OP12", "OP17")
+    '        Case 5
+    '            Return Tuple.Create("OP14", "OP19")
+    '        Case 6
+    '            Return Tuple.Create("OP16", "OP21")
+    '        Case Else
+    '            Return Nothing
+    '    End Select
+    'End Function
+    'Private Function GetAllControls(parent As Control) As List(Of Control)
+    '    Dim controlsList As New List(Of Control)
+    '    For Each ctrl As Control In parent.Controls
+    '        controlsList.Add(ctrl)
+    '        If ctrl.HasChildren Then
+    '            controlsList.AddRange(GetAllControls(ctrl))
+    '        End If
+    '    Next
+    '    Return controlsList
+    'End Function
+    Private Function GetAllControls(parent As Control) As List(Of Control)
+        Dim result As New List(Of Control)
+        For Each ctrl As Control In parent.Controls
+            result.Add(ctrl)
+            If ctrl.HasChildren Then
+                result.AddRange(GetAllControls(ctrl))
+            End If
+        Next
+        Return result
+    End Function
     Private Sub UC_Buttons1_DeleteClick()
         _FrmLoad = True
         _FORMMODE = "DELETE"
@@ -252,128 +354,403 @@ Public Class MainMasterFormRead
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
 
     End Sub
+    'Private Sub SaveRecord()
+    '    Dim CompleteQuery As String = ""
+    '    Dim SaveQuery As String = ""
+    '    Dim strQuery As String = ""
+    '    Dim LASTCODE As String = ""
+    '    If _FORMMODE = "ADD" Then
+    '        strQuery = GetMaxCode()
+    '        sqL = strQuery
+    '        sql_connect_slect()
+    '        If DefaltSoftTable.Rows.Count > 0 Then
+    '            LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
+    '        Else
+    '            LASTCODE = "1"
+    '        End If
+    '        LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+    '    Else
+    '        LASTCODE = _KeyFieldValue
+    '    End If
+    '    If _KeyFieldName <> "" Then
+    '        tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
+    '    End If
+    '    'tblFormValues.Rows(0)("USEMASTERKEY") = "Y"
+    '    ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
+    '    ' 🔹 Yaha UniqueValues add karna hai
+    '    'For Each item In _UniqueValues
+
+    '    '    Dim ctrlName As String = item.Item1
+    '    '    Dim offMasterCode As String = item.Item2
+    '    '    Dim codeValue As String = item.Item3
+    '    '    If tblFormValues.Columns.Contains(offMasterCode) Then
+    '    '        tblFormValues.Rows(0)(offMasterCode) = codeValue
+    '    '    End If
+    '    'Next
+    '    Dim fieldNames As New List(Of String)
+    '    Dim fieldValues As New List(Of String)
+
+    '    'For Each item In _UniqueValues
+
+    '    '    Dim ctrlName As String = item.Item1
+    '    '    Dim offMasterCode As String = item.Item2
+    '    '    Dim codeValue As String = item.Item3
+
+    '    '    '===========================================
+    '    '    ' Skip NO COLUMN USE 1, 2, 3...
+    '    '    '===========================================
+    '    '    If offMasterCode.Trim().StartsWith(
+    '    '"NO COLUMN USE ",
+    '    'StringComparison.OrdinalIgnoreCase) Then
+
+    '    '        Continue For
+    '    '    End If
+
+    '    '    If tblFormValues.Columns.Contains(offMasterCode) Then
+
+    '    '        tblFormValues.Rows(0)(offMasterCode) = codeValue
+
+    '    '        fieldNames.Add(offMasterCode)
+    '    '        fieldValues.Add("'" & codeValue.Replace("'", "''") & "'")
+
+    '    '    End If
+
+    '    'Next
+    '    For Each item In _UniqueValues
+
+    '        Dim ctrlName As String = item.Item1
+    '        Dim offMasterCode As String = item.Item2
+    '        Dim codeValue As String = item.Item3
+
+    '        offMasterCode = offMasterCode.Trim()
+
+    '        ' NO COLUMN USE ko save nahi karna
+    '        If offMasterCode.StartsWith(
+    '    "NO COLUMN USE ",
+    '    StringComparison.OrdinalIgnoreCase) Then
+
+    '            Continue For
+
+    '        End If
+
+    '        ' Database column available hai
+    '        If tblFormValues.Columns.Contains(offMasterCode) Then
+
+    '            tblFormValues.Rows(0)(offMasterCode) = codeValue
+
+    '        End If
+
+    '    Next
+
+    '    '===========================================
+    '    ' Remove NO COLUMN USE columns from DataTable
+    '    '===========================================
+    '    Dim removeColumns As New List(Of DataColumn)
+
+    '    For Each col As DataColumn In tblFormValues.Columns
+
+    '        If col.ColumnName.Trim().StartsWith(
+    '    "NO COLUMN USE ",
+    '    StringComparison.OrdinalIgnoreCase) Then
+
+    '            removeColumns.Add(col)
+
+    '        End If
+
+    '    Next
+
+    '    For Each col As DataColumn In removeColumns
+    '        tblFormValues.Columns.Remove(col)
+    '    Next
+
+    '    '===========================================
+    '    ' Set FieldNameAndValues
+    '    '===========================================
+    '    FieldNameAndValues(0) = String.Join(",", fieldNames)
+    '    FieldNameAndValues(1) = String.Join(",", fieldValues)
+    '    ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
+    '    SaveQuery = getSaveQuery()
+    '    sqL = SaveQuery
+    '    sql_Data_Save_Delete_Update()
+    '    MsgBox("Records Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+    '    ObjCls_General.Blank_Object(Me)
+    '    _FORMMODE = ""
+    '    Ctrl_Visible_False(Me.Controls)
+    'End Sub
     Private Sub SaveRecord()
+
         Dim CompleteQuery As String = ""
         Dim SaveQuery As String = ""
         Dim strQuery As String = ""
         Dim LASTCODE As String = ""
+
+
+        '==================================================
+        ' LAST CODE
+        '==================================================
         If _FORMMODE = "ADD" Then
+
             strQuery = GetMaxCode()
+
             sqL = strQuery
+
             sql_connect_slect()
+
             If DefaltSoftTable.Rows.Count > 0 Then
-                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0)) + 1
+
+                LASTCODE =
+                Val(DefaltSoftTable.Rows(0).Item(0)) + 1
+
             Else
+
                 LASTCODE = "1"
+
             End If
-            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+
+            LASTCODE =
+            _SELECTEDCOMPANYCODE &
+            "-" &
+            LASTCODE.PadLeft(9, "0")
+
         Else
+
             LASTCODE = _KeyFieldValue
+
         End If
+
+
+        '==================================================
+        ' KEY FIELD
+        '==================================================
         If _KeyFieldName <> "" Then
-            tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
+
+            tblFormValues.Rows(0)(_KeyFieldName) =
+            LASTCODE
+
         End If
-        'tblFormValues.Rows(0)("USEMASTERKEY") = "Y"
+
+
+        '==================================================
+        ' NORMAL CONTROLS DATA
+        '==================================================
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
-        ' 🔹 Yaha UniqueValues add karna hai
-        'For Each item In _UniqueValues
 
-        '    Dim ctrlName As String = item.Item1
-        '    Dim offMasterCode As String = item.Item2
-        '    Dim codeValue As String = item.Item3
-        '    If tblFormValues.Columns.Contains(offMasterCode) Then
-        '        tblFormValues.Rows(0)(offMasterCode) = codeValue
+        For Each ctrl As Control In GetAllControls(Me)
+
+            If TypeOf ctrl Is TextBox Then
+
+                Dim txt As TextBox = DirectCast(ctrl, TextBox)
+
+                If txt.Tag Is Nothing Then Continue For
+
+                Dim tagText As String = txt.Tag.ToString().Trim()
+
+                'Only Attach Image controls
+                If tagText.StartsWith(
+            "Attach Image",
+            StringComparison.OrdinalIgnoreCase) Then
+
+                    'Database column
+                    Dim dbColumn As String = ""
+
+                    If txt.AccessibleName IsNot Nothing Then
+                        dbColumn = txt.AccessibleName.ToString().Trim()
+                    End If
+
+                    If String.IsNullOrWhiteSpace(dbColumn) Then
+                        Continue For
+                    End If
+
+                    'Actual image full path
+                    Dim imagePath As String = ""
+
+                    If txt.AccessibleDescription IsNot Nothing Then
+                        imagePath =
+                    txt.AccessibleDescription.ToString().Trim()
+                    End If
+
+                    'Save FULL PATH directly into database column
+                    If tblFormValues.Columns.Contains(dbColumn) Then
+
+                        tblFormValues.Rows(0)(dbColumn) = imagePath
+
+                    End If
+
+                End If
+
+            End If
+
+        Next
+        ''====================================================
+        '' ATTACH IMAGE 1
+        '' IMAGE NAME -> OP8
+        '' IMAGE PATH -> OP11
+        ''====================================================
+        'Dim txtImage1 As TextBox = FindTextBoxByTag(Me, "Attach Image1")
+        'If txtImage1 IsNot Nothing Then
+        '    If tblFormValues.Columns.Contains("OP8") Then
+        '        tblFormValues.Rows(0)("OP8") = txtImage1.Text.Trim()
         '    End If
-        'Next
-        Dim fieldNames As New List(Of String)
-        Dim fieldValues As New List(Of String)
 
-        'For Each item In _UniqueValues
 
-        '    Dim ctrlName As String = item.Item1
-        '    Dim offMasterCode As String = item.Item2
-        '    Dim codeValue As String = item.Item3
+        '    If tblFormValues.Columns.Contains("OP11") Then
 
-        '    '===========================================
-        '    ' Skip NO COLUMN USE 1, 2, 3...
-        '    '===========================================
-        '    If offMasterCode.Trim().StartsWith(
-        '"NO COLUMN USE ",
-        'StringComparison.OrdinalIgnoreCase) Then
-
-        '        Continue For
-        '    End If
-
-        '    If tblFormValues.Columns.Contains(offMasterCode) Then
-
-        '        tblFormValues.Rows(0)(offMasterCode) = codeValue
-
-        '        fieldNames.Add(offMasterCode)
-        '        fieldValues.Add("'" & codeValue.Replace("'", "''") & "'")
+        '        tblFormValues.Rows(0)("OP11") =
+        '        If(txtImage1.AccessibleDescription,
+        '           "").Trim()
 
         '    End If
 
-        'Next
+        'End If
+
+
+        ''====================================================
+        '' ATTACH IMAGE 2
+        '' IMAGE NAME -> OP9
+        '' IMAGE PATH -> OP13
+        ''====================================================
+        'Dim txtImage2 As TextBox =
+        'FindTextBoxByTag(Me, "Attach Image2")
+
+        'If txtImage2 IsNot Nothing Then
+
+        '    If tblFormValues.Columns.Contains("OP9") Then
+
+        '        tblFormValues.Rows(0)("OP9") =
+        '        txtImage2.Text.Trim()
+
+        '    End If
+
+
+        '    If tblFormValues.Columns.Contains("OP13") Then
+
+        '        tblFormValues.Rows(0)("OP13") =
+        '        If(txtImage2.AccessibleDescription,
+        '           "").Trim()
+
+        '    End If
+
+        'End If
+
+
+        '==================================================
+        ' UNIQUE VALUES
+        '==================================================
         For Each item In _UniqueValues
 
-            Dim ctrlName As String = item.Item1
-            Dim offMasterCode As String = item.Item2
-            Dim codeValue As String = item.Item3
+            Dim ctrlName As String =
+            item.Item1
 
-            offMasterCode = offMasterCode.Trim()
+            Dim offMasterCode As String =
+            item.Item2
 
-            ' NO COLUMN USE ko save nahi karna
+            Dim codeValue As String =
+            item.Item3
+
+
+            offMasterCode =
+            offMasterCode.Trim()
+
+
+            'NO COLUMN USE ko save nahi karna
             If offMasterCode.StartsWith(
-        "NO COLUMN USE ",
-        StringComparison.OrdinalIgnoreCase) Then
+            "NO COLUMN USE ",
+            StringComparison.OrdinalIgnoreCase) Then
 
                 Continue For
 
             End If
 
-            ' Database column available hai
-            If tblFormValues.Columns.Contains(offMasterCode) Then
 
-                tblFormValues.Rows(0)(offMasterCode) = codeValue
+            'Database column available hai
+            If tblFormValues.Columns.Contains(
+            offMasterCode) Then
+
+                tblFormValues.Rows(0)(
+                offMasterCode) =
+                codeValue
 
             End If
 
         Next
 
-        '===========================================
-        ' Remove NO COLUMN USE columns from DataTable
-        '===========================================
+
+        '==================================================
+        ' REMOVE NO COLUMN USE
+        '==================================================
         Dim removeColumns As New List(Of DataColumn)
 
-        For Each col As DataColumn In tblFormValues.Columns
+
+        For Each col As DataColumn In
+        tblFormValues.Columns
+
 
             If col.ColumnName.Trim().StartsWith(
-        "NO COLUMN USE ",
-        StringComparison.OrdinalIgnoreCase) Then
+            "NO COLUMN USE ",
+            StringComparison.OrdinalIgnoreCase) Then
 
                 removeColumns.Add(col)
 
             End If
 
+
         Next
 
-        For Each col As DataColumn In removeColumns
+
+        For Each col As DataColumn In
+        removeColumns
+
             tblFormValues.Columns.Remove(col)
+
         Next
 
-        '===========================================
-        ' Set FieldNameAndValues
-        '===========================================
-        FieldNameAndValues(0) = String.Join(",", fieldNames)
-        FieldNameAndValues(1) = String.Join(",", fieldValues)
-        ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
-        SaveQuery = getSaveQuery()
-        sqL = SaveQuery
+
+        '==================================================
+        ' MAKE SAVE QUERY
+        '==================================================
+        Dim fieldNames As New List(Of String)
+        Dim fieldValues As New List(Of String)
+
+
+        FieldNameAndValues(0) =
+        String.Join(",", fieldNames)
+
+        FieldNameAndValues(1) =
+        String.Join(",", fieldValues)
+
+
+        ObjCls_General.MAKEQUERYFROMDATATABLE(
+        _FORMMODE,
+        tblFormValues,
+        FieldNameAndValues)
+
+
+        SaveQuery =
+        getSaveQuery()
+
+
+        sqL =
+        SaveQuery
+
+
         sql_Data_Save_Delete_Update()
-        MsgBox("Records Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+
+
+        MsgBox(
+        "Records Successfully Saved",
+        MsgBoxStyle.Information + MsgBoxStyle.OkOnly,
+        "Soft-Tex PRO")
+
+
         ObjCls_General.Blank_Object(Me)
+
+
         _FORMMODE = ""
+
+
         Ctrl_Visible_False(Me.Controls)
+
+
     End Sub
 #Region "QUERY SECTION"
     Public Function GetMaxCode() As String
@@ -705,10 +1082,6 @@ Public Class MainMasterFormRead
                     'Else
 
                     'End If
-
-
-
-
                     If usemasterkey = "Y" Then
                         _KeyFieldName = colName
                     End If
@@ -771,236 +1144,211 @@ Public Class MainMasterFormRead
                         '    '    txt.Tag = Tag
                         '    'End If
                         If colType = "TextBox" AndAlso visible = "Y" Then
-
                             Dim txt As New TextBox()
-
                             txt.Name = Name
-
                             txt.Left = leftPos + 130
-
                             txt.Top = topPos
-
                             txt.Width = width
-
                             txt.Height = height
-
-
                             '==================================================
                             ' TEXTBOX TAG
                             '==================================================
-
-                            Dim userTextValue As String =
-                                dr("UserText").ToString().Trim()
-
-                            Dim databaseColumn As String =
-                                dr("DataBaseColumn").ToString().Trim()
-
-
-                            'Attach Image textbox ke liye UserText use karo
-
-                            If userTextValue.Equals(
-                                "Attach Image1",
-                                StringComparison.OrdinalIgnoreCase
-                            ) OrElse
-                               userTextValue.Equals(
-                                "Attach Image2",
-                                StringComparison.OrdinalIgnoreCase
-                            ) Then
-
+                            Dim userTextValue As String = dr("UserText").ToString().Trim()
+                            Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+                            '==================================================
+                            ' ATTACH IMAGE 1
+                            '==================================================
+                            If userTextValue.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
                                 txt.Tag = userTextValue
-
+                                'Database column
+                                txt.AccessibleName = databaseColumn
+                                'Initially image path blank
+                                txt.AccessibleDescription = ""
+                                '==================================================
+                                ' NORMAL TEXTBOX
+                                '==================================================
                             Else
-
                                 If _FORMMODE = "EDIT" Then
-
                                     txt.AccessibleDescription = databaseColumn
-
-                                    If databaseColumn.Equals(
-                                        "NO COLUMN USE",
-                                        StringComparison.OrdinalIgnoreCase
-                                    ) OrElse
-                                       databaseColumn.StartsWith(
-                                            "NO COLUMN USE ",
-                                            StringComparison.OrdinalIgnoreCase
-                                       ) Then
-
+                                    If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
                                         txt.Tag = userTextValue
-
                                     Else
-
                                         txt.Tag = databaseColumn
-
                                     End If
-
                                 Else
-
-                                    txt.Tag = Tag
-
-                                    txt.AccessibleDescription = Tag
-
+                                    txt.Tag = databaseColumn
+                                    txt.AccessibleDescription = databaseColumn
                                 End If
-
                             End If
-
-
+                            '==================================================
+                            ' TAB INDEX
+                            '==================================================
                             txt.TabIndex = Tabindex
-
-
+                            '==================================================
+                            ' READ ONLY
+                            '==================================================
                             If _Readonly = "Y" Then
-
                                 txt.ReadOnly = True
-
                             Else
-
                                 txt.ReadOnly = False
-
                             End If
-
-
+                            '==================================================
+                            ' ADD TEXTBOX
+                            '==================================================
                             Me.Controls.Add(txt)
-
-
                             If txt.TabIndex = 1 Then
-
                                 txt.Focus()
-
                             End If
-
-
+                            '==================================================
+                            ' EVENTS
+                            '==================================================
                             AddHandler txt.MouseDown, AddressOf Control_MouseDown
                             AddHandler txt.MouseMove, AddressOf Control_MouseMove
                             AddHandler txt.MouseUp, AddressOf Control_MouseUp
-
                             AddHandler txt.KeyDown, AddressOf Control_KeyDown
 
-                            '    '08092026 commit
-                            '    'If _FORMMODE = "EDIT" Then
-                            '    '    Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
-                            '    '    Dim userText As String = dr("UserText").ToString().Trim()
-                            '    '    'Original Database Column list selection ke liye
-                            '    '    txt.AccessibleDescription = databaseColumn
-                            '    '    'Edit mode logic
-                            '    '    If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
-                            '    '        txt.Tag = userText
-                            '    '    Else
-                            '    '        txt.Tag = databaseColumn
-                            '    '    End If
-                            '    'Else
-                            '    '    txt.Tag = Tag
-                            '    '    txt.AccessibleDescription = Tag
-                            '    'End If
-
-                            '    txt.TabIndex = Tabindex
-                            '    If _Readonly = "Y" Then
-                            '        txt.ReadOnly = True
-                            '    Else
-                            '        txt.ReadOnly = False
-                            '    End If
-                            '    Me.Controls.Add(txt)
-                            '    If txt.TabIndex = 1 Then
-                            '        txt.Focus()
-                            '    End If
-
-                            '    Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
-                            '    AddHandler txt.MouseDown, AddressOf Control_MouseDown
-                            '    AddHandler txt.MouseMove, AddressOf Control_MouseMove
-                            '    AddHandler txt.MouseUp, AddressOf Control_MouseUp
-                            '    'Master list Bind karne ke liye
-                            '    AddHandler txt.KeyDown, AddressOf Control_KeyDown
-
-                            'ElseIf colType = "Button" Then
-                            ''Window Button
-                            ''Dim btn As New Button()
-                            ''Simple Button
-                            'Dim btn As New SimpleButton()
-                            'btn.Name = Name
-                            'btn.Left = leftPos + 130
-                            'btn.Top = topPos
-                            'btn.Width = width
-                            ''New
-                            'btn.Text = HeaderName
-                            'If Name = "Button1" Or Name = "Button2" Or Name = "Button3" Or Name = "Button4" Or Name = "Button5" Then
-                            '    lbl.Visible = False
-                            'End If
-                            'Me.Controls.Add(btn)
-                            'AddHandler btn.MouseDown, AddressOf Control_MouseDown
-                            'AddHandler btn.MouseMove, AddressOf Control_MouseMove
-                            'AddHandler btn.MouseUp, AddressOf Control_MouseUp
-
-                        ElseIf colType = "Button" Then
+                        ElseIf colType = "ImgAdd" Then
 
                             Dim btn As New SimpleButton()
-
                             btn.Name = Name
                             btn.Left = leftPos + 130
                             btn.Top = topPos
                             btn.Width = width
                             btn.Height = height
-
                             btn.Text = HeaderName
-
                             '==================================================
-                            ' BUTTON TAG
+                            ' DYNAMIC IMAGE BUTTON TAG
+                            ' 2 BUTTONS = 1 IMAGE
                             '
-                            ' Tag me associated TextBox ka TAG store karenge
+                            ' Button1,2   -> Attach Image1
+                            ' Button3,4   -> Attach Image2
+                            ' Button5,6   -> Attach Image3
+                            ' Button7,8   -> Attach Image4
+                            ' ...
                             '==================================================
-
-                            Select Case Name.ToUpper()
-
-                                Case "BUTTON1", "BUTTON2"
-
-                                    'Attach Image1 ke Add / View button
-
-                                    btn.Tag = "Attach Image1"
-
-
-                                Case "BUTTON3", "BUTTON4"
-
-                                    'Attach Image2 ke Add / View button
-
-                                    btn.Tag = "Attach Image2"
-
-
-                                Case Else
-
+                            Dim buttonNo As Integer = 0
+                            If Name.StartsWith("ImgAdd", StringComparison.OrdinalIgnoreCase) Then
+                                Dim numberPart As String = Name.Substring("ImgAdd".Length)
+                                If Integer.TryParse(numberPart, buttonNo) Then
+                                    Dim imageNo As Integer = buttonNo
+                                    btn.Tag = "Attach Image" & imageNo.ToString()
+                                Else
                                     btn.Tag = Tag
-
-                            End Select
-                            '==================================================
-                            ' LABEL HIDE
-                            '==================================================
-
-                            If Name = "Button1" OrElse
-                               Name = "Button2" OrElse
-                               Name = "Button3" OrElse
-                               Name = "Button4" Then
+                                End If
+                            Else
+                                btn.Tag = Tag
+                            End If
+                            If buttonNo > 0 Then
 
                                 lbl.Visible = False
 
                             End If
-
-
-                            '==================================================
-                            ' ADD BUTTON
-                            '==================================================
-
                             Me.Controls.Add(btn)
-
-
-                            '==================================================
-                            ' EVENTS
-                            '==================================================
-
                             AddHandler btn.MouseDown, AddressOf Control_MouseDown
                             AddHandler btn.MouseMove, AddressOf Control_MouseMove
                             AddHandler btn.MouseUp, AddressOf Control_MouseUp
 
                             AddHandler btn.Click, AddressOf Button_Click
+                            'ElseIf colType = "ImgView" Then
+                            '    Dim btn As New SimpleButton()
+                            '    Dim buttonNo As Integer = 0
+                            '    btn.Name = Name
+                            '    btn.Left = leftPos + 130
+                            '    btn.Top = topPos
+                            '    btn.Width = width
+                            '    btn.Height = height
+                            '    btn.Text = HeaderName
+                            '    '==================================================
+                            '    ' DYNAMIC BUTTON TAG
+                            '    '
+                            '    ' ImgView1, ImgView2 -> Attach Image1
+                            '    ' ImgView3, ImgView4 -> Attach Image2
+                            '    ' ImgView5, ImgView6 -> Attach Image3
+                            '    ' ImgView7, ImgView8 -> Attach Image4
+                            '    '==================================================
+                            '    If Name.StartsWith("ImgView", StringComparison.OrdinalIgnoreCase) Then
+                            '        Dim numberPart As String = Name.Substring("ImgView".Length)
+                            '        If Integer.TryParse(numberPart, buttonNo) Then
+                            '            Dim imageNo As Integer = ((buttonNo - 1) \ 2) + 1
+                            '            btn.Tag = "Attach Image" & imageNo.ToString()
+                            '        Else
+                            '            btn.Tag = Tag
+                            '        End If
+                            '    Else
+                            '        btn.Tag = Tag
+                            '    End If
+                            '    '==================================================
+                            '    ' VIEW IMAGE ICON
+                            '    '==================================================
+                            '    If buttonNo > 0 Then
+                            '        lbl.Visible = False
+                            '        Dim imagePath As String = IO.Path.Combine(Application.StartupPath, "Images", "ViewImage.png")
+                            '        If IO.File.Exists(imagePath) Then
+                            '            Dim bmp As System.Drawing.Bitmap
+                            '            Using tempImg As System.Drawing.Image = System.Drawing.Image.FromFile(imagePath)
+                            '                bmp = New System.Drawing.Bitmap(tempImg)
+                            '            End Using
+                            '            'DevExpress SimpleButton
+                            '            btn.ImageOptions.Image = bmp
+                            '        End If
+                            '    End If
+                            '    '==================================================
+                            '    ' IMAGE ALIGNMENT
+                            '    '==================================================
+                            '    btn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+                            '    '==================================================
+                            '    ' ADD CONTROL
+                            '    '==================================================
+                            '    Me.Controls.Add(btn)
+                            '    AddHandler btn.MouseDown, AddressOf Control_MouseDown
+                            '    AddHandler btn.MouseMove, AddressOf Control_MouseMove
+                            '    AddHandler btn.MouseUp, AddressOf Control_MouseUp
+                            '    AddHandler btn.Click, AddressOf Button_Click
+                        ElseIf colType = "Button" Then
+                                Dim btn As New SimpleButton()
+                                btn.Name = Name
+                                btn.Left = leftPos + 130
+                                btn.Top = topPos
+                                btn.Width = width
+                                btn.Height = height
+                                btn.Text = HeaderName
+                                '==================================================
+                                ' DYNAMIC IMAGE BUTTON TAG
+                                ' 2 BUTTONS = 1 IMAGE
+                                '
+                                ' Button1,2   -> Attach Image1
+                                ' Button3,4   -> Attach Image2
+                                ' Button5,6   -> Attach Image3
+                                ' Button7,8   -> Attach Image4
+                                ' ...
+                                '==================================================
+                                Dim buttonNo As Integer = 0
+                                If Name.StartsWith("Button", StringComparison.OrdinalIgnoreCase) Then
+                                    Dim numberPart As String = Name.Substring("Button".Length)
+                                    If Integer.TryParse(numberPart, buttonNo) Then
+                                        Dim imageNo As Integer = ((buttonNo - 1) \ 2) + 1
+                                        btn.Tag = "Attach Image" & imageNo.ToString()
+                                    Else
+                                        btn.Tag = Tag
+                                    End If
+                                Else
+                                    btn.Tag = Tag
+                                End If
+                                If buttonNo > 0 Then
 
-                        ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
-                            'Dim cmb As New ComboBox()
-                            'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
-                        End If
+                                    lbl.Visible = False
+
+                                End If
+                                Me.Controls.Add(btn)
+                                AddHandler btn.MouseDown, AddressOf Control_MouseDown
+                                AddHandler btn.MouseMove, AddressOf Control_MouseMove
+                                AddHandler btn.MouseUp, AddressOf Control_MouseUp
+
+                                AddHandler btn.Click, AddressOf Button_Click
+                            ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
+                                'Dim cmb As New ComboBox()
+                                'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
+                            End If
                         topPos += 35
                     End If
                 Next
@@ -1052,6 +1400,8 @@ Public Class MainMasterFormRead
         Finally
         End Try
     End Sub
+
+
     Private Sub Button_Click(sender As Object, e As EventArgs)
         Dim btn As SimpleButton = TryCast(sender, SimpleButton)
         If btn Is Nothing Then Exit Sub
@@ -1062,8 +1412,111 @@ Public Class MainMasterFormRead
             ViewImage(btn)
         End If
     End Sub
+
+    'Private Sub AddImage(btn As SimpleButton)
+    '    Try
+    '        If _FORMMODE = "ADD" Then
+    '            flagstring = "save"
+    '        ElseIf _FORMMODE = "EDIT" Then
+    '            flagstring = "update"
+    '        End If
+    '        If btn.Tag Is Nothing Then
+    '            MessageBox.Show("Image TextBox reference not found.")
+    '            Exit Sub
+    '        End If
+    '        '==================================================
+    '        ' BUTTON TAG se TEXTBOX FIND
+    '        '==================================================
+    '        Dim txt As TextBox =
+    '        FindTextBoxByTag(Me, btn.Tag.ToString())
+    '        If txt Is Nothing Then
+    '            MessageBox.Show("Image TextBox not found." & vbCrLf & "Tag : " & btn.Tag.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '            Exit Sub
+    '        End If
+    '        '==================================================
+    '        ' OPEN FILE DIALOG
+    '        '==================================================
+    '        Using ofd As New OpenFileDialog()
+    '            ofd.Title = "Select Image"
+    '            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|" & "All Files|*.*"
+    '            If ofd.ShowDialog() <> DialogResult.OK Then
+    '                Exit Sub
+    '            End If
+    '            '==================================================
+    '            ' LOCAL IMAGE PATH
+    '            '==================================================
+    '            Dim imagePath As String = ofd.FileName.Trim()
+
+    '            If String.IsNullOrWhiteSpace(imagePath) Then
+    '                Exit Sub
+    '            End If
+    '            Dim sSource As String = imagePath
+    '            'Initially local path
+    '            txt.AccessibleDescription = imagePath
+    '            'Textbox me filename
+    '            txt.Text = IO.Path.GetFileName(imagePath)
+    '            'Local + Server copy
+    '            SaveImageToLocalAndServer(sSource)
+    '            '==================================================
+    '            ' BUTTON 1
+    '            '==================================================
+    '            If btn.Name.Equals("Button1", StringComparison.OrdinalIgnoreCase) Then
+    '                If My.Computer.Network.IsAvailable Then
+    '                    txt.Text = ""
+    '                    Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
+    '                    If Not String.IsNullOrWhiteSpace(resultPath) Then
+    '                        'SERVER PATH
+    '                        _Imagepath1 = resultPath
+    '                        'Database me SERVER PATH save hoga
+    '                        txt.AccessibleDescription = resultPath
+    '                        'Textbox me filename dikhana hai
+    '                        txt.Text = resultPath
+    '                    Else
+    '                        'API path nahi mila
+    '                        txt.Text = IO.Path.GetFileName(imagePath)
+    '                    End If
+    '                Else
+    '                    'Offline - Local path database me
+    '                    '_Imagepath1 = imagePath
+    '                    txt.AccessibleDescription = imagePath
+    '                    txt.Text = IO.Path.GetFileName(imagePath)
+    '                End If
+    '                '==================================================
+    '                ' BUTTON 3
+    '                '==================================================
+    '            ElseIf btn.Name.Equals("Button3", StringComparison.OrdinalIgnoreCase) Then
+    '                If My.Computer.Network.IsAvailable Then
+    '                    txt.Text = ""
+    '                    Dim resultPath2 As String = SubmitComplaintAsync2(imagePath, flagstring, "", _FORMMODE)
+    '                    If Not String.IsNullOrWhiteSpace(resultPath2) Then
+    '                        'SERVER PATH
+    '                        _Imagepath2 = resultPath2
+    '                        'Database me SERVER PATH save hoga
+    '                        txt.AccessibleDescription = resultPath2
+    '                        'Textbox me filename
+    '                        txt.Text = resultPath2
+    '                    Else
+    '                        txt.Text = IO.Path.GetFileName(imagePath)
+    '                    End If
+    '                Else
+    '                    'Offline local path
+    '                    '_Imagepath2 = imagePath
+    '                    txt.AccessibleDescription = imagePath
+    '                    txt.Text = IO.Path.GetFileName(imagePath)
+    '                End If
+    '            End If
+    '        End Using
+    '    Catch ex As Exception
+    '        MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    End Try
+    'End Sub
     Private Sub AddImage(btn As SimpleButton)
         Try
+            If _FORMMODE = "ADD" Then
+                flagstring = "save"
+            ElseIf _FORMMODE = "EDIT" Then
+                flagstring = "update"
+            End If
             If btn.Tag Is Nothing Then
                 MessageBox.Show("Image TextBox reference not found.")
                 Exit Sub
@@ -1071,7 +1524,8 @@ Public Class MainMasterFormRead
             '==================================================
             ' BUTTON TAG se TEXTBOX FIND
             '==================================================
-            Dim txt As TextBox = FindTextBoxByTag(Me, btn.Tag.ToString())
+            Dim txt As TextBox =
+            FindTextBoxByTag(Me, btn.Tag.ToString())
             If txt Is Nothing Then
                 MessageBox.Show("Image TextBox not found." & vbCrLf & "Tag : " & btn.Tag.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
@@ -1082,22 +1536,78 @@ Public Class MainMasterFormRead
             Using ofd As New OpenFileDialog()
                 ofd.Title = "Select Image"
                 ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|" & "All Files|*.*"
-                If ofd.ShowDialog() = DialogResult.OK Then
-                    '------------------------------------------
-                    ' TextBox me filename
-                    '------------------------------------------
-                    txt.Text = IO.Path.GetFileName(ofd.FileName)
-                    '------------------------------------------
-                    ' Full path AccessibleDescription me
-                    '------------------------------------------
-                    txt.AccessibleDescription = ofd.FileName
+                If ofd.ShowDialog() <> DialogResult.OK Then
+                    Exit Sub
+                End If
+                '==================================================
+                ' LOCAL IMAGE PATH
+                '==================================================
+                Dim imagePath As String = ofd.FileName.Trim()
+
+                If String.IsNullOrWhiteSpace(imagePath) Then
+                    Exit Sub
+                End If
+                Dim sSource As String = imagePath
+                'Initially local path
+                txt.AccessibleDescription = imagePath
+                'Textbox me filename
+                txt.Text = IO.Path.GetFileName(imagePath)
+                'Local + Server copy
+                'SaveImageToLocalAndServer(sSource)
+                '==================================================
+                ' BUTTON 1
+                '==================================================
+                If btn.Name.Equals("ImgAdd1", StringComparison.OrdinalIgnoreCase) Then
+                    If My.Computer.Network.IsAvailable Then
+                        txt.Text = ""
+                        Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
+                        If Not String.IsNullOrWhiteSpace(resultPath) Then
+                            'SERVER PATH
+                            _Imagepath1 = resultPath
+                            'Database me SERVER PATH save hoga
+                            txt.AccessibleDescription = resultPath
+                            'Textbox me filename dikhana hai
+                            txt.Text = resultPath
+                        Else
+                            'API path nahi mila
+                            txt.Text = IO.Path.GetFileName(imagePath)
+                        End If
+                    Else
+                        'Offline - Local path database me
+                        '_Imagepath1 = imagePath
+                        txt.AccessibleDescription = imagePath
+                        txt.Text = IO.Path.GetFileName(imagePath)
+                    End If
+                    '==================================================
+                    ' BUTTON 3
+                    '==================================================
+                ElseIf btn.Name.Equals("ImgAdd2", StringComparison.OrdinalIgnoreCase) Then
+                    If My.Computer.Network.IsAvailable Then
+                        txt.Text = ""
+                        Dim resultPath2 As String = SubmitComplaintAsync2(imagePath, flagstring, "", _FORMMODE)
+                        If Not String.IsNullOrWhiteSpace(resultPath2) Then
+                            'SERVER PATH
+                            _Imagepath2 = resultPath2
+                            'Database me SERVER PATH save hoga
+                            txt.AccessibleDescription = resultPath2
+                            'Textbox me filename
+                            txt.Text = resultPath2
+                        Else
+                            txt.Text = IO.Path.GetFileName(imagePath)
+                        End If
+                    Else
+                        'Offline local path
+                        '_Imagepath2 = imagePath
+                        txt.AccessibleDescription = imagePath
+                        txt.Text = IO.Path.GetFileName(imagePath)
+                    End If
                 End If
             End Using
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-    Private Sub ViewImage(btn As SimpleButton)
+    Private Async Sub ViewImage(btn As SimpleButton)
         Try
             If btn.Tag Is Nothing Then
                 MessageBox.Show("Image TextBox reference not found.")
@@ -1106,36 +1616,111 @@ Public Class MainMasterFormRead
             '==================================================
             ' TEXTBOX FIND
             '==================================================
-            Dim txt As TextBox = FindTextBoxByTag(Me, btn.Tag.ToString())
+            Dim txt As TextBox =
+            FindTextBoxByTag(Me, btn.Tag.ToString())
             If txt Is Nothing Then
                 MessageBox.Show("Image TextBox not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
             '==================================================
-            ' IMAGE PATH
+            ' IMAGE PATH / URL
             '==================================================
             Dim imagePath As String = ""
+
             If txt.AccessibleDescription IsNot Nothing Then
-                imagePath = txt.AccessibleDescription.ToString()
+                imagePath = txt.AccessibleDescription.ToString().Trim()
             End If
-            '==================================================
-            ' PATH EMPTY
-            '==================================================
+
             If String.IsNullOrWhiteSpace(imagePath) Then
                 MessageBox.Show("Please select an image first.", "Image", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             '==================================================
-            ' FILE EXISTS
+            ' SERVER URL
             '==================================================
-            If Not IO.File.Exists(imagePath) Then
-                MessageBox.Show("Image file not found." & vbCrLf & imagePath, "Image", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
+            If imagePath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) OrElse imagePath.StartsWith("https://", StringComparison.OrdinalIgnoreCase) Then
+                ShowImagePopupFromUrl(imagePath)
+            Else
+                '==================================================
+                ' LOCAL FILE
+                '==================================================
+                If Not IO.File.Exists(imagePath) Then
+                    MessageBox.Show("Image file not found." & vbCrLf & imagePath, "Image", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Exit Sub
+
+                End If
+
+                ShowImagePopup(imagePath)
+
             End If
-            ShowImagePopup(imagePath)
+
         Catch ex As Exception
-            MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+            MessageBox.Show(
+            ex.Message,
+            "Image Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error)
+
         End Try
+
+    End Sub
+    Private Sub ShowImagePopupFromUrl(imageUrl As String)
+
+        Try
+
+            Dim frm As New Form()
+
+            frm.Text = "Image Preview"
+            frm.StartPosition = FormStartPosition.CenterParent
+            frm.Width = 800
+            frm.Height = 600
+
+            Dim pic As New PictureBox()
+
+            pic.Dock = DockStyle.Fill
+            pic.SizeMode = PictureBoxSizeMode.Zoom
+
+            '==================================================
+            ' URL se Image Load
+            '==================================================
+            Dim request As System.Net.WebRequest =
+            System.Net.WebRequest.Create(imageUrl)
+
+            Using response As System.Net.WebResponse =
+            request.GetResponse()
+
+                Using stream As IO.Stream =
+                response.GetResponseStream()
+
+                    Using tempImage As System.Drawing.Image =
+                    System.Drawing.Image.FromStream(stream)
+
+                        pic.Image =
+                        New System.Drawing.Bitmap(tempImage)
+
+                    End Using
+
+                End Using
+
+            End Using
+
+            frm.Controls.Add(pic)
+
+            frm.ShowDialog()
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+            "Unable to load image." &
+            vbCrLf &
+            ex.Message,
+            "Image Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error)
+
+        End Try
+
     End Sub
     Private Sub ShowImagePopup(imagePath As String)
         Dim frm As New Form()

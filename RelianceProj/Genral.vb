@@ -3728,9 +3728,11 @@ End Sub
             MsgBox(ex.ToString)
         End Try
     End Sub
-    Public Async Sub SubmitComplaintAsync(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
+    Public Function SubmitComplaintAsync(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
 
         Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+
+        Dim _GetUrlPath As String = ""
 
         Try
             Using client As New HttpClient()
@@ -3773,23 +3775,19 @@ End Sub
                         End If
                     End If
                     If _imagepath <> "" Then
-                        ' 🔹 POST API
-                        Dim postResponse As HttpResponseMessage = Await client.PostAsync(postUrl, form)
-                        Dim result As String = Await postResponse.Content.ReadAsStringAsync()
+                        Dim postResponse As HttpResponseMessage = client.PostAsync(postUrl, form).Result
+                        Dim result As String = postResponse.Content.ReadAsStringAsync().Result
                         If postResponse.IsSuccessStatusCode Then
-                            'MessageBox.Show("✅ Complaint submitted successfully!")
                             Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+
                             Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                            'txtFilePath.Text = responseJson("imageURl")?.ToString()
                             _imagepath = responseJson("imageURl")?.ToString()
                             _Imagepath1 = _imagepath
                             _txtimageid = responseJson("id")?.ToString()
                             _ImageId1 = _txtimageid
-                            'MessageBox.Show("✅ " & message, "Success")
-                            'Me.Close()   ' Complaint form close
+                            _GetUrlPath = _imagepath
                         Else
-                            MessageBox.Show("❌ API Error:" & vbCrLf & result)
-                            'Me.Close()
+                            MessageBox.Show("❌ API Error:" & vbCrLf & result, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                         End If
                     End If
                 End Using
@@ -3798,11 +3796,13 @@ End Sub
         Catch ex As Exception
             MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
         End Try
-    End Sub
-    Public Async Sub SubmitComplaintAsync2(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
+
+        Return _GetUrlPath
+    End Function
+    Public Function SubmitComplaintAsync2(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
 
         Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
-
+        Dim _GetUrlPath As String = ""
         Try
             Using client As New HttpClient()
                 Using form As New MultipartFormDataContent()
@@ -3844,9 +3844,8 @@ End Sub
                     End If
                     If _imagepath <> "" Then
                         ' 🔹 POST API
-                        Dim postResponse As HttpResponseMessage = Await client.PostAsync(postUrl, form)
-                        Dim result As String = Await postResponse.Content.ReadAsStringAsync()
-
+                        Dim postResponse As HttpResponseMessage = client.PostAsync(postUrl, form).Result
+                        Dim result As String = postResponse.Content.ReadAsStringAsync().Result
                         If postResponse.IsSuccessStatusCode Then
                             'MessageBox.Show("✅ Complaint submitted successfully!")
                             Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
@@ -3856,6 +3855,7 @@ End Sub
                             _Imagepath2 = _imagepath
                             _txtimageid = responseJson("id")?.ToString()
                             _Imageid2 = _txtimageid
+                            _GetUrlPath = _imagepath
                             'MessageBox.Show("✅ " & message, "Success")
                             'Me.Close()   ' Complaint form close
                         Else
@@ -3866,10 +3866,9 @@ End Sub
                     End If
                 End Using
             End Using
-
+            Return _GetUrlPath
         Catch ex As Exception
             MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
         End Try
-
-    End Sub
+    End Function
 End Module
