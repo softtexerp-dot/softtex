@@ -1182,83 +1182,54 @@ Public Class MainMasterFormRead
                 MessageBox.Show("Image TextBox reference not found.")
                 Exit Sub
             End If
-            '==================================================
-            ' BUTTON TAG se TEXTBOX FIND
-            '==================================================
             Dim txt As TextBox =
             FindTextBoxByTag(Me, btn.Tag.ToString())
             If txt Is Nothing Then
                 MessageBox.Show("Image TextBox not found." & vbCrLf & "Tag : " & btn.Tag.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
-            '==================================================
-            ' OPEN FILE DIALOG
-            '==================================================
             Using ofd As New OpenFileDialog()
                 ofd.Title = "Select Image"
                 ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|" & "All Files|*.*"
                 If ofd.ShowDialog() <> DialogResult.OK Then
                     Exit Sub
                 End If
-                '==================================================
-                ' LOCAL IMAGE PATH
-                '==================================================
                 Dim imagePath As String = ofd.FileName.Trim()
 
                 If String.IsNullOrWhiteSpace(imagePath) Then
                     Exit Sub
                 End If
                 Dim sSource As String = imagePath
-                'Initially local path
                 txt.AccessibleDescription = imagePath
-                'Textbox me filename
                 txt.Text = IO.Path.GetFileName(imagePath)
-                'Local + Server copy
                 SaveImageToLocalAndServer(sSource)
-                '==================================================
-                ' BUTTON 1
-                '==================================================
                 If btn.Name.Equals("Button1", StringComparison.OrdinalIgnoreCase) Then
                     If My.Computer.Network.IsAvailable Then
                         txt.Text = ""
                         Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
                         If Not String.IsNullOrWhiteSpace(resultPath) Then
-                            'SERVER PATH
                             _Imagepath1 = resultPath
-                            'Database me SERVER PATH save hoga
                             txt.AccessibleDescription = resultPath
-                            'Textbox me filename dikhana hai
                             txt.Text = resultPath
                         Else
-                            'API path nahi mila
                             txt.Text = IO.Path.GetFileName(imagePath)
                         End If
                     Else
-                        'Offline - Local path database me
-                        '_Imagepath1 = imagePath
                         txt.AccessibleDescription = imagePath
                         txt.Text = IO.Path.GetFileName(imagePath)
                     End If
-                    '==================================================
-                    ' BUTTON 3
-                    '==================================================
                 ElseIf btn.Name.Equals("Button3", StringComparison.OrdinalIgnoreCase) Then
                     If My.Computer.Network.IsAvailable Then
                         txt.Text = ""
                         Dim resultPath2 As String = SubmitComplaintAsync2(imagePath, flagstring, "", _FORMMODE)
                         If Not String.IsNullOrWhiteSpace(resultPath2) Then
-                            'SERVER PATH
                             _Imagepath2 = resultPath2
-                            'Database me SERVER PATH save hoga
                             txt.AccessibleDescription = resultPath2
-                            'Textbox me filename
                             txt.Text = resultPath2
                         Else
                             txt.Text = IO.Path.GetFileName(imagePath)
                         End If
                     Else
-                        'Offline local path
-                        '_Imagepath2 = imagePath
                         txt.AccessibleDescription = imagePath
                         txt.Text = IO.Path.GetFileName(imagePath)
                     End If
@@ -1268,119 +1239,17 @@ Public Class MainMasterFormRead
             MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-
-    'Private Sub ImgAddImage(btn As SimpleButton)
-    '    Try
-    '        If _FORMMODE = "ADD" Then
-    '            flagstring = "save"
-    '        ElseIf _FORMMODE = "EDIT" Then
-    '            flagstring = "update"
-    '        End If
-    '        If btn.Tag Is Nothing Then
-    '            MessageBox.Show("Image TextBox reference not found.")
-    '            Exit Sub
-    '        End If
-    '        '==================================================
-    '        ' BUTTON TAG se TEXTBOX FIND
-    '        '==================================================
-    '        Dim txt As TextBox =
-    '        FindTextBoxByTag(Me, btn.Tag.ToString())
-    '        If txt Is Nothing Then
-    '            MessageBox.Show("Image TextBox not found." & vbCrLf & "Tag : " & btn.Tag.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-    '            Exit Sub
-    '        End If
-    '        '==================================================
-    '        ' OPEN FILE DIALOG
-    '        '==================================================
-    '        Using ofd As New OpenFileDialog()
-    '            ofd.Title = "Select Image"
-    '            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|" & "All Files|*.*"
-    '            If ofd.ShowDialog() <> DialogResult.OK Then
-    '                Exit Sub
-    '            End If
-    '            '==================================================
-    '            ' LOCAL IMAGE PATH
-    '            '==================================================
-    '            Dim imagePath As String = ofd.FileName.Trim()
-
-    '            If String.IsNullOrWhiteSpace(imagePath) Then
-    '                Exit Sub
-    '            End If
-    '            Dim sSource As String = imagePath
-    '            'Initially local path
-    '            txt.AccessibleDescription = imagePath
-    '            'Textbox me filename
-    '            txt.Text = IO.Path.GetFileName(imagePath)
-    '            'Local + Server copy
-    '            'SaveImageToLocalAndServer(sSource)
-    '            '==================================================
-    '            ' BUTTON 1
-    '            '==================================================
-    '            If btn.Name.Equals("ImgAdd1", StringComparison.OrdinalIgnoreCase) Then
-    '                If My.Computer.Network.IsAvailable Then
-    '                    txt.Text = ""
-    '                    Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
-    '                    If Not String.IsNullOrWhiteSpace(resultPath) Then
-    '                        'SERVER PATH
-    '                        _Imagepath1 = resultPath
-    '                        'Database me SERVER PATH save hoga
-    '                        txt.AccessibleDescription = resultPath
-    '                        'Textbox me filename dikhana hai
-    '                        txt.Text = resultPath
-    '                    Else
-    '                        'API path nahi mila
-    '                        txt.Text = IO.Path.GetFileName(imagePath)
-    '                    End If
-    '                Else
-    '                    'Offline - Local path database me
-    '                    '_Imagepath1 = imagePath
-    '                    txt.AccessibleDescription = imagePath
-    '                    txt.Text = IO.Path.GetFileName(imagePath)
-    '                End If
-    '                '==================================================
-    '                ' BUTTON 3
-    '                '==================================================
-    '            ElseIf btn.Name.Equals("ImgAdd2", StringComparison.OrdinalIgnoreCase) Then
-    '                If My.Computer.Network.IsAvailable Then
-    '                    txt.Text = ""
-    '                    'Dim resultPath2 As String = SubmitComplaintAsync2(imagePath, flagstring, "", _FORMMODE)
-    '                    Dim resultPath2 As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
-    '                    If Not String.IsNullOrWhiteSpace(resultPath2) Then
-    '                        'SERVER PATH
-    '                        _Imagepath2 = resultPath2
-    '                        'Database me SERVER PATH save hoga
-    '                        txt.AccessibleDescription = resultPath2
-    '                        'Textbox me filename
-    '                        txt.Text = resultPath2
-    '                    Else
-    '                        txt.Text = IO.Path.GetFileName(imagePath)
-    '                    End If
-    '                Else
-    '                    'Offline local path
-    '                    '_Imagepath2 = imagePath
-    '                    txt.AccessibleDescription = imagePath
-    '                    txt.Text = IO.Path.GetFileName(imagePath)
-    '                End If
-    '            End If
-    '        End Using
-    '    Catch ex As Exception
-    '        MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-    '    End Try
-    'End Sub
     Private Sub ImgAddImage(btn As SimpleButton)
-
         Try
             '==================================================
             ' SAVE / UPDATE
             '==================================================
             Dim flagstring As String = ""
-
             If _FORMMODE = "ADD" Then
                 flagstring = "save"
             ElseIf _FORMMODE = "EDIT" Then
                 flagstring = "update"
             End If
-
             '==================================================
             ' BUTTON TAG CHECK
             '==================================================
@@ -1388,43 +1257,28 @@ Public Class MainMasterFormRead
                 MessageBox.Show("Image TextBox reference not found.")
                 Exit Sub
             End If
-
             '==================================================
             ' BUTTON TAG SE TEXTBOX FIND
             '==================================================
-            Dim txt As TextBox =
-            FindTextBoxByTag(Me, btn.Tag.ToString())
-
+            Dim txt As TextBox = FindTextBoxByTag(Me, btn.Tag.ToString())
             If txt Is Nothing Then
-                MessageBox.Show(
-                "Image TextBox not found." &
-                vbCrLf & "Tag : " & btn.Tag.ToString(),
-                "Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error)
+                MessageBox.Show("Image TextBox not found." & vbCrLf & "Tag : " & btn.Tag.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
-
             '==================================================
             ' OPEN IMAGE
             '==================================================
             Using ofd As New OpenFileDialog()
-
                 ofd.Title = "Select Image"
                 ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif|All Files|*.*"
-
                 If ofd.ShowDialog() <> DialogResult.OK Then Exit Sub
-
                 Dim imagePath As String = ofd.FileName.Trim()
-
                 If String.IsNullOrWhiteSpace(imagePath) Then Exit Sub
-
                 '==================================================
                 ' INITIAL LOCAL PATH
                 '==================================================
                 txt.AccessibleDescription = imagePath
                 txt.Text = IO.Path.GetFileName(imagePath)
-
                 '==================================================
                 ' ONLINE
                 '==================================================
@@ -1448,7 +1302,6 @@ Public Class MainMasterFormRead
                         txt.Text = IO.Path.GetFileName(imagePath)
                     End If
                 Else
-
                     '==================================================
                     ' OFFLINE
                     '==================================================
@@ -1480,7 +1333,6 @@ Public Class MainMasterFormRead
             ' IMAGE PATH / URL
             '==================================================
             Dim imagePath As String = ""
-
             If txt.AccessibleDescription IsNot Nothing Then
                 imagePath = txt.AccessibleDescription.ToString().Trim()
             End If
@@ -1526,11 +1378,9 @@ Public Class MainMasterFormRead
             ' IMAGE PATH / URL
             '==================================================
             Dim imagePath As String = ""
-
             If txt.AccessibleDescription IsNot Nothing Then
                 imagePath = txt.AccessibleDescription.ToString().Trim()
             End If
-
             If String.IsNullOrWhiteSpace(imagePath) Then
                 MessageBox.Show("Please select an image first.", "Image", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
@@ -1553,7 +1403,6 @@ Public Class MainMasterFormRead
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
     Private Sub ShowImagePopupFromUrl(imageUrl As String)
 
@@ -1892,21 +1741,15 @@ Public Class MainMasterFormRead
         Me.KeyPreview = True
         Me.Location = New POINT(0, 0)
         _FrmLoad = True
-
         CreateButtonsControl()
-
         'UC_Buttons1._ButtonEnableDisable("LOAD")
         AttachButtonFocusEvents(Me)
-        'FormNameValue = _getformName()
-
         'Propaerties Grid
-
         'PanlPropartiesWindow.Width = Me.Width
         PanlPropartiesWindow.Height = Me.Height - 80
         PropertyGrid1.Width = PanlPropartiesWindow.Width - 10
         PropertyGrid1.Height = PanlPropartiesWindow.Height - 55
         PanlPropartiesWindow.Location = New POINT(Me.Width - 320, 0)
-
         'View Report grid
         PnlGrdView.Width = Me.Width
         PnlGrdView.Height = Me.Height
@@ -1914,7 +1757,6 @@ Public Class MainMasterFormRead
         GridControl1.Width = PnlGrdView.Width - 25
         GridControl1.Height = PnlGrdView.Height - 100
         GridControl1.Location = New POINT(3, 53)
-
         _LoadDefaultData()
         'LoadViewData(tmptbl)
         Ctrl_Visible_False(Me.Controls)
