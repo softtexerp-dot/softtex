@@ -44,6 +44,8 @@ Partial Class MainMasterFormRead
         Me.Txt_ViewTO = New ctl_TextBox.ctl_TextBox()
         Me.Txt_ViewFrom = New ctl_TextBox.ctl_TextBox()
         Me.PanlPropartiesWindow = New System.Windows.Forms.Panel()
+        Me.SBimgadd = New DevExpress.XtraEditors.SimpleButton()
+        Me.SBImgView = New DevExpress.XtraEditors.SimpleButton()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PnlGrdView.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -104,9 +106,9 @@ Partial Class MainMasterFormRead
         Me.PnlGrdView.Controls.Add(Me.lbl_From)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewTO)
         Me.PnlGrdView.Controls.Add(Me.Txt_ViewFrom)
-        Me.PnlGrdView.Location = New System.Drawing.Point(93, 112)
+        Me.PnlGrdView.Location = New System.Drawing.Point(12, 15)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(144, 175)
+        Me.PnlGrdView.Size = New System.Drawing.Size(214, 175)
         Me.PnlGrdView.TabIndex = 81937
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False
@@ -329,11 +331,37 @@ Partial Class MainMasterFormRead
         Me.PanlPropartiesWindow.Controls.Add(Me.btnmovecontrol)
         Me.PanlPropartiesWindow.Controls.Add(Me.BtnUpdatepos)
         Me.PanlPropartiesWindow.Controls.Add(Me.PropertyGrid1)
-        Me.PanlPropartiesWindow.Location = New System.Drawing.Point(785, 12)
+        Me.PanlPropartiesWindow.Location = New System.Drawing.Point(794, 12)
         Me.PanlPropartiesWindow.Name = "PanlPropartiesWindow"
-        Me.PanlPropartiesWindow.Size = New System.Drawing.Size(307, 580)
+        Me.PanlPropartiesWindow.Size = New System.Drawing.Size(308, 580)
         Me.PanlPropartiesWindow.TabIndex = 81938
         Me.PanlPropartiesWindow.Visible = False
+        '
+        'SBimgadd
+        '
+        Me.SBimgadd.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SBimgadd.Appearance.Options.UseFont = True
+        Me.SBimgadd.Enabled = False
+        Me.SBimgadd.ImageOptions.Image = CType(resources.GetObject("SBimgadd.ImageOptions.Image"), System.Drawing.Image)
+        Me.SBimgadd.Location = New System.Drawing.Point(352, 21)
+        Me.SBimgadd.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.SBimgadd.Name = "SBimgadd"
+        Me.SBimgadd.Size = New System.Drawing.Size(25, 22)
+        Me.SBimgadd.TabIndex = 81939
+        Me.SBimgadd.Visible = False
+        '
+        'SBImgView
+        '
+        Me.SBImgView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SBImgView.Appearance.Options.UseFont = True
+        Me.SBImgView.Enabled = False
+        Me.SBImgView.ImageOptions.Image = CType(resources.GetObject("SBImgView.ImageOptions.Image"), System.Drawing.Image)
+        Me.SBImgView.Location = New System.Drawing.Point(385, 21)
+        Me.SBImgView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.SBImgView.Name = "SBImgView"
+        Me.SBImgView.Size = New System.Drawing.Size(24, 22)
+        Me.SBImgView.TabIndex = 81940
+        Me.SBImgView.Visible = False
         '
         'MainMasterFormRead
         '
@@ -341,6 +369,8 @@ Partial Class MainMasterFormRead
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1104, 621)
+        Me.Controls.Add(Me.SBImgView)
+        Me.Controls.Add(Me.SBimgadd)
         Me.Controls.Add(Me.PanlPropartiesWindow)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -382,4 +412,6 @@ Partial Class MainMasterFormRead
     Friend WithEvents Txt_ViewTO As ctl_TextBox.ctl_TextBox
     Friend WithEvents Txt_ViewFrom As ctl_TextBox.ctl_TextBox
     Friend WithEvents PanlPropartiesWindow As Panel
+    Friend WithEvents SBimgadd As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents SBImgView As DevExpress.XtraEditors.SimpleButton
 End Class
