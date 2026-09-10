@@ -298,9 +298,9 @@ Public Class RawStockEntry
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
             .Append("OP11:Y,")  'gst
-            .Append("OP12:Y,")  'Fright
-            .Append("OP13:Y,")  'Delivery
-            .Append("OP4:Y,")  'Payment terms
+            .Append("OP12:N,")  'Fright
+            .Append("OP13:N,")  'Delivery
+            .Append("OP4:N,")  'Payment terms
             .Append("OP5:N,") 'BookName
             .Append("OP7:N,") 'Selected Req No
             .Append("OP8:N,") 'Terms1

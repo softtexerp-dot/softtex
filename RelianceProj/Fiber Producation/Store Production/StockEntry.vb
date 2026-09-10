@@ -298,9 +298,9 @@ Public Class StockEntry
             .Append("ROWREMARK:Y,")
             .Append("GODOWNCODE:N,")
             .Append("OP11:Y,")  'gst
-            .Append("OP12:Y,")  'Fright
-            .Append("OP13:Y,")  'Delivery
-            .Append("OP4:Y,")  'Payment terms
+            .Append("OP12:N,")  'Fright
+            .Append("OP13:N,")  'Delivery
+            .Append("OP4:N,")  'Payment terms
             .Append("OP5:N,") 'BookName
             .Append("OP7:N,") 'Selected Req No
             .Append("OP8:N,") 'Terms1
@@ -1662,6 +1662,7 @@ Public Class StockEntry
                     End If
                 End If
             End If
+
         ElseIf _ActivatedColName = "ITEMNAME" Then
             If e.KeyCode = Keys.Enter AndAlso GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEBY") + 1).Text <> "YES" Then
                 Dim Item_Group_Code As String = GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("Y_DELV_ACCOUNTCODE") + 1).Text
