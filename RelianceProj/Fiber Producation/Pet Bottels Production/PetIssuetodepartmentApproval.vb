@@ -76,7 +76,8 @@ Public Class PetIssuetodepartmentApproval
         End If
         Dim _UserQuery As New StringBuilder()
         With _UserQuery
-            .Append(" SELECT   A.ENTRYNO As [Entry No],")
+            .Append(" SELECT ")
+            .Append(" A.ENTRYNO As [Entry No],")
             .Append(" FORMAT(A.PACK_SLIP_DATE,'dd/MM/yyyy') as Date, ")
             .Append(" CASE WHEN A.ENTRYDATE = '1900-01-01 00:00:00.000' THEN '' ")
             .Append(" ELSE FORMAT(A.ENTRYDATE,'dd/MM/yyyy hh:mm:ss.fff tt') END AS [Entry Date],")
@@ -90,60 +91,147 @@ Public Class PetIssuetodepartmentApproval
             .Append(" B.ItemName AS ItemName, ")
             .Append(" MstCutMaster.CUTNAME As UOM, ")
             .Append(" K.TYPE_NAME AS Brand, ")
-            .Append(" FORMAT(SUM(Z.INQTY),'0.00') AS Qty,")
-            .Append(" CASE WHEN ISDATE(A.OP9)=1 THEN CONVERT(VARCHAR(10),CAST(A.OP9 AS DATETIME),103) ELSE '' END AS OP9,")
-            .Append(" CASE WHEN UPPER(A.OP8)='YES' THEN 'YES' ELSE 'NO' END AS Status ")
-            .Append(" ,CASE WHEN L.BOOKVNO IS NULL THEN 'NO'  ELSE 'YES'END AS Status1")
-            .Append(" FROM (")
+            '====================================================
+            ' REQUEST QTY - PET02
+            '====================================================
+            .Append(" FORMAT(ISNULL(R.RequestQty,0),'0.00') AS [Request Qty],")
+            '====================================================
+            ' ISSUE QTY - PET03
+            ' PET03.OP7 = PET02.BOOKVNO
+            '====================================================
+            .Append(" FORMAT(ISNULL(I.IssueQty,0),'0.00') AS [Issue Qty],")
+            '====================================================
+            ' BALANCE QTY = REQUEST - ISSUE
+            '====================================================
+            .Append(" FORMAT(ISNULL(R.RequestQty,0) - ISNULL(I.IssueQty,0),'0.00') AS [Balance Qty],")
+            '====================================================
+            ' OP9
+            '====================================================
+            .Append(" CASE WHEN ISDATE(A.OP9)=1 ")
+            .Append(" THEN CONVERT(VARCHAR(10),CAST(A.OP9 AS DATETIME),103) ")
+            .Append(" ELSE '' END AS OP9,")
+            '====================================================
+            ' STATUS
+            '====================================================
+            .Append(" CASE WHEN UPPER(A.OP8)='YES' THEN 'YES' ELSE 'NO' END AS Status,")
+            '====================================================
+            ' STATUS1
+            ' PET03 ISSUE HAI TO YES
+            '====================================================
+            .Append(" CASE WHEN I.BOOKVNO IS NULL THEN 'NO' ELSE 'YES' END AS Status1 ")
+            '====================================================
+            ' MAIN TABLE
+            ' PET02 = REQUEST
+            '====================================================
+            .Append(" FROM " & _TblName & " A ")
+            '====================================================
+            ' REQUEST QTY
+            ' PET02
+            '====================================================
+            .Append(" LEFT JOIN ( ")
             .Append(" SELECT ")
-            .Append(" BOOKVNO, ITEMCODE, DESIGNCODE, SHADECODE, CUTCODE, ")
-            .Append(" MTR_WEIGHT AS INQTY, ")
-            .Append(" 0.00 AS OUTQTY ")
+            .Append(" BOOKVNO,")
+            .Append(" ITEMCODE,")
+            .Append(" DESIGNCODE,")
+            .Append(" SHADECODE,")
+            .Append(" CUTCODE,")
+            .Append(" GODOWNCODE,")
+            .Append(" SUM(ISNULL(MTR_WEIGHT,0)) AS RequestQty ")
             .Append(" FROM TrnPackingSlip ")
-            .Append(" WHERE BOOKCODE='0001-000010002' And OP8<>'' and OP30<>'YES'")
-            .Append(" AND GodownCode = '" & txtUnitCode.Text.Trim & "'  ")
-            .Append(" ) Z ")
-            .Append(" left JOIN " & _TblName & " A ")
-            .Append(" ON (A.BOOKVNO = Z.BOOKVNO ")
-            .Append(" AND A.ITEMCODE = Z.ITEMCODE ")
-            .Append(" AND A.DESIGNCODE = Z.DESIGNCODE ")
-            .Append(" AND A.SHADECODE = Z.SHADECODE ")
-            .Append(" AND A.CUTCODE = Z.CUTCODE ")
-            .Append(" AND A.BOOKCODE='0001-000010002') ")
-            .Append(" LEFT JOIN MSTCITY ON A.DESPATCHCODE=MSTCITY.CITYCODE ")
-            .Append(" LEFT JOIN MstStoreItem B ON A.ITEMCODE=B.ITEMCODE ")
-            .Append(" LEFT JOIN MstMasterAccount ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
-            .Append(" LEFT JOIN MSTTRANSPORT ON A.TRANSPORTCODE=MSTTRANSPORT.ID ")
-            .Append(" LEFT JOIN MstMasterAccount C ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE ")
-            .Append(" LEFT JOIN Mst_Acof_Supply ON A.ACOFCODE=Mst_Acof_Supply.ID ")
-            .Append(" LEFT JOIN MstCutMaster ON MstCutMaster.ID=A.CUTCODE ")
-            .Append(" LEFT JOIN MstStoreItemType K ON A.SHADECODE=K.TYPE_ID ")
-            .Append(" LEFT JOIN MstDepartment E ON A.DESIGNCODE=E.Departmentcode ")
-            .Append(" LEFT JOIN MstColor F ON A.CUTCODE1=F.COLORCODE ")
-            .Append(" LEFT JOIN (SELECT OP7 AS BOOKVNO ,DESIGNCODE,SHADECODE,GODOWNCODE,ITEMCODE FROM TrnPackingSlip   WHERE BOOKTRTYPE in ('PET03') GROUP BY OP7,ITEMCODE ,DESIGNCODE,SHADECODE,GODOWNCODE ) AS L ON  A.BOOKVNO = L.BOOKVNO and A.GodownCode = L.GodownCode and A.DESIGNCODE = L.DESIGNCODE and A.SHADECODE = L.SHADECODE  and A.ITEMCODE = L.ITEMCODE   ")
+            .Append(" WHERE BOOKTRTYPE='PET02' ")
+            .Append(" AND BOOKCODE='0001-000010002' ")
+            .Append(" AND OP8<>'' ")
+            .Append(" AND OP30<>'YES' ")
+            .Append(" AND GodownCode = '" & txtUnitCode.Text.Trim & "' ")
+            .Append(" GROUP BY ")
+            .Append(" BOOKVNO,")
+            .Append(" ITEMCODE,")
+            .Append(" DESIGNCODE,")
+            .Append(" SHADECODE,")
+            .Append(" CUTCODE,")
+            .Append(" GODOWNCODE ")
+            .Append(" ) R ON ")
+            .Append(" A.BOOKVNO=R.BOOKVNO ")
+            .Append(" AND A.ITEMCODE=R.ITEMCODE ")
+            .Append(" AND A.DESIGNCODE=R.DESIGNCODE ")
+            .Append(" AND A.SHADECODE=R.SHADECODE ")
+            .Append(" AND A.CUTCODE=R.CUTCODE ")
+            .Append(" AND A.GODOWNCODE=R.GODOWNCODE ")
+            '====================================================
+            ' ISSUE QTY
+            ' PET03
+            ' OP7 = PET02 BOOKVNO
+            '====================================================
+            .Append(" LEFT JOIN ( ")
+            .Append(" SELECT ")
+            .Append(" OP7 AS BOOKVNO,")
+            .Append(" ITEMCODE,")
+            .Append(" DESIGNCODE,")
+            .Append(" SHADECODE,")
+            .Append(" CUTCODE,")
+            .Append(" GODOWNCODE,")
+            .Append(" SUM(ISNULL(MTR_WEIGHT,0)) AS IssueQty ")
+            .Append(" FROM TrnPackingSlip ")
+            .Append(" WHERE BOOKTRTYPE='PET03' ")
+            .Append(" AND GodownCode = '" & txtUnitCode.Text.Trim & "' ")
+            .Append(" GROUP BY ")
+            .Append(" OP7,")
+            .Append(" ITEMCODE,")
+            .Append(" DESIGNCODE,")
+            .Append(" SHADECODE,")
+            .Append(" CUTCODE,")
+            .Append(" GODOWNCODE ")
+            .Append(" ) I ON ")
+            .Append(" A.BOOKVNO=I.BOOKVNO ")
+            .Append(" AND A.ITEMCODE=I.ITEMCODE ")
+            .Append(" AND A.DESIGNCODE=I.DESIGNCODE ")
+            .Append(" AND A.SHADECODE=I.SHADECODE ")
+            .Append(" AND A.CUTCODE=I.CUTCODE ")
+            .Append(" AND A.GODOWNCODE=I.GODOWNCODE ")
+            '====================================================
+            ' OTHER JOINS
+            '====================================================
+            .Append(" LEFT JOIN MSTCITY ")
+            .Append(" ON A.DESPATCHCODE=MSTCITY.CITYCODE ")
+            .Append(" LEFT JOIN MstStoreItem B ")
+            .Append(" ON A.ITEMCODE=B.ITEMCODE ")
+            .Append(" LEFT JOIN MstMasterAccount ")
+            .Append(" ON A.ACCOUNTCODE=MstMasterAccount.ACCOUNTCODE ")
+            .Append(" LEFT JOIN MSTTRANSPORT ")
+            .Append(" ON A.TRANSPORTCODE=MSTTRANSPORT.ID ")
+            .Append(" LEFT JOIN MstMasterAccount C ")
+            .Append(" ON MstMasterAccount.AGENTCODE=C.ACCOUNTCODE ")
+            .Append(" LEFT JOIN Mst_Acof_Supply ")
+            .Append(" ON A.ACOFCODE=Mst_Acof_Supply.ID ")
+            .Append(" LEFT JOIN MstCutMaster ")
+            .Append(" ON MstCutMaster.ID=A.CUTCODE ")
+            .Append(" LEFT JOIN MstStoreItemType K ")
+            .Append(" ON A.SHADECODE=K.TYPE_ID ")
+            .Append(" LEFT JOIN MstDepartment E ")
+            .Append(" ON A.DESIGNCODE=E.Departmentcode ")
+            .Append(" LEFT JOIN MstColor F ")
+            .Append(" ON A.CUTCODE1=F.COLORCODE ")
+            '====================================================
+            ' FILTER
+            '====================================================
             .Append(" WHERE 1=1 ")
+            ' MAIN RECORD = PET02 REQUEST
+            .Append(" AND A.BOOKTRTYPE='PET02' ")
             .Append(Unitfilter)
             .Append(dateFilter)
             .Append(StatusFilter)
             .Append(TypeFilter)
-            .Append(" GROUP BY ")
-            .Append(" A.ENTRYNO,")
-            .Append(" A.GODOWNCODE,")
-            .Append(" A.PACK_SLIP_DATE,")
-            .Append(" A.ENTRYDATE,")
-            .Append(" A.PACK_SLIP_NO,")
-            .Append(" A.ITEMCODE,")
-            .Append(" A.DESIGNCODE,")
-            .Append(" A.SHADECODE,")
-            .Append(" A.CUTCODE,")
-            .Append(" A.BOOKVNO,")
-            .Append(" B.ItemName,")
-            .Append(" MstCutMaster.CUTNAME,")
-            .Append(" K.TYPE_NAME,")
-            .Append(" L.BOOKVNO,")
-            .Append(" A.OP9,")
-            .Append(" A.OP8 ")
-            '.Append(" HAVING SUM(Z.INQTY)-SUM(Z.OUTQTY) > 0 ")
+            '====================================================
+            ' ZERO QTY ROW HIDE
+            '====================================================
+            .Append(" AND ( ")
+            .Append(" ISNULL(R.RequestQty,0) <> 0 ")
+            .Append(" OR ISNULL(I.IssueQty,0) <> 0 ")
+            '.Append(" OR (ISNULL(R.RequestQty,0)-ISNULL(I.IssueQty,0)) <> 0 ")
+            .Append(") ")
+            '====================================================
+            ' ORDER BY
+            '====================================================
             .Append(" ORDER BY A.ENTRYNO ")
         End With
         Dim tblTmp As DataTable
@@ -161,19 +249,36 @@ Public Class PetIssuetodepartmentApproval
             GridControl1.DataSource = tblTmp.Copy
             AddHandler FirstStage.RowStyle, AddressOf bandedView_RowStyle
             For Each dc As DataColumn In tblTmp.Columns
-                Dim isEmptyOrZero As Boolean = True
-                If dc.ColumnName.ToUpper() = "ID" Or dc.ColumnName.ToUpper() = "ITEMCODE" Or dc.ColumnName.ToUpper() = "BOOKVNO" Or dc.ColumnName.ToUpper() = "OP9" Or dc.ColumnName.ToUpper() = "DESIGNCODE" Or dc.ColumnName.ToUpper() = "SHADECODE" Or dc.ColumnName.ToUpper() = "CUTCODE" Or dc.ColumnName.ToUpper() = "GODOWNCODE" Then
+                '========================================================
+                ' FIXED HIDDEN COLUMNS
+                '========================================================
+                If dc.ColumnName.ToUpper() = "ID" OrElse dc.ColumnName.ToUpper() = "ITEMCODE" OrElse dc.ColumnName.ToUpper() = "BOOKVNO" OrElse dc.ColumnName.ToUpper() = "OP9" OrElse dc.ColumnName.ToUpper() = "DESIGNCODE" OrElse dc.ColumnName.ToUpper() = "SHADECODE" OrElse dc.ColumnName.ToUpper() = "CUTCODE" OrElse dc.ColumnName.ToUpper() = "GODOWNCODE" Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
                     Continue For
                 End If
+                '========================================================
+                ' ENTRY DATE HIDDEN
+                '========================================================
                 If dc.ColumnName.Equals("Entry Date", StringComparison.OrdinalIgnoreCase) Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
                     Continue For
                 End If
+                '========================================================
+                ' QTY COLUMNS ALWAYS VISIBLE
+                ' EVEN IF VALUE = 0.00
+                '========================================================
+                If dc.ColumnName.Equals("Request Qty", StringComparison.OrdinalIgnoreCase) OrElse dc.ColumnName.Equals("Issue Qty", StringComparison.OrdinalIgnoreCase) OrElse dc.ColumnName.Equals("Balance Qty", StringComparison.OrdinalIgnoreCase) Then
+                    FirstStage.Columns(dc.ColumnName).Visible = True
+                    Continue For
+                End If
+                '========================================================
+                ' OTHER COLUMNS
+                ' Hide if all values are empty / zero
+                '========================================================
+                Dim isEmptyOrZero As Boolean = True
                 For Each dr As DataRow In tblTmp.Rows
                     If Not IsDBNull(dr(dc)) Then
                         Dim val As String = dr(dc).ToString().Trim()
-                        ' 🔴 अगर कोई value meaningful है → column visible रहेगा
                         If val <> "" AndAlso val <> "0" AndAlso val <> "0.00" Then
                             isEmptyOrZero = False
                             Exit For
@@ -182,6 +287,8 @@ Public Class PetIssuetodepartmentApproval
                 Next
                 If isEmptyOrZero Then
                     FirstStage.Columns(dc.ColumnName).Visible = False
+                Else
+                    FirstStage.Columns(dc.ColumnName).Visible = True
                 End If
             Next
             For Each col As DevExpress.XtraGrid.Columns.GridColumn In FirstStage.Columns
