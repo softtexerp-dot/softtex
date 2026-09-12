@@ -89,6 +89,8 @@ Public Class MainMasterFormRead
     Private PositionButtonPanel As Panel
     Dim GetformName As String = ""
     Public flagstring As String = ""
+    Private DynamicTabControl As TabControl = Nothing
+    Private CurrentTabPage As TabPage = Nothing
 
 
     Private Sub CreateButtonsControl()
@@ -473,50 +475,59 @@ Public Class MainMasterFormRead
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
 
         For Each ctrl As Control In GetAllControls(Me)
-
             If TypeOf ctrl Is TextBox Then
-
                 Dim txt As TextBox = DirectCast(ctrl, TextBox)
-
                 If txt.Tag Is Nothing Then Continue For
-
                 Dim tagText As String = txt.Tag.ToString().Trim()
-
                 'Only Attach Image controls
-                If tagText.StartsWith(
-            "Attach Image",
-            StringComparison.OrdinalIgnoreCase) Then
-
+                If tagText.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
                     'Database column
                     Dim dbColumn As String = ""
-
                     If txt.AccessibleName IsNot Nothing Then
                         dbColumn = txt.AccessibleName.ToString().Trim()
                     End If
-
                     If String.IsNullOrWhiteSpace(dbColumn) Then
                         Continue For
                     End If
-
                     'Actual image full path
                     Dim imagePath As String = ""
-
                     If txt.AccessibleDescription IsNot Nothing Then
-                        imagePath =
-                    txt.AccessibleDescription.ToString().Trim()
+                        imagePath = txt.AccessibleDescription.ToString().Trim()
                     End If
-
                     'Save FULL PATH directly into database column
                     If tblFormValues.Columns.Contains(dbColumn) Then
-
                         tblFormValues.Rows(0)(dbColumn) = imagePath
-
                     End If
-
+                    '==================================================
+                    ' Find Checkbox
+                    '==================================================
+                    Dim chk As CheckBox = Nothing
+                    For Each c As Control In GetAllControls(Me)
+                        If TypeOf c Is CheckBox Then
+                            Dim tempChk As CheckBox = DirectCast(c, CheckBox)
+                            If tempChk.Tag IsNot Nothing AndAlso
+                               tempChk.Tag.ToString().Trim().
+                               Equals(tagText, StringComparison.OrdinalIgnoreCase) Then
+                                chk = tempChk
+                                Exit For
+                            End If
+                        End If
+                    Next
+                    '==================================================
+                    ' Save Checkbox Value
+                    '==================================================
+                    If chk IsNot Nothing Then
+                        Dim chkColumn As String = ""
+                        If chk.AccessibleName IsNot Nothing Then
+                            chkColumn = chk.AccessibleName.ToString().Trim()
+                        End If
+                        If Not String.IsNullOrWhiteSpace(chkColumn) AndAlso
+                           tblFormValues.Columns.Contains(chkColumn) Then
+                            tblFormValues.Rows(0)(chkColumn) = If(chk.Checked, "YES", "NO")
+                        End If
+                    End If
                 End If
-
             End If
-
         Next
         For Each item In _UniqueValues
             Dim ctrlName As String = item.Item1
@@ -890,7 +901,7 @@ Public Class MainMasterFormRead
                     Dim _Readonly As String = dr("ReadOnly").ToString()
                     FormId = dr("FormId").ToString()
                     Id = dr("Id").ToString()
-                    If HeaderName > "" Then
+                    If HeaderName > "" AndAlso visible = "Y" Then
                         leftPos = dr("LocationX").ToString()
                         topPos = dr("LocationY").ToString()
                         width = dr("SizeWidth").ToString()
@@ -913,7 +924,24 @@ Public Class MainMasterFormRead
                         lbl.AutoSize = False
                         lbl.Width = 120   ' 🔒 fixed width for all labels
                         lbl.TextAlign = ContentAlignment.MiddleLeft
-                        Me.Controls.Add(lbl)
+                        'Me.Controls.Add(lbl)
+                        If CurrentTabPage IsNot Nothing AndAlso
+       DynamicTabControl IsNot Nothing Then
+
+                            If Tabindex <= 2 Then
+                                CurrentTabPage = DynamicTabControl.TabPages(0)
+                            ElseIf Tabindex <= 3 Then
+                                CurrentTabPage = DynamicTabControl.TabPages(1)
+                            Else
+                                CurrentTabPage = DynamicTabControl.TabPages(2)
+                            End If
+
+                        End If
+                        If CurrentTabPage IsNot Nothing Then
+                            CurrentTabPage.Controls.Add(lbl)
+                        Else
+                            Me.Controls.Add(lbl)
+                        End If
                         AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                         AddHandler lbl.MouseMove, AddressOf Control_MouseMove
                         AddHandler lbl.MouseUp, AddressOf Control_MouseUp
@@ -969,7 +997,13 @@ Public Class MainMasterFormRead
                             '==================================================
                             ' ADD TEXTBOX
                             '==================================================
-                            Me.Controls.Add(txt)
+                            'Me.Controls.Add(txt)
+
+                            If CurrentTabPage IsNot Nothing Then
+                                CurrentTabPage.Controls.Add(txt)
+                            Else
+                                Me.Controls.Add(txt)
+                            End If
                             If txt.TabIndex = 1 Then
                                 txt.Focus()
                             End If
@@ -981,7 +1015,7 @@ Public Class MainMasterFormRead
                             AddHandler txt.MouseUp, AddressOf Control_MouseUp
                             AddHandler txt.KeyDown, AddressOf Control_KeyDown
 
-                        ElseIf colType = "ImgAdd" Then
+                        ElseIf colType = "ImgAdd" AndAlso visible = "Y" Then
                             Dim btn As New SimpleButton()
                             btn.Name = Name
                             btn.Left = leftPos + 130
@@ -1018,7 +1052,7 @@ Public Class MainMasterFormRead
                             AddHandler btn.MouseUp, AddressOf Control_MouseUp
 
                             AddHandler btn.Click, AddressOf ButtonImgAdd_Click
-                        ElseIf colType = "ImgView" Then
+                        ElseIf colType = "ImgView" AndAlso visible = "Y" Then
                             Dim btn As New SimpleButton()
                             Dim buttonNo As Integer = 0
                             btn.Name = Name
@@ -1052,7 +1086,7 @@ Public Class MainMasterFormRead
                             AddHandler btn.MouseMove, AddressOf Control_MouseMove
                             AddHandler btn.MouseUp, AddressOf Control_MouseUp
                             AddHandler btn.Click, AddressOf ButtonImgAdd_Click
-                        ElseIf colType = "Button" Then
+                        ElseIf colType = "Button" AndAlso visible = "Y" Then
                             Dim btn As New SimpleButton()
                             btn.Name = Name
                             btn.Left = leftPos + 130
@@ -1083,9 +1117,7 @@ Public Class MainMasterFormRead
                                 btn.Tag = Tag
                             End If
                             If buttonNo > 0 Then
-
                                 lbl.Visible = False
-
                             End If
                             Me.Controls.Add(btn)
                             AddHandler btn.MouseDown, AddressOf Control_MouseDown
@@ -1096,13 +1128,83 @@ Public Class MainMasterFormRead
                         ElseIf colType = "ComboBox" AndAlso HeaderName > "" Then
                             'Dim cmb As New ComboBox()
                             'AddHandler txt.KeyDown, AddressOf MoveNextOnEnter
+                        ElseIf colType = "TabControl" AndAlso visible = "Y" Then
+                            DynamicTabControl = New TabControl()
+                            Dim tabName As String = Name.Trim()
+                            If String.IsNullOrWhiteSpace(tabName) Then
+                                tabName = "TabControl"
+                            End If
+                            Dim baseName As String = tabName
+                            Dim counter As Integer = 1
+                            While Me.Controls.ContainsKey(tabName)
+                                tabName = baseName & "_" & counter.ToString()
+                                counter += 1
+                            End While
+                            DynamicTabControl.Name = tabName
+                            DynamicTabControl.Left = leftPos + 130
+                            DynamicTabControl.Top = topPos
+                            DynamicTabControl.Width = width
+                            DynamicTabControl.Height = height
+                            DynamicTabControl.Tag = Tag
+                            DynamicTabControl.TabIndex = Tabindex
+                            '==================================================
+                            ' TAB 1
+                            '==================================================
+                            Dim tabPage1 As New TabPage()
+                            tabPage1.Name = DynamicTabControl.Name & "_Page1"
+                            If String.IsNullOrWhiteSpace(HeaderName) Then
+                                tabPage1.Text = "Tab 1"
+                            Else
+                                tabPage1.Text = HeaderName
+                            End If
+                            '==================================================
+                            ' TAB 2
+                            '==================================================
+                            Dim tabPage2 As New TabPage()
+                            tabPage2.Name = DynamicTabControl.Name & "_Page2"
+                            tabPage2.Text = "Tab 2"
+
+                            '==================================================
+                            ' TAB 3
+                            '==================================================
+                            Dim tabPage3 As New TabPage()
+                            tabPage3.Name = DynamicTabControl.Name & "_Page3"
+                            tabPage3.Text = "Tab 3"
+                            DynamicTabControl.TabPages.Add(tabPage1)
+                            DynamicTabControl.TabPages.Add(tabPage2)
+                            DynamicTabControl.TabPages.Add(tabPage3)
+                            DynamicTabControl.SelectedIndex = 0
+                            'Current page
+                            CurrentTabPage = tabPage1
+                            lbl.Visible = False
+                            Me.Controls.Add(DynamicTabControl)
+                            AddHandler DynamicTabControl.MouseDown, AddressOf Control_MouseDown
+                            AddHandler DynamicTabControl.MouseMove, AddressOf Control_MouseMove
+                            AddHandler DynamicTabControl.MouseUp, AddressOf Control_MouseUp
+                        ElseIf colType = "CheckBox" AndAlso visible = "Y" Then
+                            Dim chk As New CheckBox()
+                            chk.Name = Name
+                            chk.Left = leftPos + 130
+                            chk.Top = topPos
+                            chk.Width = width
+                            chk.Height = height
+                            chk.Text = HeaderName
+                            chk.Tag = Tag
+                            chk.TabIndex = Tabindex
+                            'Optional: Database value ke liye
+                            chk.AccessibleDescription = Tag
+                            'Label Hide
+                            lbl.Visible = False
+                            Me.Controls.Add(chk)
+                            'Move Events
+                            AddHandler chk.MouseDown, AddressOf Control_MouseDown
+                            AddHandler chk.MouseMove, AddressOf Control_MouseMove
+                            AddHandler chk.MouseUp, AddressOf Control_MouseUp
                         End If
                         topPos += 35
                     End If
                 Next
-
                 ObjCls_General.CreateDataTable(tblFormValues, _Grid1ColNames.ToString, "YES")
-
 #End Region
                 BtnUpdatepos.Enabled = True
                 btnmovecontrol.Enabled = True
@@ -1136,11 +1238,8 @@ Public Class MainMasterFormRead
                     Dim tblTmp1 As DataTable = Alter_Form()
                 End If
             ElseIf _FORMMODE = "DELETE" Then
-                If MsgBox("Do You Want To Delete (Y/N)",
-      MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
-      "Delete ?") = MsgBoxResult.Yes Then
+                If MsgBox("Do You Want To Delete (Y/N)", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
                     'Call Delete_Entry()
-
                 End If
             End If
         Catch ex As Exception
@@ -1148,8 +1247,6 @@ Public Class MainMasterFormRead
         Finally
         End Try
     End Sub
-
-
     Private Sub Button_Click(sender As Object, e As EventArgs)
         Dim btn As SimpleButton = TryCast(sender, SimpleButton)
         If btn Is Nothing Then Exit Sub
@@ -1405,7 +1502,6 @@ Public Class MainMasterFormRead
         End Try
     End Sub
     Private Sub ShowImagePopupFromUrl(imageUrl As String)
-
         Try
             Dim frm As New Form()
             frm.Text = "Image Preview"
@@ -1419,7 +1515,6 @@ Public Class MainMasterFormRead
             ' URL se Image Load
             '==================================================
             Dim request As System.Net.WebRequest = System.Net.WebRequest.Create(imageUrl)
-
             Using response As System.Net.WebResponse = request.GetResponse()
                 Using stream As IO.Stream = response.GetResponseStream()
                     Using tempImage As System.Drawing.Image =
@@ -1575,7 +1670,6 @@ Public Class MainMasterFormRead
         Dim ctrlName As String = ctrl.Name
         Dim Tabindex As Integer = ctrl.TabIndex
         updatepossition(leftPos, topPos, height, width, ctrlName, Tabindex, FormId, Id)
-
     End Sub
 
     Private Sub GenerateTable(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
@@ -1640,25 +1734,21 @@ Public Class MainMasterFormRead
             Else
                 strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             End If
-
             'sqL = strQuery.ToString
             'sql_connect_slect1()
             RS = strQuery.ToString
             MenuDesign_QueryLoad()
         Catch ex As Exception
-
             MsgBox("Error While update Entry")
         Finally
             cmd = Nothing
         End Try
     End Sub
     Private Sub BtnUpdatepos_Click(sender As Object, e As EventArgs) Handles BtnUpdatepos.Click
-
         For Each ctrl As Control In Me.Controls
             ' sirf required controls
-            If TypeOf ctrl Is Label OrElse
-       TypeOf ctrl Is TextBox OrElse
-       TypeOf ctrl Is Button OrElse TypeOf ctrl Is Grid Then
+            'If TypeOf ctrl Is Label OrElse TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is Button OrElse TypeOf ctrl Is Grid Then
+            If TypeOf ctrl Is Label OrElse TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is Button OrElse TypeOf ctrl Is SimpleButton OrElse TypeOf ctrl Is Grid OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is TabControl OrElse TypeOf ctrl Is DevExpress.XtraTab.XtraTabControl Then
                 SaveControlPosition(ctrl)
             End If
         Next
