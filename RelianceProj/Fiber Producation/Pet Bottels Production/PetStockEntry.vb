@@ -1744,7 +1744,8 @@ Public Class PetStockEntry
 
             End If
             'ElseIf _ActivatedColName = "ROWREMARK" Then
-        ElseIf _ActivatedColName = "OP4" Then
+            'ElseIf _ActivatedColName = "OP4" Then
+        ElseIf _ActivatedColName = "OP11" Then
             If e.KeyCode = 13 Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
                 Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
