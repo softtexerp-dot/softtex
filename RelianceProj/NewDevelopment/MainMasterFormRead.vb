@@ -925,15 +925,18 @@ Public Class MainMasterFormRead
                         lbl.Width = 120   ' 🔒 fixed width for all labels
                         lbl.TextAlign = ContentAlignment.MiddleLeft
                         'Me.Controls.Add(lbl)
+                        'TabControl Label and TextBox display
                         If CurrentTabPage IsNot Nothing AndAlso
        DynamicTabControl IsNot Nothing Then
 
-                            If Tabindex <= 2 Then
+                            If Tabindex <= 1 Then
                                 CurrentTabPage = DynamicTabControl.TabPages(0)
-                            ElseIf Tabindex <= 3 Then
+                            ElseIf Tabindex <= 2 Then
                                 CurrentTabPage = DynamicTabControl.TabPages(1)
-                            Else
+                            ElseIf Tabindex <= 3 Then
                                 CurrentTabPage = DynamicTabControl.TabPages(2)
+                            Else
+                                CurrentTabPage = DynamicTabControl.TabPages(3)
                             End If
 
                         End If
@@ -1153,26 +1156,34 @@ Public Class MainMasterFormRead
                             Dim tabPage1 As New TabPage()
                             tabPage1.Name = DynamicTabControl.Name & "_Page1"
                             If String.IsNullOrWhiteSpace(HeaderName) Then
-                                tabPage1.Text = "Tab 1"
+                                tabPage1.Text = "Main Info"
                             Else
-                                tabPage1.Text = HeaderName
+                                'tabPage1.Text = HeaderName
+                                tabPage1.Text = "Main Info"
                             End If
                             '==================================================
                             ' TAB 2
                             '==================================================
                             Dim tabPage2 As New TabPage()
                             tabPage2.Name = DynamicTabControl.Name & "_Page2"
-                            tabPage2.Text = "Tab 2"
+                            tabPage2.Text = "Mobile App Config"
 
                             '==================================================
                             ' TAB 3
                             '==================================================
                             Dim tabPage3 As New TabPage()
                             tabPage3.Name = DynamicTabControl.Name & "_Page3"
-                            tabPage3.Text = "Tab 3"
+                            tabPage3.Text = "Other Info-1"
+                            '==================================================
+                            ' TAB 4
+                            '==================================================
+                            Dim tabPage4 As New TabPage()
+                            tabPage4.Name = DynamicTabControl.Name & "_Page4"
+                            tabPage4.Text = "Other Info-2"
                             DynamicTabControl.TabPages.Add(tabPage1)
                             DynamicTabControl.TabPages.Add(tabPage2)
                             DynamicTabControl.TabPages.Add(tabPage3)
+                            DynamicTabControl.TabPages.Add(tabPage4)
                             DynamicTabControl.SelectedIndex = 0
                             'Current page
                             CurrentTabPage = tabPage1
