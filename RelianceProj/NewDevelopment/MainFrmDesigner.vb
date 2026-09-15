@@ -141,6 +141,9 @@ Public Class MainFrmDesigner
             .Append(",SaveYN")
             .Append(",FormDesignType")
             .Append(",Masking")
+            .Append(",Tabelements")
+            .Append(",TabName")
+            .Append(",TabCountNo")
             .Append(",Managebook")
             .Append(",FormType")
             .Append(",RowID")
@@ -180,6 +183,9 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:Spacer String")
             .Append(",SaveYN:Save Y/N")
             .Append(",Masking:Decimal Value")
+            .Append(",Tabelements:No Of Tabcontrol Tabs")
+            .Append(",TabName:TabName")
+            .Append(",TabCountNo:TabCountNo")
         End With
         _FieldHeaderAlignment = New StringBuilder
         With _FieldHeaderAlignment
@@ -204,6 +210,9 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:L")
             .Append(",SaveYN:L")
             .Append(",Masking:L")
+            .Append(",Tabelements:L")
+            .Append(",TabName:L")
+            .Append(",TabCountNo:L")
         End With
         _FieldAlignMent = New StringBuilder
         With _FieldAlignMent
@@ -228,6 +237,9 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:L")
             .Append(",SaveYN:L")
             .Append(",Masking:L")
+            .Append(",Tabelements:L")
+            .Append(",TabName:L")
+            .Append(",TabCountNo:L")
         End With
         _FieldNotVisibile = New StringBuilder
         With _FieldNotVisibile
@@ -283,6 +295,9 @@ Public Class MainFrmDesigner
             .Append(",Managebook:N")
             .Append(",FormType:N")
             .Append(",RowID:N")
+            .Append(",Tabelements:Y")
+            .Append(",TabName:Y")
+            .Append(",TabCountNo:Y")
         End With
         _FieldNotRequiredForSave = New StringBuilder
         With _FieldNotRequiredForSave
@@ -312,6 +327,9 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:10")
             .Append(",SaveYN:8")
             .Append(",Masking:10")
+            .Append(",Tabelements:8")
+            .Append(",TabName:10")
+            .Append(",TabCountNo:8")
         End With
         _FieldDefaultValues = New StringBuilder
         With _FieldDefaultValues
@@ -327,6 +345,8 @@ Public Class MainFrmDesigner
             .Append(",TextAlign:Y")
             .Append(",SaveYN:Y")
             .Append(",Visible:N")
+            .Append(",Tabelements:0")
+            .Append(",TabCountNo:0")
         End With
         _FieldLocked = New StringBuilder
         With _FieldLocked
@@ -350,6 +370,8 @@ Public Class MainFrmDesigner
             .Append(",LocationY:NO-0")
             .Append(",SizeHeight:NO-0")
             .Append(",Tabindex:NO-0")
+            .Append(",Tabelements:NO-0")
+            .Append(",TabCountNo:NO-0")
         End With
         With _FieldNameSameValueCopy
         End With
@@ -1084,6 +1106,52 @@ Public Class MainFrmDesigner
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "GRID DETAIL DESIGN"
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 10
+            ElseIf _BaseName.Trim().ToUpper() = "TABCONTROL" Then
+                '----------------------------
+                ' DEFAULT CONTROL SETTINGS
+                '----------------------------
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 300
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 600
+                '================================================
+                ' TAB RELATED COLUMNS
+                '================================================
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TabElements") + 1).Locked = False
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TabName") + 1).Locked = False
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TabCountNo") + 1).Locked = False
+                '================================================
+                ' DEFAULT TAB COUNT
+                '================================================
+                Dim TabCount As Integer = 3
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TabElements") + 1).Text = TabCount
+                '================================================
+                ' TAB ELEMENTS
+                ' Blank ho to 0 set karo
+                '================================================
+                Dim TabElementsCol As Integer = _GridDatatbl.Columns.IndexOf("TabElements") + 1
+                If String.IsNullOrWhiteSpace(_GetGrid.Cell(_ActiverownoHeader, TabElementsCol).Text) Then
+                    _GetGrid.Cell(_ActiverownoHeader, TabElementsCol).Text = "0"
+                End If
+                '================================================
+                ' TAB COUNT NO
+                ' Blank ho to 0
+                '================================================
+                Dim TabCountNoCol As Integer = _GridDatatbl.Columns.IndexOf("TabCountNo") + 1
+                If String.IsNullOrWhiteSpace(_GetGrid.Cell(_ActiverownoHeader, TabCountNoCol).Text) Then
+                    _GetGrid.Cell(_ActiverownoHeader, TabCountNoCol).Text = "0"
+                End If
+                '================================================
+                ' GENERATE TAB NAME / COUNT
+                '================================================
+                Dim TabNames As New List(Of String)
+                'Dim TabNumbers As New List(Of String)
+                For i As Integer = 1 To TabCount
+                    TabNames.Add("Tab" & i)
+                    'TabNumbers.Add(i.ToString())
+                Next
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TabName") + 1).Text = String.Join(",", TabNames)
+                '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("TabCountNo") + 1).Text = String.Join(",", TabNumbers)
             ElseIf _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text = "Grid" AndAlso _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN" Then
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationX") + 1).Text = -127
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 310
@@ -1900,12 +1968,60 @@ Public Class MainFrmDesigner
                 End If
             End If
             'ElseIf _ActivatedColName = "SPACERSTRING" Then
-        ElseIf _ActivatedColName = "MASKING" Then
+            'ElseIf _ActivatedColName = "MASKING" Then
+        ElseIf _ActivatedColName = "TABELEMENTS" Then
+            If e.KeyCode = Keys.Enter Then
+                UpdateTabElements(GrdItem.ActiveCell.Row)
+                e.Handled = True
+                e.SuppressKeyPress = True
+            End If
+        ElseIf _ActivatedColName = "TABCOUNTNO" Then
             GrdItem.ActiveCell.Text = GrdItem.ActiveCell.Text.ToUpper()
             If GrdItem.Rows - 1 = GrdItem.ActiveCell.Row Then
                 GrdItem.Rows = GrdItem.Rows + 1
             End If
         End If
+    End Sub
+    Private Sub UpdateTabElements(ByVal RowNo As Integer)
+
+        Try
+
+            Dim tabElementsCol As Integer = _DataTableGrid.Columns.IndexOf("TabElements") + 1
+            Dim tabNameCol As Integer = _DataTableGrid.Columns.IndexOf("TabName") + 1
+            Dim tabCountNoCol As Integer = _DataTableGrid.Columns.IndexOf("TabCountNo") + 1
+            '-----------------------------------------
+            ' GET TAB COUNT
+            '-----------------------------------------
+            Dim tabCount As Integer = 0
+            Integer.TryParse(GrdItem.Cell(RowNo, tabElementsCol).Text.Trim(), tabCount)
+            '-----------------------------------------
+            ' INVALID VALUE
+            '-----------------------------------------
+            If tabCount <= 0 Then
+                GrdItem.Cell(RowNo, tabNameCol).Text = ""
+                GrdItem.Cell(RowNo, tabCountNoCol).Text = "0"
+                Exit Sub
+            End If
+            '-----------------------------------------
+            ' GENERATE TAB NAME / TAB COUNT
+            '-----------------------------------------
+            Dim tabNames As New List(Of String)
+            'Dim tabNumbers As New List(Of String)
+            For i As Integer = 1 To tabCount
+                tabNames.Add("Tab" & i)
+                'tabNumbers.Add(i.ToString())
+            Next
+            '-----------------------------------------
+            ' SET TAB NAME
+            '-----------------------------------------
+            GrdItem.Cell(RowNo, tabNameCol).Text = String.Join(",", tabNames)
+            '-----------------------------------------
+            ' SET TAB COUNT NO
+            '-----------------------------------------
+            'GrdItem.Cell(RowNo, tabCountNoCol).Text = String.Join(",", tabNumbers)
+        Catch ex As Exception
+            MessageBox.Show("TabElements update error : " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Function _CheckMAsterKey(ByVal colUseMasterKey As String)
@@ -2726,6 +2842,22 @@ Public Class MainFrmDesigner
                 ' Next row ke liye
                 Last_RowId += 1
             End If
+            '========================================================
+            ' TAB ELEMENTS
+            ' Blank ho to 0
+            '========================================================
+            Dim TabElementsValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Tabelements") + 1).Text.Trim()
+            If String.IsNullOrWhiteSpace(TabElementsValue) Then
+                TabElementsValue = "0"
+            End If
+            '========================================================
+            ' TAB COUNT NO
+            ' Blank ho to 0
+            '========================================================
+            Dim TabCountNoValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("TabCountNo") + 1).Text.Trim()
+            If String.IsNullOrWhiteSpace(TabCountNoValue) Then
+                TabCountNoValue = "0"
+            End If
             '======================================================
             ' INSERT QUERY
             '======================================================
@@ -2743,7 +2875,7 @@ Public Class MainFrmDesigner
             "MainFormLocationY,FormDesignType,")
             sb.Append("FocusColor,LostFocusColor,Visible,ReadOnly,TextAlign," &
             "Erequred,Enabled,")
-            sb.Append("SaveYN,Masking,Managebook,FormType)")
+            sb.Append("SaveYN,Masking,Managebook,FormType,Tabelements,TabName,TabCountNo)")
             sb.Append(" VALUES (")
             '======================================================
             ' ROWID
@@ -2796,7 +2928,10 @@ Public Class MainFrmDesigner
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SaveYN") + 1).Text.Trim().Replace("'", "''") & "',")
             sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masking") + 1).Text.Trim() & ",")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Managebook") + 1).Text.Trim().Replace("'", "''") & "',")
-            sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("FormType") + 1).Text.Trim().Replace("'", "''") & "'")
+            sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("FormType") + 1).Text.Trim().Replace("'", "''") & "',")
+            sb.Append(TabElementsValue & ",")
+            sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("TabName") + 1).Text.Trim().Replace("'", "''") & "',")
+            sb.Append(TabCountNoValue)
             sb.Append(")")
             '======================================================
             ' SAVE
