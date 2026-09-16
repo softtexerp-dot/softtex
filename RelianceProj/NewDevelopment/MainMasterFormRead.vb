@@ -129,7 +129,7 @@ Public Class MainMasterFormRead
         If _FORMMODE = "ADD" Then
             'txtFormName.Focus()
             ' ADD mode ka logic yahan
-            Call Ctrl_Visible_True(Me.Controls)
+            Call Ctrl_Visible_TrueForm(Me.Controls)
             _LoadDefaultData()
         End If
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
@@ -137,11 +137,11 @@ Public Class MainMasterFormRead
     Private Sub UC_Buttons1_EditClick()
         _FORMMODE = "EDIT"
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        Call Ctrl_Visible_TrueForm(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "EDIT" Then
             'txtFormName.Focus()
-            Call Ctrl_Visible_True(Me.Controls)
+            Call Ctrl_Visible_TrueForm(Me.Controls)
             _LoadDefaultData()
         End If
         Change_Grid_Data = True
@@ -176,33 +176,114 @@ Public Class MainMasterFormRead
         ' NORMAL DATABASE VALUES
         '========================================
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
-        If tblTmp.Rows.Count > 0 Then
-            For Each ctrl As Control In GetAllControls(Me)
+        'If tblTmp.Rows.Count > 0 Then
+        '    For Each ctrl As Control In GetAllControls(Me)
+        '        If TypeOf ctrl Is TextBox Then
+        '            Dim txt As TextBox = DirectCast(ctrl, TextBox)
+        '            If txt.Tag Is Nothing Then Continue For
+        '            Dim tagText As String = txt.Tag.ToString().Trim()
+        '            If tagText.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
+        '                Dim dbColumn As String = ""
+        '                If txt.AccessibleName IsNot Nothing Then
+        '                    dbColumn = txt.AccessibleName.ToString().Trim()
+        '                End If
+        '                If String.IsNullOrWhiteSpace(dbColumn) Then
+        '                    Continue For
+        '                End If
+        '                If tblTmp.Columns.Contains(dbColumn) Then
+        '                    Dim imagePath As String = ""
+        '                    If Not IsDBNull(tblTmp.Rows(0)(dbColumn)) Then
+        '                        imagePath = tblTmp.Rows(0)(dbColumn).ToString().Trim()
+        '                    End If
+        '                    'Actual full path
+        '                    txt.AccessibleDescription = imagePath
+        '                    'Textbox me filename show hoga
+        '                    If Not String.IsNullOrWhiteSpace(imagePath) Then
+        '                        txt.Text = IO.Path.GetFileName(imagePath)
+        '                    Else
+        '                        txt.Text = ""
+        '                    End If
+        '                End If
+        '            End If
+        '        End If
+        '    Next
+        'End If
+        If tblTmp IsNot Nothing AndAlso tblTmp.Rows.Count > 0 Then
+            For Each ctrl As Control In GetAllControlsIncludingTabs(Me)
+                '========================================================
+                ' TEXTBOX
+                '========================================================
                 If TypeOf ctrl Is TextBox Then
                     Dim txt As TextBox = DirectCast(ctrl, TextBox)
-                    If txt.Tag Is Nothing Then Continue For
-                    Dim tagText As String = txt.Tag.ToString().Trim()
+                    Dim tagText As String = ""
+                    If txt.Tag IsNot Nothing Then
+                        tagText = txt.Tag.ToString().Trim()
+                    End If
+                    '====================================================
+                    ' ATTACH IMAGE
+                    '====================================================
                     If tagText.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
                         Dim dbColumn As String = ""
                         If txt.AccessibleName IsNot Nothing Then
                             dbColumn = txt.AccessibleName.ToString().Trim()
                         End If
-                        If String.IsNullOrWhiteSpace(dbColumn) Then
-                            Continue For
-                        End If
-                        If tblTmp.Columns.Contains(dbColumn) Then
+                        If Not String.IsNullOrWhiteSpace(dbColumn) AndAlso tblTmp.Columns.Contains(dbColumn) Then
                             Dim imagePath As String = ""
                             If Not IsDBNull(tblTmp.Rows(0)(dbColumn)) Then
                                 imagePath = tblTmp.Rows(0)(dbColumn).ToString().Trim()
                             End If
-                            'Actual full path
                             txt.AccessibleDescription = imagePath
-                            'Textbox me filename show hoga
-                            If Not String.IsNullOrWhiteSpace(imagePath) Then
+                            If imagePath <> "" Then
                                 txt.Text = IO.Path.GetFileName(imagePath)
                             Else
                                 txt.Text = ""
                             End If
+                        End If
+                    Else
+                        '================================================
+                        ' NORMAL TEXTBOX
+                        '================================================
+                        Dim dbColumn As String = ""
+                        If txt.AccessibleDescription IsNot Nothing Then
+                            dbColumn = txt.AccessibleDescription.ToString().Trim()
+                        End If
+                        If String.IsNullOrWhiteSpace(dbColumn) AndAlso txt.Tag IsNot Nothing Then
+                            dbColumn = txt.Tag.ToString().Trim()
+                        End If
+                        If Not dbColumn.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) AndAlso tblTmp.Columns.Contains(dbColumn) Then
+                            If Not IsDBNull(tblTmp.Rows(0)(dbColumn)) Then
+                                txt.Text = tblTmp.Rows(0)(dbColumn).ToString()
+                            Else
+                                txt.Text = ""
+                            End If
+                        End If
+                    End If
+                    '========================================================
+                    ' CHECKBOX
+                    '========================================================
+                ElseIf TypeOf ctrl Is System.Windows.Forms.CheckBox Then
+                    Dim chk As System.Windows.Forms.CheckBox = DirectCast(ctrl, System.Windows.Forms.CheckBox)
+                    Dim dbColumn As String = ""
+                    '--------------------------------------------
+                    ' Checkbox me DatabaseColumn Tag me hai
+                    '--------------------------------------------
+                    If chk.Tag IsNot Nothing Then
+                        dbColumn = chk.Tag.ToString().Trim()
+                    End If
+                    'Agar Tag me column nahi mila to AccessibleDescription
+                    If String.IsNullOrWhiteSpace(dbColumn) AndAlso chk.AccessibleDescription IsNot Nothing Then
+                        dbColumn = chk.AccessibleDescription.ToString().Trim()
+                    End If
+                    If Not String.IsNullOrWhiteSpace(dbColumn) AndAlso tblTmp.Columns.Contains(dbColumn) Then
+                        Dim dbValue As String = ""
+                        If Not IsDBNull(tblTmp.Rows(0)(dbColumn)) Then
+                            dbValue = tblTmp.Rows(0)(dbColumn).ToString().Trim()
+                        End If
+                        'YES / TRUE / 1 = Checked
+                        If dbValue.Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse dbValue.Equals("TRUE", StringComparison.OrdinalIgnoreCase) OrElse dbValue = "1" Then
+                            chk.Checked = True
+                        Else
+                            chk.Checked = False
                         End If
                     End If
                 End If
@@ -215,7 +296,27 @@ Public Class MainMasterFormRead
         _FrmLoad = False
         Return tblTmp
     End Function
-
+    Private Function GetAllControlsIncludingTabs(ByVal parent As Control) As List(Of Control)
+        Dim result As New List(Of Control)
+        For Each ctrl As Control In parent.Controls
+            result.Add(ctrl)
+            '====================================================
+            ' TAB CONTROL
+            '====================================================
+            If TypeOf ctrl Is System.Windows.Forms.TabControl Then
+                Dim tc As System.Windows.Forms.TabControl = DirectCast(ctrl, System.Windows.Forms.TabControl)
+                For Each tp As System.Windows.Forms.TabPage In tc.TabPages
+                    result.Add(tp)
+                    If tp.HasChildren Then
+                        result.AddRange(GetAllControlsIncludingTabs(tp))
+                    End If
+                Next
+            ElseIf ctrl.HasChildren Then
+                result.AddRange(GetAllControlsIncludingTabs(ctrl))
+            End If
+        Next
+        Return result
+    End Function
 
     Private Function GetAllControls(parent As Control) As List(Of Control)
         Dim result As New List(Of Control)
@@ -237,7 +338,7 @@ Public Class MainMasterFormRead
 
         '_FrmLoad = False
         'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-        Call Ctrl_Visible_True(Me.Controls)
+        Call Ctrl_Visible_TrueForm(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "DELETE" Then
             If MsgBox("Do You Want To Delete (Y/N)",
@@ -246,14 +347,14 @@ Public Class MainMasterFormRead
                 Call Delete_Entry()
             End If
             ObjCls_General.Blank_Object(Me)
-            Ctrl_Visible_False(Me.Controls)
+            Ctrl_Visible_Falseform(Me.Controls)
         End If
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_BackClick()
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        Call Ctrl_Visible_TrueForm(Me.Controls)
         If _FORMMODE = "EDIT" Then
             Dim LASTCODE As String = ""
             Dim formType As String = ""
@@ -281,13 +382,13 @@ Public Class MainMasterFormRead
                 Dim tblTmp1 As DataTable = Alter_Form()
             End If
         End If
-        Call Ctrl_Visible_True(Me.Controls)
+        Call Ctrl_Visible_TrueForm(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_NextClick()
         _FrmLoad = False
-        Call Ctrl_Visible_True(Me.Controls)
+        Call Ctrl_Visible_TrueForm(Me.Controls)
         If _FORMMODE = "EDIT" Then
             Dim LASTCODE As String = ""
             Dim formType As String = ""
@@ -776,7 +877,7 @@ Public Class MainMasterFormRead
         '==================================================
         ObjCls_General.Blank_Object(Me)
         _FORMMODE = ""
-        Ctrl_Visible_False(Me.Controls)
+        Ctrl_Visible_Falseform(Me.Controls)
     End Sub
 #Region "QUERY SECTION"
     Public Function GetMaxCode() As String
@@ -867,7 +968,7 @@ Public Class MainMasterFormRead
     Private Sub UC_Buttons1_ViewClick()
         _FORMMODE = "VIEW"
         If _FORMMODE = "VIEW" Then
-            Ctrl_Visible_True(Me.Controls)
+            Ctrl_Visible_TrueForm(Me.Controls)
         End If
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
@@ -1044,38 +1145,1596 @@ Public Class MainMasterFormRead
             oldCtrl.Dispose()
         End If
     End Sub
+    '    Private Sub View_Record()
+
+    '        Try
+
+    '            Dim EntryNo As Integer = 1
+    '            Dim _Grid1ColNames As New StringBuilder()
+
+    '            Dim View_Filter_Condition As String =
+    '            " AND FormName='" & MainMasterLoadFormName & "' "
+
+    '            '========================================================
+    '            ' CURRENT TAB VARIABLES
+    '            '========================================================
+    '            DynamicTabControl = Nothing
+    '            CurrentTabPage = Nothing
+
+    '            Dim CurrentDynamicTabControl As TabControl = Nothing
+
+    '            '========================================================
+    '            ' ALL CREATED TAB CONTROLS
+    '            '========================================================
+    '            Dim DynamicTabControls As New List(Of TabControl)
+
+    '            If MainMasterLoadFormName <> "" Then
+
+    '                '====================================================
+    '                ' REMOVE OLD DYNAMIC CONTROLS
+    '                '====================================================
+    '                If _MainColumTbl IsNot Nothing AndAlso
+    '               _MainColumTbl.Rows.Count > 0 Then
+
+    '                    For Each dr As DataRow In
+    '                    _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+
+    '                        Dim oldName As String =
+    '                        dr("CntrlName").ToString().Trim()
+
+    '                        RemoveControlIfExists(oldName)
+    '                        RemoveControlIfExists("Lbl_" & oldName)
+
+    '                    Next
+
+    '                End If
+
+
+    '                '====================================================
+    '                ' LOAD FORM CONTROL DATA
+    '                '====================================================
+    '                _strQuery = New StringBuilder()
+
+    '                With _strQuery
+
+    '                    .Append(
+    '                    "Select * FROM " &
+    '                    _DatabaseTableName &
+    '                    " WHERE 1=1 "
+    '                )
+
+    '                    .Append(View_Filter_Condition)
+
+    '                End With
+
+    '                RS = _strQuery.ToString()
+
+    '                MenuDesign_QueryLoad()
+
+    '                _MainColumTbl = DefaltSoftTable.Copy()
+
+
+    '                '====================================================
+    '                ' USE MASTER TABLE
+    '                '====================================================
+    '                Dim _UseMasterTabl As New DataTable
+
+    '                _UseMasterTabl =
+    '                _MainColumTbl.Clone()
+
+    '                For Each dr As DataRow In
+    '                _MainColumTbl.Select("USEMASTER='YES'")
+
+    '                    _UseMasterTabl.ImportRow(dr)
+
+    '                Next
+
+
+    '#Region "Dynamic Controls"
+
+    '                Dim _CntlMasterTabl As New DataTable
+
+    '                _CntlMasterTabl =
+    '                _MainColumTbl.Clone()
+
+
+    '                Dim topPos As Integer
+    '                Dim leftPos As Integer
+    '                Dim height As Integer
+    '                Dim width As Integer
+
+
+    '                '####################################################################
+    '                '####################################################################
+    '                ' FIRST PASS
+    '                ' CREATE ALL TABCONTROLS FIRST
+    '                '####################################################################
+    '                '####################################################################
+
+    '                For Each dr As DataRow In
+    '                _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+
+    '                    Dim colType As String =
+    '                    dr("ColumnType").ToString().Trim()
+
+    '                    If Not colType.Equals(
+    '                    "TabControl",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) Then
+
+    '                        Continue For
+
+    '                    End If
+
+
+    '                    '==============================================================
+    '                    ' GET TABCONTROL DATA
+    '                    '==============================================================
+    '                    Dim Name As String =
+    '                    dr("CntrlName").ToString().Trim()
+
+    '                    Dim Tag As String =
+    '                    dr("DataBaseColumn").ToString().Trim()
+
+    '                    Dim Tabindex As Integer = 0
+
+    '                    Integer.TryParse(
+    '                    dr("Tabindex").ToString(),
+    '                    Tabindex
+    '                )
+
+
+    '                    leftPos =
+    '                    Val(dr("LocationX").ToString())
+
+    '                    topPos =
+    '                    Val(dr("LocationY").ToString())
+
+    '                    width =
+    '                    Val(dr("SizeWidth").ToString())
+
+    '                    height =
+    '                    Val(dr("SizeHeight").ToString())
+
+
+    '                    '==============================================================
+    '                    ' CREATE TABCONTROL
+    '                    '==============================================================
+    '                    Dim tabControl As New TabControl()
+
+
+    '                    Dim tabControlName As String =
+    '                    Name
+
+    '                    If String.IsNullOrWhiteSpace(tabControlName) Then
+
+    '                        tabControlName =
+    '                        "TabControl"
+
+    '                    End If
+
+
+    '                    Dim baseName As String =
+    '                    tabControlName
+
+    '                    Dim counter As Integer = 1
+
+
+    '                    While Me.Controls.ContainsKey(tabControlName)
+
+    '                        tabControlName =
+    '                        baseName & "_" &
+    '                        counter.ToString()
+
+    '                        counter += 1
+
+    '                    End While
+
+
+    '                    '==============================================================
+    '                    ' TABCONTROL PROPERTIES
+    '                    '==============================================================
+    '                    tabControl.Name =
+    '                    tabControlName
+
+    '                    tabControl.Left =
+    '                    leftPos + 130
+
+    '                    tabControl.Top =
+    '                    topPos
+
+    '                    tabControl.Width =
+    '                    width
+
+    '                    tabControl.Height =
+    '                    height
+
+    '                    tabControl.Tag =
+    '                    Tag
+
+    '                    tabControl.TabIndex =
+    '                    Tabindex
+
+
+    '                    '==============================================================
+    '                    ' READ TAB NAMES
+    '                    '==============================================================
+    '                    Dim tabNames As New List(Of String)
+
+
+    '                    If _MainColumTbl.Columns.Contains("TabName") Then
+
+    '                        Dim tabNameValue As String =
+    '                        dr("TabName").ToString().Trim()
+
+    '                        If tabNameValue <> "" Then
+
+    '                            tabNames =
+    '                            tabNameValue.Split(","c).
+    '                            Select(
+    '                                Function(x) x.Trim()
+    '                            ).
+    '                            Where(
+    '                                Function(x) x <> ""
+    '                            ).
+    '                            ToList()
+
+    '                        End If
+
+    '                    End If
+
+
+    '                    '==============================================================
+    '                    ' TAB ELEMENT COUNT
+    '                    '==============================================================
+    '                    Dim tabElements As Integer = 0
+
+
+    '                    If _MainColumTbl.Columns.Contains("TabElements") Then
+
+    '                        Integer.TryParse(
+    '                        dr("TabElements").ToString().Trim(),
+    '                        tabElements
+    '                    )
+
+    '                    End If
+
+
+    '                    If tabElements <= 0 Then
+
+    '                        tabElements =
+    '                        tabNames.Count
+
+    '                    End If
+
+
+    '                    '==============================================================
+    '                    ' CREATE TAB PAGES
+    '                    '==============================================================
+    '                    For tabNo As Integer = 1 To tabElements
+
+    '                        If tabNo > tabNames.Count Then
+    '                            Exit For
+    '                        End If
+
+
+    '                        Dim tabCaption As String =
+    '                        tabNames(tabNo - 1).Trim()
+
+
+    '                        If String.IsNullOrWhiteSpace(tabCaption) Then
+    '                            Continue For
+    '                        End If
+
+
+    '                        Dim tabPage As New TabPage()
+
+
+    '                        tabPage.Name =
+    '                        tabControl.Name &
+    '                        "_Tab" &
+    '                        tabNo.ToString()
+
+
+    '                        tabPage.Text =
+    '                        tabCaption
+
+
+    '                        '==========================================================
+    '                        ' VERY IMPORTANT
+    '                        ' STORE TAB NUMBER
+    '                        '==========================================================
+    '                        tabPage.Tag =
+    '                        tabNo
+
+
+    '                        tabControl.TabPages.Add(tabPage)
+
+    '                    Next
+
+
+    '                    '==============================================================
+    '                    ' ADD TABCONTROL TO FORM
+    '                    '==============================================================
+    '                    Me.Controls.Add(tabControl)
+
+
+    '                    '==============================================================
+    '                    ' SAVE TABCONTROL REFERENCE
+    '                    '==============================================================
+    '                    DynamicTabControls.Add(tabControl)
+
+
+    '                    '==============================================================
+    '                    ' FIRST TABCONTROL
+    '                    '==============================================================
+    '                    If CurrentDynamicTabControl Is Nothing Then
+
+    '                        CurrentDynamicTabControl =
+    '                        tabControl
+
+    '                        DynamicTabControl =
+    '                        tabControl
+
+    '                        If tabControl.TabPages.Count > 0 Then
+
+    '                            tabControl.SelectedIndex = 0
+
+    '                            CurrentTabPage =
+    '                            tabControl.TabPages(0)
+
+    '                        End If
+
+    '                    End If
+
+
+    '                    '==============================================================
+    '                    ' TAB CHANGE EVENT
+    '                    '==============================================================
+    '                    AddHandler tabControl.SelectedIndexChanged,
+    '                    Sub(sender As Object, e As EventArgs)
+
+    '                        Dim tc As TabControl =
+    '                            TryCast(sender, TabControl)
+
+    '                        If tc Is Nothing Then Return
+
+    '                        If tc.SelectedTab Is Nothing Then Return
+
+
+    '                        CurrentDynamicTabControl =
+    '                            tc
+
+    '                        DynamicTabControl =
+    '                            tc
+
+    '                        CurrentTabPage =
+    '                            tc.SelectedTab
+
+    '                    End Sub
+
+
+    '                    '==============================================================
+    '                    ' MOVE EVENTS
+    '                    '==============================================================
+    '                    AddHandler tabControl.MouseDown,
+    '                    AddressOf Control_MouseDown
+
+    '                    AddHandler tabControl.MouseMove,
+    '                    AddressOf Control_MouseMove
+
+    '                    AddHandler tabControl.MouseUp,
+    '                    AddressOf Control_MouseUp
+
+    '                Next
+
+
+    '                '####################################################################
+    '                '####################################################################
+    '                ' IMPORTANT:
+    '                ' TABCONTROL MIL GAYA HAI TO FIRST TABCONTROL KO USE KARNA HAI
+    '                '####################################################################
+    '                '####################################################################
+
+    '                If DynamicTabControls.Count > 0 Then
+
+    '                    CurrentDynamicTabControl =
+    '                    DynamicTabControls(0)
+
+    '                    DynamicTabControl =
+    '                    DynamicTabControls(0)
+
+    '                    If DynamicTabControls(0).TabPages.Count > 0 Then
+
+    '                        CurrentTabPage =
+    '                        DynamicTabControls(0).TabPages(0)
+
+    '                    End If
+
+    '                End If
+
+
+    '                '####################################################################
+    '                '####################################################################
+    '                ' SECOND PASS
+    '                ' AB SAARE NORMAL CONTROLS CREATE HONGE
+    '                '####################################################################
+    '                '####################################################################
+
+    '                For Each dr As DataRow In
+    '                _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+
+
+    '                    '==============================================================
+    '                    ' GET CONTROL DATA
+    '                    '==============================================================
+    '                    Dim _InputType As String =
+    '                    dr("INPUTTYPE").ToString().Trim()
+
+    '                    Dim usemasterkey As String =
+    '                    dr("USEMASTERKEY").ToString().Trim()
+
+    '                    Dim colType As String =
+    '                    dr("ColumnType").ToString().Trim()
+
+    '                    Dim HeaderName As String =
+    '                    dr("UserText").ToString()
+
+    '                    Dim Name As String =
+    '                    dr("CntrlName").ToString().Trim()
+
+    '                    Dim visible As String =
+    '                    dr("Visible").ToString()
+
+    '                    Dim Tabindex As Integer = 0
+
+    '                    Integer.TryParse(
+    '                    dr("Tabindex").ToString(),
+    '                    Tabindex
+    '                )
+
+    '                    Dim colName As String =
+    '                    dr("DataBaseColumn").ToString().Trim()
+
+    '                    _TblName =
+    '                    dr("DataBaseTable").ToString()
+
+
+    '                    If usemasterkey = "Y" Then
+
+    '                        _KeyFieldName =
+    '                        colName
+
+    '                    End If
+
+
+    '                    '==============================================================
+    '                    ' GRID COLUMN NAMES
+    '                    '==============================================================
+    '                    If _Grid1ColNames.Length > 0 Then
+
+    '                        _Grid1ColNames.Append(",")
+
+    '                    End If
+
+    '                    _Grid1ColNames.Append(colName)
+
+
+    '                    Dim Tag As String =
+    '                    dr("DataBaseColumn").ToString()
+
+    '                    Dim oppMasterCode As String =
+    '                    dr("OppMasterCode").ToString()
+
+    '                    Dim ctrlName As String =
+    '                    dr("CntrlName").ToString().Trim()
+
+    '                    Dim _Readonly As String =
+    '                    dr("ReadOnly").ToString()
+
+    '                    FormId =
+    '                    dr("FormId").ToString()
+
+    '                    Id =
+    '                    dr("Id").ToString()
+
+
+    '                    '==============================================================
+    '                    ' TABCONTROL ALREADY CREATED
+    '                    '==============================================================
+    '                    If colType.Equals(
+    '                    "TabControl",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) Then
+
+    '                        Continue For
+
+    '                    End If
+
+
+    '                    '==============================================================
+    '                    ' SKIP INVISIBLE
+    '                    '==============================================================
+    '                    If String.IsNullOrWhiteSpace(HeaderName) OrElse
+    '                   Not visible.Equals(
+    '                       "Y",
+    '                       StringComparison.OrdinalIgnoreCase
+    '                   ) Then
+
+    '                        Continue For
+
+    '                    End If
+
+
+    '                    '==============================================================
+    '                    ' POSITION
+    '                    '==============================================================
+    '                    leftPos =
+    '                    Val(dr("LocationX").ToString())
+
+    '                    topPos =
+    '                    Val(dr("LocationY").ToString())
+
+    '                    width =
+    '                    Val(dr("SizeWidth").ToString())
+
+    '                    height =
+    '                    Val(dr("SizeHeight").ToString())
+    '                    '################################################################
+    '                    ' FIND TARGET TAB
+    '                    '################################################################
+
+    '                    Dim targetTabPage As TabPage = Nothing
+
+    '                    If CurrentDynamicTabControl IsNot Nothing Then
+
+    '                        Dim tabCountNo As Integer = 0
+
+    '                        If _MainColumTbl.Columns.Contains("TabCountNo") Then
+
+    '                            Integer.TryParse(
+    '            dr("TabCountNo").ToString().Trim(),
+    '            tabCountNo
+    '        )
+
+    '                        End If
+
+    '                        If tabCountNo >= 1 AndAlso
+    '       tabCountNo <= CurrentDynamicTabControl.TabPages.Count Then
+
+    '                            targetTabPage =
+    '            CurrentDynamicTabControl.TabPages(
+    '                tabCountNo - 1
+    '            )
+
+    '                        End If
+
+    '                    End If
+
+    '                    '################################################################
+    '                    '################################################################
+    '                    ' SPACERTYPE
+    '                    '################################################################
+
+    '                    If _InputType.Equals(
+    '    "SpacerType",
+    '    StringComparison.OrdinalIgnoreCase
+    ') Then
+
+    '                        Dim cmb As New System.Windows.Forms.ComboBox()
+
+    '                        '==============================================================
+    '                        ' BASIC PROPERTIES
+    '                        '==============================================================
+    '                        cmb.Name =
+    '        Name.Trim()
+
+    '                        cmb.Left =
+    '        leftPos + 130
+
+    '                        cmb.Top =
+    '        topPos
+
+    '                        cmb.Width =
+    '        width
+
+    '                        cmb.Height =
+    '        height
+
+    '                        cmb.DropDownStyle =
+    '        ComboBoxStyle.DropDownList
+
+    '                        cmb.TabIndex =
+    '        Tabindex
+
+    '                        '==============================================================
+    '                        ' DATABASE FIELD
+    '                        '==============================================================
+    '                        cmb.Tag =
+    '        colName
+
+    '                        cmb.AccessibleName =
+    '        colName
+
+    '                        cmb.AccessibleDescription =
+    '        colName
+
+    '                        '==============================================================
+    '                        ' SPACER STRING
+    '                        '==============================================================
+    '                        Dim spacerValue As String = ""
+
+    '                        If _MainColumTbl.Columns.Contains("SpacerString") Then
+
+    '                            spacerValue =
+    '            dr("SpacerString").ToString().Trim()
+
+    '                        End If
+
+    '                        '==============================================================
+    '                        ' ADD COMBO ITEMS
+    '                        ' Example:
+    '                        ' Red,Green,Blue
+    '                        '==============================================================
+    '                        If spacerValue <> "" Then
+
+    '                            For Each item As String In
+    '            spacerValue.Split(","c)
+
+    '                                If item.Trim() <> "" Then
+
+    '                                    cmb.Items.Add(
+    '                    item.Trim()
+    '                )
+
+    '                                End If
+
+    '                            Next
+
+    '                        End If
+
+    '                        '==============================================================
+    '                        ' ADD COMBOBOX ONLY TO TARGET TAB
+    '                        '==============================================================
+    '                        If targetTabPage IsNot Nothing Then
+
+    '                            targetTabPage.Controls.Add(cmb)
+
+    '                        Else
+
+    '                            If CurrentDynamicTabControl Is Nothing Then
+
+    '                                Me.Controls.Add(cmb)
+
+    '                            Else
+
+    '                                '======================================================
+    '                                ' TABCONTROL EXISTS BUT TabCountNo INVALID
+    '                                ' NEVER ADD TO FORM
+    '                                '======================================================
+    '                                Continue For
+
+    '                            End If
+
+    '                        End If
+
+    '                        '==============================================================
+    '                        ' MOVE EVENTS
+    '                        '==============================================================
+    '                        AddHandler cmb.MouseDown,
+    '        AddressOf Control_MouseDown
+
+    '                        AddHandler cmb.MouseMove,
+    '        AddressOf Control_MouseMove
+
+    '                        AddHandler cmb.MouseUp,
+    '        AddressOf Control_MouseUp
+
+    '                        '==============================================================
+    '                        ' VERY IMPORTANT
+    '                        ' SPACERTYPE KO AAGE NORMAL CONTROL LOGIC ME NA LE JAYE
+    '                        '==============================================================
+    '                        Continue For
+
+    '                    End If
+    '                    '################################################################
+    '                    '################################################################
+    '                    ' LABEL
+    '                    '################################################################
+
+    '                    Dim lbl As New Label()
+
+
+    '                    lbl.Name =
+    '                    "Lbl_" & Name
+
+    '                    lbl.Text =
+    '                    HeaderName
+
+
+    '                    If Name = "Grid1" OrElse
+    '                   Name = "Grid2" OrElse
+    '                   Name = "Grid3" OrElse
+    '                   Name = "Grid4" OrElse
+    '                   Name = "Grid5" Then
+
+    '                        lbl.Visible = False
+
+    '                    Else
+
+    '                        lbl.Visible = True
+
+    '                    End If
+
+
+    '                    If leftPos < 0 Then
+
+    '                        lbl.Left =
+    '                        leftPos + 10
+
+    '                    Else
+
+    '                        lbl.Left =
+    '                        leftPos
+
+    '                    End If
+
+
+    '                    lbl.Top =
+    '                    topPos
+
+    '                    lbl.AutoSize =
+    '                    False
+
+    '                    lbl.Width =
+    '                    120
+
+    '                    lbl.Height =
+    '                    height
+
+    '                    lbl.TextAlign =
+    '                    ContentAlignment.MiddleLeft
+
+
+    '                    '==============================================================
+    '                    ' ADD LABEL ONLY TO TARGET TAB
+    '                    '==============================================================
+    '                    If Not colType.Equals(
+    '                    "CheckBox",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) AndAlso
+    '                   Not colType.Equals(
+    '                       "ImgAdd",
+    '                       StringComparison.OrdinalIgnoreCase
+    '                   ) AndAlso
+    '                   Not colType.Equals(
+    '                       "ImgView",
+    '                       StringComparison.OrdinalIgnoreCase
+    '                   ) Then
+
+
+    '                        If targetTabPage IsNot Nothing Then
+
+    '                            targetTabPage.Controls.Add(lbl)
+
+    '                        Else
+
+    '                            If CurrentDynamicTabControl Is Nothing Then
+
+    '                                Me.Controls.Add(lbl)
+
+    '                            End If
+
+    '                        End If
+
+    '                    End If
+
+
+    '                    AddHandler lbl.MouseDown,
+    '                    AddressOf Control_MouseDown
+
+    '                    AddHandler lbl.MouseMove,
+    '                    AddressOf Control_MouseMove
+
+    '                    AddHandler lbl.MouseUp,
+    '                    AddressOf Control_MouseUp
+
+
+    '                    '################################################################
+    '                    '################################################################
+    '                    ' TEXTBOX
+    '                    '################################################################
+
+    '                    If colType.Equals(
+    '                    "TextBox",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) Then
+
+
+    '                        Dim txt As New TextBox()
+
+
+    '                        txt.Name =
+    '                        Name
+
+    '                        txt.Left =
+    '                        leftPos + 130
+
+    '                        txt.Top =
+    '                        topPos
+
+    '                        txt.Width =
+    '                        width
+
+    '                        txt.Height =
+    '                        height
+
+
+    '                        '==========================================================
+    '                        ' TAG
+    '                        '==========================================================
+    '                        Dim userTextValue As String =
+    '                        dr("UserText").ToString().Trim()
+
+    '                        Dim databaseColumn As String =
+    '                        dr("DataBaseColumn").ToString().Trim()
+
+
+    '                        If userTextValue.StartsWith(
+    '                        "Attach Image",
+    '                        StringComparison.OrdinalIgnoreCase
+    '                    ) Then
+
+    '                            txt.Tag =
+    '                            userTextValue
+
+    '                            txt.AccessibleName =
+    '                            databaseColumn
+
+    '                            txt.AccessibleDescription =
+    '                            ""
+
+    '                        Else
+
+    '                            If _FORMMODE = "EDIT" Then
+
+    '                                txt.AccessibleDescription =
+    '                                databaseColumn
+
+
+    '                                If databaseColumn.Equals(
+    '                                "NO COLUMN USE",
+    '                                StringComparison.OrdinalIgnoreCase
+    '                            ) OrElse
+    '                               databaseColumn.StartsWith(
+    '                                   "NO COLUMN USE ",
+    '                                   StringComparison.OrdinalIgnoreCase
+    '                               ) Then
+
+    '                                    txt.Tag =
+    '                                    userTextValue
+
+    '                                Else
+
+    '                                    txt.Tag =
+    '                                    databaseColumn
+
+    '                                End If
+
+    '                            Else
+
+    '                                txt.Tag =
+    '                                databaseColumn
+
+    '                                txt.AccessibleDescription =
+    '                                databaseColumn
+
+    '                            End If
+
+    '                        End If
+
+
+    '                        txt.TabIndex =
+    '                        Tabindex
+
+
+    '                        If _Readonly = "Y" Then
+
+    '                            txt.ReadOnly =
+    '                            True
+
+    '                        Else
+
+    '                            txt.ReadOnly =
+    '                            False
+
+    '                        End If
+
+
+    '                        '==========================================================
+    '                        ' ADD TEXTBOX ONLY TO TARGET TAB
+    '                        '==========================================================
+    '                        If targetTabPage IsNot Nothing Then
+
+    '                            targetTabPage.Controls.Add(txt)
+
+    '                        Else
+
+    '                            If CurrentDynamicTabControl Is Nothing Then
+
+    '                                Me.Controls.Add(txt)
+
+    '                            Else
+
+    '                                ' TabControl exists but TabCountNo invalid
+    '                                Continue For
+
+    '                            End If
+
+    '                        End If
+
+
+    '                        If txt.TabIndex = 1 Then
+
+    '                            txt.Focus()
+
+    '                        End If
+
+
+    '                        AddHandler txt.MouseDown,
+    '                        AddressOf Control_MouseDown
+
+    '                        AddHandler txt.MouseMove,
+    '                        AddressOf Control_MouseMove
+
+    '                        AddHandler txt.MouseUp,
+    '                        AddressOf Control_MouseUp
+
+    '                        AddHandler txt.KeyDown,
+    '                        AddressOf Control_KeyDown
+
+
+    '                        '################################################################
+    '                        '################################################################
+    '                        ' IMGADD
+    '                        '################################################################
+
+    '                    ElseIf colType.Equals(
+    '                    "ImgAdd",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) Then
+
+
+    '                        Dim btn As New SimpleButton()
+
+
+    '                        btn.Name =
+    '                        Name
+
+    '                        btn.Left =
+    '                        leftPos + 130
+
+    '                        btn.Top =
+    '                        topPos
+
+    '                        btn.Width =
+    '                        65
+
+    '                        btn.Height =
+    '                        30
+
+    '                        btn.Text =
+    '                        HeaderName
+
+    '                        btn.Font =
+    '                        New Font(
+    '                            "Verdana",
+    '                            10,
+    '                            FontStyle.Bold
+    '                        )
+
+
+    '                        If Me.SBimgadd.ImageOptions.Image IsNot Nothing Then
+
+    '                            btn.ImageOptions.Image =
+    '                            New System.Drawing.Bitmap(
+    '                                Me.SBimgadd.ImageOptions.Image
+    '                            )
+
+    '                        End If
+
+
+    '                        btn.ImageOptions.ImageToTextAlignment =
+    '                        DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+
+
+    '                        '==========================================================
+    '                        ' IMAGE TAG
+    '                        '==========================================================
+    '                        Dim buttonNo As Integer = 0
+
+
+    '                        If Name.StartsWith(
+    '                        "ImgAdd",
+    '                        StringComparison.OrdinalIgnoreCase
+    '                    ) Then
+
+
+    '                            Dim numberPart As String =
+    '                            Name.Substring("ImgAdd".Length)
+
+
+    '                            If Integer.TryParse(
+    '                            numberPart,
+    '                            buttonNo
+    '                        ) Then
+
+    '                                btn.Tag =
+    '                                "Attach Image" &
+    '                                buttonNo.ToString()
+
+    '                            Else
+
+    '                                btn.Tag =
+    '                                Tag
+
+    '                            End If
+
+    '                        Else
+
+    '                            btn.Tag =
+    '                            Tag
+
+    '                        End If
+
+
+    '                        '==========================================================
+    '                        ' ADD IMGADD ONLY TO TARGET TAB
+    '                        '==========================================================
+    '                        If targetTabPage IsNot Nothing Then
+
+    '                            targetTabPage.Controls.Add(btn)
+
+    '                        Else
+
+    '                            If CurrentDynamicTabControl Is Nothing Then
+
+    '                                Me.Controls.Add(btn)
+
+    '                            Else
+
+    '                                Continue For
+
+    '                            End If
+
+    '                        End If
+
+
+    '                        AddHandler btn.MouseDown,
+    '                        AddressOf Control_MouseDown
+
+    '                        AddHandler btn.MouseMove,
+    '                        AddressOf Control_MouseMove
+
+    '                        AddHandler btn.MouseUp,
+    '                        AddressOf Control_MouseUp
+
+    '                        AddHandler btn.Click,
+    '                        AddressOf ButtonImgAdd_Click
+
+
+    '                        '################################################################
+    '                        '################################################################
+    '                        ' IMGVIEW
+    '                        '################################################################
+
+    '                    ElseIf colType.Equals(
+    '                    "ImgView",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) Then
+
+
+    '                        Dim btn As New SimpleButton()
+
+    '                        Dim buttonNo As Integer = 0
+
+
+    '                        btn.Name =
+    '                        Name
+
+    '                        btn.Left =
+    '                        leftPos + 130
+
+    '                        btn.Top =
+    '                        topPos
+
+    '                        btn.Width =
+    '                        65
+
+    '                        btn.Height =
+    '                        30
+
+    '                        btn.Text =
+    '                        HeaderName
+
+    '                        btn.Font =
+    '                        New Font(
+    '                            "Verdana",
+    '                            10,
+    '                            FontStyle.Bold
+    '                        )
+
+
+    '                        If Me.SBImgView.ImageOptions.Image IsNot Nothing Then
+
+    '                            btn.ImageOptions.Image =
+    '                            New System.Drawing.Bitmap(
+    '                                Me.SBImgView.ImageOptions.Image
+    '                            )
+
+    '                        End If
+
+
+    '                        btn.ImageOptions.ImageToTextAlignment =
+    '                        DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+
+
+    '                        '==========================================================
+    '                        ' IMAGE TAG
+    '                        '==========================================================
+    '                        If Name.StartsWith(
+    '                        "ImgView",
+    '                        StringComparison.OrdinalIgnoreCase
+    '                    ) Then
+
+
+    '                            Dim numberPart As String =
+    '                            Name.Substring("ImgView".Length)
+
+
+    '                            If Integer.TryParse(
+    '                            numberPart,
+    '                            buttonNo
+    '                        ) Then
+
+    '                                btn.Tag =
+    '                                "Attach Image" &
+    '                                buttonNo.ToString()
+
+    '                            Else
+
+    '                                btn.Tag =
+    '                                Tag
+
+    '                            End If
+
+    '                        Else
+
+    '                            btn.Tag =
+    '                            Tag
+
+    '                        End If
+
+
+    '                        '==========================================================
+    '                        ' ADD IMGVIEW ONLY TO TARGET TAB
+    '                        '==========================================================
+    '                        If targetTabPage IsNot Nothing Then
+
+    '                            targetTabPage.Controls.Add(btn)
+
+    '                        Else
+
+    '                            If CurrentDynamicTabControl Is Nothing Then
+
+    '                                Me.Controls.Add(btn)
+
+    '                            Else
+
+    '                                Continue For
+
+    '                            End If
+
+    '                        End If
+
+
+    '                        AddHandler btn.MouseDown,
+    '                        AddressOf Control_MouseDown
+
+    '                        AddHandler btn.MouseMove,
+    '                        AddressOf Control_MouseMove
+
+    '                        AddHandler btn.MouseUp,
+    '                        AddressOf Control_MouseUp
+
+    '                        AddHandler btn.Click,
+    '                        AddressOf ButtonImgAdd_Click
+
+
+    '                        '################################################################
+    '                        '################################################################
+    '                        ' NORMAL BUTTON
+    '                        '################################################################
+
+    '                    ElseIf colType.Equals(
+    '                    "Button",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) Then
+
+
+    '                        Dim btn As New SimpleButton()
+
+
+    '                        btn.Name =
+    '                        Name
+
+    '                        btn.Left =
+    '                        leftPos + 130
+
+    '                        btn.Top =
+    '                        topPos
+
+    '                        btn.Width =
+    '                        width
+
+    '                        btn.Height =
+    '                        height
+
+    '                        btn.Text =
+    '                        HeaderName
+
+
+    '                        Dim buttonNo As Integer = 0
+
+
+    '                        If Name.StartsWith(
+    '                        "Button",
+    '                        StringComparison.OrdinalIgnoreCase
+    '                    ) Then
+
+
+    '                            Dim numberPart As String =
+    '                            Name.Substring("Button".Length)
+
+
+    '                            If Integer.TryParse(
+    '                            numberPart,
+    '                            buttonNo
+    '                        ) Then
+
+
+    '                                Dim imageNo As Integer =
+    '                                ((buttonNo - 1) \ 2) + 1
+
+
+    '                                btn.Tag =
+    '                                "Attach Image" &
+    '                                imageNo.ToString()
+
+    '                            Else
+
+    '                                btn.Tag =
+    '                                Tag
+
+    '                            End If
+
+    '                        Else
+
+    '                            btn.Tag =
+    '                            Tag
+
+    '                        End If
+
+
+    '                        '==========================================================
+    '                        ' ADD BUTTON ONLY TO TARGET TAB
+    '                        '==========================================================
+    '                        If targetTabPage IsNot Nothing Then
+
+    '                            targetTabPage.Controls.Add(btn)
+
+    '                        Else
+
+    '                            If CurrentDynamicTabControl Is Nothing Then
+
+    '                                Me.Controls.Add(btn)
+
+    '                            Else
+
+    '                                Continue For
+
+    '                            End If
+
+    '                        End If
+
+
+    '                        AddHandler btn.MouseDown,
+    '                        AddressOf Control_MouseDown
+
+    '                        AddHandler btn.MouseMove,
+    '                        AddressOf Control_MouseMove
+
+    '                        AddHandler btn.MouseUp,
+    '                        AddressOf Control_MouseUp
+
+    '                        AddHandler btn.Click,
+    '                        AddressOf Button_Click
+
+
+    '                        '################################################################
+    '                        '################################################################
+    '                        ' CHECKBOX
+    '                        '################################################################
+
+    '                    ElseIf colType.Equals(
+    '                    "CheckBox",
+    '                    StringComparison.OrdinalIgnoreCase
+    '                ) Then
+
+
+    '                        Dim chk As New CheckBox()
+
+
+    '                        '==========================================================
+    '                        ' BASIC PROPERTIES
+    '                        '==========================================================
+    '                        chk.Name =
+    '                        Name.Trim()
+
+    '                        chk.Text =
+    '                        HeaderName
+
+    '                        chk.Left =
+    '                        leftPos + 130
+
+    '                        chk.Top =
+    '                        topPos
+
+    '                        chk.Width =
+    '                        width
+
+    '                        chk.Height =
+    '                        height
+
+    '                        chk.TabIndex =
+    '                        Tabindex
+
+
+    '                        '==========================================================
+    '                        ' DATABASE COLUMN
+    '                        '==========================================================
+    '                        chk.Tag =
+    '                        colName
+
+    '                        chk.AccessibleName =
+    '                        colName
+
+    '                        chk.AccessibleDescription =
+    '                        colName
+
+
+    '                        '==========================================================
+    '                        ' VERY IMPORTANT
+    '                        ' ADD CHECKBOX ONLY TO TARGET TAB
+    '                        '==========================================================
+    '                        If targetTabPage IsNot Nothing Then
+
+    '                            targetTabPage.Controls.Add(chk)
+
+    '                        Else
+
+    '                            If CurrentDynamicTabControl Is Nothing Then
+
+    '                                Me.Controls.Add(chk)
+
+    '                            Else
+
+    '                                '==================================================
+    '                                ' TABCONTROL EXISTS BUT TABCOUNTNO INVALID
+    '                                ' NEVER ADD TO FORM
+    '                                '==================================================
+    '                                Continue For
+
+    '                            End If
+
+    '                        End If
+
+
+    '                        AddHandler chk.MouseDown,
+    '                        AddressOf Control_MouseDown
+
+    '                        AddHandler chk.MouseMove,
+    '                        AddressOf Control_MouseMove
+
+    '                        AddHandler chk.MouseUp,
+    '                        AddressOf Control_MouseUp
+
+    '                    End If
+
+    '                Next
+
+
+    '                '==============================================================
+    '                ' CREATE FORM VALUE DATATABLE
+    '                '==============================================================
+    '                ObjCls_General.CreateDataTable(
+    '                tblFormValues,
+    '                _Grid1ColNames.ToString(),
+    '                "YES"
+    '            )
+
+
+    '#End Region
+
+
+    '                BtnUpdatepos.Enabled =
+    '                True
+
+    '                btnmovecontrol.Enabled =
+    '                True
+
+
+    '            Else
+
+    '                BtnUpdatepos.Enabled =
+    '                False
+
+    '                btnmovecontrol.Enabled =
+    '                False
+
+    '            End If
+
+
+    '            '####################################################################
+    '            ' EDIT MODE
+    '            '####################################################################
+
+    '            Dim LASTCODE As String = ""
+
+
+    '            If _FORMMODE = "EDIT" Then
+
+
+    '                Dim formType As String = ""
+
+
+    '                If _MainColumTbl.Rows.Count > 0 Then
+
+    '                    formType =
+    '                    _MainColumTbl.Rows(0)(
+    '                        "FormType"
+    '                    ).ToString().Trim()
+
+
+    '                    FormNameValue =
+    '                    _MainColumTbl.Rows(0)(
+    '                        "Formname"
+    '                    ).ToString().Trim()
+
+    '                End If
+
+
+    '                If formType = "MASTER FORM" Then
+
+
+    '                    strQuery =
+    '                    GetMaxCode()
+
+    '                    sqL =
+    '                    strQuery
+
+    '                    sql_connect_slect()
+
+
+    '                    If DefaltSoftTable.Rows.Count > 0 Then
+
+    '                        LASTCODE =
+    '                        Val(
+    '                            DefaltSoftTable.Rows(0).Item(0)
+    '                        )
+
+    '                    Else
+
+    '                        LASTCODE =
+    '                        "1"
+
+    '                    End If
+
+
+    '                    LASTCODE =
+    '                    _SELECTEDCOMPANYCODE &
+    '                    "-" &
+    '                    LASTCODE.PadLeft(
+    '                        9,
+    '                        "0"
+    '                    )
+
+
+    '                    _KeyFieldValue =
+    '                    LASTCODE
+
+
+    '                    If DefaltSoftTable.Rows.Count > 0 Then
+
+    '                        CurrentBackNumber =
+    '                        Val(
+    '                            DefaltSoftTable.Rows(0).Item(0)
+    '                        )
+
+    '                    Else
+
+    '                        CurrentBackNumber =
+    '                        1
+
+    '                    End If
+
+
+    '                    Dim tblTmp1 As DataTable =
+    '                    Alter_Form()
+
+    '                End If
+
+
+    '            ElseIf _FORMMODE = "DELETE" Then
+
+
+    '                If MsgBox(
+    '                "Do You Want To Delete (Y/N)",
+    '                MsgBoxStyle.YesNo Or
+    '                MsgBoxStyle.DefaultButton2,
+    '                "Delete ?"
+    '            ) = MsgBoxResult.Yes Then
+
+    '                    'Call Delete_Entry()
+
+    '                End If
+
+    '            End If
+
+
+    '        Catch ex As Exception
+
+    '            MsgBox(
+    '            ex.ToString,
+    '            MsgBoxStyle.Critical,
+    '            "Soft-Tex PRO"
+    '        )
+
+
+    '        Finally
+
+    '        End Try
+
+    '    End Sub
     Private Sub View_Record()
-
         Try
-
             Dim EntryNo As Integer = 1
-            Dim _Grid1ColNames = New StringBuilder()
+            Dim _Grid1ColNames As New StringBuilder()
             Dim View_Filter_Condition As String = " AND FormName='" & MainMasterLoadFormName & "' "
-            '==================================================
+            '========================================================
             ' CURRENT TAB VARIABLES
-            '==================================================
+            '========================================================
             DynamicTabControl = Nothing
             CurrentTabPage = Nothing
             Dim CurrentDynamicTabControl As TabControl = Nothing
-            Dim MainInfoTab As TabPage = Nothing
-            Dim MobileAppConfigTab As TabPage = Nothing
-            Dim OtherInfo1Tab As TabPage = Nothing
-            Dim OtherInfo2Tab As TabPage = Nothing
+            '========================================================
+            ' ALL CREATED TAB CONTROLS
+            '========================================================
+            Dim DynamicTabControls As New List(Of TabControl)
             If MainMasterLoadFormName <> "" Then
-                '==================================================
+                '====================================================
                 ' REMOVE OLD DYNAMIC CONTROLS
-                '==================================================
-                If _MainColumTbl.Rows.Count > 0 Then
-                    For Each dr As DataRow In
-                    _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
-                        Dim oldName As String = dr("CntrlName").ToString()
+                '====================================================
+                If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then
+                    For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+                        Dim oldName As String = dr("CntrlName").ToString().Trim()
                         RemoveControlIfExists(oldName)
                         RemoveControlIfExists("Lbl_" & oldName)
                     Next
                 End If
-                '==================================================
+                '====================================================
                 ' LOAD FORM CONTROL DATA
-                '==================================================
+                '====================================================
                 _strQuery = New StringBuilder()
                 With _strQuery
                     .Append("Select * FROM " & _DatabaseTableName & " WHERE 1=1 ")
@@ -1084,9 +2743,9 @@ Public Class MainMasterFormRead
                 RS = _strQuery.ToString()
                 MenuDesign_QueryLoad()
                 _MainColumTbl = DefaltSoftTable.Copy()
-                '==================================================
+                '====================================================
                 ' USE MASTER TABLE
-                '==================================================
+                '====================================================
                 Dim _UseMasterTabl As New DataTable
                 _UseMasterTabl = _MainColumTbl.Clone()
                 For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES'")
@@ -1099,19 +2758,158 @@ Public Class MainMasterFormRead
                 Dim leftPos As Integer
                 Dim height As Integer
                 Dim width As Integer
-                '==================================================
-                ' LOOP ALL CONTROLS
-                '==================================================
-                For Each dr As DataRow In
-                _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
-                    '==================================================
+                '####################################################################
+                '####################################################################
+                ' FIRST PASS
+                ' CREATE ALL TABCONTROLS FIRST
+                '####################################################################
+                '####################################################################
+                For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+                    Dim colType As String = dr("ColumnType").ToString().Trim()
+                    If Not colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
+                        Continue For
+                    End If
+                    '==============================================================
+                    ' GET TABCONTROL DATA
+                    '==============================================================
+                    Dim Name As String = dr("CntrlName").ToString().Trim()
+                    Dim Tag As String = dr("DataBaseColumn").ToString().Trim()
+                    Dim Tabindex As Integer = 0
+                    Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
+                    leftPos = Val(dr("LocationX").ToString())
+                    topPos = Val(dr("LocationY").ToString())
+                    width = Val(dr("SizeWidth").ToString())
+                    height = Val(dr("SizeHeight").ToString())
+                    '==============================================================
+                    ' CREATE TABCONTROL
+                    '==============================================================
+                    Dim tabControl As New TabControl()
+                    Dim tabControlName As String = Name
+                    If String.IsNullOrWhiteSpace(tabControlName) Then
+                        tabControlName = "TabControl"
+                    End If
+                    Dim baseName As String = tabControlName
+                    Dim counter As Integer = 1
+                    While Me.Controls.ContainsKey(tabControlName)
+                        tabControlName = baseName & "_" & counter.ToString()
+                        counter += 1
+                    End While
+                    '==============================================================
+                    ' TABCONTROL PROPERTIES
+                    '==============================================================
+                    tabControl.Name = tabControlName
+                    tabControl.Left = leftPos + 130
+                    tabControl.Top = topPos
+                    tabControl.Width = width
+                    tabControl.Height = height
+                    tabControl.Tag = Tag
+                    tabControl.TabIndex = Tabindex
+                    '==============================================================
+                    ' READ TAB NAMES
+                    '==============================================================
+                    Dim tabNames As New List(Of String)
+                    If _MainColumTbl.Columns.Contains("TabName") Then
+                        Dim tabNameValue As String = dr("TabName").ToString().Trim()
+                        If tabNameValue <> "" Then
+                            tabNames = tabNameValue.Split(","c).Select(Function(x) x.Trim()).Where(Function(x) x <> "").ToList()
+                        End If
+                    End If
+                    '==============================================================
+                    ' TAB ELEMENT COUNT
+                    '==============================================================
+                    Dim tabElements As Integer = 0
+                    If _MainColumTbl.Columns.Contains("TabElements") Then
+                        Integer.TryParse(dr("TabElements").ToString().Trim(), tabElements)
+                    End If
+                    If tabElements <= 0 Then
+                        tabElements = tabNames.Count
+                    End If
+                    '==============================================================
+                    ' CREATE TAB PAGES
+                    '==============================================================
+                    For tabNo As Integer = 1 To tabElements
+                        If tabNo > tabNames.Count Then
+                            Exit For
+                        End If
+                        Dim tabCaption As String = tabNames(tabNo - 1).Trim()
+                        If String.IsNullOrWhiteSpace(tabCaption) Then
+                            Continue For
+                        End If
+                        Dim tabPage As New TabPage()
+                        tabPage.Name = tabControl.Name & "_Tab" & tabNo.ToString()
+                        tabPage.Text = tabCaption
+                        '==========================================================
+                        ' STORE TAB NUMBER
+                        '==========================================================
+                        tabPage.Tag = tabNo
+                        tabControl.TabPages.Add(tabPage)
+                    Next
+                    '==============================================================
+                    ' ADD TABCONTROL TO FORM
+                    '==============================================================
+                    Me.Controls.Add(tabControl)
+                    '==============================================================
+                    ' SAVE TABCONTROL REFERENCE
+                    '==============================================================
+                    DynamicTabControls.Add(tabControl)
+                    '==============================================================
+                    ' FIRST TABCONTROL
+                    '==============================================================
+                    If CurrentDynamicTabControl Is Nothing Then
+                        CurrentDynamicTabControl = tabControl
+                        DynamicTabControl = tabControl
+                        If tabControl.TabPages.Count > 0 Then
+                            tabControl.SelectedIndex = 0
+                            CurrentTabPage = tabControl.TabPages(0)
+                        End If
+                    End If
+                    '==============================================================
+                    ' TAB CHANGE EVENT
+                    '==============================================================
+                    AddHandler tabControl.SelectedIndexChanged,
+                        Sub(sender As Object, e As EventArgs)
+                            Dim tc As TabControl = TryCast(sender, TabControl)
+                            If tc Is Nothing Then Return
+                            If tc.SelectedTab Is Nothing Then Return
+                            CurrentDynamicTabControl = tc
+                            DynamicTabControl = tc
+                            CurrentTabPage = tc.SelectedTab
+                        End Sub
+                    '==============================================================
+                    ' MOVE EVENTS
+                    '==============================================================
+                    AddHandler tabControl.MouseDown, AddressOf Control_MouseDown
+                    AddHandler tabControl.MouseMove, AddressOf Control_MouseMove
+                    AddHandler tabControl.MouseUp, AddressOf Control_MouseUp
+                Next
+                '####################################################################
+                '####################################################################
+                ' SET FIRST TABCONTROL
+                '####################################################################
+                '####################################################################
+                If DynamicTabControls.Count > 0 Then
+                    CurrentDynamicTabControl = DynamicTabControls(0)
+                    DynamicTabControl = DynamicTabControls(0)
+                    If DynamicTabControls(0).TabPages.Count > 0 Then
+                        DynamicTabControls(0).SelectedIndex = 0
+                        CurrentTabPage = DynamicTabControls(0).TabPages(0)
+                    End If
+                End If
+                '####################################################################
+                '####################################################################
+                ' SECOND PASS
+                ' CREATE ALL NORMAL CONTROLS
+                '####################################################################
+                '####################################################################
+                For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+                    '==============================================================
                     ' GET CONTROL DATA
-                    '==================================================
+                    '==============================================================
                     Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
-                    Dim usemasterkey As String = dr("USEMASTERKEY").ToString()
+                    Dim usemasterkey As String = dr("USEMASTERKEY").ToString().Trim()
                     Dim colType As String = dr("ColumnType").ToString().Trim()
                     Dim HeaderName As String = dr("UserText").ToString()
-                    Dim Name As String = dr("CntrlName").ToString()
+                    Dim Name As String = dr("CntrlName").ToString().Trim()
                     Dim visible As String = dr("Visible").ToString()
                     Dim Tabindex As Integer = 0
                     Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
@@ -1120,9 +2918,9 @@ Public Class MainMasterFormRead
                     If usemasterkey = "Y" Then
                         _KeyFieldName = colName
                     End If
-                    '==================================================
+                    '==============================================================
                     ' GRID COLUMN NAMES
-                    '==================================================
+                    '==============================================================
                     If _Grid1ColNames.Length > 0 Then
                         _Grid1ColNames.Append(",")
                     End If
@@ -1133,157 +2931,155 @@ Public Class MainMasterFormRead
                     Dim _Readonly As String = dr("ReadOnly").ToString()
                     FormId = dr("FormId").ToString()
                     Id = dr("Id").ToString()
-                    '==================================================
+                    '==============================================================
+                    ' TABCONTROL ALREADY CREATED
+                    '==============================================================
+                    If colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
+                        Continue For
+                    End If
+                    '==============================================================
                     ' SKIP INVISIBLE
-                    '==================================================
+                    '==============================================================
                     If String.IsNullOrWhiteSpace(HeaderName) OrElse Not visible.Equals("Y", StringComparison.OrdinalIgnoreCase) Then
                         Continue For
                     End If
-                    '==================================================
-                    ' CONTROL POSITION
-                    '==================================================
+                    '==============================================================
+                    ' POSITION
+                    '==============================================================
                     leftPos = Val(dr("LocationX").ToString())
                     topPos = Val(dr("LocationY").ToString())
                     width = Val(dr("SizeWidth").ToString())
                     height = Val(dr("SizeHeight").ToString())
-                    '##################################################
-                    ' TABCONTROL
-                    '##################################################
-                    If colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
-                        Dim tabControl As New TabControl()
-                        Dim tabControlName As String = Name.Trim()
-                        If String.IsNullOrWhiteSpace(tabControlName) Then
-                            tabControlName = "TabControl"
-                        End If
-                        Dim baseName As String = tabControlName
-                        Dim counter As Integer = 1
-                        While Me.Controls.ContainsKey(tabControlName)
-                            tabControlName = baseName & "_" & counter.ToString()
-                            counter += 1
-                        End While
-                        '==================================================
-                        ' TABCONTROL PROPERTIES
-                        '==================================================
-                        tabControl.Name = tabControlName
-                        tabControl.Left = leftPos + 130
-                        tabControl.Top = topPos
-                        tabControl.Width = width
-                        tabControl.Height = height
-                        tabControl.Tag = Tag
-                        tabControl.TabIndex = Tabindex
-                        '==================================================
-                        ' TAB ELEMENTS
-                        '==================================================
-                        Dim tabElements As Integer = 0
-                        If _MainColumTbl.Columns.Contains("TabElements") Then
-                            Integer.TryParse(dr("TabElements").ToString().Trim(), tabElements)
-                        End If
-                        ' Blank / invalid ho to koi tab create nahi hoga
-                        If tabElements <= 0 Then
-                            tabElements = 0
-                        End If
-                        '==================================================
-                        ' TAB NAME
-                        ' Example:
-                        ' Tab1,Tab2,Tab3
-                        '==================================================
-                        Dim tabNames As New List(Of String)
-                        If _MainColumTbl.Columns.Contains("TabName") Then
-                            Dim tabNameValue As String = dr("TabName").ToString().Trim()
-                            If tabNameValue <> "" Then
-                                tabNames = tabNameValue.Split(","c).Select(Function(x) x.Trim()).Where(Function(x) x <> "").ToList()
-                            End If
-                        End If
-                        '==================================================
-                        ' CREATE DYNAMIC TAB PAGES
-                        '==================================================
-                        For tabNo As Integer = 1 To tabElements
-                            Dim tabPage As New TabPage()
-                            '----------------------------------------------
-                            ' TAB PAGE NAME
-                            '----------------------------------------------
-                            tabPage.Name = tabControl.Name & "_Tab" & tabNo.ToString()
-                            '----------------------------------------------
-                            ' TAB PAGE TEXT
-                            ' TabName se
-                            '----------------------------------------------
-                            Dim tabCaption As String = "Tab" & tabNo.ToString()
-                            If tabNo <= tabNames.Count Then
-                                If Not String.IsNullOrWhiteSpace(tabNames(tabNo - 1)) Then
-                                    tabCaption = tabNames(tabNo - 1)
-                                End If
-                            End If
-                            tabPage.Text = tabCaption
-                            '----------------------------------------------
-                            ' FIXED TAB ID
-                            ' TAB1, TAB2, TAB3...
-                            '----------------------------------------------
-                            tabPage.Tag = "TAB" & tabNo.ToString()
-                            '----------------------------------------------
-                            ' ADD TAB
-                            '----------------------------------------------
-                            tabControl.TabPages.Add(tabPage)
-                        Next
-                        '==================================================
-                        ' FIRST TAB
-                        '==================================================
-                        If tabControl.TabPages.Count > 0 Then
-                            tabControl.SelectedIndex = 0
-                            CurrentTabPage = tabControl.TabPages(0)
-                            MainInfoTab = tabControl.TabPages(0)
-                        End If
-                        '==================================================
-                        ' SAVE CURRENT TABCONTROL
-                        '==================================================
-                        CurrentDynamicTabControl = tabControl
-                        DynamicTabControl = tabControl
-                        '==================================================
-                        ' ADD TO FORM
-                        '==================================================
-                        Me.Controls.Add(tabControl)
-                        '==================================================
-                        ' EVENTS
-                        '==================================================
-                        AddHandler tabControl.MouseDown, AddressOf Control_MouseDown
-                        AddHandler tabControl.MouseMove, AddressOf Control_MouseMove
-                        AddHandler tabControl.MouseUp, AddressOf Control_MouseUp
-                        Continue For
-                    End If
-                    '##################################################
-                    ' FIND TARGET TAB PAGE
-                    '##################################################
+                    '################################################################
+                    '################################################################
+                    ' FIND TARGET TAB
+                    '################################################################
                     Dim targetTabPage As TabPage = Nothing
-                    If CurrentDynamicTabControl IsNot Nothing AndAlso CurrentDynamicTabControl.TabPages.Count > 0 Then
-                        '==================================================
-                        ' TAB COUNT NO
-                        '==================================================
+                    If CurrentDynamicTabControl IsNot Nothing Then
                         Dim tabCountNo As Integer = 0
+                        '==========================================================
+                        ' READ TabCountNo
+                        '==========================================================
                         If _MainColumTbl.Columns.Contains("TabCountNo") Then
                             Integer.TryParse(dr("TabCountNo").ToString().Trim(), tabCountNo)
                         End If
-                        '==================================================
-                        ' TABCOUNTNO VALID HAI TABHI TAB SELECT KARO
-                        '==================================================
-                        If tabCountNo > 0 AndAlso
+                        '==========================================================
+                        ' TABCOUNTNO = 1,2,3,4
+                        '==========================================================
+                        If tabCountNo >= 1 AndAlso
                        tabCountNo <= CurrentDynamicTabControl.TabPages.Count Then
                             targetTabPage = CurrentDynamicTabControl.TabPages(tabCountNo - 1)
                         End If
                     End If
-                    '##################################################
-                    ' CREATE LABEL
-                    '##################################################
+                    '################################################################
+                    '################################################################
+                    ' SPACERTYPE
+                    '################################################################
+                    'If _InputType.Equals("SpacerType", StringComparison.OrdinalIgnoreCase) Then
+                    '    '==============================================================
+                    '    ' SPACER LABEL
+                    '    '==============================================================
+                    '    Dim lblSpacer As New Label()
+                    '    lblSpacer.Name = "Lbl_" & Name
+                    '    lblSpacer.Text = HeaderName
+                    '    lblSpacer.AutoSize = False
+                    '    lblSpacer.Width = 120
+                    '    lblSpacer.Height = height
+                    '    lblSpacer.TextAlign = ContentAlignment.MiddleLeft
+                    '    If leftPos < 0 Then
+                    '        lblSpacer.Left = leftPos + 10
+                    '    Else
+                    '        lblSpacer.Left = leftPos
+                    '    End If
+                    '    lblSpacer.Top = topPos
+                    '    lblSpacer.Visible = True
+                    '    '==============================================================
+                    '    ' ADD SPACER LABEL TO TARGET TAB
+                    '    '==============================================================
+                    '    If targetTabPage IsNot Nothing Then
+                    '        targetTabPage.Controls.Add(lblSpacer)
+                    '    Else
+                    '        If CurrentDynamicTabControl Is Nothing Then
+                    '            Me.Controls.Add(lblSpacer)
+                    '        Else
+                    '            Continue For
+                    '        End If
+                    '    End If
+                    '    '==============================================================
+                    '    ' SPACER COMBOBOX
+                    '    '==============================================================
+                    '    Dim cmb As New System.Windows.Forms.ComboBox()
+                    '    cmb.Name = Name.Trim()
+                    '    cmb.Left = leftPos + 130
+                    '    cmb.Top = topPos
+                    '    cmb.Width = width
+                    '    cmb.Height = height
+                    '    cmb.DropDownStyle = ComboBoxStyle.DropDownList
+                    '    cmb.TabIndex = Tabindex
+                    '    '==============================================================
+                    '    ' DATABASE COLUMN
+                    '    '==============================================================
+                    '    cmb.Tag = colName
+                    '    cmb.AccessibleName = colName
+                    '    cmb.AccessibleDescription = colName
+                    '    '==============================================================
+                    '    ' SPACER STRING
+                    '    '==============================================================
+                    '    Dim spacerValue As String = ""
+                    '    If _MainColumTbl.Columns.Contains("SpacerString") Then
+                    '        spacerValue = dr("SpacerString").ToString().Trim()
+                    '    End If
+                    '    '==============================================================
+                    '    ' ADD COMBO ITEMS
+                    '    '==============================================================
+                    '    If spacerValue <> "" Then
+                    '        For Each item As String In spacerValue.Split(","c)
+                    '            If item.Trim() <> "" Then
+                    '                cmb.Items.Add(item.Trim())
+                    '            End If
+                    '        Next
+                    '    End If
+                    '    '==============================================================
+                    '    ' ADD COMBOBOX TO TARGET TAB
+                    '    '==============================================================
+                    '    If targetTabPage IsNot Nothing Then
+                    '        targetTabPage.Controls.Add(cmb)
+                    '    Else
+                    '        If CurrentDynamicTabControl Is Nothing Then
+                    '            Me.Controls.Add(cmb)
+                    '        Else
+                    '            Continue For
+                    '        End If
+                    '    End If
+                    '    '==============================================================
+                    '    ' MOVE EVENTS - LABEL
+                    '    '==============================================================
+                    '    AddHandler lblSpacer.MouseDown, AddressOf Control_MouseDown
+                    '    AddHandler lblSpacer.MouseMove, AddressOf Control_MouseMove
+                    '    AddHandler lblSpacer.MouseUp, AddressOf Control_MouseUp
+                    '    '==============================================================
+                    '    ' MOVE EVENTS - COMBOBOX
+                    '    '==============================================================
+                    '    AddHandler cmb.MouseDown, AddressOf Control_MouseDown
+                    '    AddHandler cmb.MouseMove, AddressOf Control_MouseMove
+                    '    AddHandler cmb.MouseUp, AddressOf Control_MouseUp
+                    '    '==============================================================
+                    '    ' IMPORTANT
+                    '    '==============================================================
+                    '    Continue For
+                    'End If
+                    '################################################################
+                    '################################################################
+                    ' LABEL
+                    '################################################################
                     Dim lbl As New Label()
                     lbl.Name = "Lbl_" & Name
-
                     lbl.Text = HeaderName
                     If Name = "Grid1" OrElse Name = "Grid2" OrElse Name = "Grid3" OrElse Name = "Grid4" OrElse Name = "Grid5" Then
                         lbl.Visible = False
                     Else
                         lbl.Visible = True
                     End If
-                    '==================================================
-                    ' LABEL POSITION
-                    '==================================================
                     If leftPos < 0 Then
                         lbl.Left = leftPos + 10
                     Else
@@ -1294,87 +3090,25 @@ Public Class MainMasterFormRead
                     lbl.Width = 120
                     lbl.Height = height
                     lbl.TextAlign = ContentAlignment.MiddleLeft
-                    '==================================================
-                    ' ADD LABEL
-                    '==================================================
-                    'If colType <> "ImgAdd" AndAlso colType <> "ImgView" AndAlso colType <> "CheckBox" Then
-                    '    If targetTabPage IsNot Nothing Then
-                    '        targetTabPage.Controls.Add(lbl)
-                    '    Else
-                    '        Me.Controls.Add(lbl)
-                    '    End If
-                    'Else
-                    '    Me.Controls.Add(lbl)
-                    'End If
+                    '==============================================================
+                    ' ADD LABEL ONLY TO TARGET TAB
+                    '==============================================================
                     If Not colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) AndAlso Not colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) AndAlso Not colType.Equals("ImgView", StringComparison.OrdinalIgnoreCase) Then
-
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(lbl)
                         Else
-                            Me.Controls.Add(lbl)
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(lbl)
+                            End If
                         End If
-
                     End If
-                    '==================================================
-                    ' LABEL EVENTS
-                    '==================================================
                     AddHandler lbl.MouseDown, AddressOf Control_MouseDown
                     AddHandler lbl.MouseMove, AddressOf Control_MouseMove
                     AddHandler lbl.MouseUp, AddressOf Control_MouseUp
-                    '##################################################
-                    ' SPACERTYPE
-                    '##################################################
-                    'If _InputType.Equals("SpacerType", StringComparison.OrdinalIgnoreCase) Then
-
-                    '      Dim cmb As New System.Windows.Forms.ComboBox()
-
-                    '    cmb.Name = Name.Trim()
-                    '    cmb.Left = leftPos + 130
-                    '    cmb.Top = topPos
-                    '    cmb.Width = width
-                    '    cmb.Height = height
-
-                    '    cmb.DropDownStyle = ComboBoxStyle.DropDownList
-                    '    cmb.TabIndex = Tabindex
-
-                    '    cmb.Tag = colName
-                    '    cmb.AccessibleName = colName
-                    '    cmb.AccessibleDescription = colName
-
-                    '    Dim spacerValue As String = ""
-
-                    '    If _MainColumTbl.Columns.Contains("SpacerString") Then
-                    '        spacerValue = dr("SpacerString").ToString().Trim()
-                    '    End If
-
-                    '    If spacerValue <> "" Then
-
-                    '        For Each item As String In spacerValue.Split(","c)
-
-                    '            If item.Trim() <> "" Then
-                    '                cmb.Items.Add(item.Trim())
-                    '            End If
-
-                    '        Next
-
-                    '    End If
-
-                    '    If targetTabPage IsNot Nothing Then
-                    '        targetTabPage.Controls.Add(cmb)
-                    '    Else
-                    '        Me.Controls.Add(cmb)
-                    '    End If
-
-                    '    AddHandler cmb.MouseDown, AddressOf Control_MouseDown
-                    '    AddHandler cmb.MouseMove, AddressOf Control_MouseMove
-                    '    AddHandler cmb.MouseUp, AddressOf Control_MouseUp
-
-                    '    Continue For
-
-                    'End If
-                    '##################################################
+                    '################################################################
+                    '################################################################
                     ' TEXTBOX
-                    '##################################################
+                    '################################################################
                     If colType.Equals("TextBox", StringComparison.OrdinalIgnoreCase) Then
                         Dim txt As New TextBox()
                         txt.Name = Name
@@ -1382,22 +3116,16 @@ Public Class MainMasterFormRead
                         txt.Top = topPos
                         txt.Width = width
                         txt.Height = height
-                        '==================================================
-                        ' TEXTBOX TAG
-                        '==================================================
+                        '==========================================================
+                        ' TAG
+                        '==========================================================
                         Dim userTextValue As String = dr("UserText").ToString().Trim()
                         Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
-                        '==================================================
-                        ' ATTACH IMAGE TEXTBOX
-                        '==================================================
                         If userTextValue.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
                             txt.Tag = userTextValue
                             txt.AccessibleName = databaseColumn
                             txt.AccessibleDescription = ""
                         Else
-                            '==================================================
-                            ' NORMAL TEXTBOX
-                            '==================================================
                             If _FORMMODE = "EDIT" Then
                                 txt.AccessibleDescription = databaseColumn
                                 If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
@@ -1411,35 +3139,34 @@ Public Class MainMasterFormRead
                             End If
                         End If
                         txt.TabIndex = Tabindex
-                        '==================================================
-                        ' READ ONLY
-                        '==================================================
                         If _Readonly = "Y" Then
                             txt.ReadOnly = True
                         Else
                             txt.ReadOnly = False
                         End If
-                        '==================================================
-                        ' ADD TEXTBOX
-                        '==================================================
+                        '==========================================================
+                        ' ADD TEXTBOX ONLY TO TARGET TAB
+                        '==========================================================
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(txt)
                         Else
-                            Me.Controls.Add(txt)
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(txt)
+                            Else
+                                Continue For
+                            End If
                         End If
                         If txt.TabIndex = 1 Then
                             txt.Focus()
                         End If
-                        '==================================================
-                        ' EVENTS
-                        '==================================================
                         AddHandler txt.MouseDown, AddressOf Control_MouseDown
                         AddHandler txt.MouseMove, AddressOf Control_MouseMove
                         AddHandler txt.MouseUp, AddressOf Control_MouseUp
                         AddHandler txt.KeyDown, AddressOf Control_KeyDown
-                        '##################################################
-                        ' IMG ADD
-                        '##################################################
+                        '################################################################
+                        '################################################################
+                        ' IMGADD
+                        '################################################################
                     ElseIf colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) Then
                         Dim btn As New SimpleButton()
                         btn.Name = Name
@@ -1449,16 +3176,13 @@ Public Class MainMasterFormRead
                         btn.Height = 30
                         btn.Text = HeaderName
                         btn.Font = New Font("Verdana", 10, FontStyle.Bold)
-                        '==================================================
-                        ' IMAGE ICON
-                        '==================================================
                         If Me.SBimgadd.ImageOptions.Image IsNot Nothing Then
                             btn.ImageOptions.Image = New System.Drawing.Bitmap(Me.SBimgadd.ImageOptions.Image)
                         End If
                         btn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-                        '==================================================
+                        '==========================================================
                         ' IMAGE TAG
-                        '==================================================
+                        '==========================================================
                         Dim buttonNo As Integer = 0
                         If Name.StartsWith("ImgAdd", StringComparison.OrdinalIgnoreCase) Then
                             Dim numberPart As String = Name.Substring("ImgAdd".Length)
@@ -1470,24 +3194,26 @@ Public Class MainMasterFormRead
                         Else
                             btn.Tag = Tag
                         End If
-                        '==================================================
-                        ' ADD IMG BUTTON
-                        '==================================================
+                        '==========================================================
+                        ' ADD IMGADD ONLY TO TARGET TAB
+                        '==========================================================
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(btn)
                         Else
-                            Me.Controls.Add(btn)
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(btn)
+                            Else
+                                Continue For
+                            End If
                         End If
-                        '==================================================
-                        ' EVENTS
-                        '==================================================
                         AddHandler btn.MouseDown, AddressOf Control_MouseDown
                         AddHandler btn.MouseMove, AddressOf Control_MouseMove
                         AddHandler btn.MouseUp, AddressOf Control_MouseUp
                         AddHandler btn.Click, AddressOf ButtonImgAdd_Click
-                        '##################################################
-                        ' IMG VIEW
-                        '##################################################
+                        '################################################################
+                        '################################################################
+                        ' IMGVIEW
+                        '################################################################
                     ElseIf colType.Equals("ImgView", StringComparison.OrdinalIgnoreCase) Then
                         Dim btn As New SimpleButton()
                         Dim buttonNo As Integer = 0
@@ -1498,16 +3224,13 @@ Public Class MainMasterFormRead
                         btn.Height = 30
                         btn.Text = HeaderName
                         btn.Font = New Font("Verdana", 10, FontStyle.Bold)
-                        '==================================================
-                        ' IMAGE ICON
-                        '==================================================
                         If Me.SBImgView.ImageOptions.Image IsNot Nothing Then
                             btn.ImageOptions.Image = New System.Drawing.Bitmap(Me.SBImgView.ImageOptions.Image)
                         End If
                         btn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
-                        '==================================================
+                        '==========================================================
                         ' IMAGE TAG
-                        '==================================================
+                        '==========================================================
                         If Name.StartsWith("ImgView", StringComparison.OrdinalIgnoreCase) Then
                             Dim numberPart As String = Name.Substring("ImgView".Length)
                             If Integer.TryParse(numberPart, buttonNo) Then
@@ -1518,24 +3241,26 @@ Public Class MainMasterFormRead
                         Else
                             btn.Tag = Tag
                         End If
-                        '==================================================
-                        ' ADD IMG VIEW BUTTON
-                        '==================================================
+                        '==========================================================
+                        ' ADD IMGVIEW ONLY TO TARGET TAB
+                        '==========================================================
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(btn)
                         Else
-                            Me.Controls.Add(btn)
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(btn)
+                            Else
+                                Continue For
+                            End If
                         End If
-                        '==================================================
-                        ' EVENTS
-                        '==================================================
                         AddHandler btn.MouseDown, AddressOf Control_MouseDown
                         AddHandler btn.MouseMove, AddressOf Control_MouseMove
                         AddHandler btn.MouseUp, AddressOf Control_MouseUp
                         AddHandler btn.Click, AddressOf ButtonImgAdd_Click
-                        '##################################################
+                        '################################################################
+                        '################################################################
                         ' NORMAL BUTTON
-                        '##################################################
+                        '################################################################
                     ElseIf colType.Equals("Button", StringComparison.OrdinalIgnoreCase) Then
                         Dim btn As New SimpleButton()
                         btn.Name = Name
@@ -1544,12 +3269,10 @@ Public Class MainMasterFormRead
                         btn.Width = width
                         btn.Height = height
                         btn.Text = HeaderName
-                        '==================================================
-                        ' BUTTON TAG
-                        '==================================================
                         Dim buttonNo As Integer = 0
                         If Name.StartsWith("Button", StringComparison.OrdinalIgnoreCase) Then
-                            Dim numberPart As String = Name.Substring("Button".Length)
+                            Dim numberPart As String =
+                            Name.Substring("Button".Length)
                             If Integer.TryParse(numberPart, buttonNo) Then
                                 Dim imageNo As Integer = ((buttonNo - 1) \ 2) + 1
                                 btn.Tag = "Attach Image" & imageNo.ToString()
@@ -1559,58 +3282,65 @@ Public Class MainMasterFormRead
                         Else
                             btn.Tag = Tag
                         End If
-                        '==================================================
-                        ' ADD BUTTON
-                        '==================================================
+                        '==========================================================
+                        ' ADD BUTTON ONLY TO TARGET TAB
+                        '==========================================================
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(btn)
                         Else
-                            Me.Controls.Add(btn)
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(btn)
+                            Else
+                                Continue For
+                            End If
                         End If
-                        '==================================================
-                        ' EVENTS
-                        '==================================================
                         AddHandler btn.MouseDown, AddressOf Control_MouseDown
                         AddHandler btn.MouseMove, AddressOf Control_MouseMove
                         AddHandler btn.MouseUp, AddressOf Control_MouseUp
                         AddHandler btn.Click, AddressOf Button_Click
-                        '##################################################
+                        '################################################################
+                        '################################################################
                         ' CHECKBOX
-                        '##################################################
+                        '################################################################
                     ElseIf colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) Then
                         Dim chk As New CheckBox()
-
+                        '==========================================================
+                        ' BASIC PROPERTIES
+                        '==========================================================
                         chk.Name = Name.Trim()
                         chk.Text = HeaderName
-
                         chk.Left = leftPos + 130
                         chk.Top = topPos
                         chk.Width = width
                         chk.Height = height
-
-                        chk.Tag = Tag
-
-                        'IMPORTANT
-                        chk.AccessibleName = Tag
-                        chk.AccessibleDescription = Tag
-
                         chk.TabIndex = Tabindex
-
+                        '==========================================================
+                        ' DATABASE COLUMN
+                        '==========================================================
+                        chk.Tag = colName
+                        chk.AccessibleName = colName
+                        chk.AccessibleDescription = colName
+                        '==========================================================
+                        ' ADD CHECKBOX ONLY TO TARGET TAB
+                        '==========================================================
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(chk)
                         Else
-                            Me.Controls.Add(chk)
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(chk)
+                            Else
+                                Continue For
+                            End If
                         End If
-
                         AddHandler chk.MouseDown, AddressOf Control_MouseDown
                         AddHandler chk.MouseMove, AddressOf Control_MouseMove
                         AddHandler chk.MouseUp, AddressOf Control_MouseUp
                     End If
                 Next
-                '==================================================
+                '==============================================================
                 ' CREATE FORM VALUE DATATABLE
-                '==================================================
-                ObjCls_General.CreateDataTable(tblFormValues, _Grid1ColNames.ToString, "YES")
+                '==============================================================
+                ObjCls_General.CreateDataTable(tblFormValues, _Grid1ColNames.ToString(), "YES")
 #End Region
                 BtnUpdatepos.Enabled = True
                 btnmovecontrol.Enabled = True
@@ -1618,9 +3348,9 @@ Public Class MainMasterFormRead
                 BtnUpdatepos.Enabled = False
                 btnmovecontrol.Enabled = False
             End If
-            '==================================================
+            '####################################################################
             ' EDIT MODE
-            '==================================================
+            '####################################################################
             Dim LASTCODE As String = ""
             If _FORMMODE = "EDIT" Then
                 Dim formType As String = ""
@@ -1657,6 +3387,621 @@ Public Class MainMasterFormRead
         End Try
     End Sub
 
+    'second
+    '    Private Sub View_Record()
+
+    '        Try
+
+    '            Dim EntryNo As Integer = 1
+    '            Dim _Grid1ColNames = New StringBuilder()
+    '            Dim View_Filter_Condition As String = " AND FormName='" & MainMasterLoadFormName & "' "
+    '            '==================================================
+    '            ' CURRENT TAB VARIABLES
+    '            '==================================================
+    '            DynamicTabControl = Nothing
+    '            CurrentTabPage = Nothing
+    '            Dim CurrentDynamicTabControl As TabControl = Nothing
+    '            Dim MainInfoTab As TabPage = Nothing
+    '            Dim MobileAppConfigTab As TabPage = Nothing
+    '            Dim OtherInfo1Tab As TabPage = Nothing
+    '            Dim OtherInfo2Tab As TabPage = Nothing
+    '            If MainMasterLoadFormName <> "" Then
+    '                '==================================================
+    '                ' REMOVE OLD DYNAMIC CONTROLS
+    '                '==================================================
+    '                If _MainColumTbl.Rows.Count > 0 Then
+    '                    For Each dr As DataRow In
+    '                    _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+    '                        Dim oldName As String = dr("CntrlName").ToString()
+    '                        RemoveControlIfExists(oldName)
+    '                        RemoveControlIfExists("Lbl_" & oldName)
+    '                    Next
+    '                End If
+    '                '==================================================
+    '                ' LOAD FORM CONTROL DATA
+    '                '==================================================
+    '                _strQuery = New StringBuilder()
+    '                With _strQuery
+    '                    .Append("Select * FROM " & _DatabaseTableName & " WHERE 1=1 ")
+    '                    .Append(View_Filter_Condition)
+    '                End With
+    '                RS = _strQuery.ToString()
+    '                MenuDesign_QueryLoad()
+    '                _MainColumTbl = DefaltSoftTable.Copy()
+    '                '==================================================
+    '                ' USE MASTER TABLE
+    '                '==================================================
+    '                Dim _UseMasterTabl As New DataTable
+    '                _UseMasterTabl = _MainColumTbl.Clone()
+    '                For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES'")
+    '                    _UseMasterTabl.ImportRow(dr)
+    '                Next
+    '#Region "Dynamic Controls"
+    '                Dim _CntlMasterTabl As New DataTable
+    '                _CntlMasterTabl = _MainColumTbl.Clone()
+    '                Dim topPos As Integer
+    '                Dim leftPos As Integer
+    '                Dim height As Integer
+    '                Dim width As Integer
+    '                '==================================================
+    '                ' LOOP ALL CONTROLS
+    '                '==================================================
+    '                For Each dr As DataRow In
+    '                _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
+    '                    '==================================================
+    '                    ' GET CONTROL DATA
+    '                    '==================================================
+    '                    Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
+    '                    Dim usemasterkey As String = dr("USEMASTERKEY").ToString()
+    '                    Dim colType As String = dr("ColumnType").ToString().Trim()
+    '                    Dim HeaderName As String = dr("UserText").ToString()
+    '                    Dim Name As String = dr("CntrlName").ToString()
+    '                    Dim visible As String = dr("Visible").ToString()
+    '                    Dim Tabindex As Integer = 0
+    '                    Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
+    '                    Dim colName As String = dr("DataBaseColumn").ToString().Trim()
+    '                    _TblName = dr("DataBaseTable").ToString()
+    '                    If usemasterkey = "Y" Then
+    '                        _KeyFieldName = colName
+    '                    End If
+    '                    '==================================================
+    '                    ' GRID COLUMN NAMES
+    '                    '==================================================
+    '                    If _Grid1ColNames.Length > 0 Then
+    '                        _Grid1ColNames.Append(",")
+    '                    End If
+    '                    _Grid1ColNames.Append(colName)
+    '                    Dim Tag As String = dr("DataBaseColumn").ToString()
+    '                    Dim oppMasterCode As String = dr("OppMasterCode").ToString()
+    '                    Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+    '                    Dim _Readonly As String = dr("ReadOnly").ToString()
+    '                    FormId = dr("FormId").ToString()
+    '                    Id = dr("Id").ToString()
+    '                    '==================================================
+    '                    ' SKIP INVISIBLE
+    '                    '==================================================
+    '                    If String.IsNullOrWhiteSpace(HeaderName) OrElse Not visible.Equals("Y", StringComparison.OrdinalIgnoreCase) Then
+    '                        Continue For
+    '                    End If
+    '                    '==================================================
+    '                    ' CONTROL POSITION
+    '                    '==================================================
+    '                    leftPos = Val(dr("LocationX").ToString())
+    '                    topPos = Val(dr("LocationY").ToString())
+    '                    width = Val(dr("SizeWidth").ToString())
+    '                    height = Val(dr("SizeHeight").ToString())
+    '                    '##################################################
+    '                    ' TABCONTROL
+    '                    '##################################################
+    '                    If colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
+    '                        Dim tabControl As New TabControl()
+    '                        Dim tabControlName As String = Name.Trim()
+    '                        If String.IsNullOrWhiteSpace(tabControlName) Then
+    '                            tabControlName = "TabControl"
+    '                        End If
+    '                        Dim baseName As String = tabControlName
+    '                        Dim counter As Integer = 1
+    '                        While Me.Controls.ContainsKey(tabControlName)
+    '                            tabControlName = baseName & "_" & counter.ToString()
+    '                            counter += 1
+    '                        End While
+    '                        '==================================================
+    '                        ' TABCONTROL PROPERTIES
+    '                        '==================================================
+    '                        tabControl.Name = tabControlName
+    '                        tabControl.Left = leftPos + 130
+    '                        tabControl.Top = topPos
+    '                        tabControl.Width = width
+    '                        tabControl.Height = height
+    '                        tabControl.Tag = Tag
+    '                        tabControl.TabIndex = Tabindex
+    '                        '==================================================
+    '                        ' TAB ELEMENTS
+    '                        '==================================================
+    '                        Dim tabElements As Integer = 0
+    '                        If _MainColumTbl.Columns.Contains("TabElements") Then
+    '                            Integer.TryParse(dr("TabElements").ToString().Trim(), tabElements)
+    '                        End If
+    '                        ' Blank / invalid ho to koi tab create nahi hoga
+    '                        If tabElements <= 0 Then
+    '                            tabElements = 0
+    '                        End If
+    '                        '==================================================
+    '                        ' TAB NAME
+    '                        ' Example:
+    '                        ' Tab1,Tab2,Tab3
+    '                        '==================================================
+    '                        Dim tabNames As New List(Of String)
+    '                        If _MainColumTbl.Columns.Contains("TabName") Then
+    '                            Dim tabNameValue As String = dr("TabName").ToString().Trim()
+    '                            If tabNameValue <> "" Then
+    '                                tabNames = tabNameValue.Split(","c).Select(Function(x) x.Trim()).Where(Function(x) x <> "").ToList()
+    '                            End If
+    '                        End If
+    '                        '==================================================
+    '                        ' CREATE DYNAMIC TAB PAGES
+    '                        '==================================================
+    '                        For tabNo As Integer = 1 To tabElements
+    '                            Dim tabPage As New TabPage()
+    '                            '----------------------------------------------
+    '                            ' TAB PAGE NAME
+    '                            '----------------------------------------------
+    '                            tabPage.Name = tabControl.Name & "_Tab" & tabNo.ToString()
+    '                            '----------------------------------------------
+    '                            ' TAB PAGE TEXT
+    '                            ' TabName se
+    '                            '----------------------------------------------
+    '                            Dim tabCaption As String = "Tab" & tabNo.ToString()
+    '                            If tabNo <= tabNames.Count Then
+    '                                If Not String.IsNullOrWhiteSpace(tabNames(tabNo - 1)) Then
+    '                                    tabCaption = tabNames(tabNo - 1)
+    '                                End If
+    '                            End If
+    '                            tabPage.Text = tabCaption
+    '                            '----------------------------------------------
+    '                            ' FIXED TAB ID
+    '                            ' TAB1, TAB2, TAB3...
+    '                            '----------------------------------------------
+    '                            tabPage.Tag = "TAB" & tabNo.ToString()
+    '                            '----------------------------------------------
+    '                            ' ADD TAB
+    '                            '----------------------------------------------
+    '                            tabControl.TabPages.Add(tabPage)
+    '                        Next
+    '                        '==================================================
+    '                        ' FIRST TAB
+    '                        '==================================================
+    '                        If tabControl.TabPages.Count > 0 Then
+    '                            tabControl.SelectedIndex = 0
+    '                            CurrentTabPage = tabControl.TabPages(0)
+    '                            MainInfoTab = tabControl.TabPages(0)
+    '                        End If
+    '                        '==================================================
+    '                        ' SAVE CURRENT TABCONTROL
+    '                        '==================================================
+    '                        CurrentDynamicTabControl = tabControl
+    '                        DynamicTabControl = tabControl
+    '                        '==================================================
+    '                        ' ADD TO FORM
+    '                        '==================================================
+    '                        Me.Controls.Add(tabControl)
+    '                        '==================================================
+    '                        ' EVENTS
+    '                        '==================================================
+    '                        AddHandler tabControl.MouseDown, AddressOf Control_MouseDown
+    '                        AddHandler tabControl.MouseMove, AddressOf Control_MouseMove
+    '                        AddHandler tabControl.MouseUp, AddressOf Control_MouseUp
+    '                        Continue For
+    '                    End If
+    '                    '##################################################
+    '                    ' FIND TARGET TAB PAGE
+    '                    '##################################################
+    '                    Dim targetTabPage As TabPage = Nothing
+    '                    If CurrentDynamicTabControl IsNot Nothing AndAlso CurrentDynamicTabControl.TabPages.Count > 0 Then
+    '                        '==================================================
+    '                        ' TAB COUNT NO
+    '                        '==================================================
+    '                        Dim tabCountNo As Integer = 0
+    '                        If _MainColumTbl.Columns.Contains("TabCountNo") Then
+    '                            Integer.TryParse(dr("TabCountNo").ToString().Trim(), tabCountNo)
+    '                        End If
+    '                        '==================================================
+    '                        ' TABCOUNTNO VALID HAI TABHI TAB SELECT KARO
+    '                        '==================================================
+    '                        If tabCountNo > 0 AndAlso
+    '                       tabCountNo <= CurrentDynamicTabControl.TabPages.Count Then
+    '                            targetTabPage = CurrentDynamicTabControl.TabPages(tabCountNo - 1)
+    '                        End If
+    '                    End If
+    '                    '##################################################
+    '                    ' CREATE LABEL
+    '                    '##################################################
+    '                    Dim lbl As New Label()
+    '                    lbl.Name = "Lbl_" & Name
+
+    '                    lbl.Text = HeaderName
+    '                    If Name = "Grid1" OrElse Name = "Grid2" OrElse Name = "Grid3" OrElse Name = "Grid4" OrElse Name = "Grid5" Then
+    '                        lbl.Visible = False
+    '                    Else
+    '                        lbl.Visible = True
+    '                    End If
+    '                    '==================================================
+    '                    ' LABEL POSITION
+    '                    '==================================================
+    '                    If leftPos < 0 Then
+    '                        lbl.Left = leftPos + 10
+    '                    Else
+    '                        lbl.Left = leftPos
+    '                    End If
+    '                    lbl.Top = topPos
+    '                    lbl.AutoSize = False
+    '                    lbl.Width = 120
+    '                    lbl.Height = height
+    '                    lbl.TextAlign = ContentAlignment.MiddleLeft
+    '                    '==================================================
+    '                    ' ADD LABEL
+    '                    '==================================================
+    '                    'If colType <> "ImgAdd" AndAlso colType <> "ImgView" AndAlso colType <> "CheckBox" Then
+    '                    '    If targetTabPage IsNot Nothing Then
+    '                    '        targetTabPage.Controls.Add(lbl)
+    '                    '    Else
+    '                    '        Me.Controls.Add(lbl)
+    '                    '    End If
+    '                    'Else
+    '                    '    Me.Controls.Add(lbl)
+    '                    'End If
+    '                    If Not colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) AndAlso Not colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) AndAlso Not colType.Equals("ImgView", StringComparison.OrdinalIgnoreCase) Then
+
+    '                        If targetTabPage IsNot Nothing Then
+    '                            targetTabPage.Controls.Add(lbl)
+    '                        Else
+    '                            Me.Controls.Add(lbl)
+    '                        End If
+
+    '                    End If
+    '                    '==================================================
+    '                    ' LABEL EVENTS
+    '                    '==================================================
+    '                    AddHandler lbl.MouseDown, AddressOf Control_MouseDown
+    '                    AddHandler lbl.MouseMove, AddressOf Control_MouseMove
+    '                    AddHandler lbl.MouseUp, AddressOf Control_MouseUp
+    '                    '##################################################
+    '                    ' SPACERTYPE
+    '                    '##################################################
+    '                    'If _InputType.Equals("SpacerType", StringComparison.OrdinalIgnoreCase) Then
+
+    '                    '      Dim cmb As New System.Windows.Forms.ComboBox()
+
+    '                    '    cmb.Name = Name.Trim()
+    '                    '    cmb.Left = leftPos + 130
+    '                    '    cmb.Top = topPos
+    '                    '    cmb.Width = width
+    '                    '    cmb.Height = height
+
+    '                    '    cmb.DropDownStyle = ComboBoxStyle.DropDownList
+    '                    '    cmb.TabIndex = Tabindex
+
+    '                    '    cmb.Tag = colName
+    '                    '    cmb.AccessibleName = colName
+    '                    '    cmb.AccessibleDescription = colName
+
+    '                    '    Dim spacerValue As String = ""
+
+    '                    '    If _MainColumTbl.Columns.Contains("SpacerString") Then
+    '                    '        spacerValue = dr("SpacerString").ToString().Trim()
+    '                    '    End If
+
+    '                    '    If spacerValue <> "" Then
+
+    '                    '        For Each item As String In spacerValue.Split(","c)
+
+    '                    '            If item.Trim() <> "" Then
+    '                    '                cmb.Items.Add(item.Trim())
+    '                    '            End If
+
+    '                    '        Next
+
+    '                    '    End If
+
+    '                    '    If targetTabPage IsNot Nothing Then
+    '                    '        targetTabPage.Controls.Add(cmb)
+    '                    '    Else
+    '                    '        Me.Controls.Add(cmb)
+    '                    '    End If
+
+    '                    '    AddHandler cmb.MouseDown, AddressOf Control_MouseDown
+    '                    '    AddHandler cmb.MouseMove, AddressOf Control_MouseMove
+    '                    '    AddHandler cmb.MouseUp, AddressOf Control_MouseUp
+
+    '                    '    Continue For
+
+    '                    'End If
+    '                    '##################################################
+    '                    ' TEXTBOX
+    '                    '##################################################
+    '                    If colType.Equals("TextBox", StringComparison.OrdinalIgnoreCase) Then
+    '                        Dim txt As New TextBox()
+    '                        txt.Name = Name
+    '                        txt.Left = leftPos + 130
+    '                        txt.Top = topPos
+    '                        txt.Width = width
+    '                        txt.Height = height
+    '                        '==================================================
+    '                        ' TEXTBOX TAG
+    '                        '==================================================
+    '                        Dim userTextValue As String = dr("UserText").ToString().Trim()
+    '                        Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+    '                        '==================================================
+    '                        ' ATTACH IMAGE TEXTBOX
+    '                        '==================================================
+    '                        If userTextValue.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
+    '                            txt.Tag = userTextValue
+    '                            txt.AccessibleName = databaseColumn
+    '                            txt.AccessibleDescription = ""
+    '                        Else
+    '                            '==================================================
+    '                            ' NORMAL TEXTBOX
+    '                            '==================================================
+    '                            If _FORMMODE = "EDIT" Then
+    '                                txt.AccessibleDescription = databaseColumn
+    '                                If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
+    '                                    txt.Tag = userTextValue
+    '                                Else
+    '                                    txt.Tag = databaseColumn
+    '                                End If
+    '                            Else
+    '                                txt.Tag = databaseColumn
+    '                                txt.AccessibleDescription = databaseColumn
+    '                            End If
+    '                        End If
+    '                        txt.TabIndex = Tabindex
+    '                        '==================================================
+    '                        ' READ ONLY
+    '                        '==================================================
+    '                        If _Readonly = "Y" Then
+    '                            txt.ReadOnly = True
+    '                        Else
+    '                            txt.ReadOnly = False
+    '                        End If
+    '                        '==================================================
+    '                        ' ADD TEXTBOX
+    '                        '==================================================
+    '                        If targetTabPage IsNot Nothing Then
+    '                            targetTabPage.Controls.Add(txt)
+    '                        Else
+    '                            Me.Controls.Add(txt)
+    '                        End If
+    '                        If txt.TabIndex = 1 Then
+    '                            txt.Focus()
+    '                        End If
+    '                        '==================================================
+    '                        ' EVENTS
+    '                        '==================================================
+    '                        AddHandler txt.MouseDown, AddressOf Control_MouseDown
+    '                        AddHandler txt.MouseMove, AddressOf Control_MouseMove
+    '                        AddHandler txt.MouseUp, AddressOf Control_MouseUp
+    '                        AddHandler txt.KeyDown, AddressOf Control_KeyDown
+    '                        '##################################################
+    '                        ' IMG ADD
+    '                        '##################################################
+    '                    ElseIf colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) Then
+    '                        Dim btn As New SimpleButton()
+    '                        btn.Name = Name
+    '                        btn.Left = leftPos + 130
+    '                        btn.Top = topPos
+    '                        btn.Width = 65
+    '                        btn.Height = 30
+    '                        btn.Text = HeaderName
+    '                        btn.Font = New Font("Verdana", 10, FontStyle.Bold)
+    '                        '==================================================
+    '                        ' IMAGE ICON
+    '                        '==================================================
+    '                        If Me.SBimgadd.ImageOptions.Image IsNot Nothing Then
+    '                            btn.ImageOptions.Image = New System.Drawing.Bitmap(Me.SBimgadd.ImageOptions.Image)
+    '                        End If
+    '                        btn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+    '                        '==================================================
+    '                        ' IMAGE TAG
+    '                        '==================================================
+    '                        Dim buttonNo As Integer = 0
+    '                        If Name.StartsWith("ImgAdd", StringComparison.OrdinalIgnoreCase) Then
+    '                            Dim numberPart As String = Name.Substring("ImgAdd".Length)
+    '                            If Integer.TryParse(numberPart, buttonNo) Then
+    '                                btn.Tag = "Attach Image" & buttonNo.ToString()
+    '                            Else
+    '                                btn.Tag = Tag
+    '                            End If
+    '                        Else
+    '                            btn.Tag = Tag
+    '                        End If
+    '                        '==================================================
+    '                        ' ADD IMG BUTTON
+    '                        '==================================================
+    '                        If targetTabPage IsNot Nothing Then
+    '                            targetTabPage.Controls.Add(btn)
+    '                        Else
+    '                            Me.Controls.Add(btn)
+    '                        End If
+    '                        '==================================================
+    '                        ' EVENTS
+    '                        '==================================================
+    '                        AddHandler btn.MouseDown, AddressOf Control_MouseDown
+    '                        AddHandler btn.MouseMove, AddressOf Control_MouseMove
+    '                        AddHandler btn.MouseUp, AddressOf Control_MouseUp
+    '                        AddHandler btn.Click, AddressOf ButtonImgAdd_Click
+    '                        '##################################################
+    '                        ' IMG VIEW
+    '                        '##################################################
+    '                    ElseIf colType.Equals("ImgView", StringComparison.OrdinalIgnoreCase) Then
+    '                        Dim btn As New SimpleButton()
+    '                        Dim buttonNo As Integer = 0
+    '                        btn.Name = Name
+    '                        btn.Left = leftPos + 130
+    '                        btn.Top = topPos
+    '                        btn.Width = 65
+    '                        btn.Height = 30
+    '                        btn.Text = HeaderName
+    '                        btn.Font = New Font("Verdana", 10, FontStyle.Bold)
+    '                        '==================================================
+    '                        ' IMAGE ICON
+    '                        '==================================================
+    '                        If Me.SBImgView.ImageOptions.Image IsNot Nothing Then
+    '                            btn.ImageOptions.Image = New System.Drawing.Bitmap(Me.SBImgView.ImageOptions.Image)
+    '                        End If
+    '                        btn.ImageOptions.ImageToTextAlignment = DevExpress.XtraEditors.ImageAlignToText.LeftCenter
+    '                        '==================================================
+    '                        ' IMAGE TAG
+    '                        '==================================================
+    '                        If Name.StartsWith("ImgView", StringComparison.OrdinalIgnoreCase) Then
+    '                            Dim numberPart As String = Name.Substring("ImgView".Length)
+    '                            If Integer.TryParse(numberPart, buttonNo) Then
+    '                                btn.Tag = "Attach Image" & buttonNo.ToString()
+    '                            Else
+    '                                btn.Tag = Tag
+    '                            End If
+    '                        Else
+    '                            btn.Tag = Tag
+    '                        End If
+    '                        '==================================================
+    '                        ' ADD IMG VIEW BUTTON
+    '                        '==================================================
+    '                        If targetTabPage IsNot Nothing Then
+    '                            targetTabPage.Controls.Add(btn)
+    '                        Else
+    '                            Me.Controls.Add(btn)
+    '                        End If
+    '                        '==================================================
+    '                        ' EVENTS
+    '                        '==================================================
+    '                        AddHandler btn.MouseDown, AddressOf Control_MouseDown
+    '                        AddHandler btn.MouseMove, AddressOf Control_MouseMove
+    '                        AddHandler btn.MouseUp, AddressOf Control_MouseUp
+    '                        AddHandler btn.Click, AddressOf ButtonImgAdd_Click
+    '                        '##################################################
+    '                        ' NORMAL BUTTON
+    '                        '##################################################
+    '                    ElseIf colType.Equals("Button", StringComparison.OrdinalIgnoreCase) Then
+    '                        Dim btn As New SimpleButton()
+    '                        btn.Name = Name
+    '                        btn.Left = leftPos + 130
+    '                        btn.Top = topPos
+    '                        btn.Width = width
+    '                        btn.Height = height
+    '                        btn.Text = HeaderName
+    '                        '==================================================
+    '                        ' BUTTON TAG
+    '                        '==================================================
+    '                        Dim buttonNo As Integer = 0
+    '                        If Name.StartsWith("Button", StringComparison.OrdinalIgnoreCase) Then
+    '                            Dim numberPart As String = Name.Substring("Button".Length)
+    '                            If Integer.TryParse(numberPart, buttonNo) Then
+    '                                Dim imageNo As Integer = ((buttonNo - 1) \ 2) + 1
+    '                                btn.Tag = "Attach Image" & imageNo.ToString()
+    '                            Else
+    '                                btn.Tag = Tag
+    '                            End If
+    '                        Else
+    '                            btn.Tag = Tag
+    '                        End If
+    '                        '==================================================
+    '                        ' ADD BUTTON
+    '                        '==================================================
+    '                        If targetTabPage IsNot Nothing Then
+    '                            targetTabPage.Controls.Add(btn)
+    '                        Else
+    '                            Me.Controls.Add(btn)
+    '                        End If
+    '                        '==================================================
+    '                        ' EVENTS
+    '                        '==================================================
+    '                        AddHandler btn.MouseDown, AddressOf Control_MouseDown
+    '                        AddHandler btn.MouseMove, AddressOf Control_MouseMove
+    '                        AddHandler btn.MouseUp, AddressOf Control_MouseUp
+    '                        AddHandler btn.Click, AddressOf Button_Click
+    '                        '##################################################
+    '                        ' CHECKBOX
+    '                        '##################################################
+    '                    ElseIf colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) Then
+    '                        Dim chk As New CheckBox()
+
+    '                        chk.Name = Name.Trim()
+    '                        chk.Text = HeaderName
+
+    '                        chk.Left = leftPos + 130
+    '                        chk.Top = topPos
+    '                        chk.Width = width
+    '                        chk.Height = height
+
+    '                        chk.Tag = Tag
+
+    '                        'IMPORTANT
+    '                        chk.AccessibleName = Tag
+    '                        chk.AccessibleDescription = Tag
+
+    '                        chk.TabIndex = Tabindex
+
+    '                        If targetTabPage IsNot Nothing Then
+    '                            targetTabPage.Controls.Add(chk)
+    '                        Else
+    '                            Me.Controls.Add(chk)
+    '                        End If
+
+    '                        AddHandler chk.MouseDown, AddressOf Control_MouseDown
+    '                        AddHandler chk.MouseMove, AddressOf Control_MouseMove
+    '                        AddHandler chk.MouseUp, AddressOf Control_MouseUp
+    '                    End If
+    '                Next
+    '                '==================================================
+    '                ' CREATE FORM VALUE DATATABLE
+    '                '==================================================
+    '                ObjCls_General.CreateDataTable(tblFormValues, _Grid1ColNames.ToString, "YES")
+    '#End Region
+    '                BtnUpdatepos.Enabled = True
+    '                btnmovecontrol.Enabled = True
+    '            Else
+    '                BtnUpdatepos.Enabled = False
+    '                btnmovecontrol.Enabled = False
+    '            End If
+    '            '==================================================
+    '            ' EDIT MODE
+    '            '==================================================
+    '            Dim LASTCODE As String = ""
+    '            If _FORMMODE = "EDIT" Then
+    '                Dim formType As String = ""
+    '                If _MainColumTbl.Rows.Count > 0 Then
+    '                    formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+    '                    FormNameValue = _MainColumTbl.Rows(0)("Formname").ToString().Trim()
+    '                End If
+    '                If formType = "MASTER FORM" Then
+    '                    strQuery = GetMaxCode()
+    '                    sqL = strQuery
+    '                    sql_connect_slect()
+    '                    If DefaltSoftTable.Rows.Count > 0 Then
+    '                        LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
+    '                    Else
+    '                        LASTCODE = "1"
+    '                    End If
+    '                    LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+    '                    _KeyFieldValue = LASTCODE
+    '                    If DefaltSoftTable.Rows.Count > 0 Then
+    '                        CurrentBackNumber = Val(DefaltSoftTable.Rows(0).Item(0))
+    '                    Else
+    '                        CurrentBackNumber = 1
+    '                    End If
+    '                    Dim tblTmp1 As DataTable = Alter_Form()
+    '                End If
+    '            ElseIf _FORMMODE = "DELETE" Then
+    '                If MsgBox("Do You Want To Delete (Y/N)", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+    '                    'Call Delete_Entry()
+    '                End If
+    '            End If
+    '        Catch ex As Exception
+    '            MsgBox(ex.ToString, MsgBoxStyle.Critical, "Soft-Tex PRO")
+    '        Finally
+    '        End Try
+    '    End Sub
+
+    'first
     '    Private Sub View_Record()
     '        Try
     '            Dim EntryNo As Integer = 1
@@ -2780,8 +5125,14 @@ Public Class MainMasterFormRead
         GridControl1.Location = New POINT(3, 53)
         _LoadDefaultData()
         'LoadViewData(tmptbl)
-        Ctrl_Visible_False(Me.Controls)
+        Ctrl_Visible_Falseform(Me.Controls)
         _FrmLoad = False
+        UC_Buttons1.Enabled = True
+        UC_Buttons1.TabStop = True
+        UC_Buttons1.BtnAdd.Enabled = True
+        UC_Buttons1.BtnAdd.TabStop = True
+        UC_Buttons1.BtnAdd.Focus()
+        UC_Buttons1.BtnAdd.Select()
     End Sub
     Public Function _getformName() As String
         If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then

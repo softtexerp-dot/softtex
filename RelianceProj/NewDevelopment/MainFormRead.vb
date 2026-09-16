@@ -118,7 +118,7 @@ Public Class MainFormRead
         Dim grd As FlexCell.Grid = TryCast(Me.Controls("Grid1"), FlexCell.Grid)
         If grd Is Nothing Then Exit Sub
         ApplyGridFormula(grd, _DataTableGrid1)
-        Ctrl_Visible_False(Me.Controls)
+        Ctrl_Visible_Falseform(Me.Controls)
         _FrmLoad = False
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
@@ -159,7 +159,7 @@ Public Class MainFormRead
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "ADD" Then
             _BookVNo = ""
-            Ctrl_Visible_True(Me.Controls)
+            Ctrl_Visible_TrueForm(Me.Controls)
             _LoadDefaultData()
             _GridEnable()
             'Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
@@ -178,7 +178,7 @@ Public Class MainFormRead
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "EDIT" Then
             'txtFormName.Focus()
-            Ctrl_Visible_True(Me.Controls)
+            Ctrl_Visible_TrueForm(Me.Controls)
             _LoadDefaultData()
             _GridEnable()
         End If
@@ -244,7 +244,7 @@ Public Class MainFormRead
             Dim txt As New TextBox()
             txt.Text = EntryNo
             txtEntryno = txt.Text
-            Ctrl_Visible_True(Me.Controls)
+            Ctrl_Visible_TrueForm(Me.Controls)
         End If
         If MsgBox("Do You Want To Delete (Y/N)",
               MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
@@ -252,7 +252,7 @@ Public Class MainFormRead
             Call Delete_Entry()
         End If
         ObjCls_General.Blank_Object(Me)
-        Ctrl_Visible_False(Me.Controls)
+        Ctrl_Visible_Falseform(Me.Controls)
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
@@ -350,7 +350,7 @@ Public Class MainFormRead
         Dim _BookName As String = ""
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         If _FORMMODE = "VIEW" Then
-            Ctrl_Visible_True(Me.Controls)
+            Ctrl_Visible_TrueForm(Me.Controls)
         End If
 
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
@@ -1184,7 +1184,7 @@ Public Class MainFormRead
                   "Delete ?") = MsgBoxResult.Yes Then
                     Call Delete_Entry()
                     ObjCls_General.Blank_Object(Me)
-                    Ctrl_Visible_False(Me.Controls)
+                    Ctrl_Visible_Falseform(Me.Controls)
                     UC_Buttons1._ButtonEnableDisable("LOAD")
                     UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                 End If
@@ -1660,7 +1660,7 @@ Public Class MainFormRead
         MsgBox("Update Successfully")
         'PropertyGrid1.Visible = False
         PanlPropartiesWindow.Visible = False
-        Ctrl_Visible_True(Me.Controls)
+        Ctrl_Visible_TrueForm(Me.Controls)
     End Sub
 
     Private Sub _GridEnable()
@@ -1689,7 +1689,7 @@ Public Class MainFormRead
         Else
             PanlPropartiesWindow.Visible = False
         End If
-        Ctrl_Visible_True(Me.Controls)
+        Ctrl_Visible_TrueForm(Me.Controls)
         _GridEnable()
     End Sub
 

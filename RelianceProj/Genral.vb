@@ -1694,10 +1694,68 @@ Module Genral
                 ctl.visible = False
             ElseIf TypeOf ctl Is FlexCell.Grid Then
                 ctl.visible = False
+                ctl.Enabled = True
                 'ElseIf TypeOf ctl Is MultiColComboBox Then
                 '    ctl.visible = False
             ElseIf TypeOf ctl Is System.Windows.Forms.ComboBox Then
                 ctl.visible = False
+            End If
+        Next
+    End Sub
+    Public Sub Ctrl_Visible_TrueForm(ByVal coll As System.Windows.Forms.Control.ControlCollection)
+        Dim ctl As Control
+        For Each ctl In coll
+            If TypeOf ctl Is TextBox Then
+                ctl.Visible = True
+            ElseIf TypeOf ctl Is RichTextBox Then
+                ctl.Visible = True
+            ElseIf TypeOf ctl Is ctl_TextBox.ctl_TextBox Then
+                ctl.Visible = True
+            ElseIf TypeOf ctl Is FlexCell.Grid Then
+                ctl.Visible = True
+            ElseIf TypeOf ctl Is System.Windows.Forms.ComboBox Then
+                ctl.Visible = True
+            ElseIf TypeOf ctl Is System.Windows.Forms.CheckBox Then
+                ctl.Visible = True
+            ElseIf TypeOf ctl Is System.Windows.Forms.TabControl Then
+                'TabControl
+                ctl.Visible = True
+                ctl.Enabled = False
+                'TabControl ke andar ke controls ko process karna ho
+                For Each tp As TabPage In DirectCast(ctl, TabControl).TabPages
+                    Ctrl_Visible_TrueForm(tp.Controls)
+                Next
+            ElseIf ctl.HasChildren Then
+                Ctrl_Visible_TrueForm(ctl.Controls)
+            End If
+        Next
+    End Sub
+    Public Sub Ctrl_Visible_Falseform(ByVal coll As System.Windows.Forms.Control.ControlCollection)
+        Dim ctl As Control
+        For Each ctl In coll
+            If TypeOf ctl Is TextBox Then
+                ctl.Visible = False
+            ElseIf TypeOf ctl Is ctl_TextBox.ctl_TextBox Then
+                ctl.Visible = False
+            ElseIf TypeOf ctl Is RichTextBox Then
+                ctl.Visible = False
+            ElseIf TypeOf ctl Is FlexCell.Grid Then
+                ctl.Visible = False
+            ElseIf TypeOf ctl Is System.Windows.Forms.ComboBox Then
+                ctl.Visible = False
+            ElseIf TypeOf ctl Is System.Windows.Forms.CheckBox Then
+                ctl.Visible = False
+            ElseIf TypeOf ctl Is System.Windows.Forms.TabControl Then
+                'TabControl visible rahe
+                ctl.Visible = True
+                'TabControl enabled
+                ctl.Enabled = True
+                'TabControl ke andar ke controls ko process karo
+                For Each tp As TabPage In DirectCast(ctl, TabControl).TabPages
+                    Ctrl_Visible_Falseform(tp.Controls)
+                Next
+            ElseIf ctl.HasChildren Then
+                Ctrl_Visible_Falseform(ctl.Controls)
             End If
         Next
     End Sub
