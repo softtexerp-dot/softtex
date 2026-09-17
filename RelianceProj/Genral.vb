@@ -1720,7 +1720,7 @@ Module Genral
             ElseIf TypeOf ctl Is System.Windows.Forms.TabControl Then
                 'TabControl
                 ctl.Visible = True
-                ctl.Enabled = False
+                'ctl.Enabled = False
                 'TabControl ke andar ke controls ko process karna ho
                 For Each tp As TabPage In DirectCast(ctl, TabControl).TabPages
                     Ctrl_Visible_TrueForm(tp.Controls)

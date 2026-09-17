@@ -88,6 +88,7 @@ Public Class MainMasterFormRead
     Private PropertyGridPanel As Panel
     Private PositionButtonPanel As Panel
     Dim GetformName As String = ""
+    Dim GetformId As Integer = 0
     Public flagstring As String = ""
     Private DynamicTabControl As TabControl = Nothing
     Private CurrentTabPage As TabPage = Nothing
@@ -117,7 +118,8 @@ Public Class MainMasterFormRead
     End Sub
 
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
-        UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnDelete")
+        'UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnDelete")
+        UC_Buttons1.HideButtons("BtnPrint", "BtnReports")
     End Sub
 #Region "Button Click"
     Private Sub UC_Buttons1_AddClick()
@@ -286,6 +288,96 @@ Public Class MainMasterFormRead
                             chk.Checked = False
                         End If
                     End If
+                    '========================================================
+                    ' SPACER TYPE COMBOBOX
+                    '========================================================
+                ElseIf TypeOf ctrl Is System.Windows.Forms.ComboBox Then
+
+                    Dim cmb As System.Windows.Forms.ComboBox =
+                        DirectCast(ctrl, System.Windows.Forms.ComboBox)
+
+                    Dim dbColumn As String = ""
+
+                    '====================================================
+                    ' 1. DATABASE COLUMN FROM TAG
+                    '====================================================
+                    If cmb.Tag IsNot Nothing Then
+                        dbColumn = cmb.Tag.ToString().Trim()
+                    End If
+
+                    '====================================================
+                    ' 2. FALLBACK - ACCESSIBLE NAME
+                    '====================================================
+                    If String.IsNullOrWhiteSpace(dbColumn) AndAlso
+                       cmb.AccessibleName IsNot Nothing Then
+
+                        dbColumn = cmb.AccessibleName.ToString().Trim()
+
+                    End If
+
+                    '====================================================
+                    ' 3. FALLBACK - ACCESSIBLE DESCRIPTION
+                    '====================================================
+                    If String.IsNullOrWhiteSpace(dbColumn) AndAlso
+                       cmb.AccessibleDescription IsNot Nothing Then
+
+                        dbColumn = cmb.AccessibleDescription.ToString().Trim()
+
+                    End If
+
+                    '====================================================
+                    ' 4. READ DATABASE VALUE
+                    '====================================================
+                    If Not String.IsNullOrWhiteSpace(dbColumn) AndAlso
+                       Not dbColumn.StartsWith("NO COLUMN USE",
+                                               StringComparison.OrdinalIgnoreCase) AndAlso
+                       tblTmp.Columns.Contains(dbColumn) Then
+
+                        Dim dbValue As String = ""
+
+                        If Not IsDBNull(tblTmp.Rows(0)(dbColumn)) Then
+                            dbValue = tblTmp.Rows(0)(dbColumn).ToString().Trim()
+                        End If
+
+                        '================================================
+                        ' SET COMBOBOX VALUE
+                        '================================================
+                        cmb.SelectedIndex = -1
+
+                        If dbValue <> "" Then
+
+                            Dim foundIndex As Integer = -1
+
+                            For i As Integer = 0 To cmb.Items.Count - 1
+
+                                If cmb.Items(i).ToString().Trim().Equals(
+                                    dbValue,
+                                    StringComparison.OrdinalIgnoreCase) Then
+
+                                    foundIndex = i
+                                    Exit For
+
+                                End If
+
+                            Next
+
+                            If foundIndex >= 0 Then
+
+                                cmb.SelectedIndex = foundIndex
+
+                            Else
+
+                                '----------------------------------------
+                                ' Agar DB value SpacerString me nahi hai
+                                '----------------------------------------
+                                cmb.Items.Add(dbValue)
+                                cmb.SelectedIndex = cmb.Items.Count - 1
+
+                            End If
+
+                        End If
+
+                    End If
                 End If
             Next
         End If
@@ -350,7 +442,8 @@ Public Class MainMasterFormRead
             Ctrl_Visible_Falseform(Me.Controls)
         End If
         Change_Grid_Data = True
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+        UC_Buttons1._ButtonEnableDisable("LOAD")
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
     Private Sub UC_Buttons1_BackClick()
         _FrmLoad = False
@@ -814,6 +907,58 @@ Public Class MainMasterFormRead
                 '----------------------------------------------
                 If Not String.IsNullOrWhiteSpace(chkColumn) AndAlso tblFormValues.Columns.Contains(chkColumn) Then
                     tblFormValues.Rows(0)(chkColumn) = If(chk.Checked, "1", "0")
+                End If
+            End If
+            '==================================================
+            ' SPACER TYPE COMBOBOX
+            '==================================================
+            If TypeOf ctrl Is System.Windows.Forms.ComboBox Then
+                Dim cmb As System.Windows.Forms.ComboBox = DirectCast(ctrl, System.Windows.Forms.ComboBox)
+                Dim dbColumn As String = ""
+                '==================================================
+                ' DATABASE COLUMN FROM TAG
+                '==================================================
+                If cmb.Tag IsNot Nothing Then
+                    dbColumn = cmb.Tag.ToString().Trim()
+                End If
+                '==================================================
+                ' FALLBACK - ACCESSIBLE NAME
+                '==================================================
+                If String.IsNullOrWhiteSpace(dbColumn) AndAlso cmb.AccessibleName IsNot Nothing Then
+                    dbColumn = cmb.AccessibleName.ToString().Trim()
+                End If
+                '==================================================
+                ' FALLBACK - ACCESSIBLE DESCRIPTION
+                '==================================================
+                If String.IsNullOrWhiteSpace(dbColumn) AndAlso
+                   cmb.AccessibleDescription IsNot Nothing Then
+                    dbColumn = cmb.AccessibleDescription.ToString().Trim()
+                End If
+                '==================================================
+                ' SKIP NO COLUMN USE
+                '==================================================
+                If dbColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse dbColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
+                    Continue For
+                End If
+                '==================================================
+                ' GET SELECTED VALUE
+                '==================================================
+                Dim comboValue As String = ""
+                If cmb.SelectedIndex >= 0 Then
+                    If cmb.SelectedItem IsNot Nothing Then
+                        comboValue = cmb.SelectedItem.ToString().Trim()
+                    Else
+                        comboValue = cmb.Text.Trim()
+                    End If
+                Else
+                    comboValue = cmb.Text.Trim()
+                End If
+                '==================================================
+                ' SAVE SPACER TYPE VALUE
+                '==================================================
+                If Not String.IsNullOrWhiteSpace(dbColumn) AndAlso
+                   tblFormValues.Columns.Contains(dbColumn) Then
+                    tblFormValues.Rows(0)(dbColumn) = comboValue
                 End If
             End If
         Next
@@ -2758,20 +2903,11 @@ Public Class MainMasterFormRead
                 Dim leftPos As Integer
                 Dim height As Integer
                 Dim width As Integer
-                '####################################################################
-                '####################################################################
-                ' FIRST PASS
-                ' CREATE ALL TABCONTROLS FIRST
-                '####################################################################
-                '####################################################################
                 For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
                     Dim colType As String = dr("ColumnType").ToString().Trim()
                     If Not colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
                         Continue For
                     End If
-                    '==============================================================
-                    ' GET TABCONTROL DATA
-                    '==============================================================
                     Dim Name As String = dr("CntrlName").ToString().Trim()
                     Dim Tag As String = dr("DataBaseColumn").ToString().Trim()
                     Dim Tabindex As Integer = 0
@@ -2975,99 +3111,99 @@ Public Class MainMasterFormRead
                     '################################################################
                     ' SPACERTYPE
                     '################################################################
-                    'If _InputType.Equals("SpacerType", StringComparison.OrdinalIgnoreCase) Then
-                    '    '==============================================================
-                    '    ' SPACER LABEL
-                    '    '==============================================================
-                    '    Dim lblSpacer As New Label()
-                    '    lblSpacer.Name = "Lbl_" & Name
-                    '    lblSpacer.Text = HeaderName
-                    '    lblSpacer.AutoSize = False
-                    '    lblSpacer.Width = 120
-                    '    lblSpacer.Height = height
-                    '    lblSpacer.TextAlign = ContentAlignment.MiddleLeft
-                    '    If leftPos < 0 Then
-                    '        lblSpacer.Left = leftPos + 10
-                    '    Else
-                    '        lblSpacer.Left = leftPos
-                    '    End If
-                    '    lblSpacer.Top = topPos
-                    '    lblSpacer.Visible = True
-                    '    '==============================================================
-                    '    ' ADD SPACER LABEL TO TARGET TAB
-                    '    '==============================================================
-                    '    If targetTabPage IsNot Nothing Then
-                    '        targetTabPage.Controls.Add(lblSpacer)
-                    '    Else
-                    '        If CurrentDynamicTabControl Is Nothing Then
-                    '            Me.Controls.Add(lblSpacer)
-                    '        Else
-                    '            Continue For
-                    '        End If
-                    '    End If
-                    '    '==============================================================
-                    '    ' SPACER COMBOBOX
-                    '    '==============================================================
-                    '    Dim cmb As New System.Windows.Forms.ComboBox()
-                    '    cmb.Name = Name.Trim()
-                    '    cmb.Left = leftPos + 130
-                    '    cmb.Top = topPos
-                    '    cmb.Width = width
-                    '    cmb.Height = height
-                    '    cmb.DropDownStyle = ComboBoxStyle.DropDownList
-                    '    cmb.TabIndex = Tabindex
-                    '    '==============================================================
-                    '    ' DATABASE COLUMN
-                    '    '==============================================================
-                    '    cmb.Tag = colName
-                    '    cmb.AccessibleName = colName
-                    '    cmb.AccessibleDescription = colName
-                    '    '==============================================================
-                    '    ' SPACER STRING
-                    '    '==============================================================
-                    '    Dim spacerValue As String = ""
-                    '    If _MainColumTbl.Columns.Contains("SpacerString") Then
-                    '        spacerValue = dr("SpacerString").ToString().Trim()
-                    '    End If
-                    '    '==============================================================
-                    '    ' ADD COMBO ITEMS
-                    '    '==============================================================
-                    '    If spacerValue <> "" Then
-                    '        For Each item As String In spacerValue.Split(","c)
-                    '            If item.Trim() <> "" Then
-                    '                cmb.Items.Add(item.Trim())
-                    '            End If
-                    '        Next
-                    '    End If
-                    '    '==============================================================
-                    '    ' ADD COMBOBOX TO TARGET TAB
-                    '    '==============================================================
-                    '    If targetTabPage IsNot Nothing Then
-                    '        targetTabPage.Controls.Add(cmb)
-                    '    Else
-                    '        If CurrentDynamicTabControl Is Nothing Then
-                    '            Me.Controls.Add(cmb)
-                    '        Else
-                    '            Continue For
-                    '        End If
-                    '    End If
-                    '    '==============================================================
-                    '    ' MOVE EVENTS - LABEL
-                    '    '==============================================================
-                    '    AddHandler lblSpacer.MouseDown, AddressOf Control_MouseDown
-                    '    AddHandler lblSpacer.MouseMove, AddressOf Control_MouseMove
-                    '    AddHandler lblSpacer.MouseUp, AddressOf Control_MouseUp
-                    '    '==============================================================
-                    '    ' MOVE EVENTS - COMBOBOX
-                    '    '==============================================================
-                    '    AddHandler cmb.MouseDown, AddressOf Control_MouseDown
-                    '    AddHandler cmb.MouseMove, AddressOf Control_MouseMove
-                    '    AddHandler cmb.MouseUp, AddressOf Control_MouseUp
-                    '    '==============================================================
-                    '    ' IMPORTANT
-                    '    '==============================================================
-                    '    Continue For
-                    'End If
+                    If _InputType.Equals("SpacerType", StringComparison.OrdinalIgnoreCase) Then
+                        '==============================================================
+                        ' SPACER LABEL
+                        '==============================================================
+                        Dim lblSpacer As New Label()
+                        lblSpacer.Name = "Lbl_" & Name
+                        lblSpacer.Text = HeaderName
+                        lblSpacer.AutoSize = False
+                        lblSpacer.Width = 120
+                        lblSpacer.Height = height
+                        lblSpacer.TextAlign = ContentAlignment.MiddleLeft
+                        If leftPos < 0 Then
+                            lblSpacer.Left = leftPos + 10
+                        Else
+                            lblSpacer.Left = leftPos
+                        End If
+                        lblSpacer.Top = topPos
+                        lblSpacer.Visible = True
+                        '==============================================================
+                        ' ADD SPACER LABEL TO TARGET TAB
+                        '==============================================================
+                        If targetTabPage IsNot Nothing Then
+                            targetTabPage.Controls.Add(lblSpacer)
+                        Else
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(lblSpacer)
+                            Else
+                                Continue For
+                            End If
+                        End If
+                        '==============================================================
+                        ' SPACER COMBOBOX
+                        '==============================================================
+                        Dim cmb As New System.Windows.Forms.ComboBox()
+                        cmb.Name = Name.Trim()
+                        cmb.Left = leftPos + 130
+                        cmb.Top = topPos
+                        cmb.Width = width
+                        cmb.Height = height
+                        cmb.DropDownStyle = ComboBoxStyle.DropDownList
+                        cmb.TabIndex = Tabindex
+                        '==============================================================
+                        ' DATABASE COLUMN
+                        '==============================================================
+                        cmb.Tag = colName
+                        cmb.AccessibleName = colName
+                        cmb.AccessibleDescription = colName
+                        '==============================================================
+                        ' SPACER STRING
+                        '==============================================================
+                        Dim spacerValue As String = ""
+                        If _MainColumTbl.Columns.Contains("SpacerString") Then
+                            spacerValue = dr("SpacerString").ToString().Trim()
+                        End If
+                        '==============================================================
+                        ' ADD COMBO ITEMS
+                        '==============================================================
+                        If spacerValue <> "" Then
+                            For Each item As String In spacerValue.Split(","c)
+                                If item.Trim() <> "" Then
+                                    cmb.Items.Add(item.Trim())
+                                End If
+                            Next
+                        End If
+                        '==============================================================
+                        ' ADD COMBOBOX TO TARGET TAB
+                        '==============================================================
+                        If targetTabPage IsNot Nothing Then
+                            targetTabPage.Controls.Add(cmb)
+                        Else
+                            If CurrentDynamicTabControl Is Nothing Then
+                                Me.Controls.Add(cmb)
+                            Else
+                                Continue For
+                            End If
+                        End If
+                        '==============================================================
+                        ' MOVE EVENTS - LABEL
+                        '==============================================================
+                        AddHandler lblSpacer.MouseDown, AddressOf Control_MouseDown
+                        AddHandler lblSpacer.MouseMove, AddressOf Control_MouseMove
+                        AddHandler lblSpacer.MouseUp, AddressOf Control_MouseUp
+                        '==============================================================
+                        ' MOVE EVENTS - COMBOBOX
+                        '==============================================================
+                        AddHandler cmb.MouseDown, AddressOf Control_MouseDown
+                        AddHandler cmb.MouseMove, AddressOf Control_MouseMove
+                        AddHandler cmb.MouseUp, AddressOf Control_MouseUp
+                        '==============================================================
+                        ' IMPORTANT
+                        '==============================================================
+                        Continue For
+                    End If
                     '################################################################
                     '################################################################
                     ' LABEL
@@ -5095,6 +5231,7 @@ Public Class MainMasterFormRead
         ElseIf e.Control AndAlso e.KeyCode = Keys.Q Then
             Dim entryformname As New QueryLoad()
             entryformname.GetformName = Me._getformName()
+            entryformname.GetformId = _getformId()
             entryformname.Show()
             'QueryLoad.Show()
         End If
@@ -5138,6 +5275,13 @@ Public Class MainMasterFormRead
         If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then
             'MsgBox(_MainColumTbl.Rows(0)("FormName").ToString().Trim())
             Return _MainColumTbl.Rows(0)("FormName").ToString().Trim()
+        End If
+        Return ""
+    End Function
+    Public Function _getformId() As String
+        If _MainColumTbl IsNot Nothing AndAlso _MainColumTbl.Rows.Count > 0 Then
+            'MsgBox(_MainColumTbl.Rows(0)("FormName").ToString().Trim())
+            Return _MainColumTbl.Rows(0)("FormId").ToString().Trim()
         End If
         Return ""
     End Function

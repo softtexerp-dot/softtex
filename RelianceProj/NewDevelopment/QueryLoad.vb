@@ -19,6 +19,8 @@ Public Class QueryLoad
     Dim txtMainId As Integer = 0
     'Dim GetformName As String = ""
     Public Property GetformName As String
+    Public Property GetformId As String
+
     Dim filePath As String
     Private CurrentBackNumber As Integer = 0
 
@@ -185,9 +187,18 @@ Public Class QueryLoad
         tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
         tblFormValues.Rows(0)(_KeyFormName) = GetformName
         tblFormValues.Rows(0)("Type") = TxtType.Text.Trim()
-        tblFormValues.Rows(0)("QueryText") = RTBQuery.Text
+        'tblFormValues.Rows(0)("QueryText") = RTBQuery.Text
+        '========================================================
+        ' IMPORTANT FIX
+        '========================================================
+        Dim QueryTextForSave As String = RTBQuery.Text
+        ' SQL string ke andar single quote ko escape karo
+        QueryTextForSave = QueryTextForSave.Replace("'", "''")
+        tblFormValues.Rows(0)("QueryText") = QueryTextForSave
+        '========================================================
         tblFormValues.Rows(0)("CreateDate") = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
         tblFormValues.Rows(0)("Status") = Txt_Active.Text.Trim()
+        tblFormValues.Rows(0)("MainMasterId") = GetformId
         tblFormValues.Rows(0)("CntrlName") = Txt_CntrlName.Text
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
         ObjCls_General.MAKEQUERYFROMDATATABLE(_FORMMODE, tblFormValues, FieldNameAndValues)
@@ -243,7 +254,12 @@ Public Class QueryLoad
     '    GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
     'End Function
     Private Sub _GetMaxId()
-        RS = "SELECT TOP 1  * FROM " & _TblName & " WHERE  1=1 AND FormName='" & GetformName & "' ORDER BY " & _KeyFieldName & " DESC"
+        If _FORMMODE = "ADD" Then
+            RS = "SELECT TOP 1  * FROM " & _TblName & " WHERE  1=1 ORDER BY " & _KeyFieldName & " DESC"
+        Else
+            RS = "SELECT TOP 1  * FROM " & _TblName & " WHERE  1=1 AND FormName='" & GetformName & "' ORDER BY " & _KeyFieldName & " DESC"
+        End If
+        'RS = "SELECT TOP 1  * FROM " & _TblName & " WHERE  1=1 ORDER BY " & _KeyFieldName & " DESC"
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             If _FORMMODE = "DELETE" Or _FORMMODE = "EDIT" Then
@@ -292,6 +308,7 @@ Public Class QueryLoad
             .Append("QueryText,")
             .Append("CreateDate,")
             .Append("Status,")
+            .Append("MainMasterId,")
             .Append("CntrlName")
         End With
     End Sub
@@ -376,7 +393,7 @@ Public Class QueryLoad
         Dim _entryNo As Integer = 0
         _strQuery = New StringBuilder
         With _strQuery
-            .Append("DELETE FROM " & _TblName & " WHERE  FormName='" & GetformName & "' AND " & _KeyFieldName & "=" & "'" & _KeyFieldValue & "'")
+            .Append("DELETE FROM " & _TblName & " WHERE  FormName='" & GetformName & "' AND " & _KeyFieldName & "=" & "" & _KeyFieldValue & "")
         End With
         'sqL = _strQuery.ToString
         'sql_Data_Save_Delete_Update1()
