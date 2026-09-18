@@ -2187,7 +2187,8 @@ Public Class PetQuotationEntry
 
             If My.Computer.Network.IsAvailable Then
                 Dim filePath As String = OpenFileDialog1.FileName
-                SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+                'SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+                _Imagepath1 = UploadImageInServer(filePath)
             End If
         End If
         txtFilePath.Visible = False

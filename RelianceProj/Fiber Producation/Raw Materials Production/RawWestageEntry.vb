@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.Skins.SolidColorHelper
 Imports DevExpress.XtraGrid
 
 Public Class RawWestageEntry
@@ -1962,21 +1963,32 @@ Public Class RawWestageEntry
         ofd.Filter = "All Files (*.*)|*.*|PDF Files (*.pdf)|*.pdf|Image Files (*.jpg;*.png)|*.jpg;*.png"
         ofd.Multiselect = False
 
-        If ofd.ShowDialog() = DialogResult.OK Then
-            Dim filePath As String = ofd.FileName
-            Dim fileName As String = IO.Path.GetFileName(filePath)
-            txtFilePath.Text = filePath
-            TxtAttachment.Text = fileName
-            TxtAttachment.Focus()
-            'MessageBox.Show("Selected File: " & fileName)
-        End If
+        'If ofd.ShowDialog() = DialogResult.OK Then
+        '    Dim filePath As String = ofd.FileName
+        '    Dim fileName As String = IO.Path.GetFileName(filePath)
+        '    txtFilePath.Text = filePath
+        '    TxtAttachment.Text = fileName
+        '    TxtAttachment.Focus()
+        '    'MessageBox.Show("Selected File: " & fileName)
+        'End If
         If _FORMMODE = "ADD" Then
             flagstring = "save"
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
         End If
-        SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
-
+        'SubmitComplaintAsync(txtFilePath.Text, flagstring, txtimageid.Text, _FORMMODE)
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            Dim pathSource As String = OpenFileDialog1.FileName
+            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+            TxtAttachment.Text = fileName
+            TxtAttachment.Focus()
+            Dim sSource As String = pathSource
+            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+            If My.Computer.Network.IsAvailable Then
+                Dim filePath As String = OpenFileDialog1.FileName
+                _Imagepath1 = UploadImageInServer(filePath)
+            End If
+        End If
         txtFilePath.Visible = False
         txtimageid.Visible = False
     End Sub

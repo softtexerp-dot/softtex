@@ -2220,19 +2220,31 @@ Public Class PetGateInward
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
         End If
+        'If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+        '    Dim pathSource As String = OpenFileDialog1.FileName
+        '    Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
+        '    Dim sSource As String = pathSource
+        '    If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
+        '    TxtAttachment.Text = fileName
+        '    SaveImageToLocalAndServer(sSource)
+
+        '    _Imagepath1 = ""
+
+        '    If My.Computer.Network.IsAvailable Then
+        '        Dim filePath As String = OpenFileDialog1.FileName
+        '        SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+        '    End If
+        'End If
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Dim pathSource As String = OpenFileDialog1.FileName
             Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
             Dim sSource As String = pathSource
-            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
             TxtAttachment.Text = fileName
-            SaveImageToLocalAndServer(sSource)
-
+            If sSource = "OpenFileDialog1" Or sSource.Trim = "" Then Exit Sub
             _Imagepath1 = ""
-
             If My.Computer.Network.IsAvailable Then
                 Dim filePath As String = OpenFileDialog1.FileName
-                SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+                _Imagepath1 = UploadImageInServer(filePath)
             End If
         End If
         txtFilePath.Visible = False
@@ -2258,19 +2270,31 @@ Public Class PetGateInward
         ElseIf _FORMMODE = "EDIT" Then
             flagstring = "update"
         End If
+        'If OpenFileDialog2.ShowDialog() = DialogResult.OK Then
+        '    Dim pathSource As String = OpenFileDialog2.FileName
+        '    Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog2.FileName)
+        '    Dim sSource As String = pathSource
+        '    If sSource = "OpenFileDialog2" Or sSource.Trim = "" Then Exit Sub
+        '    TxtAttachment2.Text = fileName
+        '    SaveImageToLocalAndServer(sSource)
+
+        '    _Imagepath2 = ""
+
+        '    If My.Computer.Network.IsAvailable Then
+        '        Dim filePath As String = OpenFileDialog2.FileName
+        '        SubmitComplaintAsync2(filePath, flagstring, txtimageid2.Text, _FORMMODE)
+        '    End If
+        'End If
         If OpenFileDialog2.ShowDialog() = DialogResult.OK Then
             Dim pathSource As String = OpenFileDialog2.FileName
-            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog2.FileName)
+            Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
             Dim sSource As String = pathSource
-            If sSource = "OpenFileDialog2" Or sSource.Trim = "" Then Exit Sub
             TxtAttachment2.Text = fileName
-            SaveImageToLocalAndServer(sSource)
-
+            If sSource = "OpenFileDialog2" Or sSource.Trim = "" Then Exit Sub
             _Imagepath2 = ""
-
             If My.Computer.Network.IsAvailable Then
                 Dim filePath As String = OpenFileDialog2.FileName
-                SubmitComplaintAsync2(filePath, flagstring, txtimageid2.Text, _FORMMODE)
+                _Imagepath2 = UploadImageInServer(filePath)
             End If
         End If
         txtFilePath2.Visible = False

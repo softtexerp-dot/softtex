@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports DevExpress.Skins.SolidColorHelper
 Imports DevExpress.XtraGrid
 Imports DevExpress.XtraPrinting.Native
 
@@ -1991,7 +1992,8 @@ Public Class StoreBulkcontract
 
             If My.Computer.Network.IsAvailable Then
                 Dim filePath As String = OpenFileDialog1.FileName
-                SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+                'SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+                _Imagepath1 = UploadImageInServer(filePath)
             End If
         End If
         txtFilePath.Visible = False

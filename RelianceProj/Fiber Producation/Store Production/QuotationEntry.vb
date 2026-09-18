@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Net.Http
 Imports System.Text
+Imports DevExpress.Skins.SolidColorHelper
 Imports DevExpress.XtraEditors
 Imports DevExpress.XtraGrid
 Imports Microsoft.Office.Core
@@ -1944,11 +1945,11 @@ Friend Class QuotationEntry
 
         ElseIf _ActivatedColName = "MTR_WEIGHT" Or _ActivatedColName = "RATE_DIS_PER" Or _ActivatedColName = "RATE" Or _ActivatedColName = "CUT_MTR" Or _ActivatedColName = "RDVALUE" Then
             If e.KeyCode = Keys.Enter Then
-                    Call Total_Upto_All_Grid_All_Row()
+                Call Total_Upto_All_Grid_All_Row()
 
-                End If
-            ElseIf _ActivatedColName = "ROWREMARK" Then
-                If e.KeyCode = 13 Then
+            End If
+        ElseIf _ActivatedColName = "ROWREMARK" Then
+            If e.KeyCode = 13 Then
                 Dim i As Integer = GrdItem.ActiveCell.Row
                 Dim CUTNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CUTNAME") + 1).Text
                 Dim ITEMNAME As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ITEMNAME") + 1).Text
@@ -1985,7 +1986,7 @@ Friend Class QuotationEntry
         If Item_Code <> "" Then
             strQuery = "SELECT * FROM TRNCHALLAN WHERE ITEMCODE='" & Item_Code & "' AND ACCOUNTCODE='" & txtAccount_Code.Text & "' " & _UNiteWiseCode & "   AND GROSS_RATE>0 ORDER BY ENTRYNO "
             sqL = strQuery
-                    sql_connect_slect()
+            sql_connect_slect()
             _TmpDataTable = DefaltSoftTable.Copy
 
 
@@ -2256,7 +2257,8 @@ Friend Class QuotationEntry
 
             If My.Computer.Network.IsAvailable Then
                 Dim filePath As String = OpenFileDialog1.FileName
-                SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+                'SubmitComplaintAsync(filePath, flagstring, txtimageid.Text, _FORMMODE)
+                _Imagepath1 = UploadImageInServer(filePath)
             End If
         End If
         txtFilePath.Visible = False

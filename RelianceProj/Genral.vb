@@ -1740,7 +1740,16 @@ Module Genral
             ElseIf TypeOf ctl Is RichTextBox Then
                 ctl.Visible = False
             ElseIf TypeOf ctl Is FlexCell.Grid Then
-                ctl.Visible = False
+                'ctl.Visible = False
+                ctl.Visible = True
+                ctl.Enabled = True
+                'Grid ke saare parent controls ENABLE karo
+                Dim ParentCtl As Control = ctl.Parent
+                While ParentCtl IsNot Nothing
+                    ParentCtl.Visible = True
+                    ParentCtl.Enabled = True
+                    ParentCtl = ParentCtl.Parent
+                End While
             ElseIf TypeOf ctl Is System.Windows.Forms.ComboBox Then
                 ctl.Visible = False
             ElseIf TypeOf ctl Is System.Windows.Forms.CheckBox Then
@@ -3786,147 +3795,174 @@ End Sub
             MsgBox(ex.ToString)
         End Try
     End Sub
-    Public Function SubmitComplaintAsync(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
+    'Public Function SubmitComplaintAsync(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
+
+    '    Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+
+    '    Dim _GetUrlPath As String = ""
+
+    '    Try
+    '        Using client As New HttpClient()
+    '            Using form As New MultipartFormDataContent()
+
+    '                If _FORMMODE = "EDIT" Then
+    '                    flagstring = "update"
+    '                    If _txtimageid <> "" Then
+    '                        Dim idValue As Long = Convert.ToInt64(_txtimageid)
+    '                        form.Add(New StringContent(idValue.ToString()), "Id")
+    '                    End If
+    '                End If
+    '                'Dim filePath As String = txtFilePath.Text.Trim()
+    '                Dim filePath As String = _imagepath
+    '                ' 🔹 Update case me hi check
+    '                If _FORMMODE = "EDIT" Then
+    '                    flagstring = "update"
+    '                    ' 👉 New image selected (local file)
+    '                    If IO.File.Exists(filePath) Then
+    '                        Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+    '                        Dim fileContent As New ByteArrayContent(fileBytes)
+    '                        fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+    '                        form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+    '                    Else
+    '                        ' 👉 Old image (URL / API path) → kuch mat bhejo
+    '                        ' API existing image hi rakhegi
+    '                    End If
+
+    '                Else
+    '                    ' 🔹 Save case me image mandatory
+    '                    If IO.File.Exists(filePath) Then
+    '                        Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+    '                        Dim fileContent As New ByteArrayContent(fileBytes)
+    '                        fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+
+    '                        form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+    '                    Else
+    '                        'MessageBox.Show("❌ Please select image file.")
+    '                        'Exit Sub
+    '                    End If
+    '                End If
+    '                If _imagepath <> "" Then
+    '                    Dim postResponse As HttpResponseMessage = client.PostAsync(postUrl, form).Result
+    '                    Dim result As String = postResponse.Content.ReadAsStringAsync().Result
+    '                    If postResponse.IsSuccessStatusCode Then
+    '                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+
+    '                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
+    '                        _imagepath = responseJson("imageURl")?.ToString()
+    '                        _Imagepath1 = _imagepath
+    '                        _txtimageid = responseJson("id")?.ToString()
+    '                        _ImageId1 = _txtimageid
+    '                        _GetUrlPath = _imagepath
+    '                    Else
+    '                        MessageBox.Show("❌ API Error:" & vbCrLf & result, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '                    End If
+    '                End If
+    '            End Using
+    '        End Using
+
+    '    Catch ex As Exception
+    '        MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
+    '    End Try
+
+    '    Return _GetUrlPath
+    'End Function
+    'Public Function SubmitComplaintAsync2(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
+
+    '    Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+    '    Dim _GetUrlPath As String = ""
+    '    Try
+    '        Using client As New HttpClient()
+    '            Using form As New MultipartFormDataContent()
+    '                If _FORMMODE = "EDIT" Then
+    '                    flagstring = "update"
+    '                    If _txtimageid <> "" Then
+    '                        Dim idValue As Long = Convert.ToInt64(_txtimageid)
+    '                        form.Add(New StringContent(idValue.ToString()), "Id")
+    '                    End If
+    '                End If
+    '                'Dim filePath As String = txtFilePath.Text.Trim()
+    '                Dim filePath As String = _imagepath
+    '                ' 🔹 Update case me hi check
+    '                If _FORMMODE = "EDIT" Then
+    '                    flagstring = "update"
+    '                    ' 👉 New image selected (local file)
+    '                    If IO.File.Exists(filePath) Then
+    '                        Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+    '                        Dim fileContent As New ByteArrayContent(fileBytes)
+    '                        fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+    '                        form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+    '                    Else
+    '                        ' 👉 Old image (URL / API path) → kuch mat bhejo
+    '                        ' API existing image hi rakhegi
+    '                    End If
+
+    '                Else
+    '                    ' 🔹 Save case me image mandatory
+    '                    If IO.File.Exists(filePath) Then
+    '                        Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
+    '                        Dim fileContent As New ByteArrayContent(fileBytes)
+    '                        fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
+
+    '                        form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
+    '                    Else
+    '                        'MessageBox.Show("❌ Please select image file.")
+    '                        'Exit Sub
+    '                    End If
+    '                End If
+    '                If _imagepath <> "" Then
+    '                    ' 🔹 POST API
+    '                    Dim postResponse As HttpResponseMessage = client.PostAsync(postUrl, form).Result
+    '                    Dim result As String = postResponse.Content.ReadAsStringAsync().Result
+    '                    If postResponse.IsSuccessStatusCode Then
+    '                        'MessageBox.Show("✅ Complaint submitted successfully!")
+    '                        Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
+    '                        Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
+    '                        'txtFilePath.Text = responseJson("imageURl")?.ToString()
+    '                        _imagepath = responseJson("imageURl")?.ToString()
+    '                        _Imagepath2 = _imagepath
+    '                        _txtimageid = responseJson("id")?.ToString()
+    '                        _Imageid2 = _txtimageid
+    '                        _GetUrlPath = _imagepath
+    '                        'MessageBox.Show("✅ " & message, "Success")
+    '                        'Me.Close()   ' Complaint form close
+    '                    Else
+    '                        MessageBox.Show("❌ API Error:" & vbCrLf & result)
+    '                        'Me.Close()
+    '                    End If
+
+    '                End If
+    '            End Using
+    '        End Using
+    '        Return _GetUrlPath
+    '    Catch ex As Exception
+    '        MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
+    '    End Try
+    'End Function
+    Public Function UploadImageInServer(ByVal _imagepath As String) As String
+        If Not IO.File.Exists(_imagepath) Then Return ""
 
         Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
 
-        Dim _GetUrlPath As String = ""
-
         Try
-            Using client As New HttpClient()
-                Using form As New MultipartFormDataContent()
+            Using client As New HttpClient(), form As New MultipartFormDataContent()
+                Dim fileContent As New ByteArrayContent(IO.File.ReadAllBytes(_imagepath))
+                fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpeg")
+                form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(_imagepath))
 
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        If _txtimageid <> "" Then
-                            Dim idValue As Long = Convert.ToInt64(_txtimageid)
-                            form.Add(New StringContent(idValue.ToString()), "Id")
-                        End If
-                    End If
-                    'Dim filePath As String = txtFilePath.Text.Trim()
-                    Dim filePath As String = _imagepath
-                    ' 🔹 Update case me hi check
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        ' 👉 New image selected (local file)
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            ' 👉 Old image (URL / API path) → kuch mat bhejo
-                            ' API existing image hi rakhegi
-                        End If
+                Dim response = client.PostAsync(postUrl, form).Result
+                Dim result As String = response.Content.ReadAsStringAsync().Result
 
-                    Else
-                        ' 🔹 Save case me image mandatory
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            'MessageBox.Show("❌ Please select image file.")
-                            'Exit Sub
-                        End If
-                    End If
-                    If _imagepath <> "" Then
-                        Dim postResponse As HttpResponseMessage = client.PostAsync(postUrl, form).Result
-                        Dim result As String = postResponse.Content.ReadAsStringAsync().Result
-                        If postResponse.IsSuccessStatusCode Then
-                            Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
-
-                            Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                            _imagepath = responseJson("imageURl")?.ToString()
-                            _Imagepath1 = _imagepath
-                            _txtimageid = responseJson("id")?.ToString()
-                            _ImageId1 = _txtimageid
-                            _GetUrlPath = _imagepath
-                        Else
-                            MessageBox.Show("❌ API Error:" & vbCrLf & result, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        End If
-                    End If
-                End Using
+                If response.IsSuccessStatusCode Then
+                    Dim json = Newtonsoft.Json.Linq.JObject.Parse(result)
+                    Return json("imageURl")?.ToString() & ""
+                Else
+                    MessageBox.Show("❌ API Error:" & vbCrLf & result, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
             End Using
-
         Catch ex As Exception
-            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
+            MessageBox.Show("❌ Error while submitting Image:" & vbCrLf & ex.Message)
         End Try
 
-        Return _GetUrlPath
-    End Function
-    Public Function SubmitComplaintAsync2(ByVal _imagepath As String, ByVal flagstring As String, ByVal _txtimageid As String, ByVal _FORMMODE As String)
-
-        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
-        Dim _GetUrlPath As String = ""
-        Try
-            Using client As New HttpClient()
-                Using form As New MultipartFormDataContent()
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        If _txtimageid <> "" Then
-                            Dim idValue As Long = Convert.ToInt64(_txtimageid)
-                            form.Add(New StringContent(idValue.ToString()), "Id")
-                        End If
-                    End If
-                    'Dim filePath As String = txtFilePath.Text.Trim()
-                    Dim filePath As String = _imagepath
-                    ' 🔹 Update case me hi check
-                    If _FORMMODE = "EDIT" Then
-                        flagstring = "update"
-                        ' 👉 New image selected (local file)
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            ' 👉 Old image (URL / API path) → kuch mat bhejo
-                            ' API existing image hi rakhegi
-                        End If
-
-                    Else
-                        ' 🔹 Save case me image mandatory
-                        If IO.File.Exists(filePath) Then
-                            Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
-                            Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpg")
-
-                            form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
-                        Else
-                            'MessageBox.Show("❌ Please select image file.")
-                            'Exit Sub
-                        End If
-                    End If
-                    If _imagepath <> "" Then
-                        ' 🔹 POST API
-                        Dim postResponse As HttpResponseMessage = client.PostAsync(postUrl, form).Result
-                        Dim result As String = postResponse.Content.ReadAsStringAsync().Result
-                        If postResponse.IsSuccessStatusCode Then
-                            'MessageBox.Show("✅ Complaint submitted successfully!")
-                            Dim responseJson As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Newtonsoft.Json.Linq.JObject)(result)
-                            Dim message As String = If(responseJson("message")?.ToString(), If(responseJson("status")?.ToString(), "Image Uploaded successfully!"))
-                            'txtFilePath.Text = responseJson("imageURl")?.ToString()
-                            _imagepath = responseJson("imageURl")?.ToString()
-                            _Imagepath2 = _imagepath
-                            _txtimageid = responseJson("id")?.ToString()
-                            _Imageid2 = _txtimageid
-                            _GetUrlPath = _imagepath
-                            'MessageBox.Show("✅ " & message, "Success")
-                            'Me.Close()   ' Complaint form close
-                        Else
-                            MessageBox.Show("❌ API Error:" & vbCrLf & result)
-                            'Me.Close()
-                        End If
-
-                    End If
-                End Using
-            End Using
-            Return _GetUrlPath
-        Catch ex As Exception
-            MessageBox.Show("❌ Error while submitting Image Machine Master." & vbCrLf & ex.Message)
-        End Try
+        Return ""
     End Function
 End Module
