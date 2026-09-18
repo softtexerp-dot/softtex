@@ -4712,7 +4712,8 @@ Public Class MainMasterFormRead
                 If btn.Name.Equals("Button1", StringComparison.OrdinalIgnoreCase) Then
                     If My.Computer.Network.IsAvailable Then
                         txt.Text = ""
-                        Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
+                        'Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
+                        Dim resultPath As String = UploadImageInServer(imagePath)
                         If Not String.IsNullOrWhiteSpace(resultPath) Then
                             _Imagepath1 = resultPath
                             txt.AccessibleDescription = resultPath
@@ -4727,7 +4728,8 @@ Public Class MainMasterFormRead
                 ElseIf btn.Name.Equals("Button3", StringComparison.OrdinalIgnoreCase) Then
                     If My.Computer.Network.IsAvailable Then
                         txt.Text = ""
-                        Dim resultPath2 As String = SubmitComplaintAsync2(imagePath, flagstring, "", _FORMMODE)
+                        'Dim resultPath2 As String = SubmitComplaintAsync2(imagePath, flagstring, "", _FORMMODE)
+                        Dim resultPath2 As String = UploadImageInServer(imagePath)
                         If Not String.IsNullOrWhiteSpace(resultPath2) Then
                             _Imagepath2 = resultPath2
                             txt.AccessibleDescription = resultPath2
@@ -4792,7 +4794,8 @@ Public Class MainMasterFormRead
                 '==================================================
                 If My.Computer.Network.IsAvailable Then
                     txt.Text = ""
-                    Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
+                    'Dim resultPath As String = SubmitComplaintAsync(imagePath, flagstring, "", _FORMMODE)
+                    Dim resultPath As String = UploadImageInServer(imagePath)
                     '==================================================
                     ' SERVER PATH
                     '==================================================
