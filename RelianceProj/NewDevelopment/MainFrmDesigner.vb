@@ -1642,7 +1642,6 @@ Public Class MainFrmDesigner
     '        'RS = _strQuery.ToString
     '        'MenuDesign_QuerySaveUpdateDelete()
     '    End If
-
     'End Sub
     Private Sub _ClearTex()
         txtFormName.Text = ""
@@ -1667,11 +1666,8 @@ Public Class MainFrmDesigner
     Private Sub GetTblName(ByVal dbName As String)
         sqL = "Select  TABLE_NAME From INFORMATION_SCHEMA.TABLES Where TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" & dbName & "' order by TABLE_NAME"
         Dim _Tmptbl As DataTable = sql_connect_slect()
-
         CmbTableName.DataSource = _Tmptbl.Copy
         CmbTableName.DisplayMember = "TABLE_NAME"
-
-
         'sqL = "SELECT NATURE FROM MSTBOOK  WHERE 1=1 AND NATURE>'' GROUP BY NATURE order by NATURE "
         'Dim _NatuTbl As DataTable = sql_connect_slect()
 
@@ -1737,7 +1733,6 @@ Public Class MainFrmDesigner
         _RowNo = e.Row
         _ColNo = e.Col
         _ActivatedColName = Trim(UCase(Sender.Cell(0, Sender.ActiveCell.Col).TAG))
-
     End Sub
     Private Sub GrdItem_LeaveCell(ByVal Sender As Object, ByVal e As FlexCell.Grid.LeaveCellEventArgs) Handles GrdItem.LeaveCell
         If _AllowMoveFromCell = False Then e.Cancel = True
@@ -1753,7 +1748,6 @@ Public Class MainFrmDesigner
     End Sub
     Private Sub GrdItem_KeyDown(Sender As Object, e As KeyEventArgs) Handles GrdItem.KeyDown
         If e.KeyCode = Keys.Escape Then Exit Sub
-
         'If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "GRIDDETAIL"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DataBaseTable") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("LocationX") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("LocationX") + 1).Text = 10
@@ -1770,7 +1764,6 @@ Public Class MainFrmDesigner
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTERKEY") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTERKEY") + 1).Text = "N"
-
         If _ActivatedColName = "COLUMNTYPE" Then
             If e.KeyCode = Keys.Space Then
                 If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "TextBox" Then
@@ -1806,7 +1799,6 @@ Public Class MainFrmDesigner
                     Else
                         GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
                     End If
-
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "SpacerType" Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Numeric"
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
@@ -1815,10 +1807,8 @@ Public Class MainFrmDesigner
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "N"
                 End If
             End If
-
         ElseIf _ActivatedColName = "VISIBLE" Then
             If e.KeyCode = Keys.Space Then
-
                 If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("VISIBLE") + 1).Text = "Y" Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("VISIBLE") + 1).Text = "N"
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("VISIBLE") + 1).Text = "N" Then
@@ -1833,7 +1823,6 @@ Public Class MainFrmDesigner
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("TEXTALIGN") + 1).Text = "C"
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("TEXTALIGN") + 1).Text = "C" Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("TEXTALIGN") + 1).Text = "L"
-
                 End If
             End If
         ElseIf _ActivatedColName = "SAVEYN" Then
@@ -1894,7 +1883,6 @@ Public Class MainFrmDesigner
                 End If
             End If
         ElseIf _ActivatedColName = "USEMASTERKEY" Then
-
             If e.KeyCode <> Keys.Space Then Exit Sub
             Dim row As Integer = GrdItem.ActiveCell.Row
             Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
@@ -1918,7 +1906,6 @@ Public Class MainFrmDesigner
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1).Text = ""
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1).Locked = True
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("Masterlist") + 1).Text = ""
-
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Locked = False
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1).Locked = False
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("Masterlist") + 1).Locked = False
@@ -1948,8 +1935,6 @@ Public Class MainFrmDesigner
             If e.KeyCode = Keys.Enter And String.IsNullOrWhiteSpace(cellValue) Then
                 View_RecordGridDetail(GrdItem, _DataTableGrid, "MULTY", _ActivatedColName)
             End If
-
-
         ElseIf _ActivatedColName = "OPPMASTERCODE" Then
             Dim row As Integer = GrdItem.ActiveCell.Row
             Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
@@ -1983,9 +1968,7 @@ Public Class MainFrmDesigner
         End If
     End Sub
     Private Sub UpdateTabElements(ByVal RowNo As Integer)
-
         Try
-
             Dim tabElementsCol As Integer = _DataTableGrid.Columns.IndexOf("TabElements") + 1
             Dim tabNameCol As Integer = _DataTableGrid.Columns.IndexOf("TabName") + 1
             Dim tabCountNoCol As Integer = _DataTableGrid.Columns.IndexOf("TabCountNo") + 1
@@ -2026,20 +2009,17 @@ Public Class MainFrmDesigner
 
     Private Function _CheckMAsterKey(ByVal colUseMasterKey As String)
         Dim _ChekColm As Boolean = False
-
         For i As Integer = 1 To GrdItem.Rows - 1
             If GrdItem.Cell(i, colUseMasterKey).Text.Trim().ToUpper() = "Y" Then
                 _ChekColm = True
                 Exit For
             End If
         Next
-
         Return _ChekColm
     End Function
     Private Sub MainFrmDesigner_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Dim _STRTRNOBJECT As String = ""
         _STRTRNOBJECT = ActivatedControl(Me)
-
         If e.KeyCode = Keys.F3 Then
             Select Case _STRTRNOBJECT
                 Case "GRDITEM"
@@ -2049,9 +2029,7 @@ Public Class MainFrmDesigner
                     Call Fill_Sr_No_Item(Grid1, Detail_DataTableGrid)
             End Select
         ElseIf e.KeyCode = Keys.Escape Then
-
             If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
-
                 Me.Close()
                 Me.Dispose()
             Else
@@ -2080,12 +2058,10 @@ Public Class MainFrmDesigner
         Catch ex As Exception
             MsgBox(ex.ToString)
         Finally
-
         End Try
     End Sub
 
     Private Sub LoadFormDesign()
-
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
         Grid1.Range(0, 0, Grid1.Rows - 1, Grid1.Cols - 1).DeleteByRow()
         Clear_Grid(GrdItem, 2)
@@ -2095,7 +2071,6 @@ Public Class MainFrmDesigner
             View_Filter_Condition = " AND  FormId=" & Ctl_ImpformId.Text & " and FormType='" & txtfrmtype.Text & "' "
         ElseIf Txt_FormId.Text <> "" Then
             View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and FormType='" & txtfrmtype.Text & "' "
-
         End If
         _strQuery = New StringBuilder
         With _strQuery
@@ -2105,18 +2080,13 @@ Public Class MainFrmDesigner
             .Append(View_Filter_Condition)
             .Append(" AND  FormDesignType='HEADER DESIGN' ")
         End With
-        'sqL = _strQuery.ToString
         Dim tblTmp As New DataTable
-        'sql_connect_slect1()
         RS = _strQuery.ToString
         MenuDesign_QueryLoad()
         tblTmp = DefaltSoftTable.Copy
         If tblTmp.Rows.Count > 0 Then
-
             FillHeaderControls(tblTmp.Rows(0))
-
             Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
-
             _strQuery = New StringBuilder
             With _strQuery
                 .Append(" SELECT * ")
@@ -2126,15 +2096,11 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            'sqL = _strQuery.ToString
-            'sql_connect_slect1()
             RS = _strQuery.ToString
             MenuDesign_QueryLoad()
-
             Fill_Records(DefaltSoftTable, Detail_Grid_Table_ColNames, Grid1, 0, True, "", False)
         Else
             _strQuery = New StringBuilder
-
             With _strQuery
                 .Append(" SELECT * ")
                 .Append(" FROM " & _DatabaseTableNameItem & " ")
@@ -2143,21 +2109,15 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            'sqL = _strQuery.ToString
-            'sql_connect_slect1()
             RS = _strQuery.ToString
             MenuDesign_QueryLoad()
             tblTmp = DefaltSoftTable.Copy
-
             If tblTmp.Rows.Count > 0 Then
                 FillHeaderControls(tblTmp.Rows(0))
                 Fill_Records(DefaltSoftTable, Detail_Grid_Table_ColNames, Grid1, 0, True, "", False)
             Else
                 If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                     MsgBox("From Id " + Trim(Txt_FormId.Text) + " Not Found ")
-                    'Txt_FormId.Visible = True
-                    'Txt_FormId.Focus()
-                    'Txt_FormId.Select()
                     txtfrmtype.Focus()
                     txtfrmtype.Select()
                     _ClearTex()
@@ -2166,9 +2126,6 @@ Public Class MainFrmDesigner
                     UC_Buttons1._ButtonEnableDisable(_FORMMODE)
                 ElseIf _FORMMODE = "ADD" AndAlso Ctl_ImpformId.Text <> "" Then
                     MsgBox("From Id " + Trim(Ctl_ImpformId.Text) + " Not Found " + txtfrmtype.Text)
-                    'Txt_FormId.Visible = True
-                    'Txt_FormId.Focus()
-                    'Txt_FormId.Select()
                     txtfrmtype.Focus()
                     txtfrmtype.Select()
                     _ClearTex()
@@ -2177,27 +2134,21 @@ Public Class MainFrmDesigner
                     UC_Buttons1._ButtonEnableDisable(_FORMMODE)
                 End If
             End If
-
         End If
     End Sub
 
     Private Sub LoadFormDesignAfteredit(ByVal _Bookcode As String)
-
         GrdItem.Range(0, 0, GrdItem.Rows - 1, GrdItem.Cols - 1).DeleteByRow()
         Grid1.Range(0, 0, Grid1.Rows - 1, Grid1.Cols - 1).DeleteByRow()
         Clear_Grid(GrdItem, 2)
         Clear_Grid(Grid1, 2)
         Dim View_Filter_Condition = ""
-
         If _Bookcode <> "" Then
             View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and " & _DatabaseTableNameItem & ".BookCode='" & _Bookcode & "' and FormType='" & txtfrmtype.Text & "'"
         Else
             View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and FormType='" & txtfrmtype.Text & "' "
         End If
-
-
         _strQuery = New StringBuilder
-
         With _strQuery
             .Append(" SELECT * ")
             .Append(" FROM " & _DatabaseTableNameItem & " ")
@@ -2205,18 +2156,13 @@ Public Class MainFrmDesigner
             .Append(View_Filter_Condition)
             .Append(" AND  FormDesignType='HEADER DESIGN' ")
         End With
-        'sqL = _strQuery.ToString
         Dim tblTmp As New DataTable
-        'sql_connect_slect1()
         RS = _strQuery.ToString
         MenuDesign_QueryLoad()
         tblTmp = DefaltSoftTable.Copy
         If tblTmp.Rows.Count > 0 Then
-
             FillHeaderControls(tblTmp.Rows(0))
-
             Fill_Records(tblTmp, Grid_Table_ColNames, GrdItem, 0, True, "", False)
-
             _strQuery = New StringBuilder
             With _strQuery
                 .Append(" SELECT * ")
@@ -2226,11 +2172,8 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            'sqL = _strQuery.ToString
-            'sql_connect_slect1()
             RS = _strQuery.ToString
             MenuDesign_QueryLoad()
-
             Fill_Records(DefaltSoftTable, Detail_Grid_Table_ColNames, Grid1, 0, True, "", False)
         Else
             _strQuery = New StringBuilder
@@ -2242,29 +2185,21 @@ Public Class MainFrmDesigner
                 .Append(" AND  FormDesignType='GRID DETAIL DESIGN' ")
                 .Append(" ORDER BY OrderNo ")
             End With
-            'sqL = _strQuery.ToString
-            'sql_connect_slect1()
             RS = _strQuery.ToString
             MenuDesign_QueryLoad()
             tblTmp = DefaltSoftTable.Copy
-
             If tblTmp.Rows.Count > 0 Then
                 FillHeaderControls(tblTmp.Rows(0))
                 Fill_Records(DefaltSoftTable, Detail_Grid_Table_ColNames, Grid1, 0, True, "", False)
             Else
                 If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                     MsgBox("From Id " + Trim(Txt_FormId.Text) + " Not Found data " + txtfrmtype.Text)
-                    'Txt_FormId.Visible = True
-
-                    'Txt_FormId.Focus()
-                    'Txt_FormId.Select()
                     txtfrmtype.Focus()
                     txtfrmtype.Select()
                     _ClearTex()
                     UC_Buttons1._ButtonEnableDisable(_FORMMODE)
                 End If
             End If
-
         End If
     End Sub
     Private Sub FillHeaderControls(r As DataRow)
@@ -2276,28 +2211,19 @@ Public Class MainFrmDesigner
         CmbTableName.Text = r("DataBaseTable").ToString()
         Txt_MenuName.Text = r("MainMenuName").ToString()
         Txt_PerentMenuName.Text = r("ParentMenu1").ToString()
-        'Cmb_Nature.Text = r("Nature").ToString()
-        'Cmb_Beahviour.Text = r("Beahviour").ToString()
-        'Cmb_BookCategory.Text = r("BookCategory").ToString()
         Txt_Active.Text = r("Active").ToString()
         Txt_ShortCutKey.Text = r("ShortCutKey").ToString()
-        'Txt_OrderNo.Text = r("OrderNo").ToString()
         Txt_mainFormSize.Text = r("MainFormSizeX").ToString()
         Txt_MainFormLocation.Text = r("MainFormLocationX").ToString()
         TxtMainFormSizeY.Text = r("MainFormSizeY").ToString()
         TxtMainFormLocaY.Text = r("MainFormLocationY").ToString()
-        '_BookCode = r("BookCode").ToString()
         _LastBookCode = r("BookCode").ToString()
         Ctl_BookName.ReadOnly = True
         Ctl_Managebybook.Text = r("ManageBook").ToString().Trim()
-
         If Ctl_ImpformId.Text <> "" Then
             'Ctl_BookName.Text = r("BookName").ToString()
             Ctl_BookName.ReadOnly = False
         End If
-
-
-
     End Sub
     Public Function EntryData_Invoice_Entry_txtBookName_Validated() As String
         Dim View_Filter_Condition = ""
@@ -2319,9 +2245,6 @@ Public Class MainFrmDesigner
     End Sub
 
     Private Sub Txt_FormId_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_FormId.KeyDown
-        'If _FORMMODE = "" AndAlso Txt_FormId.Text.Trim > "" Then
-        '    _FORMMODE = "EDIT"
-        'End If
         If e.KeyCode = Keys.Enter Then
             If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim = "ENTRY FORM" Then
                 Dim _Tmptbla As New DataTable
@@ -2351,12 +2274,8 @@ Public Class MainFrmDesigner
         _strQuery = New StringBuilder
         Try
             strQuery = "DELETE FROM " & _DatabaseTableNameItem & " WHERE FormID=" & Txt_FormId.Text & " and Bookcode='" & _BookCode & "'"
-            'sqL = strQuery.ToString
-            'sql_connect_slect1()
             RS = strQuery.ToString
             MenuDesign_QuerySaveUpdateDelete()
-            '-----------------------------------------------------------------------
-            '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
         Catch ex As Exception
 
@@ -2388,7 +2307,6 @@ Public Class MainFrmDesigner
 
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
-
         _FORMMODE = "EDIT"
         TabControl1.Enabled = True
         Dim View_Filter_Condition = ""
@@ -2396,20 +2314,14 @@ Public Class MainFrmDesigner
         Call Ctrl_Visible_True(Me.Controls)
         Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
         Dim Last_Entry_No As Integer = 1
-        'sqL = Str_Qry
-        'sql_connect_slect1()
         RS = Str_Qry.ToString
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID"))
         End If
         Txt_FormId.Text = Last_Entry_No
-        'Txt_FormId.Focus()
-        'Txt_FormId.Select()
         txtfrmtype.Text = "MASTER FORM"
         txtfrmtype.Focus()
-        'Ctl_BookName.Focus()
-
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         Change_Grid_Data = True
@@ -2422,21 +2334,14 @@ Public Class MainFrmDesigner
         _FORMMODE = "DELETE"
         Dim Last_Entry_No As Integer = 1
         Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
-        'sqL = Str_Qry
-        'sql_connect_slect1()
         RS = Str_Qry.ToString
         MenuDesign_QueryLoad()
         If DefaltSoftTable.Rows.Count > 0 Then
             Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID"))
         End If
         Txt_FormId.Text = Last_Entry_No
-
-        'Txt_FormId.Focus()
-        'Txt_FormId.Select()
         _BookCode = DefaltSoftTable.Rows(0).Item("BOOKCODE")
         txtfrmtype.Focus()
-
-
         If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
             Call Delete_Entry()
         End If
@@ -2448,13 +2353,9 @@ Public Class MainFrmDesigner
             Call Ctrl_Visible_True(Me.Controls)
             Clear_Grid(GrdItem, 2)
             Clear_Grid(Grid1, 2)
-
-            '_FORMMODE = "DELETE"
         Else
             MsgBox("No Record Found")
-
         End If
-        'UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         ObjCls_General.Blank_Object(Me)
         Ctrl_Visible_False(Me.Controls)
         UC_Buttons1._ButtonEnableDisable("Load")
@@ -2473,9 +2374,7 @@ Public Class MainFrmDesigner
             Txt_FormId.Text = Val(Txt_FormId.Text) - 1
         End If
         Ctl_BookName.Text = ""
-        'Ctl_BookName.Focus()
         txtfrmtype.Text = "MASTER FORM"
-
         txtfrmtype.Focus()
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
@@ -2492,16 +2391,13 @@ Public Class MainFrmDesigner
         If _FORMMODE = "EDIT" AndAlso Val(Txt_FormId.Text) >= 1 Then
             Txt_FormId.Text = Val(Txt_FormId.Text) + 1
             Ctl_BookName.Text = ""
-            'Ctl_BookName.Focus()
             txtfrmtype.Text = "MASTER FORM"
             txtfrmtype.Focus()
             Ctl_Managebybook.Text = ""
-
             Call Ctrl_Visible_True(Me.Controls)
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
             Ctl_Managebybook.Visible = False
         End If
-
     End Sub
 
     Private Sub UC_Buttons1_SaveClick() Handles UC_Buttons1.SaveClick
@@ -2523,13 +2419,9 @@ Public Class MainFrmDesigner
             Dim hasBookCode As Boolean = False
             Dim hasBookTrType As Boolean = False
             Dim hasBookVno As Boolean = False
-
             Dim colDatabaseColumn As Integer = _DataTableGrid.Columns.IndexOf("DatabaseColumn") + 1
-
             For i As Integer = 1 To GrdItem.Rows - 1
-
                 Dim dbColumnName As String = GrdItem.Cell(i, colDatabaseColumn).Text.Trim().ToUpper()
-
                 If dbColumnName = "BOOKCODE" Then
                     hasBookCode = True
                 ElseIf dbColumnName = "BOOKTRTYPE" Then
@@ -2544,7 +2436,6 @@ Public Class MainFrmDesigner
                 Exit Sub
             End If
         End If
-
         Dim Array_Opening(0, 4) As String
         Dim Pcs_Row_No As Integer = 0
         If _BookCode <> "" Then
@@ -2552,11 +2443,8 @@ Public Class MainFrmDesigner
         Else
             sqL = "DELETE FROM " & _DatabaseTableNameItem & " WHERE FormID=" & Txt_FormId.Text & " and FormType='" & txtfrmtype.Text & "'"
         End If
-
-        'sql_Data_Save_Delete_Update1()
         RS = sqL.ToString
         MenuDesign_QuerySaveUpdateDelete()
-
         'Header Grid Data
         Fill_HeaderGrid_Records_Into_DataTables()
         'Detail grid save
@@ -2567,7 +2455,6 @@ Public Class MainFrmDesigner
         Clear_Grid(GrdItem, 2)
         Grid1.BoldFixedCell = False
         Clear_Grid(Grid1, 2)
-
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         Ctl_Managebybook.Visible = False
@@ -2942,385 +2829,6 @@ Public Class MainFrmDesigner
             End If
         Next
     End Sub
-    'Private Sub Fill_HeaderGrid_Records_Into_DataTables()
-    '    Dim IsImportForm As Boolean = Not String.IsNullOrWhiteSpace(Ctl_ImpformId.Text)
-    '    _strQuery = New StringBuilder
-    '    With _strQuery
-    '        .Append(" SELECT TOP 1 ")
-    '        .Append(" A.Cntrlid ")
-    '        .Append(" FROM " & _DatabaseTableNameItem & " A ")
-    '        .Append(" WHERE 1=1 ")
-    '        .Append(" ORDER BY A.Cntrlid DESC ")
-    '    End With
-    '    Dim TblTmp As New DataTable
-    '    Dim Last_Cntrlid As Integer = 1
-    '    ' sqL = _strQuery.ToString
-    '    ' sql_connect_slect1()
-    '    RS = _strQuery.ToString
-    '    MenuDesign_QueryLoad()
-    '    If DefaltSoftTable.Rows.Count > 0 Then
-    '        If IsDBNull(DefaltSoftTable.Rows(0).Item("Cntrlid")) Then
-    '            DefaltSoftTable.Rows(0).Item("Cntrlid") = 1
-    '        End If
-    '        Last_Cntrlid = Val(DefaltSoftTable.Rows(0).Item("Cntrlid")) + 1
-    '    End If
-    '    '==========================================================
-    '    ' ROWID
-    '    ' NEW  : MAX(RowID) + 1
-    '    ' EDIT : Existing RowID same rahega
-    '    '==========================================================
-    '    Dim Last_RowId As Integer = 1
-    '    If _FORMMODE <> "EDIT" AndAlso Not IsImportForm Then
-    '        _strQuery = New StringBuilder
-    '        With _strQuery
-    '            .Append(" SELECT TOP 1 ")
-    '            .Append(" A.RowID ")
-    '            .Append(" FROM " & _DatabaseTableNameItem & " A ")
-    '            .Append(" WHERE 1=1 ")
-    '            .Append(" ORDER BY A.RowID DESC ")
-    '        End With
-    '        Dim TblRowidTmp As New DataTable
-    '        ' sqL = _strQuery.ToString
-    '        ' sql_connect_slect1()
-    '        RS = _strQuery.ToString
-    '        MenuDesign_QueryLoad()
-    '        If DefaltSoftTable.Rows.Count > 0 Then
-    '            If IsDBNull(DefaltSoftTable.Rows(0).Item("RowID")) Then
-    '                Last_RowId = 1
-    '            Else
-    '                Last_RowId = Val(DefaltSoftTable.Rows(0).Item("RowID")) + 1
-    '            End If
-    '        Else
-    '            Last_RowId = 1
-    '        End If
-    '    End If
-    '    Dim ColumnTypeCount As New Dictionary(Of String, Integer)
-    '    Dim CurrentLocationY As Integer = 0
-    '    Dim _ColumnType As String = ""
-    '    Dim NewCntrlId As Integer = 0
-    '    '==========================================================
-    '    ' HEADER GRID SAVE
-    '    '==========================================================
-    '    For i As Int16 = 1 To GrdItem.Rows - 1
-    '        '======================================================
-    '        ' LOCATION Y
-    '        '======================================================
-    '        If Not IsImportForm Then
-
-    '            If _FORMMODE <> "EDIT" Then
-    '                Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
-    '                If textValue <> "" Then
-    '                    If textValue = "BOOKCODE" OrElse textValue = "BOOKTRTYPE" OrElse textValue = "BOOKVNO" OrElse textValue = "BOOKNAME" Then
-    '                        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = 10
-    '                    Else
-    '                        If CurrentLocationY = 0 Then
-    '                            CurrentLocationY = 10
-    '                        Else
-    '                            CurrentLocationY += 30
-    '                        End If
-    '                        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = CurrentLocationY
-    '                    End If
-    '                End If
-    '            Else
-    '                'Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
-    '                'If textValue <> "" Then
-    '                '    If textValue = "BOOKCODE" OrElse textValue = "BOOKTRTYPE" OrElse textValue = "BOOKVNO" OrElse textValue = "BOOKNAME" Then
-    '                '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = 10
-    '                '    Else
-    '                '        If CurrentLocationY = 0 Then
-    '                '            CurrentLocationY = 10
-    '                '        Else
-    '                '            CurrentLocationY += 30
-    '                '        End If
-    '                '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = CurrentLocationY
-    '                '    End If
-    '                'End If
-
-    '                'second time set 
-    '                'Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
-    '                'If textValue <> "" Then
-    '                '    If textValue = "BOOKCODE" OrElse textValue = "BOOKTRTYPE" OrElse textValue = "BOOKVNO" OrElse textValue = "BOOKNAME" Then
-    '                '        'In fields ke liye LocationY = 10
-    '                '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text = "10"
-    '                '    Else
-    '                '        'LocationY me jo value already hai usko same rehne do
-    '                '        CurrentLocationY = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text)
-    '                '    End If
-    '                'End If
-    '                Dim textValue As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.ToUpper().Trim()
-    '                If textValue <> "" Then
-    '                    Dim locationYCol As Integer = _DataTableGrid.Columns.IndexOf("LocationY") + 1
-    '                    Dim IdCol As Integer = _DataTableGrid.Columns.IndexOf("ID") + 1
-    '                    If textValue = "BOOKCODE" OrElse textValue = "BOOKTRTYPE" OrElse textValue = "BOOKVNO" OrElse textValue = "BOOKNAME" Then
-    '                        '==================================================
-    '                        ' Fixed controls
-    '                        '==================================================
-    '                        GrdItem.Cell(i, locationYCol).Text = "10"
-    '                    ElseIf _FORMMODE <> "EDIT" Then
-    '                        '==================================================
-    '                        ' NEW MODE
-    '                        '==================================================
-    '                        If CurrentLocationY = 0 Then
-    '                            CurrentLocationY = 10
-    '                        Else
-    '                            CurrentLocationY += 30
-    '                        End If
-    '                        GrdItem.Cell(i, locationYCol).Text = CurrentLocationY.ToString()
-    '                    Else
-    '                        '==================================================
-    '                        ' EDIT MODE
-    '                        '==================================================
-    '                        Dim Id As Integer = 0
-    '                        Integer.TryParse(GrdItem.Cell(i, IdCol).Text.Trim(), Id)
-    '                        '==================================================
-    '                        ' ID > 0 = OLD ROW
-    '                        ' ID = 0 = NEW ROW
-    '                        '==================================================
-    '                        If Id > 0 Then
-    '                            'OLD ROW
-    '                            'LocationY ko bilkul change nahi karna
-    '                        Else
-    '                            '==================================================
-    '                            ' NEW ROW
-    '                            'Existing rows ka MAX LocationY find karo
-    '                            '==================================================
-    '                            Dim maxLocationY As Integer = 0
-    '                            For row As Integer = 1 To GrdItem.Rows - 1
-    '                                If row <> i Then
-    '                                    Dim cell = GrdItem.Cell(row, locationYCol)
-    '                                    If cell IsNot Nothing Then
-    '                                        Dim locationY As Integer = 0
-    '                                        If Integer.TryParse(cell.Text.Trim(), locationY) Then
-    '                                            If locationY > maxLocationY Then
-    '                                                maxLocationY = locationY
-    '                                            End If
-    '                                        End If
-    '                                    End If
-    '                                End If
-    '                            Next
-    '                            '==================================================
-    '                            ' NEW ROW = MAX + 30
-    '                            '==================================================
-    '                            If maxLocationY = 0 Then
-    '                                GrdItem.Cell(i, locationYCol).Text = "10"
-    '                            Else
-    '                                GrdItem.Cell(i, locationYCol).Text = (maxLocationY + 30).ToString()
-    '                            End If
-    '                        End If
-    '                    End If
-    '                End If
-    '            End If
-
-    '        End If
-    '        '======================================================
-    '        ' COLUMN TYPE
-    '        '======================================================
-    '        _ColumnType = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ColumnType") + 1).Text
-    '        'GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text = StrConv(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text, VbStrConv.ProperCase)
-    '        If Not IsImportForm Then
-    '            GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text = StrConv(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text, VbStrConv.ProperCase)
-    '        End If
-    '        '======================================================
-    '        ' CNTRLID
-    '        '======================================================
-    '        If Not IsImportForm Then
-    '            If Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text) = 0 Then
-    '                If Not ColumnTypeCounter.ContainsKey(_ColumnType) Then
-    '                    ColumnTypeCounter(_ColumnType) = 1
-    '                Else
-    '                    ColumnTypeCounter(_ColumnType) += 1
-    '                End If
-    '                '==================================================
-    '                ' GRID LIMIT CHECK
-    '                '==================================================
-    '                If _ColumnType = "Grid" AndAlso
-    '               ColumnTypeCounter(_ColumnType) > 5 Then
-    '                    MessageBox.Show("Grid type maximum 5 hi allowed hai.", "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '                    Exit For
-    '                End If
-    '                NewCntrlId = ColumnTypeCounter(_ColumnType)
-    '                GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text = NewCntrlId
-    '                GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = _ColumnType & NewCntrlId.ToString()
-    '                Dim databaseColumn As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseColumn") + 1).Text.Trim()
-    '                If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
-    '                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseColumn") + 1).Text = "NO COLUMN USE " & NewCntrlId.ToString()
-    '                End If
-    '            Else
-    '                If Not ColumnTypeCounter.ContainsKey(_ColumnType) Then
-    '                    ColumnTypeCounter(_ColumnType) = 1
-    '                Else
-    '                    ColumnTypeCounter(_ColumnType) += 1
-    '                End If
-    '                If _ColumnType <> "Grid" Then
-    '                    NewCntrlId = ColumnTypeCounter(_ColumnType)
-    '                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text = NewCntrlId
-    '                    GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = _ColumnType & NewCntrlId.ToString()
-    '                    Dim databaseColumn As String = GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseColumn") + 1).Text.Trim()
-    '                    If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
-    '                        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseColumn") + 1).Text = "NO COLUMN USE " & NewCntrlId.ToString()
-    '                    End If
-    '                End If
-    '            End If
-    '        End If
-    '        '======================================================
-    '        ' MASKING
-    '        '======================================================
-    '        Dim Masking As Integer = 0
-    '        If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masking") + 1).Text = "" Then
-    '            GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masking") + 1).Text = Masking
-    '        End If
-    '        '======================================================
-    '        ' COMMON VALUES
-    '        '======================================================
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainMenuName") + 1).Text = Txt_MenuName.Text
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ParentMenu1") + 1).Text = Txt_PerentMenuName.Text
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Active") + 1).Text = Txt_Active.Text
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ShortCutKey") + 1).Text = Txt_ShortCutKey.Text
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormSizeX") + 1).Text = Txt_mainFormSize.Text
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormLocationX") + 1).Text = Txt_MainFormLocation.Text
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormSizeY") + 1).Text = TxtMainFormSizeY.Text
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormLocationY") + 1).Text = TxtMainFormLocaY.Text
-    '        '======================================================
-    '        ' OTHER VALUES
-    '        '======================================================
-    '        Dim ManageBook As String = "YES"
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Managebook") + 1).Text = ManageBook
-    '        GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("FormType") + 1).Text = txtfrmtype.Text.Trim
-    '        Dim Precision As Integer = 0
-    '        If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Precision") + 1).Text = "" Then
-    '            GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Precision") + 1).Text = Precision
-    '        End If
-    '        '======================================================
-    '        ' GET ROWID
-    '        '======================================================
-    '        Dim CurrentRowId As Integer = 0
-    '        If IsImportForm Then
-    '            '----------------------------------------------
-    '            ' IMPORT FORM
-    '            ' MAX(RowID) + 1
-    '            '----------------------------------------------
-    '            CurrentRowId = Last_RowId
-    '            GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("RowID") + 1).Text = CurrentRowId.ToString()
-    '            Last_RowId += 1
-    '        ElseIf _FORMMODE = "EDIT" Then
-    '            '----------------------------------------------
-    '            ' EDIT MODE
-    '            ' Existing RowID same rahega
-    '            '----------------------------------------------
-    '            CurrentRowId = Val(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("RowID") + 1).Text)
-    '            If CurrentRowId = 0 Then
-    '                _strQuery = New StringBuilder
-    '                With _strQuery
-    '                    .Append(" SELECT TOP 1 ")
-    '                    .Append(" A.RowID ")
-    '                    .Append(" FROM " & _DatabaseTableNameItem & " A ")
-    '                    .Append(" WHERE 1=1 ")
-    '                    .Append(" ORDER BY A.RowID DESC ")
-    '                End With
-    '                RS = _strQuery.ToString
-    '                MenuDesign_QueryLoad()
-    '                If DefaltSoftTable.Rows.Count > 0 AndAlso Not IsDBNull(DefaltSoftTable.Rows(0)("RowID")) Then
-    '                    CurrentRowId = Convert.ToInt32(DefaltSoftTable.Rows(0)("RowID")) + 1
-    '                Else
-    '                    CurrentRowId = 1
-    '                End If
-    '            End If
-    '        Else
-    '            '----------------------------------------------
-    '            ' NEW MODE
-    '            ' MAX ROWID + 1
-    '            '----------------------------------------------
-    '            CurrentRowId = Last_RowId
-    '            ' Grid me set karo
-    '            GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("RowID") + 1).Text = CurrentRowId.ToString()
-    '            ' Next row ke liye
-    '            Last_RowId += 1
-    '        End If
-    '        '======================================================
-    '        ' INSERT QUERY
-    '        '======================================================
-    '        Dim sb As New StringBuilder
-    '        sb.Append("INSERT INTO " & _DatabaseTableNameItem & " (")
-    '        ' IMPORTANT : RowID added
-    '        sb.Append("RowID,CntrlType,ColumnType,")
-    '        sb.Append("CntrlName,DataBaseTable,UseMaster,Masterlist,OppMasterCode,DataBaseColumn,UseMasterKey,UserText,LocationX,LocationY,SizeHeight,SizeWidth,OrderNo,")
-    '        sb.Append("Tabindex,InputType,SpacerString,FormId,FormName,Bookcode,BookName,Cntrlid,Fonts,BackColor,ForeColor,")
-    '        sb.Append("CntrlssendtoType,BookCategory,")
-    '        sb.Append("MainMenuName,ParentMenu1,Active,ShortCutKey,MainFormSizeX,MainFormLocationX,MainFormSizeY,MainFormLocationY,FormDesignType,")
-    '        sb.Append("FocusColor,LostFocusColor,Visible,ReadOnly,TextAlign,Erequred,Enabled,")
-    '        sb.Append("SaveYN,Masking,Managebook,FormType)")
-    '        '======================================================
-    '        ' VALUES
-    '        '======================================================
-    '        sb.Append(" VALUES (")
-    '        '----------------------------------------------
-    '        ' ROWID
-    '        '----------------------------------------------
-    '        sb.Append(CurrentRowId & ",")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlType") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ColumnType") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseTable") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("UseMaster") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masterlist") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseColumn") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text.Trim() & "',")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationX") + 1).Text.Trim() & ",")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LocationY") + 1).Text.Trim() & ",")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SizeHeight") + 1).Text.Trim() & ",")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SizeWidth") + 1).Text.Trim() & ",")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OrderNo") + 1).Text.Trim() & ",")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Tabindex") + 1).Text.Trim() & ",")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("InputType") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SpacerString") + 1).Text.Trim() & "',")
-    '        sb.Append(Txt_FormId.Text & ",")
-    '        sb.Append("'" & txtFormName.Text & "',")
-    '        sb.Append("'" & _BookCode & "',")
-    '        sb.Append("'" & Ctl_BookName.Text.Trim() & "',")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Cntrlid") + 1).Text.Trim() & ",")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Fonts") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("BackColor") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ForeColor") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlssendtoType") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("BookCategory") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainMenuName") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ParentMenu1") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Active") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ShortCutKey") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormSizeX") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormLocationX") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormSizeY") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("MainFormLocationY") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("FocusColor") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("LostFocusColor") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Visible") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ReadOnly") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("TextAlign") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Erequred") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Enabled") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SaveYN") + 1).Text.Trim() & "',")
-    '        sb.Append(GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masking") + 1).Text.Trim() & ",")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Managebook") + 1).Text.Trim() & "',")
-    '        sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("FormType") + 1).Text.Trim() & "'")
-    '        sb.Append(")")
-    '        '======================================================
-    '        ' SAVE
-    '        '======================================================
-    '        If GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("ColumnType") + 1).Text > "" Then
-    '            RS = sb.ToString()
-    '            MenuDesign_QuerySaveUpdateDelete()
-    '            '----------------------------------------------
-    '            ' NEW ROW ke liye next RowID
-    '            '----------------------------------------------
-    '            If _FORMMODE <> "EDIT" Then
-    '                Last_RowId += 1
-    '            End If
-    '        End If
-    '    Next
-    'End Sub
     Private Sub Fill_DetailGrid_Records_Into_DataTables()
         '==========================================================
         ' ROWID
@@ -3522,7 +3030,6 @@ Public Class MainFrmDesigner
 
     Private Sub UC_Buttons1_PrintClick() Handles UC_Buttons1.PrintClick
         _FORMMODE = "PRINT"
-
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
@@ -3531,7 +3038,6 @@ Public Class MainFrmDesigner
 
     Private Function _checkForm()
         _strQuery = New StringBuilder
-
         With _strQuery
             .Append(" SELECT BookName,Bookcode ")
             .Append(" FROM " & _DatabaseTableNameItem & " ")
@@ -3541,9 +3047,6 @@ Public Class MainFrmDesigner
             .Append(" group by  ")
             .Append(" BookName,Bookcode ")
         End With
-        'sqL = _strQuery.ToString
-        'Dim tblTmp As New DataTable
-        'sql_connect_slect1()
         RS = _strQuery.ToString
         MenuDesign_QueryLoad()
         Dim _Tmptbla As New DataTable
@@ -3556,7 +3059,6 @@ Public Class MainFrmDesigner
         If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
             BOOK_BHEWAR = ""
             If Ctl_ImpformId.Text = "" OrElse Ctl_ImpformId.Text <> "" Then
-
                 If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text > "" AndAlso txtfrmtype.Text.Trim = "ENTRY FORM" Then
                     Dim View_Filter_Condition As String = ""
                     Dim _Tmptbla As New DataTable
@@ -3567,7 +3069,6 @@ Public Class MainFrmDesigner
                             For Each dr As DataRow In _Tmptbla.Rows
                                 _BookCode &= "'" & dr("BookCode").ToString() & "',"
                             Next
-
                             If _BookCode <> "" Then
                                 _BookCode = _BookCode.TrimEnd(","c)
                             End If
@@ -3627,8 +3128,6 @@ Public Class MainFrmDesigner
             UC_Buttons1._ButtonEnableDisable(_FORMMODE)
             Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
             Dim Last_Entry_No As Integer = 1
-            'sqL = Str_Qry
-            'sql_connect_slect1()
             RS = Str_Qry.ToString
             MenuDesign_QueryLoad()
             If DefaltSoftTable.Rows.Count > 0 Then
@@ -3647,11 +3146,9 @@ Public Class MainFrmDesigner
             GrdItem.Focus()
             GrdItem.Select()
         End If
-
     End Sub
 
     Private Sub Ctl_Managebybook_TextChanged(sender As Object, e As EventArgs) Handles Ctl_Managebybook.TextChanged
-
         If Ctl_Managebybook.Text = "YES" Then
             Ctl_BookName.Focus()
         Else
@@ -3690,16 +3187,12 @@ Public Class MainFrmDesigner
                 Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
                 Dim TblTmp As New DataTable
                 Dim Last_Entry_No As Integer = 1
-                'sqL = Str_Qry
-                'sql_connect_slect1()
                 RS = Str_Qry.ToString
                 MenuDesign_QueryLoad()
-
                 If DefaltSoftTable.Rows.Count > 0 Then
                     If IsDBNull(DefaltSoftTable.Rows(0).Item("FormID")) Then DefaltSoftTable.Rows(0).Item("FormID") = 1
                     Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID")) + 1
                 End If
-
                 Txt_FormId.Text = Last_Entry_No
                 Txt_FormId.Focus()
                 Txt_FormId.Select()
@@ -3709,7 +3202,6 @@ Public Class MainFrmDesigner
                 If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim > "" Then
                     Dim _Tmptbla As New DataTable
                     _Tmptbla = _checkForm()
-
                     If _Tmptbla.Rows.Count > 0 Then
                         'Ctl_BookName.Focus()
                         'Ctl_BookName.Select()
@@ -3738,11 +3230,9 @@ Public Class MainFrmDesigner
             ' CHECK FILES
             '========================================================
             If Not IO.File.Exists(softDllPath) Then
-                'MessageBox.Show("Soft.dll not found!" & vbCrLf & softDllPath, "Migration Error", MessageBoxButtons.OK, MessageBoxIcon.Error)                Exit Sub
                 MsgBox("Soft.dll not found!")
             End If
             If Not IO.File.Exists(sqlDbPath) Then
-                'MessageBox.Show("SQLDB.mdb not found!" & vbCrLf & sqlDbPath, "Migration Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 MsgBox("SQLDB.mdb not found!")
                 Exit Sub
             End If
@@ -3772,7 +3262,6 @@ Public Class MainFrmDesigner
                     End If
                 Next
                 If actualTableName = "" Then
-                    'MessageBox.Show("Table '" & tableName & "' Soft.dll me nahi mili.", "Migration Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     MsgBox("Table '" & tableName & "' Soft.dll Do No Found!")
                     Exit Sub
                 End If
@@ -3789,7 +3278,6 @@ Public Class MainFrmDesigner
             ' CHECK DATA
             '========================================================
             If dt.Columns.Count = 0 Then
-                'MessageBox.Show("Table me koi column nahi mila.", "Migration", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 MsgBox("Do Not Find Any column in Table!")
                 Exit Sub
             End If
@@ -4066,7 +3554,6 @@ Public Class MainFrmDesigner
                 '====================================================
                 ' SUCCESS
                 '====================================================
-                'MessageBox.Show("Table Migration Successfully Completed!" & vbCrLf & vbCrLf & "Source      : Soft.dll" & vbCrLf & "Destination : SQLDB.mdb" & vbCrLf & "Table       : " & tableName & vbCrLf & "Columns     : " & dt.Columns.Count.ToString() & vbCrLf & "Rows        : " & dt.Rows.Count.ToString(), "Soft.dll → SQLDB", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 MsgBox("Table Migration Successfully Completed!")
             End Using
         Catch ex As Exception
@@ -4075,110 +3562,58 @@ Public Class MainFrmDesigner
     End Sub
 
     Private Function GetAccessDataType(ByVal dataType As Type) As String
-
         If dataType Is GetType(String) Then
-
             Return "TEXT(255)"
-
         ElseIf dataType Is GetType(Integer) Then
-
             Return "INTEGER"
-
         ElseIf dataType Is GetType(Long) Then
-
             Return "LONG"
-
         ElseIf dataType Is GetType(Short) Then
-
             Return "SMALLINT"
-
         ElseIf dataType Is GetType(Boolean) Then
-
             Return "BIT"
-
         ElseIf dataType Is GetType(DateTime) Then
-
             Return "DATETIME"
-
         ElseIf dataType Is GetType(Decimal) Then
-
             Return "DECIMAL(18,4)"
-
         ElseIf dataType Is GetType(Double) Then
-
             Return "DOUBLE"
-
         ElseIf dataType Is GetType(Single) Then
-
             Return "SINGLE"
-
         ElseIf dataType Is GetType(Byte) Then
-
             Return "BYTE"
-
         ElseIf dataType Is GetType(Byte()) Then
-
             Return "IMAGE"
-
         Else
-
             Return "TEXT(255)"
-
         End If
-
     End Function
     Private Function GetOleDbType(ByVal dataType As Type) As OleDbType
-
         If dataType Is GetType(String) Then
-
             Return OleDbType.VarWChar
-
         ElseIf dataType Is GetType(Integer) Then
-
             Return OleDbType.Integer
-
         ElseIf dataType Is GetType(Long) Then
-
             Return OleDbType.BigInt
-
         ElseIf dataType Is GetType(Short) Then
-
             Return OleDbType.SmallInt
-
         ElseIf dataType Is GetType(Boolean) Then
-
             Return OleDbType.Boolean
-
         ElseIf dataType Is GetType(DateTime) Then
-
             Return OleDbType.Date
-
         ElseIf dataType Is GetType(Decimal) Then
-
             Return OleDbType.Decimal
-
         ElseIf dataType Is GetType(Double) Then
-
             Return OleDbType.Double
-
         ElseIf dataType Is GetType(Single) Then
-
             Return OleDbType.Single
-
         ElseIf dataType Is GetType(Byte) Then
-
             Return OleDbType.UnsignedTinyInt
-
         ElseIf dataType Is GetType(Byte()) Then
-
             Return OleDbType.Binary
-
         Else
-
             Return OleDbType.VarWChar
-
         End If
-
     End Function
 #End Region
 

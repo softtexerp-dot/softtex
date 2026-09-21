@@ -958,6 +958,15 @@ Public Class MainFormRead
             'txtFormName.Focus()
         End If
     End Sub
+#Region "DELETE CODE"
+    Private Sub Delete_Row(ByVal GrdObj As FlexCell.Grid, ByVal DataTable_Name As DataTable)
+        _FrmLoad = True
+        If GrdObj.Cell(GrdObj.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf("SRNO") + 1).ForeColor <> Color.Red Then
+            GrdObj.Range(GrdObj.ActiveCell.Row, 0, GrdObj.ActiveCell.Row, GrdObj.Cols - 1).DeleteByRow()
+            GrdObj.Cell(GrdObj.ActiveCell.Row, DataTable_Name.Columns.IndexOf("SRNO") + 1).Text = GrdObj.ActiveCell.Row
+        End If
+        _FrmLoad = False
+    End Sub
 
     Private Sub Delete_Entry()
         _FrmLoad = True
@@ -981,6 +990,8 @@ Public Class MainFormRead
         End Try
         _FrmLoad = False
     End Sub
+#End Region
+
     Private Sub defineGridColName()
         _Grid1ColNames = New StringBuilder()
         _FieldHeader = New StringBuilder()
@@ -1294,22 +1305,37 @@ Public Class MainFormRead
                     End If
                 End If
                 Dim targetTabControl As TabControl = Nothing
+                Dim targetTabPage As TabPage = Nothing
+                Dim tabNo As Integer = 0
+                Integer.TryParse(dr("TabCountNo").ToString().Trim(), tabNo)
                 If targetTabControlName <> "" Then
+                    'For Each tc As TabControl In DynamicTabControls
+                    '    If tc.Name.Equals(targetTabControlName, StringComparison.OrdinalIgnoreCase) Then
+                    '        targetTabControl = tc
+                    '        Exit For
+                    '    End If
+                    '    If tc.Tag IsNot Nothing AndAlso tc.Tag.ToString().Trim().Equals(targetTabControlName, StringComparison.OrdinalIgnoreCase) Then
+                    '        targetTabControl = tc
+                    '        Exit For
+                    '    End If
+                    'Next
+                    'Current TabControl ke andar matching TabPage find karo
                     For Each tc As TabControl In DynamicTabControls
-                        If tc.Name.Equals(targetTabControlName, StringComparison.OrdinalIgnoreCase) Then
-                            targetTabControl = tc
-                            Exit For
-                        End If
-                        If tc.Tag IsNot Nothing AndAlso tc.Tag.ToString().Trim().Equals(targetTabControlName, StringComparison.OrdinalIgnoreCase) Then
-                            targetTabControl = tc
-                            Exit For
-                        End If
+                        For Each tp As TabPage In tc.TabPages
+                            Dim pageNo As Integer = 0
+                            Integer.TryParse(tp.Tag?.ToString(), pageNo)
+                            If pageNo = tabNo Then
+                                targetTabPage = tp
+                                Exit For
+                            End If
+                        Next
+                        If targetTabPage IsNot Nothing Then Exit For
                     Next
                 End If
                 If targetTabControl Is Nothing AndAlso DynamicTabControls.Count = 1 Then
                     targetTabControl = DynamicTabControls(0)
                 End If
-                Dim targetTabPage As TabPage = Nothing
+                'Dim targetTabPage As TabPage = Nothing
                 If tabCountNo >= 1 AndAlso targetTabControl IsNot Nothing Then
                     If tabCountNo <= targetTabControl.TabPages.Count Then
                         targetTabPage = targetTabControl.TabPages(tabCountNo - 1)
@@ -1514,28 +1540,152 @@ Public Class MainFormRead
                     AddHandler chk.MouseMove, AddressOf Control_MouseMove
                     AddHandler chk.MouseUp, AddressOf Control_MouseUp
                 End If
-                If colType = "Grid" Then
+
+                'If colType = "Grid" Then
+                '    Dim gridname As String = dr("CntrlName").ToString().Trim()
+                '    If gridname = "Grid1" Then
+                '        Dim grid1 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid1, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                '        'Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
+                '        If grid1 IsNot Nothing Then
+                '            grid1.Visible = True
+                '            grid1.Enabled = True
+                '            Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
+                '        End If
+                '    ElseIf gridname = "Grid2" Then
+                '        Dim grid2 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                '        'Fill_Current_Row_Sr_No(_DataTableGrid2, grid2)
+                '    ElseIf gridname = "Grid3" Then
+                '        Dim grid3 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid3, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                '        'Fill_Current_Row_Sr_No(_DataTableGrid3, grid3)
+                '    ElseIf gridname = "Grid4" Then
+                '        Dim grid4 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid4, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                '        'Fill_Current_Row_Sr_No(_DataTableGrid4, grid4)
+                '    ElseIf gridname = "Grid5" Then
+                '        Dim grid5 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid5, leftPos, topPos, width, height, oppMasterCode, Tabindex)
+                '        'Fill_Current_Row_Sr_No(_DataTableGrid5, grid5)
+                '    End If
+                'End If
+                If colType.Equals("Grid", StringComparison.OrdinalIgnoreCase) Then
                     Dim gridname As String = dr("CntrlName").ToString().Trim()
-                    If gridname = "Grid1" Then
+                    '=========================================================
+                    ' Find Target TabPage
+                    '=========================================================
+                    Dim gridTabNo As Integer = 0
+                    Integer.TryParse(dr("TabCountNo").ToString().Trim(), gridTabNo)
+                    'targetTabPage already above calculate ho raha hai,
+                    'isliye yahan dobara search karne ki zarurat nahi hai.
+                    '=========================================================
+                    ' GRID 1
+                    '=========================================================
+                    If gridname.Equals("Grid1", StringComparison.OrdinalIgnoreCase) Then
                         Dim grid1 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid1, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                        'Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
                         If grid1 IsNot Nothing Then
+                            'Agar SetupFlexGrid ne kisi parent/Form par add kiya hai
+                            'to pehle remove karo
+                            If grid1.Parent IsNot Nothing Then
+                                grid1.Parent.Controls.Remove(grid1)
+                            End If
+                            '=================================================
+                            ' ADD GRID TO TAB PAGE
+                            '=================================================
+                            If gridTabNo > 0 AndAlso targetTabPage IsNot Nothing Then
+                                targetTabPage.Controls.Add(grid1)
+                            Else
+                                Me.Controls.Add(grid1)
+                            End If
+                            'Position
+                            grid1.Left = leftPos + 130
+                            grid1.Top = topPos
+                            grid1.Width = width
+                            grid1.Height = height
                             grid1.Visible = True
                             grid1.Enabled = True
                             Fill_Current_Row_Sr_No(_DataTableGrid1, grid1)
                         End If
-                    ElseIf gridname = "Grid2" Then
+                        '=========================================================
+                        ' GRID 2
+                        '=========================================================
+                    ElseIf gridname.Equals("Grid2", StringComparison.OrdinalIgnoreCase) Then
                         Dim grid2 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                        'Fill_Current_Row_Sr_No(_DataTableGrid2, grid2)
-                    ElseIf gridname = "Grid3" Then
+                        If grid2 IsNot Nothing Then
+                            If grid2.Parent IsNot Nothing Then
+                                grid2.Parent.Controls.Remove(grid2)
+                            End If
+                            If gridTabNo > 0 AndAlso targetTabPage IsNot Nothing Then
+                                targetTabPage.Controls.Add(grid2)
+                            Else
+                                Me.Controls.Add(grid2)
+                            End If
+                            grid2.Left = leftPos + 130
+                            grid2.Top = topPos
+                            grid2.Width = width
+                            grid2.Height = height
+                            grid2.Visible = True
+                            grid2.Enabled = True
+                        End If
+                        '=========================================================
+                        ' GRID 3
+                        '=========================================================
+                    ElseIf gridname.Equals("Grid3", StringComparison.OrdinalIgnoreCase) Then
                         Dim grid3 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid3, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                        'Fill_Current_Row_Sr_No(_DataTableGrid3, grid3)
-                    ElseIf gridname = "Grid4" Then
+                        If grid3 IsNot Nothing Then
+                            If grid3.Parent IsNot Nothing Then
+                                grid3.Parent.Controls.Remove(grid3)
+                            End If
+                            If gridTabNo > 0 AndAlso targetTabPage IsNot Nothing Then
+                                targetTabPage.Controls.Add(grid3)
+                            Else
+                                Me.Controls.Add(grid3)
+                            End If
+                            grid3.Left = leftPos + 130
+                            grid3.Top = topPos
+                            grid3.Width = width
+                            grid3.Height = height
+                            grid3.Visible = True
+                            grid3.Enabled = True
+                        End If
+                        '=========================================================
+                        ' GRID 4
+                        '=========================================================
+                    ElseIf gridname.Equals("Grid4", StringComparison.OrdinalIgnoreCase) Then
                         Dim grid4 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid4, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                        'Fill_Current_Row_Sr_No(_DataTableGrid4, grid4)
-                    ElseIf gridname = "Grid5" Then
+                        If grid4 IsNot Nothing Then
+                            If grid4.Parent IsNot Nothing Then
+                                grid4.Parent.Controls.Remove(grid4)
+                            End If
+                            If gridTabNo > 0 AndAlso targetTabPage IsNot Nothing Then
+                                targetTabPage.Controls.Add(grid4)
+                            Else
+                                Me.Controls.Add(grid4)
+                            End If
+                            grid4.Left = leftPos + 130
+                            grid4.Top = topPos
+                            grid4.Width = width
+                            grid4.Height = height
+                            grid4.Visible = True
+                            grid4.Enabled = True
+                        End If
+                        '=========================================================
+                        ' GRID 5
+                        '=========================================================
+                    ElseIf gridname.Equals("Grid5", StringComparison.OrdinalIgnoreCase) Then
                         Dim grid5 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid5, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                        'Fill_Current_Row_Sr_No(_DataTableGrid5, grid5)
+                        If grid5 IsNot Nothing Then
+                            If grid5.Parent IsNot Nothing Then
+                                grid5.Parent.Controls.Remove(grid5)
+                            End If
+                            If gridTabNo > 0 AndAlso targetTabPage IsNot Nothing Then
+                                targetTabPage.Controls.Add(grid5)
+                            Else
+                                Me.Controls.Add(grid5)
+                            End If
+                            grid5.Left = leftPos + 130
+                            grid5.Top = topPos
+                            grid5.Width = width
+                            grid5.Height = height
+                            grid5.Visible = True
+                            grid5.Enabled = True
+                        End If
                     End If
                 End If
             Next
@@ -2637,9 +2787,6 @@ Public Class MainFormRead
             If _FORMMODE = "" Then
                 Me.Close()
             Else
-                If PanlPropartiesWindow.Visible = True Then
-                    PanlPropartiesWindow.Visible = False
-                End If
                 If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
                     PnlGrdView.Visible = False
                     UC_Buttons1._ButtonEnableDisable("LOAD")
@@ -2647,41 +2794,38 @@ Public Class MainFormRead
                     ObjCls_General.Blank_Object(Me)
                     Ctrl_Visible_Falseform(Me.Controls)
                     Exit Sub
-                ElseIf _FormCloseMode = False Then
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    ObjCls_General.Blank_Object(Me)
-                    Ctrl_Visible_Falseform(Me.Controls)
-                    _FormCloseMode = True
-                    _FORMMODE = ""
+                    'ElseIf _FormCloseMode = False Then
+                    '    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    '    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    '    ObjCls_General.Blank_Object(Me)
+                    '    Ctrl_Visible_Falseform(Me.Controls)
+                    '    _FormCloseMode = True
+                    '    _FORMMODE = ""
+                ElseIf PanlPropartiesWindow.Visible = True Then
+                    PanlPropartiesWindow.Visible = False
                 Else
-                    _FrmLoad = True
-                    ObjCls_General.Blank_Object(Me)
-                    'For Each dr As DataRow In _MainColumTbl.Select("Columntype='Grid'")
-                    '    Dim gridname As String = dr("CntrlName").ToString().Trim()
-                    '    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
-                    '    If grd IsNot Nothing Then
-                    '        Clear_Grid(grd, 2)
-                    '    End If
-                    '    'CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
-                    '    _GridColmTotal(grd, _DataTableGrid1)
-                    '    Ctrl_Visibility_With_One_Grid(False, Me.Controls, grd)
-                    '    grd.BoldFixedCell = False
-                    'Next
-                    'Label_Value_Nil_Rest()
-                    _KeyFieldValue = 0
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    Ctrl_Visible_Falseform(Me.Controls)
-                    _FrmLoad = False
-                    _FORMMODE = ""
+                    Select Case _STRTRNOBJECT
+                        Case "GRID1"
+                            _FrmLoad = True
+                            Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                            grd.BoldFixedCell = False
+                            _FrmLoad = False
+                            _FORMMODE = ""
+                        Case Else
+                            _FrmLoad = True
+                            ObjCls_General.Blank_Object(Me)
+                            Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                            Clear_Grid(grd, 2)
+                            _KeyFieldValue = 0
+                            UC_Buttons1._ButtonEnableDisable("LOAD")
+                            UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                            Ctrl_Visibility_With_One_Grid(False, Me.Controls, grd)
+                            grd.BoldFixedCell = False
+                            Ctrl_Visible_Falseform(Me.Controls)
+                            _FrmLoad = False
+                            _FORMMODE = ""
+                    End Select
                 End If
-                'If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
-                'If _FormCloseMode = True Then
-                '        Me.Close()
-                '        Me.Dispose(True)
-                '    End If
-                'End If
             End If
         ElseIf e.KeyCode = Keys.F6 Then
             PanlPropartiesWindow.Visible = True
@@ -2694,6 +2838,29 @@ Public Class MainFormRead
             entryformname.GetformId = _getformId()
             entryformname.Show()
             'QueryLoad.Show()
+        ElseIf e.KeyCode = Keys.F1 Then
+            Select Case _STRTRNOBJECT
+                Case "GRID1"
+                    _FrmLoad = True
+                    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                    grd.Cell(1, _DataTableGrid1.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    UC_Buttons1.BtnSave.Focus()
+                Case Else
+                    _FrmLoad = True
+                    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                    grd.Cell(1, _DataTableGrid1.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    grd.Focus()
+                    grd.Select()
+            End Select
+        ElseIf e.KeyCode = Keys.F3 Then
+            Select Case _STRTRNOBJECT
+                Case "GRID1"
+                    _FrmLoad = True
+                    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                    Delete_Row(grd, _DataTableGrid1)
+                    Call Fill_Sr_No_Item(grd, _DataTableGrid1)
+                    _FrmLoad = False
+            End Select
         End If
     End Sub
 #Region "FILL SR NO"

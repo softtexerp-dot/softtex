@@ -2239,7 +2239,6 @@ Public Class MainMasterFormRead
         SaveControlPosition(DirectCast(sender, Control))
     End Sub
     Private Sub SaveControlPosition(ctrl As Control)
-
         If ctrl Is Nothing Then Exit Sub
         Dim leftPos As Integer = ctrl.Left - 130
         Dim topPos As Integer = ctrl.Top
@@ -2361,13 +2360,6 @@ Public Class MainMasterFormRead
             If _FORMMODE = "" Then
                 Me.Close()
             Else
-                'If PropertyGrid1.Visible = True Then
-                '    PropertyGrid1.Visible = False
-                'End If
-                If PanlPropartiesWindow.Visible = True Then
-                    PanlPropartiesWindow.Visible = False
-                End If
-
                 If PnlGrdView.Visible = True AndAlso _FORMMODE = "VIEW" Then
                     PnlGrdView.Visible = False
                     UC_Buttons1._ButtonEnableDisable("LOAD")
@@ -2375,18 +2367,19 @@ Public Class MainMasterFormRead
                     ObjCls_General.Blank_Object(Me)
                     Ctrl_Visible_Falseform(Me.Controls)
                     Exit Sub
-                ElseIf _FormCloseMode = False Then
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    ObjCls_General.Blank_Object(Me)
-                    Ctrl_Visible_Falseform(Me.Controls)
-                    _FormCloseMode = True
-                    _FORMMODE = ""
-                    'Exit Sub
+                    'ElseIf _FormCloseMode = False Then
+                    '    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    '    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    '    ObjCls_General.Blank_Object(Me)
+                    '    Ctrl_Visible_Falseform(Me.Controls)
+                    '    _FormCloseMode = True
+                    '    _FORMMODE = ""
+                    '    'Exit Sub
+                ElseIf PanlPropartiesWindow.Visible = True Then
+                    PanlPropartiesWindow.Visible = False
                 Else
                     _FrmLoad = True
                     ObjCls_General.Blank_Object(Me)
-                    'Label_Value_Nil_Rest()
                     _KeyFieldValue = 0
                     UC_Buttons1._ButtonEnableDisable("LOAD")
                     UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
@@ -2394,13 +2387,9 @@ Public Class MainMasterFormRead
                     _FrmLoad = False
                     _FORMMODE = ""
                 End If
-                'If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
-                'If _FormCloseMode = True Then
-                '        Me.Close()
-                '        Me.Dispose(True)
-                '    End If
-                'End If
             End If
+        ElseIf e.KeyCode = Keys.F1 Then
+            UC_Buttons1.BtnSave.Focus()
         ElseIf e.KeyCode = Keys.F6 Then
             PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
