@@ -1817,6 +1817,7 @@ Public Class MainMasterFormRead
     '        Finally
     '        End Try
     '    End Sub
+#Region "Normal Button and View"
     Private Sub Button_Click(sender As Object, e As EventArgs)
         If isMoveMode Then Exit Sub
         Dim btn As SimpleButton = TryCast(sender, SimpleButton)
@@ -1828,18 +1829,6 @@ Public Class MainMasterFormRead
             ViewImage(btn)
         End If
     End Sub
-    Private Sub ButtonImgAdd_Click(sender As Object, e As EventArgs)
-        If isMoveMode Then Exit Sub
-        Dim btn As SimpleButton = TryCast(sender, SimpleButton)
-        If btn Is Nothing Then Exit Sub
-        Dim buttonText As String = btn.Text.Trim().ToUpper()
-        If buttonText = "ADD" Then
-            ImgAddImage(btn)
-        ElseIf buttonText = "VIEW" Then
-            ImgViewImage(btn)
-        End If
-    End Sub
-
     Private Sub AddImage(btn As SimpleButton)
         Try
             If _FORMMODE = "ADD" Then
@@ -1909,6 +1898,64 @@ Public Class MainMasterFormRead
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+    Private Async Sub ViewImage(btn As SimpleButton)
+        Try
+            If btn.Tag Is Nothing Then
+                MessageBox.Show("Image TextBox reference not found.")
+                Exit Sub
+            End If
+            '==================================================
+            ' TEXTBOX FIND
+            '==================================================
+            Dim txt As TextBox =
+            FindTextBoxByTag(Me, btn.Tag.ToString())
+            If txt Is Nothing Then
+                MessageBox.Show("Image TextBox not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            '==================================================
+            ' IMAGE PATH / URL
+            '==================================================
+            Dim imagePath As String = ""
+            If txt.AccessibleDescription IsNot Nothing Then
+                imagePath = txt.AccessibleDescription.ToString().Trim()
+            End If
+            If String.IsNullOrWhiteSpace(imagePath) Then
+                MessageBox.Show("Please select an image first.", "Image", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            '==================================================
+            ' SERVER URL
+            '==================================================
+            If imagePath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) OrElse imagePath.StartsWith("https://", StringComparison.OrdinalIgnoreCase) Then
+                ShowImagePopupFromUrl(imagePath)
+            Else
+                '==================================================
+                ' LOCAL FILE
+                '==================================================
+                If Not IO.File.Exists(imagePath) Then
+                    MessageBox.Show("Image file not found." & vbCrLf & imagePath, "Image", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Exit Sub
+                End If
+                ShowImagePopup(imagePath)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+#End Region
+#Region "Image Button and View"
+    Private Sub ButtonImgAdd_Click(sender As Object, e As EventArgs)
+        If isMoveMode Then Exit Sub
+        Dim btn As SimpleButton = TryCast(sender, SimpleButton)
+        If btn Is Nothing Then Exit Sub
+        Dim buttonText As String = btn.Text.Trim().ToUpper()
+        If buttonText = "ADD" Then
+            ImgAddImage(btn)
+        ElseIf buttonText = "VIEW" Then
+            ImgViewImage(btn)
+        End If
     End Sub
     Private Sub ImgAddImage(btn As SimpleButton)
         Try
@@ -2035,51 +2082,7 @@ Public Class MainMasterFormRead
             MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-    Private Async Sub ViewImage(btn As SimpleButton)
-        Try
-            If btn.Tag Is Nothing Then
-                MessageBox.Show("Image TextBox reference not found.")
-                Exit Sub
-            End If
-            '==================================================
-            ' TEXTBOX FIND
-            '==================================================
-            Dim txt As TextBox =
-            FindTextBoxByTag(Me, btn.Tag.ToString())
-            If txt Is Nothing Then
-                MessageBox.Show("Image TextBox not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-            '==================================================
-            ' IMAGE PATH / URL
-            '==================================================
-            Dim imagePath As String = ""
-            If txt.AccessibleDescription IsNot Nothing Then
-                imagePath = txt.AccessibleDescription.ToString().Trim()
-            End If
-            If String.IsNullOrWhiteSpace(imagePath) Then
-                MessageBox.Show("Please select an image first.", "Image", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End If
-            '==================================================
-            ' SERVER URL
-            '==================================================
-            If imagePath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) OrElse imagePath.StartsWith("https://", StringComparison.OrdinalIgnoreCase) Then
-                ShowImagePopupFromUrl(imagePath)
-            Else
-                '==================================================
-                ' LOCAL FILE
-                '==================================================
-                If Not IO.File.Exists(imagePath) Then
-                    MessageBox.Show("Image file not found." & vbCrLf & imagePath, "Image", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    Exit Sub
-                End If
-                ShowImagePopup(imagePath)
-            End If
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Image Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
+
     Private Sub ShowImagePopupFromUrl(imageUrl As String)
         Try
             Dim frm As New Form()
@@ -2125,6 +2128,7 @@ Public Class MainMasterFormRead
         frm.Controls.Add(pic)
         frm.ShowDialog()
     End Sub
+#End Region
     Private Function FindTextBoxByTag(parent As Control, searchTag As String) As TextBox
         For Each ctrl As Control In parent.Controls
             If TypeOf ctrl Is TextBox Then

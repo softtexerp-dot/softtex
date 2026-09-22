@@ -1735,6 +1735,12 @@ Module Genral
         For Each ctl In coll
             If TypeOf ctl Is TextBox Then
                 ctl.Visible = False
+            ElseIf TypeOf ctl Is Button OrElse TypeOf ctl Is DevExpress.XtraEditors.SimpleButton Then
+                Dim ctrlName As String = ctl.Name.Trim()
+                If ctrlName.StartsWith("ImgAdd", StringComparison.OrdinalIgnoreCase) OrElse ctrlName.StartsWith("ImgView", StringComparison.OrdinalIgnoreCase) Then
+                    ctl.Visible = True
+                    ctl.Enabled = False
+                End If
             ElseIf TypeOf ctl Is ctl_TextBox.ctl_TextBox Then
                 ctl.Visible = False
             ElseIf TypeOf ctl Is RichTextBox Then
@@ -1742,7 +1748,8 @@ Module Genral
             ElseIf TypeOf ctl Is FlexCell.Grid Then
                 'ctl.Visible = False
                 ctl.Visible = True
-                ctl.Enabled = True
+                ctl.Enabled = False
+                'ctl.Enabled = True
                 'Grid ke saare parent controls ENABLE karo
                 Dim ParentCtl As Control = ctl.Parent
                 While ParentCtl IsNot Nothing
@@ -1758,10 +1765,22 @@ Module Genral
                 'TabControl visible rahe
                 ctl.Visible = True
                 'TabControl enabled
-                ctl.Enabled = True
+                ctl.Enabled = False
+                'ctl.Enabled = True
                 'TabControl ke andar ke controls ko process karo
                 For Each tp As TabPage In DirectCast(ctl, TabControl).TabPages
-                    Ctrl_Visible_Falseform(tp.Controls)
+                    'Ctrl_Visible_Falseform(tp.Controls)
+                    For Each childCtl As Control In tp.Controls
+                        Dim ctrlName As String = childCtl.Name.Trim()
+                        If ctrlName.StartsWith("ImgAdd", StringComparison.OrdinalIgnoreCase) OrElse ctrlName.StartsWith("ImgView", StringComparison.OrdinalIgnoreCase) Then
+                            childCtl.Visible = True
+                            childCtl.Enabled = False
+                        End If
+                        ' Agar child ke andar bhi container/control ho
+                        If childCtl.HasChildren Then
+                            Ctrl_Visible_Falseform(childCtl.Controls)
+                        End If
+                    Next
                 Next
             ElseIf ctl.HasChildren Then
                 Ctrl_Visible_Falseform(ctl.Controls)
