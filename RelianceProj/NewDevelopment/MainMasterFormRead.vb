@@ -1,9 +1,4 @@
-﻿Imports System.IO
-Imports System.Security.Cryptography
-Imports System.Text
-Imports DevExpress.Office.Commands.Internal
-Imports DevExpress.Utils.CommonDialogs
-Imports DevExpress.XtraBars.Customization
+﻿Imports System.Text
 Imports DevExpress.XtraEditors
 Imports DevExpress.XtraEditors.TextEditController.Win32
 Imports DevExpress.XtraGrid.Views
@@ -74,12 +69,8 @@ Public Class MainMasterFormRead
     Public flagstring As String = ""
     Private DynamicTabControl As TabControl = Nothing
     Private CurrentTabPage As TabPage = Nothing
-
-
     Private Sub CreateButtonsControl()
-
         UC_Buttons1 = New UC_Buttons()
-
         With UC_Buttons1
             .Name = "UC_Buttons1"
             .Dock = DockStyle.Bottom
@@ -268,7 +259,6 @@ Public Class MainMasterFormRead
         Next
         Return result
     End Function
-
     Private Function GetAllControls(parent As Control) As List(Of Control)
         Dim result As New List(Of Control)
         For Each ctrl As Control In parent.Controls
@@ -335,9 +325,7 @@ Public Class MainMasterFormRead
                 strQuery = GetMaxCode()
                 sqL = strQuery
                 sql_connect_slect()
-                'If CurrentBackNumber > 1 Then
                 CurrentBackNumber += 1
-                'End If
                 LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
                 _KeyFieldValue = LASTCODE
                 Dim tblTmp1 As DataTable = Alter_Form()
@@ -354,7 +342,6 @@ Public Class MainMasterFormRead
         SaveRecord()
         UC_Buttons1._ButtonEnableDisable("LOAD")
         UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-
     End Sub
     Private Sub SaveRecord()
         Dim CompleteQuery As String = ""
@@ -593,15 +580,12 @@ Public Class MainMasterFormRead
     End Function
 #End Region
     Private Sub UC_Buttons1_CloseClick()
-
         If _FORMMODE = "" Then
             Me.Close()
             Exit Sub
         End If
-
         Me.Close()
         Me.Dispose(True)
-
     End Sub
     Private Sub UC_Buttons1_ViewClick()
         _FORMMODE = "VIEW"
@@ -611,19 +595,15 @@ Public Class MainMasterFormRead
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
         _LoadDefaultData()
-        '_GridEnable()
-        'LoadViewData(tmptbl)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_PrintClick()
         _FORMMODE = "PRINT"
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        ' print logic yahan add kar sakte ho
     End Sub
     Private Sub UC_Buttons1_ReportsClick()
         _FORMMODE = "REPORTS"
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        ' reports logic yahan add kar sakte ho
     End Sub
     Private Sub Delete_Entry()
         _FrmLoad = True
@@ -649,13 +629,9 @@ Public Class MainMasterFormRead
             End If
         End If
         Try
-
             strQuery = "DELETE FROM " & _TblName & " WHERE " & _KeyFieldName & " = " & "'" & _KeyFieldValue & "'"
-
             sqL = strQuery.ToString
             sql_connect_slect()
-            '-----------------------------------------------------------------------
-            '_FORMMODE = "ADD"
             MsgBox("Entry Successfully Deleted")
         Catch ex As Exception
 
@@ -783,7 +759,6 @@ Public Class MainMasterFormRead
             oldCtrl.Dispose()
         End If
     End Sub
-
     Private Sub View_Record()
         Try
             Dim EntryNo As Integer = 1
@@ -971,9 +946,6 @@ Public Class MainMasterFormRead
                         End If
                         lblSpacer.Top = topPos
                         lblSpacer.Visible = True
-                        '==============================================================
-                        ' ADD SPACER LABEL TO TARGET TAB
-                        '==============================================================
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(lblSpacer)
                         Else
@@ -983,9 +955,6 @@ Public Class MainMasterFormRead
                                 Continue For
                             End If
                         End If
-                        '==============================================================
-                        ' SPACER COMBOBOX
-                        '==============================================================
                         Dim cmb As New System.Windows.Forms.ComboBox()
                         cmb.Name = Name.Trim()
                         cmb.Left = leftPos + 130
@@ -994,22 +963,13 @@ Public Class MainMasterFormRead
                         cmb.Height = height
                         cmb.DropDownStyle = ComboBoxStyle.DropDownList
                         cmb.TabIndex = Tabindex
-                        '==============================================================
-                        ' DATABASE COLUMN
-                        '==============================================================
                         cmb.Tag = colName
                         cmb.AccessibleName = colName
                         cmb.AccessibleDescription = colName
-                        '==============================================================
-                        ' SPACER STRING
-                        '==============================================================
                         Dim spacerValue As String = ""
                         If _MainColumTbl.Columns.Contains("SpacerString") Then
                             spacerValue = dr("SpacerString").ToString().Trim()
                         End If
-                        '==============================================================
-                        ' ADD COMBO ITEMS
-                        '==============================================================
                         If spacerValue <> "" Then
                             For Each item As String In spacerValue.Split(","c)
                                 If item.Trim() <> "" Then
@@ -1017,9 +977,6 @@ Public Class MainMasterFormRead
                                 End If
                             Next
                         End If
-                        '==============================================================
-                        ' ADD COMBOBOX TO TARGET TAB
-                        '==============================================================
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(cmb)
                         Else
@@ -1029,21 +986,12 @@ Public Class MainMasterFormRead
                                 Continue For
                             End If
                         End If
-                        '==============================================================
-                        ' MOVE EVENTS - LABEL
-                        '==============================================================
                         AddHandler lblSpacer.MouseDown, AddressOf Control_MouseDown
                         AddHandler lblSpacer.MouseMove, AddressOf Control_MouseMove
                         AddHandler lblSpacer.MouseUp, AddressOf Control_MouseUp
-                        '==============================================================
-                        ' MOVE EVENTS - COMBOBOX
-                        '==============================================================
                         AddHandler cmb.MouseDown, AddressOf Control_MouseDown
                         AddHandler cmb.MouseMove, AddressOf Control_MouseMove
                         AddHandler cmb.MouseUp, AddressOf Control_MouseUp
-                        '==============================================================
-                        ' IMPORTANT
-                        '==============================================================
                         Continue For
                     End If
                     Dim lbl As New Label()
@@ -2185,7 +2133,6 @@ Public Class MainMasterFormRead
             e.SuppressKeyPress = True
             e.Handled = True
             Dim ActivetextName As String = ctrl.Text
-            'Selection List ke liye original DatabaseColumn
             Dim selectionTag As String = ""
             If ctrl.AccessibleDescription IsNot Nothing Then
                 selectionTag = ctrl.AccessibleDescription.ToString().Trim()
@@ -2255,7 +2202,6 @@ Public Class MainMasterFormRead
 
     Private Sub GenerateTable(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
         ObjCls_General.CreateDataTable(gridTable, _Grid1ColNames.ToString.ToUpper, "NO", _Grid1ColType.ToString)
-        'grdObj.ExtendLastCol = True
         _Grid1LastColNo = gridTable.Columns.Count
         grdObj.Cols = gridTable.Columns.Count + 1
         grdObj.Rows = 2
@@ -2315,8 +2261,6 @@ Public Class MainMasterFormRead
             Else
                 strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             End If
-            'sqL = strQuery.ToString
-            'sql_connect_slect1()
             RS = strQuery.ToString
             MenuDesign_QueryLoad()
         Catch ex As Exception
@@ -2327,14 +2271,11 @@ Public Class MainMasterFormRead
     End Sub
     Private Sub BtnUpdatepos_Click(sender As Object, e As EventArgs) Handles BtnUpdatepos.Click
         For Each ctrl As Control In Me.Controls
-            ' sirf required controls
-            'If TypeOf ctrl Is Label OrElse TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is Button OrElse TypeOf ctrl Is Grid Then
             If TypeOf ctrl Is Label OrElse TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is Button OrElse TypeOf ctrl Is SimpleButton OrElse TypeOf ctrl Is Grid OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is TabControl OrElse TypeOf ctrl Is DevExpress.XtraTab.XtraTabControl Then
                 SaveControlPosition(ctrl)
             End If
         Next
         MsgBox("Update Successfully")
-        'PropertyGrid1.Visible = False
         PanlPropartiesWindow.Visible = False
         isMoveMode = False
         isDragging = False
@@ -2343,18 +2284,14 @@ Public Class MainMasterFormRead
     Private Sub SimpleButton2_Click(sender As Object, e As EventArgs) Handles btnmovecontrol.Click
         isMoveMode = True
         If isMoveMode = False Then
-            'MessageBox.Show("Move mode enabled. Drag any control.")
-            'PropertyGrid1.Visible = False
             PanlPropartiesWindow.Visible = False
         End If
         If isMoveMode Then
-            'PropertyGrid1.Visible = True
             PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
                 PropertyGrid1.SelectedObject = Me.ActiveControl
             End If
         Else
-            'PropertyGrid1.Visible = False
             PanlPropartiesWindow.Visible = False
         End If
     End Sub

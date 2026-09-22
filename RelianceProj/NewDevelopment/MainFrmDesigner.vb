@@ -1,29 +1,19 @@
 ﻿Imports System.Data.OleDb
-Imports System.Data.SqlClient
 Imports System.Text
 Imports DevExpress.CodeParser
-Imports iTextSharp.xmp.impl.xpath
 
 Public Class MainFrmDesigner
-
-    'Dim _DataBaseFileName As String = "Accounts36_142025104653"
     Dim _DataBaseFileName As String = "Accounts24_342025104153"
-    'Dim _DataBaseFileName As String = "CompanyDatabase"
-    'Private _DatabaseTableNameItem = "FormCntrl"
     Private _DatabaseTableNameItem = "FormControl"
-
     Dim _FocusgridName As String = ""
     Dim _BookCode As String = ""
     Dim _LastBookCode As String = ""
-
     Private _FORMMODE As String = ""
     Private _FrmLoad As Boolean = True
     Private Change_Grid_Data As Boolean = True
-
     Dim ColumnTypeCounter As New Dictionary(Of String, Integer)
     Dim LocationY As Integer = 10
     Public Property ConnectionString As String = SqlServerConnectionString
-
 #Region "HEADER GRID COL. DEFINE AND FORMATTING "
 #Region "GRID GENERAL VARIABLE "
     Private _headerColNames As New StringBuilder
@@ -3208,7 +3198,6 @@ Public Class MainFrmDesigner
                         Ctl_Managebybook.Visible = False
                     Else
                         MsgBox("Record Not Found " & txtfrmtype.Text)
-                        'Txt_FormId.Focus()
                         txtfrmtype.Focus()
                         Ctl_Managebybook.Visible = False
                     End If
