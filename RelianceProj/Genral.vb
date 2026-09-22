@@ -1762,21 +1762,21 @@ Module Genral
             ElseIf TypeOf ctl Is System.Windows.Forms.CheckBox Then
                 ctl.Visible = False
             ElseIf TypeOf ctl Is System.Windows.Forms.TabControl Then
-                'TabControl visible rahe
                 ctl.Visible = True
-                'TabControl enabled
                 ctl.Enabled = False
-                'ctl.Enabled = True
-                'TabControl ke andar ke controls ko process karo
                 For Each tp As TabPage In DirectCast(ctl, TabControl).TabPages
-                    'Ctrl_Visible_Falseform(tp.Controls)
                     For Each childCtl As Control In tp.Controls
                         Dim ctrlName As String = childCtl.Name.Trim()
                         If ctrlName.StartsWith("ImgAdd", StringComparison.OrdinalIgnoreCase) OrElse ctrlName.StartsWith("ImgView", StringComparison.OrdinalIgnoreCase) Then
                             childCtl.Visible = True
                             childCtl.Enabled = False
+                        ElseIf TypeOf childCtl Is FlexCell.Grid Then
+                            childCtl.Visible = True
+                            childCtl.Enabled = True
+                        ElseIf TypeOf childCtl Is CheckBox Then
+                            childCtl.Visible = True
+                            childCtl.Enabled = False
                         End If
-                        ' Agar child ke andar bhi container/control ho
                         If childCtl.HasChildren Then
                             Ctrl_Visible_Falseform(childCtl.Controls)
                         End If
