@@ -990,10 +990,6 @@ Public Class MainFrmDesigner
                     Grid1.Cell(row, Detail_DataTableGrid.Columns.IndexOf("MASTERLIST") + 1).Locked = False
                 End If
             End If
-            If Grid1.Rows - 1 = Grid1.ActiveCell.Row Then
-                Grid1.Rows = Grid1.Rows + 1
-                Grid1.Cell(Grid1.ActiveCell.Row + 1, Detail_DataTableGrid.Columns.IndexOf("CNTRLNAME") + 1).Text = Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("CNTRLNAME") + 1).Text
-            End If
         ElseIf _ActivatedColName = "MASTERLIST" Then
             Dim masterListCol As Integer = Detail_DataTableGrid.Columns.IndexOf("MASTERLIST") + 1
             Dim useMasterCol As Integer = Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1
@@ -1038,6 +1034,7 @@ Public Class MainFrmDesigner
                 e.Handled = True
             End If
 
+
         ElseIf _ActivatedColName = "OPPMASTERCODE" Then
             Dim row As Integer = Grid1.ActiveCell.Row
             Dim colUseMaster As Integer = Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1
@@ -1055,8 +1052,15 @@ Public Class MainFrmDesigner
                     e.Handled = True
                 End If
             End If
+        ElseIf _ActivatedColName = "MASKING" Then
+            If Grid1.Rows - 1 = Grid1.ActiveCell.Row Then
+                Grid1.Rows = Grid1.Rows + 1
+                Grid1.Cell(Grid1.ActiveCell.Row + 1, Detail_DataTableGrid.Columns.IndexOf("CNTRLNAME") + 1).Text = Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("CNTRLNAME") + 1).Text
+            End If
+            Call Fill_Sr_No_Item(Grid1, Detail_DataTableGrid)
         End If
-        Call Fill_Sr_No_Item(Grid1, Detail_DataTableGrid)
+
+
     End Sub
 
     Private Function _GetAllColumName()
@@ -1191,185 +1195,14 @@ Public Class MainFrmDesigner
     End Sub
 
     Private Sub View_RecordGridDetail(ByVal _gridName As FlexCell.Grid, ByVal Datatable As DataTable, ByVal _SelectionType As String, ByVal _ActivatedColName As String)
-        '        Dim selectedCols As New List(Of String)
-        '        selectedCols.AddRange(GetSelectedColumnsFromGrid(_gridName, Datatable, _ActivatedColName))
-        '        If _gridName.Name = "GrdItem" Then
-        '            selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName))
-        '        ElseIf _gridName.Name = "Grid1" Then
-        '            selectedCols.AddRange(GetSelectedColumnsFromGrid(GrdItem, _DataTableGrid, _ActivatedColName))
-        '        End If
-        '        'selectedCols = selectedCols.Distinct().ToList()
-        '        selectedCols = selectedCols.Where(    Function(x)
-        '        Return Not String.Equals(x.Trim(), "NO COLUMN USE", StringComparison.OrdinalIgnoreCase)
-        '    End Function
-        ').Distinct().ToList()
-        '        Dim whereCondition As String = ""
-        '        If selectedCols.Count > 0 Then
-        '            Dim inClause As String = "'" & String.Join("','", selectedCols.Select(Function(x) x.Replace("'", "''"))) & "'"
-        '            whereCondition = " AND COLUMN_NAME NOT IN (" & inClause & ") "
-        '        End If
-        '        _strQuery = New StringBuilder
-        '        Dim _TblName As String = CmbTableName.Text
-        '        'With _strQuery
-        '        '    .Append(" SELECT ")
-        '        '    .Append(" 'False' as TickMark ")
-        '        '    .Append(" ,COLUMN_NAME as ColumnName ")
-        '        '    .Append(" ,DATA_TYPE as DataType ")
-        '        '    .Append(" ,'' As Remark ")
-        '        '    .Append(" FROM INFORMATION_SCHEMA.COLUMNS ")
-        '        '    .Append(" WHERE TABLE_NAME = N'" & _TblName & "' ")
-        '        '    .Append(whereCondition)
-        '        '    If _SelectionType = "SINGLE" Then
-        '        '        .Append(" and DATA_TYPE not in ('Numeric','datetime') ")
-        '        '    End If
-        '        '    .Append(" ORDER BY COLUMN_NAME ")
-        '        'End With
-        '        With _strQuery
-
-        '            .Append(" SELECT ")
-        '            .Append(" 'False' AS TickMark ")
-        '            .Append(" ,'NO COLUMN USE' AS ColumnName ")
-        '            .Append(" ,'' AS DataType ")
-        '            .Append(" ,'' AS Remark ")
-
-        '            .Append(" UNION ALL ")
-
-        '            .Append(" SELECT ")
-        '            .Append(" 'False' AS TickMark ")
-        '            .Append(" ,COLUMN_NAME AS ColumnName ")
-        '            .Append(" ,DATA_TYPE AS DataType ")
-        '            .Append(" ,'' AS Remark ")
-        '            .Append(" FROM INFORMATION_SCHEMA.COLUMNS ")
-        '            .Append(" WHERE TABLE_NAME = N'" & _TblName.Replace("'", "''") & "' ")
-        '            .Append(whereCondition)
-
-        '            If _SelectionType = "SINGLE" Then
-        '                .Append(" AND DATA_TYPE NOT IN ('Numeric','datetime') ")
-        '            End If
-
-        '            .Append(" ORDER BY ")
-        '            .Append(" CASE WHEN ColumnName = 'NO COLUMN USE' THEN 0 ELSE 1 END, ")
-        '            .Append(" ColumnName ")
-
-        '        End With
-        '        sqL = _strQuery.ToString
-        '        sql_connect_slect()
-        '        Dim COLUMN_NAME As String = ""
-        '        Dim DATATYPE As String = ""
-        '        Dim _LoadQuery = _strQuery.ToString
-        '        If _SelectionType = "MULTY" Then
-        '            Dim ExtracolumnsToHide = {""}
-        '            'Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType([Nothing]), "", _SelectionType)
-        '            Dim SelectedaccountCode As New List(Of String)
-        '            Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
-        '            If selectedList IsNot Nothing Then
-        '                For Each rowDict As Dictionary(Of String, Object) In selectedList
-        '                    If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("ColumnName") Then
-        '                        If COLUMN_NAME <> "" Then COLUMN_NAME &= ","
-        '                        COLUMN_NAME &= rowDict("ColumnName").ToString()
-        '                    End If
-        '                    If rowDict IsNot Nothing AndAlso rowDict.ContainsKey("DataType") Then
-        '                        If DATATYPE <> "" Then DATATYPE &= ","
-        '                        DATATYPE &= rowDict("DataType").ToString()
-        '                    End If
-        '                Next
-        '                Dim colList = COLUMN_NAME.Split(","c).Select(Function(q) q.Trim()).ToList()
-        '                Dim typeList = DATATYPE.Split(","c).Select(Function(q) q.Trim()).ToList()
-        '                Dim finalQualityList = colList.Select(Function(col, index) New With {.ColumnName = col, .DataType = If(index < typeList.Count, typeList(index), "")}).Where(Function(x) x.ColumnName <> "").ToList()
-        '                Dim _ActiverownoHeader As Integer = _gridName.ActiveCell.Row
-        '                'For Each item In finalQualityList
-        '                '    _LoadadataGrid(_gridName, Datatable, item.ColumnName, item.DataType, _ActiverownoHeader)
-        '                '    _ActiverownoHeader += 1
-        '                'Next
-        '                For Each item In finalQualityList
-
-        '                    If String.Equals(item.ColumnName.Trim(),
-        '                                     "NO COLUMN USE",
-        '                                     StringComparison.OrdinalIgnoreCase) Then
-
-        '                        'NO COLUMN USE selected hai
-        '                        _LoadadataGrid(
-        '                            _gridName,
-        '                            Datatable,
-        '                            "",
-        '                            "",
-        '                            _ActiverownoHeader
-        '                        )
-
-        '                    Else
-
-        '                        _LoadadataGrid(
-        '                            _gridName,
-        '                            Datatable,
-        '                            item.ColumnName,
-        '                            item.DataType,
-        '                            _ActiverownoHeader
-        '                        )
-
-        '                    End If
-
-        '                    _ActiverownoHeader += 1
-
-        '                Next
-        '            End If
-        '        Else
-        '            Dim _ActiveText As String =
-        '            _gridName.Cell(_gridName.ActiveCell.Row,
-        '            Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text
-        '            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType([Nothing]), _ActiveText, _SelectionType)
-        '            'If selected IsNot Nothing AndAlso selected.ContainsKey("ColumnName") Then
-        '            '    _gridName.Cell(_gridName.ActiveCell.Row, Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text = selected("ColumnName").ToString()
-        '            '    _gridName.Cell(_gridName.ActiveCell.Row, Datatable.Columns.IndexOf("InputType") + 1).Text = selected("DataType").ToString()
-        '            'End If
-        '            If selected IsNot Nothing AndAlso selected.ContainsKey("ColumnName") Then
-
-        '                Dim selectedColumn As String = selected("ColumnName").ToString().Trim()
-        '                Dim selectedDataType As String = ""
-
-        '                If selected.ContainsKey("DataType") AndAlso
-        '                   selected("DataType") IsNot Nothing Then
-
-        '                    selectedDataType = selected("DataType").ToString().Trim()
-
-        '                End If
-
-        '                Dim rowIndex As Integer = _gridName.ActiveCell.Row
-
-        '                Dim colIndex As Integer =
-        '                    Datatable.Columns.IndexOf(_ActivatedColName) + 1
-
-        '                Dim inputTypeIndex As Integer =
-        '                    Datatable.Columns.IndexOf("InputType") + 1
-
-        '                If String.Equals(selectedColumn,
-        '                                 "NO COLUMN USE",
-        '                                 StringComparison.OrdinalIgnoreCase) Then
-
-        '                    '===============================
-        '                    ' NO COLUMN USE
-        '                    '===============================
-        '                    _gridName.Cell(rowIndex, colIndex).Text = ""
-        '                    _gridName.Cell(rowIndex, inputTypeIndex).Text = ""
-
-        '                Else
-
-        '                    '===============================
-        '                    ' NORMAL COLUMN
-        '                    '===============================
-        '                    _gridName.Cell(rowIndex, colIndex).Text = selectedColumn
-        '                    _gridName.Cell(rowIndex, inputTypeIndex).Text = selectedDataType
-
-        '                End If
-
-        '            End If
-        '        End If
-        '        _gridName.Focus()
         Dim selectedCols As New List(Of String)
         selectedCols.AddRange(GetSelectedColumnsFromGrid(_gridName, Datatable, _ActivatedColName))
         If _gridName.Name = "GrdItem" Then
-            selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName))
-        ElseIf _gridName.Name = "Grid1" Then
             selectedCols.AddRange(GetSelectedColumnsFromGrid(GrdItem, _DataTableGrid, _ActivatedColName))
+            'selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName))
+        ElseIf _gridName.Name = "Grid1" Then
+            'selectedCols.AddRange(GetSelectedColumnsFromGrid(GrdItem, _DataTableGrid, _ActivatedColName))
+            selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName))
         End If
         '========================================================
         ' REMOVE "NO COLUMN USE" FROM SELECTED COLUMN LIST

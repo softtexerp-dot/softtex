@@ -595,16 +595,30 @@ Public Class MainFormRead
             joinHeader = res.JoinHeader
         Next
         _strQuery = New StringBuilder
-        With _strQuery
-            .Append(" SELECT A.*  ")
-            .Append(joinHeader)
-            .Append(" FROM " & _TblName & " as A ")
-            .Append(leftJoin)
-            .Append(" WHERE 1=1 ")
-            .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
-            .Append(" And A.EntryNo=" & EntryNo & "")
-            .Append(" ORDER BY EntryNo DESC")
-        End With
+        If _FORMMODE = "VIEW" Then
+            With _strQuery
+                .Append(" SELECT A.*  ")
+                .Append(joinHeader)
+                .Append(" FROM " & _TblName & " as A ")
+                .Append(leftJoin)
+                .Append(" WHERE 1=1 ")
+                .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
+                .Append(" And A.EntryNo=" & EntryNo & "")
+                .Append(" ORDER BY EntryNo DESC")
+            End With
+        Else
+            With _strQuery
+                .Append(" SELECT A.*  ")
+                .Append(joinHeader)
+                .Append(" FROM " & _TblName & " as A ")
+                .Append(leftJoin)
+                .Append(" WHERE 1=1 ")
+                .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
+                .Append(" And A.EntryNo=" & EntryNo & "")
+                .Append(" ORDER BY EntryNo DESC")
+            End With
+        End If
+
         Return _strQuery.ToString
         'Dim leftJoin As New StringBuilder()
         'Dim joinHeader As New StringBuilder()
@@ -892,64 +906,134 @@ Public Class MainFormRead
         End Try
     End Function
 
+    'Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
+    '    Generate_Date_For_DataBase(Txt_ViewFrom)
+    '    Generate_Date_For_DataBase(Txt_ViewTO)
+    '    'Txt_ViewFrom.Focus()
+    '    'Txt_ViewFrom.Select()
+    '    Dim FilterBookcode As String = " '" & _Bookcode & "' "
+    '    Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+    '    Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+    '    ' 🔹 Queries Read
+    '    Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
+    '    If ViewQuery = "" Then
+    '        If MainLoadFormName = "" Then
+    '            Exit Sub
+    '        Else
+    '            MsgBox("View Query Not Found")
+    '            Exit Sub
+    '        End If
+    '    End If
+    '    ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
+    '    ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
+    '    ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
+    '    sqL = ViewQuery
+    '    sql_connect_slect()
+    '    Dim ResultTable As New DataTable
+    '    ResultTable = DefaltSoftTable.Copy
+    '    FirstStage.Columns.Clear()
+    '    If ResultTable.Rows.Count > 0 Then
+    '        GridControl1.DataSource = ResultTable.Copy
+    '        DevGridFitColumn(GridControl1, FirstStage)
+    '        FirstStage.OptionsView.ShowFooter = True
+    '        Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
+    '        Dim ColumnList As String = ViewQueryTotal
+    '        Dim Columns() As String = ColumnList.Split(","c)
+    '        For Each col As String In Columns
+    '            If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+    '                'Total
+    '                FirstStage.Columns(col).Summary.Clear()
+    '                FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
+    '            End If
+    '        Next
+    '        ViewQueryTotal = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
+    '        ColumnList = ViewQueryTotal
+    '        Dim HideColumns() As String = ColumnList.Split(","c)
+    '        For Each col As String In HideColumns
+    '            If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+    '                'Hide
+    '                FirstStage.Columns(col).Visible = False
+    '            End If
+    '        Next
+    '        PnlGrdView.Visible = True
+    '        FirstStage.BestFitColumns()
+    '        FirstStage.Focus()
+    '        PnlGrdView.BringToFront()
+    '        GridControl1.BringToFront()
+    '    Else
+    '        MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+    '        'txtFormName.Focus()
+    '    End If
+    'End Sub
     Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
-        Generate_Date_For_DataBase(Txt_ViewFrom)
-        Generate_Date_For_DataBase(Txt_ViewTO)
-        'Txt_ViewFrom.Focus()
-        'Txt_ViewFrom.Select()
-        Dim FilterBookcode As String = " '" & _Bookcode & "' "
-        Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
-        Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
-        ' 🔹 Queries Read
-        Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
-        If ViewQuery = "" Then
-            If MainLoadFormName = "" Then
-                Exit Sub
+        Try
+            Generate_Date_For_DataBase(Txt_ViewFrom)
+            Generate_Date_For_DataBase(Txt_ViewTO)
+            Dim ResultTable As New DataTable
+            If tmptbl IsNot Nothing AndAlso tmptbl.Rows.Count > 0 AndAlso Not tmptbl.Columns.Contains("Mainid") Then
+                ResultTable = tmptbl.Copy()
             Else
-                MsgBox("View Query Not Found")
-                Exit Sub
+                Dim FilterBookcode As String = " '" & _Bookcode & "' "
+                Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+                Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
+                Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
+                If ViewQuery = "" Then
+                    If MainLoadFormName = "" Then
+                        Exit Sub
+                    Else
+                        MsgBox("View Query Not Found")
+                        Exit Sub
+                    End If
+                End If
+                ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
+                ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
+                ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
+                sqL = ViewQuery
+                sql_connect_slect()
+                If DefaltSoftTable IsNot Nothing Then
+                    ResultTable = DefaltSoftTable.Copy()
+                End If
             End If
-        End If
-        ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
-        ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
-        ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
-        sqL = ViewQuery
-        sql_connect_slect()
-        Dim ResultTable As New DataTable
-        ResultTable = DefaltSoftTable.Copy
-        FirstStage.Columns.Clear()
-        If ResultTable.Rows.Count > 0 Then
-            GridControl1.DataSource = ResultTable.Copy
-            DevGridFitColumn(GridControl1, FirstStage)
-            FirstStage.OptionsView.ShowFooter = True
-            Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
-            Dim ColumnList As String = ViewQueryTotal
-            Dim Columns() As String = ColumnList.Split(","c)
-            For Each col As String In Columns
-                If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-                    'Total
-                    FirstStage.Columns(col).Summary.Clear()
-                    FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
+            FirstStage.Columns.Clear()
+            If ResultTable IsNot Nothing AndAlso ResultTable.Rows.Count > 0 Then
+                GridControl1.DataSource = Nothing
+                GridControl1.DataSource = ResultTable.Copy()
+                DevGridFitColumn(GridControl1, FirstStage)
+                FirstStage.OptionsView.ShowFooter = True
+                Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
+                If ViewQueryTotal <> "" Then
+                    Dim ColumnList As String = ViewQueryTotal
+                    Dim Columns() As String = ColumnList.Split(","c)
+                    For Each col As String In Columns
+                        col = col.Trim()
+                        If col <> "" AndAlso FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+                            FirstStage.Columns(col).Summary.Clear()
+                            FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
+                        End If
+                    Next
                 End If
-            Next
-            ViewQueryTotal = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
-            ColumnList = ViewQueryTotal
-            Dim HideColumns() As String = ColumnList.Split(","c)
-            For Each col As String In HideColumns
-                If FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
-                    'Hide
-                    FirstStage.Columns(col).Visible = False
+                Dim ViewQueryHide As String = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
+                If ViewQueryHide <> "" Then
+                    Dim ColumnList As String = ViewQueryHide
+                    Dim HideColumns() As String = ColumnList.Split(","c)
+                    For Each col As String In HideColumns
+                        col = col.Trim()
+                        If col <> "" AndAlso FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+                            FirstStage.Columns(col).Visible = False
+                        End If
+                    Next
                 End If
-            Next
-            PnlGrdView.Visible = True
-            FirstStage.BestFitColumns()
-            FirstStage.Focus()
-            PnlGrdView.BringToFront()
-            GridControl1.BringToFront()
-        Else
-            MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
-            'txtFormName.Focus()
-        End If
+                PnlGrdView.Visible = True
+                FirstStage.BestFitColumns()
+                FirstStage.Focus()
+                PnlGrdView.BringToFront()
+                GridControl1.BringToFront()
+            Else
+                MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+        End Try
     End Sub
 #Region "DELETE CODE"
     Private Sub Delete_Row(ByVal GrdObj As FlexCell.Grid, ByVal DataTable_Name As DataTable)
@@ -2102,24 +2186,6 @@ Public Class MainFormRead
         Dim grd As FlexCell.Grid
         Dim gridname As String = ""
         Dim ImagePaths As New Dictionary(Of Integer, String)
-
-        'For Each dr As DataRow In _MainColumTbl.Select("CntrlId <> ''")
-        'For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
-        '    gridname = dr("CntrlName").ToString().Trim()
-        '    If gridname.StartsWith("Grid1") Then
-        '        grd = TryCast(Me.Controls(gridname), FlexCell.Grid)
-        '    End If
-        '    If tblTmp.Rows.Count > 0 Then
-        '        If gridname.StartsWith("Grid1") Then
-        '            If grd IsNot Nothing Then
-        '                grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
-        '                Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
-        '                grd.Rows = grd.Rows + 1
-        '                Call Fill_Sr_No_Item(grd, _DataTableGrid1)
-        '            End If
-        '        End If
-        '    End If
-        'Next
         For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
             gridname = dr("CntrlName").ToString().Trim()
             Dim columnType As String = ""
@@ -2634,10 +2700,19 @@ Public Class MainFormRead
                 End If
             End If
         End If
-
         If _FORMMODE = "VIEW" Then
+            Dim tblTmp1 As New DataTable
+            Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+            If ctrl.Length > 0 Then
+                Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                tblTmp1 = Alter_EntryForm(Entytxt.Text)
+            End If
             tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-            LoadViewData(tmptbl, _Bookcode)
+            If tmptbl.Rows.Count > 0 Then
+                LoadViewData(tmptbl, _Bookcode)
+            Else
+                LoadViewData(tblTmp1, _Bookcode)
+            End If
         ElseIf _FORMMODE = "LOAD" Then
             tmptbl = _GetFormQuery(FormNameValue, "TOTAL COLUMN")
         End If

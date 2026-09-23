@@ -118,6 +118,107 @@ Public Class MainMasterFormRead
         Change_Grid_Data = True
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
+    Private Sub UC_Buttons1_DeleteClick()
+        _FrmLoad = True
+        _FORMMODE = "DELETE"
+        Call Ctrl_Visible_TrueForm(Me.Controls)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        If _FORMMODE = "DELETE" Then
+            If MsgBox("Do You Want To Delete (Y/N)",
+                  MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
+                  "Delete ?") = MsgBoxResult.Yes Then
+                Call Delete_Entry()
+            End If
+            ObjCls_General.Blank_Object(Me)
+            Ctrl_Visible_Falseform(Me.Controls)
+        End If
+        Change_Grid_Data = True
+        UC_Buttons1._ButtonEnableDisable("LOAD")
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+    End Sub
+    Private Sub UC_Buttons1_BackClick()
+        _FrmLoad = False
+        Call Ctrl_Visible_TrueForm(Me.Controls)
+        If _FORMMODE = "EDIT" Then
+            Dim LASTCODE As String = ""
+            Dim formType As String = ""
+            If _MainColumTbl.Rows.Count > 0 Then
+                formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+            End If
+            If formType = "MASTER FORM" Then
+                strQuery = GetMaxCode()
+                sqL = strQuery
+                sql_connect_slect()
+                If CurrentBackNumber > 1 Then
+                    CurrentBackNumber -= 1
+                End If
+                LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
+                _KeyFieldValue = LASTCODE
+                Dim tblTmp1 As DataTable = Alter_Form()
+            End If
+        End If
+        Call Ctrl_Visible_TrueForm(Me.Controls)
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+    End Sub
+    Private Sub UC_Buttons1_NextClick()
+        _FrmLoad = False
+        Call Ctrl_Visible_TrueForm(Me.Controls)
+        If _FORMMODE = "EDIT" Then
+            Dim LASTCODE As String = ""
+            Dim formType As String = ""
+            If _MainColumTbl.Rows.Count > 0 Then
+                formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+            End If
+            If formType = "MASTER FORM" Then
+                strQuery = GetMaxCode()
+                sqL = strQuery
+                sql_connect_slect()
+                CurrentBackNumber += 1
+                LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
+                _KeyFieldValue = LASTCODE
+                Dim tblTmp1 As DataTable = Alter_Form()
+            End If
+        End If
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+    End Sub
+    Private Sub UC_Buttons1_SaveClick()
+        Dim EntryNo As String = ""
+        _FrmLoad = False
+        Dim Array_Opening(0, 4) As String
+        Dim formType As String = ""
+        Dim LASTCODE As String = ""
+        SaveRecord()
+        UC_Buttons1._ButtonEnableDisable("LOAD")
+        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+    End Sub
+
+    Private Sub UC_Buttons1_CloseClick()
+        If _FORMMODE = "" Then
+            Me.Close()
+            Exit Sub
+        End If
+        Me.Close()
+        Me.Dispose(True)
+    End Sub
+    Private Sub UC_Buttons1_ViewClick()
+        _FORMMODE = "VIEW"
+        Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
+        Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+        If _FORMMODE = "VIEW" Then
+            Ctrl_Visible_TrueForm(Me.Controls)
+            _LoadDefaultData()
+        End If
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+    End Sub
+    Private Sub UC_Buttons1_PrintClick()
+        _FORMMODE = "PRINT"
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+    End Sub
+    Private Sub UC_Buttons1_ReportsClick()
+        _FORMMODE = "REPORTS"
+        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+    End Sub
     Private Function Alter_Form() As DataTable
         _FrmLoad = True
         Dim _strquery As New StringBuilder()
@@ -269,80 +370,12 @@ Public Class MainMasterFormRead
         Next
         Return result
     End Function
-    Private Sub UC_Buttons1_DeleteClick()
-        _FrmLoad = True
-        _FORMMODE = "DELETE"
-        Call Ctrl_Visible_TrueForm(Me.Controls)
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If _FORMMODE = "DELETE" Then
-            If MsgBox("Do You Want To Delete (Y/N)",
-                  MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2,
-                  "Delete ?") = MsgBoxResult.Yes Then
-                Call Delete_Entry()
-            End If
-            ObjCls_General.Blank_Object(Me)
-            Ctrl_Visible_Falseform(Me.Controls)
-        End If
-        Change_Grid_Data = True
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-    End Sub
-    Private Sub UC_Buttons1_BackClick()
-        _FrmLoad = False
-        Call Ctrl_Visible_TrueForm(Me.Controls)
-        If _FORMMODE = "EDIT" Then
-            Dim LASTCODE As String = ""
-            Dim formType As String = ""
-            If _MainColumTbl.Rows.Count > 0 Then
-                formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-            End If
-            If formType = "MASTER FORM" Then
-                strQuery = GetMaxCode()
-                sqL = strQuery
-                sql_connect_slect()
-                If CurrentBackNumber > 1 Then
-                    CurrentBackNumber -= 1
-                End If
-                LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
-                _KeyFieldValue = LASTCODE
-                Dim tblTmp1 As DataTable = Alter_Form()
-            End If
-        End If
-        Call Ctrl_Visible_TrueForm(Me.Controls)
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-    End Sub
-    Private Sub UC_Buttons1_NextClick()
-        _FrmLoad = False
-        Call Ctrl_Visible_TrueForm(Me.Controls)
-        If _FORMMODE = "EDIT" Then
-            Dim LASTCODE As String = ""
-            Dim formType As String = ""
-            If _MainColumTbl.Rows.Count > 0 Then
-                formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-            End If
-            If formType = "MASTER FORM" Then
-                strQuery = GetMaxCode()
-                sqL = strQuery
-                sql_connect_slect()
-                CurrentBackNumber += 1
-                LASTCODE = _SELECTEDCOMPANYCODE & "-" & CurrentBackNumber.ToString().PadLeft(9, "0")
-                _KeyFieldValue = LASTCODE
-                Dim tblTmp1 As DataTable = Alter_Form()
-            End If
-        End If
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-    End Sub
-    Private Sub UC_Buttons1_SaveClick()
-        Dim EntryNo As String = ""
-        _FrmLoad = False
-        Dim Array_Opening(0, 4) As String
-        Dim formType As String = ""
-        Dim LASTCODE As String = ""
-        SaveRecord()
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-    End Sub
+
+#End Region
+#Region "QUERY SECTION"
+    Public Function GetMaxCode() As String
+        GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
+    End Function
     Private Sub SaveRecord()
         Dim CompleteQuery As String = ""
         Dim SaveQuery As String = ""
@@ -504,10 +537,6 @@ Public Class MainMasterFormRead
         _FORMMODE = ""
         Ctrl_Visible_Falseform(Me.Controls)
     End Sub
-#Region "QUERY SECTION"
-    Public Function GetMaxCode() As String
-        GetMaxCode = obj_Party_Selection.Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
-    End Function
     Private Function getAlter_Form_Query() As String
         'Dim leftJoin As String = ""
         'Dim joinHeader As String = ""
@@ -550,23 +579,39 @@ Public Class MainMasterFormRead
             End If
         Next
         _strQuery = New StringBuilder()
-        With _strQuery
-            .Append("SELECT DISTINCT A.* ")
-            'Master fields
-            .Append(joinHeader.ToString())
-            .Append(" FROM ")
-            .Append(_TblName)
-            .Append(" AS A ")
-            'All master joins
-            .Append(leftJoin.ToString())
-            .Append(" WHERE 1=1 ")
-            .Append(" AND A.")
-            .Append(_KeyFieldName)
-            .Append(" = '")
-            .Append(_KeyFieldValue.Replace("'", "''"))
-            .Append("' ")
-            .Append(" ORDER BY A.ID DESC")
-        End With
+        If _FORMMODE = "VIEW" Then
+            With _strQuery
+                .Append("SELECT DISTINCT A.* ")
+                'Master fields
+                .Append(joinHeader.ToString())
+                .Append(" FROM ")
+                .Append(_TblName)
+                .Append(" AS A ")
+                'All master joins
+                .Append(leftJoin.ToString())
+                .Append(" WHERE 1=1 ")
+                .Append(" ORDER BY A.ID DESC")
+            End With
+        Else
+            With _strQuery
+                .Append("SELECT DISTINCT A.* ")
+                'Master fields
+                .Append(joinHeader.ToString())
+                .Append(" FROM ")
+                .Append(_TblName)
+                .Append(" AS A ")
+                'All master joins
+                .Append(leftJoin.ToString())
+                .Append(" WHERE 1=1 ")
+                .Append(" AND A.")
+                .Append(_KeyFieldName)
+                .Append(" = '")
+                .Append(_KeyFieldValue.Replace("'", "''"))
+                .Append("' ")
+                .Append(" ORDER BY A.ID DESC")
+            End With
+        End If
+
         Return _strQuery.ToString()
     End Function
     Private Function getSaveQuery()
@@ -578,33 +623,7 @@ Public Class MainMasterFormRead
         End If
         getSaveQuery = _strQuery.ToString
     End Function
-#End Region
-    Private Sub UC_Buttons1_CloseClick()
-        If _FORMMODE = "" Then
-            Me.Close()
-            Exit Sub
-        End If
-        Me.Close()
-        Me.Dispose(True)
-    End Sub
-    Private Sub UC_Buttons1_ViewClick()
-        _FORMMODE = "VIEW"
-        If _FORMMODE = "VIEW" Then
-            Ctrl_Visible_TrueForm(Me.Controls)
-        End If
-        Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
-        Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-        _LoadDefaultData()
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-    End Sub
-    Private Sub UC_Buttons1_PrintClick()
-        _FORMMODE = "PRINT"
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-    End Sub
-    Private Sub UC_Buttons1_ReportsClick()
-        _FORMMODE = "REPORTS"
-        UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-    End Sub
+
     Private Sub Delete_Entry()
         _FrmLoad = True
         _strQuery = New StringBuilder
@@ -642,8 +661,9 @@ Public Class MainMasterFormRead
 
         _FrmLoad = False
     End Sub
-
 #End Region
+
+
     'Private Sub defineGridColName()
     '    _Grid1ColNames = New StringBuilder()
     '    _FieldHeader = New StringBuilder()
@@ -2228,8 +2248,31 @@ Public Class MainMasterFormRead
         View_Record()
         FormNameValue = _getformName()
         If _FORMMODE = "VIEW" Then
+            Dim LASTCODE As String = ""
+            strQuery = GetMaxCode()
+            sqL = strQuery
+            sql_connect_slect()
+            If DefaltSoftTable.Rows.Count > 0 Then
+                LASTCODE = Val(DefaltSoftTable.Rows(0).Item(0))
+            Else
+                LASTCODE = "1"
+            End If
+            LASTCODE = _SELECTEDCOMPANYCODE & "-" & LASTCODE.PadLeft(9, "0")
+            _KeyFieldValue = LASTCODE
+            If DefaltSoftTable.Rows.Count > 0 Then
+                CurrentBackNumber = Val(DefaltSoftTable.Rows(0).Item(0))
+            Else
+                CurrentBackNumber = 1
+            End If
+            Dim tblTmp1 As DataTable = Alter_Form()
             tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-            LoadViewData(tmptbl)
+            If tmptbl.Rows.Count > 0 Then
+                'LoadViewData(tmptbl)
+                LoadViewDataWithQuery(tmptbl)
+            Else
+                LoadViewDataWithQuery(tblTmp1)
+            End If
+
         End If
     End Sub
     Private Sub txtFormName_KeyDown(sender As Object, e As KeyEventArgs)
@@ -2449,6 +2492,71 @@ Public Class MainMasterFormRead
             'txtFormName.Focus()
         End If
 
+    End Sub
+    Public Sub LoadViewDataWithQuery(ByVal tmptbl As DataTable)
+        Try
+            Generate_Date_For_DataBase(Txt_ViewFrom)
+            Generate_Date_For_DataBase(Txt_ViewTO)
+            Dim ResultTable As New DataTable
+            If tmptbl IsNot Nothing AndAlso tmptbl.Rows.Count > 0 AndAlso Not tmptbl.Columns.Contains("Mainid") Then
+                ResultTable = tmptbl.Copy()
+            Else
+                Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
+                Dim FilterTO As String = "'" & Txt_ViewTO.Date_for_Database & "'"
+                Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
+                If ViewQuery = "" Then
+                    If MainMasterLoadFormName = "" Then
+                        Exit Sub
+                    Else
+                        MsgBox("View Query Not Found")
+                        Exit Sub
+                    End If
+                End If
+                ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
+                ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
+                sqL = ViewQuery
+                sql_connect_slect()
+                ResultTable = DefaltSoftTable.Copy()
+            End If
+            FirstStage.Columns.Clear()
+            If ResultTable IsNot Nothing AndAlso ResultTable.Rows.Count > 0 Then
+                GridControl1.DataSource = Nothing
+                GridControl1.DataSource = ResultTable.Copy()
+                DevGridFitColumn(GridControl1, FirstStage)
+                FirstStage.OptionsView.ShowFooter = True
+                Dim ViewQueryTotal As String = GetQuery(tmptbl, "ViewGridColumnTotal", "VIEW")
+                If ViewQueryTotal <> "" Then
+                    Dim Columns() As String = ViewQueryTotal.Split(","c)
+                    For Each col As String In Columns
+                        col = col.Trim()
+                        If col <> "" AndAlso
+                           FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+                            FirstStage.Columns(col).Summary.Clear()
+                            FirstStage.Columns(col).Summary.Add(DevExpress.Data.SummaryItemType.Sum, col, "{0:n2}")
+                        End If
+                    Next
+                End If
+                Dim ViewQueryHide As String = GetQuery(tmptbl, "ViewGridColumnHide", "VIEW")
+                If ViewQueryHide <> "" Then
+                    Dim HideColumns() As String = ViewQueryHide.Split(","c)
+                    For Each col As String In HideColumns
+                        col = col.Trim()
+                        If col <> "" AndAlso FirstStage.Columns.ColumnByFieldName(col) IsNot Nothing Then
+                            FirstStage.Columns(col).Visible = False
+                        End If
+                    Next
+                End If
+                PnlGrdView.Visible = True
+                FirstStage.BestFitColumns()
+                FirstStage.Focus()
+                PnlGrdView.BringToFront()
+                GridControl1.BringToFront()
+            Else
+                MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+        End Try
     End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click

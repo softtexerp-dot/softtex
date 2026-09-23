@@ -4,7 +4,14 @@ Module QueryRead
     Dim _TblName As String = "FormQueryMaster"
     Function GetQuery(ByVal dt As DataTable, ByVal sectionType As String, ByVal subsectionName As String) As String
         If dt Is Nothing OrElse dt.Rows.Count = 0 Then Return ""
-        Dim text As String = dt.Rows(0)("QueryText").ToString()
+
+        'Dim text As String = dt.Rows(0)("QueryText").ToString()
+        Dim text As String = ""
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 AndAlso dt.Columns.Contains("QueryText") Then
+            If Not IsDBNull(dt.Rows(0)("QueryText")) Then
+                text = dt.Rows(0)("QueryText").ToString()
+            End If
+        End If
         Dim startTag As String = "[" & sectionType & "]"
         If subsectionName <> "" Then
             'startTag = "[" & sectionType & "_" & subsectionName & "]"
@@ -22,7 +29,7 @@ Module QueryRead
         Dim _tmptbl As New DataTable
         _strQuery = New StringBuilder
         With _strQuery
-            .Append("Select * FROM " & _TblName & " WHERE FormName='" & _FormName & "' and Type='" & _Type & "'")
+            .Append("Select * FROM " & _TblName & " WHERE FormName='" & _FormName & "' and Type='" & _Type & "' And Status='YES'")
         End With
         RS = _strQuery.ToString
         MenuDesign_QueryLoad()
