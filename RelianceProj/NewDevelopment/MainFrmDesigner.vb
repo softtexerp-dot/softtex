@@ -77,6 +77,7 @@ Public Class MainFrmDesigner
     Private _FieldNameSameValueCopy As New StringBuilder
     Private _FieldNameForTotal As New StringBuilder
     Private _FieldNameColmType As New StringBuilder
+    Private _Tmptbl As DataTable
 #End Region
     Private Sub Define_Grid_Item_ColName()
         _GridColNames = New StringBuilder
@@ -129,6 +130,7 @@ Public Class MainFrmDesigner
             .Append(",BooKName")
             .Append(",Precision") 'decimal
             .Append(",SaveYN")
+            .Append(",SaveDefaultvalue")
             .Append(",FormDesignType")
             .Append(",Masking")
             .Append(",Tabelements")
@@ -172,6 +174,7 @@ Public Class MainFrmDesigner
             .Append(",InputType:Input Type")
             .Append(",SpacerString:Spacer String")
             .Append(",SaveYN:Save Y/N")
+            .Append(",SaveDefaultvalue:Default Value")
             .Append(",Masking:Decimal Value")
             .Append(",Tabelements:No Of Tabcontrol Tabs")
             .Append(",TabName:TabName")
@@ -199,6 +202,7 @@ Public Class MainFrmDesigner
             .Append(",UseMasterKey:L")
             .Append(",SpacerString:L")
             .Append(",SaveYN:L")
+            .Append(",SaveDefaultvalue:L")
             .Append(",Masking:L")
             .Append(",Tabelements:L")
             .Append(",TabName:L")
@@ -226,6 +230,7 @@ Public Class MainFrmDesigner
             .Append(",UseMasterKey:L")
             .Append(",SpacerString:L")
             .Append(",SaveYN:L")
+            .Append(",SaveDefaultvalue:L")
             .Append(",Masking:L")
             .Append(",Tabelements:L")
             .Append(",TabName:L")
@@ -281,6 +286,7 @@ Public Class MainFrmDesigner
             .Append(",OppMasterCode:Y")
             .Append(",UseMasterKey:Y")
             .Append(",SaveYN:Y")
+            .Append(",SaveDefaultvalue:Y")
             .Append(",Precision:N") 'decimal
             .Append(",Managebook:N")
             .Append(",FormType:N")
@@ -316,6 +322,7 @@ Public Class MainFrmDesigner
             .Append(",InputType:8")
             .Append(",SpacerString:10")
             .Append(",SaveYN:8")
+            .Append(",SaveDefaultvalue:8")
             .Append(",Masking:10")
             .Append(",Tabelements:8")
             .Append(",TabName:10")
@@ -474,6 +481,7 @@ Public Class MainFrmDesigner
             .Append(",BookCode")
             .Append(",BookName")
             .Append(",SaveYN")
+            .Append(",SaveDefaultvalue")
             .Append(",FormDesignType")
             .Append(",Masking")
             .Append(",Managebook")
@@ -514,6 +522,7 @@ Public Class MainFrmDesigner
             .Append(",Tabindex:Tab Index")
             .Append(",InputType:Input Type")
             .Append(",SpacerString:Spacer String")
+            .Append(",SaveDefaultvalue:Default Value")
             .Append(",Masking:Decimal Value")
         End With
         Detail_FieldHeaderAlignment = New StringBuilder
@@ -535,6 +544,7 @@ Public Class MainFrmDesigner
             .Append(",Visible:L")
             .Append(",ReadOnly:L")
             .Append(",SaveYN:L")
+            .Append(",SaveDefaultvalue:L")
             .Append(",UseMaster:L")
             .Append(",Masterlist:L")
             .Append(",OppMasterCode:L")
@@ -560,6 +570,7 @@ Public Class MainFrmDesigner
             .Append(",Visible:L")
             .Append(",ReadOnly:L")
             .Append(",SaveYN:L")
+            .Append(",SaveDefaultvalue:L")
             .Append(",UseMaster:L")
             .Append(",Masterlist:L")
             .Append(",OppMasterCode:L")
@@ -612,6 +623,7 @@ Public Class MainFrmDesigner
             .Append(",TextAlign:Y")
             .Append(",ReadOnly:Y")
             .Append(",SaveYN:Y")
+            .Append(",SaveDefaultvalue:Y")
             .Append(",UseMaster:Y")
             .Append(",UseMasterKey:N")
             .Append(",Masterlist:Y")
@@ -646,6 +658,7 @@ Public Class MainFrmDesigner
             .Append(",Visible:6")
             .Append(",ReadOnly:6")
             .Append(",SaveYN:8")
+            .Append(",SaveDefaultvalue:8")
             .Append(",UseMaster:8")
             .Append(",Masterlist:13")
             .Append(",OppMasterCode:8")
@@ -943,6 +956,21 @@ Public Class MainFrmDesigner
                     Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Normal"
                 End If
             End If
+        ElseIf _ActivatedColName = "DATABASETABLE" Then
+            If Grid1 Is Nothing OrElse Grid1.ActiveCell Is Nothing Then Exit Sub
+            Dim row As Integer = Grid1.ActiveCell.Row
+            Dim col As Integer = Grid1.ActiveCell.Col
+            Dim cellValue As String = Grid1.Cell(row, col).Text.Trim()
+            If e.KeyCode = Keys.Enter Then
+
+                Dim _FItemcodeilter As String = ""
+                Dim ExtracolumnsToHide = {""}
+                GetTblName(_DataBaseFileName)
+                Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+                If selected1.ContainsKey("TABLE_NAME") Then
+                    Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text = selected1("TABLE_NAME").ToString()
+                End If
+            End If
         ElseIf _ActivatedColName = "VISIBLE" Then
             If e.KeyCode = Keys.Space Then
                 If Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("VISIBLE") + 1).Text = "Y" Then
@@ -1084,7 +1112,13 @@ Public Class MainFrmDesigner
         If _ActiverownoHeader > 0 Then
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text = _BaseName.ToString()
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DATABASECOLUMN") + 1).Text = _ColmName
-            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
+            '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
+            If _GetGrid IsNot Nothing AndAlso _GridDatatbl IsNot Nothing AndAlso _GetGrid.ActiveCell.Row > 0 Then
+                Dim tableColIndex As Integer = _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1
+                If tableColIndex > 0 Then
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1).Text = _GetGrid.Cell(_GetGrid.ActiveCell.Row, tableColIndex).Text.Trim()
+                End If
+            End If
             If txtfrmtype.Text.Trim() = "REPORT" Then
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationX") + 1).Text = 500
             Else
@@ -1230,7 +1264,18 @@ Public Class MainFrmDesigner
         ' BUILD QUERY
         '========================================================
         _strQuery = New StringBuilder()
-        Dim _TblName As String = CmbTableName.Text.Trim()
+        'Dim _TblName As String = CmbTableName.Text.Trim()
+        Dim _TblName As String = ""
+        If _gridName IsNot Nothing AndAlso Datatable IsNot Nothing AndAlso _gridName.ActiveCell.Row > 0 Then
+            Dim tableColIndex As Integer = Datatable.Columns.IndexOf("DataBaseTable") + 1
+            If tableColIndex > 0 Then
+                _TblName = _gridName.Cell(_gridName.ActiveCell.Row, tableColIndex).Text.Trim()
+            End If
+        End If
+        If String.IsNullOrWhiteSpace(_TblName) Then
+            _gridName.Focus()
+            Exit Sub
+        End If
         With _strQuery
             '====================================================
             ' OUTER SELECT
@@ -1488,7 +1533,7 @@ Public Class MainFrmDesigner
 
     Private Sub GetTblName(ByVal dbName As String)
         sqL = "Select  TABLE_NAME From INFORMATION_SCHEMA.TABLES Where TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" & dbName & "' order by TABLE_NAME"
-        Dim _Tmptbl As DataTable = sql_connect_slect()
+        _Tmptbl = sql_connect_slect()
         CmbTableName.DataSource = _Tmptbl.Copy
         CmbTableName.DisplayMember = "TABLE_NAME"
         'sqL = "SELECT NATURE FROM MSTBOOK  WHERE 1=1 AND NATURE>'' GROUP BY NATURE order by NATURE "
@@ -1609,6 +1654,21 @@ Public Class MainFrmDesigner
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "TextBox"
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "" Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text = "TextBox"
+                End If
+            End If
+        ElseIf _ActivatedColName = "DATABASETABLE" Then
+            If GrdItem Is Nothing OrElse GrdItem.ActiveCell Is Nothing Then Exit Sub
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim col As Integer = GrdItem.ActiveCell.Col
+            Dim cellValue As String = GrdItem.Cell(row, col).Text.Trim()
+            If e.KeyCode = Keys.Enter Then
+
+                Dim _FItemcodeilter As String = ""
+                Dim ExtracolumnsToHide = {""}
+                GetTblName(_DataBaseFileName)
+                Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+                If selected1.ContainsKey("TABLE_NAME") Then
+                    GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text = selected1("TABLE_NAME").ToString()
                 End If
             End If
         ElseIf _ActivatedColName = "INPUTTYPE" Then
