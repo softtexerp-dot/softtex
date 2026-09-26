@@ -2645,7 +2645,7 @@ Public Class MainFrmDesigner
             "MainFormLocationY,FormDesignType,")
             sb.Append("FocusColor,LostFocusColor,Visible,ReadOnly,TextAlign," &
             "Erequred,Enabled,")
-            sb.Append("SaveYN,Masking,Managebook,FormType,Tabelements,TabName,TabCountNo)")
+            sb.Append("SaveYN,Masking,Managebook,FormType,Tabelements,TabName,TabCountNo,SaveDefaultvalue)")
             sb.Append(" VALUES (")
             '======================================================
             ' ROWID
@@ -2701,7 +2701,8 @@ Public Class MainFrmDesigner
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("FormType") + 1).Text.Trim().Replace("'", "''") & "',")
             sb.Append(TabElementsValue & ",")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("TabName") + 1).Text.Trim().Replace("'", "''") & "',")
-            sb.Append(TabCountNoValue)
+            sb.Append(TabCountNoValue & ",")
+            sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SaveDefaultvalue") + 1).Text.Trim().Replace("'", "''") & "'")
             sb.Append(")")
             '======================================================
             ' SAVE
@@ -2825,7 +2826,7 @@ Public Class MainFrmDesigner
             sb.Append("CntrlssendtoType,BookCategory,")
             sb.Append("MainMenuName,ParentMenu1,Active,ShortCutKey,MainFormSizeX,MainFormLocationX,MainFormSizeY,MainFormLocationY,FormDesignType,")
             sb.Append("FocusColor,LostFocusColor,Visible,ReadOnly,TextAlign,Erequred,Enabled,")
-            sb.Append("SaveYN,Masking,Managebook,FormType)")
+            sb.Append("SaveYN,Masking,Managebook,FormType,SaveDefaultvalue)")
             sb.Append(" VALUES (")
             '======================================================
             ' ROWID VALUE
@@ -2877,7 +2878,8 @@ Public Class MainFrmDesigner
             sb.Append("'" & Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("SaveYN") + 1).Text.Trim() & "',")
             sb.Append(Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("Masking") + 1).Text.Trim() & ",")
             sb.Append("'" & Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("Managebook") + 1).Text.Trim() & "',")
-            sb.Append("'" & Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("FormType") + 1).Text.Trim() & "'")
+            sb.Append("'" & Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("FormType") + 1).Text.Trim() & "',")
+            sb.Append("'" & Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("SaveDefaultvalue") + 1).Text.Trim() & "'")
             sb.Append(")")
             strQuery = sb.ToString()
             '======================================================

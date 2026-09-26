@@ -2734,15 +2734,15 @@ Public Class MainFormRead
                     ObjCls_General.Blank_Object(Me)
                     Ctrl_Visible_Falseform(Me.Controls)
                     Exit Sub
-                    'ElseIf _FormCloseMode = False Then
-                    '    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    '    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    '    ObjCls_General.Blank_Object(Me)
-                    '    Ctrl_Visible_Falseform(Me.Controls)
-                    '    _FormCloseMode = True
-                    '    _FORMMODE = ""
                 ElseIf PanlPropartiesWindow.Visible = True Then
                     PanlPropartiesWindow.Visible = False
+                ElseIf _FormCloseMode = False Then
+                    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    ObjCls_General.Blank_Object(Me)
+                    Ctrl_Visible_Falseform(Me.Controls)
+                    _FormCloseMode = True
+                    _FORMMODE = ""
                 Else
                     Select Case _STRTRNOBJECT
                         Case "GRID1", "GRID2", "GRID3", "GRID4", "GRID5"
