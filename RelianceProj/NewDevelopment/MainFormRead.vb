@@ -2745,12 +2745,12 @@ Public Class MainFormRead
                     _FORMMODE = ""
                 Else
                     Select Case _STRTRNOBJECT
-                        Case "GRID1", "GRID2", "GRID3", "GRID4", "GRID5"
-                            _FrmLoad = True
-                            Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(_STRTRNOBJECT, True).FirstOrDefault(), FlexCell.Grid)
-                            grd.BoldFixedCell = False
-                            _FrmLoad = False
-                            _FORMMODE = ""
+                        'Case "GRID1", "GRID2", "GRID3", "GRID4", "GRID5"
+                        '    _FrmLoad = True
+                        '    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(_STRTRNOBJECT, True).FirstOrDefault(), FlexCell.Grid)
+                        '    grd.BoldFixedCell = False
+                        '    _FrmLoad = False
+                        '    _FORMMODE = ""
                         Case Else
                             _FrmLoad = True
                             ObjCls_General.Blank_Object(Me)

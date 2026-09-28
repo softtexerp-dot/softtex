@@ -1,10 +1,6 @@
 ﻿Imports System.Text
-Imports System.Windows.Forms.DataVisualization.Charting
-Imports DevExpress.Utils.Gesture
 Imports DevExpress.XtraEditors
 Imports DevExpress.XtraEditors.TextEditController.Win32
-Imports DevExpress.XtraGrid.Views
-Imports FlexCell
 Public Class MainMasterFormRead
     Private _DatabaseTableName = "FormControl"
     Dim _ActivatedColName As String = ""
@@ -39,21 +35,29 @@ Public Class MainMasterFormRead
     Dim _OldFormListtbl As New DataTable
     Private _DefaultColOfGrid As Integer = 0
     'Dim Grid1 As New FlexCell.Grid()
-    Private _DataTableGrid1 As New DataTable
+    'Private _DataTableGrid1 As New DataTable
     Private Grid1_Table_ColNames() As String
+    Private Grid2_Table_ColNames() As String
+    Private Grid3_Table_ColNames() As String
+    Private Grid4_Table_ColNames() As String
+    Private Grid5_Table_ColNames() As String
     Private _Grid1ColNames As New StringBuilder
+    Private _Grid2ColNames As New StringBuilder
+    Private _Grid3ColNames As New StringBuilder
+    Private _Grid4ColNames As New StringBuilder
+    Private _Grid5ColNames As New StringBuilder
     Private _Grid1LastColNo As Integer = 0
     Private _Grid1ColType As New StringBuilder
-    Private _DataTableGrid2 As New DataTable
-    Private _DataTableGrid3 As New DataTable
-    Private _DataTableGrid4 As New DataTable
-    Private _DataTableGrid5 As New DataTable
+    'Private _DataTableGrid2 As New DataTable
+    'Private _DataTableGrid3 As New DataTable
+    'Private _DataTableGrid4 As New DataTable
+    'Private _DataTableGrid5 As New DataTable
     Private _RowNo As Integer
     Private _ColNo As Integer
-    'Dim Grid2 As New FlexCell.Grid()
-    'Dim Grid3 As New FlexCell.Grid()
-    'Dim Grid4 As New FlexCell.Grid()
-    'Dim Grid5 As New FlexCell.Grid()
+    Dim Grid2 As New FlexCell.Grid()
+    Dim Grid3 As New FlexCell.Grid()
+    Dim Grid4 As New FlexCell.Grid()
+    Dim Grid5 As New FlexCell.Grid()
     Private UC_Buttons1 As UC_Buttons
     Private _FORMMODE As String = ""
     Private _FrmLoad As Boolean = True
@@ -339,14 +343,49 @@ Public Class MainMasterFormRead
                             End If
                         End If
                     End If
-                End If
-                If gridname.StartsWith("Grid1") Then
-                    If tblTmp.Rows.Count > 0 Then
-                        If grd IsNot Nothing Then
-                            grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
+                ElseIf TypeOf ctrl Is FlexCell.Grid Then
+                    grd = DirectCast(ctrl, FlexCell.Grid)
+                    gridname = grd.Name.Trim()
+                    If String.Equals(gridname, "Grid1", StringComparison.OrdinalIgnoreCase) Then
+                        If tblTmp.Rows.Count > 0 Then
                             Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
                             grd.Rows = grd.Rows + 1
-                            Call Fill_Sr_No_Item(grd, _DataTableGrid1)
+                            Fill_Sr_No_Item(grd, _DataTableGrid1)
+                        End If
+                    End If
+                    If String.Equals(gridname, "Grid2", StringComparison.OrdinalIgnoreCase) Then
+                        If tblTmp.Rows.Count > 0 Then
+                            Fill_Records(tblTmp, Grid2_Table_ColNames, grd, 0, True, "", False)
+                            grd.Rows = grd.Rows + 1
+                            Fill_Sr_No_Item(grd, _DataTableGrid2)
+                        End If
+                    End If
+                    If String.Equals(gridname, "Grid3", StringComparison.OrdinalIgnoreCase) Then
+                        If tblTmp.Rows.Count > 0 Then
+                            Fill_Records(tblTmp, Grid3_Table_ColNames, grd, 0, True, "", False)
+                            grd.Rows = grd.Rows + 1
+                            Fill_Sr_No_Item(grd, _DataTableGrid3)
+                        End If
+                    End If
+                    If String.Equals(gridname, "Grid1", StringComparison.OrdinalIgnoreCase) Then
+                        If tblTmp.Rows.Count > 0 Then
+                            Fill_Records(tblTmp, Grid1_Table_ColNames, grd, 0, True, "", False)
+                            grd.Rows = grd.Rows + 1
+                            Fill_Sr_No_Item(grd, _DataTableGrid1)
+                        End If
+                    End If
+                    If String.Equals(gridname, "Grid4", StringComparison.OrdinalIgnoreCase) Then
+                        If tblTmp.Rows.Count > 0 Then
+                            Fill_Records(tblTmp, Grid4_Table_ColNames, grd, 0, True, "", False)
+                            grd.Rows = grd.Rows + 1
+                            Fill_Sr_No_Item(grd, _DataTableGrid4)
+                        End If
+                    End If
+                    If String.Equals(gridname, "Grid5", StringComparison.OrdinalIgnoreCase) Then
+                        If tblTmp.Rows.Count > 0 Then
+                            Fill_Records(tblTmp, Grid5_Table_ColNames, grd, 0, True, "", False)
+                            grd.Rows = grd.Rows + 1
+                            Fill_Sr_No_Item(grd, _DataTableGrid5)
                         End If
                     End If
                 End If
@@ -418,14 +457,14 @@ Public Class MainMasterFormRead
         Else
             LASTCODE = _KeyFieldValue
         End If
+
+
         If _KeyFieldName <> "" Then
             If tblFormValues.Columns.Contains(_KeyFieldName) Then
                 tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
             End If
         End If
         ObjCls_General._InsertFormValueIntoDataTable(Me, tblFormValues)
-
-
         For Each ctrl As Control In GetAllControls(Me)
             If TypeOf ctrl Is TextBox Then
                 Dim txt As TextBox = DirectCast(ctrl, TextBox)
@@ -528,6 +567,7 @@ Public Class MainMasterFormRead
                 End If
             End If
         Next
+
         For Each item In _UniqueValues
             Dim ctrlName As String = item.Item1
             Dim offMasterCode As String = item.Item2
@@ -558,11 +598,219 @@ Public Class MainMasterFormRead
         SaveQuery = getSaveQuery()
         sqL = SaveQuery
         sql_Data_Save_Delete_Update()
+        ' Grid Fill 
+        Dim Array_Opening(0, 4) As String
+        Call Fill_Grid_Records_Into_DataTables()
+        SetGridLastCode(_DataTableGrid1, LASTCODE)
+        SetGridLastCode(_DataTableGrid2, LASTCODE)
+        SetGridLastCode(_DataTableGrid3, LASTCODE)
+        SetGridLastCode(_DataTableGrid4, LASTCODE)
+        SetGridLastCode(_DataTableGrid5, LASTCODE)
+        GridDetailsSaveQuery(Array_Opening)
+        For I = 0 To UBound(Array_Opening)
+            If Array_Opening(I, 4) <> "" Then
+                strQuery = Array_Opening(I, 4)
+                sqL = strQuery.ToString
+                sql_Data_Save_Delete_Update()
+            End If
+        Next
         MsgBox("Records Successfully Saved", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+        For Each dr As DataRow In _MainColumTbl.Select("Columntype='Grid'")
+            Dim gridname As String = dr("CntrlName").ToString().Trim()
+            Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
+            If grd Is Nothing Then Continue For
+            Clear_Grid(grd, 2)
+            Select Case gridname.ToUpper()
+                Case "GRID1"
+                    _GridColmTotal(grd, _DataTableGrid1)
+                Case "GRID2"
+                    _GridColmTotal(grd, _DataTableGrid2)
+                Case "GRID3"
+                    _GridColmTotal(grd, _DataTableGrid3)
+                Case "GRID4"
+                    _GridColmTotal(grd, _DataTableGrid4)
+                Case "GRID5"
+                    _GridColmTotal(grd, _DataTableGrid5)
+            End Select
+        Next
         ObjCls_General.Blank_Object(Me)
         _FORMMODE = ""
         Ctrl_Visible_Falseform(Me.Controls)
     End Sub
+
+    Private Sub SetGridLastCode(ByVal gridTable As DataTable, ByVal lastCode As String)
+        If gridTable Is Nothing Then Exit Sub
+        If gridTable.Rows.Count = 0 Then Exit Sub
+        If String.IsNullOrWhiteSpace(_KeyFieldName) Then Exit Sub
+        If Not gridTable.Columns.Contains(_KeyFieldName) Then
+            gridTable.Columns.Add(_KeyFieldName, GetType(String))
+        End If
+        For Each row As DataRow In gridTable.Rows
+            row(_KeyFieldName) = lastCode
+        Next
+    End Sub
+    Private Sub Fill_Grid_Records_Into_DataTables()
+        Try
+            _DataTableGrid1.Rows.Clear()
+            _DataTableGrid2.Rows.Clear()
+            _DataTableGrid3.Rows.Clear()
+            _DataTableGrid4.Rows.Clear()
+            _DataTableGrid5.Rows.Clear()
+            Dim gridTableMap As New Dictionary(Of String, DataTable) From {{"Grid1", _DataTableGrid1}, {"Grid2", _DataTableGrid2}, {"Grid3", _DataTableGrid3}, {"Grid4", _DataTableGrid4}, {"Grid5", _DataTableGrid5}}
+            Dim distinctGrids = _MainColumTbl.AsEnumerable().Where(Function(r) r("Columntype").ToString() = "Grid").Select(Function(r) r("CntrlName").ToString()).Distinct()
+            For Each gridname As String In distinctGrids
+                Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
+                If grd Is Nothing Then Continue For
+                If Not gridTableMap.ContainsKey(gridname) Then Continue For
+                Dim dt As DataTable = gridTableMap(gridname)
+                dt.Rows.Clear()
+                For i As Integer = 1 To grd.Rows - 1
+                    If Val(grd.Cell(i, _DataTableGrid1.Columns.IndexOf(mandatoryCol) + 1).Text) > 0 Then
+                        Dim FieldDr As DataRow = dt.NewRow()
+                        Dim isRowBlank As Boolean = True
+                        For j As Integer = 1 To grd.Cols - 1
+                            Dim cellValue As String = grd.Cell(i, j).Text.Trim()
+                            If cellValue <> "" Then
+                                isRowBlank = False
+                            End If
+                            If dt.Columns(j - 1).DataType IsNot GetType(String) Then
+                                FieldDr(j - 1) = If(cellValue = "", DBNull.Value, Val(cellValue))
+                            Else
+                                FieldDr(j - 1) = cellValue
+                            End If
+                        Next
+                        If Not isRowBlank Then
+                            dt.Rows.Add(FieldDr)
+                        End If
+                    Else
+                        Dim FieldDr As DataRow = dt.NewRow()
+                        Dim isRowBlank As Boolean = True
+                        For j As Integer = 1 To grd.Cols - 1
+                            Dim cellValue As String = grd.Cell(i, j).Text.Trim()
+                            If cellValue <> "" Then
+                                isRowBlank = False
+                            End If
+                            If dt.Columns(j - 1).DataType IsNot GetType(String) Then
+                                FieldDr(j - 1) = If(cellValue = "", DBNull.Value, Val(cellValue))
+                            Else
+                                FieldDr(j - 1) = cellValue
+                            End If
+                        Next
+                        If Not isRowBlank Then
+                            dt.Rows.Add(FieldDr)
+                        End If
+                    End If
+                Next
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+    End Sub
+
+    Private Function GridDetailsSaveQuery(ByRef arr_object(,) As String) As String
+        Try
+            _FieldNotVisibile = New StringBuilder()
+            Dim strFilterString As String = ""
+            Dim QueryDetailTable As String = ""
+            Dim tables As New List(Of DataTable) From {_DataTableGrid1, _DataTableGrid2, _DataTableGrid3, _DataTableGrid4, _DataTableGrid5}
+            Dim totalRows As Integer = tables.Sum(Function(t) If(t IsNot Nothing, t.Rows.Count, 0))
+            If totalRows = 0 Then
+                Exit Function
+            End If
+            Dim Query_Auto_Grid(totalRows - 1, 4) As String
+            Dim rowIndex As Integer = 0
+            For Each dt As DataTable In tables
+                If dt Is Nothing OrElse dt.Rows.Count = 0 Then Continue For
+                For Each dr As DataRow In dt.Rows
+                    If rowIndex >= totalRows Then Exit For
+                    For colIndex As Integer = 0 To 4
+                        If colIndex < dt.Columns.Count Then
+                            Query_Auto_Grid(rowIndex, colIndex) = dr(colIndex).ToString()
+                        Else
+                            Query_Auto_Grid(rowIndex, colIndex) = ""
+                        End If
+                    Next
+                    rowIndex += 1
+                Next
+                If rowIndex >= totalRows Then Exit For
+            Next
+            If mandatoryCol <> "" Then
+                strFilterString = mandatoryCol & ">0"
+            End If
+            Dim _extrafielddatatable As New StringBuilder()
+            Dim _extrafield_values_datatable As New StringBuilder()
+            For Each dr As DataRow In _MainColumTbl.Select("(ColumnType='TextBox' OR ColumnType='CheckBox') AND " & "(UseMaster='NO' OR " & "(UseMaster='YES' AND " & "(OppMasterCode<>'' OR OppMasterCode='')))")
+                _TableName = dr("DataBaseTable").ToString().Trim()
+                Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
+                Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
+                Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
+                Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
+                If ctrl Is Nothing Then
+                    Continue For
+                End If
+                Dim value As String = ""
+                If TypeOf ctrl Is System.Windows.Forms.CheckBox Then
+                    Dim chk As System.Windows.Forms.CheckBox = DirectCast(ctrl, System.Windows.Forms.CheckBox)
+                    If chk.Checked Then
+                        value = "1"
+                    Else
+                        value = "0"
+                    End If
+                ElseIf TypeOf ctrl Is TextBox Then
+                    Dim txt As TextBox = DirectCast(ctrl, TextBox)
+                    value = txt.Text.Trim().Trim("'"c)
+                    If _InputType.Equals("DateBox", StringComparison.OrdinalIgnoreCase) Then
+                        If value <> "" Then
+                            Dim dt As DateTime
+                            If DateTime.TryParse(value, dt) Then
+                                value = dt.ToString("yyyy-MM-dd")
+                            Else
+                                value = ""
+                            End If
+                        End If
+                    End If
+                Else
+                    Continue For
+                End If
+                _extrafielddatatable.Append(columnName & ",")
+                If value = "" Then
+                    _extrafield_values_datatable.Append(value & ",")
+                ElseIf IsNumeric(value) Then
+                    _extrafield_values_datatable.Append(value & ",")
+                Else
+                    _extrafield_values_datatable.Append(value.Replace("'", "''") & ",")
+                End If
+                If existingItem IsNot Nothing Then
+                    Dim oppColumnName As String = existingItem.Item2
+                    Dim codeValue As String = existingItem.Item3
+                    If Not String.IsNullOrWhiteSpace(oppColumnName) Then
+                        _extrafielddatatable.Append(oppColumnName & ",")
+                        If String.IsNullOrWhiteSpace(codeValue) Then
+                            _extrafield_values_datatable.Append("NULL,")
+                        ElseIf IsNumeric(codeValue) Then
+                            _extrafield_values_datatable.Append(codeValue & ",")
+                        Else
+                            _extrafield_values_datatable.Append(codeValue.Replace("'", "''") & ",")
+                        End If
+                    End If
+                End If
+            Next
+            If _extrafielddatatable.Length > 0 Then
+                _extrafielddatatable.Length -= 1
+            End If
+            If _extrafield_values_datatable.Length > 0 Then
+                _extrafield_values_datatable.Length -= 1
+            End If
+            QueryDetailTable = ObjCls_General.GetQueryArray(_TableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid1, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _extrafielddatatable.ToString.ToUpper, _extrafield_values_datatable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
+            GridDetailsSaveQuery = QueryDetailTable & ""
+            arr_object = Query_Auto_Grid
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+    End Function
     Private Sub _GridColmTotal(grd As FlexCell.Grid, dt As DataTable)
         Dim footerTop As Integer = grd.Top + grd.Height + 5
         For i As Integer = Me.Controls.Count - 1 To 0 Step -1
@@ -723,7 +971,14 @@ Public Class MainMasterFormRead
         End If
         getSaveQuery = _strQuery.ToString
     End Function
-
+    Private Sub Delete_Row(ByVal GrdObj As FlexCell.Grid, ByVal DataTable_Name As DataTable)
+        _FrmLoad = True
+        If GrdObj.Cell(GrdObj.ActiveCell.Row, _DataTableGrid1.Columns.IndexOf("SRNO") + 1).ForeColor <> Color.Red Then
+            GrdObj.Range(GrdObj.ActiveCell.Row, 0, GrdObj.ActiveCell.Row, GrdObj.Cols - 1).DeleteByRow()
+            GrdObj.Cell(GrdObj.ActiveCell.Row, DataTable_Name.Columns.IndexOf("SRNO") + 1).Text = GrdObj.ActiveCell.Row
+        End If
+        _FrmLoad = False
+    End Sub
     Private Sub Delete_Entry()
         _FrmLoad = True
         _strQuery = New StringBuilder
@@ -815,7 +1070,6 @@ Public Class MainMasterFormRead
                         Continue For
                     End If
                     Dim Name As String = dr("CntrlName").ToString().Trim()
-
                     Dim Tag As String = dr("DataBaseColumn").ToString().Trim()
                     Dim Tabindex As Integer = 0
                     Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
@@ -910,7 +1164,6 @@ Public Class MainMasterFormRead
                     Dim Tabindex As Integer = 0
                     Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
                     Dim colName As String = dr("DataBaseColumn").ToString().Trim()
-
                     _TblName = dr("DataBaseTable").ToString()
                     If usemasterkey = "Y" Then
                         _KeyFieldName = colName
@@ -929,7 +1182,6 @@ Public Class MainMasterFormRead
                         Continue For
                     End If
                     'If String.IsNullOrWhiteSpace(HeaderName) OrElse Not visible.Equals("Y", StringComparison.OrdinalIgnoreCase) Then
-                    '    'If String.IsNullOrWhiteSpace(HeaderName) Then
                     '    Continue For
                     'End If
                     leftPos = Val(dr("LocationX").ToString())
@@ -962,7 +1214,6 @@ Public Class MainMasterFormRead
                             lblSpacer.Left = leftPos
                         End If
                         lblSpacer.Top = topPos
-                        lblSpacer.Visible = True
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(lblSpacer)
                         Else
@@ -986,14 +1237,28 @@ Public Class MainMasterFormRead
                         cmb.AccessibleDescription = colName
                         Dim spacerValue As String = ""
                         If _MainColumTbl.Columns.Contains("SpacerString") Then
-                            spacerValue = dr("SpacerString").ToString().Trim()
+                            If Not IsDBNull(dr("SpacerString")) Then
+                                spacerValue = dr("SpacerString").ToString().Trim()
+                            End If
                         End If
+                        cmb.Items.Clear()
                         If spacerValue <> "" Then
                             For Each item As String In spacerValue.Split(","c)
-                                If item.Trim() <> "" Then
-                                    cmb.Items.Add(item.Trim())
+                                Dim itemValue As String = item.Trim()
+                                If itemValue <> "" Then
+                                    cmb.Items.Add(itemValue)
                                 End If
                             Next
+                        End If
+                        If cmb.Items.Count > 0 Then
+                            Dim gridColumnIndex As Integer = 0
+                            If Not IsDBNull(dr("OrderNo")) Then
+                                Integer.TryParse(dr("OrderNo").ToString(), gridColumnIndex)
+                            End If
+                            gridColumnIndex = gridColumnIndex Mod cmb.Items.Count
+                            cmb.SelectedIndex = gridColumnIndex
+                        Else
+                            cmb.SelectedIndex = -1
                         End If
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(cmb)
@@ -1211,31 +1476,23 @@ Public Class MainMasterFormRead
                                 If grd IsNot Nothing Then
                                     grd.Visible = True
                                     grd.Enabled = True
+                                    AddHandler grd.KeyDown, AddressOf Grid_Spacer_KeyDown
                                     Fill_Current_Row_Sr_No(_DataTableGrid1, grd)
+                                    SetGridSpacerTypeColumns(grd, "GRID1")
                                 End If
                             Case "GRID2"
                                 grd = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-
                             Case "GRID3"
                                 grd = SetupFlexGrid(gridname, _DataTableGrid3, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-
                             Case "GRID4"
                                 grd = SetupFlexGrid(gridname, _DataTableGrid4, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-
                             Case "GRID5"
                                 grd = SetupFlexGrid(gridname, _DataTableGrid5, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-
                             Case Else
                                 Continue For
-
                         End Select
-
                         If grd Is Nothing Then
-                                Continue For
-                            End If
-                        If colType.Equals("SpacerType", StringComparison.OrdinalIgnoreCase) Then
-                            grd.Tag = "SpacerType"
-                            grd.AccessibleDescription = "SpacerType"
+                            Continue For
                         End If
                         If targetTabPage IsNot Nothing Then
                             targetTabPage.Controls.Add(grd)
@@ -1247,10 +1504,10 @@ Public Class MainMasterFormRead
                             End If
                         End If
                         AddHandler grd.MouseDown, AddressOf Control_MouseDown
-                            AddHandler grd.MouseMove, AddressOf Control_MouseMove
-                            AddHandler grd.MouseUp, AddressOf Control_MouseUp
-                        ElseIf colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) Then
-                            Dim chk As New CheckBox()
+                        AddHandler grd.MouseMove, AddressOf Control_MouseMove
+                        AddHandler grd.MouseUp, AddressOf Control_MouseUp
+                    ElseIf colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) Then
+                        Dim chk As New CheckBox()
                         chk.Name = Name.Trim()
                         chk.Text = HeaderName
                         chk.Left = leftPos + 130
@@ -1317,6 +1574,142 @@ Public Class MainMasterFormRead
         Catch ex As Exception
             MsgBox(ex.ToString, MsgBoxStyle.Critical, "Soft-Tex PRO")
         Finally
+        End Try
+    End Sub
+    Private Sub SetGridSpacerTypeColumns(ByVal grd As FlexCell.Grid, ByVal gridName As String)
+        Try
+            If grd Is Nothing Then Exit Sub
+            Dim gridRows() As DataRow = _MainColumTbl.Select("InputType='SpacerType'", "OrderNo")
+            If gridRows.Length = 0 Then Exit Sub
+            Dim dt As DataTable = Nothing
+            Select Case gridName.ToUpper()
+                Case "GRID1"
+                    dt = _DataTableGrid1
+                Case "GRID2"
+                    dt = _DataTableGrid2
+                Case "GRID3"
+                    dt = _DataTableGrid3
+                Case "GRID4"
+                    dt = _DataTableGrid4
+                Case "GRID5"
+                    dt = _DataTableGrid5
+            End Select
+            If dt Is Nothing Then Exit Sub
+            For Each dr As DataRow In gridRows
+                Dim columnName As String = ""
+                If _MainColumTbl.Columns.Contains("DataBaseColumn") Then
+                    columnName = dr("DataBaseColumn").ToString().Trim()
+                End If
+                If String.IsNullOrWhiteSpace(columnName) Then
+                    Continue For
+                End If
+                If Not dt.Columns.Contains(columnName) Then
+                    Continue For
+                End If
+                Dim dataColumnIndex As Integer = dt.Columns.IndexOf(columnName)
+                If dataColumnIndex < 0 Then
+                    Continue For
+                End If
+                Dim flexColumnIndex As Integer = dataColumnIndex + 1
+                Dim spacerString As String = ""
+                If _MainColumTbl.Columns.Contains("SpacerString") Then
+                    If Not IsDBNull(dr("SpacerString")) Then
+                        spacerString =
+                        dr("SpacerString").ToString().Trim()
+                    End If
+                End If
+                If String.IsNullOrWhiteSpace(spacerString) Then
+                    Continue For
+                End If
+                Dim spacerItems As New List(Of String)
+                For Each item As String In spacerString.Split(","c)
+                    If Not String.IsNullOrWhiteSpace(item) Then
+                        spacerItems.Add(item.Trim())
+                    End If
+                Next
+                If spacerItems.Count = 0 Then
+                    Continue For
+                End If
+                For rowIndex As Integer = 1 To grd.Rows - 1
+                    Dim spacerIndex As Integer = (rowIndex - 1) Mod spacerItems.Count
+                    grd.Cell(rowIndex, flexColumnIndex).Text = spacerItems(spacerIndex)
+                Next
+            Next
+        Catch ex As Exception
+            MsgBox("SetGridSpacerTypeColumns Error : " & ex.Message, MsgBoxStyle.Exclamation, "Soft-Tex PRO")
+        End Try
+    End Sub
+
+    Private Sub Grid_Spacer_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs)
+        Try
+            If e.KeyCode <> Keys.Space Then Exit Sub
+            Dim grd As FlexCell.Grid = TryCast(sender, FlexCell.Grid)
+            If grd Is Nothing Then Exit Sub
+            Dim rowIndex As Integer = grd.ActiveCell.Row
+            Dim colIndex As Integer = grd.ActiveCell.Col
+            If rowIndex <= 0 Then Exit Sub
+            If colIndex <= 0 Then Exit Sub
+            Dim gridName As String = grd.Name.Trim()
+            Dim dt As DataTable = Nothing
+            Select Case gridName.ToUpper()
+                Case "GRID1"
+                    dt = _DataTableGrid1
+                Case "GRID2"
+                    dt = _DataTableGrid2
+                Case "GRID3"
+                    dt = _DataTableGrid3
+                Case "GRID4"
+                    dt = _DataTableGrid4
+                Case "GRID5"
+                    dt = _DataTableGrid5
+                Case Else
+                    Exit Sub
+            End Select
+            If dt Is Nothing Then Exit Sub
+            Dim dtColumnIndex As Integer = colIndex - 1
+            If dtColumnIndex < 0 OrElse dtColumnIndex >= dt.Columns.Count Then
+                Exit Sub
+            End If
+            Dim columnName As String = dt.Columns(dtColumnIndex).ColumnName.Trim()
+            Dim spacerRows() As DataRow = _MainColumTbl.Select("DataBaseColumn='" & columnName.Replace("'", "''") & "' AND InputType='SpacerType'")
+            If spacerRows.Length = 0 Then
+                Exit Sub
+            End If
+            Dim spacerString As String = ""
+            If _MainColumTbl.Columns.Contains("SpacerString") Then
+                If Not IsDBNull(spacerRows(0)("SpacerString")) Then
+                    spacerString = spacerRows(0)("SpacerString").ToString().Trim()
+                End If
+            End If
+            If String.IsNullOrWhiteSpace(spacerString) Then
+                Exit Sub
+            End If
+            Dim spacerItems As New List(Of String)
+            For Each item As String In spacerString.Split(","c)
+                Dim value As String = item.Trim()
+                If value <> "" Then
+                    spacerItems.Add(value)
+                End If
+            Next
+            If spacerItems.Count = 0 Then Exit Sub
+            Dim currentValue As String = grd.Cell(rowIndex, colIndex).Text.Trim()
+            Dim currentIndex As Integer = spacerItems.FindIndex(Function(x) x.Equals(currentValue, StringComparison.OrdinalIgnoreCase))
+            Dim nextIndex As Integer
+            If currentIndex < 0 Then
+                nextIndex = 0
+            Else
+                nextIndex = (currentIndex + 1) Mod spacerItems.Count
+            End If
+            Dim nextValue As String = spacerItems(nextIndex)
+            grd.Cell(rowIndex, colIndex).Text = nextValue
+            If rowIndex - 1 < dt.Rows.Count Then
+                dt.Rows(rowIndex - 1)(columnName) =
+                nextValue
+            End If
+            e.Handled = True
+            e.SuppressKeyPress = True
+        Catch ex As Exception
+            MsgBox("Grid Spacer Error : " & ex.Message, MsgBoxStyle.Exclamation, "Soft-Tex PRO")
         End Try
     End Sub
     Private Function GetControlSaveValue(ByVal ctrl As Control) As String
@@ -2744,6 +3137,8 @@ Public Class MainMasterFormRead
     End Sub
 
     Private Sub MainMasterFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        Dim _STRTRNOBJECT As String = ""
+        _STRTRNOBJECT = ActivatedControl(Me)
         If e.KeyCode = Keys.Escape Then
             If _FORMMODE = "" Then
                 Me.Close()
@@ -2757,27 +3152,54 @@ Public Class MainMasterFormRead
                     Exit Sub
                 ElseIf PanlPropartiesWindow.Visible = True Then
                     PanlPropartiesWindow.Visible = False
-                ElseIf _FormCloseMode = False Then
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    ObjCls_General.Blank_Object(Me)
-                    Ctrl_Visible_Falseform(Me.Controls)
-                    _FormCloseMode = True
-                    _FORMMODE = ""
-                    'Exit Sub
+                    'ElseIf _FormCloseMode = False Then
+                    '    UC_Buttons1._ButtonEnableDisable("LOAD")
+                    '    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    '    ObjCls_General.Blank_Object(Me)
+                    '    Ctrl_Visible_Falseform(Me.Controls)
+                    '    _FormCloseMode = True
+                    '    _FORMMODE = ""
+                    '    'Exit Sub
                 Else
-                    _FrmLoad = True
-                    ObjCls_General.Blank_Object(Me)
-                    _KeyFieldValue = 0
-                    UC_Buttons1._ButtonEnableDisable("LOAD")
-                    UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
-                    Ctrl_Visible_Falseform(Me.Controls)
-                    _FrmLoad = False
-                    _FORMMODE = ""
+                    Select Case _STRTRNOBJECT
+                        'Case "GRID1", "GRID2", "GRID3", "GRID4", "GRID5"
+                        '    _FrmLoad = True
+                        '    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(_STRTRNOBJECT, True).FirstOrDefault(), FlexCell.Grid)
+                        '    grd.BoldFixedCell = False
+                        '    _FrmLoad = False
+                        '    _FORMMODE = ""
+                        Case Else
+                            _FrmLoad = True
+                            ObjCls_General.Blank_Object(Me)
+                            For i As Integer = 1 To 5
+                                Dim gridName As String = "GRID" & i.ToString()
+                                Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridName, True).FirstOrDefault(), FlexCell.Grid)
+                                If grd IsNot Nothing Then
+                                    Clear_Grid(grd, 2)
+                                    grd.BoldFixedCell = False
+                                    Ctrl_Visibility_With_One_Grid(False, Me.Controls, grd)
+                                    grd.BoldFixedCell = False
+                                End If
+                            Next
+                            _KeyFieldValue = 0
+                            UC_Buttons1._ButtonEnableDisable("LOAD")
+                            UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                            Ctrl_Visible_Falseform(Me.Controls)
+                            _FrmLoad = False
+                            _FORMMODE = ""
+                    End Select
+                    '_FrmLoad = True
+                    'ObjCls_General.Blank_Object(Me)
+                    '_KeyFieldValue = 0
+                    'UC_Buttons1._ButtonEnableDisable("LOAD")
+                    'UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                    'Ctrl_Visible_Falseform(Me.Controls)
+                    '_FrmLoad = False
+                    '_FORMMODE = ""
                 End If
             End If
-        ElseIf e.KeyCode = Keys.F1 Then
-            UC_Buttons1.BtnSave.Focus()
+            'ElseIf e.KeyCode = Keys.F1 Then
+            'UC_Buttons1.BtnSave.Focus()
         ElseIf e.KeyCode = Keys.F6 Then
             PanlPropartiesWindow.Visible = True
             If PropertyGrid1.SelectedObject Is Nothing AndAlso Me.ActiveControl IsNot Nothing Then
@@ -2789,6 +3211,29 @@ Public Class MainMasterFormRead
             entryformname.GetformId = _getformId()
             entryformname.Show()
             'QueryLoad.Show()
+        ElseIf e.KeyCode = Keys.F1 Then
+            Select Case _STRTRNOBJECT
+                Case "GRID1"
+                    _FrmLoad = True
+                    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                    grd.Cell(1, _DataTableGrid1.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    UC_Buttons1.BtnSave.Focus()
+                Case Else
+                    _FrmLoad = True
+                    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                    grd.Cell(1, _DataTableGrid1.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    grd.Focus()
+                    grd.Select()
+            End Select
+        ElseIf e.KeyCode = Keys.F3 Then
+            Select Case _STRTRNOBJECT
+                Case "GRID1"
+                    _FrmLoad = True
+                    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                    Delete_Row(grd, _DataTableGrid1)
+                    Call Fill_Sr_No_Item(grd, _DataTableGrid1)
+                    _FrmLoad = False
+            End Select
         End If
 
     End Sub

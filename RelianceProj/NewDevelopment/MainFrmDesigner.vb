@@ -616,7 +616,7 @@ Public Class MainFrmDesigner
             .Append(",Tabindex:N")
             .Append(",CntrlType:N")
             .Append(",InputType:Y")
-            .Append(",SpacerString:N")
+            .Append(",SpacerString:Y")
             .Append(",Erequred:N")
             .Append(",Enabled:N")
             .Append(",Precision:N") 'decimal
@@ -673,7 +673,7 @@ Public Class MainFrmDesigner
         Detail_FieldLocked = New StringBuilder
         With Detail_FieldLocked
             .Append("ColumnType:Y")
-            .Append(",CntrlName:Y")
+            .Append(",CntrlName:N")
             .Append(",DataBaseTable:Y")
             .Append(",INPUTTYPE:Y")
             .Append(",Visible:Y")
@@ -953,6 +953,8 @@ Public Class MainFrmDesigner
                 If Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Normal" Then
                     Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Numeric"
                 ElseIf Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Numeric" Then
+                    Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "SpacerType"
+                ElseIf Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "SpacerType" Then
                     Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("INPUTTYPE") + 1).Text = "Normal"
                 End If
             End If
@@ -967,8 +969,27 @@ Public Class MainFrmDesigner
                 Dim ExtracolumnsToHide = {""}
                 GetTblName(_DataBaseFileName)
                 Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+                If selected1 Is Nothing Then Exit Sub
+
                 If selected1.ContainsKey("TABLE_NAME") Then
-                    Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text = selected1("TABLE_NAME").ToString()
+
+                    If selected1("TABLE_NAME") Is Nothing Then Exit Sub
+
+                    If Grid1 Is Nothing OrElse Grid1.ActiveCell Is Nothing Then Exit Sub
+
+                    If Detail_DataTableGrid Is Nothing Then Exit Sub
+
+                    If Not Detail_DataTableGrid.Columns.Contains("DATABASETABLE") Then Exit Sub
+
+                    Dim tableName As String = selected1("TABLE_NAME").ToString().Trim()
+
+                    If tableName = "" Then Exit Sub
+
+                    Grid1.Cell(
+        Grid1.ActiveCell.Row,
+        Detail_DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1
+    ).Text = tableName
+
                 End If
             End If
         ElseIf _ActivatedColName = "VISIBLE" Then
@@ -1051,6 +1072,97 @@ Public Class MainFrmDesigner
                     Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("READONLY") + 1).Text = "Y"
                 End If
             End If
+        ElseIf _ActivatedColName = "CNTRLNAME" Then
+
+            If Grid1 Is Nothing OrElse Grid1.ActiveCell Is Nothing Then Exit Sub
+
+            Dim row As Integer = Grid1.ActiveCell.Row
+            Dim col As Integer = Grid1.ActiveCell.Col
+
+            Dim cellValue As String = Grid1.Cell(row, col).Text.Trim()
+
+            If e.KeyCode = Keys.Enter Then
+
+                '---------------------------------------------
+                ' CNTRLNAME ke liye Grid names ki list
+                ' GrdItem ke CntrlName column se aayegi
+                '---------------------------------------------
+                Dim gridNames As New DataTable()
+                gridNames.Columns.Add("CNTRLNAME", GetType(String))
+
+                Dim cntrlNameCol As Integer =
+            _DataTableGrid.Columns.IndexOf("CntrlName") + 1
+
+                If cntrlNameCol > 0 Then
+
+                    For i As Integer = 1 To GrdItem.Rows - 1
+
+                        Dim gridName As String =
+                    GrdItem.Cell(i, cntrlNameCol).Text.Trim()
+
+                        If String.IsNullOrWhiteSpace(gridName) Then
+                            Continue For
+                        End If
+
+                        'Sirf Grid se start hone wale names
+                        If gridName.StartsWith("Grid",
+                    StringComparison.OrdinalIgnoreCase) Then
+
+                            'Duplicate check
+                            Dim alreadyExists As Boolean = False
+
+                            For Each dr As DataRow In gridNames.Rows
+
+                                If dr("CNTRLNAME").ToString().Trim().
+                            Equals(gridName,
+                                   StringComparison.OrdinalIgnoreCase) Then
+
+                                    alreadyExists = True
+                                    Exit For
+
+                                End If
+
+                            Next
+
+                            If Not alreadyExists Then
+                                gridNames.Rows.Add(gridName)
+                            End If
+
+                        End If
+
+                    Next
+
+                End If
+
+                '---------------------------------------------
+                ' Selection Form
+                '---------------------------------------------
+                Dim ExtracolumnsToHide = {""}
+
+                Dim selected1 =
+            SingleAccountSelectionFormsingledatatable(
+                gridNames,
+                Nothing,
+                "",
+                "SINGLE",
+                "YES",
+                ExtracolumnsToHide
+            )
+
+                '---------------------------------------------
+                ' Selected Grid name ko CNTRLNAME cell me set karo
+                '---------------------------------------------
+                If selected1 IsNot Nothing AndAlso
+           selected1.ContainsKey("CNTRLNAME") Then
+
+                    Grid1.Cell(
+                Grid1.ActiveCell.Row,
+                Detail_DataTableGrid.Columns.IndexOf("CNTRLNAME") + 1
+            ).Text = selected1("CNTRLNAME").ToString()
+
+                End If
+
+            End If
         ElseIf _ActivatedColName = "DATABASECOLUMN" Then
             If Grid1.ActiveCell Is Nothing Then Exit Sub
             Dim row As Integer = Grid1.ActiveCell.Row
@@ -1080,6 +1192,8 @@ Public Class MainFrmDesigner
                     e.Handled = True
                 End If
             End If
+        ElseIf _ActivatedColName = "SPACERSTRING" Then
+            Grid1.ActiveCell.Text = Grid1.ActiveCell.Text.ToUpper()
         ElseIf _ActivatedColName = "MASKING" Then
             If Grid1.Rows - 1 = Grid1.ActiveCell.Row Then
                 Grid1.Rows = Grid1.Rows + 1
@@ -1127,9 +1241,11 @@ Public Class MainFrmDesigner
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = LocationY
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("OrderNo") + 1).Text = _ActiverownoHeader
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("Tabindex") + 1).Text = _ActiverownoHeader
-            If _GetGrid.Name = "Grid1" Then
+            'If _GetGrid.Name = "Grid1" Then
+            Dim gridName As String = _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Text.Trim()
+            If _GetGrid.Name = "Grid1" OrElse _GetGrid.Name = "Grid2" Then
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Text = "Grid1"
+                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Text = _GetGrid.Name
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Locked = True
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "GRID DETAIL DESIGN"
                 _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
@@ -1835,7 +1951,8 @@ Public Class MainFrmDesigner
                     View_RecordGridDetail(GrdItem, _DataTableGrid, "SINGLE", _ActivatedColName)
                 End If
             End If
-            'ElseIf _ActivatedColName = "SPACERSTRING" Then
+        ElseIf _ActivatedColName = "SPACERSTRING" Then
+            GrdItem.ActiveCell.Text = GrdItem.ActiveCell.Text.ToUpper()
             'ElseIf _ActivatedColName = "MASKING" Then
         ElseIf _ActivatedColName = "TABELEMENTS" Then
             If e.KeyCode = Keys.Enter Then
