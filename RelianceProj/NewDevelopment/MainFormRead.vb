@@ -291,49 +291,60 @@ Public Class MainFormRead
         UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
     End Sub
     Private Sub UC_Buttons1_SaveClick()
-        Dim EntryNo As String = ""
-        _FrmLoad = False
-        Dim Array_Opening(0, 4) As String
-        Dim formType As String = ""
-        Dim LASTCODE As String = ""
-        If _MainColumTbl.Rows.Count > 0 Then
-            formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-        End If
-        If formType = "ENTRY FORM" Then
-            Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
-            If ctrl.Length > 0 Then
-                Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                sqL = "DELETE FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "' AND ENTRYNO =" & Entytxt.Text & "  "
-                sql_Data_Save_Delete_Update()
+        Try
+            Dim EntryNo As String = ""
+            _FrmLoad = False
+            Dim Array_Opening(0, 4) As String
+            Dim formType As String = ""
+            Dim LASTCODE As String = ""
+            If _MainColumTbl.Rows.Count > 0 Then
+                formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
             End If
-            Call Fill_Grid_Records_Into_DataTables()
-            GridDetailsSaveQuery(Array_Opening)
-            For I = 0 To UBound(Array_Opening)
-                If Array_Opening(I, 4) <> "" Then
-                    strQuery = Array_Opening(I, 4)
-                    sqL = strQuery.ToString
-                    sql_Data_Save_Delete_Update()
-                End If
-            Next
-            Dim Pcs_Row_No As Integer = 0
-            Interaction.MsgBox("Records Successfully Saved",
-                       MsgBoxStyle.Information,
-                       "Soft-Tex PRO")
-            ObjCls_General.Blank_Object(Me)
-            For Each dr As DataRow In _MainColumTbl.Select("Columntype='Grid'")
-                Dim gridname As String = dr("CntrlName").ToString().Trim()
-                Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
-                If grd IsNot Nothing Then
-                    Clear_Grid(grd, 2)
-                End If
-                'CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
-                _GridColmTotal(grd, _DataTableGrid1)
-            Next
-        End If
+            If formType = "ENTRY FORM" Then
 
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+                Call Fill_Grid_Records_Into_DataTables()
+                GridDetailsSaveQuery(Array_Opening)
+
+                'For I = 0 To UBound(Array_Opening)
+                '    If Array_Opening(I, 4) <> "" Then
+                '        strQuery = Array_Opening(I, 4)
+                '        sqL = strQuery.ToString
+                '        sql_Data_Save_Delete_Update()
+                '    End If
+                'Next
+
+                Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+                If ctrl.Length > 0 Then
+                    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+                    Dim delQry As String = "DELETE FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "' AND ENTRYNO =" & Entytxt.Text & "  "
+                    ExecuteBatchWithTransaction(delQry, Array_Opening, 4)
+                End If
+
+
+                Dim Pcs_Row_No As Integer = 0
+                Interaction.MsgBox("Records Successfully Saved",
+                           MsgBoxStyle.Information,
+                           "Soft-Tex PRO")
+                ObjCls_General.Blank_Object(Me)
+                For Each dr As DataRow In _MainColumTbl.Select("Columntype='Grid'")
+                    Dim gridname As String = dr("CntrlName").ToString().Trim()
+                    Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
+                    If grd IsNot Nothing Then
+                        Clear_Grid(grd, 2)
+                    End If
+                    'CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
+                    _GridColmTotal(grd, _DataTableGrid1)
+                Next
+            End If
+
+            UC_Buttons1._ButtonEnableDisable("LOAD")
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+        Catch ex As Exception
+            MsgBox("Failed to save transaction: " & ex.Message, MsgBoxStyle.Critical, "Transaction Error")
+            Throw ex
+        End Try
     End Sub
+
     'Private Sub UC_Buttons1_SaveClick()
 
     '    Try
@@ -731,13 +742,7 @@ Public Class MainFormRead
             Dim strFilterString As String = ""
             Dim QueryDetailTable As String = ""
             'Dim Query_Auto_Grid(_DataTableGrid1.Rows.Count, 4) As String
-            Dim tables As New List(Of DataTable) From {
-        _DataTableGrid1,
-        _DataTableGrid2,
-        _DataTableGrid3,
-        _DataTableGrid4,
-        _DataTableGrid5
-    }
+            Dim tables As New List(Of DataTable) From {_DataTableGrid1, _DataTableGrid2, _DataTableGrid3, _DataTableGrid4, _DataTableGrid5}
             Dim totalRows As Integer = tables.Sum(Function(t) If(t IsNot Nothing, t.Rows.Count, 0))
             If totalRows = 0 Then
                 Exit Function
@@ -1083,8 +1088,8 @@ Public Class MainFormRead
         _Fieldmasterlist = New StringBuilder()
         _FieldNotRequiredForSave = New StringBuilder()
         If _MainColumTbl.Rows.Count > 0 Then
-            'For Each dr As DataRow In _MainColumTbl.Select("ColumnType='Grid'", "OrderNo")
-            For Each dr As DataRow In _MainColumTbl.Select("", "OrderNo")
+            For Each dr As DataRow In _MainColumTbl.Select("ColumnType='Grid'", "OrderNo")
+                'For Each dr As DataRow In _MainColumTbl.Select("", "OrderNo")
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim colType As String = dr("ColumnType").ToString().Trim()
                 Dim header As String = dr("UserText").ToString().Trim()
@@ -1149,7 +1154,7 @@ Public Class MainFormRead
                 'End If
                 ' Locked
                 Dim lockVal As String = dr("ReadOnly").ToString().Trim().ToUpper()
-                    If lockVal = "" Then lockVal = "N"
+                If lockVal = "" Then lockVal = "N"
                 If _FieldLocked.Length > 0 Then
                     _FieldLocked.Append(",")
                 End If
@@ -1193,6 +1198,209 @@ Public Class MainFormRead
             Grid1_Table_ColNames = _Grid1ColNames.ToString.ToUpper.Split(",")
         End If
     End Sub
+
+    'Private Sub DefineGridColumns(ByVal columnTypeFilter As String)
+
+    '    '---------------------------------------------------------
+    '    ' Existing StringBuilders reset
+    '    '---------------------------------------------------------
+    '    _Grid1ColNames = New StringBuilder()
+    '    _FieldHeader = New StringBuilder()
+    '    _FieldHeaderAlignment = New StringBuilder()
+    '    _FieldAlignMent = New StringBuilder()
+    '    _FieldWidthSet = New StringBuilder()
+    '    _FieldNotVisibile = New StringBuilder()
+    '    _FieldLocked = New StringBuilder()
+    '    _Grid1ColType = New StringBuilder()
+    '    _FieldMasking = New StringBuilder()
+    '    _FieldNotRequiredForSave = New StringBuilder()
+
+    '    '---------------------------------------------------------
+    '    ' ColumnType filter
+    '    '---------------------------------------------------------
+    '    Dim filter As String =
+    '    "ColumnType='" & columnTypeFilter.Replace("'", "''") & "'"
+
+    '    '---------------------------------------------------------
+    '    ' Process columns
+    '    '---------------------------------------------------------
+    '    For Each dr As DataRow In _MainColumTbl.Select(filter, "OrderNo")
+
+    '        Dim colName As String = dr("DataBaseColumn").ToString().Trim()
+    '        Dim colType As String = dr("ColumnType").ToString().Trim()
+    '        Dim header As String = dr("UserText").ToString().Trim()
+
+    '        Dim alignVal As String =
+    '        dr("TextAlign").ToString().Trim().ToUpper()
+
+    '        If alignVal = "" Then
+    '            alignVal = "L"
+    '        End If
+
+    '        '-----------------------------------------------------
+    '        ' Invalid column/header skip
+    '        '-----------------------------------------------------
+    '        If header = "" OrElse colName = "" Then
+    '            Continue For
+    '        End If
+
+    '        '=====================================================
+    '        ' Grid Column Names
+    '        '=====================================================
+    '        If _Grid1ColNames.Length > 0 Then
+    '            _Grid1ColNames.Append(",")
+    '        End If
+
+    '        _Grid1ColNames.Append(colName)
+
+    '        '=====================================================
+    '        ' Field Header
+    '        '=====================================================
+    '        If header <> "" Then
+
+    '            If _FieldHeader.Length > 0 Then
+    '                _FieldHeader.Append(",")
+    '            End If
+
+    '            _FieldHeader.Append(colName & ":" & header)
+
+    '        End If
+
+    '        '=====================================================
+    '        ' Header Alignment
+    '        '=====================================================
+    '        If _FieldHeaderAlignment.Length > 0 Then
+    '            _FieldHeaderAlignment.Append(",")
+    '        End If
+
+    '        _FieldHeaderAlignment.Append(
+    '        colName & ":" & alignVal
+    '    )
+
+    '        '=====================================================
+    '        ' Field Alignment
+    '        '=====================================================
+    '        If _FieldAlignMent.Length > 0 Then
+    '            _FieldAlignMent.Append(",")
+    '        End If
+
+    '        _FieldAlignMent.Append(
+    '        colName & ":" & alignVal
+    '    )
+
+    '        '=====================================================
+    '        ' Width
+    '        '=====================================================
+    '        Dim widthVal As Integer = Val(
+    '        dr("SizeWidth").ToString().Trim()
+    '    )
+
+    '        If _FieldWidthSet.Length > 0 Then
+    '            _FieldWidthSet.Append(",")
+    '        End If
+
+    '        _FieldWidthSet.Append(
+    '        colName & ":" & widthVal
+    '    )
+
+    '        '=====================================================
+    '        ' Visible
+    '        '=====================================================
+    '        Dim visibleVal As String =
+    '        dr("Visible").ToString().Trim().ToUpper()
+
+    '        If visibleVal = "" Then
+    '            visibleVal = "N"
+    '        End If
+
+    '        If _FieldNotVisibile.Length > 0 Then
+    '            _FieldNotVisibile.Append(",")
+    '        End If
+
+    '        _FieldNotVisibile.Append(
+    '        colName & ":" & visibleVal
+    '    )
+
+    '        '=====================================================
+    '        ' Locked / ReadOnly
+    '        '=====================================================
+    '        Dim lockVal As String =
+    '        dr("ReadOnly").ToString().Trim().ToUpper()
+
+    '        If lockVal = "" Then
+    '            lockVal = "N"
+    '        End If
+
+    '        If _FieldLocked.Length > 0 Then
+    '            _FieldLocked.Append(",")
+    '        End If
+
+    '        _FieldLocked.Append(
+    '        colName & ":" & lockVal
+    '    )
+
+    '        '=====================================================
+    '        ' Column Type / InputType
+    '        '=====================================================
+    '        Dim colInputType As String =
+    '        dr("InputType").ToString().Trim().ToUpper()
+
+    '        If colInputType = "NUMERIC" Then
+
+    '            colType = "N"
+
+    '            If _Grid1ColType.Length > 0 Then
+    '                _Grid1ColType.Append(",")
+    '            End If
+
+    '            _Grid1ColType.Append(
+    '            colName & ":" & colType
+    '        )
+
+    '        End If
+
+    '        '=====================================================
+    '        ' Masking
+    '        '=====================================================
+    '        Dim prec As Integer =
+    '        Val(dr("Masking").ToString())
+
+    '        If colInputType = "NUMERIC" Then
+
+    '            Dim maskVal As String =
+    '            "NO-" & prec.ToString()
+
+    '            If _FieldMasking.Length > 0 Then
+    '                _FieldMasking.Append(",")
+    '            End If
+
+    '            _FieldMasking.Append(
+    '            colName & ":" & maskVal
+    '        )
+
+    '        End If
+
+    '        '=====================================================
+    '        ' Not Required For Save
+    '        '=====================================================
+    '        Dim notrequired As String =
+    '        dr("SaveYN").ToString().Trim().ToUpper()
+
+    '        If notrequired = "N" Then
+
+    '            If _FieldNotRequiredForSave.Length > 0 Then
+    '                _FieldNotRequiredForSave.Append(",")
+    '            End If
+
+    '            _FieldNotRequiredForSave.Append(
+    '            colName & ":" & notrequired
+    '        )
+
+    '        End If
+
+    '    Next
+
+    'End Sub
     Private Sub RemoveControlIfExists(ctrlName As String)
 
         Dim oldCtrl As Control = Me.Controls.Cast(Of Control)().FirstOrDefault(Function(c) c.Name = ctrlName)
@@ -2112,6 +2320,7 @@ Public Class MainFormRead
         'grd.CellBorderColor = Color.Red
         grd.SelectionBorderColor = Color.Red
         defineGridColName()
+        'DefineGridColumns("Grid")
         If gridName = "Grid1" Then
             GenerateTable(_DataTableGrid1, grd)
             GridFormatting(_DataTableGrid1, grd)
@@ -2821,7 +3030,7 @@ Public Class MainFormRead
         _strQuery = New StringBuilder
         Try
             If ctrlName = "Grid1" Or ctrlName = "Grid2" Or ctrlName = "Grid3" Or ctrlName = "Grid4" Or ctrlName = "Grid5" Then
-                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
+                strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & " WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             Else
                 strQuery = "UPDATE " & _DatabaseTableName & " Set LocationX=" & leftpos & ",LocationY=" & topPos & ",SizeHeight=" & Height & ",SizeWidth=" & Width & ",TabIndex=" & Tabindex & "  WHERE CntrlName='" & ctrlName & "' and FormId=" & FormId & ""
             End If
@@ -2834,18 +3043,36 @@ Public Class MainFormRead
         End Try
     End Sub
     Private Sub BtnUpdatepos_Click(sender As Object, e As EventArgs) Handles BtnUpdatepos.Click
-        For Each ctrl As Control In Me.Controls
-            If TypeOf ctrl Is Label OrElse TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is Button OrElse TypeOf ctrl Is Grid Then
-                SaveControlPosition(ctrl)
-            End If
-        Next
+        'For Each ctrl As Control In Me.Controls
+        '    If TypeOf ctrl Is Label OrElse TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is Button OrElse TypeOf ctrl Is Grid Then
+        '        SaveControlPosition(ctrl)
+        '    End If
+        'Next
+        SaveAllControlPositions(Me)
         isMoveMode = False
         isDragging = False
         MsgBox("Update Successfully")
         PanlPropartiesWindow.Visible = False
         Ctrl_Visible_TrueForm(Me.Controls)
     End Sub
-
+    Private Sub SaveAllControlPositions(ByVal parent As Control)
+        For Each ctrl As Control In parent.Controls
+            If TypeOf ctrl Is Label OrElse
+           TypeOf ctrl Is TextBox OrElse
+           TypeOf ctrl Is Button OrElse
+           TypeOf ctrl Is SimpleButton OrElse
+           TypeOf ctrl Is FlexCell.Grid OrElse
+           TypeOf ctrl Is CheckBox OrElse
+           TypeOf ctrl Is TabControl OrElse
+           TypeOf ctrl Is DevExpress.XtraTab.XtraTabControl Then
+                SaveControlPosition(ctrl)
+            End If
+            'TabControl, TabPage, Panel आदि के अंदर के controls भी
+            If ctrl.HasChildren Then
+                SaveAllControlPositions(ctrl)
+            End If
+        Next
+    End Sub
     Private Sub _GridEnable()
         'Dim grd As FlexCell.Grid = TryCast(Me.Controls("Grid1"), FlexCell.Grid)
         'grd.Enabled = True

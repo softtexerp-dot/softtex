@@ -457,8 +457,6 @@ Public Class MainMasterFormRead
         Else
             LASTCODE = _KeyFieldValue
         End If
-
-
         If _KeyFieldName <> "" Then
             If tblFormValues.Columns.Contains(_KeyFieldName) Then
                 tblFormValues.Rows(0)(_KeyFieldName) = LASTCODE
@@ -1712,21 +1710,6 @@ Public Class MainMasterFormRead
             MsgBox("Grid Spacer Error : " & ex.Message, MsgBoxStyle.Exclamation, "Soft-Tex PRO")
         End Try
     End Sub
-    Private Function GetControlSaveValue(ByVal ctrl As Control) As String
-        If ctrl Is Nothing Then
-            Return ""
-        End If
-        If TypeOf ctrl Is TextBox Then
-            Return DirectCast(ctrl, TextBox).Text.Trim()
-        ElseIf TypeOf ctrl Is CheckBox Then
-            If DirectCast(ctrl, CheckBox).Checked Then
-                Return "Y"
-            Else
-                Return "N"
-            End If
-        End If
-        Return ""
-    End Function
 #Region "GRID GENERAL FUNCTION"
     Private Sub Fill_Current_Row_Sr_No(ByRef Data_Table_Obj As DataTable, ByRef grdObj As FlexCell.Grid)
         If grdObj.Cell(grdObj.ActiveCell.Row, Data_Table_Obj.Columns.IndexOf("SRNO") + 1).Text = "" Then
@@ -1783,50 +1766,23 @@ Public Class MainMasterFormRead
         FocusSetToGridDefaultColumn(grd, _DefaultColOfGrid)
         Return grd
     End Function
-
-
-    Private Sub SetGridSpacerString(ByVal grd As FlexCell.Grid,
-                                ByVal gridTable As DataTable)
-
-        If grd Is Nothing OrElse
-       _MainColumTbl Is Nothing OrElse
-       gridTable Is Nothing Then Exit Sub
-
+    Private Sub SetGridSpacerString(ByVal grd As FlexCell.Grid, ByVal gridTable As DataTable)
+        If grd Is Nothing OrElse _MainColumTbl Is Nothing OrElse gridTable Is Nothing Then Exit Sub
         For Each dr As DataRow In _MainColumTbl.Select("", "OrderNo")
-
-            Dim colName As String =
-            dr("DataBaseColumn").ToString().Trim()
-
-            Dim inputType As String =
-            dr("InputType").ToString().Trim().ToUpper()
-
+            Dim colName As String = dr("DataBaseColumn").ToString().Trim()
+            Dim inputType As String = dr("InputType").ToString().Trim().ToUpper()
             If inputType <> "SPACERTYPE" Then Continue For
-
-            If colName = "" OrElse
-           Not gridTable.Columns.Contains(colName) Then Continue For
-
+            If colName = "" OrElse Not gridTable.Columns.Contains(colName) Then Continue For
             Dim spacerString As String = ""
-
-            If _MainColumTbl.Columns.Contains("SpacerString") AndAlso
-           Not IsDBNull(dr("SpacerString")) Then
-
+            If _MainColumTbl.Columns.Contains("SpacerString") AndAlso Not IsDBNull(dr("SpacerString")) Then
                 spacerString = dr("SpacerString").ToString()
             End If
-
             If spacerString = "" Then Continue For
-
-            Dim colIndex As Integer =
-            gridTable.Columns.IndexOf(colName) + 1
-
+            Dim colIndex As Integer = gridTable.Columns.IndexOf(colName) + 1
             For rowIndex As Integer = 1 To grd.Rows
-
-                grd.Cell(rowIndex, colIndex).Text =
-                spacerString
-
+                grd.Cell(rowIndex, colIndex).Text = spacerString
             Next
-
         Next
-
     End Sub
     Private Sub defineGridColName()
         _Grid1ColNames = New StringBuilder()
@@ -1850,7 +1806,6 @@ Public Class MainMasterFormRead
                 'Dim header As String = dr("Text").ToString().Trim()
                 Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
                 If alignVal = "" Then alignVal = "L"
-
                 If header = "" OrElse colName = "" Then
                     Continue For
                 End If
@@ -1882,14 +1837,10 @@ Public Class MainMasterFormRead
                     _FieldWidthSet.Append(",")
                 End If
                 _FieldWidthSet.Append(colName & ":" & widthVal)
-
-
                 ' Not Visible
                 Dim visibleVal As String = dr("Visible").ToString().Trim().ToUpper()
                 _FieldNotVisibile.Append(",")
                 _FieldNotVisibile.Append(colName & ":" & visibleVal)
-
-
                 If colType <> "Grid" Then
                     visibleVal = "N"
                     _FieldNotVisibile.Append(",")

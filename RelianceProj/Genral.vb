@@ -3984,4 +3984,56 @@ End Sub
 
         Return ""
     End Function
+    Public Function ExecuteBatchWithTransaction(ByVal deleteQuery As String, ByVal insertQueries As String(,), Optional ByVal queryColIndex As Integer = 4) As Integer
+        Dim sbBatch As New System.Text.StringBuilder()
+        Dim affectedRowsCount As Integer = 0
+
+        ' 1. Strict Abort aur Transaction Start
+        sbBatch.AppendLine("SET XACT_ABORT ON;")
+        sbBatch.AppendLine("BEGIN TRANSACTION;")
+        sbBatch.AppendLine("BEGIN TRY")
+
+        ' 2. Delete Query add karein agar di gayi hai
+        If Not String.IsNullOrEmpty(deleteQuery.Trim()) Then
+            Dim cleanDel As String = deleteQuery.Trim()
+            If Not cleanDel.EndsWith(";") Then cleanDel &= ";"
+            sbBatch.AppendLine(cleanDel)
+        End If
+
+        ' 3. Saari Insert Queries ko batch me jodein (Date Cleaning ke saath)
+        If insertQueries IsNot Nothing Then
+            For x As Integer = 0 To UBound(insertQueries, 1)
+                If insertQueries(x, queryColIndex) <> "" Then
+                    Dim rawQuery As String = insertQueries(x, queryColIndex)
+
+                    ' 'NULLDATE' ko SQL NULL se replace karein
+                    Dim cleanQuery As String = rawQuery.Replace("'NULLDATE'", "NULL").Trim()
+
+                    ' Ending semicolon ensure karein
+                    If Not cleanQuery.EndsWith(";") Then
+                        cleanQuery &= ";"
+                    End If
+
+                    sbBatch.AppendLine(cleanQuery)
+                    affectedRowsCount += 1
+                End If
+            Next
+        End If
+
+        ' 4. Commit aur Rollback Catch Block
+        sbBatch.AppendLine("    COMMIT TRANSACTION;")
+        sbBatch.AppendLine("END TRY")
+        sbBatch.AppendLine("BEGIN CATCH")
+        sbBatch.AppendLine("    IF @@TRANCOUNT > 0")
+        sbBatch.AppendLine("        ROLLBACK TRANSACTION;")
+        sbBatch.AppendLine("    DECLARE @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();")
+        sbBatch.AppendLine("    RAISERROR(@ErrMsg, 16, 1);")
+        sbBatch.AppendLine("END CATCH;")
+
+        ' 5. Execution
+        sqL = sbBatch.ToString()
+        sql_Data_Save_Delete_Update()
+
+        Return affectedRowsCount
+    End Function
 End Module

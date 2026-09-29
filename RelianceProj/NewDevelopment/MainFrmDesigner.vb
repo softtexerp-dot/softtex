@@ -964,32 +964,19 @@ Public Class MainFrmDesigner
             Dim col As Integer = Grid1.ActiveCell.Col
             Dim cellValue As String = Grid1.Cell(row, col).Text.Trim()
             If e.KeyCode = Keys.Enter Then
-
                 Dim _FItemcodeilter As String = ""
                 Dim ExtracolumnsToHide = {""}
                 GetTblName(_DataBaseFileName)
-                Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+                Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, cellValue, "SINGLE", "YES", ExtracolumnsToHide)
                 If selected1 Is Nothing Then Exit Sub
-
                 If selected1.ContainsKey("TABLE_NAME") Then
-
                     If selected1("TABLE_NAME") Is Nothing Then Exit Sub
-
                     If Grid1 Is Nothing OrElse Grid1.ActiveCell Is Nothing Then Exit Sub
-
                     If Detail_DataTableGrid Is Nothing Then Exit Sub
-
                     If Not Detail_DataTableGrid.Columns.Contains("DATABASETABLE") Then Exit Sub
-
                     Dim tableName As String = selected1("TABLE_NAME").ToString().Trim()
-
                     If tableName = "" Then Exit Sub
-
-                    Grid1.Cell(
-        Grid1.ActiveCell.Row,
-        Detail_DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1
-    ).Text = tableName
-
+                    Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text = tableName
                 End If
             End If
         ElseIf _ActivatedColName = "VISIBLE" Then
@@ -1045,11 +1032,9 @@ Public Class MainFrmDesigner
             Dim row As Integer = Grid1.ActiveCell.Row
             Dim useMasterValue As String = Grid1.Cell(row, Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text.Trim().ToUpper()
             If e.KeyCode = Keys.Space Then
-
                 If useMasterValue = "YES" Then
                     Grid1.Cell(row, Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
                     Grid1.Cell(row, Detail_DataTableGrid.Columns.IndexOf("MASTERLIST") + 1).Locked = True
-
                 ElseIf useMasterValue = "NO" Then
                     Grid1.Cell(row, Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "YES"
                     Grid1.Cell(row, Detail_DataTableGrid.Columns.IndexOf("MASTERLIST") + 1).Locked = False
@@ -1073,95 +1058,39 @@ Public Class MainFrmDesigner
                 End If
             End If
         ElseIf _ActivatedColName = "CNTRLNAME" Then
-
             If Grid1 Is Nothing OrElse Grid1.ActiveCell Is Nothing Then Exit Sub
-
             Dim row As Integer = Grid1.ActiveCell.Row
             Dim col As Integer = Grid1.ActiveCell.Col
-
             Dim cellValue As String = Grid1.Cell(row, col).Text.Trim()
-
             If e.KeyCode = Keys.Enter Then
-
-                '---------------------------------------------
-                ' CNTRLNAME ke liye Grid names ki list
-                ' GrdItem ke CntrlName column se aayegi
-                '---------------------------------------------
                 Dim gridNames As New DataTable()
                 gridNames.Columns.Add("CNTRLNAME", GetType(String))
-
-                Dim cntrlNameCol As Integer =
-            _DataTableGrid.Columns.IndexOf("CntrlName") + 1
-
+                Dim cntrlNameCol As Integer = _DataTableGrid.Columns.IndexOf("CntrlName") + 1
                 If cntrlNameCol > 0 Then
-
                     For i As Integer = 1 To GrdItem.Rows - 1
-
-                        Dim gridName As String =
-                    GrdItem.Cell(i, cntrlNameCol).Text.Trim()
-
+                        Dim gridName As String = GrdItem.Cell(i, cntrlNameCol).Text.Trim()
                         If String.IsNullOrWhiteSpace(gridName) Then
                             Continue For
                         End If
-
-                        'Sirf Grid se start hone wale names
-                        If gridName.StartsWith("Grid",
-                    StringComparison.OrdinalIgnoreCase) Then
-
-                            'Duplicate check
+                        If gridName.StartsWith("Grid", StringComparison.OrdinalIgnoreCase) Then
                             Dim alreadyExists As Boolean = False
-
                             For Each dr As DataRow In gridNames.Rows
-
-                                If dr("CNTRLNAME").ToString().Trim().
-                            Equals(gridName,
-                                   StringComparison.OrdinalIgnoreCase) Then
-
+                                If dr("CNTRLNAME").ToString().Trim().Equals(gridName, StringComparison.OrdinalIgnoreCase) Then
                                     alreadyExists = True
                                     Exit For
-
                                 End If
-
                             Next
-
                             If Not alreadyExists Then
                                 gridNames.Rows.Add(gridName)
                             End If
-
                         End If
-
                     Next
-
                 End If
-
-                '---------------------------------------------
-                ' Selection Form
-                '---------------------------------------------
                 Dim ExtracolumnsToHide = {""}
-
-                Dim selected1 =
-            SingleAccountSelectionFormsingledatatable(
-                gridNames,
-                Nothing,
-                "",
-                "SINGLE",
-                "YES",
-                ExtracolumnsToHide
-            )
-
-                '---------------------------------------------
-                ' Selected Grid name ko CNTRLNAME cell me set karo
-                '---------------------------------------------
-                If selected1 IsNot Nothing AndAlso
-           selected1.ContainsKey("CNTRLNAME") Then
-
-                    Grid1.Cell(
-                Grid1.ActiveCell.Row,
-                Detail_DataTableGrid.Columns.IndexOf("CNTRLNAME") + 1
-            ).Text = selected1("CNTRLNAME").ToString()
-
+                Dim selected1 = SingleAccountSelectionFormsingledatatable(gridNames, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+                If selected1 IsNot Nothing AndAlso selected1.ContainsKey("CNTRLNAME") Then
+                    Grid1.Cell(Grid1.ActiveCell.Row, Detail_DataTableGrid.Columns.IndexOf("CNTRLNAME") + 1).Text = selected1("CNTRLNAME").ToString()
                 End If
-
             End If
         ElseIf _ActivatedColName = "DATABASECOLUMN" Then
             If Grid1.ActiveCell Is Nothing Then Exit Sub
@@ -1241,16 +1170,29 @@ Public Class MainFrmDesigner
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("LocationY") + 1).Text = LocationY
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("OrderNo") + 1).Text = _ActiverownoHeader
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("Tabindex") + 1).Text = _ActiverownoHeader
+            'Dim gridName As String = _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Text.Trim()
             'If _GetGrid.Name = "Grid1" Then
-            Dim gridName As String = _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Text.Trim()
-            If _GetGrid.Name = "Grid1" OrElse _GetGrid.Name = "Grid2" Then
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Text = _GetGrid.Name
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Locked = True
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "GRID DETAIL DESIGN"
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
-                _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 10
-            ElseIf _BaseName.Trim().ToUpper() = "TABCONTROL" Then
+            '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
+            '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Text = _GetGrid.Name
+            '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("CntrlName") + 1).Locked = True
+            '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "GRID DETAIL DESIGN"
+            '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
+            '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 10
+            'Else
+            Dim CntrlNameCol As Integer = _GridDatatbl.Columns.IndexOf("CntrlName") + 1
+            Dim actualGridName As String = ""
+            If CntrlNameCol > 0 Then
+                actualGridName = _GetGrid.Cell(_GetGrid.ActiveCell.Row, CntrlNameCol).Text.Trim()
+                If Not String.IsNullOrWhiteSpace(actualGridName) AndAlso actualGridName.StartsWith("Grid", StringComparison.OrdinalIgnoreCase) Then
+                    _GetGrid.Cell(_ActiverownoHeader, CntrlNameCol).Text = actualGridName
+                    _GetGrid.Cell(_ActiverownoHeader, CntrlNameCol).Locked = True
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("VISIBLE") + 1).Text = "Y"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("FormDesignType") + 1).Text = "GRID DETAIL DESIGN"
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeHeight") + 1).Text = 20
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("SizeWidth") + 1).Text = 10
+                End If
+            End If
+            If _BaseName.Trim().ToUpper() = "TABCONTROL" Then
                 '----------------------------
                 ' DEFAULT CONTROL SETTINGS
                 '----------------------------
@@ -1778,11 +1720,10 @@ Public Class MainFrmDesigner
             Dim col As Integer = GrdItem.ActiveCell.Col
             Dim cellValue As String = GrdItem.Cell(row, col).Text.Trim()
             If e.KeyCode = Keys.Enter Then
-
                 Dim _FItemcodeilter As String = ""
                 Dim ExtracolumnsToHide = {""}
                 GetTblName(_DataBaseFileName)
-                Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+                Dim selected1 = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, cellValue, "SINGLE", "YES", ExtracolumnsToHide)
                 If selected1.ContainsKey("TABLE_NAME") Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text = selected1("TABLE_NAME").ToString()
                 End If
@@ -1972,35 +1913,20 @@ Public Class MainFrmDesigner
             Dim tabElementsCol As Integer = _DataTableGrid.Columns.IndexOf("TabElements") + 1
             Dim tabNameCol As Integer = _DataTableGrid.Columns.IndexOf("TabName") + 1
             Dim tabCountNoCol As Integer = _DataTableGrid.Columns.IndexOf("TabCountNo") + 1
-            '-----------------------------------------
-            ' GET TAB COUNT
-            '-----------------------------------------
             Dim tabCount As Integer = 0
             Integer.TryParse(GrdItem.Cell(RowNo, tabElementsCol).Text.Trim(), tabCount)
-            '-----------------------------------------
-            ' INVALID VALUE
-            '-----------------------------------------
             If tabCount <= 0 Then
                 GrdItem.Cell(RowNo, tabNameCol).Text = ""
                 GrdItem.Cell(RowNo, tabCountNoCol).Text = "0"
                 Exit Sub
             End If
-            '-----------------------------------------
-            ' GENERATE TAB NAME / TAB COUNT
-            '-----------------------------------------
             Dim tabNames As New List(Of String)
             'Dim tabNumbers As New List(Of String)
             For i As Integer = 1 To tabCount
                 tabNames.Add("Tab" & i)
                 'tabNumbers.Add(i.ToString())
             Next
-            '-----------------------------------------
-            ' SET TAB NAME
-            '-----------------------------------------
             GrdItem.Cell(RowNo, tabNameCol).Text = String.Join(",", tabNames)
-            '-----------------------------------------
-            ' SET TAB COUNT NO
-            '-----------------------------------------
             'GrdItem.Cell(RowNo, tabCountNoCol).Text = String.Join(",", tabNumbers)
         Catch ex As Exception
             MessageBox.Show("TabElements update error : " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -2910,6 +2836,7 @@ Public Class MainFrmDesigner
             Dim columnType As String = Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("COLUMNTYPE") + 1).Text.Trim()
             If columnType = "Grid" Then
                 Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text = "Grid1"
+                Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text = "GRID DETAIL DESIGN"
             End If
             Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text = StrConv(Grid1.Cell(i, Detail_DataTableGrid.Columns.IndexOf("USERTEXT") + 1).Text, VbStrConv.ProperCase)
             '======================================================
