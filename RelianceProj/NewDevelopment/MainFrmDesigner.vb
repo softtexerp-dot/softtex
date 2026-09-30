@@ -13,6 +13,8 @@ Public Class MainFrmDesigner
     Private Change_Grid_Data As Boolean = True
     Dim ColumnTypeCounter As New Dictionary(Of String, Integer)
     Dim LocationY As Integer = 10
+
+    Dim _ShowSaveMAsesage As Boolean = True
     Public Property ConnectionString As String = SqlServerConnectionString
 #Region "HEADER GRID COL. DEFINE AND FORMATTING "
 #Region "GRID GENERAL VARIABLE "
@@ -131,6 +133,8 @@ Public Class MainFrmDesigner
             .Append(",Precision") 'decimal
             .Append(",SaveYN")
             .Append(",SaveDefaultvalue")
+            .Append(",JoinerTableName")
+            .Append(",JoinerTableColumn")
             .Append(",FormDesignType")
             .Append(",Masking")
             .Append(",Tabelements")
@@ -174,7 +178,9 @@ Public Class MainFrmDesigner
             .Append(",InputType:Input Type")
             .Append(",SpacerString:Spacer String")
             .Append(",SaveYN:Save Y/N")
-            .Append(",SaveDefaultvalue:Default Value")
+            .Append(",SaveDefaultvalue:Default Text")
+            .Append(",JoinerTableName:Join Table")
+            .Append(",JoinerTableColumn:Join Column")
             .Append(",Masking:Decimal Value")
             .Append(",Tabelements:No Of Tabcontrol Tabs")
             .Append(",TabName:TabName")
@@ -203,6 +209,8 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:L")
             .Append(",SaveYN:L")
             .Append(",SaveDefaultvalue:L")
+            .Append(",JoinerTableName:L")
+            .Append(",JoinerTableColumn:L")
             .Append(",Masking:L")
             .Append(",Tabelements:L")
             .Append(",TabName:L")
@@ -231,6 +239,8 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:L")
             .Append(",SaveYN:L")
             .Append(",SaveDefaultvalue:L")
+            .Append(",JoinerTableName:L")
+            .Append(",JoinerTableColumn:L")
             .Append(",Masking:L")
             .Append(",Tabelements:L")
             .Append(",TabName:L")
@@ -287,6 +297,8 @@ Public Class MainFrmDesigner
             .Append(",UseMasterKey:Y")
             .Append(",SaveYN:Y")
             .Append(",SaveDefaultvalue:Y")
+            .Append(",JoinerTableName:Y")
+            .Append(",JoinerTableColumn:Y")
             .Append(",Precision:N") 'decimal
             .Append(",Managebook:N")
             .Append(",FormType:N")
@@ -323,6 +335,8 @@ Public Class MainFrmDesigner
             .Append(",SpacerString:10")
             .Append(",SaveYN:8")
             .Append(",SaveDefaultvalue:8")
+            .Append(",JoinerTableName:8")
+            .Append(",JoinerTableColumn:8")
             .Append(",Masking:10")
             .Append(",Tabelements:8")
             .Append(",TabName:10")
@@ -1070,7 +1084,8 @@ Public Class MainFrmDesigner
                     For i As Integer = 1 To GrdItem.Rows - 1
                         Dim gridName As String = GrdItem.Cell(i, cntrlNameCol).Text.Trim()
                         If String.IsNullOrWhiteSpace(gridName) Then
-                            Continue For
+                            gridName = "Grid1"
+                            'Continue For
                         End If
                         If gridName.StartsWith("Grid", StringComparison.OrdinalIgnoreCase) Then
                             Dim alreadyExists As Boolean = False
@@ -1102,8 +1117,6 @@ Public Class MainFrmDesigner
                 e.SuppressKeyPress = True
                 e.Handled = True
             End If
-
-
         ElseIf _ActivatedColName = "OPPMASTERCODE" Then
             Dim row As Integer = Grid1.ActiveCell.Row
             Dim colUseMaster As Integer = Detail_DataTableGrid.Columns.IndexOf("USEMASTER") + 1
@@ -1130,8 +1143,6 @@ Public Class MainFrmDesigner
             End If
             Call Fill_Sr_No_Item(Grid1, Detail_DataTableGrid)
         End If
-
-
     End Sub
 
     Private Function _GetAllColumName()
@@ -1149,17 +1160,37 @@ Public Class MainFrmDesigner
         Return tblTmp
     End Function
 
+    Private Sub _LoadadataGridJoinTable(ByVal _GetGrid As FlexCell.Grid, ByVal _GridDatatbl As DataTable, ByVal _ColmName As String, ByVal _DataType As String, ByVal _ActiverownoHeader As Integer)
+        Dim _BaseName As String = _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text
+        If _ActiverownoHeader > 0 Then
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("JoinerTableColumn") + 1).Text = _ColmName
+            'If _GetGrid IsNot Nothing AndAlso _GridDatatbl IsNot Nothing AndAlso _GetGrid.ActiveCell.Row > 0 Then
+            '    Dim tableColIndex As Integer = _GridDatatbl.Columns.IndexOf("JoinerTableName") + 1
+            '    If tableColIndex > 0 Then
+            '        _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("JoinerTableName") + 1).Text = _GetGrid.Cell(_GetGrid.ActiveCell.Row, tableColIndex).Text.Trim()
+            '    End If
+            'End If
+            _GetGrid.Rows = _GetGrid.Rows + 1
+        End If
+    End Sub
     Private Sub _LoadadataGrid(ByVal _GetGrid As FlexCell.Grid, ByVal _GridDatatbl As DataTable, ByVal _ColmName As String, ByVal _DataType As String, ByVal _ActiverownoHeader As Integer)
 
         Dim _BaseName As String = _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text
         If _ActiverownoHeader > 0 Then
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text = _BaseName.ToString()
             _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DATABASECOLUMN") + 1).Text = _ColmName
+            _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("JoinerTableColumn") + 1).Text = _ColmName
             '_GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1).Text = CmbTableName.Text
             If _GetGrid IsNot Nothing AndAlso _GridDatatbl IsNot Nothing AndAlso _GetGrid.ActiveCell.Row > 0 Then
                 Dim tableColIndex As Integer = _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1
                 If tableColIndex > 0 Then
                     _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("DataBaseTable") + 1).Text = _GetGrid.Cell(_GetGrid.ActiveCell.Row, tableColIndex).Text.Trim()
+                End If
+            End If
+            If _GetGrid IsNot Nothing AndAlso _GridDatatbl IsNot Nothing AndAlso _GetGrid.ActiveCell.Row > 0 Then
+                Dim tableColIndex As Integer = _GridDatatbl.Columns.IndexOf("JoinerTableName") + 1
+                If tableColIndex > 0 Then
+                    _GetGrid.Cell(_ActiverownoHeader, _GridDatatbl.Columns.IndexOf("JoinerTableName") + 1).Text = _GetGrid.Cell(_GetGrid.ActiveCell.Row, tableColIndex).Text.Trim()
                 End If
             End If
             If txtfrmtype.Text.Trim() = "REPORT" Then
@@ -1286,6 +1317,213 @@ Public Class MainFrmDesigner
         End If
     End Sub
 
+    Private Sub View_RecordGridDetailJoinColumn(ByVal _gridName As FlexCell.Grid, ByVal Datatable As DataTable, ByVal _SelectionType As String, ByVal _ActivatedColName As String)
+        Dim selectedCols As New List(Of String)
+        selectedCols.AddRange(GetSelectedColumnsFromGrid(_gridName, Datatable, _ActivatedColName))
+        If _gridName.Name = "GrdItem" Then
+            selectedCols.AddRange(GetSelectedColumnsFromGrid(GrdItem, _DataTableGrid, _ActivatedColName))
+            'selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName))
+        ElseIf _gridName.Name = "Grid1" Then
+            'selectedCols.AddRange(GetSelectedColumnsFromGrid(GrdItem, _DataTableGrid, _ActivatedColName))
+            selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName))
+        End If
+        '========================================================
+        ' REMOVE "NO COLUMN USE" FROM SELECTED COLUMN LIST
+        '========================================================
+        selectedCols = selectedCols.Where(
+            Function(x)
+                Return Not String.Equals(
+                    x.Trim(),
+                    "NO COLUMN USE",
+                    StringComparison.OrdinalIgnoreCase
+                )
+            End Function
+        ).Distinct().ToList()
+        '========================================================
+        ' WHERE CONDITION
+        '========================================================
+        Dim whereCondition As String = ""
+        If selectedCols.Count > 0 Then
+            Dim inClause As String = "'" & String.Join("','", selectedCols.Select(Function(x)
+                                                                                      Return x.Replace("'", "''")
+                                                                                  End Function)) & "'"
+            whereCondition = " AND COLUMN_NAME NOT IN (" & inClause & ") "
+        End If
+        '========================================================
+        ' BUILD QUERY
+        '========================================================
+        _strQuery = New StringBuilder()
+        'Dim _TblName As String = CmbTableName.Text.Trim()
+        Dim _TblName As String = ""
+        If _gridName IsNot Nothing AndAlso Datatable IsNot Nothing AndAlso _gridName.ActiveCell.Row > 0 Then
+            Dim tableColIndex As Integer = Datatable.Columns.IndexOf("JoinerTableName") + 1
+            If tableColIndex > 0 Then
+                _TblName = _gridName.Cell(_gridName.ActiveCell.Row, tableColIndex).Text.Trim()
+            End If
+        End If
+        If String.IsNullOrWhiteSpace(_TblName) Then
+            _gridName.Focus()
+            Exit Sub
+        End If
+
+        With _strQuery
+
+            .Append(" SELECT ")
+            .Append(" TickMark ")
+            .Append(" ,ColumnName ")
+            .Append(" ,DataType ")
+            .Append(" ,Remark ")
+            .Append(" FROM ( ")
+
+            '====================================================
+            ' NO COLUMN USE
+            '====================================================
+            .Append(" SELECT ")
+            .Append(" 'False' AS TickMark ")
+            .Append(" ,'NO COLUMN USE' AS ColumnName ")
+            .Append(" ,'' AS DataType ")
+            .Append(" ,'' AS Remark ")
+            .Append(" ,0 AS SortOrder ")
+
+            .Append(" UNION ALL ")
+
+            '====================================================
+            ' TABLE COLUMNS - TABLE CREATION ORDER
+            '====================================================
+            .Append(" SELECT ")
+            .Append(" 'False' AS TickMark ")
+            .Append(" ,COLUMN_NAME AS ColumnName ")
+            .Append(" ,DATA_TYPE AS DataType ")
+            .Append(" ,'' AS Remark ")
+            .Append(" ,ORDINAL_POSITION AS SortOrder ")
+
+            .Append(" FROM INFORMATION_SCHEMA.COLUMNS ")
+
+            .Append(" WHERE TABLE_NAME = N'" &
+            _TblName.Replace("'", "''") & "' ")
+
+            .Append(whereCondition)
+
+            '====================================================
+            ' SINGLE SELECTION FILTER
+            '====================================================
+            If _SelectionType = "SINGLE" Then
+                .Append(" AND DATA_TYPE NOT IN ('Numeric','datetime') ")
+            End If
+
+            .Append(" ) AS ColumnList ")
+            '====================================================
+            ' TABLE CREATION ORDER
+            '====================================================
+            .Append(" ORDER BY SortOrder ")
+        End With
+        sqL = _strQuery.ToString()
+        sql_connect_slect()
+        Dim COLUMN_NAME As String = ""
+        Dim DATATYPE As String = ""
+        Dim _LoadQuery As String = _strQuery.ToString()
+        '========================================================
+        ' MULTY SELECTION
+        '========================================================
+        If _SelectionType = "MULTY" Then
+            Dim ExtracolumnsToHide = {""}
+            Dim SelectedaccountCode As New List(Of String)
+            Dim selectedList = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
+            If selectedList IsNot Nothing Then
+                For Each rowDict As Dictionary(Of String, Object) In selectedList
+                    If rowDict IsNot Nothing AndAlso
+                       rowDict.ContainsKey("ColumnName") Then
+                        If COLUMN_NAME <> "" Then
+                            COLUMN_NAME &= ","
+                        End If
+                        COLUMN_NAME &= rowDict("ColumnName").ToString()
+                    End If
+                    If rowDict IsNot Nothing AndAlso
+                       rowDict.ContainsKey("DataType") Then
+                        If DATATYPE <> "" Then
+                            DATATYPE &= ","
+                        End If
+                        DATATYPE &= rowDict("DataType").ToString()
+                    End If
+                Next
+                '================================================
+                ' SPLIT COLUMN + DATATYPE
+                '================================================
+                Dim colList = COLUMN_NAME.Split(","c).Select(Function(q) q.Trim()).ToList()
+                Dim typeList = DATATYPE.Split(","c).Select(Function(q) q.Trim()).ToList()
+                Dim finalQualityList =
+                    colList.
+                    Select(
+                        Function(col, index)
+                            Return New With {
+                                .ColumnName = col,
+                                .DataType =
+                                    If(
+                                        index < typeList.Count,
+                                        typeList(index),
+                                        ""
+                                    )
+                            }
+                        End Function
+                    ).
+                    Where(
+                        Function(x)
+                            Return x.ColumnName <> ""
+                        End Function
+                    ).ToList()
+                Dim _ActiverownoHeader As Integer = _gridName.ActiveCell.Row
+                '================================================
+                ' LOAD SELECTED COLUMNS
+                '================================================
+                For Each item In finalQualityList
+                    If String.Equals(item.ColumnName.Trim(), "NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
+                        '========================================
+                        ' NO COLUMN USE
+                        '========================================
+                        _LoadadataGridJoinTable(_gridName, Datatable, "NO COLUMN USE", "", _ActiverownoHeader)
+                    Else
+                        '========================================
+                        ' NORMAL COLUMN
+                        '========================================
+                        _LoadadataGridJoinTable(_gridName, Datatable, item.ColumnName, item.DataType, _ActiverownoHeader)
+                    End If
+                    _ActiverownoHeader += 1
+                Next
+            End If
+            '========================================================
+            ' SINGLE SELECTION
+            '========================================================
+        Else
+            Dim _ActiveText As String = _gridName.Cell(_gridName.ActiveCell.Row, Datatable.Columns.IndexOf(_ActivatedColName) + 1).Text
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType([Nothing]), _ActiveText, _SelectionType)
+            If selected IsNot Nothing AndAlso
+               selected.ContainsKey("ColumnName") Then
+                Dim selectedColumn As String = selected("ColumnName").ToString().Trim()
+                Dim selectedDataType As String = ""
+                If selected.ContainsKey("DataType") AndAlso
+                   selected("DataType") IsNot Nothing Then
+                    selectedDataType = selected("DataType").ToString().Trim()
+                End If
+                Dim rowIndex As Integer = _gridName.ActiveCell.Row
+                Dim colIndex As Integer = Datatable.Columns.IndexOf(_ActivatedColName) + 1
+                Dim inputTypeIndex As Integer = Datatable.Columns.IndexOf("InputType") + 1
+                '================================================
+                ' NO COLUMN USE
+                '================================================
+                If String.Equals(selectedColumn, "NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
+                    _gridName.Cell(rowIndex, colIndex).Text = "NO COLUMN USE"
+                    _gridName.Cell(rowIndex, inputTypeIndex).Text = ""
+                Else
+                    '============================================
+                    ' NORMAL COLUMN
+                    '============================================
+                    _gridName.Cell(rowIndex, colIndex).Text = selectedColumn
+                    _gridName.Cell(rowIndex, inputTypeIndex).Text = selectedDataType
+                End If
+            End If
+        End If
+        _gridName.Focus()
+    End Sub
     Private Sub View_RecordGridDetail(ByVal _gridName As FlexCell.Grid, ByVal Datatable As DataTable, ByVal _SelectionType As String, ByVal _ActivatedColName As String)
         Dim selectedCols As New List(Of String)
         selectedCols.AddRange(GetSelectedColumnsFromGrid(_gridName, Datatable, _ActivatedColName))
@@ -1334,53 +1572,104 @@ Public Class MainFrmDesigner
             _gridName.Focus()
             Exit Sub
         End If
+        'With _strQuery
+        '    '====================================================
+        '    ' OUTER SELECT
+        '    '====================================================
+        '    .Append(" SELECT ")
+        '    .Append(" TickMark ")
+        '    .Append(" ,ColumnName ")
+        '    .Append(" ,DataType ")
+        '    .Append(" ,Remark ")
+        '    .Append(" FROM ( ")
+        '    '====================================================
+        '    ' FIRST ROW : NO COLUMN USE
+        '    '====================================================
+        '    .Append(" SELECT ")
+        '    .Append(" 'False' AS TickMark ")
+        '    .Append(" ,'NO COLUMN USE' AS ColumnName ")
+        '    .Append(" ,'' AS DataType ")
+        '    .Append(" ,'' AS Remark ")
+        '    .Append(" UNION ALL ")
+        '    '====================================================
+        '    ' TABLE COLUMNS
+        '    '====================================================
+        '    .Append(" SELECT ")
+        '    .Append(" 'False' AS TickMark ")
+        '    .Append(" ,COLUMN_NAME AS ColumnName ")
+        '    .Append(" ,DATA_TYPE AS DataType ")
+        '    .Append(" ,'' AS Remark ")
+        '    .Append(" FROM INFORMATION_SCHEMA.COLUMNS ")
+        '    .Append(" WHERE TABLE_NAME = N'" & _TblName.Replace("'", "''") & "' ")
+        '    .Append(whereCondition)
+        '    '====================================================
+        '    ' SINGLE SELECTION FILTER
+        '    '====================================================
+        '    If _SelectionType = "SINGLE" Then
+        '        .Append(" AND DATA_TYPE NOT IN ('Numeric','datetime') ")
+        '    End If
+        '    '====================================================
+        '    ' CLOSE UNION SUBQUERY
+        '    '====================================================
+        '    .Append(" ) AS ColumnList ")
+        '    '====================================================
+        '    ' ORDER
+        '    ' NO COLUMN USE ALWAYS FIRST
+        '    '====================================================
+        '    .Append(" ORDER BY ")
+        '    .Append(" CASE " & " WHEN ColumnName = 'NO COLUMN USE' THEN 0 " & " ELSE 1 " & " END, ")
+        '    .Append(" ColumnName ")
+        'End With
         With _strQuery
-            '====================================================
-            ' OUTER SELECT
-            '====================================================
+
             .Append(" SELECT ")
             .Append(" TickMark ")
             .Append(" ,ColumnName ")
             .Append(" ,DataType ")
             .Append(" ,Remark ")
             .Append(" FROM ( ")
+
             '====================================================
-            ' FIRST ROW : NO COLUMN USE
+            ' NO COLUMN USE
             '====================================================
             .Append(" SELECT ")
             .Append(" 'False' AS TickMark ")
             .Append(" ,'NO COLUMN USE' AS ColumnName ")
             .Append(" ,'' AS DataType ")
             .Append(" ,'' AS Remark ")
+            .Append(" ,0 AS SortOrder ")
+
             .Append(" UNION ALL ")
+
             '====================================================
-            ' TABLE COLUMNS
+            ' TABLE COLUMNS - TABLE CREATION ORDER
             '====================================================
             .Append(" SELECT ")
             .Append(" 'False' AS TickMark ")
             .Append(" ,COLUMN_NAME AS ColumnName ")
             .Append(" ,DATA_TYPE AS DataType ")
             .Append(" ,'' AS Remark ")
+            .Append(" ,ORDINAL_POSITION AS SortOrder ")
+
             .Append(" FROM INFORMATION_SCHEMA.COLUMNS ")
-            .Append(" WHERE TABLE_NAME = N'" & _TblName.Replace("'", "''") & "' ")
+
+            .Append(" WHERE TABLE_NAME = N'" &
+            _TblName.Replace("'", "''") & "' ")
+
             .Append(whereCondition)
+
             '====================================================
             ' SINGLE SELECTION FILTER
             '====================================================
             If _SelectionType = "SINGLE" Then
                 .Append(" AND DATA_TYPE NOT IN ('Numeric','datetime') ")
             End If
-            '====================================================
-            ' CLOSE UNION SUBQUERY
-            '====================================================
+
             .Append(" ) AS ColumnList ")
             '====================================================
-            ' ORDER
-            ' NO COLUMN USE ALWAYS FIRST
+            ' TABLE CREATION ORDER
             '====================================================
-            .Append(" ORDER BY ")
-            .Append(" CASE " & " WHEN ColumnName = 'NO COLUMN USE' THEN 0 " & " ELSE 1 " & " END, ")
-            .Append(" ColumnName ")
+            .Append(" ORDER BY SortOrder ")
         End With
         sqL = _strQuery.ToString()
         sql_connect_slect()
@@ -1531,6 +1820,7 @@ Public Class MainFrmDesigner
         _FrmLoad = False
         TabControl1.Enabled = False
         AttachButtonFocusEvents(Me)
+
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnView")
@@ -1727,6 +2017,47 @@ Public Class MainFrmDesigner
                 If selected1.ContainsKey("TABLE_NAME") Then
                     GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1).Text = selected1("TABLE_NAME").ToString()
                 End If
+            End If
+        ElseIf _ActivatedColName = "JOINERTABLENAME" Then
+            If GrdItem Is Nothing OrElse GrdItem.ActiveCell Is Nothing Then Exit Sub
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim col As Integer = GrdItem.ActiveCell.Col
+            If e.KeyCode = Keys.Enter Then
+                Dim DatabaseTableCol As Integer = _DataTableGrid.Columns.IndexOf("DATABASETABLE") + 1
+                If DatabaseTableCol <= 0 Then Exit Sub
+                Dim CurrentTableName As String = GrdItem.Cell(row, DatabaseTableCol).Text.Trim()
+                Dim TableNames As New List(Of String)
+                For r As Integer = 1 To GrdItem.Rows - 1
+                    Dim TableName As String = GrdItem.Cell(r, DatabaseTableCol).Text.Trim()
+                    If TableName <> "" Then
+                        If TableName.Equals(CurrentTableName, StringComparison.OrdinalIgnoreCase) Then
+                            Continue For
+                        End If
+                        If Not TableNames.Any(Function(x) x.Equals(TableName, StringComparison.OrdinalIgnoreCase)) Then
+                            TableNames.Add(TableName)
+                        End If
+                    End If
+                Next
+                If TableNames.Count = 0 Then Exit Sub
+                Dim _TableSelectionTbl As New DataTable()
+                _TableSelectionTbl.Columns.Add("TABLE_NAME", GetType(String))
+                For Each TableName As String In TableNames
+                    _TableSelectionTbl.Rows.Add(TableName)
+                Next
+                Dim ExtracolumnsToHide = {""}
+                Dim selected1 = SingleAccountSelectionFormsingledatatable(_TableSelectionTbl, Nothing, "", "SINGLE", "YES", ExtracolumnsToHide)
+                If selected1 IsNot Nothing AndAlso
+                   selected1.ContainsKey("TABLE_NAME") Then
+                    GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("JOINERTABLENAME") + 1).Text = selected1("TABLE_NAME").ToString().Trim()
+                End If
+            End If
+        ElseIf _ActivatedColName = "JOINERTABLECOLUMN" Then
+            If GrdItem.ActiveCell Is Nothing Then Exit Sub
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim col As Integer = GrdItem.ActiveCell.Col
+            Dim cellValue As String = GrdItem.Cell(row, col).Text.Trim()
+            If e.KeyCode = Keys.Enter And String.IsNullOrWhiteSpace(cellValue) Then
+                View_RecordGridDetailJoinColumn(GrdItem, _DataTableGrid, "SINGLE", _ActivatedColName)
             End If
         ElseIf _ActivatedColName = "INPUTTYPE" Then
             If e.KeyCode = Keys.Space Then
@@ -2327,6 +2658,26 @@ Public Class MainFrmDesigner
     End Sub
 
     Private Sub UC_Buttons1_SaveClick() Handles UC_Buttons1.SaveClick
+        _ShowSaveMAsesage = True
+        SaveRecord()
+    End Sub
+    Private Sub TabControl1_SelectedIndexChanged_1(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        Try
+            Dim tab As TabControl =
+            TryCast(sender, TabControl)
+
+            If tab Is Nothing Then Exit Sub
+
+            If tab.SelectedTab Is Nothing Then Exit Sub
+            _ShowSaveMAsesage = False
+            SaveRecord()
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub SaveRecord()
         _FrmLoad = False
         Dim _ChekColm As Boolean = False
         Dim colUseMasterKey As Integer = _DataTableGrid.Columns.IndexOf("UseMasterKey") + 1
@@ -2375,15 +2726,19 @@ Public Class MainFrmDesigner
         Fill_HeaderGrid_Records_Into_DataTables()
         'Detail grid save
         Fill_DetailGrid_Records_Into_DataTables()
-        Interaction.MsgBox("Records Successfully Saved", MsgBoxStyle.Information, "Soft-Tex PRO")
-        ObjCls_General.Blank_Object(Me)
-        GrdItem.BoldFixedCell = False
-        Clear_Grid(GrdItem, 2)
-        Grid1.BoldFixedCell = False
-        Clear_Grid(Grid1, 2)
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
-        Ctl_Managebybook.Visible = False
+
+
+        If _ShowSaveMAsesage = True Then
+            Interaction.MsgBox("Records Successfully Saved", MsgBoxStyle.Information, "Soft-Tex PRO")
+            ObjCls_General.Blank_Object(Me)
+            GrdItem.BoldFixedCell = False
+            Clear_Grid(GrdItem, 2)
+            Grid1.BoldFixedCell = False
+            Clear_Grid(Grid1, 2)
+            UC_Buttons1._ButtonEnableDisable("LOAD")
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+            Ctl_Managebybook.Visible = False
+        End If
     End Sub
     Private Sub Fill_HeaderGrid_Records_Into_DataTables()
         Dim IsImportForm As Boolean = Not String.IsNullOrWhiteSpace(Ctl_ImpformId.Text)
@@ -2688,7 +3043,7 @@ Public Class MainFrmDesigner
             "MainFormLocationY,FormDesignType,")
             sb.Append("FocusColor,LostFocusColor,Visible,ReadOnly,TextAlign," &
             "Erequred,Enabled,")
-            sb.Append("SaveYN,Masking,Managebook,FormType,Tabelements,TabName,TabCountNo,SaveDefaultvalue)")
+            sb.Append("SaveYN,Masking,Managebook,FormType,Tabelements,TabName,TabCountNo,SaveDefaultvalue,JoinerTableName,JoinerTableColumn)")
             sb.Append(" VALUES (")
             '======================================================
             ' ROWID
@@ -2746,6 +3101,8 @@ Public Class MainFrmDesigner
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("TabName") + 1).Text.Trim().Replace("'", "''") & "',")
             sb.Append(TabCountNoValue & ",")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("SaveDefaultvalue") + 1).Text.Trim().Replace("'", "''") & "'")
+            sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("JoinerTableName") + 1).Text.Trim().Replace("'", "''") & "'")
+            sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("JoinerTableColumn") + 1).Text.Trim().Replace("'", "''") & "'")
             sb.Append(")")
             '======================================================
             ' SAVE
@@ -3543,6 +3900,8 @@ Public Class MainFrmDesigner
             Return OleDbType.VarWChar
         End If
     End Function
+
+
 #End Region
 
 End Class
