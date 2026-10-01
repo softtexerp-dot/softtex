@@ -56,91 +56,91 @@ Module GetMasterDataJoinInMaster
             Return result
         End If
 
-
+        'Z1....13 use
         If _SelectionMastrName = "ACCOUNT MASTER" Then
-            result.JoinHeader = ",MstMasterAccount.Accountname as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstMasterAccount ON A." & _OppositCode & " = MstMasterAccount.ACCOUNTCODE"
+            result.JoinHeader = ",Z4.Accountname as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstMasterAccount as Z4 ON A." & _OppositCode & " = Z4.ACCOUNTCODE"
         ElseIf _SelectionMastrName = "AGENT MASTER" Then
-            result.JoinHeader = ",MstMasterAccount.Accountname as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstMasterAccount ON A." & _OppositCode & " = MstMasterAccount.ACCOUNTCODE"
+            result.JoinHeader = ",Z5.Accountname as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstMasterAccount As Z5 ON A." & _OppositCode & " = Z5.ACCOUNTCODE"
         ElseIf _SelectionMastrName = "CITY MASTER" Then
-            result.JoinHeader = ",MstCity.Cityname as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstCity ON A." & _OppositCode & " = MstCity.citycode"
+            result.JoinHeader = ",Z6.Cityname as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstCity as Z6 ON A." & _OppositCode & " = Z6.citycode"
         ElseIf _SelectionMastrName = "STATE MASTER" Then
-            result.JoinHeader = ",MstState.StateName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstState ON A." & _OppositCode & " = MstState.STATEID"
+            result.JoinHeader = ",Z7.StateName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstState as Z7 ON A." & _OppositCode & " = Z7.STATEID"
         ElseIf _SelectionMastrName = "FABRIC ITEM MASTER" Then
-            result.JoinHeader = ",MstFabricItem.ITENNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstFabricItem ON A." & _OppositCode & " = MstFabricItem.ID"
+            result.JoinHeader = ",Z8.ITENNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstFabricItem as Z8 ON A." & _OppositCode & " = Z8.ID"
         ElseIf _SelectionMastrName = "FABRIC DESIGN MASTER" Then
-            result.JoinHeader = ",Mst_Fabric_Design.Design_Name as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN Mst_Fabric_Design ON A." & _OppositCode & " = Mst_Fabric_Design.Design_code"
+            result.JoinHeader = ",Z9.Design_Name as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN Mst_Fabric_Design as Z9 ON A." & _OppositCode & " = Z9.Design_code"
         ElseIf _SelectionMastrName = "FABRIC SHADE MASTER" Then
-            result.JoinHeader = ",Mst_Fabric_Shade.SHADE as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN Mst_Fabric_Shade ON A." & _OppositCode & " = Mst_Fabric_Shade.Id"
+            result.JoinHeader = ",Z10.SHADE as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN Mst_Fabric_Shade as Z10 ON A." & _OppositCode & " = Z10.Id"
         ElseIf _SelectionMastrName = "FABRIC SELVEDGE MASTER" Then
-            result.JoinHeader = ",Mst_selvedge.SELVEDGE_NAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN Mst_selvedge ON A." & _OppositCode & " = Mst_selvedge.Id"
+            result.JoinHeader = ",Z11.SELVEDGE_NAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN Mst_selvedge as Z11 ON A." & _OppositCode & " = Z11.Id"
         ElseIf _SelectionMastrName = "YARN MASTER" Then
-            result.JoinHeader = ",MstYarnType.YarnTypeName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstYarnType ON A." & _OppositCode & " = MstYarnType.YarnTypeCode"
+            result.JoinHeader = ",Z12.YarnTypeName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstYarnType as Z12 ON A." & _OppositCode & " = Z12.YarnTypeCode"
         ElseIf _SelectionMastrName = "YARN SHADE MASTER" Then
-            result.JoinHeader = ",MstYarnCount.CountName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstYarnCount ON A." & _OppositCode & " = MstYarnCount.CountCode"
+            result.JoinHeader = ",Z13.CountName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstYarnCount as Z13 ON A." & _OppositCode & " = Z13.CountCode"
         ElseIf _SelectionMastrName = "GENRAL ITEM MASTER" Then
-            result.JoinHeader = ",MstStoreItem.ItemName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstStoreItem ON A." & _OppositCode & " = MstStoreItem.ItemCode"
+            result.JoinHeader = ",L.ItemName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstStoreItem as L ON A." & _OppositCode & " = L.ItemCode"
         ElseIf _SelectionMastrName = "SUBITEM MASTER" Then
-            result.JoinHeader = ",MstStoreSubItem.SUBITEMNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstStoreSubItem ON A." & _OppositCode & " = MstStoreSubItem.subItemCode"
+            result.JoinHeader = ",M.SUBITEMNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstStoreSubItem as M ON A." & _OppositCode & " = M.subItemCode"
         ElseIf _SelectionMastrName = "SIZE MASTER" Then
-            result.JoinHeader = ",MstSize.SizeName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstSize ON A." & _OppositCode & " = MstSize.SizeCode"
+            result.JoinHeader = ",N.SizeName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstSize as N ON A." & _OppositCode & " = N.SizeCode"
         ElseIf _SelectionMastrName = "COLOR MASTER" Then
-            result.JoinHeader = ",MstColor.ColorName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstColor ON A." & _OppositCode & " = MstColor.ColorCode"
+            result.JoinHeader = ",O.ColorName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstColor as O ON A." & _OppositCode & " = O.ColorCode"
         ElseIf _SelectionMastrName = "REMARK MASTER" Then
-            result.JoinHeader = ",MstRemark.RemarkName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstRemark ON A." & _OppositCode & " = MstRemark.RemarkCode"
+            result.JoinHeader = ",P.RemarkName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstRemark as P ON A." & _OppositCode & " = P.RemarkCode"
         ElseIf _SelectionMastrName = "PROCESS MASTER" Then
-            result.JoinHeader = ",MstMasterAccount.ACCOUNTNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstMasterAccount ON A." & _OppositCode & " = MstMasterAccount.ACCOUNTCODE"
+            result.JoinHeader = ",Q.ACCOUNTNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstMasterAccount as Q ON A." & _OppositCode & " = Q.ACCOUNTCODE"
         ElseIf _SelectionMastrName = "CUT MASTER" Then
-            result.JoinHeader = ",MstCutMaster.CUTNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstCutMaster ON A." & _OppositCode & " = MstCutMaster.ID"
+            result.JoinHeader = ",R.CUTNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstCutMaster as R ON A." & _OppositCode & " = R.ID"
         ElseIf _SelectionMastrName = "DEPARTMENT MASTER" Then
-            result.JoinHeader = ",MstDepartment.Departmentname as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstDepartment ON A." & _OppositCode & " = MstDepartment.Departmentcode"
+            result.JoinHeader = ",S.Departmentname as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstDepartment as S ON A." & _OppositCode & " = S.Departmentcode"
         ElseIf _SelectionMastrName = "POST MASTER" Then
-            result.JoinHeader = ",MSTPOST.POSTNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MSTPOST ON A." & _OppositCode & " = MSTPOST.POSTCODE"
+            result.JoinHeader = ",T.POSTNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MSTPOST as T ON A." & _OppositCode & " = T.POSTCODE"
         ElseIf _SelectionMastrName = "EMPLOYEE MASTER" Then
-            result.JoinHeader = ",MstEmployee.EMPNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstEmployee ON A." & _OppositCode & " = MstEmployee.EMPCODE"
+            result.JoinHeader = ",U.EMPNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstEmployee as U ON A." & _OppositCode & " = U.EMPCODE"
         ElseIf _SelectionMastrName = "FABRIC GROUP MASTER" Then
-            result.JoinHeader = ",MstFabricGroup.fabric_GroupName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstFabricGroup ON A." & _OppositCode & " = MstFabricGroup.ID"
+            result.JoinHeader = ",V.fabric_GroupName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstFabricGroup as V ON A." & _OppositCode & " = V.ID"
         ElseIf _SelectionMastrName = "GODOWN MASTER" Then
-            result.JoinHeader = ",MstGodown.GodownName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstGodown ON A." & _OppositCode & " = MstGodown.GodownCode"
+            result.JoinHeader = ",W.GodownName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstGodown as W ON A." & _OppositCode & " = W.GodownCode"
         ElseIf _SelectionMastrName = "GRADER MASTER" Then
-            result.JoinHeader = ",MstGrader.GraderName as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstGrader ON A." & _OppositCode & " = MstGrader.GraderCode"
+            result.JoinHeader = ",X.GraderName as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstGrader as X ON A." & _OppositCode & " = X.GraderCode"
         ElseIf _SelectionMastrName = "INSURANCE MASTER" Then
-            result.JoinHeader = ",MstInsuranceCompany.COMPANYNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstInsuranceCompany ON A." & _OppositCode & " = MstInsuranceCompany.ID"
+            result.JoinHeader = ",Y.COMPANYNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstInsuranceCompany as Y ON A." & _OppositCode & " = Y.ID"
         ElseIf _SelectionMastrName = "LOOMNO MASTER" Then
-            result.JoinHeader = ",MSTLOOMNO.LOOMNO as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MSTLOOMNO ON A." & _OppositCode & " = MSTLOOMNO.LoomNoCode"
+            result.JoinHeader = ",Z.LOOMNO as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MSTLOOMNO as Z ON A." & _OppositCode & " = Z.LoomNoCode"
         ElseIf _SelectionMastrName = "SALESMAN MASTER" Then
-            result.JoinHeader = ",MstSalesMan.salesmanname as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstSalesMan ON A." & _OppositCode & " = MstSalesMan.salesmancode"
+            result.JoinHeader = ",Z1.salesmanname as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstSalesMan as Z1 ON A." & _OppositCode & " = Z1.salesmancode"
         ElseIf _SelectionMastrName = "TRANSPORT MASTER" Then
-            result.JoinHeader = ",MstTransport.TRANSPORTNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstTransport ON A." & _OppositCode & " = MstTransport.ID"
+            result.JoinHeader = ",Z2.TRANSPORTNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstTransport as Z2 ON A." & _OppositCode & " = Z2.ID"
         ElseIf _SelectionMastrName = "BOOK MASTER" Then
-            result.JoinHeader = ",MstBook.BOOKNAME as [" & _DatabaseHeaderName & "]"
-            result.LeftJoin = " LEFT JOIN MstBook ON A." & _OppositCode & " = MstBook.BookCode"
+            result.JoinHeader = ",Z3.BOOKNAME as [" & _DatabaseHeaderName & "]"
+            result.LeftJoin = " LEFT JOIN MstBook as Z3 ON A." & _OppositCode & " = Z3.BookCode"
         End If
         Return result
     End Function

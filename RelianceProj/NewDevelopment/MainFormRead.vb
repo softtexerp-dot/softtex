@@ -102,6 +102,7 @@ Public Class MainFormRead
     Private DynamicTabControl As TabControl = Nothing
     Private CurrentTabPage As TabPage = Nothing
     Dim ImagePaths As New Dictionary(Of Integer, String)
+    Private _FieldUseHeaderColumn As New StringBuilder()
 
 
 
@@ -391,8 +392,8 @@ Public Class MainFormRead
                         _TblName = ""
                     End If
                     If Not String.IsNullOrWhiteSpace(_TblName) AndAlso Not String.IsNullOrWhiteSpace(Entytxt.Text.Trim()) Then
-                        Dim delQry As String = "DELETE FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode.Replace("'", "''") & "' AND ENTRYNO =" & Entytxt.Text.Trim()
-                        ExecuteBatchWithTransaction(delQry, Array_Opening, 4)
+                        'Dim delQry As String = "DELETE FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode.Replace("'", "''") & "' AND ENTRYNO =" & Entytxt.Text.Trim()
+                        'ExecuteBatchWithTransaction(delQry, Array_Opening, 4)
                     End If
                 End If
                 Dim Pcs_Row_No As Integer = 0
@@ -714,9 +715,11 @@ Public Class MainFormRead
 
 
 
-        Dim leftJoin As String = ""
-        Dim joinHeader As String = ""
+        'Dim leftJoin As String = ""
+        'Dim joinHeader As String = ""
         Dim DisplayText As String = ""
+        Dim leftJoin As New StringBuilder()
+        Dim joinHeader As New StringBuilder()
         Dim ControlName As String = ""
         If Not String.IsNullOrWhiteSpace(txtEntryno) Then
             ControlName = txtEntryno.Trim()
@@ -737,44 +740,88 @@ Public Class MainFormRead
 
         Dim columntype As String = "Grid then main table join table name as a = b DataBaseTable "
 
-        For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > '' and DataBaseTable='" & _FilterTableName & "' ")
+        'For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' and MasterList > '' and DataBaseTable='" & _FilterTableName & "' ")
+        '    Dim _DatabaseHeaderName As String = dr("UserText").ToString().Trim()
+        '    Dim _OppositCode As String = dr("OppMasterCode").ToString().Trim()
+        '    Dim _SelectionMastrName As String = dr("MasterList").ToString().Trim()
+
+        '    Dim res = GetAccountMaster(_DatabaseHeaderName, _OppositCode, _SelectionMastrName)
+        '    leftJoin &= res.LeftJoin
+        '    joinHeader &= res.JoinHeader
+        'Next
+        '_strQuery = New StringBuilder()
+        ''If _FORMMODE = "VIEW" Then
+        ''    With _strQuery
+        ''        .Append(" SELECT A.*  ")
+        ''        .Append(joinHeader)
+        ''        .Append(" FROM " & _TblName & " as A ")
+        ''        .Append(leftJoin)
+        ''        .Append(" WHERE 1=1 ")
+        ''        .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
+        ''        .Append(" And A.EntryNo=" & EntryNo & "")
+        ''        .Append(" ORDER BY EntryNo DESC")
+        ''    End With
+        ''Else
+        'With _strQuery
+        '    .Append(" SELECT A.*  ")
+        '    .Append(joinHeader)
+        '    .Append(" FROM " & _FilterTableName & " as A ")
+        '    .Append(leftJoin)
+        '    .Append(" WHERE 1=1 ")
+        '    .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
+        '    .Append(" And A.EntryNo=" & EntryNo & "")
+        '    .Append(" ORDER BY EntryNo DESC")
+        'End With
+        ''End If
+
+        Dim _joinTableName As String
+        Dim _JoinColumnName As String
+        'For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' AND MasterList > '' AND DataBaseTable='" & _FilterTableName & "'")
+        For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES' AND MasterList > '' ")
+            _joinTableName = dr("JoinerTableName").ToString().Trim()
+            _JoinColumnName = dr("JoinerTableColumn").ToString().Trim()
             Dim _DatabaseHeaderName As String = dr("UserText").ToString().Trim()
             Dim _OppositCode As String = dr("OppMasterCode").ToString().Trim()
             Dim _SelectionMastrName As String = dr("MasterList").ToString().Trim()
-
+            '=========================================================
+            ' 1. MASTER TABLE JOIN
+            '=========================================================
             Dim res = GetAccountMaster(_DatabaseHeaderName, _OppositCode, _SelectionMastrName)
-            leftJoin &= res.LeftJoin
-            joinHeader &= res.JoinHeader
+            If res IsNot Nothing Then
+                If Not String.IsNullOrWhiteSpace(res.LeftJoin) Then
+                    leftJoin.AppendLine(res.LeftJoin)
+                End If
+                If Not String.IsNullOrWhiteSpace(res.JoinHeader) Then
+                    joinHeader.AppendLine(res.JoinHeader)
+                End If
+            End If
+            '=========================================================
+            ' 2. DYNAMIC JOINER TABLE
+            '=========================================================
+            If _joinTableName <> "" AndAlso _JoinColumnName <> "" Then
+                'Main table ka column = OppMasterCode
+                'Joiner table ka column = JoinerTableColumn
+                Dim joinAlias As String = "J_" & _joinTableName
+                leftJoin.AppendLine(" LEFT JOIN " & _joinTableName & " AS " & joinAlias & " ON A." & _JoinColumnName & " = " & joinAlias & "." & _JoinColumnName)
+            End If
         Next
-
-
-
+        '=========================================================
+        ' FINAL QUERY
+        '=========================================================
         _strQuery = New StringBuilder()
-        'If _FORMMODE = "VIEW" Then
-        '    With _strQuery
-        '        .Append(" SELECT A.*  ")
-        '        .Append(joinHeader)
-        '        .Append(" FROM " & _TblName & " as A ")
-        '        .Append(leftJoin)
-        '        .Append(" WHERE 1=1 ")
-        '        .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
-        '        .Append(" And A.EntryNo=" & EntryNo & "")
-        '        .Append(" ORDER BY EntryNo DESC")
-        '    End With
-        'Else
         With _strQuery
-            .Append(" SELECT A.*  ")
-            .Append(joinHeader)
-            .Append(" FROM " & _FilterTableName & " as A ")
-            .Append(leftJoin)
+            .Append(" SELECT A.*,B.* ")
+            .Append(joinHeader.ToString())
+            .Append(" FROM trnInvoiceHeader AS A ")
+            .Append("left Join trnInvoiceDetail as B on A.BookCode=B.BookCode")
+            .Append(leftJoin.ToString())
             .Append(" WHERE 1=1 ")
-            .Append(" AND A.BOOKCODE='" & _Bookcode & "'  ")
-            .Append(" And A.EntryNo=" & EntryNo & "")
-            .Append(" ORDER BY EntryNo DESC")
+            .Append(" AND A.BOOKCODE='" & _Bookcode & "' ")
+            '.Append(" AND A.EntryNo=" & EntryNo)
+            .Append(" ORDER BY A.EntryNo DESC")
         End With
-        'End If
-
         Return _strQuery.ToString()
+
 
         'Dim leftJoin As New StringBuilder()
         'Dim joinHeader As New StringBuilder()
@@ -2047,22 +2094,22 @@ Public Class MainFormRead
                 Next
                 If gridColumnNames.Contains("BOOKVNO") Then
                     extraFieldNames.Append("BOOKVNO,")
-                    extraFieldValues.Append("'")
                     extraFieldValues.Append(_BookVNo.Replace("'", "''"))
-                    extraFieldValues.Append("',")
+                    extraFieldValues.Append(",")
                 End If
+
                 If gridColumnNames.Contains("BOOKCODE") Then
                     extraFieldNames.Append("BOOKCODE,")
-                    extraFieldValues.Append("'")
                     extraFieldValues.Append(_Bookcode.Replace("'", "''"))
-                    extraFieldValues.Append("',")
+                    extraFieldValues.Append(",")
                 End If
+
                 If gridColumnNames.Contains("BOOKTRTYPE") Then
                     extraFieldNames.Append("BOOKTRTYPE,")
-                    extraFieldValues.Append("'")
                     extraFieldValues.Append(_Booktrtype.Replace("'", "''"))
-                    extraFieldValues.Append("',")
+                    extraFieldValues.Append(",")
                 End If
+
                 If extraFieldNames.Length > 0 Then
                     extraFieldNames.Length -= 1
                 End If
@@ -2471,6 +2518,7 @@ Public Class MainFormRead
         _Grid1ColType = New StringBuilder()
         _FieldMasking = New StringBuilder()
         _FieldNotRequiredForSave = New StringBuilder()
+        _FieldUseHeaderColumn = New StringBuilder()
         Dim filter As String = "ColumnType='" & columnTypeFilter.Replace("'", "''") & "'"
         For Each dr As DataRow In _MainColumTbl.Select(filter, "OrderNo")
             _TblName = dr("DataBaseTable").ToString().Trim()
@@ -2502,6 +2550,12 @@ Public Class MainFormRead
                 _FieldAlignMent.Append(",")
             End If
             _FieldAlignMent.Append(colName & ":" & alignVal)
+            'UseHeaderColumn
+            Dim useHeaderColumnVal As String = dr("UseHeaderColumn").ToString().Trim()
+            If _FieldUseHeaderColumn.Length > 0 Then
+                _FieldUseHeaderColumn.Append(",")
+            End If
+            _FieldUseHeaderColumn.Append(colName & ":" & useHeaderColumnVal)
             Dim widthVal As Integer = Val(dr("SizeWidth").ToString().Trim())
             If _FieldWidthSet.Length > 0 Then
                 _FieldWidthSet.Append(",")
@@ -2705,9 +2759,6 @@ Public Class MainFormRead
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 '_TblName = dr("DataBaseTable").ToString()
                 Dim formtype As String = dr("FormType").ToString().Trim()
-                '===========================================================
-                ' ENTRY FORM
-                '===========================================================
                 If formtype = "ENTRY FORM" Then
                     If _FORMMODE = "EDIT" OrElse
                        _FORMMODE = "DELETE" OrElse
@@ -2747,17 +2798,6 @@ Public Class MainFormRead
                 Dim tabNo As Integer = 0
                 Integer.TryParse(dr("TabCountNo").ToString().Trim(), tabNo)
                 If targetTabControlName <> "" Then
-                    'For Each tc As TabControl In DynamicTabControls
-                    '    If tc.Name.Equals(targetTabControlName, StringComparison.OrdinalIgnoreCase) Then
-                    '        targetTabControl = tc
-                    '        Exit For
-                    '    End If
-                    '    If tc.Tag IsNot Nothing AndAlso tc.Tag.ToString().Trim().Equals(targetTabControlName, StringComparison.OrdinalIgnoreCase) Then
-                    '        targetTabControl = tc
-                    '        Exit For
-                    '    End If
-                    'Next
-                    'Current TabControl ke andar matching TabPage find karo
                     For Each tc As TabControl In DynamicTabControls
                         For Each tp As TabPage In tc.TabPages
                             Dim pageNo As Integer = 0
@@ -3431,20 +3471,6 @@ Public Class MainFormRead
         End If
     End Sub
 
-    'Private Function _GetMaxEntryNo()
-    '    Dim ENTRYNO As Int64 = 0
-    '    Dim Tbltmp As DataTable
-    '    Dim _strquery As New StringBuilder
-    '    strQuery = "SELECT TOP 1 ENTRYNO FROM " & _TblName & "  WHERE BOOKCODE='" & _Bookcode & "' ORDER BY ENTRYNO DESC "
-    '    sqL = strQuery
-    '    sql_connect_slect()
-    '    Tbltmp = DefaltSoftTable.Copy
-    '    '_DataTableGrid1 = Tbltmp
-    '    If Tbltmp.Rows.Count > 0 Then
-    '        ENTRYNO = Val(Tbltmp.Rows(0).Item(0))
-    '    End If
-    '    Return ENTRYNO
-    'End Function
     Private Function _GetMaxEntryNo()
         Dim ENTRYNO As Int64 = 0
         Dim Tbltmp As DataTable
@@ -3959,50 +3985,6 @@ Public Class MainFormRead
             Next
         Next
     End Sub
-    'Private Sub ApplyGridFormula(grd As FlexCell.Grid, dt As DataTable)
-    '    'Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "VIEW")
-    '    Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "TOTAL COLUMN")
-    '    If String.IsNullOrWhiteSpace(formulaStr) Then Exit Sub
-    '    ' 👉 Example: ADJAMT*AMOUNT_ADD=AMOUNT_LESS
-    '    Dim parts() As String = formulaStr.Split("="c)
-    '    If parts.Length <> 3 Then Exit Sub
-    '    Dim leftPart As String = parts(0)
-    '    Dim resultColName As String = parts(1).Trim()
-    '    Dim operands() As String = leftPart.Split("*"c)
-    '    If operands.Length <> 3 Then Exit Sub
-    '    Dim col1Name As String = operands(0).Trim()
-    '    Dim col2Name As String = operands(1).Trim()
-    '    ' 👉 Column match (case-insensitive)
-    '    Dim col1 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col1Name.ToLower())
-    '    Dim col2 = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = col2Name.ToLower())
-    '    Dim colResult = dt.Columns.Cast(Of DataColumn)().FirstOrDefault(Function(c) c.ColumnName.ToLower() = resultColName.ToLower())
-    '    If col1 Is Nothing Or col2 Is Nothing Or colResult Is Nothing Then Exit Sub
-    '    ' 👉 FlexCell index
-    '    Dim colIndex1 As Integer = dt.Columns.IndexOf(col1.ColumnName) + 1
-    '    Dim colIndex2 As Integer = dt.Columns.IndexOf(col2.ColumnName) + 1
-    '    Dim colResultIndex As Integer = dt.Columns.IndexOf(colResult.ColumnName) + 1
-    '    Dim total As Double = 0
-
-    '    ' 🔁 Row-wise calculation
-    '    For i As Integer = 1 To grd.Rows - 1
-    '        Dim val1 As Double = 0
-    '        Dim val2 As Double = 0
-    '        Double.TryParse(grd.Cell(i, colIndex1).Text, val1)
-    '        Double.TryParse(grd.Cell(i, colIndex2).Text, val2)
-    '        Dim result As Double = val1 * val2
-    '        grd.Cell(i, colResultIndex).Text = result.ToString("")
-    '    Next
-    '    If total = 0 Then
-    '        grd.Cell(grd.Rows - 1, colResultIndex).Text = ""
-    '        grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
-    '    Else
-    '        grd.Cell(grd.Rows - 1, colResultIndex).Text = total.ToString("0.00")
-    '        grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
-    '    End If
-    '    'If colResultIndex > 1 Then
-    '    '    grd.Cell(grd.Rows - 1, colResultIndex - 1).Text = ""
-    '    'End If
-    'End Sub
     Private Sub ApplyGridFormula(grd As FlexCell.Grid, dt As DataTable)
         Dim formulaStr As String = GetQuery(tmptbl, "GRIDCOLUMMULTIPLY", "TOTAL COLUMN")
         If String.IsNullOrWhiteSpace(formulaStr) Then Exit Sub
