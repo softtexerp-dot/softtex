@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports System.Windows.Forms.DataVisualization.Charting
 Imports DevExpress.Utils.Extensions
 Imports DevExpress.Xpo.DB
 Imports DevExpress.XtraBars.Customization
@@ -2741,7 +2742,7 @@ Public Class MainFormRead
     '    End If
     'End Sub
 
-    Private Sub defineGridColName(ByVal columnTypeFilter As String)
+    Private Sub defineGridColName(ByVal columnTypeFilter As String, ByVal ctrlname As String)
         _Grid1ColNames = New StringBuilder()
         _Grid2ColNames = New StringBuilder()
         _Grid3ColNames = New StringBuilder()
@@ -2757,7 +2758,8 @@ Public Class MainFormRead
         _FieldMasking = New StringBuilder()
         _FieldNotRequiredForSave = New StringBuilder()
         _FieldUseHeaderColumn = New StringBuilder()
-        Dim filter As String = "ColumnType='" & columnTypeFilter.Replace("'", "''") & "'"
+        'Dim filter As String = "ColumnType='" & columnTypeFilter.Replace("'", "''") & "'"
+        Dim filter As String = "ColumnType='" & columnTypeFilter.Replace("'", "''") & "' AND " & "CntrlName='" & ctrlname & "'"
         For Each dr As DataRow In _MainColumTbl.Select(filter, "OrderNo")
             _TblName = dr("DataBaseTable").ToString().Trim()
             Dim colName As String = dr("DataBaseColumn").ToString().Trim()
@@ -2771,26 +2773,72 @@ Public Class MainFormRead
             If header = "" OrElse colName = "" Then
                 Continue For
             End If
-            If _Grid1ColNames.Length > 0 Then
-                _Grid1ColNames.Append(",")
+            Dim saveYN As String = dr("SaveYN").ToString().Trim().ToUpper()
+            If saveYN = "N" Then
+                Continue For
             End If
-            _Grid1ColNames.Append(colName)
-            If _Grid2ColNames.Length > 0 Then
-                _Grid2ColNames.Append(",")
-            End If
-            _Grid2ColNames.Append(colName)
-            If _Grid3ColNames.Length > 0 Then
-                _Grid3ColNames.Append(",")
-            End If
-            _Grid3ColNames.Append(colName)
-            If _Grid4ColNames.Length > 0 Then
-                _Grid4ColNames.Append(",")
-            End If
-            _Grid4ColNames.Append(colName)
-            If _Grid5ColNames.Length > 0 Then
-                _Grid5ColNames.Append(",")
-            End If
-            _Grid5ColNames.Append(colName)
+            Select Case cntrlName.ToUpper()
+                Case "GRID1"
+
+                    If _Grid1ColNames.Length > 0 Then
+                        _Grid1ColNames.Append(",")
+                    End If
+
+                    _Grid1ColNames.Append(colName)
+
+                Case "GRID2"
+
+                    If _Grid2ColNames.Length > 0 Then
+                        _Grid2ColNames.Append(",")
+                    End If
+
+                    _Grid2ColNames.Append(colName)
+
+                Case "GRID3"
+
+                    If _Grid3ColNames.Length > 0 Then
+                        _Grid3ColNames.Append(",")
+                    End If
+
+                    _Grid3ColNames.Append(colName)
+
+                Case "GRID4"
+
+                    If _Grid4ColNames.Length > 0 Then
+                        _Grid4ColNames.Append(",")
+                    End If
+
+                    _Grid4ColNames.Append(colName)
+
+                Case "GRID5"
+
+                    If _Grid5ColNames.Length > 0 Then
+                        _Grid5ColNames.Append(",")
+                    End If
+
+                    _Grid5ColNames.Append(colName)
+
+            End Select
+            'If _Grid1ColNames.Length > 0 Then
+            '    _Grid1ColNames.Append(",")
+            'End If
+            '_Grid1ColNames.Append(colName)
+            'If _Grid2ColNames.Length > 0 Then
+            '    _Grid2ColNames.Append(",")
+            'End If
+            '_Grid2ColNames.Append(colName)
+            'If _Grid3ColNames.Length > 0 Then
+            '    _Grid3ColNames.Append(",")
+            'End If
+            '_Grid3ColNames.Append(colName)
+            'If _Grid4ColNames.Length > 0 Then
+            '    _Grid4ColNames.Append(",")
+            'End If
+            '_Grid4ColNames.Append(colName)
+            'If _Grid5ColNames.Length > 0 Then
+            '    _Grid5ColNames.Append(",")
+            'End If
+            '_Grid5ColNames.Append(colName)
             If header <> "" Then
                 If _FieldHeader.Length > 0 Then
                     _FieldHeader.Append(",")
@@ -3291,7 +3339,11 @@ Public Class MainFormRead
                         End If
                     ElseIf gridname = "Grid2" Then
                         Dim grid2 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid2, leftPos, topPos, width, height, oppMasterCode, Tabindex)
-                        Fill_Current_Row_Sr_No(_DataTableGrid2, grid2)
+                        If grid2 IsNot Nothing Then
+                            grid2.Visible = True
+                            grid2.Enabled = True
+                            Fill_Current_Row_Sr_No(_DataTableGrid2, grid2)
+                        End If
                     ElseIf gridname = "Grid3" Then
                         Dim grid3 As FlexCell.Grid = SetupFlexGrid(gridname, _DataTableGrid3, leftPos, topPos, width, height, oppMasterCode, Tabindex)
                         'Fill_Current_Row_Sr_No(_DataTableGrid3, grid3)
@@ -3692,46 +3744,32 @@ Public Class MainFormRead
     '    End Sub
     Private Sub DateBox_KeyPress(sender As Object, e As KeyPressEventArgs)
         Dim txt As TextBox = DirectCast(sender, TextBox)
-
         If e.KeyChar = ChrW(Keys.Back) Then Exit Sub
-
         If Not Char.IsDigit(e.KeyChar) Then
             e.Handled = True
             Exit Sub
         End If
-
         Dim pos As Integer = txt.SelectionStart
-
         If pos = 2 OrElse pos = 5 Then pos += 1
-
         If pos >= 10 Then
             e.Handled = True
             Exit Sub
         End If
-
         Dim value As String = txt.Text.PadRight(10, " "c)
-
-        ' Fixed /
         value = value.Remove(2, 1).Insert(2, "/")
         value = value.Remove(5, 1).Insert(5, "/")
-
-        ' Digit set karo
         value = value.Remove(pos, 1).Insert(pos, e.KeyChar)
-
         txt.Text = value
         txt.SelectionStart = Math.Min(pos + 1, 10)
-
         e.Handled = True
     End Sub
     Private Sub DateBox_Validate(sender As Object, e As EventArgs)
         Dim txt As TextBox = DirectCast(sender, TextBox)
         Dim dt As DateTime
-
         If String.IsNullOrWhiteSpace(txt.Text) Then
             txt.Text = DateTime.Now.ToString("dd/MM/yyyy")
             Exit Sub
         End If
-
         If DateTime.TryParse(txt.Text, dt) Then
             txt.Text = dt.ToString("dd/MM/yyyy")
         Else
@@ -3800,14 +3838,14 @@ Public Class MainFormRead
         'grd.CellBorderColor = Color.Red
         grd.SelectionBorderColor = Color.Red
         'defineGridColName()
-        defineGridColName("TextBox")
-        defineGridColName("CheckBox")
-        defineGridColName("Grid")
+        defineGridColName("TextBox", "")
+        defineGridColName("CheckBox", "")
+        defineGridColName("Grid", gridName)
         If gridName = "Grid1" Then
             GenerateTable(_DataTableGrid1, grd)
             GridFormatting(_DataTableGrid1, grd)
         ElseIf gridName = "Grid2" Then
-            GenerateTable(_DataTableGrid2, grd)
+            GenerateTable2(_DataTableGrid2, grd)
             GridFormatting(_DataTableGrid2, grd)
         ElseIf gridName = "Grid3" Then
             GenerateTable(_DataTableGrid3, grd)
@@ -3887,9 +3925,7 @@ Public Class MainFormRead
                 If Not Exists Then
                     TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
                 End If
-
             End If
-
         Next
         Dim tblTmp As DataTable
         For Each item In TableNames
@@ -4240,6 +4276,14 @@ Public Class MainFormRead
         grdObj.Cols = gridTable.Columns.Count + 1
         grdObj.Rows = 2
     End Sub
+    Private Sub GenerateTable2(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
+        ObjCls_General.CreateDataTable(gridTable, _Grid2ColNames.ToString.ToUpper, "NO", _Grid2ColType.ToString)
+        'grdObj.ExtendLastCol = True
+        _Grid2LastColNo = gridTable.Columns.Count
+        grdObj.Cols = gridTable.Columns.Count + 1
+        grdObj.Rows = 2
+    End Sub
+
     Private Sub GridFormatting(ByRef gridTable As DataTable, ByRef grdObj As FlexCell.Grid)
         If grdObj Is Nothing OrElse grdObj.Cols = 0 Then Exit Sub
         grdObj.AutoRedraw = False

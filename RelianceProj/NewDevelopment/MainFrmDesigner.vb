@@ -1192,20 +1192,20 @@ Public Class MainFrmDesigner
         End If
     End Sub
 
-    Private Function _GetAllColumName()
+    'Private Function _GetAllColumName()
 
-        _strQuery = New StringBuilder
-        Dim _TblName As String = CmbTableName.Text
-        With _strQuery
-            .Append(" SELECT COLUMN_NAME,ORDINAL_POSITION As IsSelect  FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" & _TblName & "'  ")
-            .Append("ORDER BY COLUMN_NAME")
-        End With
-        sqL = _strQuery.ToString
-        sql_connect_slect()
-        Dim tblTmp As DataTable
-        tblTmp = DefaltSoftTable.Copy
-        Return tblTmp
-    End Function
+    '    _strQuery = New StringBuilder
+    '    Dim _TblName As String = CmbTableName.Text
+    '    With _strQuery
+    '        .Append(" SELECT COLUMN_NAME,ORDINAL_POSITION As IsSelect  FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" & _TblName & "'  ")
+    '        .Append("ORDER BY COLUMN_NAME")
+    '    End With
+    '    sqL = _strQuery.ToString
+    '    sql_connect_slect()
+    '    Dim tblTmp As DataTable
+    '    tblTmp = DefaltSoftTable.Copy
+    '    Return tblTmp
+    'End Function
 
     Private Sub _LoadadataGridJoinTable(ByVal _GetGrid As FlexCell.Grid, ByVal _GridDatatbl As DataTable, ByVal _ColmName As String, ByVal _DataType As String, ByVal _ActiverownoHeader As Integer)
         Dim _BaseName As String = _GetGrid.Cell(_GetGrid.ActiveCell.Row, _GridDatatbl.Columns.IndexOf("COLUMNTYPE") + 1).Text
