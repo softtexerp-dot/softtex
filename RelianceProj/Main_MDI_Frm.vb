@@ -414,11 +414,26 @@ Public Class Main_MDI_Frm
     End Sub
 
     Private Sub ChartformToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChartformToolStripMenuItem.Click
-        'ChartForm.Show()
-        Dim fromdate As String = FINE_YEAR_START.Text
-        Dim todate As String = Now.ToString("dd/MM/yyyy")
-        Dim myConnStr As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts39_142026103929;Integrated Security=SSPI;persist security info=True"
-        DashboardLauncher.ShowChartDashboard(myConnStr, Me, fromdate, todate)
+        ''ChartForm.Show()
+        '''''''DLL se form Run
+        'Dim fromdate As String = FINE_YEAR_START.Text
+        'Dim todate As String = Now.ToString("dd/MM/yyyy")
+        'Dim myConnStr As String = "Data Source=DESKTOP-TBSN6SV\SQLEXPRESS;database=Accounts39_142026103929;Integrated Security=SSPI;persist security info=True"
+        'DashboardLauncher.ShowChartDashboard(myConnStr, Me.MdiParent, fromdate, todate)
+        LiveChartForm.Show()
+    End Sub
+
+    Private Sub JobcardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JobcardToolStripMenuItem.Click
+        'PrintJobCardEntry.Show()
+        JobCardPlanning.Show()
+    End Sub
+
+    Private Sub OrderFormToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrderFormToolStripMenuItem.Click
+        SampleOrderOrDespatch.Show()
+    End Sub
+
+    Private Sub JobcardoldToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles JobcardoldToolStripMenuItem.Click
+        Packing_JobCard.Show()
     End Sub
 
     'Private Sub ReportselectionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportselectionToolStripMenuItem.Click
