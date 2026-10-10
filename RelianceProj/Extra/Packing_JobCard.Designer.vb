@@ -30,13 +30,6 @@ Partial Class Packing_JobCard
         Me.LayoutViewCard2 = New DevExpress.XtraGrid.Views.Layout.LayoutViewCard()
         Me.Label52 = New System.Windows.Forms.Label()
         Me.PnlPendingChallan = New System.Windows.Forms.Panel()
-        Me.btnSave = New System.Windows.Forms.Button()
-        Me.btnPrint = New System.Windows.Forms.Button()
-        Me.btnView = New System.Windows.Forms.Button()
-        Me.btnEdit = New System.Windows.Forms.Button()
-        Me.btnAdd = New System.Windows.Forms.Button()
-        Me.btnDelete = New System.Windows.Forms.Button()
-        Me.btnClose = New System.Windows.Forms.Button()
         Me.PNL_View = New System.Windows.Forms.GroupBox()
         Me.Btn_LayoutLoad = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnLayOutSave = New DevExpress.XtraEditors.SimpleButton()
@@ -57,6 +50,13 @@ Partial Class Packing_JobCard
         Me.lbl_Total = New System.Windows.Forms.Label()
         Me.lbl_Tot_Amt = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.btnClose = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnPrint = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnSave = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnView = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnDelete = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnEdit = New DevExpress.XtraEditors.SimpleButton()
+        Me.btnAdd = New DevExpress.XtraEditors.SimpleButton()
         Me.GrdItem = New FlexCell.Grid()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -101,6 +101,9 @@ Partial Class Packing_JobCard
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Txt_PrintQty = New ctl_TextBox.ctl_TextBox()
         Me.Label22 = New System.Windows.Forms.Label()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.txtImportjobcard = New ctl_TextBox.ctl_TextBox()
         CType(Me.GridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridControl2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -185,110 +188,6 @@ Partial Class Packing_JobCard
         Me.PnlPendingChallan.Size = New System.Drawing.Size(141, 136)
         Me.PnlPendingChallan.TabIndex = 82186
         Me.PnlPendingChallan.Visible = False
-        '
-        'btnSave
-        '
-        Me.btnSave.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnSave.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnSave.Location = New System.Drawing.Point(562, 12)
-        Me.btnSave.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(92, 37)
-        Me.btnSave.TabIndex = 75
-        Me.btnSave.Text = "Save"
-        Me.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnSave.UseVisualStyleBackColor = False
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnPrint.Location = New System.Drawing.Point(721, 11)
-        Me.btnPrint.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(80, 37)
-        Me.btnPrint.TabIndex = 77
-        Me.btnPrint.Text = "Print"
-        Me.btnPrint.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnPrint.UseVisualStyleBackColor = True
-        '
-        'btnView
-        '
-        Me.btnView.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnView.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnView.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnView.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnView.Location = New System.Drawing.Point(423, 11)
-        Me.btnView.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnView.Name = "btnView"
-        Me.btnView.Size = New System.Drawing.Size(82, 37)
-        Me.btnView.TabIndex = 74
-        Me.btnView.Text = "View"
-        Me.btnView.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnView.UseVisualStyleBackColor = False
-        '
-        'btnEdit
-        '
-        Me.btnEdit.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnEdit.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnEdit.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnEdit.Location = New System.Drawing.Point(124, 12)
-        Me.btnEdit.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnEdit.Name = "btnEdit"
-        Me.btnEdit.Size = New System.Drawing.Size(101, 37)
-        Me.btnEdit.TabIndex = 72
-        Me.btnEdit.Text = "Modify"
-        Me.btnEdit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnEdit.UseVisualStyleBackColor = False
-        '
-        'btnAdd
-        '
-        Me.btnAdd.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnAdd.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAdd.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnAdd.Location = New System.Drawing.Point(9, 12)
-        Me.btnAdd.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnAdd.Name = "btnAdd"
-        Me.btnAdd.Size = New System.Drawing.Size(83, 37)
-        Me.btnAdd.TabIndex = 71
-        Me.btnAdd.Text = "New"
-        Me.btnAdd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnAdd.UseVisualStyleBackColor = False
-        '
-        'btnDelete
-        '
-        Me.btnDelete.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnDelete.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnDelete.Location = New System.Drawing.Point(266, 11)
-        Me.btnDelete.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(97, 37)
-        Me.btnDelete.TabIndex = 73
-        Me.btnDelete.Text = "Delete"
-        Me.btnDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnDelete.UseVisualStyleBackColor = False
-        '
-        'btnClose
-        '
-        Me.btnClose.BackColor = System.Drawing.SystemColors.Menu
-        Me.btnClose.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnClose.Location = New System.Drawing.Point(860, 11)
-        Me.btnClose.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(82, 37)
-        Me.btnClose.TabIndex = 78
-        Me.btnClose.Text = "Close"
-        Me.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btnClose.UseVisualStyleBackColor = False
         '
         'PNL_View
         '
@@ -573,13 +472,13 @@ Partial Class Packing_JobCard
         '
         'GroupBox3
         '
-        Me.GroupBox3.Controls.Add(Me.btnSave)
+        Me.GroupBox3.Controls.Add(Me.btnClose)
         Me.GroupBox3.Controls.Add(Me.btnPrint)
+        Me.GroupBox3.Controls.Add(Me.btnSave)
         Me.GroupBox3.Controls.Add(Me.btnView)
+        Me.GroupBox3.Controls.Add(Me.btnDelete)
         Me.GroupBox3.Controls.Add(Me.btnEdit)
         Me.GroupBox3.Controls.Add(Me.btnAdd)
-        Me.GroupBox3.Controls.Add(Me.btnDelete)
-        Me.GroupBox3.Controls.Add(Me.btnClose)
         Me.GroupBox3.Location = New System.Drawing.Point(-5, 565)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(2, 5, 2, 5)
         Me.GroupBox3.Name = "GroupBox3"
@@ -587,6 +486,83 @@ Partial Class Packing_JobCard
         Me.GroupBox3.Size = New System.Drawing.Size(1032, 55)
         Me.GroupBox3.TabIndex = 82183
         Me.GroupBox3.TabStop = False
+        '
+        'btnClose
+        '
+        Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Appearance.Options.UseFont = True
+        Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnClose.Location = New System.Drawing.Point(622, 12)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(87, 36)
+        Me.btnClose.TabIndex = 82224
+        Me.btnClose.Text = "Close"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Appearance.Options.UseFont = True
+        Me.btnPrint.ImageOptions.Image = CType(resources.GetObject("btnPrint.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnPrint.Location = New System.Drawing.Point(529, 12)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(87, 36)
+        Me.btnPrint.TabIndex = 82223
+        Me.btnPrint.Text = "Print"
+        '
+        'btnSave
+        '
+        Me.btnSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Appearance.Options.UseFont = True
+        Me.btnSave.ImageOptions.Image = CType(resources.GetObject("btnSave.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnSave.Location = New System.Drawing.Point(436, 12)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(87, 36)
+        Me.btnSave.TabIndex = 82222
+        Me.btnSave.Text = "Save"
+        '
+        'btnView
+        '
+        Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnView.Appearance.Options.UseFont = True
+        Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnView.Location = New System.Drawing.Point(348, 12)
+        Me.btnView.Name = "btnView"
+        Me.btnView.Size = New System.Drawing.Size(83, 36)
+        Me.btnView.TabIndex = 82221
+        Me.btnView.Text = "View"
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Appearance.Options.UseFont = True
+        Me.btnDelete.ImageOptions.Image = CType(resources.GetObject("btnDelete.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnDelete.Location = New System.Drawing.Point(251, 12)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(91, 36)
+        Me.btnDelete.TabIndex = 82220
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnEdit
+        '
+        Me.btnEdit.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEdit.Appearance.Options.UseFont = True
+        Me.btnEdit.ImageOptions.Image = CType(resources.GetObject("btnEdit.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnEdit.Location = New System.Drawing.Point(158, 12)
+        Me.btnEdit.Name = "btnEdit"
+        Me.btnEdit.Size = New System.Drawing.Size(87, 36)
+        Me.btnEdit.TabIndex = 82219
+        Me.btnEdit.Text = "Modify"
+        '
+        'btnAdd
+        '
+        Me.btnAdd.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAdd.Appearance.Options.UseFont = True
+        Me.btnAdd.ImageOptions.Image = CType(resources.GetObject("btnAdd.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnAdd.Location = New System.Drawing.Point(78, 12)
+        Me.btnAdd.Name = "btnAdd"
+        Me.btnAdd.Size = New System.Drawing.Size(74, 36)
+        Me.btnAdd.TabIndex = 82219
+        Me.btnAdd.Text = "New"
         '
         'GrdItem
         '
@@ -626,7 +602,7 @@ Partial Class Packing_JobCard
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(3, 28)
+        Me.Label13.Location = New System.Drawing.Point(3, 52)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(68, 14)
         Me.Label13.TabIndex = 82177
@@ -636,7 +612,7 @@ Partial Class Packing_JobCard
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(86, 28)
+        Me.Label12.Location = New System.Drawing.Point(86, 52)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(12, 14)
         Me.Label12.TabIndex = 82176
@@ -666,7 +642,7 @@ Partial Class Packing_JobCard
         Me.txtEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtEntryNo.IsValidated = False
         Me.txtEntryNo.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtEntryNo.Location = New System.Drawing.Point(104, 28)
+        Me.txtEntryNo.Location = New System.Drawing.Point(104, 52)
         Me.txtEntryNo.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtEntryNo.MandatoryField = False
         Me.txtEntryNo.MaxDate = Nothing
@@ -678,7 +654,7 @@ Partial Class Packing_JobCard
         Me.txtEntryNo.RegularExpression = Nothing
         Me.txtEntryNo.RegularExpressionErrorMessage = Nothing
         Me.txtEntryNo.ShowMessage = False
-        Me.txtEntryNo.Size = New System.Drawing.Size(98, 24)
+        Me.txtEntryNo.Size = New System.Drawing.Size(268, 24)
         Me.txtEntryNo.SpacerString = ""
         Me.txtEntryNo.TabIndex = 2
         Me.txtEntryNo.Tag = "ENTRYNO"
@@ -689,7 +665,7 @@ Partial Class Packing_JobCard
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(3, 54)
+        Me.Label7.Location = New System.Drawing.Point(3, 78)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(56, 14)
         Me.Label7.TabIndex = 82175
@@ -782,7 +758,7 @@ Partial Class Packing_JobCard
         Me.txtAccountName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.txtAccountName.IsValidated = False
         Me.txtAccountName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtAccountName.Location = New System.Drawing.Point(104, 106)
+        Me.txtAccountName.Location = New System.Drawing.Point(104, 130)
         Me.txtAccountName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtAccountName.MandatoryField = False
         Me.txtAccountName.MaxDate = Nothing
@@ -794,7 +770,7 @@ Partial Class Packing_JobCard
         Me.txtAccountName.RegularExpression = Nothing
         Me.txtAccountName.RegularExpressionErrorMessage = Nothing
         Me.txtAccountName.ShowMessage = False
-        Me.txtAccountName.Size = New System.Drawing.Size(255, 22)
+        Me.txtAccountName.Size = New System.Drawing.Size(268, 22)
         Me.txtAccountName.SpacerString = ""
         Me.txtAccountName.TabIndex = 6
         Me.txtAccountName.Tag = "ACCOUNTNAME"
@@ -805,7 +781,7 @@ Partial Class Packing_JobCard
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(3, 110)
+        Me.Label3.Location = New System.Drawing.Point(3, 134)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(53, 14)
         Me.Label3.TabIndex = 82171
@@ -815,7 +791,7 @@ Partial Class Packing_JobCard
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(86, 110)
+        Me.Label4.Location = New System.Drawing.Point(86, 134)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82172
@@ -825,7 +801,7 @@ Partial Class Packing_JobCard
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(86, 78)
+        Me.Label2.Location = New System.Drawing.Point(86, 102)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 82170
@@ -835,7 +811,7 @@ Partial Class Packing_JobCard
         '
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(86, 54)
+        Me.Label20.Location = New System.Drawing.Point(86, 78)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(12, 14)
         Me.Label20.TabIndex = 82168
@@ -865,7 +841,7 @@ Partial Class Packing_JobCard
         Me.txtChallanNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtChallanNo.IsValidated = False
         Me.txtChallanNo.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtChallanNo.Location = New System.Drawing.Point(104, 54)
+        Me.txtChallanNo.Location = New System.Drawing.Point(104, 78)
         Me.txtChallanNo.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtChallanNo.MandatoryField = False
         Me.txtChallanNo.MaxDate = Nothing
@@ -877,7 +853,7 @@ Partial Class Packing_JobCard
         Me.txtChallanNo.RegularExpression = Nothing
         Me.txtChallanNo.RegularExpressionErrorMessage = Nothing
         Me.txtChallanNo.ShowMessage = False
-        Me.txtChallanNo.Size = New System.Drawing.Size(98, 22)
+        Me.txtChallanNo.Size = New System.Drawing.Size(268, 22)
         Me.txtChallanNo.SpacerString = ""
         Me.txtChallanNo.TabIndex = 3
         Me.txtChallanNo.Tag = "CHALLANNO"
@@ -918,7 +894,7 @@ Partial Class Packing_JobCard
         Me.txtBookName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtBookName.IsValidated = False
         Me.txtBookName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtBookName.Location = New System.Drawing.Point(104, 4)
+        Me.txtBookName.Location = New System.Drawing.Point(134, 4)
         Me.txtBookName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtBookName.MandatoryField = False
         Me.txtBookName.MaxDate = Nothing
@@ -930,7 +906,7 @@ Partial Class Packing_JobCard
         Me.txtBookName.RegularExpression = Nothing
         Me.txtBookName.RegularExpressionErrorMessage = Nothing
         Me.txtBookName.ShowMessage = False
-        Me.txtBookName.Size = New System.Drawing.Size(268, 22)
+        Me.txtBookName.Size = New System.Drawing.Size(238, 22)
         Me.txtBookName.SpacerString = ""
         Me.txtBookName.TabIndex = 1
         Me.txtBookName.Tag = "BOOKNAME"
@@ -972,7 +948,7 @@ Partial Class Packing_JobCard
         Me.txtChallanDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txtChallanDate.IsValidated = False
         Me.txtChallanDate.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtChallanDate.Location = New System.Drawing.Point(104, 78)
+        Me.txtChallanDate.Location = New System.Drawing.Point(104, 102)
         Me.txtChallanDate.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtChallanDate.MandatoryField = False
         Me.txtChallanDate.MaxDate = Nothing
@@ -997,7 +973,7 @@ Partial Class Packing_JobCard
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(3, 78)
+        Me.Label1.Location = New System.Drawing.Point(3, 102)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(65, 14)
         Me.Label1.TabIndex = 82169
@@ -1027,7 +1003,7 @@ Partial Class Packing_JobCard
         Me.Txt_ByerName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.Txt_ByerName.IsValidated = False
         Me.Txt_ByerName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Txt_ByerName.Location = New System.Drawing.Point(104, 158)
+        Me.Txt_ByerName.Location = New System.Drawing.Point(104, 182)
         Me.Txt_ByerName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_ByerName.MandatoryField = False
         Me.Txt_ByerName.MaxDate = Nothing
@@ -1050,7 +1026,7 @@ Partial Class Packing_JobCard
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(3, 162)
+        Me.Label5.Location = New System.Drawing.Point(3, 186)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(45, 14)
         Me.Label5.TabIndex = 82188
@@ -1060,7 +1036,7 @@ Partial Class Packing_JobCard
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(86, 162)
+        Me.Label6.Location = New System.Drawing.Point(86, 186)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 14)
         Me.Label6.TabIndex = 82189
@@ -1357,7 +1333,7 @@ Partial Class Packing_JobCard
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(3, 133)
+        Me.Label14.Location = New System.Drawing.Point(3, 157)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(49, 14)
         Me.Label14.TabIndex = 82211
@@ -1367,7 +1343,7 @@ Partial Class Packing_JobCard
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(86, 133)
+        Me.Label15.Location = New System.Drawing.Point(86, 157)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(12, 14)
         Me.Label15.TabIndex = 82212
@@ -1397,7 +1373,7 @@ Partial Class Packing_JobCard
         Me.Txt_AcoFName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.Txt_AcoFName.IsValidated = False
         Me.Txt_AcoFName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Txt_AcoFName.Location = New System.Drawing.Point(104, 131)
+        Me.Txt_AcoFName.Location = New System.Drawing.Point(104, 155)
         Me.Txt_AcoFName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_AcoFName.MandatoryField = False
         Me.Txt_AcoFName.MaxDate = Nothing
@@ -1479,12 +1455,78 @@ Partial Class Packing_JobCard
         Me.Label22.TabIndex = 82214
         Me.Label22.Text = "Print Qty"
         '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label25.Location = New System.Drawing.Point(3, 27)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(114, 14)
+        Me.Label25.TabIndex = 82218
+        Me.Label25.Text = "Import Job Card"
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label26.Location = New System.Drawing.Point(119, 26)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(12, 14)
+        Me.Label26.TabIndex = 82217
+        Me.Label26.Text = ":"
+        '
+        'txtImportjobcard
+        '
+        Me.txtImportjobcard._AllowSpace = True
+        Me.txtImportjobcard.AcceptsReturn = True
+        Me.txtImportjobcard.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.txtImportjobcard.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.txtImportjobcard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtImportjobcard.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtImportjobcard.Check_End_Date_Value_FY = "YES"
+        Me.txtImportjobcard.Check_Start_Date_Value_FY = "YES"
+        Me.txtImportjobcard.ClearField = True
+        Me.txtImportjobcard.CustomInputTypeString = Nothing
+        Me.txtImportjobcard.Date_for_Database = Nothing
+        Me.txtImportjobcard.Date_Tag = Nothing
+        Me.txtImportjobcard.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.txtImportjobcard.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.txtImportjobcard.ExtraValue = ""
+        Me.txtImportjobcard.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtImportjobcard.FontFocusColor = System.Drawing.Color.Blue
+        Me.txtImportjobcard.FontLeaveColor = System.Drawing.Color.Black
+        Me.txtImportjobcard.ForeColor = System.Drawing.Color.Black
+        Me.txtImportjobcard.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.txtImportjobcard.IsValidated = False
+        Me.txtImportjobcard.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
+        Me.txtImportjobcard.Location = New System.Drawing.Point(134, 24)
+        Me.txtImportjobcard.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.txtImportjobcard.MandatoryField = False
+        Me.txtImportjobcard.MaxDate = Nothing
+        Me.txtImportjobcard.MinDate = Nothing
+        Me.txtImportjobcard.Name = "txtImportjobcard"
+        Me.txtImportjobcard.NormalBorderColor = System.Drawing.SystemColors.ActiveCaption
+        Me.txtImportjobcard.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.txtImportjobcard.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.txtImportjobcard.RegularExpression = Nothing
+        Me.txtImportjobcard.RegularExpressionErrorMessage = Nothing
+        Me.txtImportjobcard.ShowMessage = False
+        Me.txtImportjobcard.Size = New System.Drawing.Size(238, 24)
+        Me.txtImportjobcard.SpacerString = ""
+        Me.txtImportjobcard.TabIndex = 82216
+        Me.txtImportjobcard.Tag = "ENTRYNO"
+        Me.txtImportjobcard.TransparentBox = True
+        Me.txtImportjobcard.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
         'Packing_JobCard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ClientSize = New System.Drawing.Size(1010, 621)
+        Me.Controls.Add(Me.Label25)
+        Me.Controls.Add(Me.Label26)
+        Me.Controls.Add(Me.txtImportjobcard)
         Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.Txt_PrintQty)
         Me.Controls.Add(Me.Label22)
@@ -1571,13 +1613,6 @@ Partial Class Packing_JobCard
     Friend WithEvents LayoutViewCard2 As DevExpress.XtraGrid.Views.Layout.LayoutViewCard
     Friend WithEvents Label52 As Label
     Friend WithEvents PnlPendingChallan As Panel
-    Friend WithEvents btnSave As Button
-    Friend WithEvents btnPrint As Button
-    Friend WithEvents btnView As Button
-    Friend WithEvents btnEdit As Button
-    Friend WithEvents btnAdd As Button
-    Friend WithEvents btnDelete As Button
-    Friend WithEvents btnClose As Button
     Friend WithEvents PNL_View As GroupBox
     Friend WithEvents Btn_LayoutLoad As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnLayOutSave As DevExpress.XtraEditors.SimpleButton
@@ -1642,4 +1677,14 @@ Partial Class Packing_JobCard
     Friend WithEvents Label21 As Label
     Friend WithEvents Txt_PrintQty As ctl_TextBox.ctl_TextBox
     Friend WithEvents Label22 As Label
+    Friend WithEvents Label25 As Label
+    Friend WithEvents Label26 As Label
+    Friend WithEvents txtImportjobcard As ctl_TextBox.ctl_TextBox
+    Friend WithEvents btnAdd As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnEdit As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnDelete As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnSave As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnPrint As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents btnClose As DevExpress.XtraEditors.SimpleButton
 End Class

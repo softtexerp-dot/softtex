@@ -961,25 +961,25 @@ Friend Class Packing_JobCard
         Me.Dispose()
         _PrintingSelectionType = ""
     End Sub
-    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
-        If _FORMMODE = "VIEW" Then
-            PNL_View.Visible = False
-            _FrmLoad = True
-            _FORMMODE = ""
-            Old_Date = txtChallanDate.Text
-            ObjCls_General.Blank_Object(Me)
-            txtChallanDate.Text = Old_Date
-            Clear_Grid(GrdItem, 2)
-            Label_Value_Nil_Rest()
-            _KeyFieldValue = 0
-            Command_Button_Visibility("LOAD")
-            Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
-            Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
-        Else
+    'Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
+    '    If _FORMMODE = "VIEW" Then
+    '        PNL_View.Visible = False
+    '        _FrmLoad = True
+    '        _FORMMODE = ""
+    '        Old_Date = txtChallanDate.Text
+    '        ObjCls_General.Blank_Object(Me)
+    '        txtChallanDate.Text = Old_Date
+    '        Clear_Grid(GrdItem, 2)
+    '        Label_Value_Nil_Rest()
+    '        _KeyFieldValue = 0
+    '        Command_Button_Visibility("LOAD")
+    '        Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+    '        Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
+    '    Else
 
-            _CloseForm()
-        End If
-    End Sub
+    '        _CloseForm()
+    '    End If
+    'End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If _FORMMODE = "EDIT" Then
             Dim _userwrits As String = obj_Party_Selection._userWrits("EDIT")
@@ -1009,18 +1009,24 @@ Friend Class Packing_JobCard
         Last_Focused_Btn = "ADD"
         txtBookName.Visible = True
         Command_Button_Visibility("BTNADD")
-
         ObjCls_General.Blank_Object(Me)
         txtBookName.Text = Book_Name
         txtBookCode.Text = Book_Code
-
-
-
         txtBookName.Focus()
         txtBookName.Select()
+        If _FORMMODE = "ADD" Then
+            txtImportjobcard.Visible = True
+            Label25.Visible = True
+            Label26.Visible = True
+        End If
     End Sub
     Private Sub btnEdit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnEdit.Click
         Edit_From_View = False
+        If _FORMMODE <> "ADD" Then
+            txtImportjobcard.Visible = False
+            Label25.Visible = False
+            Label26.Visible = False
+        End If
         Dim _userwrits As String = obj_Party_Selection._userWrits("EDIT")
         If _userwrits = "N" Then
             MsgBox("Function Not Allow This User", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
@@ -1043,6 +1049,11 @@ Friend Class Packing_JobCard
     End Sub
     Private Sub btnDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Edit_From_View = False
+        If _FORMMODE <> "ADD" Then
+            txtImportjobcard.Visible = False
+            Label25.Visible = False
+            Label26.Visible = False
+        End If
         Dim _userwrits As String = obj_Party_Selection._userWrits("DELETE")
         If _userwrits = "N" Then
             MsgBox("Function Not Allow This User", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
@@ -1053,18 +1064,19 @@ Friend Class Packing_JobCard
         Last_Focused_Btn = "DELETE"
         txtBookName.Visible = True
         Command_Button_Visibility("BTNDELETE")
-
         ObjCls_General.Blank_Object(Me)
-
         txtBookName.Text = Book_Name
         txtBookCode.Text = Book_Code
-
-
         txtBookName.Focus()
         txtBookName.Select()
     End Sub
     Private Sub btnView_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnView.Click
         _FrmLoad = False
+        If _FORMMODE <> "ADD" Then
+            txtImportjobcard.Visible = False
+            Label25.Visible = False
+            Label26.Visible = False
+        End If
         Dim _userwrits As String = obj_Party_Selection._userWrits("VIEW")
         If _userwrits = "N" Then
             MsgBox("Function Not Allow This User", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
@@ -1092,7 +1104,11 @@ Friend Class Packing_JobCard
             MsgBox("Function Not Allow This User", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             Exit Sub
         End If
-
+        If _FORMMODE <> "ADD" Then
+            txtImportjobcard.Visible = False
+            Label25.Visible = False
+            Label26.Visible = False
+        End If
         Packing_JobCardPrinting.ShowDialog()
     End Sub
 #End Region
@@ -1590,16 +1606,27 @@ Friend Class Packing_JobCard
 #Region "Account Name Txt Box Events "
     Private Sub txtAccountName_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtAccountName.KeyPress
         'If _FrmLoad = True Or Asc(e.KeyChar) = 27 Then Exit Sub
+        'If Asc(e.KeyChar) = 27 Then Exit Sub
+        'If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+        '    party_selection_book_code = Book_Code
+        '    Party_selection.txtSearch.Text = txtAccountName.Text
+        '    Call obj_Party_Selection.Account_Selection()
+
+        '    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+        '        txtAccountName.Text = MULTY_SELECTION_COLOUM_1_DATA
+        '        txtAccount_Code.Text = MULTY_SELECTION_COLOUM_3_DATA
+        '        Return_Master_Name = txtAccountName.Text
+        '    End If
+        '    SendKeys.Send("{tab}")
+        'End If
         If Asc(e.KeyChar) = 27 Then Exit Sub
         If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-            party_selection_book_code = Book_Code
-            Party_selection.txtSearch.Text = txtAccountName.Text
-            Call obj_Party_Selection.Account_Selection()
-
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                txtAccountName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                txtAccount_Code.Text = MULTY_SELECTION_COLOUM_3_DATA
-                Return_Master_Name = txtAccountName.Text
+            Dim _FilterAccountcode As String = ""
+            Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtAccountName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then txtAccount_Code.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("AccountName") Then txtAccountName.Text = selected("AccountName").ToString()
             End If
             SendKeys.Send("{tab}")
         End If
@@ -1622,12 +1649,22 @@ Friend Class Packing_JobCard
         End If
     End Sub
     Private Sub Txt_AcoFName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_AcoFName.KeyDown
+        'If e.KeyCode = Keys.Enter Then
+        '    Party_selection.txtSearch.Text = Txt_AcoFName.Text
+        '    Call obj_Party_Selection.SINGLE_ACC_OF_SELECTION()
+        '    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+        '        Txt_AcoFName.Text = MULTY_SELECTION_COLOUM_1_DATA
+        '        txtAcOfCode_Code.Text = MULTY_SELECTION_COLOUM_3_DATA
+        '    End If
+        '    SendKeys.Send("{tab}")
+        'End If
         If e.KeyCode = Keys.Enter Then
-            Party_selection.txtSearch.Text = Txt_AcoFName.Text
-            Call obj_Party_Selection.SINGLE_ACC_OF_SELECTION()
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                Txt_AcoFName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                txtAcOfCode_Code.Text = MULTY_SELECTION_COLOUM_3_DATA
+            Dim _FilterAccountcode As String = ""
+            Dim _LoadQuery = NewSelectionList.SINGLE_ACC_OF_SELECTION(_FilterAccountcode)
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Ac_master_info_frm), Txt_AcoFName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then txtAcOfCode_Code.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("A/C Of") Then Txt_AcoFName.Text = selected("A/C Of").ToString()
             End If
             SendKeys.Send("{tab}")
         End If
@@ -1913,7 +1950,7 @@ Friend Class Packing_JobCard
             Exit Sub
         End If
 
-        'If IsEntryDateLocked(txtChallanDate.Text) Then Exit Sub
+        If IsEntryDateLocked(txtChallanDate.Text) Then Exit Sub
 
         If txtAcOfCode.Text = "" Then txtAcOfCode.Text = "0000-000000001"
         If txtTr_code.Text = "" Then txtTr_code.Text = "0001-000000091"
@@ -2176,7 +2213,7 @@ Friend Class Packing_JobCard
             FirstStage.Columns("BOOKVNO").Visible = False
 
             FirstStage.GroupRowHeight = 30
-            'AlignGroupSummaryAuto(FirstStage, columnNames)
+            AlignGroupSummaryAuto(FirstStage, columnNames)
             PNL_View.Visible = True
             FirstStage.BestFitColumns()
             FirstStage.Focus()
@@ -2346,18 +2383,28 @@ Friend Class Packing_JobCard
         End If
     End Sub
     Private Sub Txt_ByerName_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_ByerName.KeyDown
-        If e.KeyCode = Keys.Escape Then Exit Sub
+        'If e.KeyCode = Keys.Escape Then Exit Sub
 
+        'If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
+        '    Party_selection.txtSearch.Text = Txt_ByerName.Text
+        '    Call obj_Party_Selection.Account_Selection()
+        '    If MULTY_SELECTION_COLOUM_3_DATA > "" Then
+        '        Txt_ByerName.Text = MULTY_SELECTION_COLOUM_1_DATA
+        '        txtByerCode.Text = MULTY_SELECTION_COLOUM_3_DATA
+        '    End If
+        '    SendKeys.Send("{tab}")
+        'End If
+        If e.KeyCode = Keys.Escape Then Exit Sub
         If e.KeyCode = Keys.Enter Or e.KeyCode = Keys.Space Then
-            Party_selection.txtSearch.Text = Txt_ByerName.Text
-            Call obj_Party_Selection.Account_Selection()
-            If MULTY_SELECTION_COLOUM_3_DATA > "" Then
-                Txt_ByerName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                txtByerCode.Text = MULTY_SELECTION_COLOUM_3_DATA
+            Dim _FilterAccountcode As String = ""
+            Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select(_FilterAccountcode)
+            Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), Txt_ByerName.Text, "SINGLE")
+            If selected IsNot Nothing Then
+                If selected.ContainsKey("ACCOUNTCODE") Then txtByerCode.Text = selected("ACCOUNTCODE").ToString()
+                If selected.ContainsKey("AccountName") Then Txt_ByerName.Text = selected("AccountName").ToString()
             End If
             SendKeys.Send("{tab}")
         End If
-
     End Sub
     Private Sub Txt_CuttingSize_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_CuttingSize.KeyDown
         'If e.KeyCode = Keys.Escape Then Exit Sub
@@ -2451,6 +2498,38 @@ Friend Class Packing_JobCard
                 txtChallanDate.Select()
                 Total_Upto_All_Grid_All_Row()
                 Exit Sub
+            End If
+        End If
+    End Sub
+
+    Private Sub txtImportjobcard_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtImportjobcard.KeyPress
+        If _FORMMODE = "ADD" Then
+            txtImportjobcard.Visible = True
+            Label25.Visible = True
+            Label26.Visible = True
+            If Asc(e.KeyChar) = 27 Then Exit Sub
+            If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
+                Dim _LoadQuery As String = "SELECT EntryNo, CHALLAN_NO AS ChallanNO, " & "CHALLAN_DATE AS [Date], " & "FROM TrnReadyMadeProducation where Bookvno='" & _BookVNo & "'"
+                'Bookvno='JOBCPLAN0001*00000*0000*00000001'
+                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtImportjobcard.Text, "SINGLE")
+                If selected IsNot Nothing Then
+                    If selected.ContainsKey("EntryNo") Then
+                        txtImportjobcard.Text = selected("EntryNo").ToString()
+                        txtEntryNo.Text = selected("EntryNo").ToString()
+                        txtChallanNo.Text = selected("ChallanNO").ToString()
+                        txtChallanDate.Text = selected("Date").ToString()
+                    End If
+                    'If selected.ContainsKey("ChallanNO") Then
+                    '    txtImportjobcard.Text = selected("ChallanNO").ToString()
+                    'End If
+                    'If selected.ContainsKey("ChallanNO") Then
+                    '    txtImportjobcard.Text = selected("ChallanNO").ToString()
+                    'End If
+                    'If selected.ContainsKey("Date") Then
+                    '    txtImportjobcard.Text = selected("Date").ToString()
+                    'End If
+                End If
+                SendKeys.Send("{tab}")
             End If
         End If
     End Sub
