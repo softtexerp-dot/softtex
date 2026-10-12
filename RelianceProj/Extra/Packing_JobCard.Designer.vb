@@ -612,7 +612,7 @@ Partial Class Packing_JobCard
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(86, 52)
+        Me.Label12.Location = New System.Drawing.Point(117, 53)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(12, 14)
         Me.Label12.TabIndex = 82176
@@ -642,7 +642,7 @@ Partial Class Packing_JobCard
         Me.txtEntryNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtEntryNo.IsValidated = False
         Me.txtEntryNo.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtEntryNo.Location = New System.Drawing.Point(104, 52)
+        Me.txtEntryNo.Location = New System.Drawing.Point(134, 52)
         Me.txtEntryNo.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtEntryNo.MandatoryField = False
         Me.txtEntryNo.MaxDate = Nothing
@@ -654,7 +654,7 @@ Partial Class Packing_JobCard
         Me.txtEntryNo.RegularExpression = Nothing
         Me.txtEntryNo.RegularExpressionErrorMessage = Nothing
         Me.txtEntryNo.ShowMessage = False
-        Me.txtEntryNo.Size = New System.Drawing.Size(268, 24)
+        Me.txtEntryNo.Size = New System.Drawing.Size(258, 24)
         Me.txtEntryNo.SpacerString = ""
         Me.txtEntryNo.TabIndex = 2
         Me.txtEntryNo.Tag = "ENTRYNO"
@@ -758,7 +758,7 @@ Partial Class Packing_JobCard
         Me.txtAccountName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.txtAccountName.IsValidated = False
         Me.txtAccountName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtAccountName.Location = New System.Drawing.Point(104, 130)
+        Me.txtAccountName.Location = New System.Drawing.Point(134, 130)
         Me.txtAccountName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtAccountName.MandatoryField = False
         Me.txtAccountName.MaxDate = Nothing
@@ -770,7 +770,7 @@ Partial Class Packing_JobCard
         Me.txtAccountName.RegularExpression = Nothing
         Me.txtAccountName.RegularExpressionErrorMessage = Nothing
         Me.txtAccountName.ShowMessage = False
-        Me.txtAccountName.Size = New System.Drawing.Size(268, 22)
+        Me.txtAccountName.Size = New System.Drawing.Size(238, 22)
         Me.txtAccountName.SpacerString = ""
         Me.txtAccountName.TabIndex = 6
         Me.txtAccountName.Tag = "ACCOUNTNAME"
@@ -791,7 +791,7 @@ Partial Class Packing_JobCard
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(86, 134)
+        Me.Label4.Location = New System.Drawing.Point(117, 134)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(12, 14)
         Me.Label4.TabIndex = 82172
@@ -801,7 +801,7 @@ Partial Class Packing_JobCard
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(86, 102)
+        Me.Label2.Location = New System.Drawing.Point(117, 102)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(12, 14)
         Me.Label2.TabIndex = 82170
@@ -811,7 +811,7 @@ Partial Class Packing_JobCard
         '
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(86, 78)
+        Me.Label20.Location = New System.Drawing.Point(117, 78)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(12, 14)
         Me.Label20.TabIndex = 82168
@@ -841,7 +841,7 @@ Partial Class Packing_JobCard
         Me.txtChallanNo.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtChallanNo.IsValidated = False
         Me.txtChallanNo.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtChallanNo.Location = New System.Drawing.Point(104, 78)
+        Me.txtChallanNo.Location = New System.Drawing.Point(134, 78)
         Me.txtChallanNo.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtChallanNo.MandatoryField = False
         Me.txtChallanNo.MaxDate = Nothing
@@ -853,7 +853,7 @@ Partial Class Packing_JobCard
         Me.txtChallanNo.RegularExpression = Nothing
         Me.txtChallanNo.RegularExpressionErrorMessage = Nothing
         Me.txtChallanNo.ShowMessage = False
-        Me.txtChallanNo.Size = New System.Drawing.Size(268, 22)
+        Me.txtChallanNo.Size = New System.Drawing.Size(238, 22)
         Me.txtChallanNo.SpacerString = ""
         Me.txtChallanNo.TabIndex = 3
         Me.txtChallanNo.Tag = "CHALLANNO"
@@ -864,7 +864,7 @@ Partial Class Packing_JobCard
         '
         Me.Label41.AutoSize = True
         Me.Label41.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(86, 4)
+        Me.Label41.Location = New System.Drawing.Point(120, 4)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(12, 14)
         Me.Label41.TabIndex = 82167
@@ -948,7 +948,7 @@ Partial Class Packing_JobCard
         Me.txtChallanDate.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DateBox
         Me.txtChallanDate.IsValidated = False
         Me.txtChallanDate.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.txtChallanDate.Location = New System.Drawing.Point(104, 102)
+        Me.txtChallanDate.Location = New System.Drawing.Point(134, 100)
         Me.txtChallanDate.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.txtChallanDate.MandatoryField = False
         Me.txtChallanDate.MaxDate = Nothing
@@ -1003,7 +1003,7 @@ Partial Class Packing_JobCard
         Me.Txt_ByerName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.Txt_ByerName.IsValidated = False
         Me.Txt_ByerName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Txt_ByerName.Location = New System.Drawing.Point(104, 182)
+        Me.Txt_ByerName.Location = New System.Drawing.Point(134, 182)
         Me.Txt_ByerName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_ByerName.MandatoryField = False
         Me.Txt_ByerName.MaxDate = Nothing
@@ -1015,7 +1015,7 @@ Partial Class Packing_JobCard
         Me.Txt_ByerName.RegularExpression = Nothing
         Me.Txt_ByerName.RegularExpressionErrorMessage = Nothing
         Me.Txt_ByerName.ShowMessage = False
-        Me.Txt_ByerName.Size = New System.Drawing.Size(255, 22)
+        Me.Txt_ByerName.Size = New System.Drawing.Size(225, 22)
         Me.Txt_ByerName.SpacerString = ""
         Me.Txt_ByerName.TabIndex = 8
         Me.Txt_ByerName.Tag = "BUYERNAME"
@@ -1036,7 +1036,7 @@ Partial Class Packing_JobCard
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(86, 186)
+        Me.Label6.Location = New System.Drawing.Point(117, 186)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(12, 14)
         Me.Label6.TabIndex = 82189
@@ -1343,7 +1343,7 @@ Partial Class Packing_JobCard
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(86, 157)
+        Me.Label15.Location = New System.Drawing.Point(117, 157)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(12, 14)
         Me.Label15.TabIndex = 82212
@@ -1373,7 +1373,7 @@ Partial Class Packing_JobCard
         Me.Txt_AcoFName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.IntegerNumeric
         Me.Txt_AcoFName.IsValidated = False
         Me.Txt_AcoFName.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Txt_AcoFName.Location = New System.Drawing.Point(104, 155)
+        Me.Txt_AcoFName.Location = New System.Drawing.Point(134, 155)
         Me.Txt_AcoFName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Txt_AcoFName.MandatoryField = False
         Me.Txt_AcoFName.MaxDate = Nothing
@@ -1385,7 +1385,7 @@ Partial Class Packing_JobCard
         Me.Txt_AcoFName.RegularExpression = Nothing
         Me.Txt_AcoFName.RegularExpressionErrorMessage = Nothing
         Me.Txt_AcoFName.ShowMessage = False
-        Me.Txt_AcoFName.Size = New System.Drawing.Size(255, 22)
+        Me.Txt_AcoFName.Size = New System.Drawing.Size(225, 22)
         Me.Txt_AcoFName.SpacerString = ""
         Me.Txt_AcoFName.TabIndex = 7
         Me.Txt_AcoFName.Tag = "AC_NAME"

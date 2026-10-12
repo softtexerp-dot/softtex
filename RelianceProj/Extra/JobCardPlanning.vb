@@ -16,7 +16,18 @@ Public Class JobCardPlanning
     Dim _SizeColoum As String = ""
     Dim _ColorColoumn As String = ""
     Dim _dateSelection As String = ""
-
+    Private _KeyFieldValue As String = ""
+    Private _ChallanTableName As String = "TrnReadyMadeProducation"
+    Private _KeyFieldName As String = "BOOKVNO"
+    Private _TblName As String = "TrnReadyMadeProducation"
+    Private tblFormValues As New DataTable
+    Private _TransctionNo As Integer = 0
+    Private _LastEntryNo As Integer = 0
+    Private _BookTrType As String = ""
+    Private _BookCode As String = ""
+    Private _BookVNo As String = ""
+    Dim _lblEntryDate As String
+    Private FieldNameAndValues(1) As String
 #Region "Form Load"
     Private focusedForeColor As Color = Color.Black
     Private focusedBackColor As Color = Color.Coral
@@ -124,18 +135,6 @@ Public Class JobCardPlanning
 
     Private DispList As Boolean = False
     Private _FORMMODE As String = ""
-    Private _KeyFieldValue As String = ""
-    Private _ChallanTableName As String = "TrnReadyMadeProducation"
-    Private _KeyFieldName As String = "BOOKVNO"
-    Private _TblName As String = "TrnReadyMadeProducation"
-    Private tblFormValues As New DataTable
-    Private _TransctionNo As Integer = 0
-    Private _LastEntryNo As Integer = 0
-    Private _BookTrType As String = ""
-    Private _BookCode As String = ""
-    Private _BookVNo As String = ""
-    Dim _lblEntryDate As String
-    Private FieldNameAndValues(1) As String
 #End Region
 
 #Region "FORM VALIDATION "

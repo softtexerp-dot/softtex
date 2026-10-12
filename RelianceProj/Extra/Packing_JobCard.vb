@@ -1,6 +1,7 @@
-﻿Imports DevExpress.XtraGrid
-Imports System.IO
+﻿Imports System.IO
 Imports System.Text
+Imports DevExpress.PivotGrid.PivotTable
+Imports DevExpress.XtraGrid
 
 Friend Class Packing_JobCard
     Private obj_Party_Selection As New Multi_Selection_Master
@@ -516,6 +517,7 @@ Friend Class Packing_JobCard
     Private _BookTrType As String = ""
     Private _BookCode As String = ""
     Private _BookVNo As String = ""
+    Private _JobcardplanningBookVno As String = ""
     Private Change_Grid_Data As Boolean = True
 #End Region
 
@@ -961,25 +963,24 @@ Friend Class Packing_JobCard
         Me.Dispose()
         _PrintingSelectionType = ""
     End Sub
-    'Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
-    '    If _FORMMODE = "VIEW" Then
-    '        PNL_View.Visible = False
-    '        _FrmLoad = True
-    '        _FORMMODE = ""
-    '        Old_Date = txtChallanDate.Text
-    '        ObjCls_General.Blank_Object(Me)
-    '        txtChallanDate.Text = Old_Date
-    '        Clear_Grid(GrdItem, 2)
-    '        Label_Value_Nil_Rest()
-    '        _KeyFieldValue = 0
-    '        Command_Button_Visibility("LOAD")
-    '        Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
-    '        Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
-    '    Else
-
-    '        _CloseForm()
-    '    End If
-    'End Sub
+    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        If _FORMMODE = "VIEW" Then
+            PNL_View.Visible = False
+            _FrmLoad = True
+            _FORMMODE = ""
+            Old_Date = txtChallanDate.Text
+            ObjCls_General.Blank_Object(Me)
+            txtChallanDate.Text = Old_Date
+            Clear_Grid(GrdItem, 2)
+            Label_Value_Nil_Rest()
+            _KeyFieldValue = 0
+            Command_Button_Visibility("LOAD")
+            Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+            Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
+        Else
+            _CloseForm()
+        End If
+    End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If _FORMMODE = "EDIT" Then
             Dim _userwrits As String = obj_Party_Selection._userWrits("EDIT")
@@ -2064,6 +2065,7 @@ Friend Class Packing_JobCard
             .Append("IMAGEPATH,")
             .Append("BATCHNO,")
             .Append("OP3,")
+            .Append("OP9,") 'jobcard plainning Bookvno
             .Append("TOTALMTR,")
             .Append("HeaderRemark")
         End With
@@ -2086,6 +2088,7 @@ Friend Class Packing_JobCard
             .Append(txtIamgePath.Text & ",")
             .Append(Txt_LaminDrip.Text & ",")
             .Append(txtAcOfCode_Code.Text & ",")
+            .Append(_JobcardplanningBookVno & ",") 'job card planning bookvno
             .Append(Txt_PrintQty.Text & ",")
             .Append(txtHeader_Remark.Text)
         End With
@@ -2100,6 +2103,15 @@ Friend Class Packing_JobCard
         Dim I As Integer = 0
 
         Try
+            Dim TmpTbl As New DataTable
+            strQuery = "SELECT OP9 AS Jobcardbookvno FROM TrnReadyMadeProducation WHERE BOOKVNO ='" & _BookVNo & "'"
+            sqL = strQuery
+            sql_Data_Save_Delete_Update()
+            If TmpTbl IsNot Nothing AndAlso TmpTbl.Rows.Count > 0 Then
+                MsgBox("Job Card Already Exists!", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
+                Return False
+            End If
+
             '---------------- Delete Previous Bill Sundry ----------------------------------'
             strQuery = "DELETE FROM TrnReadyMadeProducation WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
 
@@ -2325,8 +2337,6 @@ Friend Class Packing_JobCard
             GridView1.Columns("SizeL").Visible = False
             GridView1.Columns("SizeW").Visible = False
 
-
-
             DevGridFitColumn(GridControl2, GridView1)
             PnlPendingChallan.Visible = True
 
@@ -2336,12 +2346,7 @@ Friend Class Packing_JobCard
             MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             PnlPendingChallan.Visible = False
             GrdItem.Focus()
-
         End If
-
-
-
-
     End Sub
     Private Sub GridControl2_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl2.KeyDown
         If e.KeyCode = Keys.Escape Then PnlPendingChallan.Visible = False
@@ -2456,12 +2461,7 @@ Friend Class Packing_JobCard
             'txtIamgePath.Text = System.IO.Path.GetFullPath(OpenFileDialog1.FileName)
             PictureBox1.ImageLocation = System.IO.Path.GetFullPath(OpenFileDialog1.FileName)
             PictureBox1.Load()
-
-
-
             Dim pathSource As String = OpenFileDialog1.FileName
-
-
             Dim _FolderName As String = "Image"
             Dim strServerName = _FolderFilePath(_FolderName)
             Dim sSource As String = pathSource
@@ -2478,7 +2478,6 @@ Friend Class Packing_JobCard
             'txtIamgePath.Text = ""
             'PictureBox1.Image = DefaltimageName
         End If
-
     End Sub
 
     Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
@@ -2509,25 +2508,76 @@ Friend Class Packing_JobCard
             Label26.Visible = True
             If Asc(e.KeyChar) = 27 Then Exit Sub
             If Asc(e.KeyChar) = 13 Or Asc(e.KeyChar) = 32 Then
-                Dim _LoadQuery As String = "SELECT EntryNo, CHALLAN_NO AS ChallanNO, " & "CHALLAN_DATE AS [Date], " & "FROM TrnReadyMadeProducation"
-                'where Bookvno='" & _BookVNo & "' Bookvno='JOBCPLAN0001*00000*0000*00000001'
-                Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), txtImportjobcard.Text, "SINGLE")
+                Dim strQuery = New StringBuilder
+                With strQuery
+                    .Append(" SELECT  ")
+                    .Append(" a.EntryNo, ")
+                    .Append(" a.CHALLAN_NO as ChallanNO, ")
+                    .Append(" FORMAT(A.CHALLAN_DATE,'dd/MM/yyyy') AS Date, ")
+                    .Append(" B.ACCOUNTNAME as PrinterName, ")
+                    .Append(" H.AC_NAME as AcOf, ")
+                    .Append(" I.ACCOUNTNAME AS BuyerName , ")
+                    .Append(" a.SHADECODE as CuttingSize , ")
+                    .Append(" a.LOTNO as JobSize , ")
+                    .Append(" a.MONOGRAM_TYPE as QltyName , ")
+                    .Append(" a.BATCHNO as ProcessName , ")
+                    .Append(" a.HEADERREMARK as HedReamrk , ")
+                    .Append(" a.TOTALMTR as PrintQty , ")
+                    .Append(" a.BOOKVNO, ")
+                    .Append(" a.IMAGEPATH, ")
+                    .Append("A.OP4,") 'Paper form
+                    .Append("A.OP5,") ' Paper
+                    .Append("A.OP7,") ' Machine size
+                    .Append("A.OP8") ' Remark
+                    .Append(" FROM TrnReadyMadeProducation AS A ")
+                    .Append(" LEFT JOIN MstMasterAccount AS B ON A.ACCOUNTCODE=B.ACCOUNTCODE ")
+                    .Append(" LEFT JOIN MstStoreItem F ON A.ITEMCODE=F.ITEMCODE  ")
+                    .Append(" LEFT JOIN Mst_Acof_Supply H ON A.OP3=H.ID ")
+                    .Append(" LEFT JOIN MstMasterAccount I ON A.DESIGNCODE=I.ACCOUNTCODE ")
+                    .Append(" LEFT JOIN MstStoreItem K ON A.PRODITEMCODE=K.ItemCode ")
+                    .Append(" LEFT JOIN MstMasterAccount AS N ON A.DELIVERYCODE=N.ACCOUNTCODE  ")
+                    .Append(" LEFT JOIN MstMasterAccount AS O ON A.OP4=O.ACCOUNTCODE  ") ' Papar Form
+                    .Append(" LEFT JOIN MstMasterAccount AS P ON A.OP5=P.ACCOUNTCODE  ") ' Paper
+                    .Append(" WHERE 1=1 ")
+                    .Append(" ORDER BY a.EntryNo,A.SRNO ")
+                End With
+                sqL = strQuery.ToString
+                sql_connect_slect()
+                Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
+                Dim ExtracolumnsToHide = {"CuttingSize", "JobSize", "QltyName", "ProcessName", "HedReamrk", "PrintQty", "BOOKVNO", "IMAGEPATH", "OP4", "OP5", "OP7", "OP8"}
+                Dim selected = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, txtImportjobcard.Text, "SINGLE", "YES", ExtracolumnsToHide)
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("EntryNo") Then
                         txtImportjobcard.Text = selected("EntryNo").ToString()
                         txtEntryNo.Text = selected("EntryNo").ToString()
                         txtChallanNo.Text = selected("ChallanNO").ToString()
                         txtChallanDate.Text = selected("Date").ToString()
+                        _JobcardplanningBookVno = selected("BOOKVNO").ToString()
+                        Txt_AcoFName.Text = selected("AcOf").ToString()
+                        txtAccountName.Text = selected("PrinterName").ToString()
+                        Txt_ByerName.Text = selected("BuyerName").ToString()
+                        Txt_CuttingSize.Text = selected("CuttingSize").ToString()
+                        Txt_JobSize.Text = selected("JobSize").ToString()
+                        Txt_Size.Text = selected("QltyName").ToString()
+                        Txt_LaminDrip.Text = selected("ProcessName").ToString()
+                        txtHeader_Remark.Text = selected("HedReamrk").ToString()
+                        Txt_PrintQty.Text = selected("PrintQty").ToString()
+                        txtIamgePath.Text = selected("IMAGEPATH").ToString()
+                        If txtIamgePath.Text <> "" Then
+                            Dim _FolderName As String = "Image"
+                            Dim strServerName = _FolderFilePath(_FolderName)
+                            Dim _FilePath As String = System.IO.Path.Combine(strServerName, txtIamgePath.Text)
+                            If System.IO.File.Exists(_FilePath) Then
+                                PictureBox1.ImageLocation = _FilePath
+                            Else
+                                PictureBox1.Image = DefaltimageName
+                            End If
+                        Else
+                            PictureBox1.Image = DefaltimageName
+                        End If
                     End If
-                    'If selected.ContainsKey("ChallanNO") Then
-                    '    txtImportjobcard.Text = selected("ChallanNO").ToString()
-                    'End If
-                    'If selected.ContainsKey("ChallanNO") Then
-                    '    txtImportjobcard.Text = selected("ChallanNO").ToString()
-                    'End If
-                    'If selected.ContainsKey("Date") Then
-                    '    txtImportjobcard.Text = selected("Date").ToString()
-                    'End If
+                    txtEntryNo.Focus()
+                    txtEntryNo.Select()
                 End If
                 SendKeys.Send("{tab}")
             End If
