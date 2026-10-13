@@ -1207,6 +1207,8 @@ Public Class AppEntryManagement
                         Dim shadeno As String = ""
                         Dim RDON As String = ""
                         Dim CDON As String = ""
+                        Dim PymtDays As String = "0"
+                        Dim DelvDays As String = "0"
                         If Not IsDBNull(view.GetRowCellValue(i, "QtyMtr")) Then
                             qtyMtr = Val(view.GetRowCellValue(i, "QtyMtr")).ToString("0.00")
                         End If
@@ -1225,7 +1227,7 @@ Public Class AppEntryManagement
                         _strQuery = New StringBuilder
                         With _strQuery
                             .Append("INSERT INTO TrnOffer (")
-                            .Append("ENTRYNO, BookTrtype, BookVno, BookCode, OfferNo, OfferDate,PartyOfferNo,AccountCode,AcofCode,AgentOfferNo, TransportCode, DespatchCode, HeaderRemark, SRNO, ItemCode, CutCode, DesignCode, ShadeCode, SHADENO,RDON, CDON, Mtr_Weight, PICK_RATE, Rate, CDVALUE, clear, Gross_Rate, Net_Rate, SalesManCode, Pcs_Bales, AvgWeight, RDVALUE, Descr, RowRemark, LOTNO, loomtype, QTYMTR, Process_Slab_Weight, Process_Weight_Rate, Process_Weight_Range, Process_Net_Rate, OP3, cancel_Qty, PICK, WESTAGE, NO_OF_BEAM, EXTRA_CHG, Process_Slab_Rate, OP11")
+                            .Append("ENTRYNO, BookTrtype, BookVno, BookCode, OfferNo, OfferDate,PartyOfferNo,AccountCode,AcofCode,AgentOfferNo, TransportCode, DespatchCode, HeaderRemark, SRNO, ItemCode, CutCode, DesignCode, ShadeCode, SHADENO,RDON, CDON, PymtDays,DelvDays,Mtr_Weight, PICK_RATE, Rate, CDVALUE, clear, Gross_Rate, Net_Rate, SalesManCode, Pcs_Bales, AvgWeight, RDVALUE, Descr, RowRemark, LOTNO, loomtype, QTYMTR, Process_Slab_Weight, Process_Weight_Rate, Process_Weight_Range, Process_Net_Rate, OP3, cancel_Qty, PICK, WESTAGE, NO_OF_BEAM, EXTRA_CHG, Process_Slab_Rate, OP11")
                             .Append(") VALUES (")
                             .Append("'" & entryNo & "'")
                             .Append(",'" & BookTrtype & "'")
@@ -1248,6 +1250,8 @@ Public Class AppEntryManagement
                             .Append(",'" & shadeno & "'")
                             .Append(",'" & RDON & "'")
                             .Append(",'" & CDON & "'")
+                            .Append(",'" & PymtDays & "'")
+                            .Append(",'" & DelvDays & "'")
                             .Append(",'" & view.GetRowCellValue(i, "QtyMtr").ToString() & "'")
                             .Append(",'" & rate & "'")
                             .Append(",'" & rate & "'")
@@ -1286,7 +1290,7 @@ Public Class AppEntryManagement
                         groupItemsSavedCount += 1
 
                         Dim id As String = Convert.ToString(view.GetRowCellValue(i, "Id")).Trim()
-                        UpdateOfferStatus(id, status, i, entryNo)
+                        'UpdateOfferStatus(id, status, i, entryNo)
                     End If
                 Next
 
