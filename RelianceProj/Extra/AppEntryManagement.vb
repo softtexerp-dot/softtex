@@ -1290,7 +1290,7 @@ Public Class AppEntryManagement
                         groupItemsSavedCount += 1
 
                         Dim id As String = Convert.ToString(view.GetRowCellValue(i, "Id")).Trim()
-                        'UpdateOfferStatus(id, status, i, entryNo)
+                        UpdateOfferStatus(id, status, i, entryNo)
                     End If
                 Next
 
