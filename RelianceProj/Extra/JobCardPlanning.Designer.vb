@@ -1047,7 +1047,7 @@ Partial Class JobCardPlanning
         Me.txtChallanNo.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanNo.SpacerString = ""
         Me.txtChallanNo.TabIndex = 82218
-        Me.txtChallanNo.Tag = "CHALLANNO"
+        Me.txtChallanNo.Tag = "CHALLAN_NO"
         Me.txtChallanNo.TransparentBox = True
         Me.txtChallanNo.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
         '
@@ -1091,7 +1091,7 @@ Partial Class JobCardPlanning
         Me.txtChallanDate.Size = New System.Drawing.Size(98, 22)
         Me.txtChallanDate.SpacerString = ""
         Me.txtChallanDate.TabIndex = 82219
-        Me.txtChallanDate.Tag = "CHALLANDATE"
+        Me.txtChallanDate.Tag = "CHALLAN_DATE"
         Me.txtChallanDate.Text = "  /  /    "
         Me.txtChallanDate.TransparentBox = True
         Me.txtChallanDate.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
@@ -1272,7 +1272,7 @@ Partial Class JobCardPlanning
         Me.txtMachinesize.FontFocusColor = System.Drawing.Color.Blue
         Me.txtMachinesize.FontLeaveColor = System.Drawing.Color.Black
         Me.txtMachinesize.ForeColor = System.Drawing.Color.Black
-        Me.txtMachinesize.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
+        Me.txtMachinesize.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.txtMachinesize.IsValidated = False
         Me.txtMachinesize.LeaveFocusColor = System.Drawing.SystemColors.ActiveCaption
         Me.txtMachinesize.Location = New System.Drawing.Point(139, 411)

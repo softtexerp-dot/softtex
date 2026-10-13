@@ -868,6 +868,7 @@ Friend Class Packing_JobCard
         'DefaltimageName = Textile.My.Resources.Resources.iamge
         LblBillNo.Text = ""
         PictureBox1.Image = DefaltimageName
+        _JobcardplanningBookVno = ""
         PnlPendingChallan.Visible = False
         If Visibility_Flag = "LOAD" Then
             btnSave.Enabled = False
@@ -2101,21 +2102,9 @@ Friend Class Packing_JobCard
         Dim strQuery As String = ""
         Dim affected As Integer = 0
         Dim I As Integer = 0
-
         Try
-            Dim TmpTbl As New DataTable
-            strQuery = "SELECT OP9 AS Jobcardbookvno FROM TrnReadyMadeProducation WHERE BOOKVNO ='" & _BookVNo & "'"
-            sqL = strQuery
-            sql_Data_Save_Delete_Update()
-            If TmpTbl IsNot Nothing AndAlso TmpTbl.Rows.Count > 0 Then
-                MsgBox("Job Card Already Exists!", MsgBoxStyle.Information + MsgBoxStyle.OkOnly, "Soft-Tex PRO")
-                Return False
-            End If
-
             '---------------- Delete Previous Bill Sundry ----------------------------------'
-            strQuery = "DELETE FROM TrnReadyMadeProducation WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
-
-            sqL = strQuery
+            sqL = "DELETE FROM TrnReadyMadeProducation WHERE 1=1 AND BOOKVNO ='" & _BookVNo & "' "
             sql_Data_Save_Delete_Update()
 
             Dim Array_Opening(0, 4) As String
@@ -2531,19 +2520,27 @@ Friend Class Packing_JobCard
                     .Append("A.OP8") ' Remark
                     .Append(" FROM TrnReadyMadeProducation AS A ")
                     .Append(" LEFT JOIN MstMasterAccount AS B ON A.ACCOUNTCODE=B.ACCOUNTCODE ")
-                    .Append(" LEFT JOIN MstStoreItem F ON A.ITEMCODE=F.ITEMCODE  ")
+                    .Append(" LEFT JOIN MstStoreItem F ON A.ITEMCODE=F.ITEMCODE ")
                     .Append(" LEFT JOIN Mst_Acof_Supply H ON A.OP3=H.ID ")
                     .Append(" LEFT JOIN MstMasterAccount I ON A.DESIGNCODE=I.ACCOUNTCODE ")
                     .Append(" LEFT JOIN MstStoreItem K ON A.PRODITEMCODE=K.ItemCode ")
-                    .Append(" LEFT JOIN MstMasterAccount AS N ON A.DELIVERYCODE=N.ACCOUNTCODE  ")
-                    .Append(" LEFT JOIN MstMasterAccount AS O ON A.OP4=O.ACCOUNTCODE  ") ' Papar Form
-                    .Append(" LEFT JOIN MstMasterAccount AS P ON A.OP5=P.ACCOUNTCODE  ") ' Paper
+                    .Append(" LEFT JOIN MstMasterAccount AS N ON A.DELIVERYCODE=N.ACCOUNTCODE ")
+                    .Append(" LEFT JOIN MstMasterAccount AS O ON A.OP4=O.ACCOUNTCODE ") ' Paper Form
+                    .Append(" LEFT JOIN MstMasterAccount AS P ON A.OP5=P.ACCOUNTCODE ") ' Paper
                     .Append(" WHERE 1=1 ")
-                    .Append(" ORDER BY a.EntryNo,A.SRNO ")
+                    .Append(" AND A.Bookcode='JBPLN001-000000001' ")
+                    .Append(" AND A.BOOKVNO NOT IN ( ")
+                    .Append("     SELECT ISNULL(OP9,'') ")
+                    .Append("     FROM TrnReadyMadeProducation ")
+                    .Append("     WHERE ISNULL(OP9,'') <> '' ")
+                    .Append(" ) ")
+                    .Append(" ORDER BY a.EntryNo ")
                 End With
                 sqL = strQuery.ToString
                 sql_connect_slect()
                 Dim _Tmptbl As DataTable = DefaltSoftTable.Copy
+                'Dim _LoadQuery As String = sqL
+                'Dim selected = SingleAccountSelectionForm(_LoadQuery, Nothing, txtImportjobcard.Text, "SINGLE")
                 Dim ExtracolumnsToHide = {"CuttingSize", "JobSize", "QltyName", "ProcessName", "HedReamrk", "PrintQty", "BOOKVNO", "IMAGEPATH", "OP4", "OP5", "OP7", "OP8"}
                 Dim selected = SingleAccountSelectionFormsingledatatable(_Tmptbl, Nothing, txtImportjobcard.Text, "SINGLE", "YES", ExtracolumnsToHide)
                 If selected IsNot Nothing Then

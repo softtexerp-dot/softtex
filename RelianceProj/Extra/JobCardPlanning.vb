@@ -209,7 +209,6 @@ Public Class JobCardPlanning
             If _FORMMODE = "" Then
                 _CloseForm()
             Else
-
                 If PNL_View.Visible = True Then
                     PNL_View.Visible = False
                     'Command_Button_Visibility("LOAD")
@@ -221,7 +220,6 @@ Public Class JobCardPlanning
                 End If
                 Select Case _STRTRNOBJECT
                     Case "GRID_RATE_DISP"
-
 
                     Case "TXTCHALLANDATE"
                         _FrmLoad = False
@@ -293,12 +291,11 @@ Public Class JobCardPlanning
         If _isCallerByOther = True Then
             Call Alter_Form(_KeyFieldValue)
         End If
-        'PictureBox1.Image = DefaltimageName
         _FrmLoad = False
         Me.Location = New Point(0, 0)
         Book_Name = "JobCardPlanning"
-        txtBookCode.Text = "0001-000000001"
-        _BookTrType = "JOBCPLAN0001"
+        txtBookCode.Text = "JBPLN001-000000001"
+        _BookTrType = "JBPLN001"
         _BookCode = txtBookCode.Text
         AutoResizeGrid(PNL_View, GridControl1)
         Ctrl_Visible_False(Me.Controls)
@@ -480,7 +477,7 @@ Public Class JobCardPlanning
             MsgBox("Function Not Allow This User", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
             Exit Sub
         End If
-        Packing_JobCardPrinting.ShowDialog()
+        JobcardPlanningPrint.ShowDialog()
     End Sub
 
     Private Sub UC_Buttons1_ReportsClick() Handles UC_Buttons1.ReportsClick
@@ -889,20 +886,15 @@ Public Class JobCardPlanning
                 End If
             Else
                 'LASTCODE = _KeyFieldValue
-                tblFormValues.Rows(0)(_KeyFieldName) = _BookVNo
             End If
-
+            'tblFormValues.Rows(0)(_KeyFieldName) = _BookVNo
+            _BookVNo = Generate_Book_Vno(Val(txtEntryNo.Text), _BookTrType)
             tblFormValues.Rows(0)("EntryNo") = txtEntryNo.Text
             tblFormValues.Rows(0)("BOOKTRTYPE") = _BookTrType
             tblFormValues.Rows(0)("BOOKCODE") = _BookCode
             tblFormValues.Rows(0)("BOOKVNO") = _BookVNo
             tblFormValues.Rows(0)("CHALLAN_NO") = txtChallanNo.Text
-            If _FORMMODE = "ADD" Then
-                tblFormValues.Rows(0)("CHALLAN_DATE") = CDate(Date.Now).ToString("dd/MM/yyyy HH:mm:ss")
-            End If
-            If _FORMMODE = "EDIT" Then
-                tblFormValues.Rows(0)("CHALLAN_DATE") = _lblEntryDate
-            End If
+            tblFormValues.Rows(0)("CHALLAN_DATE") = txtChallanDate.Date_for_Database
             tblFormValues.Rows(0)("ACCOUNTCODE") = txtAccount_Code.Text
             tblFormValues.Rows(0)("OP3") = txtAcOfCode_Code.Text
             tblFormValues.Rows(0)("DESIGNCODE") = txtByerCode.Text
@@ -938,6 +930,7 @@ Public Class JobCardPlanning
             Ctrl_Visible_False(Me.Controls)
             AttachButtonFocusEvents(Me)
             UC_Buttons1._ButtonEnableDisable("LOAD")
+            UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -1009,7 +1002,7 @@ Public Class JobCardPlanning
             .Append(" F.ItemName , ")
             .Append("A.OP1 as VenderChNo,")
             .Append("K.ItemName AS FinishItem , ")
-            .Append("A.OP4 as FinishSize,")
+            '.Append("A.OP4 as FinishSize,")
             .Append("N.ACCOUNTNAME as Vendor,")
             .Append("A.DelvDays as SizeL,") ' size l
             .Append("A.NO_OF_SET as SizeW,") '  size W
