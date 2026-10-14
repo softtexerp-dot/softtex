@@ -42,6 +42,7 @@ Partial Class AppEntryManagement
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.BtnClose = New DevExpress.XtraEditors.SimpleButton()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -54,7 +55,7 @@ Partial Class AppEntryManagement
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(955, 5)
+        Me.But_ok.Location = New System.Drawing.Point(809, 5)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(70, 36)
         Me.But_ok.TabIndex = 5
@@ -110,12 +111,12 @@ Partial Class AppEntryManagement
         Me.btnviewupdate.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnviewupdate.Appearance.Options.UseFont = True
         Me.btnviewupdate.ImageOptions.Image = CType(resources.GetObject("btnviewupdate.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnviewupdate.Location = New System.Drawing.Point(1032, 5)
+        Me.btnviewupdate.Location = New System.Drawing.Point(884, 5)
         Me.btnviewupdate.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnviewupdate.Name = "btnviewupdate"
-        Me.btnviewupdate.Size = New System.Drawing.Size(96, 36)
+        Me.btnviewupdate.Size = New System.Drawing.Size(159, 36)
         Me.btnviewupdate.TabIndex = 7
-        Me.btnviewupdate.Text = "Update"
+        Me.btnviewupdate.Text = "Save App Order"
         '
         'lbl_To
         '
@@ -383,12 +384,24 @@ Partial Class AppEntryManagement
         Me.Label6.TabIndex = 82259
         Me.Label6.Text = ":"
         '
+        'BtnClose
+        '
+        Me.BtnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnClose.Appearance.Options.UseFont = True
+        Me.BtnClose.ImageOptions.SvgImage = CType(resources.GetObject("BtnClose.ImageOptions.SvgImage"), DevExpress.Utils.Svg.SvgImage)
+        Me.BtnClose.Location = New System.Drawing.Point(1047, 5)
+        Me.BtnClose.Name = "BtnClose"
+        Me.BtnClose.Size = New System.Drawing.Size(90, 35)
+        Me.BtnClose.TabIndex = 82260
+        Me.BtnClose.Text = "Close"
+        '
         'AppEntryManagement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(1141, 641)
+        Me.ClientSize = New System.Drawing.Size(1139, 641)
+        Me.Controls.Add(Me.BtnClose)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label2)
@@ -439,4 +452,5 @@ Partial Class AppEntryManagement
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents Label6 As Label
+    Friend WithEvents BtnClose As DevExpress.XtraEditors.SimpleButton
 End Class
