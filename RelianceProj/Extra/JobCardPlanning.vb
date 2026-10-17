@@ -464,9 +464,9 @@ Public Class JobCardPlanning
         txtEntryNo.Visible = True
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         txtBookCode.Text = Book_Code
-        Call View_Record()
         txt_From.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         txt_To.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+        Call View_Record()
         txtEntryNo.Focus()
         txtEntryNo.Select()
     End Sub
@@ -717,13 +717,13 @@ Public Class JobCardPlanning
         txtpaper_Code.Text = tblTmp.Rows(0)("OP5").ToString
         txtMachinesize.Text = tblTmp.Rows(0)("OP7").ToString
         txtRemark.Text = tblTmp.Rows(0)("OP8").ToString
-        If txtIamgePath.Text <> "" Then
+        If txtIamgePath.Text.Trim() <> "" Then
             Dim _FolderName As String = "Image"
-            Dim strServerName = _FolderFilePath(_FolderName)
-            Dim _FilePath As String = System.IO.Path.Combine(strServerName, txtIamgePath.Text)
-
+            Dim strServerName As String = _FolderFilePath(_FolderName)
+            Dim _FilePath As String = System.IO.Path.Combine(strServerName, txtIamgePath.Text.Trim())
             If System.IO.File.Exists(_FilePath) Then
                 PictureBox1.ImageLocation = _FilePath
+                PictureBox1.Load()
             Else
                 PictureBox1.Image = DefaltimageName
             End If
@@ -928,6 +928,7 @@ Public Class JobCardPlanning
             ObjCls_General.Blank_Object(Me)
             txtChallanDate.Text = Old_Date
             Ctrl_Visible_False(Me.Controls)
+            PictureBox1.Image = DefaltimageName
             AttachButtonFocusEvents(Me)
             UC_Buttons1._ButtonEnableDisable("LOAD")
             UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
@@ -960,7 +961,7 @@ Public Class JobCardPlanning
         GetMaxCode = Master_GetMaxCode(_KeyFieldName, _TblName, _SELECTEDCOMPANYCODE)
     End Function
     Public Function Master_GetMaxCode(ByVal _KeyFieldName As String, ByVal _TblName As String, ByVal _SELECTEDCOMPANYCODE As String) As String
-        strQuery = " SELECT  TOP 1 EntryNo  FROM " & _TblName & " ORDER BY " & _KeyFieldName & " DESC "
+        strQuery = " SELECT  TOP 1 EntryNo  FROM " & _TblName & " where BOOKCODE='"& txtBookCode.Text &"' ORDER BY " & _KeyFieldName & " DESC "
         Return strQuery.ToString
     End Function
 
@@ -1112,8 +1113,8 @@ Public Class JobCardPlanning
     Private Sub _SelectImage()
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Dim fileName As String = System.IO.Path.GetFileName(OpenFileDialog1.FileName)
-            txtIamgePath.Text = fileName
-            'txtIamgePath.Text = System.IO.Path.GetFullPath(OpenFileDialog1.FileName)
+            'txtIamgePath.Text = fileName
+            txtIamgePath.Text = System.IO.Path.GetFullPath(OpenFileDialog1.FileName)
             PictureBox1.ImageLocation = System.IO.Path.GetFullPath(OpenFileDialog1.FileName)
             PictureBox1.Load()
             Dim pathSource As String = OpenFileDialog1.FileName
@@ -1132,7 +1133,6 @@ Public Class JobCardPlanning
             'txtIamgePath.Text = ""
             'PictureBox1.Image = DefaltimageName
         End If
-
     End Sub
 
     Private Sub GridControl1_KeyDown(sender As Object, e As KeyEventArgs) Handles GridControl1.KeyDown
