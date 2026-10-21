@@ -69,6 +69,10 @@ Partial Class ReadyMadeBaleRegister
         Me.txt_To = New ctl_TextBox.ctl_TextBox()
         Me.txt_From = New ctl_TextBox.ctl_TextBox()
         Me.PanlPropartiesWindow = New System.Windows.Forms.GroupBox()
+        Me.BtnBrowseExcel = New DevExpress.XtraEditors.SimpleButton()
+        Me.TxtExcelFileName = New ctl_TextBox.ctl_TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.Pnl_CmdBtnFun.SuspendLayout()
         Me.PNL_View.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,6 +80,7 @@ Partial Class ReadyMadeBaleRegister
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanlPropartiesWindow.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label27
@@ -424,7 +429,7 @@ Partial Class ReadyMadeBaleRegister
         Me.Btn_ChqRegester.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_ChqRegester.Appearance.Options.UseFont = True
         Me.Btn_ChqRegester.ImageOptions.Image = CType(resources.GetObject("Btn_ChqRegester.ImageOptions.Image"), System.Drawing.Image)
-        Me.Btn_ChqRegester.Location = New System.Drawing.Point(578, 13)
+        Me.Btn_ChqRegester.Location = New System.Drawing.Point(632, 11)
         Me.Btn_ChqRegester.Name = "Btn_ChqRegester"
         Me.Btn_ChqRegester.Size = New System.Drawing.Size(143, 36)
         Me.Btn_ChqRegester.TabIndex = 82226
@@ -435,7 +440,7 @@ Partial Class ReadyMadeBaleRegister
         Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.Appearance.Options.UseFont = True
         Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnClose.Location = New System.Drawing.Point(728, 13)
+        Me.btnClose.Location = New System.Drawing.Point(782, 11)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(87, 36)
         Me.btnClose.TabIndex = 82227
@@ -446,7 +451,7 @@ Partial Class ReadyMadeBaleRegister
         Me.BtnPrint.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPrint.Appearance.Options.UseFont = True
         Me.BtnPrint.ImageOptions.Image = CType(resources.GetObject("BtnPrint.ImageOptions.Image"), System.Drawing.Image)
-        Me.BtnPrint.Location = New System.Drawing.Point(485, 13)
+        Me.BtnPrint.Location = New System.Drawing.Point(539, 11)
         Me.BtnPrint.Name = "BtnPrint"
         Me.BtnPrint.Size = New System.Drawing.Size(87, 36)
         Me.BtnPrint.TabIndex = 82225
@@ -457,7 +462,7 @@ Partial Class ReadyMadeBaleRegister
         Me.btnSave.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Appearance.Options.UseFont = True
         Me.btnSave.ImageOptions.Image = CType(resources.GetObject("btnSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnSave.Location = New System.Drawing.Point(393, 13)
+        Me.btnSave.Location = New System.Drawing.Point(447, 11)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(87, 36)
         Me.btnSave.TabIndex = 82224
@@ -468,7 +473,7 @@ Partial Class ReadyMadeBaleRegister
         Me.btnView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnView.Appearance.Options.UseFont = True
         Me.btnView.ImageOptions.Image = CType(resources.GetObject("btnView.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnView.Location = New System.Drawing.Point(304, 12)
+        Me.btnView.Location = New System.Drawing.Point(358, 11)
         Me.btnView.Name = "btnView"
         Me.btnView.Size = New System.Drawing.Size(83, 36)
         Me.btnView.TabIndex = 82223
@@ -479,7 +484,7 @@ Partial Class ReadyMadeBaleRegister
         Me.btnDelete.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnDelete.Appearance.Options.UseFont = True
         Me.btnDelete.ImageOptions.Image = CType(resources.GetObject("btnDelete.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnDelete.Location = New System.Drawing.Point(207, 11)
+        Me.btnDelete.Location = New System.Drawing.Point(261, 11)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(91, 36)
         Me.btnDelete.TabIndex = 82222
@@ -490,7 +495,7 @@ Partial Class ReadyMadeBaleRegister
         Me.btnModify.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnModify.Appearance.Options.UseFont = True
         Me.btnModify.ImageOptions.Image = CType(resources.GetObject("btnModify.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnModify.Location = New System.Drawing.Point(115, 11)
+        Me.btnModify.Location = New System.Drawing.Point(169, 11)
         Me.btnModify.Name = "btnModify"
         Me.btnModify.Size = New System.Drawing.Size(87, 36)
         Me.btnModify.TabIndex = 82221
@@ -501,7 +506,7 @@ Partial Class ReadyMadeBaleRegister
         Me.btnAdd.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAdd.Appearance.Options.UseFont = True
         Me.btnAdd.ImageOptions.Image = CType(resources.GetObject("btnAdd.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnAdd.Location = New System.Drawing.Point(35, 11)
+        Me.btnAdd.Location = New System.Drawing.Point(89, 11)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(74, 36)
         Me.btnAdd.TabIndex = 82220
@@ -862,13 +867,92 @@ Partial Class ReadyMadeBaleRegister
         '
         'PanlPropartiesWindow
         '
-        Me.PanlPropartiesWindow.BackColor = System.Drawing.Color.PeachPuff
+        Me.PanlPropartiesWindow.BackColor = System.Drawing.Color.PowderBlue
+        Me.PanlPropartiesWindow.Controls.Add(Me.Label6)
+        Me.PanlPropartiesWindow.Controls.Add(Me.Label5)
+        Me.PanlPropartiesWindow.Controls.Add(Me.BtnBrowseExcel)
+        Me.PanlPropartiesWindow.Controls.Add(Me.TxtExcelFileName)
         Me.PanlPropartiesWindow.Location = New System.Drawing.Point(72, 341)
         Me.PanlPropartiesWindow.Name = "PanlPropartiesWindow"
-        Me.PanlPropartiesWindow.Size = New System.Drawing.Size(783, 100)
+        Me.PanlPropartiesWindow.Size = New System.Drawing.Size(672, 53)
         Me.PanlPropartiesWindow.TabIndex = 81919
         Me.PanlPropartiesWindow.TabStop = False
         Me.PanlPropartiesWindow.Visible = False
+        '
+        'BtnBrowseExcel
+        '
+        Me.BtnBrowseExcel.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnBrowseExcel.Appearance.Options.UseFont = True
+        Me.BtnBrowseExcel.ImageOptions.Image = CType(resources.GetObject("BtnBrowseExcel.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnBrowseExcel.Location = New System.Drawing.Point(574, 13)
+        Me.BtnBrowseExcel.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.BtnBrowseExcel.Name = "BtnBrowseExcel"
+        Me.BtnBrowseExcel.Size = New System.Drawing.Size(91, 34)
+        Me.BtnBrowseExcel.TabIndex = 81893
+        Me.BtnBrowseExcel.Text = "Select"
+        '
+        'TxtExcelFileName
+        '
+        Me.TxtExcelFileName._AllowSpace = True
+        Me.TxtExcelFileName.AcceptsReturn = True
+        Me.TxtExcelFileName.AutoFormat = ctl_TextBox.ctl_TextBox.KTB_AUTOFORMAT_SETTINGS.None
+        Me.TxtExcelFileName.BackColor = System.Drawing.Color.Lavender
+        Me.TxtExcelFileName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TxtExcelFileName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.TxtExcelFileName.Check_End_Date_Value_FY = "YES"
+        Me.TxtExcelFileName.Check_Start_Date_Value_FY = "YES"
+        Me.TxtExcelFileName.ClearField = True
+        Me.TxtExcelFileName.CustomInputTypeString = Nothing
+        Me.TxtExcelFileName.Date_for_Database = Nothing
+        Me.TxtExcelFileName.Date_Tag = Nothing
+        Me.TxtExcelFileName.EnterFocusColor = System.Drawing.Color.Bisque
+        Me.TxtExcelFileName.ERequired = ctl_TextBox.ctl_TextBox.EnterRequired.yes
+        Me.TxtExcelFileName.ExtraValue = ""
+        Me.TxtExcelFileName.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtExcelFileName.FontFocusColor = System.Drawing.Color.Blue
+        Me.TxtExcelFileName.FontLeaveColor = System.Drawing.Color.Black
+        Me.TxtExcelFileName.ForeColor = System.Drawing.Color.Black
+        Me.TxtExcelFileName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
+        Me.TxtExcelFileName.IsValidated = False
+        Me.TxtExcelFileName.LeaveFocusColor = System.Drawing.Color.Lavender
+        Me.TxtExcelFileName.Location = New System.Drawing.Point(103, 17)
+        Me.TxtExcelFileName.MandatoryColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.TxtExcelFileName.MandatoryField = False
+        Me.TxtExcelFileName.MaxDate = Nothing
+        Me.TxtExcelFileName.MinDate = Nothing
+        Me.TxtExcelFileName.Name = "TxtExcelFileName"
+        Me.TxtExcelFileName.NormalBorderColor = System.Drawing.Color.Lavender
+        Me.TxtExcelFileName.NullDate = ctl_TextBox.ctl_TextBox.AllowNullDate.yes
+        Me.TxtExcelFileName.Precision = ctl_TextBox.ctl_TextBox.KTB_PRECISION_SETTINGS.None
+        Me.TxtExcelFileName.RegularExpression = Nothing
+        Me.TxtExcelFileName.RegularExpressionErrorMessage = Nothing
+        Me.TxtExcelFileName.ShowMessage = False
+        Me.TxtExcelFileName.Size = New System.Drawing.Size(462, 24)
+        Me.TxtExcelFileName.SpacerString = ""
+        Me.TxtExcelFileName.TabIndex = 3
+        Me.TxtExcelFileName.Tag = "ENTRYNO"
+        Me.TxtExcelFileName.TransparentBox = True
+        Me.TxtExcelFileName.UpDownKeyRequired = ctl_TextBox.ctl_TextBox.ArrowKeyRequired.yes
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(6, 22)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(73, 14)
+        Me.Label5.TabIndex = 81897
+        Me.Label5.Text = "File Name"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(90, 21)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(12, 14)
+        Me.Label6.TabIndex = 81898
+        Me.Label6.Text = ":"
         '
         'ReadyMadeBaleRegister
         '
@@ -915,6 +999,8 @@ Partial Class ReadyMadeBaleRegister
         CType(Me.LayoutView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LayoutViewCard1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GridView2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanlPropartiesWindow.ResumeLayout(False)
+        Me.PanlPropartiesWindow.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -966,4 +1052,8 @@ Partial Class ReadyMadeBaleRegister
     Friend WithEvents But_print As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents But_export As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents PanlPropartiesWindow As GroupBox
+    Friend WithEvents TxtExcelFileName As ctl_TextBox.ctl_TextBox
+    Friend WithEvents BtnBrowseExcel As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label5 As Label
 End Class

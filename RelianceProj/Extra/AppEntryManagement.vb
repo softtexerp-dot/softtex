@@ -505,26 +505,6 @@ Public Class AppEntryManagement
             GridControl1.DataSource = dtSource.Copy
             FirstStage.OptionsView.ColumnAutoWidth = False
             FirstStage.OptionsBehavior.Editable = True
-            'FirstStage.Columns("BookVno").Visible = False
-            'FirstStage.Columns("ItemCode").Visible = False
-            'FirstStage.Columns("AccountCode").Visible = False
-            'FirstStage.Columns("DespatchCode").Visible = False
-            'FirstStage.Columns("TransportCode").Visible = False
-            'FirstStage.Columns("SalesManCode").Visible = False
-            'FirstStage.Columns("CutCode").Visible = False
-            'FirstStage.Columns("DesignCode").Visible = False
-            'FirstStage.Columns("ShadeCode").Visible = False
-            'FirstStage.Columns("BookTrType").Visible = False
-            'FirstStage.Columns("BookCode").Visible = False
-            'FirstStage.Columns("OfferDate").Visible = False
-            'FirstStage.Columns("PartyOfferNo").Visible = False
-            'FirstStage.Columns("MeterWeight").Visible = False
-            'FirstStage.Columns("Pcs").Visible = False
-            'FirstStage.Columns("TaxPercentage").Visible = False
-            'FirstStage.Columns("TaxAmount").Visible = False
-            'FirstStage.Columns("DiscountPercentage").Visible = False
-            'FirstStage.Columns("DiscountAmount").Visible = False
-
             ' "partycode", "Suppcode",
             Dim hideCols As String() = {"BookVno", "ItemCode", "AccountCode", "DespatchCode", "TransportCode",
     "SalesManCode", "CutCode", "DesignCode", "ShadeCode", "BookTrType", "BookCode", "OfferDate", "PartyOfferNo", "AgentOfferNo", "AcofCode", "MeterWeight", "Pcs", "TaxPercentage", "TaxAmount", "DiscountPercentage", "DiscountAmount", "PickRate", "QtyType", "EntryType", "Id", "Remark",
@@ -742,64 +722,9 @@ Public Class AppEntryManagement
         Decimal.TryParse(Convert.ToString(value), d)
         Return d.ToString("0.00")
     End Function
-    'Private Sub GridView1_KeyDown(sender As Object, e As KeyEventArgs)
-    '    If e.KeyCode <> Keys.Space Then Exit Sub
-    '    ' Ek Space press ko sirf ek baar process kare
-    '    If SpaceKeyPressed Then
-    '        e.Handled = True
-    '        e.SuppressKeyPress = True
-    '        Exit Sub
-    '    End If
-    '    SpaceKeyPressed = True
-    '    Dim view As GridView = TryCast(sender, GridView)
-    '    If view Is Nothing Then Exit Sub
-    '    Dim RowHandle As Integer = view.FocusedRowHandle
-    '    If RowHandle < 0 Then Exit Sub
-    '    ' Sirf Status column par hi chale
-    '    If view.FocusedColumn Is Nothing OrElse view.FocusedColumn.FieldName <> "Status" Then Exit Sub
-    '    '---------------------------------------
-    '    ' SelectRow check
-    '    '---------------------------------------
-    '    Dim IsChecked As Boolean = False
-    '    Dim SelectValue As Object = view.GetRowCellValue(RowHandle, "SelectRow")
-    '    If SelectValue IsNot Nothing AndAlso SelectValue IsNot DBNull.Value Then
-    '        IsChecked = Convert.ToBoolean(SelectValue)
-    '    End If
-    '    ' Sirf checked row par status change ho
-    '    If Not IsChecked Then
-    '        MessageBox.Show("Please select the row before changing its status.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '        e.Handled = True
-    '        e.SuppressKeyPress = True
-    '        Exit Sub
-    '    End If
-    '    '---------------------------------------
-    '    ' Current Status
-    '    '---------------------------------------
-    '    Dim CurrentStatus As String = Convert.ToString(view.GetRowCellValue(RowHandle, "Status")).Trim().ToUpper()
-    '    '---------------------------------------
-    '    ' Change Status
-    '    '---------------------------------------
-    '    Select Case CurrentStatus
-    '        Case "PENDING"
-    '            view.SetRowCellValue(RowHandle, "Status", "HOLD")
-    '        Case "HOLD"
-    '            view.SetRowCellValue(RowHandle, "Status", "APPROVE")
-    '        Case "APPROVE"
-    '            view.SetRowCellValue(RowHandle, "Status", "CANCEL")
-    '        Case "CANCEL"
-    '            view.SetRowCellValue(RowHandle, "Status", "PENDING")
-    '        Case Else
-    '            view.SetRowCellValue(RowHandle, "Status", "PENDING")
-    '    End Select
-    '    'view.PostEditor()
-    '    'view.UpdateCurrentRow()
-    '    ' Space ko Grid ke default action tak jane se roke
-    '    e.Handled = True
-    '    e.SuppressKeyPress = True
-    'End Sub
+
     Private Sub GridView1_KeyDown(sender As Object, e As KeyEventArgs)
         If e.KeyCode <> Keys.Space Then Exit Sub
-
         ' Space key hold hone par multiple trigger rokein
         If SpaceKeyPressed Then
             e.Handled = True
@@ -1537,267 +1462,6 @@ Public Class AppEntryManagement
         End Try
     End Function
 
-
-    'Private Function SaveApprovedInvoiceHeaderRow() As Boolean
-    '    Try
-    '        Dim view As GridView = TryCast(GridControl1.MainView, GridView)
-    '        If view Is Nothing OrElse view.RowCount = 0 Then Return False
-
-    '        ' Book details
-    '        sqL = "SELECT * FROM MSTBOOK WHERE BOOKCODE='" &
-    '          BookCode.Replace("'", "''") & "'"
-    '        sql_connect_slect()
-
-    '        If DefaltSoftTable.Rows.Count = 0 Then Return False
-    '        BookTrtype = Convert.ToString(DefaltSoftTable.Rows(0)("BOOKTRTYPE"))
-
-    '        view.CloseEditor()
-    '        view.UpdateCurrentRow()
-
-    '        ' Selected APPROVE rows only
-    '        Dim dtSelected As New DataTable()
-    '        dtSelected.Columns.Add("PartyCode", GetType(String))
-    '        dtSelected.Columns.Add("BillNo", GetType(String))
-    '        dtSelected.Columns.Add("RowIndex", GetType(Integer))
-
-    '        For i As Integer = 0 To view.RowCount - 1
-    '            If view.IsGroupRow(i) Then Continue For
-    '            Dim selected As String = GetGridString(view, i, "SelectRow")
-    '            Dim status As String = GetGridString(view, i, "Status")
-    '            If (selected = "True" OrElse selected = "1") AndAlso
-    '           status.Equals("APPROVE", StringComparison.OrdinalIgnoreCase) Then
-    '                dtSelected.Rows.Add(GetGridString(view, i, "partycode"), GetGridString(view, i, "BillNo"), i)
-    '            End If
-    '        Next
-    '        If dtSelected.Rows.Count = 0 Then
-    '            MessageBox.Show("Select approved Order No!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '            Return False
-    '        End If
-    '        Dim groups = (From r In dtSelected.AsEnumerable() Select Party = r.Field(Of String)("PartyCode"), Bill = r.Field(Of String)("BillNo")).Distinct().ToList()
-    '        Dim totalVouchersCreated As Integer = 0
-    '        For Each grp In groups
-    '            Dim currentPartyCode As String = grp.Party
-    '            Dim currentOfferNo As String = grp.Bill
-    '            ' Only APPROVE rows of this PartyCode + BillNo
-    '            Dim approvedRows As List(Of Integer) = dtSelected.AsEnumerable().Where(Function(r) r.Field(Of String)("PartyCode") = currentPartyCode AndAlso r.Field(Of String)("BillNo") = currentOfferNo).Select(Function(r) r.Field(Of Integer)("RowIndex")).ToList()
-    '            If approvedRows.Count = 0 Then Continue For
-
-    '            Dim firstIndex As Integer = approvedRows(0)
-
-    '            ' Totals from APPROVE rows only
-    '            Dim DiscountPer As Decimal = 0D
-    '            Dim DiscountAmount As Decimal = 0D
-    '            Dim TotalMtrWeight As Decimal = 0D
-    '            Dim GrossAmount As Decimal = 0D
-    '            Dim NetAmount As Decimal = 0D
-    '            Dim TotalPcs As Decimal = 0D
-    '            Dim TotalBales As Decimal = 0D
-
-    '            For Each rowIndex As Integer In approvedRows
-    '                DiscountPer = Math.Max(
-    '                DiscountPer,
-    '                GetGridDecimal(view, rowIndex, "TaxPercentage"))
-
-    '                DiscountAmount += GetGridDecimal(view, rowIndex, "TaxAmount")
-    '                TotalMtrWeight += GetGridDecimal(view, rowIndex, "MeterWeight")
-    '                GrossAmount += GetGridDecimal(view, rowIndex, "Amount")
-    '                NetAmount += GetGridDecimal(view, rowIndex, "NetAmount")
-    '                TotalPcs += GetGridDecimal(view, rowIndex, "Pcs")
-    '                TotalBales += GetGridDecimal(view, rowIndex, "Bales")
-    '            Next
-
-    '            DiscountAmount = Math.Round(
-    '            DiscountAmount, 2, MidpointRounding.AwayFromZero)
-
-    '            ' Generate EntryNo
-    '            sqL = "SELECT ISNULL(MAX(ENTRYNO),0)+1 AS ENTRYNO " &
-    '              "FROM TRNINVOICEHEADER WHERE BookTrType='" &
-    '              BookTrtype.Replace("'", "''") &
-    '              "' AND BookCode='" & BookCode.Replace("'", "''") & "'"
-
-    '            sql_connect_slect()
-
-    '            Dim entryNo As Integer =
-    '            Convert.ToInt32(DefaltSoftTable.Rows(0)("ENTRYNO"))
-
-    '            Dim currentBookVno As String =
-    '            Generate_Book_Vno(entryNo, BookTrtype)
-
-    '            ' Bill date
-    '            Dim offerDate As DateTime = DateTime.Now
-    '            Dim rawDate As Object = view.GetRowCellValue(firstIndex, "BillDate")
-
-    '            If rawDate IsNot Nothing AndAlso
-    '           Not IsDBNull(rawDate) AndAlso IsDate(rawDate) Then
-    '                offerDate = CDate(rawDate)
-    '            End If
-
-    '            ' Account and company state
-    '            Dim accountCode As String =
-    '            GetGridString(view, firstIndex, "AccountCode")
-
-    '            Dim companyState As String =
-    '            Convert.ToString(COMPANY_TBL.Rows(0)("State")).Trim()
-
-    '            sqL = "SELECT StateId FROM MstMasterAccount WHERE AccountCode='" &
-    '              accountCode.Replace("'", "''") & "'"
-
-    '            sql_connect_slect()
-
-    '            Dim stateId As Long = 0
-
-    '            If DefaltSoftTable.Rows.Count > 0 AndAlso
-    '           Not IsDBNull(DefaltSoftTable.Rows(0)("StateId")) Then
-    '                stateId = Convert.ToInt64(DefaltSoftTable.Rows(0)("StateId"))
-    '            End If
-
-    '            Dim accountState As String = ""
-
-    '            If stateId > 0 Then
-    '                sqL = "SELECT StateName FROM MstState WHERE StateId=" & stateId
-    '                sql_connect_slect()
-
-    '                If DefaltSoftTable.Rows.Count > 0 Then
-    '                    accountState =
-    '                    Convert.ToString(DefaltSoftTable.Rows(0)("StateName")).Trim()
-    '                End If
-    '            End If
-
-    '            ' Tax calculation
-    '            Dim CGST_Tax_RATE As Decimal = 0D
-    '            Dim SGST_Tax_RATE As Decimal = 0D
-    '            Dim CGST_Tax_Amt As Decimal = 0D
-    '            Dim SGST_Tax_Amt As Decimal = 0D
-    '            Dim IGST_Tax_RATE As Decimal = 0D
-    '            Dim IGST_Tax_Amt As Decimal = 0D
-
-    '            If accountState <> "" AndAlso
-    '           String.Equals(accountState, companyState,
-    '                         StringComparison.OrdinalIgnoreCase) Then
-
-    '                CGST_Tax_RATE = DiscountPer / 2D
-    '                SGST_Tax_RATE = DiscountPer / 2D
-    '                CGST_Tax_Amt = DiscountAmount / 2D
-    '                SGST_Tax_Amt = DiscountAmount / 2D
-    '            Else
-    '                IGST_Tax_RATE = DiscountPer
-    '                IGST_Tax_Amt = DiscountAmount
-    '            End If
-
-    '            ' Insert header for APPROVE rows only
-    '            _strQuery = New StringBuilder()
-
-    '            With _strQuery
-    '                .Append("INSERT INTO TRNINVOICEHEADER (")
-    '                .Append("ENTRYNO,BookTrtype,BookVno,BookCode,BILLNO,BILLDATE,LRDATE,")
-    '                .Append("ACOFCODE,AccountCode,TransportCode,DespatchCode,Header_Remark,")
-    '                .Append("SRNO,TOTAL_MTR_WEIGHT,GROSS_AMOUNT,NET_AMOUNT,TOTAL_BALES,TOTAL_PCS,")
-    '                .Append("DRCR,OP5,CGST_Tax_RATE,SGST_Tax_RATE,CGST_Tax_Amt,")
-    '                .Append("SGST_Tax_Amt,IGST_Tax_RATE,IGST_Tax_Amt) VALUES (")
-
-    '                .Append(entryNo).Append(",'")
-    '                .Append(BookTrtype.Replace("'", "''")).Append("','")
-    '                .Append(currentBookVno.Replace("'", "''")).Append("','")
-    '                .Append(BookCode.Replace("'", "''")).Append("','")
-    '                .Append(currentOfferNo.Replace("'", "''")).Append("','")
-    '                .Append(offerDate.ToString("yyyy-MM-dd HH:mm:ss")).Append("','")
-    '                .Append(offerDate.ToString("yyyy-MM-dd HH:mm:ss")).Append("',")
-    '                .Append("'0000-000000001','")
-    '                .Append(accountCode.Replace("'", "''")).Append("','")
-    '                .Append(GetGridString(view, firstIndex, "TransportCode").Replace("'", "''")).Append("','")
-    '                .Append(GetGridString(view, firstIndex, "DespatchCode").Replace("'", "''")).Append("','")
-    '                .Append(GetGridString(view, firstIndex, "HeaderRemark").Replace("'", "''")).Append("',1,")
-
-    '                .Append(TotalMtrWeight.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(GrossAmount.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(NetAmount.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(TotalBales.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(TotalPcs.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",'DR','")
-    '                .Append(GetGridString(view, firstIndex, "BookVno").Replace("'", "''")).Append("',")
-
-    '                .Append(CGST_Tax_RATE.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(SGST_Tax_RATE.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(CGST_Tax_Amt.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(SGST_Tax_Amt.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(IGST_Tax_RATE.ToString(Globalization.CultureInfo.InvariantCulture)).Append(",")
-    '                .Append(IGST_Tax_Amt.ToString(Globalization.CultureInfo.InvariantCulture)).Append(")")
-    '            End With
-
-    '            sqL = _strQuery.ToString()
-    '            sql_Data_Save_Delete_Update()
-    '            ' Related table save calls
-    '            ' These functions must also filter Status = APPROVE internally.
-    '            If Not SaveApprovedInvoiceDetailRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo) Then
-    '                Return False
-    '            End If
-    '            If Not SaveApprovedInvoiceSundryRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo, CGST_Tax_RATE, SGST_Tax_RATE, CGST_Tax_Amt, SGST_Tax_Amt, IGST_Tax_RATE, IGST_Tax_Amt) Then
-    '                Return False
-    '            End If
-    '            If Not SaveApprovedInvoiceTrnledgerRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo) Then
-    '                Return False
-    '            End If
-    '            If Not SaveApprovedInvoiceOutstandingRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo) Then
-    '                Return False
-    '            End If
-    '            ' Update APPROVE rows only
-    '            For Each rowIndex As Integer In approvedRows
-    '                Dim status As String = GetGridString(view, rowIndex, "Status").ToUpperInvariant()
-    '                If status <> "PENDING" Then
-    '                    Dim id As String = GetGridString(view, rowIndex, "Id")
-    '                    UpdateOfferStatus(id, status, rowIndex, entryNo)
-    '                End If
-    '            Next
-    '            totalVouchersCreated += 1
-    '        Next
-
-    '        If totalVouchersCreated = 0 Then
-    '            MessageBox.Show("No approved rows found!", "Information",
-    '                        MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '            Return False
-    '        End If
-
-    '        MessageBox.Show(totalVouchersCreated & " Order(s) Successfully Saved.",
-    '                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '        Return True
-
-    '    Catch ex As Exception
-    '        MessageBox.Show(
-    '        "An error occurred while saving the invoice header data." &
-    '        vbCrLf & vbCrLf & ex.Message,
-    '        "Invoice Header Save Error",
-    '        MessageBoxButtons.OK, MessageBoxIcon.Error)
-    '        Return False
-    '    End Try
-    'End Function
-
-    'Private Function GetGridString(view As GridView, row As Integer,
-    '                           column As String) As String
-    '    Dim value As Object = view.GetRowCellValue(row, column)
-    '    If value Is Nothing OrElse IsDBNull(value) Then Return ""
-    '    Return Convert.ToString(value).Trim()
-    'End Function
-
-    'Private Function GetGridDecimal(view As GridView, row As Integer,
-    '                            column As String) As Decimal
-    '    Dim value As Object = view.GetRowCellValue(row, column)
-    '    If value Is Nothing OrElse IsDBNull(value) Then Return 0D
-
-    '    Dim result As Decimal
-    '    Decimal.TryParse(Convert.ToString(value),
-    '                 Globalization.NumberStyles.Any,
-    '                 Globalization.CultureInfo.InvariantCulture, result)
-    '    Return result
-    'End Function
-    'Private Function GetValue(row As DataRow, column As String) As String
-    '    If row Is Nothing OrElse IsDBNull(row(column)) Then Return ""
-    '    Return Convert.ToString(row(column)).Trim()
-    'End Function
-
-    'Private Function GetGridTableValue(dt As DataTable, column As String) As String
-    '    If dt Is Nothing OrElse dt.Rows.Count = 0 Then Return ""
-    '    If IsDBNull(dt.Rows(0)(column)) Then Return ""
-    '    Return Convert.ToString(dt.Rows(0)(column)).Trim()
-    'End Function
     Private Function SaveApprovedInvoiceDetailRow(ByVal entryno As Integer, ByVal CurrentBookVno As String, ByVal currentPartyCode As String, ByVal currentOfferNo As String) As Boolean
         Try
             Dim view As GridView = TryCast(GridControl1.MainView, GridView)
@@ -2449,38 +2113,30 @@ Public Class AppEntryManagement
     End Function
     Private Sub TxtType_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtType.KeyDown
         If e.KeyCode = Keys.Enter OrElse e.KeyCode = Keys.Space Then
-            'If TxtType.Text = "LR UPDATE" Then
-            '    BookCode = ""
-            '    BookTrtype = ""
-            'Else
-            '    If TxtType.Text.Trim = "ORDER" Then
-            '        'BookCode = "0001-000010029"
-            '        'BookTrtype = "ONL29"
-            '        BookCode = "0001-000000121"
-            '        BookTrtype = "O0001"
-            '    End If
-            '    If TxtType.Text.Trim = "INVOICE" Then
-            '        BookCode = "0001-000010030"
-            '        BookTrtype = "ONL30"
-            '    End If
+            'If TxtType.Text.Trim = "ORDER" Then
+            '    BookCode = "0001-000000121"
+            '    BookTrtype = "O0001"
+            'ElseIf TxtType.Text.Trim = "INVOICE" Then
+            '    BookCode = "0001-000000029"
+            '    BookTrtype = "I0029"
+            'ElseIf TxtType.Text.Trim = "LR UPDATE" Then
+            '    BookCode = "0001-000000029"
+            '    BookTrtype = "I0029"
             'End If
         End If
     End Sub
 
     Private Sub TxtType_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtType.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) OrElse e.KeyChar = " "c Then
-            'If TxtType.Text = "LR UPDATE" Then
-            '    BookCode = ""
-            '    BookTrtype = ""
-            'Else
-            '    If TxtType.Text.Trim = "ORDER" Then
-            '        BookCode = "0001-000010029"
-            '        BookTrtype = "ONL29"
-            '    End If
-            '    If TxtType.Text.Trim = "INVOICE" Then
-            '        BookCode = "0001-000010030"
-            '        BookTrtype = "ONL30"
-            '    End If
+            'If TxtType.Text.Trim = "ORDER" Then
+            '    BookCode = "0001-000000121"
+            '    BookTrtype = "O0001"
+            'ElseIf TxtType.Text.Trim = "INVOICE" Then
+            '    BookCode = "0001-000000029"
+            '    BookTrtype = "I0029"
+            'ElseIf TxtType.Text.Trim = "LR UPDATE" Then
+            '    BookCode = "0001-000000029"
+            '    BookTrtype = "I0029"
             'End If
         End If
     End Sub

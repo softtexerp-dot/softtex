@@ -3,6 +3,7 @@ Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Text
 Imports DevExpress.XtraGrid
+Imports DevExpress.XtraRichEdit.Model
 Imports ExcelDataReader
 Friend Class ReadyMadeBaleRegister
     Private obj_Party_Selection As New Multi_Selection_Master
@@ -114,11 +115,6 @@ Friend Class ReadyMadeBaleRegister
     Private _ItmBillRate As String = ""
     Private _ItmBillPartyName As String = ""
     Private _ItmBillCaseNo As String = ""
-    Private WithEvents Txt_lumpstock As New TextBox
-    Dim DesignCodeTbl As New DataTable()
-    Dim sheetName As String = "Sheet1"
-
-
 #End Region
 
 #Region "GRID COL. DEFINE AND FORMATTING "
@@ -396,17 +392,22 @@ Friend Class ReadyMadeBaleRegister
                 SendKeys.Send("{BKSP}")
             End If
         End If
+#Region "Import Excel Option"
+        If Txt_EntryType.Text = "INWARD" Then
+            If e.Control AndAlso e.KeyCode = Keys.I Then
+                PanlPropartiesWindow.Visible = Not PanlPropartiesWindow.Visible
+                BtnBrowseExcel.Focus()
+                e.SuppressKeyPress = True
+            End If
+        End If
+#End Region
         If e.KeyCode = Keys.Escape Then
             _FrmLoad = True
-
-
             'If Pnl_Common_Work.Visible = True Then
             '    Pnl_Common_Work.Visible = False
             '    Txt_HeaderMtr.Focus()
             '    Txt_HeaderMtr.Select()
             'End If
-
-
             If _FORMMODE = "" Then
                 CLOSE_MNU_LOAD()
             Else
@@ -418,22 +419,11 @@ Friend Class ReadyMadeBaleRegister
                     Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
                     Exit Sub
                 End If
-                If Txt_EntryType.Text = "INWARD" Then
-                    If e.Control AndAlso e.KeyCode = Keys.I Then
-                        AddExcelImportButton()
-                        PanlPropartiesWindow.Visible = Not PanlPropartiesWindow.Visible
-                        e.SuppressKeyPress = True
-                    End If
-                End If
                 If PanlPropartiesWindow.Visible = True Then
                     PanlPropartiesWindow.Visible = False
-                    Command_Button_Visibility("LOAD")
-                    ObjCls_General.Blank_Object(Me)
-                    Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
-                    Call Set_Focus_Last_Clicked_Btn(Last_Focused_Btn)
+                    'Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
                     Exit Sub
                 End If
-
                 Select Case _STRTRNOBJECT
                     Case "GRDOUTS"
                         GrdItem.Focus()
@@ -538,163 +528,73 @@ Friend Class ReadyMadeBaleRegister
             End If
         End If
     End Sub
-    Private Sub AddExcelImportButton()
-        If PanlPropartiesWindow.Controls("TxtExcelFileName") IsNot Nothing Then Return
-        Dim txtFile As New DevExpress.XtraEditors.TextEdit With {.Name = "TxtExcelFileName", .Size = New Size(250, 0), .Location = New Point(10, 15), .ReadOnly = True}
-        txtFile.Properties.AutoHeight = False
-        txtFile.Height = 30
-        Dim btnBrowse As New DevExpress.XtraEditors.SimpleButton With {.Name = "BtnBrowseExcel", .Text = "Browse", .Size = New Size(80, 30), .Location = New Point(270, 15)}
-        Dim btnOK As New DevExpress.XtraEditors.SimpleButton With {.Name = "BtnImportExcel", .Text = "OK", .Size = New Size(70, 30), .Location = New Point(360, 15)}
-        AddHandler btnBrowse.Click, AddressOf BtnBrowseExcel_Click
-        AddHandler btnOK.Click, AddressOf BtnImportExcel_Click
-        PanlPropartiesWindow.Controls.Add(txtFile)
-        PanlPropartiesWindow.Controls.Add(btnBrowse)
-        PanlPropartiesWindow.Controls.Add(btnOK)
-        ' Browse button par focus set karein
-        btnBrowse.Focus()
-    End Sub
-    Private Sub BtnBrowseExcel_Click(sender As Object, e As EventArgs)
+#Region "Import Excel Control"
+    Private Sub BtnBrowseExcel_Click(sender As Object, e As EventArgs) Handles BtnBrowseExcel.Click
         Using ofd As New OpenFileDialog()
             ofd.Title = "Select Excel File"
             ofd.Filter = "Excel Files (*.xlsx;*.xls)|*.xlsx;*.xls"
             If ofd.ShowDialog() = DialogResult.OK Then
-                Dim txtFile = TryCast(PanlPropartiesWindow.Controls("TxtExcelFileName"), DevExpress.XtraEditors.TextEdit)
+                Dim txtFile As Control = FindControlRecursive(PanlPropartiesWindow, "TxtExcelFileName")
                 If txtFile IsNot Nothing Then
                     txtFile.Text = ofd.FileName
+                    ImportExcelData()
                 End If
             End If
         End Using
     End Sub
-    Private Sub BtnImportExcel_Click(sender As Object, e As EventArgs)
-        Dim txtFile = TryCast(PanlPropartiesWindow.Controls("TxtExcelFileName"), DevExpress.XtraEditors.TextEdit)
+    Private Function FindControlRecursive(parent As Control, controlName As String) As Control
+        If parent Is Nothing Then Return Nothing
+        Dim found As Control = parent.Controls(controlName)
+        If found IsNot Nothing Then Return found
+        For Each child As Control In parent.Controls
+            found = FindControlRecursive(child, controlName)
+            If found IsNot Nothing Then Return found
+        Next
+        Return Nothing
+    End Function
+
+    Private Sub ImportExcelData()
+        Dim txtFile As Control = FindControlRecursive(PanlPropartiesWindow, "TxtExcelFileName")
         If txtFile Is Nothing OrElse String.IsNullOrWhiteSpace(txtFile.Text) Then
-            MessageBox.Show("Please select Excel file first.", "Soft-Tex PRO")
+            MsgBox("Please select Excel file first.", "Soft-Tex PRO")
             Return
         End If
         If Not File.Exists(txtFile.Text) Then
-            MessageBox.Show("Excel file not found.", "Soft-Tex PRO")
+            MsgBox("Excel file not found.", "Soft-Tex PRO")
             Return
         End If
         Try
             Dim excelTable As New DataTable()
             Using stream As FileStream = File.Open(txtFile.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
                 Using reader As IExcelDataReader = ExcelReaderFactory.CreateReader(stream)
-                    Dim config As New ExcelDataSetConfiguration With {
-                    .ConfigureDataTable = Function(__) New ExcelDataTableConfiguration With {
-                        .UseHeaderRow = True
-                    }
-                }
+                    Dim config As New ExcelDataSetConfiguration With {.ConfigureDataTable = Function(__) New ExcelDataTableConfiguration With {.UseHeaderRow = True}}
                     Dim ds As DataSet = reader.AsDataSet(config)
                     If ds.Tables.Count = 0 Then
-                        MessageBox.Show("Excel sheet mein data nahi hai.")
+                        MsgBox("Excel sheet mein data nahi hai.")
                         Return
                     End If
                     excelTable = ds.Tables(0).Copy()
                 End Using
             End Using
-
             ' Master tables load karke codes set karein
-            SetExcelMasterCodes(excelTable)
-
+            'SetExcelMasterCodes(excelTable)
+            Dim isMasterValid As Boolean = SetExcelMasterCodes(excelTable)
+            If Not isMasterValid Then
+                Return
+            End If
+            ' Excel data ko FlexCell grid mein import karein
             ImportExcelToGrdItem(excelTable)
         Catch ex As Exception
-            MessageBox.Show("Excel Import Error: " & ex.Message, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MsgBox("Excel Import Error: " & ex.Message, "Soft-Tex PRO")
         End Try
-
-        'Dim FileName As String = Txt_lumpstock.Text
-        ''LumpStock_Transfer("Recovered_Sheet1", FileName)
-        'Try
-
-        'Dim conn As OleDbConnection = New OleDbConnection
-        'Dim dt As DataTable = New DataTable
-        'Dim Import_FileName As String = Path
-        'conn.ConnectionString = ("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + (Import_FileName + (";" + "Extended Properties='Excel 12.0 Xml;HDR=YES;'")))
-
-        'Dim DS As New DataSet
-
-        'Dim comm As OleDbCommand = New OleDbCommand
-        'comm.CommandText = ("Select * from [" + (sheetName + "$]"))
-        'comm.Connection = conn
-        'Dim da As OleDbDataAdapter = New OleDbDataAdapter
-        'da.SelectCommand = comm
-        ''da.Fill(DS, "dt")
-        'da.Fill(dt)
-
-
-
-        'Dim adc1 As DataColumn
-        'Dim adc2 As DataColumn
-        'Dim adc3 As DataColumn
-
-        'adc1 = New DataColumn("Design Code", System.Type.GetType("System.String"))
-        'adc2 = New DataColumn("Item Code", System.Type.GetType("System.String"))
-        'adc3 = New DataColumn("Shade Code", System.Type.GetType("System.String"))
-
-        'dt.Columns.Add(adc1)
-        'dt.Columns.Add(adc2)
-        'dt.Columns.Add(adc3)
-
-        '' Sort after distinct
-        'Dim dv1 As New DataView(DesignCodeTbl)
-        'dv1.Sort = "Des no ASC"
-        'DesignCodeTbl = dv1.ToTable()
-
-        'sqL = "SELECT * FROM Mst_Fabric_Design"
-        'sql_connect_slect()
-        'Dim _DesTable As New DataTable
-        '_DesTable = DefaltSoftTable.Copy
-        'For Each dr As DataRow In DesignCodeTbl.Select
-        '    If dr.IsNull("Des no") Then dr("Des no") = "…."
-
-        '    For Each dr1 As DataRow In _DesTable.Select
-        '        If dr("Des no").ToString = dr1("Design_Name").ToString Then
-        '            dr("Design Code") = dr1("Design_code")
-        '        End If
-        '    Next
-        'Next
-        'sqL = "Select ItemCode, ItemName FROM MstStoreItem"
-        'sql_connect_slect()
-        'Dim _itemTable As New DataTable
-        '_itemTable = DefaltSoftTable.Copy
-        'For Each dr As DataRow In DesignCodeTbl.Select
-        '    If dr.IsNull("ItemName") Then dr("ItemName") = "…."
-
-        '    For Each dr1 As DataRow In _DesTable.Select
-        '        If dr("ItemName").ToString = dr1("ItemName").ToString Then
-        '            dr("ItemCode") = dr1("ItemCode")
-        '        End If
-        '    Next
-        'Next
-        'sqL = "SELECT ShadeCode, ShadeName FROM MstMillShade"
-        'sql_connect_slect()
-        'Dim _shadeTable As New DataTable
-        '_shadeTable = DefaltSoftTable.Copy
-        'For Each dr As DataRow In DesignCodeTbl.Select
-        '    If dr.IsNull("ShadeName") Then dr("ShadeName") = "…."
-
-        '    For Each dr1 As DataRow In _DesTable.Select
-        '        If dr("ShadeName").ToString = dr1("ShadeName").ToString Then
-        '            dr("ShadeCode") = dr1("ShadeCode")
-        '        End If
-        '    Next
-        'Next
-
-
-        'Catch ex As Exception
-        '    MessageBox.Show("Excel import error: " & ex.Message, "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        'End Try
     End Sub
-    Private Sub SetExcelMasterCodes(ByVal dt As DataTable)
+    Private Function SetExcelMasterCodes(ByVal dt As DataTable) As Boolean
         Try
             ' Excel header spaces/case normalize karne ke liye
             Dim GetColumnName As Func(Of DataTable, String, String) =
             Function(tbl As DataTable, requiredName As String) As String
                 For Each col As DataColumn In tbl.Columns
-                    If String.Equals(
-                        col.ColumnName.Trim().Replace(" ", "").Replace("_", ""),
-                        requiredName.Trim().Replace(" ", "").Replace("_", ""),
-                        StringComparison.OrdinalIgnoreCase) Then
-
+                    If String.Equals(col.ColumnName.Trim().Replace(" ", "").Replace("_", ""), requiredName.Trim().Replace(" ", "").Replace("_", ""), StringComparison.OrdinalIgnoreCase) Then
                         Return col.ColumnName
                     End If
                 Next
@@ -708,24 +608,24 @@ Friend Class ReadyMadeBaleRegister
             Dim sizeNameCol As String = GetColumnName(dt, "Size")
             ' Required columns validation
             If designNameCol Is Nothing Then
-                MessageBox.Show("Excel mein 'Design Name' column nahi mila.")
-                Return
+                MsgBox("Excel mein 'Design Name' column nahi mila.")
+                Return False
             End If
             If itemNameCol Is Nothing Then
-                MessageBox.Show("Excel mein 'ItemName' column nahi mila.")
-                Return
+                MsgBox("Excel mein 'ItemName' column nahi mila.")
+                Return False
             End If
             If shadeNameCol Is Nothing Then
-                MessageBox.Show("Excel mein 'ShadeName' column nahi mila.")
-                Return
+                MsgBox("Excel mein 'ShadeName' column nahi mila.")
+                Return False
             End If
             If colorNameCol Is Nothing Then
-                MessageBox.Show("Excel mein 'ColorName' column nahi mila.")
-                Return
+                MsgBox("Excel mein 'ColorName' column nahi mila.")
+                Return False
             End If
             If sizeNameCol Is Nothing Then
-                MessageBox.Show("Excel mein 'SizeName' column nahi mila.")
-                Return
+                MsgBox("Excel mein 'SizeName' column nahi mila.")
+                Return False
             End If
             ' Code columns add karein
             Dim codeColumns As String() = {"DESIGNCODE", "ITEMCODE", "SHADECODE", "COLORCODE", "SIZECODE"}
@@ -734,39 +634,27 @@ Friend Class ReadyMadeBaleRegister
                     dt.Columns.Add(colName, GetType(String))
                 End If
             Next
-            ' ==========================================
-            ' 1. DESIGN MASTER
-            ' ==========================================
+            ' 1. GROUP MASTER
             sqL = "SELECT GroupCode, GroupName FROM MstStoreItemGroup"
             sql_connect_slect()
             Dim designTable As DataTable = DefaltSoftTable.Copy
-            ' ==========================================
             ' 2. ITEM MASTER
-            ' ==========================================
             sqL = "SELECT ItemCode, ItemName FROM MstStoreItem"
             sql_connect_slect()
             Dim itemTable As DataTable = DefaltSoftTable.Copy
-            ' ==========================================
             ' 3. SHADE MASTER
-            ' ==========================================
             sqL = "SELECT Subitemcode As ShadeCode, subitemName As ShadeName FROM MstStoreSubItem"
             sql_connect_slect()
             Dim shadeTable As DataTable = DefaltSoftTable.Copy
-            ' ==========================================
             ' 4. COLOR MASTER
-            ' ==========================================
             sqL = "SELECT ColorName, ColorCode FROM MstColor"
             sql_connect_slect()
             Dim colorTable As DataTable = DefaltSoftTable.Copy
-            ' ==========================================
             ' 5. SIZE MASTER
-            ' ==========================================
             sqL = "SELECT SizeCode, SizeName FROM MstSize"
             sql_connect_slect()
             Dim sizeTable As DataTable = DefaltSoftTable.Copy
-            ' ==========================================
             ' DESIGN LOOKUP
-            ' ==========================================
             Dim designLookup As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
             For Each masterRow As DataRow In designTable.Rows
                 If Not IsDBNull(masterRow("GroupName")) AndAlso Not IsDBNull(masterRow("GroupCode")) Then
@@ -777,9 +665,7 @@ Friend Class ReadyMadeBaleRegister
                     End If
                 End If
             Next
-            ' ==========================================
             ' ITEM LOOKUP
-            ' ==========================================
             Dim itemLookup As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
             For Each masterRow As DataRow In itemTable.Rows
                 If Not IsDBNull(masterRow("ItemName")) AndAlso
@@ -791,9 +677,7 @@ Friend Class ReadyMadeBaleRegister
                     End If
                 End If
             Next
-            ' ==========================================
             ' SHADE LOOKUP
-            ' ==========================================
             Dim shadeLookup As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
             For Each masterRow As DataRow In shadeTable.Rows
                 If Not IsDBNull(masterRow("ShadeName")) AndAlso Not IsDBNull(masterRow("ShadeCode")) Then
@@ -804,9 +688,7 @@ Friend Class ReadyMadeBaleRegister
                     End If
                 End If
             Next
-            ' ==========================================
             ' COLOR LOOKUP
-            ' ==========================================
             Dim colorLookup As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
             For Each masterRow As DataRow In colorTable.Rows
                 If Not IsDBNull(masterRow("ColorName")) AndAlso Not IsDBNull(masterRow("ColorCode")) Then
@@ -817,9 +699,7 @@ Friend Class ReadyMadeBaleRegister
                     End If
                 End If
             Next
-            ' ==========================================
             ' SIZE LOOKUP
-            ' ==========================================
             Dim sizeLookup As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
             For Each masterRow As DataRow In sizeTable.Rows
                 If Not IsDBNull(masterRow("SizeName")) AndAlso Not IsDBNull(masterRow("SizeCode")) Then
@@ -830,9 +710,6 @@ Friend Class ReadyMadeBaleRegister
                     End If
                 End If
             Next
-            ' ==========================================
-            ' EXCEL ROWS MEIN MASTER CODES SET KAREIN
-            ' ==========================================
             ' Excel rows mein master codes fill karein
             Dim RowNo As Integer = 1
             For Each dr As DataRow In dt.Rows
@@ -841,101 +718,153 @@ Friend Class ReadyMadeBaleRegister
                 Dim shadeName As String = If(IsDBNull(dr(shadeNameCol)), "", dr(shadeNameCol).ToString().Trim())
                 Dim colorName As String = If(IsDBNull(dr(colorNameCol)), "", dr(colorNameCol).ToString().Trim())
                 Dim sizeName As String = If(IsDBNull(dr(sizeNameCol)), "", dr(sizeNameCol).ToString().Trim())
+                ' Blank value validation
+                Dim blankFields As New List(Of String)
+                If designName = "" Then blankFields.Add("GroupName")
+                If itemName = "" Then blankFields.Add("ItemName")
+                If shadeName = "" Then blankFields.Add("SubName")
+                If colorName = "" Then blankFields.Add("Color")
+                If sizeName = "" Then blankFields.Add("Size")
+                If blankFields.Count > 0 Then
+                    MessageBox.Show("Excel Row: " & RowNo.ToString() & vbCrLf & vbCrLf & "The following required fields are blank:" & vbCrLf & String.Join(", ", blankFields) & vbCrLf & vbCrLf & "Please fill in the missing values and try again.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return False
+                End If
+                ' Master matching validation
+                If Not designLookup.ContainsKey(designName) Then
+                    MessageBox.Show("Design/Group '" & designName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return False
+                End If
+
+                If Not itemLookup.ContainsKey(itemName) Then
+                    MessageBox.Show("Item Name '" & itemName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return False
+                End If
+
+                If Not shadeLookup.ContainsKey(shadeName) Then
+                    MessageBox.Show("Shade/Sub Item '" & shadeName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return False
+                End If
+
+                If Not colorLookup.ContainsKey(colorName) Then
+                    MessageBox.Show("Color '" & colorName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return False
+                End If
+
+                If Not sizeLookup.ContainsKey(sizeName) Then
+                    MessageBox.Show("Size '" & sizeName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Return False
+                End If
+
+
                 Dim masterCode As String = ""
-                ' ==========================================
-                ' DESIGN CODE
-                ' ==========================================
+                ' GROUP CODE
                 If designLookup.TryGetValue(designName, masterCode) Then
-                    dr("ITEMCODE") = masterCode
-                Else
-                    masterCode = "0000-000000001"
+                    'dr("ITEMCODE") = masterCode
+                    masterCode = designLookup(designName)
                     dr("ITEMCODE") = masterCode
                 End If
-                'GrdItem.Cell(RowNo, _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1).Text = masterCode
-                'Dim colIndex As Integer
                 Dim colIndex As Integer = _DataTableGrid.Columns.IndexOf("ITEMCODE") + 1
                 If colIndex > 0 AndAlso colIndex < GrdItem.Cols Then
-                    GrdItem.Cell(RowNo, colIndex).Text = masterCode
+                    If RowNo >= 0 AndAlso RowNo < GrdItem.Rows Then
+                        Dim gridCell = GrdItem.Cell(RowNo, colIndex)
+                        If gridCell IsNot Nothing Then
+                            gridCell.Text = masterCode
+                        End If
+                    End If
                 End If
-                ' ==========================================
                 ' ITEM CODE
-                ' ==========================================
                 If itemLookup.TryGetValue(itemName, masterCode) Then
-                    dr("DESIGNCODE") = masterCode
-                Else
-                    masterCode = "0000-000000001"
+                    'dr("DESIGNCODE") = masterCode
+                    masterCode = itemLookup(itemName)
                     dr("DESIGNCODE") = masterCode
                 End If
                 colIndex = _DataTableGrid.Columns.IndexOf("DESIGNCODE") + 1
                 If colIndex > 0 AndAlso colIndex < GrdItem.Cols Then
-                    GrdItem.Cell(RowNo, colIndex).Text = masterCode
+                    If RowNo >= 0 AndAlso RowNo < GrdItem.Rows Then
+                        Dim gridCell = GrdItem.Cell(RowNo, colIndex)
+                        If gridCell IsNot Nothing Then
+                            gridCell.Text = masterCode
+                        End If
+                    End If
                 End If
-                ' ==========================================
                 ' SHADE CODE
-                ' ==========================================
                 If shadeLookup.TryGetValue(shadeName, masterCode) Then
-                    dr("SHADECODE") = masterCode
-                Else
-                    masterCode = "0000-000000001"
+                    'dr("SHADECODE") = masterCode
+                    masterCode = shadeLookup(shadeName)
                     dr("SHADECODE") = masterCode
                 End If
                 colIndex = _DataTableGrid.Columns.IndexOf("SHADECODE") + 1
                 If colIndex > 0 AndAlso colIndex < GrdItem.Cols Then
-                    GrdItem.Cell(RowNo, colIndex).Text = masterCode
+                    If RowNo >= 0 AndAlso RowNo < GrdItem.Rows Then
+                        Dim gridCell = GrdItem.Cell(RowNo, colIndex)
+                        If gridCell IsNot Nothing Then
+                            gridCell.Text = masterCode
+                        End If
+                    End If
                 End If
-                ' ==========================================
                 ' COLOR CODE
-                ' ==========================================
                 If colorLookup.TryGetValue(colorName, masterCode) Then
-                    dr("COLORCODE") = masterCode
-                Else
-                    masterCode = "0000-000000001"
+                    'dr("COLORCODE") = masterCode
+                    masterCode = colorLookup(colorName)
                     dr("COLORCODE") = masterCode
                 End If
                 colIndex = _DataTableGrid.Columns.IndexOf("COLORCODE") + 1
                 If colIndex > 0 AndAlso colIndex < GrdItem.Cols Then
-                    GrdItem.Cell(RowNo, colIndex).Text = masterCode
+                    If RowNo >= 0 AndAlso RowNo < GrdItem.Rows Then
+                        Dim gridCell = GrdItem.Cell(RowNo, colIndex)
+                        If gridCell IsNot Nothing Then
+                            gridCell.Text = masterCode
+                        End If
+                    End If
                 End If
-                ' ==========================================
                 ' SIZE CODE
-                ' ==========================================
                 If sizeLookup.TryGetValue(sizeName, masterCode) Then
-                    dr("SIZECODE") = masterCode
-                Else
-                    masterCode = "0000-000000001"
+                    'dr("SIZECODE") = masterCode
+                    masterCode = sizeLookup(sizeName)
                     dr("SIZECODE") = masterCode
                 End If
                 colIndex = _DataTableGrid.Columns.IndexOf("SIZECODE") + 1
                 If colIndex > 0 AndAlso colIndex < GrdItem.Cols Then
-                    GrdItem.Cell(RowNo, colIndex).Text = masterCode
+                    If RowNo >= 0 AndAlso RowNo < GrdItem.Rows Then
+                        Dim gridCell = GrdItem.Cell(RowNo, colIndex)
+                        If gridCell IsNot Nothing Then
+                            gridCell.Text = masterCode
+                        End If
+                    End If
                 End If
                 ' Next Excel/Grid row
                 RowNo += 1
             Next
+            Dim totalQty As Decimal = 0D
+            If dt.Columns.Contains("QTY") Then
+                For Each dr As DataRow In dt.Rows
+                    If Not IsDBNull(dr("QTY")) Then
+                        Dim qty As Decimal
+                        If Decimal.TryParse(dr("QTY").ToString(), qty) Then
+                            totalQty += qty
+                        End If
+                    End If
+                Next
+            End If
+            ' LblQty mein total set karein
+            LblQty.Text = totalQty.ToString("0.00")
+            Return True
         Catch ex As Exception
-            MessageBox.Show("Excel Master Code Set Error: " & ex.Message, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Excel Master Code Set Error: " & ex.Message, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return True
         End Try
-    End Sub
+    End Function
     Private Sub ImportExcelToGrdItem(ByVal excelTable As DataTable)
-
         If excelTable Is Nothing OrElse excelTable.Rows.Count = 0 Then
-            MessageBox.Show("Excel file mein import karne ke liye rows nahi hain.")
+            MsgBox("Excel file mein import karne ke liye rows nahi hain.")
             Return
         End If
-
         If _DataTableGrid Is Nothing OrElse _DataTableGrid.Columns.Count = 0 Then
-            MessageBox.Show("_DataTableGrid columns available nahi hain.")
+            MsgBox("_DataTableGrid columns available nahi hain.")
             Return
         End If
         Try
-            ' ==========================================
-            ' 1. MASTER CODES SET KAREIN
-            ' ==========================================
-            SetExcelMasterCodes(excelTable)
             Dim matchedColumns As New Dictionary(Of Integer, Integer)
-            ' ==========================================
-            ' 2. EXCEL COLUMNS KO GRID COLUMNS SE MATCH KAREIN
-            ' ==========================================
             For flexCol As Integer = 1 To GrdItem.Cols - 1
                 ' Grid header blank ho to metadata se column name lein
                 Dim gridColumnName As String = GrdItem.Cell(0, flexCol).Text.Trim().
@@ -953,19 +882,12 @@ Friend Class ReadyMadeBaleRegister
                 Next
             Next
             If matchedColumns.Count = 0 Then
-                MessageBox.Show("Excel headers aur GrdItem headers match nahi hue.")
+                MsgBox("The Excel column headers do not match the grid column headers. Please verify the column names and try again.", "Soft-Tex PRO", MessageBoxButtons.OK)
                 Return
             End If
-            ' ==========================================
-            ' 3. PURANI GRID ROWS CLEAR KAREIN
-            ' ==========================================
             If GrdItem.Rows > 1 Then
                 GrdItem.Rows = 1
             End If
-
-            ' ==========================================
-            ' 4. EXCEL DATA + MASTER CODES GRID MEIN SET
-            ' ==========================================
             For excelRow As Integer = 0 To excelTable.Rows.Count - 1
                 Dim targetRow As Integer = excelRow + 1
                 GrdItem.Rows = targetRow + 1
@@ -980,51 +902,32 @@ Friend Class ReadyMadeBaleRegister
                     End If
                 Next
             Next
-            ' ==========================================
-            ' 5. SRNO FILL
-            ' ==========================================
             Dim srNoCol As Integer = -1
             For col As Integer = 1 To GrdItem.Cols - 1
                 Dim header As String = GrdItem.Cell(0, col).Text.Trim().Replace(" ", "").Replace("_", "")
                 If header = "" AndAlso col - 1 < _DataTableGrid.Columns.Count Then
                     header = _DataTableGrid.Columns(col - 1).ColumnName.Trim().Replace(" ", "").Replace("_", "")
                 End If
-                If String.Equals(header, "SRNO",
+                If String.Equals(header, "S.NO",
                              StringComparison.OrdinalIgnoreCase) Then
                     srNoCol = col
                     Exit For
                 End If
             Next
-            ' Second: _DataTableGrid metadata se SRNO column find karein
-            If srNoCol = -1 Then
-                For col As Integer = 0 To _DataTableGrid.Columns.Count - 1
-                    Dim columnName As String = _DataTableGrid.Columns(col).ColumnName.Trim().Replace(" ", "").Replace("_", "")
-                    If String.Equals(columnName, "SRNO", StringComparison.OrdinalIgnoreCase) Then
-                        ' DataTable column index 0 corresponds to FlexCell column 1
-                        srNoCol = col + 1
-                        Exit For
-                    End If
-                Next
-            End If
             If srNoCol > 0 Then
                 For rowIndex As Integer = 1 To GrdItem.Rows - 1
                     GrdItem.Cell(rowIndex, srNoCol).Text = rowIndex.ToString()
                 Next
             End If
-            MessageBox.Show(excelTable.Rows.Count.ToString() & " rows imported successfully.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Information)
             PanlPropartiesWindow.Visible = False
+            TxtExcelFileName.Text = ""
+            MessageBox.Show(excelTable.Rows.Count.ToString() & " rows imported successfully.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Information)
             btnSave.Focus()
-
         Catch ex As Exception
-            MessageBox.Show(
-            "Grid fill error: " & ex.Message,
-            "Soft-Tex PRO",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error)
+            MessageBox.Show("Grid fill error: " & ex.Message, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
     End Sub
-
+#End Region
     Private Sub Packing_JobCard_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         If Not String.IsNullOrWhiteSpace(Me.Tag) Then
             Main_MDI_Frm.RestoreMenuFocus(Me.Tag, Main_MDI_Frm.MenuStrip1)
@@ -2842,6 +2745,4 @@ Friend Class ReadyMadeBaleRegister
     Private Sub Btn_ChqRegester_Click(sender As Object, e As EventArgs) Handles Btn_ChqRegester.Click
         ShowFormMDI(New ReadyMadeBaleStock)
     End Sub
-
-
 End Class
