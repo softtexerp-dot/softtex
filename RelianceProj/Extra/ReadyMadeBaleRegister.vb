@@ -759,7 +759,6 @@ Friend Class ReadyMadeBaleRegister
                 Dim masterCode As String = ""
                 ' GROUP CODE
                 If designLookup.TryGetValue(designName, masterCode) Then
-                    'dr("ITEMCODE") = masterCode
                     masterCode = designLookup(designName)
                     dr("ITEMCODE") = masterCode
                 End If
@@ -774,7 +773,6 @@ Friend Class ReadyMadeBaleRegister
                 End If
                 ' ITEM CODE
                 If itemLookup.TryGetValue(itemName, masterCode) Then
-                    'dr("DESIGNCODE") = masterCode
                     masterCode = itemLookup(itemName)
                     dr("DESIGNCODE") = masterCode
                 End If
@@ -789,7 +787,6 @@ Friend Class ReadyMadeBaleRegister
                 End If
                 ' SHADE CODE
                 If shadeLookup.TryGetValue(shadeName, masterCode) Then
-                    'dr("SHADECODE") = masterCode
                     masterCode = shadeLookup(shadeName)
                     dr("SHADECODE") = masterCode
                 End If
@@ -804,7 +801,6 @@ Friend Class ReadyMadeBaleRegister
                 End If
                 ' COLOR CODE
                 If colorLookup.TryGetValue(colorName, masterCode) Then
-                    'dr("COLORCODE") = masterCode
                     masterCode = colorLookup(colorName)
                     dr("COLORCODE") = masterCode
                 End If
@@ -819,7 +815,6 @@ Friend Class ReadyMadeBaleRegister
                 End If
                 ' SIZE CODE
                 If sizeLookup.TryGetValue(sizeName, masterCode) Then
-                    'dr("SIZECODE") = masterCode
                     masterCode = sizeLookup(sizeName)
                     dr("SIZECODE") = masterCode
                 End If
