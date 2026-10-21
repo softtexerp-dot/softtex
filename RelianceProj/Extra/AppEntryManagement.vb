@@ -1156,6 +1156,7 @@ Public Class AppEntryManagement
                         groupItemsSavedCount += 1
                         Dim id As String = Convert.ToString(view.GetRowCellValue(i, "Id")).Trim()
                         UpdateOfferStatus(id, status, i, entryNo)
+                        'UpdateOfferStatus(id, "PENDING", i, "")
                     End If
                 Next
                 ' Agar is group me actual me koi item save hua hai tabhi voucher count badhe
@@ -1443,10 +1444,10 @@ Public Class AppEntryManagement
                 groupItemsSavedCount += 1
                 For Each mRow As DataRow In matchedRows
                     Dim rowIndex As Integer = Convert.ToInt32(mRow("RowIndex"))
-                    Dim rowStatus1 As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Status")).Trim().ToUpperInvariant()
-                    If rowStatus1 <> "PENDING" Then
+                    'Dim rowStatus1 As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Status")).Trim().ToUpperInvariant()
+                    If rowStatus <> "PENDING" Then
                         Dim id As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Id")).Trim()
-                        UpdateOfferStatus(id, rowStatus1, rowIndex, entryNo)
+                        UpdateOfferStatus(id, rowStatus, rowIndex, entryNo)
                         'UpdateOfferStatus(id, "PENDING", rowIndex, "")
                     End If
                 Next
