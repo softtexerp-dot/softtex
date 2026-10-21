@@ -1444,10 +1444,10 @@ Public Class AppEntryManagement
                 For Each mRow As DataRow In matchedRows
                     Dim rowIndex As Integer = Convert.ToInt32(mRow("RowIndex"))
                     Dim rowStatus1 As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Status")).Trim().ToUpperInvariant()
-                    If rowStatus <> "PENDING" Then
+                    If rowStatus1 <> "PENDING" Then
                         Dim id As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Id")).Trim()
-                        'UpdateOfferStatus(id, rowStatus1, rowIndex, entryNo)
-                        UpdateOfferStatus(id, "PENDING", rowIndex, "")
+                        UpdateOfferStatus(id, rowStatus1, rowIndex, entryNo)
+                        'UpdateOfferStatus(id, "PENDING", rowIndex, "")
                     End If
                 Next
                 If groupItemsSavedCount > 0 Then
