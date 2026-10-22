@@ -1317,9 +1317,9 @@ Public Class AppEntryManagement
                         GrossAmount += Val(value)
                     End If
                     value = view.GetRowCellValue(rowIndex, "NetAmount")
-                    'If value IsNot Nothing AndAlso Not IsDBNull(value) Then
-                    '    'NetAmount += Val(value)
-                    'End If
+                    If value IsNot Nothing AndAlso Not IsDBNull(value) Then
+                        NetAmount += Val(value)
+                    End If
                     value = view.GetRowCellValue(rowIndex, "Pcs")
                     If value IsNot Nothing AndAlso Not IsDBNull(value) Then
                         TotalPcs += Val(value)
@@ -1384,7 +1384,7 @@ Public Class AppEntryManagement
                         IGST_Tax_RATE = DiscountPer
                         IGST_Tax_Amt = DiscountAmount
                     End If
-                    NetAmount = GrossAmount + CGST_Tax_Amt + SGST_Tax_Amt + IGST_Tax_Amt
+                    'NetAmount = GrossAmount + CGST_Tax_Amt + SGST_Tax_Amt + IGST_Tax_Amt
 
                     ' INSERT HEADER ONLY ONCE PER GROUP
                     _strQuery = New StringBuilder()
