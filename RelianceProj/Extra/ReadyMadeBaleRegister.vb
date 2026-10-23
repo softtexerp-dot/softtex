@@ -1,10 +1,8 @@
-﻿Imports System.Data.OleDb
-Imports System.Drawing.Imaging
-Imports System.IO
+﻿Imports System.IO
 Imports System.Text
 Imports DevExpress.XtraGrid
-Imports DevExpress.XtraRichEdit.Model
-Imports ExcelDataReader
+Imports System.Data.OleDb
+
 Friend Class ReadyMadeBaleRegister
     Private obj_Party_Selection As New Multi_Selection_Master
     Dim _BaleStkQty As Double = 0
@@ -564,26 +562,34 @@ Friend Class ReadyMadeBaleRegister
             Return
         End If
         Try
-            Dim excelTable As New DataTable()
-            Using stream As FileStream = File.Open(txtFile.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-                Using reader As IExcelDataReader = ExcelReaderFactory.CreateReader(stream)
-                    Dim config As New ExcelDataSetConfiguration With {.ConfigureDataTable = Function(__) New ExcelDataTableConfiguration With {.UseHeaderRow = True}}
-                    Dim ds As DataSet = reader.AsDataSet(config)
-                    If ds.Tables.Count = 0 Then
-                        MsgBox("Excel sheet mein data nahi hai.")
-                        Return
-                    End If
-                    excelTable = ds.Tables(0).Copy()
-                End Using
-            End Using
+
+            Dim Path As String = txtFile.Text
+            Dim sheetName As String = "Sheet1"
+            Dim conn As OleDbConnection = New OleDbConnection
+            Dim ExcelTable As DataTable = New DataTable
+            Dim Import_FileName As String = Path
+            conn.ConnectionString = ("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" _
+                        + (Import_FileName + (";" + "Extended Properties='Excel 12.0 Xml;HDR=YES;'")))
+
+            Dim DS As New DataSet
+
+            Dim comm As OleDbCommand = New OleDbCommand
+            comm.CommandText = ("Select * from [" _
+                    + (sheetName + "$]"))
+            comm.Connection = conn
+            Dim da As OleDbDataAdapter = New OleDbDataAdapter
+            da.SelectCommand = comm
+            da.Fill(ExcelTable)
+
+
             ' Master tables load karke codes set karein
             'SetExcelMasterCodes(excelTable)
-            Dim isMasterValid As Boolean = SetExcelMasterCodes(excelTable)
+            Dim isMasterValid As Boolean = SetExcelMasterCodes(ExcelTable)
             If Not isMasterValid Then
                 Return
             End If
             ' Excel data ko FlexCell grid mein import karein
-            ImportExcelToGrdItem(excelTable)
+            ImportExcelToGrdItem(ExcelTable)
         Catch ex As Exception
             MsgBox("Excel Import Error: " & ex.Message, "Soft-Tex PRO")
         End Try
@@ -608,23 +614,23 @@ Friend Class ReadyMadeBaleRegister
             Dim sizeNameCol As String = GetColumnName(dt, "Size")
             ' Required columns validation
             If designNameCol Is Nothing Then
-                MsgBox("Excel mein 'Design Name' column nahi mila.")
+                MsgBox("Excel Sheet 'Design Name' Column Not Found.")
                 Return False
             End If
             If itemNameCol Is Nothing Then
-                MsgBox("Excel mein 'ItemName' column nahi mila.")
+                MsgBox("Excel Sheet 'ItemName' Column Not Found.")
                 Return False
             End If
             If shadeNameCol Is Nothing Then
-                MsgBox("Excel mein 'ShadeName' column nahi mila.")
+                MsgBox("Excel Sheet 'ShadeName' Column Not Found.")
                 Return False
             End If
             If colorNameCol Is Nothing Then
-                MsgBox("Excel mein 'ColorName' column nahi mila.")
+                MsgBox("Excel Sheet 'ColorName' Column Not Found.")
                 Return False
             End If
             If sizeNameCol Is Nothing Then
-                MsgBox("Excel mein 'SizeName' column nahi mila.")
+                MsgBox("Excel Sheet 'SizeName' Column Not Found.")
                 Return False
             End If
             ' Code columns add karein
@@ -851,13 +857,13 @@ Friend Class ReadyMadeBaleRegister
     End Function
     Private Sub ImportExcelToGrdItem(ByVal excelTable As DataTable)
         If excelTable Is Nothing OrElse excelTable.Rows.Count = 0 Then
-            MsgBox("Excel file mein import karne ke liye rows nahi hain.")
+            MsgBox("Data Not Found.")
             Return
         End If
-        If _DataTableGrid Is Nothing OrElse _DataTableGrid.Columns.Count = 0 Then
-            MsgBox("_DataTableGrid columns available nahi hain.")
-            Return
-        End If
+        'If _DataTableGrid Is Nothing OrElse _DataTableGrid.Columns.Count = 0 Then
+        '    MsgBox("_DataTableGrid columns available nahi hain.")
+        '    Return
+        'End If
         Try
             Dim matchedColumns As New Dictionary(Of Integer, Integer)
             For flexCol As Integer = 1 To GrdItem.Cols - 1
@@ -939,6 +945,13 @@ Friend Class ReadyMadeBaleRegister
         AutoResizeGrid(PNL_View, GridControl1)
         AttachButtonFocusEvents(Me)
         LblQty.Text = ""
+
+
+
+
+        PanlPropartiesWindow.Width = 672
+        PanlPropartiesWindow.Height = 53
+        PanlPropartiesWindow.Location = New Point(72, 341)
 
 
         SetTotalObjectPosition("QTY", _DataTableGrid, GrdItem, LblQty, LblTotal)
