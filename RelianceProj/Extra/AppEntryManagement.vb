@@ -1155,7 +1155,8 @@ Public Class AppEntryManagement
                     If status <> "PENDING" Then
                         groupItemsSavedCount += 1
                         Dim id As String = Convert.ToString(view.GetRowCellValue(i, "Id")).Trim()
-                        UpdateOfferStatus(id, status, i, entryNo)
+                        Dim currentEntryNo As String = If(status = "APPROVE", entryNo.ToString(), "")
+                        UpdateOfferStatus(id, status, i, currentEntryNo)
                         'UpdateOfferStatus(id, "PENDING", i, "")
                     End If
                 Next
@@ -1265,6 +1266,7 @@ Public Class AppEntryManagement
             Dim currentBookVno As String = ""
             Dim currentPartyCode As String = ""
             Dim currentOfferNo As String = ""
+            Dim NetAmount As Decimal = 0D
             For Each grp In distinctGroups
                 currentPartyCode = grp.Party
                 currentOfferNo = grp.Offer
@@ -1275,7 +1277,6 @@ Public Class AppEntryManagement
                 Dim TotalMtrWeight As Decimal = 0D
                 Dim Qty As Decimal = 0D
                 Dim GrossAmount As Decimal = 0D
-                Dim NetAmount As Decimal = 0D
                 Dim TotalPcs As Decimal = 0D
                 Dim TotalBales As Decimal = 0D
                 Dim DRCR As String = "DR"
@@ -1345,8 +1346,6 @@ Public Class AppEntryManagement
                     If rawDate IsNot Nothing AndAlso Not IsDBNull(rawDate) AndAlso IsDate(rawDate) Then
                         offerDate = CDate(rawDate)
                     End If
-
-
                     'Dim _StateName As String = COMPANY_TBL("").ToString
                     Dim _StateName As String = Convert.ToString(COMPANY_TBL.Rows(0).Item("State")).Trim()
                     'Account se StateId nikalein
@@ -1385,6 +1384,8 @@ Public Class AppEntryManagement
                         IGST_Tax_RATE = DiscountPer
                         IGST_Tax_Amt = DiscountAmount
                     End If
+                    'NetAmount = GrossAmount + CGST_Tax_Amt + SGST_Tax_Amt + IGST_Tax_Amt
+
                     ' INSERT HEADER ONLY ONCE PER GROUP
                     _strQuery = New StringBuilder()
                     With _strQuery
@@ -1427,7 +1428,7 @@ Public Class AppEntryManagement
                     Return False
                 End If
                 'Sundry 
-                If Not SaveApprovedInvoiceSundryRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo, CGST_Tax_RATE, SGST_Tax_RATE, CGST_Tax_Amt, SGST_Tax_Amt, IGST_Tax_RATE, IGST_Tax_Amt) Then
+                If Not SaveApprovedInvoiceSundryRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo, CGST_Tax_RATE, SGST_Tax_RATE, CGST_Tax_Amt, SGST_Tax_Amt, IGST_Tax_RATE, IGST_Tax_Amt, GrossAmount) Then
                     Return False
                 End If
                 'Trnledger
@@ -1444,10 +1445,10 @@ Public Class AppEntryManagement
                 groupItemsSavedCount += 1
                 For Each mRow As DataRow In matchedRows
                     Dim rowIndex As Integer = Convert.ToInt32(mRow("RowIndex"))
-                    'Dim rowStatus1 As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Status")).Trim().ToUpperInvariant()
                     If rowStatus <> "PENDING" Then
                         Dim id As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Id")).Trim()
-                        UpdateOfferStatus(id, rowStatus, rowIndex, entryNo)
+                        Dim currentEntryNo As String = If(rowStatus = "APPROVE", entryNo.ToString(), "")
+                        UpdateOfferStatus(id, rowStatus, rowIndex, currentEntryNo)
                         'UpdateOfferStatus(id, "PENDING", rowIndex, "")
                     End If
                 Next
@@ -1626,7 +1627,7 @@ Public Class AppEntryManagement
         End Try
     End Function
 
-    Private Function SaveApprovedInvoiceSundryRow(ByVal entryno As Int64, ByVal CurrentBookVno As String, ByVal currentPartyCode As String, ByVal currentOfferNo As String, ByVal CGST_Tax_RATE As Int64, ByVal SGST_Tax_RATE As Int64, ByVal CGST_Tax_Amt As Int64, ByVal SGST_Tax_Amt As Int64, ByVal IGST_Tax_RATE As Int64, ByVal IGST_Tax_Amt As Int64) As Boolean
+    Private Function SaveApprovedInvoiceSundryRow(ByVal entryno As Int64, ByVal CurrentBookVno As String, ByVal currentPartyCode As String, ByVal currentOfferNo As String, ByVal CGST_Tax_RATE As Decimal, ByVal SGST_Tax_RATE As Decimal, ByVal CGST_Tax_Amt As Decimal, ByVal SGST_Tax_Amt As Decimal, ByVal IGST_Tax_RATE As Decimal, ByVal IGST_Tax_Amt As Decimal, ByVal GrossAmount As Decimal) As Boolean
         Try
             Dim view As GridView = TryCast(GridControl1.MainView, GridView)
             If view Is Nothing OrElse view.RowCount = 0 Then Return False
@@ -1687,12 +1688,12 @@ Public Class AppEntryManagement
                 sql_connect_slect()
                 dtSundry = DefaltSoftTable.Copy
                 If dtSundry.Rows.Count = 0 Then Continue For
-                Dim discount As Int64 = 0
-                Dim insurance As Int64 = 0
-                Dim fright As Int64 = 0
-                Dim otherchar As Int64 = 0
-                Dim Tcs As Int64 = 0
-                Dim Taxableamt As Int64 = 0
+                Dim discount As Decimal = 0
+                Dim insurance As Decimal = 0
+                Dim fright As Decimal = 0
+                Dim otherchar As Decimal = 0
+                Dim Tcs As Decimal = 0
+                Dim Taxableamt As Decimal = GrossAmount
                 ' Calculate sundry values
                 For Each dr As DataRow In dtSundry.Rows
                     Dim sundryName As String = Convert.ToString(dr("SUNNAME")).Trim().ToUpperInvariant()
@@ -1776,6 +1777,7 @@ Public Class AppEntryManagement
                         Dim calcBy As String = Convert.ToString(dr("CALCBY")).Replace("'", "''")
                         Dim autoRound As String = Convert.ToString(dr("AUTOROUNDOFF")).Replace("'", "''")
                         Dim calcOn As String = Convert.ToString(dr("CALCON")).Replace("'", "''")
+                        Dim sunnature As String = Convert.ToString(dr("SUNNATURE")).Replace("'", "''")
                         Dim addLessType As String = Convert.ToString(dr("ADDLESSTYPE")).Replace("'", "''")
                         Dim financePost As String = Convert.ToString(dr("FINANCEPOST")).Replace("'", "''")
                         Dim accountCode As String = Convert.ToString(dr("ACCOUNTCODE")).Replace("'", "''")
@@ -1784,8 +1786,8 @@ Public Class AppEntryManagement
                         Dim srNo As Integer = Convert.ToInt32(If(IsDBNull(dr("SRNO")), 0, dr("SRNO")))
                         Dim billDateSql As String = billDate.ToString("yyyyMMdd")
                         sqL = "INSERT INTO TRNINVOICESUNDRY (ENTRYNO, BOOKTRTYPE, BOOKVNO, BOOKCODE, BILLNO, BILLDATE, SRNO, SUNCODE, CALCBY, AUTOROUNDOFF, CALCON, ADDLESSTYPE, CALCAMOUNT, CALCRATE, " &
-                        "FINANCEPOST, ACCOUNTCODE, DRCR) VALUES (" & entryno & ", " & "'" & BookTrtype.Replace("'", "''") & "', " & "'" & CurrentBookVno.Replace("'", "''") & "', " & "'" & BookCode.Replace("'", "''") & "', " & "'" & billNo.Replace("'", "''") & "', " & "'" & billDateSql & "', " & srNo & ", " & "'" & sundryCode & "', " & "'" & calcBy & "', " & "'" & autoRound & "', " & "'" & calcOn & "', " & "'" & addLessType & "', " & calcAmount.ToString(Globalization.CultureInfo.InvariantCulture) & ", " & calcRate.ToString(Globalization.CultureInfo.InvariantCulture) & ", 
-                        " & "'" & financePost & "', " & "'" & accountCode & "', '')"
+                        "FINANCEPOST, ACCOUNTCODE, DRCR,SUNNATURE) VALUES (" & entryno & ", " & "'" & BookTrtype.Replace("'", "''") & "', " & "'" & CurrentBookVno.Replace("'", "''") & "', " & "'" & BookCode.Replace("'", "''") & "', " & "'" & billNo.Replace("'", "''") & "', " & "'" & billDateSql & "', " & srNo & ", " & "'" & sundryCode & "', " & "'" & calcBy & "', " & "'" & autoRound & "', " & "'" & calcOn & "', " & "'" & addLessType & "', " & calcAmount.ToString(Globalization.CultureInfo.InvariantCulture) & ", " & calcRate.ToString(Globalization.CultureInfo.InvariantCulture) & ", 
+                        " & "'" & financePost & "', " & "'" & accountCode & "', '','" & sunnature & "')"
                         sql_Data_Save_Delete_Update()
                         totalItemsSaved += 1
                     Next
