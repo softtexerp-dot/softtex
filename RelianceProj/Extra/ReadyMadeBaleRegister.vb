@@ -723,32 +723,32 @@ Friend Class ReadyMadeBaleRegister
                 If colorName = "" Then blankFields.Add("Color")
                 If sizeName = "" Then blankFields.Add("Size")
                 If blankFields.Count > 0 Then
-                    MessageBox.Show("Excel Row: " & RowNo.ToString() & vbCrLf & vbCrLf & "The following required fields are blank:" & vbCrLf & String.Join(", ", blankFields) & vbCrLf & vbCrLf & "Please fill in the missing values and try again.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("Excel Row: " & RowNo.ToString() + 1 & vbCrLf & vbCrLf & "The following required fields are blank:" & vbCrLf & String.Join(", ", blankFields) & vbCrLf & vbCrLf & "Please fill in the missing values and try again.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
                 ' Master matching validation
                 If Not designLookup.ContainsKey(designName) Then
-                    MessageBox.Show("Design/Group '" & designName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("Design/Group '" & designName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo) + 1, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
 
                 If Not itemLookup.ContainsKey(itemName) Then
-                    MessageBox.Show("Item Name '" & itemName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("Item Name '" & itemName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo) + 1, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
 
                 If Not shadeLookup.ContainsKey(shadeName) Then
-                    MessageBox.Show("Shade/Sub Item '" & shadeName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("Shade/Sub Item '" & shadeName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo) + 1, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
 
                 If Not colorLookup.ContainsKey(colorName) Then
-                    MessageBox.Show("Color '" & colorName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("Color '" & colorName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo) + 1, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
 
                 If Not sizeLookup.ContainsKey(sizeName) Then
-                    MessageBox.Show("Size '" & sizeName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    MessageBox.Show("Size '" & sizeName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo) + 1, "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
                 Dim masterCode As String = ""
