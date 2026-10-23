@@ -575,6 +575,9 @@ Public Class AppEntryManagement
             dtSource.Columns.Add("Qty")
             dtSource.Columns.Add("Rate")
             dtSource.Columns.Add("Amount")
+            dtSource.Columns.Add("DiscountAmount")
+            dtSource.Columns.Add("NetGrossAmount")
+            dtSource.Columns.Add("GstAmount")
             dtSource.Columns.Add("NetAmount")
             dtSource.Columns.Add("MendingCharge")
             dtSource.Columns.Add("Pcs")
@@ -583,9 +586,7 @@ Public Class AppEntryManagement
             dtSource.Columns.Add("Remark")
             dtSource.Columns.Add("EntryType")
             dtSource.Columns.Add("TaxPercentage")
-            dtSource.Columns.Add("TaxAmount")
             dtSource.Columns.Add("DiscountPercentage")
-            dtSource.Columns.Add("DiscountAmount")
             dtSource.Columns.Add("RowRemark")
             dtSource.Columns.Add("QtyType")
             dtSource.Columns.Add("RateNo")
@@ -640,6 +641,9 @@ Public Class AppEntryManagement
                 dr("HeaderRemark") = r("HeaderRemark").ToString()
                 dr("Qty") = FormatDecimal(r("MeterWeight"))
                 dr("Amount") = FormatDecimal(r("GrossAmount").ToString())
+                dr("DiscountAmount") = FormatDecimal(r("DiscountAmount").ToString())
+                dr("NetGrossAmount") = FormatDecimal(FormatDecimal(r("GrossAmount").ToString()) - FormatDecimal(r("DiscountAmount").ToString()))
+                dr("GstAmount") = FormatDecimal(r("TaxAmount").ToString())
                 dr("Rate") = FormatDecimal(r("Rate").ToString())
                 dr("NetAmount") = FormatDecimal(r("NetAmount").ToString())
                 dr("Pcs") = FormatDecimal(r("Pcs").ToString())
@@ -649,9 +653,8 @@ Public Class AppEntryManagement
                 dr("Remark") = r("RowRemark").ToString()
                 dr("EntryType") = r("EntryType").ToString()
                 dr("TaxPercentage") = FormatDecimal(r("TaxPercentage").ToString())
-                dr("TaxAmount") = FormatDecimal(r("TaxAmount").ToString())
                 dr("DiscountPercentage") = FormatDecimal(r("DiscountPercentage").ToString())
-                dr("DiscountAmount") = FormatDecimal(r("DiscountAmount").ToString())
+
                 dr("RowRemark") = r("RowRemark").ToString()
                 dr("QtyType") = r("QtyType").ToString()
                 dr("RateNo") = r("RateNo").ToString()
@@ -670,7 +673,7 @@ Public Class AppEntryManagement
             FirstStage.OptionsView.ColumnAutoWidth = False
             FirstStage.OptionsBehavior.Editable = True
             Dim hideCols As String() = {"BookVno", "ItemCode", "AccountCode", "DespatchCode", "TransportCode",
-    "SalesManCode", "CutCode", "DesignCode", "ShadeCode", "BookTrType", "BookCode", "PartyOfferNo", "AgentOfferNo", "AcofCode", "MeterWeight", "TaxPercentage", "TaxAmount", "DiscountPercentage", "DiscountAmount", "PickRate", "QtyType", "EntryType", "Id", "Remark",
+    "SalesManCode", "CutCode", "DesignCode", "ShadeCode", "BookTrType", "BookCode", "PartyOfferNo", "AgentOfferNo", "AcofCode", "MeterWeight", "TaxPercentage", "DiscountPercentage", "PickRate", "QtyType", "EntryType", "Id", "Remark",
     "MendingCharge"}
             For Each col As String In hideCols
                 If FirstStage.Columns(col) IsNot Nothing Then
@@ -1301,7 +1304,7 @@ Public Class AppEntryManagement
                     DiscountPer = Math.Max(DiscountPer, currentDiscountPer)
                     ' Sum Of Discount Amount
                     Dim currentDiscountAmount As Decimal = 0D
-                    Decimal.TryParse(Convert.ToString(view.GetRowCellValue(rowIndex, "TaxAmount")), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, currentDiscountAmount)
+                    Decimal.TryParse(Convert.ToString(view.GetRowCellValue(rowIndex, "GstAmount")), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, currentDiscountAmount)
                     DiscountAmount += currentDiscountAmount
                     DiscountAmount = Math.Round(DiscountAmount, 2, MidpointRounding.AwayFromZero)
                     If firstApprovedIndex = -1 Then
@@ -1312,7 +1315,8 @@ Public Class AppEntryManagement
                     If value IsNot Nothing AndAlso Not IsDBNull(value) Then
                         TotalMtrWeight += Val(value)
                     End If
-                    value = view.GetRowCellValue(rowIndex, "Amount")
+                    'value = view.GetRowCellValue(rowIndex, "Amount")
+                    value = view.GetRowCellValue(rowIndex, "NetGrossAmount")
                     If value IsNot Nothing AndAlso Not IsDBNull(value) Then
                         GrossAmount += Val(value)
                     End If
@@ -1432,7 +1436,7 @@ Public Class AppEntryManagement
                     Return False
                 End If
                 'Trnledger
-                If Not SaveApprovedInvoiceTrnledgerRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo) Then
+                If Not SaveApprovedInvoiceTrnledgerRow(entryNo, currentBookVno, currentPartyCode, currentOfferNo, CGST_Tax_Amt, SGST_Tax_Amt, IGST_Tax_Amt, GrossAmount) Then
                     Return False
                 End If
                 'OutStanding
@@ -1518,11 +1522,12 @@ Public Class AppEntryManagement
                     Dim taxAmount As Decimal = 0D
 
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "MeterWeight")), meterWeight)
-                    Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "Amount")), amount)
+                    'Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "Amount")), amount)
+                    Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "NetGrossAmount")), amount)
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "NetAmount")), netAmount)
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "Pcs")), pcs)
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "TaxPercentage")), taxPercentage)
-                    Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "TaxAmount")), taxAmount)
+                    Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "GstAmount")), taxAmount)
                     ' Text values SQL ke liye escape karein
                     Dim offerDate As DateTime = DateTime.Now
                     Dim dateValue As Object = view.GetRowCellValue(i, "OfferDate")
@@ -1684,7 +1689,7 @@ Public Class AppEntryManagement
                 'If Not hasApprovedItems Then Continue For
                 ' Load original sundry configuration
                 Dim dtSundry As New DataTable()
-                sqL = "SELECT A.*, A.AUTOROUND AS AUTOROUNDOFF, B.SUNNAME, CAST(0 AS FLOAT) AS CALCAMOUNT, CAST(0 AS FLOAT) AS CALCRATE FROM TRNBILLSUNDRY A INNER JOIN MSTBILLSUNDRY B ON A.SUNCODE=B.SUNCODE WHERE A.BOOKCODE='" & BookCode & "' ORDER BY A.SRNO"
+                sqL = "SELECT A.*, A.AUTOROUND AS AUTOROUNDOFF, B.SUNNAME, CAST(0 AS FLOAT) AS CALCAMOUNT, CAST(0 AS FLOAT) AS CALCRATE,CAST(0 AS FLOAT) as CommTotal,CAST(0 AS FLOAT) As Amountfortax FROM TRNBILLSUNDRY A INNER JOIN MSTBILLSUNDRY B ON A.SUNCODE=B.SUNCODE WHERE A.BOOKCODE='" & BookCode & "' ORDER BY A.SRNO"
                 sql_connect_slect()
                 dtSundry = DefaltSoftTable.Copy
                 If dtSundry.Rows.Count = 0 Then Continue For
@@ -1738,15 +1743,28 @@ Public Class AppEntryManagement
                             dr("CALCON") = "AMOUNT"
                             dr("CALCRATE") = Taxableamt
                             dr("CALCAMOUNT") = Taxableamt
+                            dr("CommTotal") = GrossAmount
                         Case "CGST"
                             dr("CALCRATE") = CGST_Tax_RATE
                             dr("CALCAMOUNT") = CGST_Tax_Amt
+                            If CGST_Tax_Amt > 0 Then
+                                dr("CommTotal") = GrossAmount + CGST_Tax_Amt
+                                dr("Amountfortax") = GrossAmount
+                            End If
                         Case "SGST"
                             dr("CALCRATE") = SGST_Tax_RATE
                             dr("CALCAMOUNT") = SGST_Tax_Amt
+                            If SGST_Tax_Amt > 0 Then
+                                dr("CommTotal") = GrossAmount + CGST_Tax_Amt + SGST_Tax_Amt
+                                dr("Amountfortax") = GrossAmount + SGST_Tax_Amt
+                            End If
                         Case "IGST"
                             dr("CALCRATE") = IGST_Tax_RATE
                             dr("CALCAMOUNT") = IGST_Tax_Amt
+                            If IGST_Tax_Amt > 0 Then
+                                dr("CommTotal") = GrossAmount + IGST_Tax_Amt
+                                dr("Amountfortax") = GrossAmount + IGST_Tax_Amt
+                            End If
                     End Select
                     If sundryName = "TOTAL TAXABLE AMOUNT" Then
 
@@ -1783,11 +1801,14 @@ Public Class AppEntryManagement
                         Dim accountCode As String = Convert.ToString(dr("ACCOUNTCODE")).Replace("'", "''")
                         Dim calcAmount As Decimal = Convert.ToDecimal(If(IsDBNull(dr("CALCAMOUNT")), 0, dr("CALCAMOUNT")))
                         Dim calcRate As Decimal = Convert.ToDecimal(If(IsDBNull(dr("CALCRATE")), 0, dr("CALCRATE")))
+                        Dim CummTotal As Decimal = Convert.ToDecimal(If(IsDBNull(dr("CommTotal")), 0, dr("CommTotal")))
+                        Dim Amountfortax As Decimal = Convert.ToDecimal(If(IsDBNull(dr("Amountfortax")), 0, dr("Amountfortax")))
+                        Dim Tax_Per As Decimal = "0.00"
                         Dim srNo As Integer = Convert.ToInt32(If(IsDBNull(dr("SRNO")), 0, dr("SRNO")))
                         Dim billDateSql As String = billDate.ToString("yyyyMMdd")
                         sqL = "INSERT INTO TRNINVOICESUNDRY (ENTRYNO, BOOKTRTYPE, BOOKVNO, BOOKCODE, BILLNO, BILLDATE, SRNO, SUNCODE, CALCBY, AUTOROUNDOFF, CALCON, ADDLESSTYPE, CALCAMOUNT, CALCRATE, " &
-                        "FINANCEPOST, ACCOUNTCODE, DRCR,SUNNATURE) VALUES (" & entryno & ", " & "'" & BookTrtype.Replace("'", "''") & "', " & "'" & CurrentBookVno.Replace("'", "''") & "', " & "'" & BookCode.Replace("'", "''") & "', " & "'" & billNo.Replace("'", "''") & "', " & "'" & billDateSql & "', " & srNo & ", " & "'" & sundryCode & "', " & "'" & calcBy & "', " & "'" & autoRound & "', " & "'" & calcOn & "', " & "'" & addLessType & "', " & calcAmount.ToString(Globalization.CultureInfo.InvariantCulture) & ", " & calcRate.ToString(Globalization.CultureInfo.InvariantCulture) & ", 
-                        " & "'" & financePost & "', " & "'" & accountCode & "', '','" & sunnature & "')"
+                        "FINANCEPOST, ACCOUNTCODE, DRCR,SUNNATURE,Tax_per,commu_total,amount_for_tax) VALUES (" & entryno & ", " & "'" & BookTrtype.Replace("'", "''") & "', " & "'" & CurrentBookVno.Replace("'", "''") & "', " & "'" & BookCode.Replace("'", "''") & "', " & "'" & billNo.Replace("'", "''") & "', " & "'" & billDateSql & "', " & srNo & ", " & "'" & sundryCode & "', " & "'" & calcBy & "', " & "'" & autoRound & "', " & "'" & calcOn & "', " & "'" & addLessType & "', " & calcAmount.ToString(Globalization.CultureInfo.InvariantCulture) & ", " & calcRate.ToString(Globalization.CultureInfo.InvariantCulture) & ", 
+                        " & "'" & financePost & "', " & "'" & accountCode & "', '','" & sunnature & "'," & Tax_Per & "," & CummTotal & "," & Amountfortax & ")"
                         sql_Data_Save_Delete_Update()
                         totalItemsSaved += 1
                     Next
@@ -1805,7 +1826,7 @@ Public Class AppEntryManagement
         End Try
     End Function
 
-    Private Function SaveApprovedInvoiceTrnledgerRow(ByVal entryno As Integer, ByVal CurrentBookVno As String, ByVal currentPartyCode As String, ByVal currentOfferNo As String) As Boolean
+    Private Function SaveApprovedInvoiceTrnledgerRow(ByVal entryno As Integer, ByVal CurrentBookVno As String, ByVal currentPartyCode As String, ByVal currentOfferNo As String, ByVal CGST_Tax_Amt As Decimal, ByVal SGST_Tax_Amt As Decimal, ByVal IGST_Tax_Amt As Decimal, ByVal GrossAmount1 As Decimal) As Boolean
         Try
             Dim view As GridView = TryCast(GridControl1.MainView, GridView)
             If view Is Nothing OrElse view.RowCount = 0 Then
@@ -1866,7 +1887,7 @@ Public Class AppEntryManagement
                         firstApprovedIndex = rowIndex
                         OPPACCOUNTCODE = Convert.ToString(view.GetRowCellValue(rowIndex, "AccountCode")).Trim()
                     End If
-                    Dim amountValue As Object = view.GetRowCellValue(rowIndex, "Amount")
+                    Dim amountValue As Object = view.GetRowCellValue(rowIndex, "NetAmount")
                     If amountValue IsNot Nothing AndAlso Not IsDBNull(amountValue) Then
                         Dim parsedAmount As Decimal
                         If Decimal.TryParse(Convert.ToString(amountValue), Globalization.NumberStyles.Any, Globalization.CultureInfo.CurrentCulture, parsedAmount) Then
@@ -1934,19 +1955,14 @@ Public Class AppEntryManagement
                 sqL = _strQuery.ToString()
                 sql_Data_Save_Delete_Update()
                 ' =====================================================
-                ' 2. CREDIT ENTRY - APPROVED ROW WISE
+                ' 2. CREDIT ENTRY - TAX / GROSS AMOUNT WISE
                 ' =====================================================
                 Dim creditSrNo As Integer = 2
-                For Each selectedRow As DataRow In matchedRows
-                    Dim rowIndex As Integer = Convert.ToInt32(selectedRow("RowIndex"))
-                    Dim status As String = Convert.ToString(view.GetRowCellValue(rowIndex, "Status")).Trim().ToUpperInvariant()
-                    If status <> "APPROVE" Then Continue For
-                    Dim rowAmount As Decimal = 0D
-                    Decimal.TryParse(Convert.ToString(view.GetRowCellValue(rowIndex, "Amount")), Globalization.NumberStyles.Any, Globalization.CultureInfo.CurrentCulture, rowAmount)
-                    rowAmount = Math.Round(rowAmount, 2, MidpointRounding.AwayFromZero)
+                Dim creditAmounts As Decimal() = {CGST_Tax_Amt, SGST_Tax_Amt, IGST_Tax_Amt, GrossAmount1}
+                For Each amount As Decimal In creditAmounts
+                    Dim rowAmount As Decimal = Math.Round(amount, 2, MidpointRounding.AwayFromZero)
                     If rowAmount <= 0D Then Continue For
                     Dim creditAmountSql As String = rowAmount.ToString(Globalization.CultureInfo.InvariantCulture)
-                    Dim rowAccountCode As String = Convert.ToString(view.GetRowCellValue(rowIndex, "AccountCode")).Trim().Replace("'", "''")
                     _strQuery = New StringBuilder()
                     With _strQuery
                         .Append("INSERT INTO trnledger (")
@@ -1962,7 +1978,7 @@ Public Class AppEntryManagement
                         .Append(",'").Append(escapedBookCode).Append("'")
                         .Append(",'").Append(escapedBillNo).Append("'")
                         .Append(",'").Append(billDateSql).Append("'")
-                        .Append(",'").Append(rowAccountCode).Append("'")
+                        .Append(",'").Append(escapedAccountCode).Append("'")
                         .Append(",").Append(creditSrNo)
                         .Append(",0")
                         .Append(",").Append(creditAmountSql)
@@ -2049,11 +2065,15 @@ Public Class AppEntryManagement
                     Dim i As Integer = Convert.ToInt32(mRow("RowIndex"))
                     Dim statusValue As String = Convert.ToString(view.GetRowCellValue(i, "Status")).Trim().ToUpperInvariant()
                     If statusValue = "APPROVE" Then
-                        Dim amountValue As Object = view.GetRowCellValue(i, "Amount")
+                        'Dim amountValue As Object = view.GetRowCellValue(i, "Amount")
+                        'Dim amountValue As Object = view.GetRowCellValue(i, "NetGrossAmount")
+                        Dim amountValue As Object = view.GetRowCellValue(i, "NetAmount")
                         If amountValue IsNot Nothing AndAlso Not IsDBNull(amountValue) Then
                             DEBITAMT += Convert.ToDecimal(amountValue)
                         End If
-                        Dim Billamount As Object = view.GetRowCellValue(i, "Amount")
+                        'Dim Billamount As Object = view.GetRowCellValue(i, "Amount")
+                        'Dim Billamount As Object = view.GetRowCellValue(i, "NetGrossAmount")
+                        Dim Billamount As Object = view.GetRowCellValue(i, "NetAmount")
                         If Billamount IsNot Nothing AndAlso Not IsDBNull(Billamount) Then
                             BILLAMT += Convert.ToDecimal(Billamount)
                         End If
