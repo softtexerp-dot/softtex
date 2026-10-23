@@ -2,7 +2,6 @@
 Imports System.Text
 Imports DevExpress.XtraGrid
 Imports System.Data.OleDb
-
 Friend Class ReadyMadeBaleRegister
     Private obj_Party_Selection As New Multi_Selection_Master
     Dim _BaleStkQty As Double = 0
@@ -562,28 +561,20 @@ Friend Class ReadyMadeBaleRegister
             Return
         End If
         Try
-
             Dim Path As String = txtFile.Text
             Dim sheetName As String = "Sheet1"
             Dim conn As OleDbConnection = New OleDbConnection
             Dim ExcelTable As DataTable = New DataTable
             Dim Import_FileName As String = Path
-            conn.ConnectionString = ("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" _
-                        + (Import_FileName + (";" + "Extended Properties='Excel 12.0 Xml;HDR=YES;'")))
-
+            conn.ConnectionString = ("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + (Import_FileName + (";" + "Extended Properties='Excel 12.0 Xml;HDR=YES;IMEX=1;ImportMixedTypes=Text;'")))
             Dim DS As New DataSet
-
             Dim comm As OleDbCommand = New OleDbCommand
-            comm.CommandText = ("Select * from [" _
-                    + (sheetName + "$]"))
+            comm.CommandText = ("Select * from [" + (sheetName + "$]"))
             comm.Connection = conn
             Dim da As OleDbDataAdapter = New OleDbDataAdapter
             da.SelectCommand = comm
             da.Fill(ExcelTable)
-
-
             ' Master tables load karke codes set karein
-            'SetExcelMasterCodes(excelTable)
             Dim isMasterValid As Boolean = SetExcelMasterCodes(ExcelTable)
             If Not isMasterValid Then
                 Return
@@ -591,7 +582,7 @@ Friend Class ReadyMadeBaleRegister
             ' Excel data ko FlexCell grid mein import karein
             ImportExcelToGrdItem(ExcelTable)
         Catch ex As Exception
-            MsgBox("Excel Import Error: " & ex.Message, "Soft-Tex PRO")
+            MsgBox("Excel Import Error: " & ex.Message)
         End Try
     End Sub
     Private Function SetExcelMasterCodes(ByVal dt As DataTable) As Boolean
@@ -760,8 +751,6 @@ Friend Class ReadyMadeBaleRegister
                     MessageBox.Show("Size '" & sizeName & "' was not found in the master list." & vbCrLf & "Excel Row: " & (RowNo), "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
-
-
                 Dim masterCode As String = ""
                 ' GROUP CODE
                 If designLookup.TryGetValue(designName, masterCode) Then
@@ -883,7 +872,7 @@ Friend Class ReadyMadeBaleRegister
                 Next
             Next
             If matchedColumns.Count = 0 Then
-                MsgBox("The Excel column headers do not match the grid column headers. Please verify the column names and try again.", "Soft-Tex PRO", MessageBoxButtons.OK)
+                MsgBox("The Excel column headers do not match the grid column headers. Please verify the column names and try again.")
                 Return
             End If
             If GrdItem.Rows > 1 Then
@@ -909,8 +898,7 @@ Friend Class ReadyMadeBaleRegister
                 If header = "" AndAlso col - 1 < _DataTableGrid.Columns.Count Then
                     header = _DataTableGrid.Columns(col - 1).ColumnName.Trim().Replace(" ", "").Replace("_", "")
                 End If
-                If String.Equals(header, "S.NO",
-                             StringComparison.OrdinalIgnoreCase) Then
+                If String.Equals(header, "S.NO", StringComparison.OrdinalIgnoreCase) Then
                     srNoCol = col
                     Exit For
                 End If
@@ -946,13 +934,9 @@ Friend Class ReadyMadeBaleRegister
         AttachButtonFocusEvents(Me)
         LblQty.Text = ""
 
-
-
-
         PanlPropartiesWindow.Width = 672
         PanlPropartiesWindow.Height = 53
         PanlPropartiesWindow.Location = New Point(72, 341)
-
 
         SetTotalObjectPosition("QTY", _DataTableGrid, GrdItem, LblQty, LblTotal)
 
