@@ -1269,12 +1269,13 @@ Public Class AppEntryManagement
             Dim currentBookVno As String = ""
             Dim currentPartyCode As String = ""
             Dim currentOfferNo As String = ""
-            Dim NetAmount As Decimal = 0D
+
             For Each grp In distinctGroups
                 currentPartyCode = grp.Party
                 currentOfferNo = grp.Offer
                 Dim matchedRows As DataRow() = dtSelected.Select("PartyCode = '" & currentPartyCode.Replace("'", "''") & "' AND BillNo = '" & currentOfferNo.Replace("'", "''") & "'")
                 ' Calculate totals for APPROVE rows only
+                Dim NetAmount As Decimal = 0D
                 Dim DiscountPer As Decimal = 0D
                 Dim DiscountAmount As Decimal = 0D
                 Dim TotalMtrWeight As Decimal = 0D
@@ -1388,8 +1389,6 @@ Public Class AppEntryManagement
                         IGST_Tax_RATE = DiscountPer
                         IGST_Tax_Amt = DiscountAmount
                     End If
-                    'NetAmount = GrossAmount + CGST_Tax_Amt + SGST_Tax_Amt + IGST_Tax_Amt
-
                     ' INSERT HEADER ONLY ONCE PER GROUP
                     _strQuery = New StringBuilder()
                     With _strQuery
@@ -1489,9 +1488,16 @@ Public Class AppEntryManagement
                 If view.IsGroupRow(i) Then Continue For
                 Dim partyCode As String = Convert.ToString(view.GetRowCellValue(i, "partycode")).Trim()
                 Dim offerNo As String = Convert.ToString(view.GetRowCellValue(i, "BillNo")).Trim()
+                Dim rowOfferBookVno As String = Convert.ToString(view.GetRowCellValue(i, "BookVno")).Trim()
                 ' Matching group nahi hai to skip
+                ' Party matching
                 If Not String.Equals(partyCode, currentPartyCode, StringComparison.OrdinalIgnoreCase) Then Continue For
+                ' Offer number matching
                 If Not String.Equals(offerNo, currentOfferNo, StringComparison.OrdinalIgnoreCase) Then Continue For
+                ' Original offer voucher matching
+                'If Not String.Equals(rowOfferBookVno, CurrentBookVno, StringComparison.OrdinalIgnoreCase) Then Continue For
+                ' Original offer entry matching
+                If offerNo <> currentOfferNo Then Continue For
                 ' Sirf selected rows process karein
                 Dim cellVal As Object = view.GetRowCellValue(i, "SelectRow")
                 Dim isChecked As Boolean = False
@@ -1504,8 +1510,6 @@ Public Class AppEntryManagement
                 If Not isChecked Then Continue For
                 ' Sirf APPROVE rows save hongi
                 Dim status As String = Convert.ToString(view.GetRowCellValue(i, "Status")).Trim().ToUpperInvariant()
-                'If status <> "APPROVE" Then Continue For
-                ' Rate
                 If status = "APPROVE" Then
                     Dim rate As Decimal = 0D
                     Dim rateValue As Object = view.GetRowCellValue(i, "Rate")
@@ -1513,14 +1517,12 @@ Public Class AppEntryManagement
                     If rateValue IsNot Nothing AndAlso Not IsDBNull(rateValue) Then
                         Decimal.TryParse(rateValue.ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, rate)
                     End If
-                    ' Numeric values safely read karein
                     Dim meterWeight As Decimal = 0D
                     Dim amount As Decimal = 0D
                     Dim netAmount As Decimal = 0D
                     Dim pcs As Decimal = 0D
                     Dim taxPercentage As Decimal = 0D
                     Dim taxAmount As Decimal = 0D
-
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "MeterWeight")), meterWeight)
                     'Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "Amount")), amount)
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "NetGrossAmount")), amount)
@@ -1528,10 +1530,8 @@ Public Class AppEntryManagement
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "Pcs")), pcs)
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "TaxPercentage")), taxPercentage)
                     Decimal.TryParse(Convert.ToString(view.GetRowCellValue(i, "GstAmount")), taxAmount)
-                    ' Text values SQL ke liye escape karein
                     Dim offerDate As DateTime = DateTime.Now
                     Dim dateValue As Object = view.GetRowCellValue(i, "OfferDate")
-
                     If dateValue IsNot Nothing AndAlso Not IsDBNull(dateValue) AndAlso IsDate(dateValue) Then
                         offerDate = Convert.ToDateTime(dateValue)
                     End If
@@ -2065,14 +2065,10 @@ Public Class AppEntryManagement
                     Dim i As Integer = Convert.ToInt32(mRow("RowIndex"))
                     Dim statusValue As String = Convert.ToString(view.GetRowCellValue(i, "Status")).Trim().ToUpperInvariant()
                     If statusValue = "APPROVE" Then
-                        'Dim amountValue As Object = view.GetRowCellValue(i, "Amount")
-                        'Dim amountValue As Object = view.GetRowCellValue(i, "NetGrossAmount")
                         Dim amountValue As Object = view.GetRowCellValue(i, "NetAmount")
                         If amountValue IsNot Nothing AndAlso Not IsDBNull(amountValue) Then
                             DEBITAMT += Convert.ToDecimal(amountValue)
                         End If
-                        'Dim Billamount As Object = view.GetRowCellValue(i, "Amount")
-                        'Dim Billamount As Object = view.GetRowCellValue(i, "NetGrossAmount")
                         Dim Billamount As Object = view.GetRowCellValue(i, "NetAmount")
                         If Billamount IsNot Nothing AndAlso Not IsDBNull(Billamount) Then
                             BILLAMT += Convert.ToDecimal(Billamount)
