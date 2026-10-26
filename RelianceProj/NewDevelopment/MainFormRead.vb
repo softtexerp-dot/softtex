@@ -853,6 +853,7 @@ Public Class MainFormRead
                 End If
             Next
             '================ GRID TABLES ================
+            Dim AddedGridRecords As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
             For gridIndex As Integer = 0 To tables.Count - 1
                 Dim gridDt As DataTable = tables(gridIndex)
                 If gridDt Is Nothing OrElse gridDt.Rows.Count = 0 Then Continue For
@@ -866,8 +867,9 @@ Public Class MainFormRead
                 For Each dr As DataRow In gridRows
                     Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
                     If Not columnName.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
-                        'If Not dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
-                        Continue For
+                        If Not dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                            Continue For
+                        End If
                     End If
                     Dim oppMasterCode As String = dr("OppMasterCode").ToString().Trim()
                     If String.IsNullOrWhiteSpace(oppMasterCode) Then Continue For
@@ -1387,15 +1389,19 @@ Public Class MainFormRead
 
             If alignVal = "" Then alignVal = "L"
 
+            'If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+            '    colName = header.Replace(" ", "")
+            '    'colName = dr("UserText").ToString().Trim().Replace(" ", "")
+            '    dr("DataBaseColumn") = colName
+            'End If
             If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
-                colName = header.Replace(" ", "")
-                'colName = dr("UserText").ToString().Trim().Replace(" ", "")
+                colName = header.Trim()
+                If String.IsNullOrWhiteSpace(colName) Then
+                    colName = dr("UserText").ToString().Trim()
+                End If
                 dr("DataBaseColumn") = colName
             End If
-
-            If String.IsNullOrWhiteSpace(header) OrElse
-           String.IsNullOrWhiteSpace(colName) Then Continue For
-
+            If String.IsNullOrWhiteSpace(header) OrElse String.IsNullOrWhiteSpace(colName) Then Continue For
             'Grid Column Names
             If gridColNames.Length > 0 Then gridColNames.Append(",")
             gridColNames.Append(colName)
@@ -2322,14 +2328,15 @@ Public Class MainFormRead
         Try
             Dim TableNames As New List(Of Tuple(Of String, String, String))
             For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''")
+                'For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''", "Id ASC")
                 Dim TableName As String = dr("DataBaseTable").ToString().Trim()
                 Dim ColumnType As String = dr("ColumnType").ToString().Trim()
                 Dim ctrlName As String = dr("CntrlName").ToString().Trim()
                 If TableName <> "" Then
                     Dim Exists As Boolean = TableNames.Any(Function(x) _
-                    x.Item1.Equals(TableName, StringComparison.OrdinalIgnoreCase) AndAlso
-                    x.Item2.Equals(ColumnType, StringComparison.OrdinalIgnoreCase) AndAlso
-                    x.Item3.Equals(ctrlName, StringComparison.OrdinalIgnoreCase))
+                        x.Item1.Equals(TableName, StringComparison.OrdinalIgnoreCase) AndAlso
+                        x.Item2.Equals(ColumnType, StringComparison.OrdinalIgnoreCase) AndAlso
+                        x.Item3.Equals(ctrlName, StringComparison.OrdinalIgnoreCase))
                     If Not Exists Then
                         TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
                     End If
@@ -2384,20 +2391,20 @@ Public Class MainFormRead
                         End If
                     End If
                     If tblTmp.Rows.Count > 0 Then
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid2, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid3, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid4, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid5, tmptbl)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid1, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid2, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid3, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid4, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid5, tblTmp)
                     Else
                         MsgBox("Record Not Found")
                         ObjCls_General.Blank_Object(Me)
                         Clear_Grid(grd, 2)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid1, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid2, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid3, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid4, tmptbl)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid5, tmptbl)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid1, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid2, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid3, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid4, tblTmp)
+                        CalculateDynamicColumnTotal(grd, _DataTableGrid5, tblTmp)
                     End If
                 End If
             Next
