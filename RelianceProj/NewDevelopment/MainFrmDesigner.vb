@@ -1379,7 +1379,7 @@ Public Class MainFrmDesigner
             .Append(" FROM INFORMATION_SCHEMA.COLUMNS ")
             .Append(" WHERE TABLE_NAME = N'" &
             _TblName.Replace("'", "''") & "' ")
-            .Append(whereCondition)
+            '.Append(whereCondition)
             If _SelectionType = "SINGLE" Then
                 .Append(" AND DATA_TYPE NOT IN ('Numeric','datetime') ")
             End If
@@ -1581,10 +1581,10 @@ Public Class MainFrmDesigner
         With _strQuery
             .Append("SELECT 'False' AS TickMark, 'NO COLUMN USE' AS ColumnName, '' AS DataType, '' AS Remark, 0 AS SortOrder ")
             .Append("UNION ALL ")
-            .Append("SELECT 'False', COLUMN_NAME, DATA_TYPE, '', ISNULL(F.OrderNo, 999999) ")
+            .Append("SELECT 'False', COLUMN_NAME, DATA_TYPE, '', ISNULL('', 999999) ")   'ISNULL(F.OrderNo, 999999)
             .Append("FROM INFORMATION_SCHEMA.COLUMNS C ")
-            .Append("LEFT JOIN FormControl F ON F.DataBaseTable = C.TABLE_NAME ")
-            .Append("AND F.DataBaseColumn = C.COLUMN_NAME ")
+            '.Append("LEFT JOIN FormControl F ON F.DataBaseTable = C.TABLE_NAME ")
+            '.Append("AND F.DataBaseColumn = C.COLUMN_NAME ")
             .Append("WHERE C.TABLE_NAME = N'" & DataBaseTblNAme.Replace("'", "''") & "' ")
             If _SelectionType = "SINGLE" Then
                 .Append("AND C.DATA_TYPE NOT IN ('Numeric','datetime') ")

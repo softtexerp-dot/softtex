@@ -468,7 +468,13 @@ Public Class MainFormRead
                         delQry.AppendLine("DELETE FROM " & dataBaseTable & " WHERE BOOKVNO='" & _BookVNo.Replace("'", "''") & "';")
                     Next
                     delQry.AppendLine(AllQueries)
-                    ExecuteBatchWithTransaction(delQry.ToString(), Array_Opening, 4)
+
+
+                    sqL = delQry.ToString
+                    sql_Data_Save_Delete_Update()
+
+
+                    ' ExecuteBatchWithTransaction(delQry.ToString(), Array_Opening, 4)
 
 
                     'For Each OneQuery As String In QueryList
@@ -504,7 +510,6 @@ Public Class MainFormRead
                     Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find(gridname, True).FirstOrDefault(), FlexCell.Grid)
                     If grd IsNot Nothing Then
                         Clear_Grid(grd, 2)
-                        '_GridColmTotal(grd, _DataTableGrid1)
                         Select Case grd.Name.ToUpper()
                             Case "GRID1"
                                 _GridColmTotal(grd, _DataTableGrid1)
@@ -795,14 +800,12 @@ Public Class MainFormRead
             _FieldNotVisibile = New StringBuilder()
             Dim FinalQuery As New StringBuilder()
             Dim strFilterString As String = If(mandatoryCol <> "", mandatoryCol & ">0", "")
-
             Dim ctrl_1 As Control() = Me.Controls.Find(txtEntryno, True)
             Dim Entytxt As TextBox = CType(ctrl_1(0), TextBox)
             _BookVNo = Generate_Book_Vno(Entytxt.Text, _Booktrtype)
-
-
             Dim tables As New List(Of DataTable) From {_DataTableGrid1, _DataTableGrid2, _DataTableGrid3, _DataTableGrid4, _DataTableGrid5}
             Dim gridNames() As String = {"Grid1", "Grid2", "Grid3", "Grid4", "Grid5"}
+
             Dim ControlQueries As New List(Of String)
             Dim GridQueries As New List(Of String)
             '================ CONTROL TABLES ================
@@ -815,8 +818,7 @@ Public Class MainFormRead
                 For Each dr As DataRow In tableGroup
                     Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
                     Dim ctrlName As String = dr("CntrlName").ToString().Trim()
-                    If columnName.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse columnName.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) OrElse dr("SaveYN").ToString() = "N" Then
-                        'If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse dr("SaveYN").ToString() = "N" Then
+                    If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse dr("SaveYN").ToString() = "N" Then
                         Dim oppMasterCode As String = dr("OppMasterCode").ToString().Trim()
                         If Not String.IsNullOrWhiteSpace(oppMasterCode) Then
                             Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
@@ -836,7 +838,6 @@ Public Class MainFormRead
                     End If
                 Next
                 Dim tableColumns As New HashSet(Of String)(tableGroup.Where(Function(r) Not r("DataBaseColumn").ToString().Trim().StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase)).Select(Function(r) r("DataBaseColumn").ToString().Trim()), StringComparer.OrdinalIgnoreCase)
-                'Dim tableColumns As New HashSet(Of String)(tableGroup.Where(Function(r) r("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase)).Select(Function(r) r("DataBaseColumn").ToString().Trim()), StringComparer.OrdinalIgnoreCase)
                 If tableColumns.Contains("BOOKVNO") Then
                     AddSqlField(fields, values, "BOOKVNO", _BookVNo)
                 End If
@@ -853,7 +854,6 @@ Public Class MainFormRead
                 End If
             Next
             '================ GRID TABLES ================
-            Dim AddedGridRecords As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
             For gridIndex As Integer = 0 To tables.Count - 1
                 Dim gridDt As DataTable = tables(gridIndex)
                 If gridDt Is Nothing OrElse gridDt.Rows.Count = 0 Then Continue For
@@ -864,6 +864,7 @@ Public Class MainFormRead
                 If tableName = "" Then Continue For
                 _TableName = tableName
                 Dim SaveGridDt As DataTable = gridDt.Copy()
+                Dim currentMandatoryCol As String = ""
                 For Each dr As DataRow In gridRows
                     Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
                     If Not columnName.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
@@ -881,7 +882,6 @@ Public Class MainFormRead
                         SaveGridDt.Columns(columnName).ColumnName = oppMasterCode
                     End If
                 Next
-                'Dim usedGridRows() As DataRow = gridRows.Where(Function(r) Not r("DataBaseColumn").ToString().Trim().StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase)).ToArray()
                 Dim usedGridRows() As DataRow = gridRows.Where(Function(r) r("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase)).ToArray()
                 If usedGridRows.Length = 0 Then Continue For
                 Dim Query_Auto_Grid(SaveGridDt.Rows.Count - 1, 4) As String
@@ -896,16 +896,6 @@ Public Class MainFormRead
                 Next
                 Dim fields As New StringBuilder()
                 Dim values As New StringBuilder()
-                'For Each dr As DataRow In _MainColumTbl.Select("(ColumnType='TextBox' OR ColumnType='CheckBox') AND " & "DataBaseTable='" & tableName.Replace("'", "''") & "'", "OrderNo")
-                '    Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
-                '    'If columnName = "" OrElse columnName.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
-                '    If columnName = "" OrElse dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
-                '        Continue For
-                '    End If
-                '    Dim ctrl As Control = Me.Controls.Find(dr("CntrlName").ToString().Trim(), True).FirstOrDefault()
-                '    If ctrl Is Nothing Then Continue For
-                '    AddSqlField(fields, values, columnName, GetControlValue(ctrl, dr("INPUTTYPE").ToString().Trim()))
-                'Next
                 Dim gridColumns As New HashSet(Of String)(gridRows.Select(Function(r) r("DataBaseColumn").ToString().Trim()), StringComparer.OrdinalIgnoreCase)
                 If gridColumns.Contains("BOOKVNO") Then
                     fields.Append("BOOKVNO,")
