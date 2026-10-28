@@ -204,7 +204,7 @@ Partial Class MainFrmDesigner
         Me.Txt_MenuName.FontFocusColor = System.Drawing.Color.Blue
         Me.Txt_MenuName.FontLeaveColor = System.Drawing.Color.Black
         Me.Txt_MenuName.ForeColor = System.Drawing.Color.Black
-        Me.Txt_MenuName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.DecimalNumeric
+        Me.Txt_MenuName.InputType = ctl_TextBox.ctl_TextBox.KTB_INPUTTYPES_SETTINGS.Normal
         Me.Txt_MenuName.IsValidated = False
         Me.Txt_MenuName.LeaveFocusColor = System.Drawing.SystemColors.Window
         Me.Txt_MenuName.Location = New System.Drawing.Point(640, 92)

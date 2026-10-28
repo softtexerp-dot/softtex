@@ -818,6 +818,7 @@ Public Class MainFormRead
                 For Each dr As DataRow In tableGroup
                     Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
                     Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                    'If columnName.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse columnName.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) OrElse dr("SaveYN").ToString() = "N" Then
                     If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse dr("SaveYN").ToString() = "N" Then
                         Dim oppMasterCode As String = dr("OppMasterCode").ToString().Trim()
                         If Not String.IsNullOrWhiteSpace(oppMasterCode) Then
@@ -2317,22 +2318,22 @@ Public Class MainFormRead
     Private Sub _GetAlterData(ByVal _EntryNo As Int64)
         Try
             Dim TableNames As New List(Of Tuple(Of String, String, String))
-            For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''")
-                'For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''", "Id ASC")
-                Dim TableName As String = dr("DataBaseTable").ToString().Trim()
-                Dim ColumnType As String = dr("ColumnType").ToString().Trim()
-                Dim ctrlName As String = dr("CntrlName").ToString().Trim()
-                If TableName <> "" Then
-                    Dim Exists As Boolean = TableNames.Any(Function(x) _
+            'For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''")
+            For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''", "Id ASC")
+                    Dim TableName As String = dr("DataBaseTable").ToString().Trim()
+                    Dim ColumnType As String = dr("ColumnType").ToString().Trim()
+                    Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                    If TableName <> "" Then
+                        Dim Exists As Boolean = TableNames.Any(Function(x) _
                         x.Item1.Equals(TableName, StringComparison.OrdinalIgnoreCase) AndAlso
                         x.Item2.Equals(ColumnType, StringComparison.OrdinalIgnoreCase) AndAlso
                         x.Item3.Equals(ctrlName, StringComparison.OrdinalIgnoreCase))
-                    If Not Exists Then
-                        TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
+                        If Not Exists Then
+                            TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
+                        End If
                     End If
-                End If
-            Next
-            Dim tblTmp As DataTable
+                Next
+                Dim tblTmp As DataTable
             For Each item In TableNames
                 Dim TableName As String = item.Item1
                 Dim FiltColumnType As String = item.Item2
@@ -2343,10 +2344,10 @@ Public Class MainFormRead
                     sqL = getAlter_Form_EntryQuery(_EntryNo, TableName, FiltColumnType)
                     sql_connect_slect()
                     tblTmp = DefaltSoftTable.Copy
-                    If tblTmp Is Nothing OrElse tblTmp.Rows.Count = 0 Then
-                        MsgBox("No Record Found")
-                        Exit Sub
-                    End If
+                    'If tblTmp Is Nothing OrElse tblTmp.Rows.Count = 0 Then
+                    '    MsgBox("No Record Found")
+                    '    Exit Sub
+                    'End If
                     Dim currentCtrl As Control = Nothing
                     Dim grd As FlexCell.Grid
                     Dim gridname As String = ctrlName
@@ -2381,20 +2382,31 @@ Public Class MainFormRead
                         End If
                     End If
                     If tblTmp.Rows.Count > 0 Then
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid1, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid2, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid3, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid4, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid5, tblTmp)
+                        If _DataTableGrid1 IsNot Nothing AndAlso _DataTableGrid1.Rows.Count > 0 Then
+                            CalculateDynamicColumnTotal(grd, _DataTableGrid1, tblTmp)
+                            grd.Visible = True
+                        End If
+                        If _DataTableGrid2 IsNot Nothing AndAlso _DataTableGrid2.Rows.Count > 0 Then
+                            CalculateDynamicColumnTotal(grd, _DataTableGrid2, tblTmp)
+                            grd.Visible = True
+                        End If
+                        If _DataTableGrid3 IsNot Nothing AndAlso _DataTableGrid3.Rows.Count > 0 Then
+                            CalculateDynamicColumnTotal(grd, _DataTableGrid3, tblTmp)
+                            grd.Visible = True
+                        End If
+                        If _DataTableGrid4 IsNot Nothing AndAlso _DataTableGrid4.Rows.Count > 0 Then
+                            CalculateDynamicColumnTotal(grd, _DataTableGrid4, tblTmp)
+                            grd.Visible = True
+                        End If
+                        If _DataTableGrid5 IsNot Nothing AndAlso _DataTableGrid5.Rows.Count > 0 Then
+                            CalculateDynamicColumnTotal(grd, _DataTableGrid5, tblTmp)
+                            grd.Visible = True
+                        End If
                     Else
                         MsgBox("Record Not Found")
-                        ObjCls_General.Blank_Object(Me)
-                        Clear_Grid(grd, 2)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid1, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid2, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid3, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid4, tblTmp)
-                        CalculateDynamicColumnTotal(grd, _DataTableGrid5, tblTmp)
+                        'ObjCls_General.Blank_Object(Me)
+                        'Clear_Grid(grd, 2)
+                        'grd.Visible = False
                     End If
                 End If
             Next

@@ -1255,7 +1255,8 @@ Public Class MainFrmDesigner
                 SetCellVal(_GetGrid, _GridDatatbl, _ActiverownoHeader, "SizeWidth", "10")
             End If
         Else
-            Dim isSystemKey As Boolean = (_ColmName = "BOOKCODE" OrElse _ColmName = "BOOKTRTYPE" OrElse _ColmName = "BOOKVNO")
+            'Dim isSystemKey As Boolean = (_ColmName = "BOOKCODE" OrElse _ColmName = "BOOKTRTYPE" OrElse _ColmName = "BOOKVNO")
+            Dim isSystemKey As Boolean = (_ColmName.Equals("BOOKCODE", StringComparison.OrdinalIgnoreCase) OrElse _ColmName.Equals("BOOKTRTYPE", StringComparison.OrdinalIgnoreCase) OrElse _ColmName.Equals("BOOKVNO", StringComparison.OrdinalIgnoreCase))
             If _ColmName = "ID" OrElse isSystemKey Then
                 SetCellVal(_GetGrid, _GridDatatbl, _ActiverownoHeader, "VISIBLE", "N")
             Else
@@ -1327,20 +1328,10 @@ Public Class MainFrmDesigner
         ElseIf _gridName.Name = "Grid1" Then
             selectedCols.AddRange(GetSelectedColumnsFromGrid(Grid1, Detail_DataTableGrid, _ActivatedColName, ""))
         End If
-        selectedCols = selectedCols.Where(
-            Function(x)
-                Return Not String.Equals(
-                    x.Trim(),
-                    "NO COLUMN USE",
-                    StringComparison.OrdinalIgnoreCase
-                )
-            End Function
-        ).Distinct().ToList()
+        selectedCols = selectedCols.Where(Function(x) Not String.Equals(x.Trim(), "NO COLUMN USE", StringComparison.OrdinalIgnoreCase)).Distinct().ToList()
         Dim whereCondition As String = ""
         If selectedCols.Count > 0 Then
-            Dim inClause As String = "'" & String.Join("','", selectedCols.Select(Function(x)
-                                                                                      Return x.Replace("'", "''")
-                                                                                  End Function)) & "'"
+            Dim inClause As String = "'" & String.Join("','", selectedCols.Select(Function(x) x.Replace("'", "''"))) & "'"
             whereCondition = " AND COLUMN_NAME NOT IN (" & inClause & ") "
         End If
         _strQuery = New StringBuilder()
@@ -1381,7 +1372,8 @@ Public Class MainFrmDesigner
             _TblName.Replace("'", "''") & "' ")
             '.Append(whereCondition)
             If _SelectionType = "SINGLE" Then
-                .Append(" AND DATA_TYPE NOT IN ('Numeric','datetime') ")
+                '.Append(" AND DATA_TYPE NOT IN ('Numeric','datetime') ")
+                .Append(" AND DATA_TYPE NOT IN ('datetime') ")
             End If
             .Append(" ) AS ColumnList ")
             .Append(" ORDER BY SortOrder ")
@@ -1407,26 +1399,7 @@ Public Class MainFrmDesigner
                 Next
                 Dim colList = COLUMN_NAME.Split(","c).Select(Function(q) q.Trim()).ToList()
                 Dim typeList = DATATYPE.Split(","c).Select(Function(q) q.Trim()).ToList()
-                Dim finalQualityList =
-                    colList.
-                    Select(
-                        Function(col, index)
-                            Return New With {
-                                .ColumnName = col,
-                                .DataType =
-                                    If(
-                                        index < typeList.Count,
-                                        typeList(index),
-                                        ""
-                                    )
-                            }
-                        End Function
-                    ).
-                    Where(
-                        Function(x)
-                            Return x.ColumnName <> ""
-                        End Function
-                    ).ToList()
+                Dim finalQualityList = colList.Select(Function(col, index) New With {.ColumnName = col, .DataType = If(index < typeList.Count, typeList(index), "")}).Where(Function(x) x.ColumnName <> "").ToList()
                 Dim _ActiverownoHeader As Integer = _gridName.ActiveCell.Row
                 For Each item In finalQualityList
                     If String.Equals(item.ColumnName.Trim(), "NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
@@ -1456,7 +1429,7 @@ Public Class MainFrmDesigner
                     _gridName.Cell(rowIndex, inputTypeIndex).Text = ""
                 Else
                     _gridName.Cell(rowIndex, colIndex).Text = selectedColumn
-                    _gridName.Cell(rowIndex, inputTypeIndex).Text = selectedDataType
+                    '_gridName.Cell(rowIndex, inputTypeIndex).Text = selectedDataType
                 End If
             End If
         End If
@@ -1559,10 +1532,13 @@ Public Class MainFrmDesigner
                 If ColumnName = "" Then
                     Continue For
                 End If
-                If String.Equals(_ActivatedColName, "DataBaseColumn", StringComparison.OrdinalIgnoreCase) Then
-                    ActiveGrid.Cell(CurrentRow, DataBaseColumnIndex + 1).Text = ColumnName
-                ElseIf String.Equals(_ActivatedColName, "OppMasterCode", StringComparison.OrdinalIgnoreCase) Then
-                    ActiveGrid.Cell(CurrentRow, OppMasterCodeIndex + 1).Text = ColumnName
+                If String.Equals(ColumnName, "NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
+                    If String.Equals(_ActivatedColName, "DataBaseColumn", StringComparison.OrdinalIgnoreCase) Then
+                        ActiveGrid.Cell(CurrentRow, DataBaseColumnIndex + 1).Text = ColumnName
+                    ElseIf String.Equals(_ActivatedColName, "OppMasterCode", StringComparison.OrdinalIgnoreCase) Then
+                        ActiveGrid.Cell(CurrentRow, OppMasterCodeIndex + 1).Text = ColumnName
+                    End If
+                    Continue For
                 End If
                 Dim DataType As String = ""
                 If rowDict.ContainsKey("DataType") Then
@@ -1577,14 +1553,11 @@ Public Class MainFrmDesigner
 
     Private Function _GetDatabaseWiseColum(ByVal DataBaseTblNAme As String, ByVal _SelectionType As String, ByVal grd As FlexCell.Grid, ByVal _ShowAllColumn As Boolean)
         _strQuery = New StringBuilder()
-
         With _strQuery
-            .Append("SELECT 'False' AS TickMark, 'NO COLUMN USE' AS ColumnName, '' AS DataType, '' AS Remark, 0 AS SortOrder ")
+            .Append("SELECT 'False' AS TickMark, 'NO COLUMN USE' AS ColumnName, 'NVARCHAR' AS DataType, '' AS Remark, 0 AS SortOrder ")
             .Append("UNION ALL ")
-            .Append("SELECT 'False', COLUMN_NAME, DATA_TYPE, '', ISNULL('', 999999) ")   'ISNULL(F.OrderNo, 999999)
+            .Append("SELECT 'False', COLUMN_NAME, DATA_TYPE, '', ISNULL('', 999999) ")
             .Append("FROM INFORMATION_SCHEMA.COLUMNS C ")
-            '.Append("LEFT JOIN FormControl F ON F.DataBaseTable = C.TABLE_NAME ")
-            '.Append("AND F.DataBaseColumn = C.COLUMN_NAME ")
             .Append("WHERE C.TABLE_NAME = N'" & DataBaseTblNAme.Replace("'", "''") & "' ")
             If _SelectionType = "SINGLE" Then
                 .Append("AND C.DATA_TYPE NOT IN ('Numeric','datetime') ")
@@ -1607,11 +1580,21 @@ Public Class MainFrmDesigner
                 End If
             End If
         Next
+        'If _ShowAllColumn = False Then
+        '    _FnlTbla = _tmptbl.Copy
+        'Else
+        '    For Each dr As DataRow In _tmptbl.Rows
+        '        If Not usedColumns.Contains(dr("ColumnName").ToString().Trim()) Then
+        '            _FnlTbla.ImportRow(dr)
+        '        End If
+        '    Next
+        'End If
         If _ShowAllColumn = False Then
             _FnlTbla = _tmptbl.Copy
         Else
             For Each dr As DataRow In _tmptbl.Rows
-                If Not usedColumns.Contains(dr("ColumnName").ToString().Trim()) Then
+                Dim colName As String = dr("ColumnName").ToString().Trim()
+                If String.Equals(colName, "NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse Not usedColumns.Contains(colName) Then
                     _FnlTbla.ImportRow(dr)
                 End If
             Next
@@ -1626,7 +1609,7 @@ Public Class MainFrmDesigner
         If Not dt.Columns.Contains("DATABASETABLE") Then Return list
         Dim colIndex As Integer = dt.Columns.IndexOf(colName) + 1
         Dim tableIndex As Integer = dt.Columns.IndexOf("DATABASETABLE") + 1
-        For i As Integer = 1 To grd.Rows - 1
+        For i As Integer = 0 To grd.Rows - 1
             Dim tableValue As String = grd.Cell(i, tableIndex).Text.Trim()
             Dim val As String = grd.Cell(i, colIndex).Text.Trim()
             If Not String.IsNullOrWhiteSpace(val) Then
@@ -1638,6 +1621,7 @@ Public Class MainFrmDesigner
 #End Region
 #End Region
     Private Sub MainFrmDesigner_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ClearAllImages(Me)
         Me.KeyPreview = True
         '_addcoloum()
         txtfrmtype.Text = "MASTER FORM"
@@ -1666,6 +1650,21 @@ Public Class MainFrmDesigner
         TabControl1.Enabled = False
         AttachButtonFocusEvents(Me)
 
+    End Sub
+    Private Sub ClearAllImages(ByVal parent As Control)
+        For Each ctrl As Control In parent.Controls
+            If TypeOf ctrl Is PictureBox Then
+                Dim pic As PictureBox = DirectCast(ctrl, PictureBox)
+                If pic.Image IsNot Nothing Then
+                    Dim oldImage As Image = pic.Image
+                    pic.Image = Nothing
+                    oldImage.Dispose()
+                End If
+            End If
+            If ctrl.HasChildren Then
+                ClearAllImages(ctrl)
+            End If
+        Next
     End Sub
     Private Sub SamplerRateContract_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         UC_Buttons1.HideButtons("BtnPrint", "BtnReports", "BtnView")
@@ -2132,19 +2131,47 @@ Public Class MainFrmDesigner
                     Delete_Row(Grid1, Detail_DataTableGrid)
                     Call Fill_Sr_No_Item(Grid1, Detail_DataTableGrid)
             End Select
+            'ElseIf e.KeyCode = Keys.Escape Then
+            '    If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
+            '        Me.Close()
+            '        Me.Dispose(True)
+            '    Else
+            '        'Txt_FormId.Focus()
+            '        txtfrmtype.Focus()
+            '        _ClearTex()
+            '        Call Ctrl_Visible_True(Me.Controls)
+            '        Clear_Grid(GrdItem, 2)
+            '        Clear_Grid(Grid1, 2)
+            '    End If
         ElseIf e.KeyCode = Keys.Escape Then
-            If MsgBox("Do You Want To Close(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Close ?") = MsgBoxResult.Yes Then
-                Me.Close()
-                Me.Dispose()
-            Else
-                'Txt_FormId.Focus()
-                txtfrmtype.Focus()
-                _ClearTex()
-                Call Ctrl_Visible_True(Me.Controls)
-                Clear_Grid(GrdItem, 2)
-                Clear_Grid(Grid1, 2)
+            _FrmLoad = True
+                If _FORMMODE = "" Then
+                    Me.Close()
+                Else
+                    Select Case _STRTRNOBJECT
+                    Case "GRDITEM"
+                        _FrmLoad = True
+                        GrdItem.BoldFixedCell = False
+                        Txt_FormId.Focus()
+                    Case "GRID1"
+                        _FrmLoad = True
+                        Grid1.BoldFixedCell = False
+                    Case Else
+                        _FrmLoad = True
+                        ObjCls_General.Blank_Object(Me)
+                        _ClearTex()
+                        Clear_Grid(GrdItem, 2)
+                        Clear_Grid(Grid1, 2)
+                        UC_Buttons1._ButtonEnableDisable("LOAD")
+                        UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                        Ctrl_Visibility_With_One_Grid(False, Me.Controls, GrdItem)
+                        Ctrl_Visibility_With_One_Grid(False, Me.Controls, Grid1)
+                        'GrdItem.BoldFixedCell = False
+                        _FrmLoad = False
+                        _FORMMODE = ""
+                End Select
+                End If
             End If
-        End If
     End Sub
 
     Private Sub Delete_Row(ByVal GrdObj As FlexCell.Grid, ByVal DataTable_Name As DataTable)
@@ -2446,19 +2473,19 @@ Public Class MainFrmDesigner
         Txt_FormId.Text = Last_Entry_No
         _BookCode = DefaltSoftTable.Rows(0).Item("BOOKCODE")
         txtfrmtype.Focus()
-        If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
-            Call Delete_Entry()
-        End If
         If Txt_FormId.Text <> "" Then
             Txt_FormId.Visible = True
             Txt_FormId.Focus()
-            Txt_FormId.Text = Last_Entry_No + 1
-            _ClearTex()
+            Txt_FormId.Text = Last_Entry_No
+            '_ClearTex()
             Call Ctrl_Visible_True(Me.Controls)
             Clear_Grid(GrdItem, 2)
             Clear_Grid(Grid1, 2)
         Else
             MsgBox("No Record Found")
+        End If
+        If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+            Call Delete_Entry()
         End If
         ObjCls_General.Blank_Object(Me)
         Ctrl_Visible_False(Me.Controls)
@@ -3215,9 +3242,7 @@ Public Class MainFrmDesigner
             Dim appPath As String = My.Application.Info.DirectoryPath
             Dim softDllPath As String = IO.Path.Combine(appPath, "Soft.dll")
             Dim sqlDbPath As String = IO.Path.Combine(appPath, "SQLDB.mdb")
-            '========================================================
             ' CHECK FILES
-            '========================================================
             If Not IO.File.Exists(softDllPath) Then
                 MsgBox("Soft.dll not found!")
             End If
@@ -3225,23 +3250,15 @@ Public Class MainFrmDesigner
                 MsgBox("SQLDB.mdb not found!")
                 Exit Sub
             End If
-            '========================================================
             ' SOURCE = Soft.dll
-            '========================================================
             Dim SoftConnectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;" & "Data Source=" & softDllPath & ";" & "Jet OLEDB:Database Password={M#~Softex&$@*;"
-            '========================================================
             ' DESTINATION = SQLDB.mdb
-            '========================================================
             Dim SQLDBConnectionString As String = "Provider=Microsoft.Jet.OLEDB.4.0;" & "Data Source=" & sqlDbPath & ";" & "Mode=12;" & "Jet OLEDB:Database Password=;"
-            '========================================================
             ' READ DATA FROM SOFT.DLL
-            '========================================================
             Dim dt As New DataTable
             Using conSoft As New OleDbConnection(SoftConnectionString)
                 conSoft.Open()
-                '----------------------------------------------------
                 ' CHECK SOURCE TABLE
-                '----------------------------------------------------
                 Dim sourceTables As DataTable = conSoft.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, New Object() {Nothing, Nothing, Nothing, "TABLE"})
                 Dim actualTableName As String = ""
                 For Each row As DataRow In sourceTables.Rows
@@ -3254,30 +3271,22 @@ Public Class MainFrmDesigner
                     MsgBox("Table '" & tableName & "' Soft.dll Do No Found!")
                     Exit Sub
                 End If
-                '----------------------------------------------------
                 ' GET SOURCE DATA
-                '----------------------------------------------------
                 Using cmdSoft As New OleDbCommand("SELECT * FROM [" & actualTableName & "]", conSoft)
                     Using da As New OleDbDataAdapter(cmdSoft)
                         da.Fill(dt)
                     End Using
                 End Using
             End Using
-            '========================================================
             ' CHECK DATA
-            '========================================================
             If dt.Columns.Count = 0 Then
                 MsgBox("Do Not Find Any column in Table!")
                 Exit Sub
             End If
-            '========================================================
             ' DESTINATION SQLDB.MDB
-            '========================================================
             Using conSQLDB As New OleDbConnection(SQLDBConnectionString)
                 conSQLDB.Open()
-                '====================================================
                 ' CHECK DESTINATION TABLE
-                '====================================================
                 Dim destinationTables As DataTable = conSQLDB.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, New Object() {Nothing, Nothing, Nothing, "TABLE"})
                 Dim targetTableExists As Boolean = False
                 For Each row As DataRow In destinationTables.Rows
@@ -3286,10 +3295,8 @@ Public Class MainFrmDesigner
                         Exit For
                     End If
                 Next
-                '====================================================
                 ' IF TABLE DOES NOT EXIST
                 ' CREATE TABLE
-                '====================================================
                 If Not targetTableExists Then
                     Dim createSQL As New StringBuilder
                     createSQL.Append("CREATE TABLE [" & tableName & "] (")
@@ -3301,25 +3308,17 @@ Public Class MainFrmDesigner
                         End If
                     Next
                     createSQL.Append(")")
-                    '------------------------------------------------
                     ' EXECUTE CREATE TABLE
-                    '------------------------------------------------
                     Using createCmd As New OleDbCommand(createSQL.ToString(), conSQLDB)
                         createCmd.ExecuteNonQuery()
                     End Using
                 Else
-                    '================================================
                     ' TABLE ALREADY EXISTS
-                    '
                     ' DO NOT DROP TABLE
                     ' DO NOT DELETE OLD DATA
-                    '
                     ' ONLY ADD NEW COLUMNS
-                    '================================================
                     Dim existingColumns As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-                    '------------------------------------------------
                     ' GET EXISTING COLUMNS
-                    '------------------------------------------------
                     Dim columnSchema As DataTable = conSQLDB.GetOleDbSchemaTable(OleDbSchemaGuid.Columns, New Object() {Nothing, Nothing, tableName, Nothing})
                     For Each columnRow As DataRow In columnSchema.Rows
                         Dim existingColumnName As String = columnRow("COLUMN_NAME").ToString().Trim()
@@ -3327,19 +3326,13 @@ Public Class MainFrmDesigner
                             existingColumns.Add(existingColumnName)
                         End If
                     Next
-                    '------------------------------------------------
                     ' CHECK SOFT.DLL COLUMNS
-                    '------------------------------------------------
                     For Each col As DataColumn In dt.Columns
                         Dim columnName As String = col.ColumnName.Trim()
-                        '--------------------------------------------
                         ' NEW COLUMN FOUND
-                        '--------------------------------------------
                         If Not existingColumns.Contains(columnName) Then
                             Dim alterSQL As String = "ALTER TABLE [" & tableName.Replace("]", "]]") & "] ADD COLUMN [" & columnName.Replace("]", "]]") & "] " & GetAccessDataType(col.DataType)
-                            '--------------------------------------------
                             ' ADD NEW COLUMN
-                            '--------------------------------------------
                             Using alterCmd As New OleDbCommand(alterSQL, conSQLDB)
                                 alterCmd.ExecuteNonQuery()
                             End Using
@@ -3347,9 +3340,7 @@ Public Class MainFrmDesigner
                         End If
                     Next
                 End If
-                '====================================================
                 ' FIND ROWID COLUMN
-                '====================================================
                 Dim rowIDColumnExists As Boolean = False
                 Dim rowIDColumnName As String = ""
                 For Each col As DataColumn In dt.Columns
@@ -3359,34 +3350,22 @@ Public Class MainFrmDesigner
                         Exit For
                     End If
                 Next
-                '====================================================
                 ' INSERT / UPDATE DATA
-                '====================================================
                 If dt.Rows.Count > 0 Then
-                    '================================================
                     ' ROWID EXISTS
-                    '================================================
                     If rowIDColumnExists Then
-                        '================================================
                         ' PROCESS EACH SOFT.DLL ROW
-                        '================================================
                         For Each dr As DataRow In dt.Rows
-                            '------------------------------------------------
                             ' ROWID NULL
-                            '------------------------------------------------
                             If dr.IsNull(dt.Columns(rowIDColumnName).Ordinal) Then
                                 Continue For
                             End If
-                            '------------------------------------------------
                             ' CURRENT ROWID
-                            '------------------------------------------------
                             Dim currentROWID As String = dr(rowIDColumnName).ToString().Trim()
                             If currentROWID = "" Then
                                 Continue For
                             End If
-                            '================================================
                             ' CHECK ROWID IN SQLDB
-                            '================================================
                             Dim rowIDExists As Boolean = False
                             Dim checkROWIDSQL As String = "SELECT COUNT(*) FROM [" & tableName.Replace("]", "]]") & "] WHERE [" & rowIDColumnName.Replace("]", "]]") & "] = ?"
                             Using checkROWIDCmd As New OleDbCommand(checkROWIDSQL, conSQLDB)
@@ -3399,18 +3378,14 @@ Public Class MainFrmDesigner
                                     End If
                                 End If
                             End Using
-                            '================================================
                             ' EXISTING ROWID -> UPDATE
-                            '================================================
                             If rowIDExists Then
                                 Dim updateSQL As New StringBuilder
                                 updateSQL.Append("UPDATE [" & tableName.Replace("]", "]]") & "] SET ")
                                 Dim updateColumnCount As Integer = 0
                                 For i As Integer = 0 To dt.Columns.Count - 1
                                     Dim col As DataColumn = dt.Columns(i)
-                                    '----------------------------------------
                                     ' ROWID ko UPDATE nahi karna
-                                    '----------------------------------------
                                     If String.Equals(col.ColumnName.Trim(), rowIDColumnName.Trim(), StringComparison.OrdinalIgnoreCase) Then
                                         Continue For
                                     End If
@@ -3420,14 +3395,10 @@ Public Class MainFrmDesigner
                                     updateSQL.Append("[" & col.ColumnName.Replace("]", "]]") & "] = ?")
                                     updateColumnCount += 1
                                 Next
-                                '--------------------------------------------
                                 ' WHERE ROWID
-                                '--------------------------------------------
                                 updateSQL.Append(" WHERE [" & rowIDColumnName.Replace("]", "]]") & "] = ?")
                                 Using updateCmd As New OleDbCommand(updateSQL.ToString(), conSQLDB)
-                                    '----------------------------------------
                                     ' CREATE UPDATE PARAMETERS
-                                    '----------------------------------------
                                     For i As Integer = 0 To dt.Columns.Count - 1
                                         Dim col As DataColumn = dt.Columns(i)
                                         If String.Equals(col.ColumnName.Trim(), rowIDColumnName.Trim(), StringComparison.OrdinalIgnoreCase) Then
@@ -3435,13 +3406,9 @@ Public Class MainFrmDesigner
                                         End If
                                         updateCmd.Parameters.Add("P" & i, GetOleDbType(col.DataType))
                                     Next
-                                    '----------------------------------------
                                     ' ROWID PARAMETER
-                                    '----------------------------------------
                                     updateCmd.Parameters.Add("PROWID", GetOleDbType(dt.Columns(rowIDColumnName).DataType))
-                                    '----------------------------------------
                                     ' SET UPDATE VALUES
-                                    '----------------------------------------
                                     For i As Integer = 0 To dt.Columns.Count - 1
                                         Dim col As DataColumn = dt.Columns(i)
                                         If String.Equals(col.ColumnName.Trim(), rowIDColumnName.Trim(), StringComparison.OrdinalIgnoreCase) Then
@@ -3453,19 +3420,13 @@ Public Class MainFrmDesigner
                                             updateCmd.Parameters("P" & i).Value = dr(i)
                                         End If
                                     Next
-                                    '----------------------------------------
                                     ' ROWID VALUE
-                                    '----------------------------------------
                                     updateCmd.Parameters("PROWID").Value = dr(rowIDColumnName)
-                                    '----------------------------------------
                                     ' EXECUTE UPDATE
-                                    '----------------------------------------
                                     updateCmd.ExecuteNonQuery()
                                 End Using
                             Else
-                                '================================================
                                 ' NEW ROWID -> INSERT
-                                '================================================
                                 Dim columnNames As New StringBuilder
                                 Dim parameterNames As New StringBuilder
                                 For i As Integer = 0 To dt.Columns.Count - 1
@@ -3478,15 +3439,11 @@ Public Class MainFrmDesigner
                                 Next
                                 Dim insertSQL As String = "INSERT INTO [" & tableName.Replace("]", "]]") & "] (" & columnNames.ToString() & ") VALUES (" & parameterNames.ToString() & ")"
                                 Using insertCmd As New OleDbCommand(insertSQL, conSQLDB)
-                                    '----------------------------------------
                                     ' CREATE PARAMETERS
-                                    '----------------------------------------
                                     For i As Integer = 0 To dt.Columns.Count - 1
                                         insertCmd.Parameters.Add("P" & i, GetOleDbType(dt.Columns(i).DataType))
                                     Next
-                                    '----------------------------------------
                                     ' SET INSERT VALUES
-                                    '----------------------------------------
                                     For i As Integer = 0 To dt.Columns.Count - 1
                                         If dr.IsNull(i) Then
                                             insertCmd.Parameters(i).Value = DBNull.Value
@@ -3494,18 +3451,14 @@ Public Class MainFrmDesigner
                                             insertCmd.Parameters(i).Value = dr(i)
                                         End If
                                     Next
-                                    '----------------------------------------
                                     ' EXECUTE INSERT
-                                    '----------------------------------------
                                     insertCmd.ExecuteNonQuery()
                                 End Using
                             End If
                         Next
                     Else
-                        '================================================
                         ' ROWID COLUMN DOES NOT EXIST
                         ' NORMAL INSERT
-                        '================================================
                         Dim columnNames As New StringBuilder
                         Dim parameterNames As New StringBuilder
                         For i As Integer = 0 To dt.Columns.Count - 1
@@ -3518,15 +3471,11 @@ Public Class MainFrmDesigner
                         Next
                         Dim insertSQL As String = "INSERT INTO [" & tableName.Replace("]", "]]") & "] (" & columnNames.ToString() & ") VALUES (" & parameterNames.ToString() & ")"
                         Using insertCmd As New OleDbCommand(insertSQL, conSQLDB)
-                            '--------------------------------------------
                             ' CREATE PARAMETERS
-                            '--------------------------------------------
                             For i As Integer = 0 To dt.Columns.Count - 1
                                 insertCmd.Parameters.Add("P" & i, GetOleDbType(dt.Columns(i).DataType))
                             Next
-                            '--------------------------------------------
                             ' INSERT EACH ROW
-                            '--------------------------------------------
                             For Each dr As DataRow In dt.Rows
                                 For i As Integer = 0 To dt.Columns.Count - 1
                                     If dr.IsNull(i) Then
@@ -3540,9 +3489,7 @@ Public Class MainFrmDesigner
                         End Using
                     End If
                 End If
-                '====================================================
                 ' SUCCESS
-                '====================================================
                 MsgBox("Table Migration Successfully Completed!")
             End Using
         Catch ex As Exception
