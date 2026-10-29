@@ -42,6 +42,8 @@ Partial Class MainFormRead
         Me.btnmovecontrol = New DevExpress.XtraEditors.SimpleButton()
         Me.BtnUpdatepos = New DevExpress.XtraEditors.SimpleButton()
         Me.PropertyGrid1 = New System.Windows.Forms.PropertyGrid()
+        Me.SBImgView = New DevExpress.XtraEditors.SimpleButton()
+        Me.SBimgadd = New DevExpress.XtraEditors.SimpleButton()
         Me.PnlGrdView.SuspendLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -328,12 +330,40 @@ Partial Class MainFormRead
         Me.PropertyGrid1.Size = New System.Drawing.Size(298, 525)
         Me.PropertyGrid1.TabIndex = 81935
         '
+        'SBImgView
+        '
+        Me.SBImgView.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SBImgView.Appearance.Options.UseFont = True
+        Me.SBImgView.Enabled = False
+        Me.SBImgView.ImageOptions.Image = CType(resources.GetObject("SBImgView.ImageOptions.Image"), System.Drawing.Image)
+        Me.SBImgView.Location = New System.Drawing.Point(483, 35)
+        Me.SBImgView.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.SBImgView.Name = "SBImgView"
+        Me.SBImgView.Size = New System.Drawing.Size(24, 22)
+        Me.SBImgView.TabIndex = 81942
+        Me.SBImgView.Visible = False
+        '
+        'SBimgadd
+        '
+        Me.SBimgadd.Appearance.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SBimgadd.Appearance.Options.UseFont = True
+        Me.SBimgadd.Enabled = False
+        Me.SBimgadd.ImageOptions.Image = CType(resources.GetObject("SBimgadd.ImageOptions.Image"), System.Drawing.Image)
+        Me.SBimgadd.Location = New System.Drawing.Point(450, 35)
+        Me.SBimgadd.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.SBimgadd.Name = "SBimgadd"
+        Me.SBimgadd.Size = New System.Drawing.Size(25, 22)
+        Me.SBimgadd.TabIndex = 81941
+        Me.SBimgadd.Visible = False
+        '
         'MainFormRead
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
         Me.ClientSize = New System.Drawing.Size(1104, 621)
+        Me.Controls.Add(Me.SBImgView)
+        Me.Controls.Add(Me.SBimgadd)
         Me.Controls.Add(Me.PanlPropartiesWindow)
         Me.Controls.Add(Me.PnlGrdView)
         Me.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold)
@@ -342,7 +372,7 @@ Partial Class MainFormRead
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "MainFormRead"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Main Form Read"
+        Me.Text = "Entry Form"
         Me.PnlGrdView.ResumeLayout(False)
         Me.PnlGrdView.PerformLayout()
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -373,4 +403,6 @@ Partial Class MainFormRead
     Friend WithEvents btnmovecontrol As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents BtnUpdatepos As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents PropertyGrid1 As PropertyGrid
+    Friend WithEvents SBImgView As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents SBimgadd As DevExpress.XtraEditors.SimpleButton
 End Class

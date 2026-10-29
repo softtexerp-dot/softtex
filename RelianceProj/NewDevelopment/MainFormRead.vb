@@ -730,7 +730,10 @@ Public Class MainFormRead
             .Append(leftJoin.ToString())
             .Append(" WHERE 1=1 ")
             .Append(" AND A.BOOKCODE='" & _Bookcode.Replace("'", "''") & "' ")
-            .Append(" AND A.EntryNo=" & EntryNo)
+            If _FORMMODE = "VIEW" Then
+            Else
+                .Append(" AND A.EntryNo=" & EntryNo)
+            End If
             .Append(" ORDER BY A.EntryNo DESC")
         End With
         Return _strQuery.ToString()
@@ -813,6 +816,9 @@ Public Class MainFormRead
             For Each tableGroup In controlRows.GroupBy(Function(r) r("DataBaseTable").ToString().Trim())
                 Dim tableName As String = tableGroup.Key
                 If String.IsNullOrWhiteSpace(tableName) Then Continue For
+                'Grid mein bhi same table hai to alag Control INSERT nahi karna
+                Dim gridTableExists As Boolean = _MainColumTbl.AsEnumerable().Any(    Function(r) r("ColumnType").ToString().Trim().Equals("Grid", StringComparison.OrdinalIgnoreCase) AndAlso                r("FormDesignType").ToString().Trim().Equals("GRID DETAIL DESIGN", StringComparison.OrdinalIgnoreCase) AndAlso                r("DataBaseTable").ToString().Trim().Equals(tableName, StringComparison.OrdinalIgnoreCase))
+                If gridTableExists Then Continue For
                 Dim fields As New StringBuilder()
                 Dim values As New StringBuilder()
                 For Each dr As DataRow In tableGroup
@@ -865,6 +871,41 @@ Public Class MainFormRead
                 If tableName = "" Then Continue For
                 _TableName = tableName
                 Dim SaveGridDt As DataTable = gridDt.Copy()
+                '========== SAME TABLE TEXTBOX VALUES MERGE ==========
+                Dim headerRows() As DataRow = _MainColumTbl.Select("(ColumnType='TextBox' OR ColumnType='CheckBox') AND " & "DataBaseTable='" & tableName.Replace("'", "''") & "' AND " & "DataBaseColumn IS NOT NULL AND DataBaseColumn<>''", "OrderNo")
+                For Each dr As DataRow In headerRows
+                    Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
+                    Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                    'If columnName.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) Then
+                    '    Continue For
+                    'End If
+                    Dim saveColumn As String = columnName
+                    Dim saveValue As String = ""
+                    If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse dr("SaveYN").ToString().Trim().Equals("N", StringComparison.OrdinalIgnoreCase) Then
+                        Dim oppMasterCode As String = dr("OppMasterCode").ToString().Trim()
+                        If String.IsNullOrWhiteSpace(oppMasterCode) Then Continue For
+                        Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
+                        If existingItem Is Nothing OrElse existingItem.Item3 Is Nothing Then Continue For
+                        saveColumn = oppMasterCode
+                        saveValue = existingItem.Item3.ToString().Trim()
+                    Else
+                        Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
+                        If ctrl Is Nothing Then Continue For
+                        saveValue = GetControlValue(ctrl, dr("INPUTTYPE").ToString().Trim())
+                    End If
+                    'Column pehle se hai to uski value update karein
+                    If SaveGridDt.Columns.Contains(saveColumn) Then
+                        For Each saveRow As DataRow In SaveGridDt.Rows
+                            saveRow(saveColumn) = saveValue
+                        Next
+                    Else
+                        'Column nahi hai to add karke sabhi rows mein value set karein
+                        SaveGridDt.Columns.Add(saveColumn, GetType(String))
+                        For Each saveRow As DataRow In SaveGridDt.Rows
+                            saveRow(saveColumn) = saveValue
+                        Next
+                    End If
+                Next
                 Dim currentMandatoryCol As String = ""
                 For Each dr As DataRow In gridRows
                     Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
@@ -1630,9 +1671,8 @@ Public Class MainFormRead
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim formtype As String = dr("FormType").ToString().Trim()
                 If formtype = "ENTRY FORM" Then
-                    If _FORMMODE = "EDIT" OrElse
-                       _FORMMODE = "DELETE" OrElse
-                       _FORMMODE = "VIEW" Then
+                    If _FORMMODE = "EDIT" OrElse _FORMMODE = "DELETE" Then
+                        'OrElse                       _FORMMODE = "VIEW" Then
                         EntryNo = _GetMaxEntryNo()
                     End If
                 End If
@@ -2141,17 +2181,21 @@ Public Class MainFormRead
             Dim Tbltmp As DataTable
             Dim _strquery As New StringBuilder
             Dim ControlName As String = ""
-            If Not String.IsNullOrWhiteSpace(txtEntryno) Then
-                ControlName = txtEntryno.Trim()
+            Dim controlTableRows() As DataRow = _MainColumTbl.Select("DataBaseColumn = 'ENTRYNO' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable <> ''")
+            If controlTableRows.Length > 0 Then
+                ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
+            Else
+                ControlName = ""
             End If
             If ControlName <> "" Then
-                Dim controlTableRows() As DataRow = _MainColumTbl.Select("CntrlName='" & ControlName.Replace("'", "''") & "' AND " & "DataBaseTable IS NOT NULL AND " & "DataBaseTable<>''")
+                controlTableRows = _MainColumTbl.Select("CntrlName='" & ControlName.Replace("'", "''") & "' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable<>''")
                 If controlTableRows.Length > 0 Then
                     _TblName = controlTableRows(0)("DataBaseTable").ToString().Trim()
                 Else
                     _TblName = ""
                 End If
-            Else _TblName = ""
+            Else
+                _TblName = ""
             End If
             If String.IsNullOrWhiteSpace(_TblName) Then
                 Return 0
@@ -2384,23 +2428,23 @@ Public Class MainFormRead
                     If tblTmp.Rows.Count > 0 Then
                         If _DataTableGrid1 IsNot Nothing AndAlso _DataTableGrid1.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid1, tblTmp)
-                            grd.Visible = True
+
                         End If
                         If _DataTableGrid2 IsNot Nothing AndAlso _DataTableGrid2.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid2, tblTmp)
-                            grd.Visible = True
+
                         End If
                         If _DataTableGrid3 IsNot Nothing AndAlso _DataTableGrid3.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid3, tblTmp)
-                            grd.Visible = True
+
                         End If
                         If _DataTableGrid4 IsNot Nothing AndAlso _DataTableGrid4.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid4, tblTmp)
-                            grd.Visible = True
+
                         End If
                         If _DataTableGrid5 IsNot Nothing AndAlso _DataTableGrid5.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid5, tblTmp)
-                            grd.Visible = True
+
                         End If
                     Else
                         MsgBox("Record Not Found")
