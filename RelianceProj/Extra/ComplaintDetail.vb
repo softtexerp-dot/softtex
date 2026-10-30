@@ -25,30 +25,24 @@ Public Class ComplaintDetail
         ApplyGridStyle()
     End Sub
     Public Async Function LoadComplaints(filterStatus As String) As Task
-
-        Dim apiUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/Complaints"
-
+        Dim GStNo As String = COMPANY_TBL.Rows(0).Item("GstNo")
+        'Dim GStNo As String = "08GURUGST123456"
+        'Dim apiUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/Complaints"
+        Dim apiUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/CustomerComplaints?gstNo=" & GStNo & ""
         Try
             Using client As New HttpClient()
-
                 client.DefaultRequestHeaders.Accept.Clear()
                 client.DefaultRequestHeaders.Accept.Add(
                 New Headers.MediaTypeWithQualityHeaderValue("*/*"))
-
                 Dim response As HttpResponseMessage = Await client.GetAsync(apiUrl)
-
                 If Not response.IsSuccessStatusCode Then
                     MessageBox.Show("Failed to fetch data")
                     Exit Function
                 End If
-
                 Dim jsonString As String = Await response.Content.ReadAsStringAsync()
-
                 Dim jsonObj As JObject = JObject.Parse(jsonString)
                 Dim dataArray As JArray = CType(jsonObj("Data"), JArray)
-
                 Dim dt As New DataTable()
-
                 ' 🔹 Columns (Grid me dikhane wale)
                 dt.Columns.Add("TkNo", GetType(Integer))
                 dt.Columns.Add("PartyName", GetType(String))
@@ -67,10 +61,10 @@ Public Class ComplaintDetail
                 dt.Columns.Add("Priority", GetType(Boolean))
                 dt.Columns.Add("Complaint", GetType(String))
                 dt.Columns.Add("ViewImage", GetType(String))
+                dt.Columns.Add("Transfer", GetType(String))
                 dt.Columns.Add("ApiImagePath", GetType(String))
                 For Each item As JObject In dataArray
                     Dim row As DataRow = dt.NewRow()
-
                     row("TkNo") = item("Id")
                     row("PartyName") = item("PartyName")?.ToString()
                     row("Message") = item("ErrorMassge")?.ToString()
@@ -80,12 +74,14 @@ Public Class ComplaintDetail
                     row("SolveRemark") = item("CompleteInforme")?.ToString()
                     row("SolvedBy") = item("SolvedBy")?.ToString()
                     row("GstNo") = item("GstNo")?.ToString()
+                    'row("DbName") = item("DbName")?.ToString()
                     row("SenderName") = item("SenderName")?.ToString()
                     row("SenderMobileNo") = item("SenderMobileNo")?.ToString()
                     row("Priority") = If(item("Priority") IsNot Nothing, CBool(item("Priority")), False)
                     'row("ViewImage") = item("ErrorImage")?.ToString()
 
                     row("ViewImage") = "View"     ' view button code
+                    row("Transfer") = If(item("TransferredData") IsNot Nothing, item("TransferredData").ToString(Newtonsoft.Json.Formatting.None), "[]")
                     row("ApiImagePath") = item("ErrorImage")   ' e.g. /Uploads/Complaints/xxx.png
                     ' Date handling
                     Dim compDate As DateTime
@@ -105,19 +101,15 @@ Public Class ComplaintDetail
 
                     If transferred IsNot Nothing AndAlso transferred.Type = JTokenType.Array AndAlso transferred.HasValues Then
                         Dim transfers As New List(Of String)
-
                         For Each t As JToken In transferred
                             transfers.Add($"{t("TransferredFrom")} → {t("TransferredTo")} ({t("Remark")}) [{t("TransferDate")}]")
                         Next
-
                         row("Complaint") = String.Join(Environment.NewLine, transfers)
-
                     Else
                         row("Complaint") = String.Empty   ' blank if empty array
                     End If
                     dt.Rows.Add(row)
                 Next
-
                 ' 🔹 Bind to GridControl
                 gridControl1.DataSource = dt
                 If dt IsNot Nothing AndAlso dt.Columns.Contains("TkNo") Then
@@ -126,44 +118,34 @@ Public Class ComplaintDetail
                     dt = dv.ToTable()
                 End If
                 If gridControl1.DataSource IsNot Nothing Then
-
                     dt = TryCast(gridControl1.DataSource, DataTable)
-
                     If dt Is Nothing Then
                         Exit Function
                     End If
-
                     Dim selectedStatus As String = ComboBox1.Text   ' SAFE
-
                     Select Case selectedStatus
                         Case "Pending", "OK", "Running", "Cancel", "Hold"
                             dt.DefaultView.RowFilter = $"Status = '{selectedStatus}'"
                         Case Else
                             dt.DefaultView.RowFilter = ""   ' Show all
                     End Select
-
                 End If
-
                 gridView1.Columns("ComplaintDate").DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime
                 gridView1.Columns("ComplaintDate").DisplayFormat.FormatString = "dd-MM-yyyy hh:mm tt"
                 gridView1.Columns("SolveDate").DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime
                 gridView1.Columns("SolveDate").DisplayFormat.FormatString = "dd-MM-yyyy hh:mm tt"
-
-
                 gridView1.BestFitColumns()
-
                 columnvisible()
                 columnWidth()
                 '🔹 View Button Repository (ONLY ONCE)
                 viewbutton()
+                TransferButton()
             End Using
-
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
-
     End Function
-
+#Region "View Button"
     Private Sub viewbutton()
         Dim repoButtonView As New DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit()
         repoButtonView.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
@@ -185,20 +167,18 @@ Public Class ComplaintDetail
             gridView1.Columns("ViewImage").OptionsColumn.AllowEdit = True
         End If
 
-        AddHandler gridView1.RowCellStyle,
-Sub(s, e)
-    If e.Column.FieldName <> "ViewImage" Then Exit Sub
+        AddHandler gridView1.RowCellStyle, Sub(s, e)
+                                               If e.Column.FieldName <> "ViewImage" Then Exit Sub
 
-    Dim gv As GridView = CType(s, GridView)
-    Dim apiPath As String =
-Convert.ToString(gv.GetRowCellValue(e.RowHandle, "ApiImagePath"))
+                                               Dim gv As GridView = CType(s, GridView)
+                                               Dim apiPath As String = Convert.ToString(gv.GetRowCellValue(e.RowHandle, "ApiImagePath"))
 
-    If Not String.IsNullOrWhiteSpace(apiPath) Then
-        e.Appearance.BackColor = Color.LightGreen
-    Else
-        e.Appearance.BackColor = Color.White
-    End If
-End Sub
+                                               If Not String.IsNullOrWhiteSpace(apiPath) Then
+                                                   e.Appearance.BackColor = Color.LightGreen
+                                               Else
+                                                   e.Appearance.BackColor = Color.White
+                                               End If
+                                           End Sub
 
         AddHandler repoButtonView.ButtonClick,
 Async Sub(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs)
@@ -207,21 +187,13 @@ Async Sub(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEv
     'Dim gv As GridView = CType(gridView1, GridView)
     Dim rowHandle As Integer = gv.FocusedRowHandle
     If rowHandle < 0 Then Exit Sub
-
-    Dim imagePath As String =
-Convert.ToString(gv.GetRowCellValue(rowHandle, "ApiImagePath"))
-
+    Dim imagePath As String = Convert.ToString(gv.GetRowCellValue(rowHandle, "ApiImagePath"))
     If String.IsNullOrWhiteSpace(imagePath) Then
         MessageBox.Show("⚠ No image available.")
         Exit Sub
     End If
-
     Dim baseUrl As String = "http://softtexcomplaintapi.softtexerp.com/"
-    Dim validUrl As String =
-If(imagePath.StartsWith("http", StringComparison.OrdinalIgnoreCase),
-   imagePath,
-   baseUrl & imagePath.TrimStart("/"c))
-
+    Dim validUrl As String = If(imagePath.StartsWith("http", StringComparison.OrdinalIgnoreCase), imagePath, baseUrl & imagePath.TrimStart("/"c))
     Using httpclient As New HttpClient()
         Dim bytes = Await httpclient.GetByteArrayAsync(validUrl)
         Using ms As New MemoryStream(bytes)
@@ -231,39 +203,147 @@ If(imagePath.StartsWith("http", StringComparison.OrdinalIgnoreCase),
 End Sub
     End Sub
     Private Sub ShowZoomImage(img As Image)
-
+        If img Is Nothing Then Exit Sub
         Dim frm As New Form With {
-        .Text = "Complaint Image",
-         .StartPosition = FormStartPosition.CenterScreen,
-    .Size = New Size(900, 600),   ' 👈 Width, Height
-    .FormBorderStyle = FormBorderStyle.FixedDialog,
-    .MaximizeBox = False,
-    .MinimizeBox = False
+        .Text = "Complaint Receipt",
+        .StartPosition = FormStartPosition.CenterScreen,
+        .Size = New Size(1000, 700),
+        .FormBorderStyle = FormBorderStyle.Sizable,
+        .MaximizeBox = True,
+        .MinimizeBox = False,
+        .KeyPreview = True
     }
-
-        Dim pic As New PictureBox With {
-        .Image = img,
-        .Dock = DockStyle.Fill,
-        .SizeMode = PictureBoxSizeMode.Zoom
-    }
-
-        Dim panel As New Panel With {
-        .Dock = DockStyle.Fill,
-        .AutoScroll = True
-    }
-
-        panel.Controls.Add(pic)
-
-        frm.Controls.Add(panel)
-        frm.KeyPreview = True
+        Dim pic As New PictureBox With {.Image = img, .Dock = DockStyle.Fill, .SizeMode = PictureBoxSizeMode.Zoom, .BackColor = Color.Black}
+        frm.Controls.Add(pic)
         AddHandler frm.KeyDown, Sub(s, e)
                                     If e.KeyCode = Keys.Escape Then
                                         frm.Close()
                                     End If
                                 End Sub
         frm.ShowDialog()
-
     End Sub
+    'Private Sub ShowZoomImage(img As Image)
+
+    '    Dim frm As New Form With {
+    '    .Text = "Complaint Image",
+    '     .StartPosition = FormStartPosition.CenterScreen,
+    '.Size = New Size(900, 600),   ' 👈 Width, Height
+    '.FormBorderStyle = FormBorderStyle.FixedDialog,
+    '.MaximizeBox = False,
+    '.MinimizeBox = False
+    '}
+
+    '    Dim pic As New PictureBox With {
+    '    .Image = img,
+    '    .Dock = DockStyle.Fill,
+    '    .SizeMode = PictureBoxSizeMode.Zoom
+    '}
+
+    '    Dim panel As New Panel With {
+    '    .Dock = DockStyle.Fill,
+    '    .AutoScroll = True
+    '}
+
+    '    panel.Controls.Add(pic)
+
+    '    frm.Controls.Add(panel)
+    '    frm.KeyPreview = True
+    '    AddHandler frm.KeyDown, Sub(s, e)
+    '                                If e.KeyCode = Keys.Escape Then
+    '                                    frm.Close()
+    '                                End If
+    '                            End Sub
+    '    frm.ShowDialog()
+
+    'End Sub
+#End Region
+#Region "Transfer Complaint"
+    Private Sub TransferButton()
+        If gridView1.Columns.ColumnByFieldName("Transfer") Is Nothing Then
+            Exit Sub
+        End If
+        Dim repoTransfer As New DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit()
+        repoTransfer.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor
+        repoTransfer.Buttons.Clear()
+        Dim btn As New DevExpress.XtraEditors.Controls.EditorButton(
+        DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph)
+        btn.Caption = "Transfer"
+        repoTransfer.Buttons.Add(btn)
+        gridControl1.RepositoryItems.Add(repoTransfer)
+        With gridView1.Columns("Transfer")
+            .ColumnEdit = repoTransfer
+            .Visible = True
+            .Width = 90
+        End With
+        AddHandler repoTransfer.ButtonClick, AddressOf TransferButton_Click
+    End Sub
+    Private Sub TransferButton_Click(sender As Object, e As DevExpress.XtraEditors.Controls.ButtonPressedEventArgs)
+        Dim rowHandle As Integer = gridView1.FocusedRowHandle
+        If rowHandle < 0 Then Exit Sub
+        Dim complaintId As Integer = Convert.ToInt32(gridView1.GetRowCellValue(rowHandle, "TkNo"))
+        Dim status As String = Convert.ToString(gridView1.GetRowCellValue(rowHandle, "Status"))
+        If status.Equals("Solved", StringComparison.OrdinalIgnoreCase) Then
+            MessageBox.Show("Solved complaint cannot be transferred.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        ' Transfer column se JSON read karein
+        Dim transferJson As String = Convert.ToString(gridView1.GetRowCellValue(rowHandle, "Transfer"))
+        If String.IsNullOrWhiteSpace(transferJson) OrElse transferJson = "[]" Then
+            MessageBox.Show("No transfer history available.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        Dim transferArray As JArray
+        Try
+            transferArray = JArray.Parse(transferJson)
+        Catch ex As Exception
+            MessageBox.Show("Invalid transfer history data.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End Try
+        If transferArray.Count = 0 Then
+            MessageBox.Show("No transfer history available.", "Soft-Tex PRO", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
+        End If
+        ' Transfer history DataTable
+        Dim transferList As New DataTable()
+        transferList.Columns.Add("TransferredFrom", GetType(String))
+        transferList.Columns.Add("TransferredTo", GetType(String))
+        transferList.Columns.Add("Remark", GetType(String))
+        transferList.Columns.Add("TransferDate", GetType(String))
+        For Each t As JObject In transferArray
+            Dim dr As DataRow = transferList.NewRow()
+            dr("TransferredFrom") = If(t("TransferredFrom") IsNot Nothing, t("TransferredFrom").ToString(), "")
+            dr("TransferredTo") = If(t("TransferredTo") IsNot Nothing, t("TransferredTo").ToString(), "")
+            dr("Remark") = If(t("Remark") IsNot Nothing, t("Remark").ToString(), "")
+            Dim transferDate As DateTime
+            If DateTime.TryParse(If(t("TransferDate") IsNot Nothing, t("TransferDate").ToString(), ""), transferDate) Then
+                dr("TransferDate") = transferDate.ToString("dd-MM-yyyy hh:mm tt")
+            Else
+                dr("TransferDate") = ""
+            End If
+            transferList.Rows.Add(dr)
+        Next
+        ' Popup Form
+        Dim popup As New DevExpress.XtraEditors.XtraForm()
+        popup.Text = "Transfer History - Complaint No: " & complaintId.ToString()
+        popup.StartPosition = FormStartPosition.CenterScreen
+        popup.Size = New Size(850, 400)
+        popup.MinimizeBox = False
+        popup.MaximizeBox = True
+        Dim gc As New DevExpress.XtraGrid.GridControl()
+        Dim gv As New DevExpress.XtraGrid.Views.Grid.GridView()
+        gc.Dock = DockStyle.Fill
+        gc.MainView = gv
+        gc.ViewCollection.Add(gv)
+        gc.DataSource = transferList
+        gv.OptionsBehavior.Editable = False
+        gv.OptionsView.ShowGroupPanel = False
+        gv.OptionsView.ColumnAutoWidth = False
+        gv.OptionsView.ShowAutoFilterRow = True
+        gv.BestFitColumns()
+        popup.Controls.Add(gc)
+        popup.ShowDialog(Me)
+    End Sub
+#End Region
     Private Sub columnvisible()
         gridView1.Columns("PartyName").Width = 150
         gridView1.Columns("Message").Width = 450
@@ -428,6 +508,7 @@ End Sub
         complaint.txtFilePath.Text = Convert.ToString(view.GetFocusedRowCellValue("ApiImagePath"))
         complaint.Txtsendername.Text = Convert.ToString(view.GetFocusedRowCellValue("SenderName"))
         complaint.Txtmobileno.Text = Convert.ToString(view.GetFocusedRowCellValue("SenderMobileNo"))
+        complaint.RadioButton1.Checked = Convert.ToString(view.GetFocusedRowCellValue("Priority"))
         complaint.btnSave.Text = "Update"
         complaint.btnSave.Width = 86
     End Sub

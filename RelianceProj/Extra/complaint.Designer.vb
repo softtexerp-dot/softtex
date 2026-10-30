@@ -38,6 +38,12 @@ Partial Class complaint
         Me.Txtsendername = New System.Windows.Forms.TextBox()
         Me.Txtmobileno = New System.Windows.Forms.TextBox()
         Me.Lblsendername = New System.Windows.Forms.Label()
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Label1
@@ -47,9 +53,9 @@ Partial Class complaint
         Me.Label1.Location = New System.Drawing.Point(16, 74)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(75, 13)
+        Me.Label1.Size = New System.Drawing.Size(63, 13)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Message : "
+        Me.Label1.Text = "Message"
         '
         'Label2
         '
@@ -58,9 +64,9 @@ Partial Class complaint
         Me.Label2.Location = New System.Drawing.Point(16, 11)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(120, 13)
+        Me.Label2.Size = New System.Drawing.Size(108, 13)
         Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Company Name : "
+        Me.Label2.Text = "Company Name"
         '
         'txtCompName
         '
@@ -85,7 +91,7 @@ Partial Class complaint
         '
         Me.txtFilePath.Enabled = False
         Me.txtFilePath.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFilePath.Location = New System.Drawing.Point(141, 220)
+        Me.txtFilePath.Location = New System.Drawing.Point(141, 207)
         Me.txtFilePath.Name = "txtFilePath"
         Me.txtFilePath.Size = New System.Drawing.Size(299, 21)
         Me.txtFilePath.TabIndex = 2
@@ -94,18 +100,18 @@ Partial Class complaint
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(16, 220)
+        Me.Label3.Location = New System.Drawing.Point(16, 209)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(95, 13)
+        Me.Label3.Size = New System.Drawing.Size(87, 13)
         Me.Label3.TabIndex = 7
-        Me.Label3.Text = "Error Image :"
+        Me.Label3.Text = "Error Image"
         '
         'But_ok
         '
         Me.But_ok.Appearance.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.But_ok.Appearance.Options.UseFont = True
         Me.But_ok.ImageOptions.Image = CType(resources.GetObject("But_ok.ImageOptions.Image"), System.Drawing.Image)
-        Me.But_ok.Location = New System.Drawing.Point(535, 217)
+        Me.But_ok.Location = New System.Drawing.Point(535, 202)
         Me.But_ok.Name = "But_ok"
         Me.But_ok.Size = New System.Drawing.Size(77, 32)
         Me.But_ok.TabIndex = 12
@@ -116,7 +122,7 @@ Partial Class complaint
         Me.btnaddfile.Appearance.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnaddfile.Appearance.Options.UseFont = True
         Me.btnaddfile.ImageOptions.Image = CType(resources.GetObject("btnaddfile.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnaddfile.Location = New System.Drawing.Point(443, 217)
+        Me.btnaddfile.Location = New System.Drawing.Point(443, 202)
         Me.btnaddfile.Name = "btnaddfile"
         Me.btnaddfile.Size = New System.Drawing.Size(88, 32)
         Me.btnaddfile.TabIndex = 11
@@ -157,11 +163,11 @@ Partial Class complaint
         '
         Me.Lblmobileno.AutoSize = True
         Me.Lblmobileno.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lblmobileno.Location = New System.Drawing.Point(16, 179)
+        Me.Lblmobileno.Location = New System.Drawing.Point(16, 176)
         Me.Lblmobileno.Name = "Lblmobileno"
-        Me.Lblmobileno.Size = New System.Drawing.Size(78, 13)
+        Me.Lblmobileno.Size = New System.Drawing.Size(70, 13)
         Me.Lblmobileno.TabIndex = 14
-        Me.Lblmobileno.Text = "Mobile No :"
+        Me.Lblmobileno.Text = "Mobile No"
         '
         'Txtsendername
         '
@@ -175,7 +181,7 @@ Partial Class complaint
         'Txtmobileno
         '
         Me.Txtmobileno.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txtmobileno.Location = New System.Drawing.Point(142, 179)
+        Me.Txtmobileno.Location = New System.Drawing.Point(142, 172)
         Me.Txtmobileno.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Txtmobileno.MaxLength = 10
         Me.Txtmobileno.Name = "Txtmobileno"
@@ -188,9 +194,70 @@ Partial Class complaint
         Me.Lblsendername.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lblsendername.Location = New System.Drawing.Point(16, 140)
         Me.Lblsendername.Name = "Lblsendername"
-        Me.Lblsendername.Size = New System.Drawing.Size(102, 13)
+        Me.Lblsendername.Size = New System.Drawing.Size(94, 13)
         Me.Lblsendername.TabIndex = 13
-        Me.Lblsendername.Text = "Sender Name :"
+        Me.Lblsendername.Text = "Sender Name"
+        '
+        'RadioButton1
+        '
+        Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.Location = New System.Drawing.Point(145, 231)
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.Size = New System.Drawing.Size(127, 18)
+        Me.RadioButton1.TabIndex = 4
+        Me.RadioButton1.TabStop = True
+        Me.RadioButton1.Text = "Normal Priority"
+        Me.RadioButton1.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(123, 11)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(12, 14)
+        Me.Label4.TabIndex = 82257
+        Me.Label4.Text = ":"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(123, 83)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(12, 14)
+        Me.Label5.TabIndex = 82258
+        Me.Label5.Text = ":"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(123, 143)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(12, 14)
+        Me.Label6.TabIndex = 82259
+        Me.Label6.Text = ":"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(123, 175)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(12, 14)
+        Me.Label7.TabIndex = 82260
+        Me.Label7.Text = ":"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(123, 209)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(12, 14)
+        Me.Label8.TabIndex = 82261
+        Me.Label8.Text = ":"
         '
         'complaint
         '
@@ -198,6 +265,12 @@ Partial Class complaint
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
         Me.ClientSize = New System.Drawing.Size(621, 288)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.RadioButton1)
         Me.Controls.Add(Me.Txtmobileno)
         Me.Controls.Add(Me.Txtsendername)
         Me.Controls.Add(Me.Lblmobileno)
@@ -239,4 +312,10 @@ Partial Class complaint
     Friend WithEvents Txtsendername As TextBox
     Friend WithEvents Txtmobileno As TextBox
     Friend WithEvents Lblsendername As Label
+    Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label8 As Label
 End Class

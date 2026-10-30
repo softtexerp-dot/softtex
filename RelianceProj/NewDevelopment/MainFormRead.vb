@@ -222,154 +222,6 @@ Public Class MainFormRead
             sql_connect_slect()
             tblTmp = DefaltSoftTable.Copy
             ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
-            'For Each dr As DataRow In _MainColumTbl.Select("IsNull(CntrlId,0) <> 0")
-            '    Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
-            '    Dim ctrlName As String = dr("CntrlName").ToString().Trim()
-            '    Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
-            '    Dim UseMaster As String = dr("UseMaster").ToString().Trim()
-            '    Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
-            '    If ctrl Is Nothing Then Continue For
-            '    Dim currentCtrl As Control = ctrl
-            '    Dim columnType As String = ""
-            '    If dr.Table.Columns.Contains("ColumnType") AndAlso Not IsDBNull(dr("ColumnType")) Then
-            '        columnType = dr("ColumnType").ToString().Trim()
-            '    End If
-            '    Dim dbColumn As String = ""
-            '    If dr.Table.Columns.Contains("DataBaseColumn") AndAlso Not IsDBNull(dr("DataBaseColumn")) Then
-            '        dbColumn = dr("DataBaseColumn").ToString().Trim()
-            '    End If
-            '    If TypeOf currentCtrl Is TextBox Then
-            '        Dim txt As TextBox = DirectCast(currentCtrl, TextBox)
-            '        Dim tagText As String = ""
-            '        If txt.Tag IsNot Nothing Then
-            '            tagText = txt.Tag.ToString().Trim()
-            '        End If
-            '        If tagText.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
-            '            Dim imageColumn As String = ""
-            '            If txt.AccessibleName IsNot Nothing Then
-            '                imageColumn = txt.AccessibleName.ToString().Trim()
-            '            End If
-            '            If String.IsNullOrWhiteSpace(imageColumn) Then
-            '                imageColumn = dbColumn
-            '            End If
-            '            If Not String.IsNullOrWhiteSpace(imageColumn) AndAlso tblTmp.Columns.Contains(imageColumn) Then
-            '                Dim imagePath As String = ""
-            '                If Not IsDBNull(tblTmp.Rows(0)(imageColumn)) Then
-            '                    imagePath = tblTmp.Rows(0)(imageColumn).ToString().Trim()
-            '                End If
-            '                txt.AccessibleDescription = imagePath
-            '                If imagePath <> "" Then
-            '                    txt.Text = IO.Path.GetFileName(imagePath)
-            '                Else
-            '                    txt.Text = ""
-            '                End If
-            '            End If
-            '        Else
-            '            Dim textColumn As String = ""
-            '            If txt.AccessibleDescription IsNot Nothing Then
-            '                textColumn = txt.AccessibleDescription.ToString().Trim()
-            '            End If
-            '            If String.IsNullOrWhiteSpace(textColumn) AndAlso txt.Tag IsNot Nothing Then
-            '                textColumn = txt.Tag.ToString().Trim()
-            '            End If
-            '            If tblTmp Is Nothing OrElse tblTmp.Rows.Count = 0 Then
-            '                'MsgBox("No Record Found")
-            '                Exit Function
-            '            End If
-            '            If Not textColumn.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) AndAlso tblTmp.Columns.Contains(textColumn) Then
-            '                If Not IsDBNull(tblTmp.Rows(0)(textColumn)) Then
-            '                    txt.Text = tblTmp.Rows(0)(textColumn).ToString()
-            '                Else
-            '                    txt.Text = ""
-            '                End If
-            '            End If
-            '        End If
-            '    ElseIf TypeOf currentCtrl Is System.Windows.Forms.CheckBox Then
-            '        Dim chk As System.Windows.Forms.CheckBox = DirectCast(currentCtrl, System.Windows.Forms.CheckBox)
-            '        Dim checkColumn As String = ""
-            '        If chk.Tag IsNot Nothing Then
-            '            checkColumn = chk.Tag.ToString().Trim()
-            '        End If
-            '        If String.IsNullOrWhiteSpace(checkColumn) AndAlso chk.AccessibleDescription IsNot Nothing Then
-            '            checkColumn = chk.AccessibleDescription.ToString().Trim()
-            '        End If
-            '        If Not String.IsNullOrWhiteSpace(checkColumn) AndAlso Not checkColumn.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) AndAlso tblTmp.Columns.Contains(checkColumn) Then
-            '            Dim dbValue As String = ""
-            '            If Not IsDBNull(tblTmp.Rows(0)(checkColumn)) Then
-            '                dbValue = tblTmp.Rows(0)(checkColumn).ToString().Trim()
-            '            End If
-            '            If dbValue.Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse dbValue.Equals("TRUE", StringComparison.OrdinalIgnoreCase) OrElse dbValue = "1" Then
-            '                chk.Checked = True
-            '            Else
-            '                chk.Checked = False
-            '            End If
-            '        End If
-            '    ElseIf TypeOf currentCtrl Is System.Windows.Forms.ComboBox Then
-            '        Dim cmb As System.Windows.Forms.ComboBox = DirectCast(currentCtrl, System.Windows.Forms.ComboBox)
-            '        Dim comboColumn As String = ""
-            '        If cmb.Tag IsNot Nothing Then
-            '            comboColumn = cmb.Tag.ToString().Trim()
-            '        End If
-            '        If String.IsNullOrWhiteSpace(comboColumn) AndAlso cmb.AccessibleName IsNot Nothing Then
-            '            comboColumn = cmb.AccessibleName.ToString().Trim()
-            '        End If
-            '        If String.IsNullOrWhiteSpace(comboColumn) AndAlso cmb.AccessibleDescription IsNot Nothing Then
-            '            comboColumn = cmb.AccessibleDescription.ToString().Trim()
-            '        End If
-            '        If Not String.IsNullOrWhiteSpace(comboColumn) AndAlso Not comboColumn.StartsWith("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) AndAlso tblTmp.Columns.Contains(comboColumn) Then
-            '            Dim dbValue As String = ""
-            '            If Not IsDBNull(tblTmp.Rows(0)(comboColumn)) Then
-            '                dbValue = tblTmp.Rows(0)(comboColumn).ToString().Trim()
-            '            End If
-            '            cmb.SelectedIndex = -1
-            '            If dbValue <> "" Then
-            '                Dim foundIndex As Integer = -1
-            '                For i As Integer = 0 To cmb.Items.Count - 1
-            '                    If cmb.Items(i).ToString().Trim().Equals(dbValue, StringComparison.OrdinalIgnoreCase) Then
-            '                        foundIndex = i
-            '                        Exit For
-            '                    End If
-            '                Next
-            '                If foundIndex >= 0 Then
-            '                    cmb.SelectedIndex = foundIndex
-            '                Else
-            '                    cmb.Items.Add(dbValue)
-            '                    cmb.SelectedIndex = cmb.Items.Count - 1
-            '                End If
-            '            End If
-            '        End If
-            '    ElseIf TypeOf currentCtrl Is TabControl Then
-            '        Dim tabCtrl As TabControl = DirectCast(currentCtrl, TabControl)
-            '        If tabCtrl IsNot Nothing Then
-            '            If tabCtrl.Tag Is Nothing AndAlso Not String.IsNullOrWhiteSpace(dbColumn) Then
-            '                tabCtrl.Tag = dbColumn
-            '            End If
-            '        End If
-            '    ElseIf TypeOf currentCtrl Is DevExpress.XtraEditors.SimpleButton Then
-            '        Dim btn As DevExpress.XtraEditors.SimpleButton = DirectCast(currentCtrl, DevExpress.XtraEditors.SimpleButton)
-            '        Dim btnTag As String = ""
-            '        If btn.Tag IsNot Nothing Then
-            '            btnTag = btn.Tag.ToString().Trim()
-            '        End If
-            '        If btn.Name.IndexOf("ImgAdd", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            '            If btnTag.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
-            '                If Not String.IsNullOrWhiteSpace(dbColumn) Then
-            '                    btn.AccessibleDescription = dbColumn
-            '                End If
-            '            End If
-            '        ElseIf btn.Name.IndexOf("ImgView", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            '            If btnTag.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
-            '                If Not String.IsNullOrWhiteSpace(dbColumn) Then
-            '                    btn.AccessibleDescription = dbColumn
-            '                End If
-            '            End If
-            '        End If
-            '    End If
-            '    If UseMaster = "YES" Then
-            '        RunActivatedColumnMasterSelection(ctrl.Tag, ctrl.Text)
-            '        Me.SelectNextControl(ctrl, True, True, True, True)
-            '    End If
-            'Next
             If tblTmp.Rows.Count > 0 Then
                 _BookVNo = tblTmp.Rows(0).Item("bookvno").ToString
             End If
@@ -468,40 +320,11 @@ Public Class MainFormRead
                         delQry.AppendLine("DELETE FROM " & dataBaseTable & " WHERE BOOKVNO='" & _BookVNo.Replace("'", "''") & "';")
                     Next
                     delQry.AppendLine(AllQueries)
-
-
                     sqL = delQry.ToString
                     sql_Data_Save_Delete_Update()
-
-
                     ' ExecuteBatchWithTransaction(delQry.ToString(), Array_Opening, 4)
 
-
-                    'For Each OneQuery As String In QueryList
-                    '    Dim SingleQuery As String = OneQuery.Trim()
-                    '    If SingleQuery = "" Then
-                    '        Continue For
-                    '    End If
-                    '    sqL = SingleQuery
-                    '    sql_Data_Save_Delete_Update()
-                    'Next
                 End If
-                'Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
-                'If ctrl.Length > 0 Then
-                '    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                '    'Dim delQry As String = "DELETE FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "' AND ENTRYNO =" & Entytxt.Text
-                '    'ExecuteBatchWithTransaction(delQry, Array_Opening, 4)
-                '    Dim EntryMetaRows() As DataRow = _MainColumTbl.Select("CntrlName='" & txtEntryno.Replace("'", "''") & "' AND " & "DataBaseTable IS NOT NULL AND " & "DataBaseTable<>''")
-                '    If EntryMetaRows.Length > 0 Then
-                '        _TblName = EntryMetaRows(0)("DataBaseTable").ToString().Trim()
-                '    Else
-                '        _TblName = ""
-                '    End If
-                '    If Not String.IsNullOrWhiteSpace(_TblName) AndAlso Not String.IsNullOrWhiteSpace(Entytxt.Text.Trim()) Then
-                '        'Dim delQry As String = "DELETE FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode.Replace("'", "''") & "' AND ENTRYNO =" & Entytxt.Text.Trim()
-                '        'ExecuteBatchWithTransaction(delQry, Array_Opening, 4)
-                '    End If
-                'End If
                 Dim Pcs_Row_No As Integer = 0
                 Interaction.MsgBox("Records Successfully Saved", MsgBoxStyle.Information, "Soft-Tex PRO")
                 ObjCls_General.Blank_Object(Me)
@@ -2241,40 +2064,6 @@ Public Class MainFormRead
         grd.SelectionBorderColor = Color.Red
 
         defineGridColName("Grid", gridName)
-
-        'Dim gridColNames As New StringBuilder
-
-        'Select Case gridName
-        '    Case "Grid1"
-        '        gridTable = _DataTableGrid1
-        '        gridColNames = _Grid1ColNames
-
-        '    Case "Grid2"
-        '        gridTable = _DataTableGrid2
-        '        gridColNames = _Grid2ColNames
-
-        '    Case "Grid3"
-        '        gridTable = _DataTableGrid3
-        '        gridColNames = _Grid3ColNames
-
-        '    Case "Grid4"
-        '        gridTable = _DataTableGrid4
-        '        gridColNames = _Grid4ColNames
-
-        '    Case "Grid5"
-        '        gridTable = _DataTableGrid5
-        '        gridColNames = _Grid5ColNames
-        'End Select
-
-        'If gridColNames Is Nothing OrElse gridColNames.Length = 0 Then
-        '    MsgBox("Column design is not available for '" & gridName & "'. Please configure the grid columns and try again.", "Grid Design Required", MessageBoxButtons.OK)
-        '    Exit Function
-        'End If
-
-        'GenerateTable(gridTable, grd, gridColNames)
-        'GridFormatting(gridTable, grd)
-
-
         If gridName = "Grid1" Then
             If _Grid1ColNames Is Nothing OrElse _Grid1ColNames.Length = 0 Then
                 MsgBox("Column design is not available for '" & gridName & "'. Please configure the grid columns and try again.", "Grid Design Required", MessageBoxButtons.OK)
@@ -2426,26 +2215,32 @@ Public Class MainFormRead
                         End If
                     End If
                     If tblTmp.Rows.Count > 0 Then
-                        If _DataTableGrid1 IsNot Nothing AndAlso _DataTableGrid1.Rows.Count > 0 Then
+                        If _DataTableGrid1 IsNot Nothing AndAlso _DataTableGrid1.Columns.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid1, tblTmp)
-
+                            ApplyGridFormula(grd, _DataTableGrid1)
+                            _GridColmTotal(grd, _DataTableGrid1)
                         End If
                         If _DataTableGrid2 IsNot Nothing AndAlso _DataTableGrid2.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid2, tblTmp)
-
+                            ApplyGridFormula(grd, _DataTableGrid2)
+                            _GridColmTotal(grd, _DataTableGrid2)
                         End If
                         If _DataTableGrid3 IsNot Nothing AndAlso _DataTableGrid3.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid3, tblTmp)
-
+                            ApplyGridFormula(grd, _DataTableGrid3)
+                            _GridColmTotal(grd, _DataTableGrid3)
                         End If
                         If _DataTableGrid4 IsNot Nothing AndAlso _DataTableGrid4.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid4, tblTmp)
-
+                            ApplyGridFormula(grd, _DataTableGrid4)
+                            _GridColmTotal(grd, _DataTableGrid4)
                         End If
                         If _DataTableGrid5 IsNot Nothing AndAlso _DataTableGrid5.Rows.Count > 0 Then
                             CalculateDynamicColumnTotal(grd, _DataTableGrid5, tblTmp)
-
+                            ApplyGridFormula(grd, _DataTableGrid5)
+                            _GridColmTotal(grd, _DataTableGrid5)
                         End If
+
                     Else
                         MsgBox("Record Not Found")
                         'ObjCls_General.Blank_Object(Me)
@@ -2812,33 +2607,11 @@ Public Class MainFormRead
         Next
         _FrmLoad = True
         ObjCls_General.Fill_DataBase_Value_Into_Form_Objects(Me, tblTmp)
-        'For Each dr As DataRow In _MainColumTbl.Select("Columntype='TextBox'  AND (UseMaster='NO' OR (UseMaster='YES'AND (OppMasterCode<>'' or OppMasterCode='')))")
-        '    Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
-        '    Dim ctrlName As String = dr("CntrlName").ToString().Trim()
-        '    Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
-        '    Dim UseMaster As String = dr("UseMaster").ToString().Trim()
-        '    Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
-        '    Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
-        '    If ctrl Is Nothing OrElse Not TypeOf ctrl Is TextBox Then Continue For
-        '    Dim txt As TextBox = DirectCast(ctrl, TextBox)
-        '    Dim value As String = txt.Text.Trim().Trim("'"c)
-        '    If _InputType = "DateBox" Then
-        '        If value <> "" Then
-        '            value = Convert.ToDateTime(value).ToString("dd/MM/yyyy")
-        '            txt.Text = value
-        '        End If
-        '    End If
-        '    If UseMaster = "YES" Then
-        '        Dim ActivetextName As String = ctrl.Text
-        '        RunActivatedColumnMasterSelection(ctrl.Tag, ActivetextName)
-        '        Me.SelectNextControl(ctrl, True, True, True, True)
-        '    End If
-        'Next
         If tblTmp.Rows.Count > 0 Then
             _BookVNo = tblTmp.Rows(0).Item("bookvno").ToString
         End If
         _FrmLoad = False
-        Return tblTmp   ' 👈 yaha return kar diya
+        Return tblTmp
     End Function
 
     Private Sub MainFormRead_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -2907,7 +2680,6 @@ Public Class MainFormRead
             'QueryLoad.Show()
         ElseIf e.KeyCode = Keys.F1 Then
             Select Case _STRTRNOBJECT
-
                 Case "GRID1"
                     If _DataTableGrid2 IsNot Nothing AndAlso _DataTableGrid2.Columns.Count > 0 Then
                         _FrmLoad = True

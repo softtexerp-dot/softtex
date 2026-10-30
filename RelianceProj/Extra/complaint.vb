@@ -4,7 +4,8 @@ Public Class complaint
     Public flagstring As String = ""
     Private Async Sub SubmitComplaintAsync(ByVal falgstring As String)
 
-        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+        'Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
+        Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/SubmitCustomerComplaint"
 
         Try
             Using client As New HttpClient()
@@ -23,11 +24,10 @@ Public Class complaint
                     Dim propersendername As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Txtsendername.Text.Trim().ToLower())
                     form.Add(New StringContent(propersendername), "SenderName")
                     form.Add(New StringContent(Txtmobileno.Text), "SenderMobileNo")
-                    Dim txtmodule As String = "Textile"
+                    Dim txtmodule As String = "TextileERP"
                     form.Add(New StringContent(txtmodule), "Module")
-                    'Dim txtcompinfo As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtCompName.Text.Trim().ToLower())
-                    'form.Add(New StringContent(txtcompinfo), "CompleteInforme")
-
+                    Dim priorityValue As String = If(RadioButton1.Checked, "true", "false")
+                    form.Add(New StringContent(priorityValue), "Priority")
                     ' 🔹 FILE (IMAGE)
                     Dim filePath As String = txtFilePath.Text.Trim()
 
@@ -47,12 +47,9 @@ Public Class complaint
                     Else
                         ' 🔹 Save case me image mandatory
                         If IO.File.Exists(filePath) Then
-
                             Dim fileBytes As Byte() = IO.File.ReadAllBytes(filePath)
                             Dim fileContent As New ByteArrayContent(fileBytes)
-                            fileContent.Headers.ContentType =
-            New Net.Http.Headers.MediaTypeHeaderValue("image/jpeg")
-
+                            fileContent.Headers.ContentType = New Net.Http.Headers.MediaTypeHeaderValue("image/jpeg")
                             form.Add(fileContent, "ErrorImage", IO.Path.GetFileName(filePath))
                         Else
                             'MessageBox.Show("❌ Please select image file.")
@@ -114,7 +111,6 @@ Public Class complaint
                 If System.IO.File.Exists(_FilePath) = True Then
                     Process.Start(_FilePath)
                 ElseIf _FilePath.StartsWith("http", StringComparison.OrdinalIgnoreCase) Then
-                    'Process.Start(New ProcessStartInfo(_FilePath) With {.UseShellExecute = True})
                     Dim frm As New Form With
                     {
                     .Text = "Preview",
@@ -125,13 +121,6 @@ Public Class complaint
                     .MaximizeBox = False,
                     .MinimizeBox = False
                     }
-
-                    'Dim wb As New WebBrowser With
-                    '{
-                    ' .Dock = DockStyle.Fill,
-                    ' .ScriptErrorsSuppressed = True
-                    '}
-                    'wb.Navigate(_FilePath)
                     Dim pic As New PictureBox With {
                             .Dock = DockStyle.Fill,
                             .SizeMode = PictureBoxSizeMode.Zoom,
@@ -139,7 +128,6 @@ Public Class complaint
                         }
                     frm.KeyPreview = True
                     frm.Controls.Add(pic)
-                    'frm.Controls.Add(wb)
                     AddHandler frm.KeyDown,
                     Sub(s, e)
                         If e.KeyCode = Keys.Escape Then
@@ -147,8 +135,6 @@ Public Class complaint
                         End If
                     End Sub
                     frm.ShowDialog()
-
-
                 Else
                     MsgBox("File Does Not Exist")
                 End If
@@ -170,7 +156,6 @@ Public Class complaint
         ofd.Title = "Select File"
         ofd.Filter = "All Files (*.*)|*.*|PDF Files (*.pdf)|*.pdf|Image Files (*.jpg;*.png)|*.jpg;*.png"
         ofd.Multiselect = False
-
         If ofd.ShowDialog() = DialogResult.OK Then
             Dim filePath As String = ofd.FileName
             Dim fileName As String = IO.Path.GetFileName(filePath)
@@ -284,6 +269,14 @@ Public Class complaint
     Private Sub complaint_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
             Me.Close()
+        End If
+    End Sub
+
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
+        If RadioButton1.Checked Then
+            RadioButton1.Text = "High Priority"
+        Else
+            RadioButton1.Text = "Normal Priority"
         End If
     End Sub
 End Class
