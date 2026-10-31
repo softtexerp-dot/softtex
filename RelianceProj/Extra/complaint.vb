@@ -3,10 +3,7 @@
 Public Class complaint
     Public flagstring As String = ""
     Private Async Sub SubmitComplaintAsync(ByVal falgstring As String)
-
-        'Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/AddOrUpdateComplaint"
         Dim postUrl As String = "http://softtexcomplaintapi.softtexerp.com/api/Complaint/SubmitCustomerComplaint"
-
         Try
             Using client As New HttpClient()
                 Using form As New MultipartFormDataContent()
@@ -14,7 +11,6 @@ Public Class complaint
                         Dim idValue As Long = Convert.ToInt64(lblid.Text)
                         form.Add(New StringContent(idValue.ToString()), "Id")
                     End If
-
                     ' 🔹 TEXT FIELDS
                     Dim properCasepartyname As String = Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(txtCompName.Text.Trim().ToLower())
                     form.Add(New StringContent(properCasepartyname), "PartyName")

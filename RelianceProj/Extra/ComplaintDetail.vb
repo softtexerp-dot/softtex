@@ -222,40 +222,7 @@ End Sub
                                 End Sub
         frm.ShowDialog()
     End Sub
-    'Private Sub ShowZoomImage(img As Image)
 
-    '    Dim frm As New Form With {
-    '    .Text = "Complaint Image",
-    '     .StartPosition = FormStartPosition.CenterScreen,
-    '.Size = New Size(900, 600),   ' 👈 Width, Height
-    '.FormBorderStyle = FormBorderStyle.FixedDialog,
-    '.MaximizeBox = False,
-    '.MinimizeBox = False
-    '}
-
-    '    Dim pic As New PictureBox With {
-    '    .Image = img,
-    '    .Dock = DockStyle.Fill,
-    '    .SizeMode = PictureBoxSizeMode.Zoom
-    '}
-
-    '    Dim panel As New Panel With {
-    '    .Dock = DockStyle.Fill,
-    '    .AutoScroll = True
-    '}
-
-    '    panel.Controls.Add(pic)
-
-    '    frm.Controls.Add(panel)
-    '    frm.KeyPreview = True
-    '    AddHandler frm.KeyDown, Sub(s, e)
-    '                                If e.KeyCode = Keys.Escape Then
-    '                                    frm.Close()
-    '                                End If
-    '                            End Sub
-    '    frm.ShowDialog()
-
-    'End Sub
 #End Region
 #Region "Transfer Complaint"
     Private Sub TransferButton()
@@ -431,11 +398,9 @@ End Sub
                 Else
                     Boolean.TryParse(value.ToString(), isPriority)
                 End If
-
                 If isPriority Then
                     e.Appearance.BackColor = Color.Red
                     e.Appearance.ForeColor = Color.White
-
                     ' Prevent DevExpress overriding
                     e.HighPriority = True
                     e.Appearance.BackColor2 = Color.Red
@@ -458,25 +423,18 @@ End Sub
         ' Sirf Status column par color apply kare
         If e.Column.FieldName <> "Status" Then Exit Sub
         If e.RowHandle < 0 Then Exit Sub
-
         Dim status As String = Convert.ToString(gridView1.GetRowCellValue(e.RowHandle, "Status"))
-
         Select Case status
             Case "OK"
                 e.Appearance.ForeColor = Color.Green
-
             Case "Pending"
                 e.Appearance.ForeColor = Color.Red
-
             Case "Cancel"
                 e.Appearance.ForeColor = Color.Blue
-
             Case "Running"
                 e.Appearance.ForeColor = Color.LightYellow
-
             Case "Hold"
                 e.Appearance.ForeColor = Color.Orange
-
             Case Else
                 e.Appearance.ForeColor = Color.Black
         End Select
@@ -485,9 +443,7 @@ End Sub
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         Dim dt As DataTable = TryCast(gridControl1.DataSource, DataTable)
         If dt Is Nothing Then Exit Sub
-
         Dim selectedStatus As String = ComboBox1.Text   ' SAFE
-
         If selectedStatus <> "" AndAlso selectedStatus <> "All" Then
             dt.DefaultView.RowFilter = $"Status = '{selectedStatus}'"
         Else
