@@ -223,7 +223,7 @@ Partial Class complaint
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(123, 83)
+        Me.Label5.Location = New System.Drawing.Point(123, 74)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(12, 14)
         Me.Label5.TabIndex = 82258
