@@ -22,7 +22,7 @@ Public Class complaint
                     form.Add(New StringContent(Txtmobileno.Text), "SenderMobileNo")
                     Dim txtmodule As String = "TextileERP"
                     form.Add(New StringContent(txtmodule), "Module")
-                    Dim priorityValue As String = If(RadioButton1.Checked, "true", "false")
+                    Dim priorityValue As String = If(RadioButton2.Checked, "true", "false")
                     form.Add(New StringContent(priorityValue), "Priority")
                     ' 🔹 FILE (IMAGE)
                     Dim filePath As String = txtFilePath.Text.Trim()
@@ -82,6 +82,9 @@ Public Class complaint
     End Sub
     Private Sub complaint_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
+        RadioButton1.Checked = True
+        RadioButton1.Text = "Normal"
+        RadioButton2.Text = "High"
         Me.Location = New Point(0, 0)
         AttachButtonFocusEvents(Me)
         txtCompName.Text = COMPANY_TBL.Rows(0).Item("Company_Name")
@@ -270,9 +273,23 @@ Public Class complaint
 
     Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
         If RadioButton1.Checked Then
-            RadioButton1.Text = "High Priority"
-        Else
-            RadioButton1.Text = "Normal Priority"
+            RadioButton1.Text = "Normal"
+            RadioButton2.Text = "High"
+        End If
+    End Sub
+    Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton2.CheckedChanged
+        If RadioButton2.Checked Then
+            RadioButton1.Text = "Normal"
+            RadioButton2.Text = "High"
+        End If
+    End Sub
+    Private Sub RadioButton_KeyDown(sender As Object, e As KeyEventArgs) Handles RadioButton1.KeyDown, RadioButton2.KeyDown
+
+        If e.KeyCode = Keys.Enter OrElse e.KeyCode = Keys.Tab Then
+            e.Handled = True
+            e.SuppressKeyPress = True
+            Dim ctrl As Control = CType(sender, Control)
+            ctrl.Parent.SelectNextControl(ctrl, True, True, True, True)
         End If
     End Sub
 End Class

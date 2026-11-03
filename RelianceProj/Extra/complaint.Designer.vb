@@ -44,6 +44,9 @@ Partial Class complaint
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.SuspendLayout()
         '
         'Label1
@@ -93,6 +96,7 @@ Partial Class complaint
         Me.txtFilePath.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFilePath.Location = New System.Drawing.Point(141, 207)
         Me.txtFilePath.Name = "txtFilePath"
+        Me.txtFilePath.ReadOnly = True
         Me.txtFilePath.Size = New System.Drawing.Size(299, 21)
         Me.txtFilePath.TabIndex = 2
         '
@@ -102,9 +106,9 @@ Partial Class complaint
         Me.Label3.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.Location = New System.Drawing.Point(16, 209)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(87, 13)
+        Me.Label3.Size = New System.Drawing.Size(49, 13)
         Me.Label3.TabIndex = 7
-        Me.Label3.Text = "Error Image"
+        Me.Label3.Text = "Image"
         '
         'But_ok
         '
@@ -133,10 +137,10 @@ Partial Class complaint
         Me.btnSave.Appearance.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Appearance.Options.UseFont = True
         Me.btnSave.ImageOptions.Image = CType(resources.GetObject("btnSave.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnSave.Location = New System.Drawing.Point(191, 251)
+        Me.btnSave.Location = New System.Drawing.Point(173, 281)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(77, 32)
-        Me.btnSave.TabIndex = 4
+        Me.btnSave.TabIndex = 6
         Me.btnSave.Text = "Save"
         '
         'btnClose
@@ -144,10 +148,10 @@ Partial Class complaint
         Me.btnClose.Appearance.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.Appearance.Options.UseFont = True
         Me.btnClose.ImageOptions.Image = CType(resources.GetObject("btnClose.ImageOptions.Image"), System.Drawing.Image)
-        Me.btnClose.Location = New System.Drawing.Point(287, 251)
+        Me.btnClose.Location = New System.Drawing.Point(269, 281)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(77, 32)
-        Me.btnClose.TabIndex = 5
+        Me.btnClose.TabIndex = 7
         Me.btnClose.Text = "Close"
         '
         'lblid
@@ -201,12 +205,12 @@ Partial Class complaint
         'RadioButton1
         '
         Me.RadioButton1.AutoSize = True
-        Me.RadioButton1.Location = New System.Drawing.Point(145, 231)
+        Me.RadioButton1.Location = New System.Drawing.Point(141, 247)
         Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(127, 18)
+        Me.RadioButton1.Size = New System.Drawing.Size(73, 18)
         Me.RadioButton1.TabIndex = 4
         Me.RadioButton1.TabStop = True
-        Me.RadioButton1.Text = "Normal Priority"
+        Me.RadioButton1.Text = "Normal"
         Me.RadioButton1.UseVisualStyleBackColor = True
         '
         'Label4
@@ -259,12 +263,46 @@ Partial Class complaint
         Me.Label8.TabIndex = 82261
         Me.Label8.Text = ":"
         '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(16, 250)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(56, 13)
+        Me.Label9.TabIndex = 82262
+        Me.Label9.Text = "Priority"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(122, 247)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(12, 14)
+        Me.Label10.TabIndex = 82263
+        Me.Label10.Text = ":"
+        '
+        'RadioButton2
+        '
+        Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Location = New System.Drawing.Point(220, 247)
+        Me.RadioButton2.Name = "RadioButton2"
+        Me.RadioButton2.Size = New System.Drawing.Size(55, 18)
+        Me.RadioButton2.TabIndex = 5
+        Me.RadioButton2.TabStop = True
+        Me.RadioButton2.Text = "High"
+        Me.RadioButton2.UseVisualStyleBackColor = True
+        '
         'complaint
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ActiveCaption
-        Me.ClientSize = New System.Drawing.Size(621, 288)
+        Me.ClientSize = New System.Drawing.Size(621, 318)
+        Me.Controls.Add(Me.RadioButton2)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label6)
@@ -318,4 +356,7 @@ Partial Class complaint
     Friend WithEvents Label6 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Label8 As Label
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents RadioButton2 As RadioButton
 End Class

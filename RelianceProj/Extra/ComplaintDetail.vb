@@ -427,6 +427,8 @@ End Sub
         Select Case status
             Case "OK"
                 e.Appearance.ForeColor = Color.Green
+            Case "Solved"
+                e.Appearance.ForeColor = Color.Green
             Case "Pending"
                 e.Appearance.ForeColor = Color.Red
             Case "Cancel"
@@ -464,7 +466,9 @@ End Sub
         complaint.txtFilePath.Text = Convert.ToString(view.GetFocusedRowCellValue("ApiImagePath"))
         complaint.Txtsendername.Text = Convert.ToString(view.GetFocusedRowCellValue("SenderName"))
         complaint.Txtmobileno.Text = Convert.ToString(view.GetFocusedRowCellValue("SenderMobileNo"))
-        complaint.RadioButton1.Checked = Convert.ToString(view.GetFocusedRowCellValue("Priority"))
+        Dim priorityValue As String = Convert.ToString(view.GetFocusedRowCellValue("Priority"))
+        complaint.RadioButton1.Checked = (priorityValue = "0" OrElse priorityValue.Equals("False", StringComparison.OrdinalIgnoreCase))
+        complaint.RadioButton2.Checked = (priorityValue = "1" OrElse priorityValue.Equals("True", StringComparison.OrdinalIgnoreCase))
         complaint.btnSave.Text = "Update"
         complaint.btnSave.Width = 86
     End Sub
@@ -475,4 +479,12 @@ End Sub
         End If
     End Sub
 
+    Private Sub But_ok_Click(sender As Object, e As EventArgs) Handles But_ok.Click
+        If ComboBox1.SelectedItem IsNot Nothing Then
+            LoadComplaints(ComboBox1.SelectedItem.ToString())
+        Else
+            LoadComplaints("")   ' ya default status
+        End If
+        ApplyGridStyle()
+    End Sub
 End Class
