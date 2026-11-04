@@ -186,7 +186,7 @@ Partial Class QueryLoad
         Me.TxtType.RegularExpressionErrorMessage = Nothing
         Me.TxtType.ShowMessage = False
         Me.TxtType.Size = New System.Drawing.Size(956, 22)
-        Me.TxtType.SpacerString = "VIEW,PRINT,TOTAL COLUMN"
+        Me.TxtType.SpacerString = "VIEW,PRINT,TOTAL COLUMN,USE CHALLAN"
         Me.TxtType.TabIndex = 1
         Me.TxtType.Tag = ""
         Me.TxtType.Text = "VIEW"

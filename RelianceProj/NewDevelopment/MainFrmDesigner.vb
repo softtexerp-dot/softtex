@@ -92,6 +92,7 @@ Public Class MainFrmDesigner
             .Append(",CntrlName")
             .Append(",DataBaseTable")
             .Append(",UseMaster")
+            .Append(",UseChallan")
             .Append(",Masterlist")
             .Append(",OppMasterCode")
             .Append(",DataBaseColumn")
@@ -145,6 +146,7 @@ Public Class MainFrmDesigner
             .Append(",Managebook")
             .Append(",FormType")
             .Append(",RowID")
+
         End With
         _GridColType = New StringBuilder
         With _GridColType
@@ -163,6 +165,7 @@ Public Class MainFrmDesigner
             .Append(",ColumnType:Column Type")
             .Append(",DataBaseTable:DataBase Table")
             .Append(",UseMaster:Use Master")
+            .Append(",UseChallan:Use Challan")
             .Append(",Masterlist:Master List")
             .Append(",OppMasterCode:OppMasterCode")
             .Append(",UseMasterKey:Use Master Key")
@@ -205,6 +208,7 @@ Public Class MainFrmDesigner
             .Append(",Tabindex:L")
             .Append(",InputType:L")
             .Append(",UseMaster:L")
+            .Append(",UseChallan:L")
             .Append(",Masterlist:L")
             .Append(",OppMasterCode:L")
             .Append(",UseMasterKey:L")
@@ -235,6 +239,7 @@ Public Class MainFrmDesigner
             .Append(",Tabindex:L")
             .Append(",InputType:L")
             .Append(",UseMaster:L")
+            .Append(",UseChallan:L")
             .Append(",Masterlist:L")
             .Append(",OppMasterCode:L")
             .Append(",UseMasterKey:L")
@@ -308,6 +313,7 @@ Public Class MainFrmDesigner
             .Append(",Tabelements:Y")
             .Append(",TabName:Y")
             .Append(",TabCountNo:Y")
+            .Append(",UseChallan:Y")
         End With
         _FieldNotRequiredForSave = New StringBuilder
         With _FieldNotRequiredForSave
@@ -343,6 +349,7 @@ Public Class MainFrmDesigner
             .Append(",Tabelements:8")
             .Append(",TabName:10")
             .Append(",TabCountNo:8")
+            .Append(",UseChallan:11")
         End With
         _FieldDefaultValues = New StringBuilder
         With _FieldDefaultValues
@@ -373,6 +380,7 @@ Public Class MainFrmDesigner
             .Append(",ReadOnly:Y")
             .Append(",TextAlign:Y")
             .Append(",SaveYN:Y")
+            .Append(",UseChallan:Y")
         End With
         _FieldMasking = New StringBuilder
         With _FieldMasking
@@ -1288,6 +1296,9 @@ Public Class MainFrmDesigner
         Dim masterCol As Integer = GetColIdx(_GridDatatbl, "USEMASTER")
         Dim useMaster As String = If(masterCol > 0, _GetGrid.Cell(_ActiverownoHeader, masterCol).Text.Trim().ToUpper(), "")
         SetCellVal(_GetGrid, _GridDatatbl, _ActiverownoHeader, "USEMASTER", If(useMaster = "YES", "YES", "NO"))
+        Dim usechallanmasterCol As Integer = GetColIdx(_GridDatatbl, "USECHALLAN")
+        Dim usechallanMaster As String = If(usechallanmasterCol > 0, _GetGrid.Cell(_ActiverownoHeader, usechallanmasterCol).Text.Trim().ToUpper(), "")
+        SetCellVal(_GetGrid, _GridDatatbl, _ActiverownoHeader, "USECHALLAN", If(usechallanMaster = "YES", "YES", "NO"))
         Dim userTextCol As Integer = GetColIdx(_GridDatatbl, "USERTEXT")
         If userTextCol > 0 Then
             Dim curText As String = _GetGrid.Cell(_ActiverownoHeader, userTextCol).Text
@@ -1821,6 +1832,7 @@ Public Class MainFrmDesigner
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("InputType") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("InputType") + 1).Text = "Normal"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("FormDesignType") + 1).Text = "HEADER DESIGN"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "NO"
+        If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USECHALLAN") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USECHALLAN") + 1).Text = "NO"
         If GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTERKEY") + 1).Text = "" Then GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTERKEY") + 1).Text = "N"
         If _ActivatedColName = "COLUMNTYPE" Then
             If e.KeyCode = Keys.Space Then
@@ -1962,6 +1974,16 @@ Public Class MainFrmDesigner
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("MASTERLIST") + 1).Locked = True
                 ElseIf GrdItem.Cell(GrdItem.ActiveCell.Row, _DataTableGrid.Columns.IndexOf("USEMASTER") + 1).Text = "YES" Then
                     GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("MASTERLIST") + 1).Locked = False
+                End If
+            End If
+        ElseIf _ActivatedColName = "USECHALLAN" Then
+            Dim row As Integer = GrdItem.ActiveCell.Row
+            Dim usechallanMasterValue As String = GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("USECHALLAN") + 1).Text.Trim().ToUpper()
+            If e.KeyCode = Keys.Space Then
+                If usechallanMasterValue = "YES" Then
+                    GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("USECHALLAN") + 1).Text = "NO"
+                ElseIf usechallanMasterValue = "NO" Then
+                    GrdItem.Cell(row, _DataTableGrid.Columns.IndexOf("USECHALLAN") + 1).Text = "YES"
                 End If
             End If
         ElseIf _ActivatedColName = "MASTERLIST" Then
@@ -2812,7 +2834,7 @@ Public Class MainFrmDesigner
             Dim sb As New StringBuilder
             sb.Append("INSERT INTO " & _DatabaseTableNameItem & " (")
             sb.Append("RowID,CntrlType,ColumnType,")
-            sb.Append("CntrlName,DataBaseTable,UseMaster,Masterlist,OppMasterCode," &
+            sb.Append("CntrlName,DataBaseTable,UseMaster,UseChallan,Masterlist,OppMasterCode," &
             "DataBaseColumn,UseMasterKey,UserText,LocationX,LocationY," &
             "SizeHeight,SizeWidth,OrderNo,")
             sb.Append("Tabindex,InputType,SpacerString,FormId,FormName,Bookcode," &
@@ -2831,6 +2853,7 @@ Public Class MainFrmDesigner
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("CntrlName") + 1).Text.Trim() & "',")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseTable") + 1).Text.Trim() & "',")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("UseMaster") + 1).Text.Trim() & "',")
+            sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("UseChallan") + 1).Text.Trim() & "',")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("Masterlist") + 1).Text.Trim() & "',")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("OppMasterCode") + 1).Text.Trim() & "',")
             sb.Append("'" & GrdItem.Cell(i, _DataTableGrid.Columns.IndexOf("DataBaseColumn") + 1).Text.Trim() & "',")

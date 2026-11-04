@@ -30,6 +30,7 @@ Partial Class HelpForm
         Me.DiscountFoloOutstanding = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AccordionControlElement2 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.AccordionControlElement3 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
+        Me.AccordionControlElement4 = New DevExpress.XtraBars.Navigation.AccordionControlElement()
         Me.RTbView = New System.Windows.Forms.RichTextBox()
         Me.RTBPrint = New System.Windows.Forms.RichTextBox()
         Me.RTBTotalColumn = New System.Windows.Forms.RichTextBox()
@@ -53,7 +54,7 @@ Partial Class HelpForm
         '
         'OutstandingCalendar
         '
-        Me.OutstandingCalendar.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.TodayDueBill, Me.UnFoloOutstanding, Me.DiscountFoloOutstanding, Me.AccordionControlElement2, Me.AccordionControlElement3})
+        Me.OutstandingCalendar.Elements.AddRange(New DevExpress.XtraBars.Navigation.AccordionControlElement() {Me.TodayDueBill, Me.UnFoloOutstanding, Me.DiscountFoloOutstanding, Me.AccordionControlElement2, Me.AccordionControlElement3, Me.AccordionControlElement4})
         Me.OutstandingCalendar.Expanded = True
         Me.OutstandingCalendar.ImageOptions.Image = CType(resources.GetObject("OutstandingCalendar.ImageOptions.Image"), System.Drawing.Image)
         Me.OutstandingCalendar.Name = "OutstandingCalendar"
@@ -93,6 +94,13 @@ Partial Class HelpForm
         Me.AccordionControlElement3.Name = "AccordionControlElement3"
         Me.AccordionControlElement3.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
         Me.AccordionControlElement3.Text = "Report"
+        '
+        'AccordionControlElement4
+        '
+        Me.AccordionControlElement4.ImageOptions.Image = CType(resources.GetObject("AccordionControlElement4.ImageOptions.Image"), System.Drawing.Image)
+        Me.AccordionControlElement4.Name = "AccordionControlElement4"
+        Me.AccordionControlElement4.Style = DevExpress.XtraBars.Navigation.ElementStyle.Item
+        Me.AccordionControlElement4.Text = "Use Challan View"
         '
         'RTbView
         '
@@ -181,4 +189,5 @@ Partial Class HelpForm
     Friend WithEvents RTBMasterList As RichTextBox
     Friend WithEvents RTBReport As RichTextBox
     Friend WithEvents AccordionControlElement3 As DevExpress.XtraBars.Navigation.AccordionControlElement
+    Friend WithEvents AccordionControlElement4 As DevExpress.XtraBars.Navigation.AccordionControlElement
 End Class

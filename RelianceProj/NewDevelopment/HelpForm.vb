@@ -86,10 +86,12 @@ ADJAMT"
         'rtb.SelectionFont = New Font(rtb.Font, FontStyle.Regular)
         ' 👉 Section Headers
         HighlightHeader(rtb, "[VIEWQUERY]", Color.DarkBlue)
+        HighlightHeader(rtb, "[USECHALLANVIEWQUERY]", Color.DarkBlue)
         HighlightHeader(rtb, "[ViewGridColumnTotal]", Color.DarkBlue)
         HighlightHeader(rtb, "[ViewGridColumnHide]", Color.DarkBlue)
         ' 👉 Section Content
         HighlightSectionContent(rtb, "[VIEWQUERY]", Color.Black)
+        HighlightSectionContent(rtb, "[USECHALLANVIEWQUERY]", Color.Black)
         HighlightSectionContent(rtb, "[ViewGridColumnTotal]", Color.DarkGreen)
         HighlightSectionContent(rtb, "[ViewGridColumnHide]", Color.DarkGreen)
         ' 👉 SQL Keywords (sirf VIEWQUERY me)
@@ -105,6 +107,19 @@ ADJAMT"
         HighlightWord(rtb, "FilterMasterlist3", Color.Purple)
         HighlightWord(rtb, "FilterMasterlist4", Color.Purple)
         HighlightWord(rtb, "FilterMasterlist5", Color.Purple)
+
+
+
+        HighlightWord(rtb, "UseChallanFilter1", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter2", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter3", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter4", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter5", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter6", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter7", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter8", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter9", Color.Purple)
+        HighlightWord(rtb, "UseChallanFilter10", Color.Purple)
 
     End Sub
 
@@ -272,5 +287,31 @@ and  MasterCode5 In FilterMasterlist5 --------Filter Replace
         HighlightWord(rtb, "FilterMasterlist3", Color.Purple)
         HighlightWord(rtb, "FilterMasterlist4", Color.Purple)
         HighlightWord(rtb, "FilterMasterlist5", Color.Purple)
+    End Sub
+
+    Private Sub AccordionControlElement4_Click(sender As Object, e As EventArgs) Handles AccordionControlElement4.Click
+        RTbView.Visible = True
+        RTbView.Text = "[USECHALLANVIEWQUERY]-------Section Part
+
+
+select * from YourMainTable as a
+where 1=1
+and  a.UseChallanFilter=UseChallanFilter1 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter2 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter3 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter4 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter5 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter6 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter7 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter8 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter9 --------Filter Replace
+and  a.UseChallanFilter=UseChallanFilter10 --------Filter Replace
+"
+        RTbView.ReadOnly = True
+        RTBPrint.Visible = False
+        RTBMasterList.Visible = False
+        RTBTotalColumn.Visible = False
+        RTBReport.Visible = False
+        ColorSections(RTbView)
     End Sub
 End Class

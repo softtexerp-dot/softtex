@@ -978,10 +978,48 @@ Public Class MainFormRead
                         Exit Sub
                     End If
                 End If
+
                 ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
                 ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
                 ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
                 sqL = ViewQuery
+                sql_connect_slect()
+                If DefaltSoftTable IsNot Nothing Then
+                    ResultTable = DefaltSoftTable.Copy()
+                End If
+
+                Dim UseChallanFilter1 As String = " '" & _Bookcode & "' "
+                Dim UseChallanFilter2 As String = ""
+                Dim UseChallanFilter3 As String = ""
+                Dim UseChallanFilter4 As String = ""
+                Dim UseChallanFilter5 As String = ""
+                Dim UseChallanFilter6 As String = ""
+                Dim UseChallanFilter7 As String = ""
+                Dim UseChallanFilter8 As String = ""
+                Dim UseChallanFilter9 As String = ""
+                Dim UseChallanFilter10 As String = ""
+
+
+                Dim UseChallanViewQuery As String = GetQuery(tmptbl, "USECHALLANVIEWQUERY", "VIEW")
+                If UseChallanViewQuery = "" Then
+                    If MainLoadFormName = "" Then
+                        Exit Sub
+                    Else
+                        MsgBox("View Query Not Found")
+                        Exit Sub
+                    End If
+                End If
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter1", UseChallanFilter1)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter2", UseChallanFilter2)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter3", UseChallanFilter3)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter4", UseChallanFilter4)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter5", UseChallanFilter5)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter6", UseChallanFilter6)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter7", UseChallanFilter7)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter8", UseChallanFilter8)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter9", UseChallanFilter9)
+                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter10", UseChallanFilter10)
+                sqL = UseChallanViewQuery
                 sql_connect_slect()
                 If DefaltSoftTable IsNot Nothing Then
                     ResultTable = DefaltSoftTable.Copy()
@@ -1257,6 +1295,10 @@ Public Class MainFormRead
                 dr("DataBaseColumn") = colName
             End If
             If String.IsNullOrWhiteSpace(header) OrElse String.IsNullOrWhiteSpace(colName) Then Continue For
+            If dr("UseChallan").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                colName = header.Replace(" ", "")
+                dr("DataBaseColumn") = colName
+            End If
             'Grid Column Names
             If gridColNames.Length > 0 Then gridColNames.Append(",")
             gridColNames.Append(colName)
@@ -1552,6 +1594,84 @@ Public Class MainFormRead
                         targetTabPage = targetTabControl.TabPages(tabCountNo - 1)
                     End If
                 End If
+                If _InputType.Equals("SpacerType", StringComparison.OrdinalIgnoreCase) Then
+                    Dim lblSpacer As New Label()
+                    lblSpacer.Name = "Lbl_" & Name
+                    lblSpacer.Text = HeaderName
+                    lblSpacer.AutoSize = False
+                    lblSpacer.Width = 120
+                    lblSpacer.Height = height
+                    lblSpacer.Visible = dr("Visible").ToString().Trim().Equals("Y", StringComparison.OrdinalIgnoreCase)
+                    lblSpacer.TextAlign = ContentAlignment.MiddleLeft
+                    If leftPos < 0 Then
+                        lblSpacer.Left = leftPos + 10
+                    Else
+                        lblSpacer.Left = leftPos
+                    End If
+                    lblSpacer.Top = topPos
+                    If targetTabPage IsNot Nothing Then
+                        targetTabPage.Controls.Add(lblSpacer)
+                    Else
+                        If CurrentDynamicTabControl Is Nothing Then
+                            Me.Controls.Add(lblSpacer)
+                        Else
+                            Continue For
+                        End If
+                    End If
+                    Dim cmb As New System.Windows.Forms.ComboBox()
+                    cmb.Name = Name.Trim()
+                    cmb.Left = leftPos + 130
+                    cmb.Top = topPos
+                    cmb.Width = width
+                    cmb.Height = height
+                    cmb.DropDownStyle = ComboBoxStyle.DropDownList
+                    cmb.TabIndex = Tabindex
+                    cmb.Tag = colName
+                    cmb.Visible = dr("Visible").ToString().Trim().Equals("Y", StringComparison.OrdinalIgnoreCase)
+                    cmb.AccessibleName = colName
+                    cmb.AccessibleDescription = colName
+                    Dim spacerValue As String = ""
+                    If _MainColumTbl.Columns.Contains("SpacerString") Then
+                        If Not IsDBNull(dr("SpacerString")) Then
+                            spacerValue = dr("SpacerString").ToString().Trim()
+                        End If
+                    End If
+                    cmb.Items.Clear()
+                    If spacerValue <> "" Then
+                        For Each item As String In spacerValue.Split(","c)
+                            Dim itemValue As String = item.Trim()
+                            If itemValue <> "" Then
+                                cmb.Items.Add(itemValue)
+                            End If
+                        Next
+                    End If
+                    If cmb.Items.Count > 0 Then
+                        Dim gridColumnIndex As Integer = 0
+                        If Not IsDBNull(dr("OrderNo")) Then
+                            Integer.TryParse(dr("OrderNo").ToString(), gridColumnIndex)
+                        End If
+                        gridColumnIndex = gridColumnIndex Mod cmb.Items.Count
+                        cmb.SelectedIndex = gridColumnIndex
+                    Else
+                        cmb.SelectedIndex = -1
+                    End If
+                    If targetTabPage IsNot Nothing Then
+                        targetTabPage.Controls.Add(cmb)
+                    Else
+                        If CurrentDynamicTabControl Is Nothing Then
+                            Me.Controls.Add(cmb)
+                        Else
+                            Continue For
+                        End If
+                    End If
+                    AddHandler lblSpacer.MouseDown, AddressOf Control_MouseDown
+                    AddHandler lblSpacer.MouseMove, AddressOf Control_MouseMove
+                    AddHandler lblSpacer.MouseUp, AddressOf Control_MouseUp
+                    AddHandler cmb.MouseDown, AddressOf Control_MouseDown
+                    AddHandler cmb.MouseMove, AddressOf Control_MouseMove
+                    AddHandler cmb.MouseUp, AddressOf Control_MouseUp
+                    Continue For
+                End If
                 Dim NeedLabel As Boolean = True
                 If colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("ImgView", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("Grid", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
                     NeedLabel = False
@@ -1593,6 +1713,12 @@ Public Class MainFormRead
                     txt.TabIndex = Tabindex
                     Dim userTextValue As String = dr("UserText").ToString().Trim()
                     Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+                    Dim useChallan As String = ""
+
+                    If _MainColumTbl.Columns.Contains("UseChallan") AndAlso Not IsDBNull(dr("UseChallan")) Then
+                        useChallan = dr("UseChallan").ToString().Trim()
+                    End If
+
                     If userTextValue.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
                         txt.Tag = userTextValue
                         txt.AccessibleName = databaseColumn
@@ -1601,7 +1727,7 @@ Public Class MainFormRead
                         If _FORMMODE = "EDIT" Then
                             txt.AccessibleDescription = databaseColumn
                             'If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
-                            If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                            If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse useChallan.Equals("YES", StringComparison.OrdinalIgnoreCase) Then
                                 txt.Tag = userTextValue
                             Else
                                 txt.Tag = databaseColumn
@@ -2546,9 +2672,11 @@ Public Class MainFormRead
     Private Sub _LoadDefaultData()
         View_Record()
         Dim formType As String = ""
+        Dim UseChallan As String = ""
         If _MainColumTbl.Rows.Count > 0 Then
             formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
             FormNameValue = _MainColumTbl.Rows(0)("FormName").ToString().Trim()
+            UseChallan = _MainColumTbl.Rows(0)("UseChallan").ToString().Trim()
         End If
         FormNameValue = _getformName()
         If formType = "ENTRY FORM" Then
@@ -2574,6 +2702,8 @@ Public Class MainFormRead
             Else
                 LoadViewData(tblTmp1, _Bookcode)
             End If
+        ElseIf UseChallan = "YES" Then
+            tmptbl = _GetFormQuery(FormNameValue, "USECHALLANVIEW")
         ElseIf _FORMMODE = "LOAD" Then
             tmptbl = _GetFormQuery(FormNameValue, "TOTAL COLUMN")
         End If
@@ -2681,7 +2811,15 @@ Public Class MainFormRead
         ElseIf e.KeyCode = Keys.F1 Then
             Select Case _STRTRNOBJECT
                 Case "GRID1"
-                    If _DataTableGrid2 IsNot Nothing AndAlso _DataTableGrid2.Columns.Count > 0 Then
+                    If _DataTableGrid1 IsNot Nothing AndAlso _DataTableGrid1.Columns.Count > 0 Then
+                        _FrmLoad = True
+                        Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID1", True).FirstOrDefault(), FlexCell.Grid)
+                        If grd IsNot Nothing Then
+                            grd.Cell(1, _DataTableGrid1.Columns.IndexOf("SRNO") + 2).SetFocus()
+                            grd.Focus()
+                            UC_Buttons1.BtnSave.Focus()
+                        End If
+                    ElseIf _DataTableGrid2 IsNot Nothing AndAlso _DataTableGrid2.Columns.Count > 0 Then
                         _FrmLoad = True
                         Dim grd As FlexCell.Grid = TryCast(Me.Controls.Find("GRID2", True).FirstOrDefault(), FlexCell.Grid)
                         If grd IsNot Nothing Then
