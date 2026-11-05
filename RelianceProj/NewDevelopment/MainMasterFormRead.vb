@@ -1030,6 +1030,7 @@ Public Class MainMasterFormRead
             Dim EntryNo As Integer = 1
             Dim _Grid1ColNames As New StringBuilder()
             Dim View_Filter_Condition As String = " AND FormName='" & MainMasterLoadFormName & "' "
+            UseChallanview.MainLoadFormName1 = MainMasterLoadFormName
             DynamicTabControl = Nothing
             CurrentTabPage = Nothing
             Dim CurrentDynamicTabControl As TabControl = Nothing

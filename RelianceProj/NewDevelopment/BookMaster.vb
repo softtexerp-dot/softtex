@@ -315,9 +315,7 @@ Public Class BookMaster
             Txt_RcptIssue.Text = "NONE"
             Txt_RptFileNamePlain.Text = "FINISH_PACKING_SLIP_PLAIN"
             txtGroupCode.Text = "(#0000-000000030#,#0000-000000033#,#0000-000000055#)"
-
             Txt_Alies.Text = "P-Slip"
-
             _GetMaxId()
             Txt_BookName.Focus()
             Txt_BookName.Select()
@@ -387,7 +385,6 @@ Public Class BookMaster
         ALTER_FORM(Txt_BookId.Text)
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-
         If _FORMMODE = "DELETE" Then
             If MsgBox("Do You Want To Delete(Y/N)", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
                 Delete_Record()

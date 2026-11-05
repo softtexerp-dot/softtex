@@ -95,7 +95,7 @@ Partial Class BookMaster
         Me.PnlGrdView.Controls.Add(Me.GridControl1)
         Me.PnlGrdView.Location = New System.Drawing.Point(168, 419)
         Me.PnlGrdView.Name = "PnlGrdView"
-        Me.PnlGrdView.Size = New System.Drawing.Size(482, 62)
+        Me.PnlGrdView.Size = New System.Drawing.Size(482, 107)
         Me.PnlGrdView.TabIndex = 81973
         Me.PnlGrdView.TabStop = False
         Me.PnlGrdView.Visible = False

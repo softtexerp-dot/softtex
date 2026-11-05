@@ -1295,10 +1295,6 @@ Public Class MainFormRead
                 dr("DataBaseColumn") = colName
             End If
             If String.IsNullOrWhiteSpace(header) OrElse String.IsNullOrWhiteSpace(colName) Then Continue For
-            If dr("UseChallan").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
-                colName = header.Replace(" ", "")
-                dr("DataBaseColumn") = colName
-            End If
             'Grid Column Names
             If gridColNames.Length > 0 Then gridColNames.Append(",")
             gridColNames.Append(colName)
@@ -1393,6 +1389,7 @@ Public Class MainFormRead
             Dim _Grid1ColNames As New StringBuilder()
             Dim _Grid1HeaderNames As New List(Of String)
             Dim View_Filter_Condition As String = " AND FormName='" & MainLoadFormName & "' "
+            UseChallanview.MainLoadFormName1 = MainLoadFormName
             DynamicTabControl = Nothing
             CurrentTabPage = Nothing
             Dim CurrentDynamicTabControl As TabControl = Nothing
@@ -1664,15 +1661,25 @@ Public Class MainFormRead
                             Continue For
                         End If
                     End If
+                    Dim useChallan As String = ""
+
+                    If _MainColumTbl.Columns.Contains("UseChallan") AndAlso Not IsDBNull(dr("UseChallan")) Then
+                        useChallan = dr("UseChallan").ToString().Trim()
+                    End If
                     AddHandler lblSpacer.MouseDown, AddressOf Control_MouseDown
                     AddHandler lblSpacer.MouseMove, AddressOf Control_MouseMove
                     AddHandler lblSpacer.MouseUp, AddressOf Control_MouseUp
                     AddHandler cmb.MouseDown, AddressOf Control_MouseDown
                     AddHandler cmb.MouseMove, AddressOf Control_MouseMove
                     AddHandler cmb.MouseUp, AddressOf Control_MouseUp
+                    If useChallan.Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                        AddHandler cmb.KeyDown, AddressOf SpacerComboBox_KeyDown
+                    Else
+                        'AddHandler cmb.KeyDown, AddressOf SpacerComboBox_KeyDown
+                    End If
                     Continue For
-                End If
-                Dim NeedLabel As Boolean = True
+                    End If
+                    Dim NeedLabel As Boolean = True
                 If colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("ImgView", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("Grid", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
                     NeedLabel = False
                 End If
@@ -1713,11 +1720,7 @@ Public Class MainFormRead
                     txt.TabIndex = Tabindex
                     Dim userTextValue As String = dr("UserText").ToString().Trim()
                     Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
-                    Dim useChallan As String = ""
 
-                    If _MainColumTbl.Columns.Contains("UseChallan") AndAlso Not IsDBNull(dr("UseChallan")) Then
-                        useChallan = dr("UseChallan").ToString().Trim()
-                    End If
 
                     If userTextValue.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
                         txt.Tag = userTextValue
@@ -1727,7 +1730,7 @@ Public Class MainFormRead
                         If _FORMMODE = "EDIT" Then
                             txt.AccessibleDescription = databaseColumn
                             'If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
-                            If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) OrElse useChallan.Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                            If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
                                 txt.Tag = userTextValue
                             Else
                                 txt.Tag = databaseColumn
@@ -1776,6 +1779,7 @@ Public Class MainFormRead
                     AddHandler txt.MouseMove, AddressOf Control_MouseMove
                     AddHandler txt.MouseUp, AddressOf Control_MouseUp
                     AddHandler txt.KeyDown, AddressOf Control_KeyDown
+
                 End If
                 If colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) Then
                     Dim btn As New SimpleButton()
@@ -1934,6 +1938,19 @@ Public Class MainFormRead
         Finally
         End Try
     End Sub
+#Region "Use Challan"
+    Private Sub SpacerComboBox_KeyDown(sender As Object, e As KeyEventArgs)
+        If e.KeyCode = Keys.Space Then
+            Dim cmb As System.Windows.Forms.ComboBox = DirectCast(sender, System.Windows.Forms.ComboBox)
+            Dim spacerValue As String = cmb.Text.Trim()
+            If spacerValue.Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                e.Handled = True
+                e.SuppressKeyPress = True
+                UseChallanview.Show()
+            End If
+        End If
+    End Sub
+#End Region
 #Region "control view"
     Private Sub ButtonImgAdd_Click(sender As Object, e As EventArgs)
         If isMoveMode Then Exit Sub
