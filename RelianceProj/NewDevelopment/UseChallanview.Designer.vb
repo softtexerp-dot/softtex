@@ -108,7 +108,7 @@ Partial Class UseChallanview
         Me.GridControl1.MainView = Me.FirstStage
         Me.GridControl1.Name = "GridControl1"
         Me.GridControl1.Size = New System.Drawing.Size(714, 452)
-        Me.GridControl1.TabIndex = 81992
+        Me.GridControl1.TabIndex = 81963
         Me.GridControl1.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.FirstStage, Me.LayoutView1, Me.GridView2})
         '
         'FirstStage

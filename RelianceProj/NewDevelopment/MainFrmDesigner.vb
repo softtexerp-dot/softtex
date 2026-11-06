@@ -3114,12 +3114,34 @@ Public Class MainFrmDesigner
                             End If
                             BOOK_CATGER = " A.BookCode in(" & _BookCode & ")"
                             BOOK_BHEWAR = "chq_printing"
-                            obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
-                            If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
-                                Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
+                            'obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
+                            'If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
+                            '    Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
+                            '    Ctl_BookName.ReadOnly = True
+                            '    _BookCode = MULTY_SELECTION_COLOUM_3_DATA
+                            '    'Ctl_Managebybook.Focus()
+                            '    Txt_mainFormSize.Focus()
+                            'End If
+                            '''''
+                            Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                            Dim SelectedaccountCode As New List(Of String)
+                            Dim ExtracolumnsToHide = {""}
+
+                            Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
+                            If selected IsNot Nothing Then
+                                Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                                Dim BookNames As New List(Of String)
+                                Dim BookCodes As New List(Of String)
+                                For Each dict In List
+                                    If dict.ContainsKey("BookName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                                        BookNames.Add(Convert.ToString(dict("BookName")))
+                                        BookCodes.Add(Convert.ToString(dict("ACCOUNTCODE")))
+                                        AddToMasterList(Convert.ToString(dict("BookName")), Convert.ToString(dict("ACCOUNTCODE")), "")
+                                    End If
+                                Next
+                                Ctl_BookName.Text = String.Join(", ", BookNames)
                                 Ctl_BookName.ReadOnly = True
-                                _BookCode = MULTY_SELECTION_COLOUM_3_DATA
-                                'Ctl_Managebybook.Focus()
+                                _BookCode = String.Join(",", BookCodes)
                                 Txt_mainFormSize.Focus()
                             End If
                         Else
@@ -3144,12 +3166,34 @@ Public Class MainFrmDesigner
                         BOOK_CATGER = ""
                         BOOK_BHEWAR = "BOOKMODIFY"
                         If Ctl_Managebybook.Text = "YES" And txtfrmtype.Text = "ENTRY FORM" Then
-                            obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
-                            If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
-                                Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
+                            'obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
+                            'If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
+                            '    Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
+                            '    Ctl_BookName.ReadOnly = True
+                            '    _BookCode = MULTY_SELECTION_COLOUM_3_DATA
+                            '    'Ctl_Managebybook.Focus()
+                            '    Txt_mainFormSize.Focus()
+                            'End If
+                            '''''
+                            Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                            Dim SelectedaccountCode As New List(Of String)
+                            Dim ExtracolumnsToHide = {""}
+
+                            Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
+                            If selected IsNot Nothing Then
+                                Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                                Dim BookNames As New List(Of String)
+                                Dim BookCodes As New List(Of String)
+                                For Each dict In List
+                                    If dict.ContainsKey("BookName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
+                                        BookNames.Add(Convert.ToString(dict("BookName")))
+                                        BookCodes.Add(Convert.ToString(dict("ACCOUNTCODE")))
+                                        AddToMasterList(Convert.ToString(dict("BookName")), Convert.ToString(dict("ACCOUNTCODE")), "")
+                                    End If
+                                Next
+                                Ctl_BookName.Text = String.Join(", ", BookNames)
                                 Ctl_BookName.ReadOnly = True
-                                _BookCode = MULTY_SELECTION_COLOUM_3_DATA
-                                'Ctl_Managebybook.Focus()
+                                _BookCode = String.Join(",", BookCodes)
                                 Txt_mainFormSize.Focus()
                             End If
                         End If

@@ -110,7 +110,7 @@ Public Class MainFormRead
     Private CurrentTabPage As TabPage = Nothing
     Dim ImagePaths As New Dictionary(Of Integer, String)
     Private _FieldUseHeaderColumn As New StringBuilder()
-
+    Private _UseChallanForm As UseChallanview = Nothing
 
 
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -1946,7 +1946,16 @@ Public Class MainFormRead
             If spacerValue.Equals("YES", StringComparison.OrdinalIgnoreCase) Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                UseChallanview.Show()
+                'UseChallanview.Show()
+                If _UseChallanForm Is Nothing OrElse _UseChallanForm.IsDisposed Then
+                    _UseChallanForm = New UseChallanview()
+                End If
+                UseChallanview.ParentForm = Me
+                If Not _UseChallanForm.Visible Then
+                    UseChallanview.Show()
+                Else
+                    _UseChallanForm.Activate()
+                End If
             End If
         End If
     End Sub
@@ -3028,4 +3037,80 @@ Public Class MainFormRead
             MasterMenuLoad.RestoreMenuFocus(Me.Tag, MasterMenuLoad.MenuStrip1)
         End If
     End Sub
+#Region "Use Challan Mapping Data"
+    Public Sub Fill_SelectedData_To_Form(ByVal SelectedData As DataTable)
+        Try
+            If SelectedData Is Nothing OrElse SelectedData.Rows.Count = 0 Then Exit Sub
+            Dim SelectedRow As DataRow = SelectedData.Rows(0)
+            ' Dynamic Header TextBox Mapping
+            For Each dr As DataRow In _MainColumTbl.Rows
+                Dim ColumnType As String = dr("ColumnType").ToString().Trim()
+                Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                Dim DataBaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+                If ColumnType.Equals("TextBox", StringComparison.OrdinalIgnoreCase) Then
+                    If ctrlName = "" OrElse DataBaseColumn = "" Then Continue For
+                    ' Find Dynamic Control
+                    Dim ctrl As Control() = Me.Controls.Find(ctrlName, True)
+                    If ctrl.Length = 0 Then Continue For
+                    ' Find matching DataBaseColumn in SelectedData
+                    Dim matchingColumn As DataColumn = Nothing
+                    For Each dc As DataColumn In SelectedData.Columns
+                        If dc.ColumnName.Equals(DataBaseColumn, StringComparison.OrdinalIgnoreCase) Then
+                            matchingColumn = dc
+                            Exit For
+                        End If
+                    Next
+                    If matchingColumn Is Nothing Then Continue For
+                    ' Fill TextBox
+                    ctrl(0).Text = If(IsDBNull(SelectedRow(matchingColumn)), "", Convert.ToString(SelectedRow(matchingColumn)))
+                End If
+            Next
+            Dim ProcessedGrids As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+            For Each dr As DataRow In _MainColumTbl.Rows
+                Dim ColumnType As String = dr("ColumnType").ToString().Trim()
+                Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                If Not ColumnType.Equals("Grid", StringComparison.OrdinalIgnoreCase) Then Continue For
+                If ctrlName = "" OrElse Not ProcessedGrids.Add(ctrlName) Then Continue For
+                Dim tblTmp As DataTable = SelectedData.Copy()
+                Dim grd As FlexCell.Grid = Nothing
+                Dim ctrl As Control() = Me.Controls.Find(ctrlName, True)
+                If ctrl.Length > 0 Then
+                    grd = TryCast(ctrl(0), FlexCell.Grid)
+                End If
+                If grd Is Nothing Then Continue For
+                Dim _GridColmName As String() = Nothing
+                Dim currentGridTable As DataTable = Nothing
+                Select Case ctrlName.ToUpperInvariant()
+                    Case "GRID1"
+                        _GridColmName = Grid1_Table_ColNames
+                        currentGridTable = _DataTableGrid1
+                    Case "GRID2"
+                        _GridColmName = Grid2_Table_ColNames
+                        currentGridTable = _DataTableGrid2
+                    Case "GRID3"
+                        _GridColmName = Grid3_Table_ColNames
+                        currentGridTable = _DataTableGrid3
+                    Case "GRID4"
+                        _GridColmName = Grid4_Table_ColNames
+                        currentGridTable = _DataTableGrid4
+                    Case "GRID5"
+                        _GridColmName = Grid5_Table_ColNames
+                        currentGridTable = _DataTableGrid5
+                End Select
+                If _GridColmName Is Nothing Then Continue For
+                If tblTmp.Rows.Count > 0 Then
+                    grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
+                    Fill_Records(tblTmp, _GridColmName, grd, 0, True, "", False)
+                    grd.Rows = grd.Rows + 1
+                    Fill_Sr_No_Item(grd, currentGridTable)
+                    CalculateDynamicColumnTotal(grd, currentGridTable, tblTmp)
+                    ApplyGridFormula(grd, currentGridTable)
+                    _GridColmTotal(grd, currentGridTable)
+                End If
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString(), MsgBoxStyle.Critical, "Soft-Tex PRO")
+        End Try
+    End Sub
+#End Region
 End Class
