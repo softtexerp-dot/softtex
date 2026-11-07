@@ -2493,6 +2493,7 @@ Public Class MainFormRead
     End Sub
 
     Private Sub _GridColmTotal(grd As FlexCell.Grid, dt As DataTable)
+        If grd Is Nothing OrElse dt Is Nothing Then Exit Sub
         Dim footerTop As Integer = grd.Top + grd.Height + 5
         For i As Integer = Me.Controls.Count - 1 To 0 Step -1
             If TypeOf Me.Controls(i) Is Label AndAlso Me.Controls(i).Name.StartsWith("lblTotal_") Then
@@ -2813,6 +2814,24 @@ Public Class MainFormRead
                                     Ctrl_Visibility_With_One_Grid(False, Me.Controls, grd)
                                     grd.BoldFixedCell = False
                                 End If
+                                Dim gridDt As DataTable = Nothing
+                                Select Case i
+                                    Case 1
+                                        gridDt = _DataTableGrid1
+                                    Case 2
+                                        gridDt = _DataTableGrid2
+                                    Case 3
+                                        gridDt = _DataTableGrid3
+                                    Case 4
+                                        gridDt = _DataTableGrid4
+                                    Case 5
+                                        gridDt = _DataTableGrid5
+                                End Select
+                                If gridDt Is Nothing Then
+                                    Continue For
+                                End If
+                                ApplyGridFormula(grd, gridDt)
+                                CalculateDynamicColumnTotal(grd, gridDt, tmptbl)
                             Next
                             _KeyFieldValue = 0
                             UC_Buttons1._ButtonEnableDisable("LOAD")
