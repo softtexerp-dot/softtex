@@ -2167,10 +2167,10 @@ Public Class MainFrmDesigner
             '    End If
         ElseIf e.KeyCode = Keys.Escape Then
             _FrmLoad = True
-                If _FORMMODE = "" Then
-                    Me.Close()
-                Else
-                    Select Case _STRTRNOBJECT
+            If _FORMMODE = "" Then
+                Me.Close()
+            Else
+                Select Case _STRTRNOBJECT
                     Case "GRDITEM"
                         _FrmLoad = True
                         GrdItem.BoldFixedCell = False
@@ -2192,8 +2192,8 @@ Public Class MainFrmDesigner
                         _FrmLoad = False
                         _FORMMODE = ""
                 End Select
-                End If
             End If
+        End If
     End Sub
 
     Private Sub Delete_Row(ByVal GrdObj As FlexCell.Grid, ByVal DataTable_Name As DataTable)
@@ -2297,7 +2297,8 @@ Public Class MainFrmDesigner
         Clear_Grid(Grid1, 2)
         Dim View_Filter_Condition = ""
         If _Bookcode <> "" Then
-            View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and " & _DatabaseTableNameItem & ".BookCode='" & _Bookcode & "' and FormType='" & txtfrmtype.Text & "'"
+            View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " And " & _DatabaseTableNameItem & ".BookCode in ('" & _Bookcode & "') and FormType='" & txtfrmtype.Text & "'"
+            'View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and " & _DatabaseTableNameItem & ".BookCode in " & _Bookcode & " and FormType='" & txtfrmtype.Text & "'"
         Else
             View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and FormType='" & txtfrmtype.Text & "' "
         End If
@@ -2357,7 +2358,7 @@ Public Class MainFrmDesigner
     End Sub
     Private Sub FillHeaderControls(r As DataRow)
         If Ctl_ImpformId.Text <> "" Then
-            Txt_FormId.Text = Convert.ToDecimal(r("FormId")).ToString("0")
+            'Txt_FormId.Text = Convert.ToDecimal(r("FormId")).ToString("0")
         End If
         txtfrmtype.Text = r("FormType").ToString()
         txtFormName.Text = r("FormName").ToString()
@@ -3106,12 +3107,13 @@ Public Class MainFrmDesigner
                     _BookCode = ""
                     If _Tmptbla IsNot Nothing AndAlso _Tmptbla.Rows.Count > 0 Then
                         If Not IsDBNull(_Tmptbla.Rows(0)("BookName")) AndAlso _Tmptbla.Rows(0)("BookName").ToString().Trim() <> "" Then
-                            For Each dr As DataRow In _Tmptbla.Rows
-                                _BookCode &= "'" & dr("BookCode").ToString() & "',"
-                            Next
-                            If _BookCode <> "" Then
-                                _BookCode = _BookCode.TrimEnd(","c)
-                            End If
+                            'For Each dr As DataRow In _Tmptbla.Rows
+                            '    _BookCode &= "" & dr("BookCode").ToString() & ","
+                            'Next
+                            'If _BookCode <> "" Then
+                            '    '_BookCode = _BookCode.TrimEnd(","c)
+                            '    _BookCode = _BookCode.TrimEnd(","c).Replace(",", "','")
+                            'End If
                             'BOOK_CATGER = " A.BookCode in(" & _BookCode & ")"
                             'BOOK_BHEWAR = "chq_printing"
                             'obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
@@ -3124,11 +3126,21 @@ Public Class MainFrmDesigner
                             'End If
                             '''''
                             Dim _Filterstring As String = ""
-                            _Filterstring = " AND A.BookCode in(" & _BookCode & ")"
-                            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring)
-                            Dim SelectedaccountCode As New List(Of String)
-                            Dim ExtracolumnsToHide = {""}
+                            '_Filterstring = " AND A.BookCode in('" & _BookCode & "')"
 
+                            Dim SelectedaccountCode As New List(Of String)
+                            If Not String.IsNullOrEmpty(_BookCode) Then
+                                Dim rawValues As String() = _BookCode.Split(","c)
+                                For Each val As String In rawValues
+                                    'Dim cleanValue As String = val.Trim().Replace("#", "")
+                                    Dim cleanValue As String = val.Trim().Replace("'", "").Replace("#", "")
+                                    If Not String.IsNullOrEmpty(cleanValue) Then
+                                        SelectedaccountCode.Add(cleanValue)
+                                    End If
+                                Next
+                            End If
+                            Dim ExtracolumnsToHide = {""}
+                            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring)
                             Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                             If selected IsNot Nothing Then
                                 Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
@@ -3146,6 +3158,24 @@ Public Class MainFrmDesigner
                                 _BookCode = String.Join(",", BookCodes)
                                 Txt_mainFormSize.Focus()
                             End If
+
+
+                            ' Dim SelectedaccountCode As New List(Of String)
+                            'If Not String.IsNullOrEmpty(txtGattingLoomBookvno.Text) Then
+                            '    Dim rawValues As String() = txtGattingLoomBookvno.Text.Split(","c)
+                            '    For Each val As String In rawValues
+                            '        Dim cleanValue As String = val.Trim().Replace("#", "")
+                            '        If Not String.IsNullOrEmpty(cleanValue) Then
+                            '            SelectedaccountCode.Add(cleanValue)
+                            '        End If
+                            '    Next
+                            'End If
+
+
+                            'Dim _Filterstring As String = " AND A.Modvat='FLOOR' "
+                            'Dim ExtracolumnsToHide = {""}
+                            'Dim _LoadQuery = NewSelectionList.BeamNo_Selection(_Filterstring)
+                            'Dim selectedList = MultyAccountSelectionForm(_LoadQuery, Nothing, "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                         Else
                             BOOK_CATGER = ""
                         End If
@@ -3195,7 +3225,8 @@ Public Class MainFrmDesigner
                                 Next
                                 Ctl_BookName.Text = String.Join(", ", BookNames)
                                 Ctl_BookName.ReadOnly = True
-                                _BookCode = String.Join(",", BookCodes)
+                                '_BookCode = String.Join(",", BookCodes)
+                                _BookCode = "('" & String.Join("','", BookCodes) & "')"
                                 Txt_mainFormSize.Focus()
                             End If
                         End If
@@ -3207,23 +3238,29 @@ Public Class MainFrmDesigner
 
     Private Sub Ctl_ImpformId_KeyDown(sender As Object, e As KeyEventArgs) Handles Ctl_ImpformId.KeyDown
         If Ctl_ImpformId.Text <> "" Then
-            Change_Grid_Data = True
-            _FORMMODE = "ADD"
-            _FrmLoad = False
-            Call Ctrl_Visible_True(Me.Controls)
-            UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-            Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
-            Dim Last_Entry_No As Integer = 1
-            RS = Str_Qry.ToString
-            MenuDesign_QueryLoad()
-            If DefaltSoftTable.Rows.Count > 0 Then
-                Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID"))
+            If _FORMMODE = "ADD" Then
+                Change_Grid_Data = True
+                '_FORMMODE = "ADD"
+                _FrmLoad = False
+                Call Ctrl_Visible_True(Me.Controls)
+                UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+                Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
+                Dim Last_Entry_No As Integer = 1
+                RS = Str_Qry.ToString
+                MenuDesign_QueryLoad()
+                If DefaltSoftTable.Rows.Count > 0 Then
+                    Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID"))
+                End If
+                Ctl_Managebybook.Visible = False
             End If
-            Ctl_Managebybook.Visible = False
         End If
-        If e.KeyCode = Keys.Enter AndAlso _FORMMODE = "ADD" Then
-            LoadFormDesign()
-            Ctl_Managebybook.Visible = False
+            If e.KeyCode = Keys.Enter AndAlso _FORMMODE = "ADD" Then
+            If _FORMMODE = "ADD" Then
+                LoadFormDesign()
+                Ctl_Managebybook.Visible = False
+            Else
+                Ctl_ImpformId.ReadOnly = True
+            End If
         End If
     End Sub
 

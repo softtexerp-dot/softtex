@@ -88,7 +88,8 @@ Public Class MainFormRead
     Public MainLoadFormName As String = ""
 
 
-    Dim _Bookcode As String = ""
+    'Dim _Bookcode As String = ""
+    Dim _Bookcode As New List(Of String)
     Dim _Booktrtype As String = ""
     Dim _BookVNo As String = ""
 
@@ -545,6 +546,8 @@ Public Class MainFormRead
                 End If
             End If
         Next
+        'Dim bookCodes As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+        Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
         _strQuery = New StringBuilder()
         With _strQuery
             .Append(" SELECT A.* ")
@@ -552,7 +555,8 @@ Public Class MainFormRead
             .Append(" FROM " & _FilterTableName & " AS A ")
             .Append(leftJoin.ToString())
             .Append(" WHERE 1=1 ")
-            .Append(" AND A.BOOKCODE='" & _Bookcode.Replace("'", "''") & "' ")
+            .Append(" AND A.BOOKCODE in (" & bookCodes & ") ")
+            '.Append(" AND A.BOOKCODE='" & _Bookcode & "'")
             If _FORMMODE = "VIEW" Then
             Else
                 .Append(" AND A.EntryNo=" & EntryNo)
@@ -672,7 +676,10 @@ Public Class MainFormRead
                     AddSqlField(fields, values, "BOOKVNO", _BookVNo)
                 End If
                 If tableColumns.Contains("BOOKCODE") Then
-                    AddSqlField(fields, values, "BOOKCODE", _Bookcode)
+                    'AddSqlField(fields, values, "BOOKCODE", _Bookcode)
+                    'Dim bookCodes As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+                    Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
+                    AddSqlField(fields, values, "BOOKCODE", bookCodes)
                 End If
                 If tableColumns.Contains("BOOKTRTYPE") Then
                     AddSqlField(fields, values, "BOOKTRTYPE", _Booktrtype)
@@ -768,7 +775,10 @@ Public Class MainFormRead
                 End If
                 If gridColumns.Contains("BOOKCODE") Then
                     fields.Append("BOOKCODE,")
-                    values.Append(_Bookcode & ",")
+                    'values.Append(_Bookcode & ",")
+                    'Dim bookCodes As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+                    Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
+                    values.Append(bookCodes & ",")
                 End If
                 If gridColumns.Contains("BOOKTRTYPE") Then
                     fields.Append("BOOKTRTYPE,")
@@ -957,8 +967,8 @@ Public Class MainFormRead
     '    End Try
     'End Function
 
-
-    Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
+    'Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
+    Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As List(Of String))
         Try
             Generate_Date_For_DataBase(Txt_ViewFrom)
             Generate_Date_For_DataBase(Txt_ViewTO)
@@ -966,7 +976,10 @@ Public Class MainFormRead
             If tmptbl IsNot Nothing AndAlso tmptbl.Rows.Count > 0 AndAlso Not tmptbl.Columns.Contains("Mainid") Then
                 ResultTable = tmptbl.Copy()
             Else
-                Dim FilterBookcode As String = " '" & _Bookcode & "' "
+                'Dim bookCodes As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+                Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
+                Dim FilterBookcode As String = " '" & bookCodes & "' "
+                'Dim FilterBookcode As String = " '" & _Bookcode & "' "
                 Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
                 Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
                 Dim ViewQuery As String = GetQuery(tmptbl, "VIEWQUERY", "VIEW")
@@ -988,7 +1001,8 @@ Public Class MainFormRead
                     ResultTable = DefaltSoftTable.Copy()
                 End If
 
-                Dim UseChallanFilter1 As String = " '" & _Bookcode & "' "
+                Dim UseChallanFilter1 As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+                'Dim UseChallanFilter1 As String = _Bookcode
                 Dim UseChallanFilter2 As String = ""
                 Dim UseChallanFilter3 As String = ""
                 Dim UseChallanFilter4 As String = ""
@@ -1084,7 +1098,10 @@ Public Class MainFormRead
             Try
                 Dim EntryNO As String = _GetMaxEntryNo()
                 If EntryNO > 0 Then
-                    strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE='" & _Bookcode & "'  AND EntryNo='" & EntryNO & "' "
+                    'Dim bookCodes As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+                    Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
+                    strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE in ('" & bookCodes & "')  AND EntryNo='" & EntryNO & "' "
+                    'strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE='" & _Bookcode & "'  AND EntryNo='" & EntryNO & "' "
                 End If
                 sqL = strQuery.ToString
                 sql_connect_slect()
@@ -1529,7 +1546,12 @@ Public Class MainFormRead
                 End If
                 Dim Tabindex As Integer = 0
                 Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
-                _Bookcode = dr("Bookcode").ToString()
+                'Dim _Bookcode As New List(Of String)
+                Dim code As String = dr("Bookcode").ToString().Trim()
+                If code <> "" AndAlso Not _Bookcode.Contains(code) Then
+                    _Bookcode.Add(code)
+                End If
+                '_Bookcode = dr("Bookcode").ToString()
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim formtype As String = dr("FormType").ToString().Trim()
                 If formtype = "ENTRY FORM" Then
@@ -1678,8 +1700,8 @@ Public Class MainFormRead
                         'AddHandler cmb.KeyDown, AddressOf SpacerComboBox_KeyDown
                     End If
                     Continue For
-                    End If
-                    Dim NeedLabel As Boolean = True
+                End If
+                Dim NeedLabel As Boolean = True
                 If colType.Equals("CheckBox", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("ImgAdd", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("ImgView", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("Grid", StringComparison.OrdinalIgnoreCase) OrElse colType.Equals("TabControl", StringComparison.OrdinalIgnoreCase) Then
                     NeedLabel = False
                 End If
@@ -1923,7 +1945,10 @@ Public Class MainFormRead
                     End If
                 End If
             Next
-            sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
+            'Dim bookCodes As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+            Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
+            sqL = "select * from mstbook where bookcode in (" & bookCodes & ")"
+            'sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
             sql_connect_slect()
             If DefaltSoftTable.Rows.Count > 0 Then
                 _Booktrtype = DefaltSoftTable.Rows(0).Item("booktrtype").ToString()
@@ -2175,7 +2200,10 @@ Public Class MainFormRead
             If String.IsNullOrWhiteSpace(_TblName) Then
                 Return 0
             End If
-            sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode.Replace("'", "''") & "' ORDER BY ENTRYNO DESC"
+            'Dim bookCodes As String = String.Join(",", _Bookcode.Select(Function(x) "'" & x.Replace("'", "''") & "'"))
+            Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
+            sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE in (" & bookCodes & ")  ORDER BY ENTRYNO DESC"
+            'sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "'  ORDER BY ENTRYNO DESC"
             sql_connect_slect()
             Tbltmp = DefaltSoftTable.Copy
             If Tbltmp.Rows.Count > 0 Then
