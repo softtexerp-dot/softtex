@@ -3112,8 +3112,8 @@ Public Class MainFrmDesigner
                             If _BookCode <> "" Then
                                 _BookCode = _BookCode.TrimEnd(","c)
                             End If
-                            BOOK_CATGER = " A.BookCode in(" & _BookCode & ")"
-                            BOOK_BHEWAR = "chq_printing"
+                            'BOOK_CATGER = " A.BookCode in(" & _BookCode & ")"
+                            'BOOK_BHEWAR = "chq_printing"
                             'obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
                             'If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
                             '    Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
@@ -3123,7 +3123,9 @@ Public Class MainFrmDesigner
                             '    Txt_mainFormSize.Focus()
                             'End If
                             '''''
-                            Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                            Dim _Filterstring As String = ""
+                            _Filterstring = " AND A.BookCode in(" & _BookCode & ")"
+                            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring)
                             Dim SelectedaccountCode As New List(Of String)
                             Dim ExtracolumnsToHide = {""}
 
