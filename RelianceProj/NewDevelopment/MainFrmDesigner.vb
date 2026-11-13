@@ -2165,6 +2165,24 @@ Public Class MainFrmDesigner
             '        Clear_Grid(GrdItem, 2)
             '        Clear_Grid(Grid1, 2)
             '    End If
+        ElseIf e.KeyCode = Keys.F1 Then
+            Select Case _STRTRNOBJECT
+                Case "GRDITEM"
+                    _FrmLoad = True
+                    GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    UC_Buttons1.BtnSave.Focus()
+                Case "GRID1"
+                    Grid1.Cell(1, Detail_DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    UC_Buttons1.BtnSave.Focus()
+                Case Else
+                    _FrmLoad = True
+                    GrdItem.Cell(1, _DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    GrdItem.Focus()
+                    GrdItem.Select()
+                    Grid1.Cell(1, Detail_DataTableGrid.Columns.IndexOf("SRNO") + 1).SetFocus()
+                    Grid1.Focus()
+                    Grid1.Select()
+            End Select
         ElseIf e.KeyCode = Keys.Escape Then
             _FrmLoad = True
             If _FORMMODE = "" Then
@@ -2221,9 +2239,11 @@ Public Class MainFrmDesigner
         Clear_Grid(Grid1, 2)
         Dim View_Filter_Condition = ""
         If Ctl_ImpformId.Text <> "" Then
-            View_Filter_Condition = " AND  FormId=" & Ctl_ImpformId.Text & " and FormType='" & txtfrmtype.Text & "' "
+            'View_Filter_Condition = " AND  FormId=" & Ctl_ImpformId.Text & " and FormType='" & txtfrmtype.Text & "' "
+            View_Filter_Condition = " AND  FormId=" & Ctl_ImpformId.Text & " "
         ElseIf Txt_FormId.Text <> "" Then
-            View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and FormType='" & txtfrmtype.Text & "' "
+            'View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " and FormType='" & txtfrmtype.Text & "' "
+            View_Filter_Condition = " AND  FormId=" & Txt_FormId.Text & " "
         End If
         _strQuery = New StringBuilder
         With _strQuery
@@ -2400,16 +2420,25 @@ Public Class MainFrmDesigner
 
     Private Sub Txt_FormId_KeyDown(sender As Object, e As KeyEventArgs) Handles Txt_FormId.KeyDown
         If e.KeyCode = Keys.Enter Then
-            If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim = "ENTRY FORM" Then
+            'If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim = "ENTRY FORM" Then
+            If _FORMMODE = "EDIT" Then
                 Dim _Tmptbla As New DataTable
-                _Tmptbla = _checkForm()
-                If _Tmptbla.Rows.Count > 0 Then
-                    'Ctl_BookName.Focus()
-                    'Ctl_BookName.Select()
-                Else
-                    MsgBox("Record Not Found")
-                    'Txt_FormId.Focus()
+                '_Tmptbla = _checkForm()
+                'If _Tmptbla.Rows.Count > 0 Then
+                '    'Ctl_BookName.Focus()
+                '    'Ctl_BookName.Select()
+                'Else
+                '    MsgBox("Record Not Found")
+                '    'Txt_FormId.Focus()
+                '    txtfrmtype.Focus()
+                'End If
+                FORM_SELECTION_FORM_NAME()
+                If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
+                    txtFormName.Text = MULTY_SELECTION_COLOUM_2_DATA
+                    txtFormName.ReadOnly = True
+                    Txt_FormId.Text = MULTY_SELECTION_COLOUM_1_DATA
                     txtfrmtype.Focus()
+                    LoadFormDesign()
                 End If
             ElseIf txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
                 Ctl_BookName.Text = ""
@@ -2420,7 +2449,106 @@ Public Class MainFrmDesigner
             End If
         End If
     End Sub
+    Public Sub FORM_SELECTION_FORM_NAME()
 
+        Try
+            _strQuery = New StringBuilder
+
+            With _strQuery
+                .Append(" SELECT ")
+                .Append(" A.FormID,A.FormName,A.FormID As AccountCode,A.FormID As AccountCode1,A.FormID As AccountCode2")
+                .Append(" FROM " & _DatabaseTableNameItem & " A ")
+                .Append(" WHERE A.FormDesignType = 'HEADER DESIGN'")
+                .Append(" GROUP BY A.FormName, A.FormID ")
+                .Append(" ORDER BY A.FormID ")
+            End With
+            RS = _strQuery.ToString
+            MenuDesign_QueryLoad()
+            Party_selection.dgw.DataSource = DefaltSoftTable.Copy
+            Party_selection.dgw.Columns(0).HeaderText = "Form ID"
+            Party_selection.dgw.Columns(1).HeaderText = "Form Name"
+
+            Party_selection.dgw.Columns(0).Width = 100
+            Party_selection.dgw.Columns(1).Width = 350
+
+            Party_selection.Width = 450
+
+            SELECTION_LIST_FIRST_SELECTION()
+            Party_selection.Close()
+            Party_selection.Dispose()
+
+        Catch ex As Exception
+            MsgBox(ex.ToString, MsgBoxStyle.Critical, "Form Selection Error")
+        End Try
+
+    End Sub
+    Public Sub SELECTION_LIST_FIRST_SELECTION()
+        Try
+            If Party_selection.dgw.Rows.Count = 0 Then
+                Party_selection.Label2.Text = ""
+                Party_selection.Label3.Text = ""
+                Party_selection.Label6.Text = ""
+                Party_selection.Label7.Text = ""
+                MULTY_SELECTION_COLOUM_1_DATA = ""
+                MULTY_SELECTION_COLOUM_2_DATA = ""
+                MULTY_SELECTION_COLOUM_3_DATA = ""
+                'Party_selection.dgw.Rows.Add("Value 1", "Value 2", "Value3")
+
+                'Party_selection.dgw.AllowUserToAddRows = True
+                'Party_selection.dgw.Rows.Add()
+                MsgBox("Record Not Found.", MsgBoxStyle.Information, "Soft-Tex PRO")
+                SendKeys.Send("{UP}")
+                Party_selection.Close()
+                Party_selection.Dispose()
+                Exit Sub
+            End If
+
+            Dim row As DataGridViewRow = Party_selection.dgw.Rows(0)
+            row.Height = 30
+
+
+            Party_selection.dgw.ClearSelection()
+            If Party_selection.txtSearch.Text <> "" Then
+                Dim s As String = Party_selection.txtSearch.Text
+                For x As Integer = 0 To Party_selection.dgw.Rows.Count - 1
+                    If CStr(Party_selection.dgw.Rows(x).Cells(0).Value).StartsWith(s) Then
+                        Party_selection.dgw.FirstDisplayedScrollingRowIndex = x
+                        Party_selection.dgw.Item(0, x).Selected = True
+                        Party_selection.Label2.Text = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                        Party_selection.Label3.Text = Party_selection.dgw.SelectedRows(0).Cells(2).Value.ToString
+                        Party_selection.Label6.Text = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                        MULTY_SELECTION_COLOUM_1_DATA = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                        MULTY_SELECTION_COLOUM_2_DATA = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                        Exit For
+                    End If
+                Next
+            End If
+
+            If Party_selection.txtSearch.Text = Party_selection.Label2.Text Then
+            Else
+                Party_selection.txtSearch.Text = ""
+            End If
+            If Party_selection.txtSearch.Text = "" Then
+                Party_selection.dgw.FirstDisplayedScrollingRowIndex = 0
+                Party_selection.dgw.Rows(0).Selected = True
+                Party_selection.Label2.Text = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+                Party_selection.Label3.Text = Party_selection.dgw.SelectedRows(0).Cells(2).Value.ToString
+                Party_selection.Label6.Text = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                MULTY_SELECTION_COLOUM_1_DATA = Party_selection.dgw.SelectedRows(0).Cells(1).Value.ToString
+                MULTY_SELECTION_COLOUM_2_DATA = Party_selection.dgw.SelectedRows(0).Cells(0).Value.ToString
+            End If
+            Party_selection.Owner = Main_MDI_Frm
+            Party_selection.StartPosition = FormStartPosition.CenterParent
+
+            Party_selection.dgw.Focus()
+            Party_selection.ShowDialog()
+            Party_selection.Close()
+            Party_selection.Dispose()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+    End Sub
     Private Sub Delete_Entry()
         _FrmLoad = True
         Dim I As Integer = 0
@@ -2455,10 +2583,21 @@ Public Class MainFrmDesigner
             txtfrmtype.Text = "MASTER FORM"
             Txt_mainFormSize.Text = 660
             TxtMainFormSizeY.Text = 1028
-            txtfrmtype.Focus()
+            'txtfrmtype.Focus()
+            Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
+            Dim TblTmp As New DataTable
+            Dim Last_Entry_No As Integer = 1
+            RS = Str_Qry.ToString
+            MenuDesign_QueryLoad()
+            If DefaltSoftTable.Rows.Count > 0 Then
+                If IsDBNull(DefaltSoftTable.Rows(0).Item("FormID")) Then DefaltSoftTable.Rows(0).Item("FormID") = 1
+                Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID")) + 1
+            End If
+            Txt_FormId.Text = Last_Entry_No
+            Txt_FormId.Focus()
+            Txt_FormId.Select()
             Ctl_Managebybook.Visible = False
         End If
-
     End Sub
     Private Sub UC_Buttons1_EditClick() Handles UC_Buttons1.EditClick
         _FORMMODE = "EDIT"
@@ -2473,9 +2612,10 @@ Public Class MainFrmDesigner
         If DefaltSoftTable.Rows.Count > 0 Then
             Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID"))
         End If
-        Txt_FormId.Text = Last_Entry_No
-        txtfrmtype.Text = "MASTER FORM"
-        txtfrmtype.Focus()
+        'Txt_FormId.Text = Last_Entry_No
+        'txtfrmtype.Text = "MASTER FORM"
+        'txtfrmtype.Focus()
+        Txt_FormId.Focus()
         Call Ctrl_Visible_True(Me.Controls)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
         Change_Grid_Data = True
@@ -3084,7 +3224,8 @@ Public Class MainFrmDesigner
             .Append(" FROM " & _DatabaseTableNameItem & " ")
             .Append(" where 1=1 ")
             .Append(" AND  FormId=" & Txt_FormId.Text & "")
-            .Append(" AND  FormDesignType='HEADER DESIGN' and FormType='" & txtfrmtype.Text & "' ")
+            .Append(" AND  FormDesignType='HEADER DESIGN' ")
+            '.Append(" AND  FormDesignType='HEADER DESIGN' and FormType='" & txtfrmtype.Text & "' ")
             .Append(" group by  ")
             .Append(" BookName,Bookcode ")
         End With
@@ -3107,75 +3248,27 @@ Public Class MainFrmDesigner
                     _BookCode = ""
                     If _Tmptbla IsNot Nothing AndAlso _Tmptbla.Rows.Count > 0 Then
                         If Not IsDBNull(_Tmptbla.Rows(0)("BookName")) AndAlso _Tmptbla.Rows(0)("BookName").ToString().Trim() <> "" Then
-                            'For Each dr As DataRow In _Tmptbla.Rows
-                            '    _BookCode &= "" & dr("BookCode").ToString() & ","
-                            'Next
-                            'If _BookCode <> "" Then
-                            '    '_BookCode = _BookCode.TrimEnd(","c)
-                            '    _BookCode = _BookCode.TrimEnd(","c).Replace(",", "','")
-                            'End If
-                            'BOOK_CATGER = " A.BookCode in(" & _BookCode & ")"
-                            'BOOK_BHEWAR = "chq_printing"
-                            'obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
-                            'If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
-                            '    Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                            '    Ctl_BookName.ReadOnly = True
-                            '    _BookCode = MULTY_SELECTION_COLOUM_3_DATA
-                            '    'Ctl_Managebybook.Focus()
-                            '    Txt_mainFormSize.Focus()
-                            'End If
-                            '''''
                             Dim _Filterstring As String = ""
-                            '_Filterstring = " AND A.BookCode in('" & _BookCode & "')"
-
                             Dim SelectedaccountCode As New List(Of String)
-                            If Not String.IsNullOrEmpty(_BookCode) Then
-                                Dim rawValues As String() = _BookCode.Split(","c)
-                                For Each val As String In rawValues
-                                    'Dim cleanValue As String = val.Trim().Replace("#", "")
-                                    Dim cleanValue As String = val.Trim().Replace("'", "").Replace("#", "")
-                                    If Not String.IsNullOrEmpty(cleanValue) Then
-                                        SelectedaccountCode.Add(cleanValue)
-                                    End If
-                                Next
-                            End If
                             Dim ExtracolumnsToHide = {""}
-                            Dim _LoadQuery = NewSelectionList.MstBookSelection(_Filterstring)
+                            Dim _LoadQuery = NewSelectionList.MstBookcategorySelection(_Filterstring)
                             Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                             If selected IsNot Nothing Then
                                 Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
-                                Dim BookNames As New List(Of String)
-                                Dim BookCodes As New List(Of String)
+                                Dim Bookcategory As New List(Of String)
+                                Dim BEHAVIOUR As New List(Of String)
                                 For Each dict In List
-                                    If dict.ContainsKey("BookName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
-                                        BookNames.Add(Convert.ToString(dict("BookName")))
-                                        BookCodes.Add(Convert.ToString(dict("ACCOUNTCODE")))
-                                        AddToMasterList(Convert.ToString(dict("BookName")), Convert.ToString(dict("ACCOUNTCODE")), "")
+                                    If dict.ContainsKey("Bookcategory") AndAlso dict.ContainsKey("BEHAVIOUR") Then
+                                        Bookcategory.Add(Convert.ToString(dict("Bookcategory")))
+                                        BEHAVIOUR.Add(Convert.ToString(dict("BEHAVIOUR")))
+                                        AddToMasterList(Convert.ToString(dict("Bookcategory")), Convert.ToString(dict("BEHAVIOUR")), "")
                                     End If
                                 Next
-                                Ctl_BookName.Text = String.Join(", ", BookNames)
+                                Ctl_BookName.Text = String.Join(", ", Bookcategory)
                                 Ctl_BookName.ReadOnly = True
-                                _BookCode = String.Join(",", BookCodes)
+                                _BookCode = String.Join(",", BEHAVIOUR)
                                 Txt_mainFormSize.Focus()
                             End If
-
-
-                            ' Dim SelectedaccountCode As New List(Of String)
-                            'If Not String.IsNullOrEmpty(txtGattingLoomBookvno.Text) Then
-                            '    Dim rawValues As String() = txtGattingLoomBookvno.Text.Split(","c)
-                            '    For Each val As String In rawValues
-                            '        Dim cleanValue As String = val.Trim().Replace("#", "")
-                            '        If Not String.IsNullOrEmpty(cleanValue) Then
-                            '            SelectedaccountCode.Add(cleanValue)
-                            '        End If
-                            '    Next
-                            'End If
-
-
-                            'Dim _Filterstring As String = " AND A.Modvat='FLOOR' "
-                            'Dim ExtracolumnsToHide = {""}
-                            'Dim _LoadQuery = NewSelectionList.BeamNo_Selection(_Filterstring)
-                            'Dim selectedList = MultyAccountSelectionForm(_LoadQuery, Nothing, "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                         Else
                             BOOK_CATGER = ""
                         End If
@@ -3198,35 +3291,25 @@ Public Class MainFrmDesigner
                         BOOK_CATGER = ""
                         BOOK_BHEWAR = "BOOKMODIFY"
                         If Ctl_Managebybook.Text = "YES" And txtfrmtype.Text = "ENTRY FORM" Then
-                            'obj_Party_Selection.BOOK_SELECTION_FORM_NAME()
-                            'If MULTY_SELECTION_COLOUM_3_DATA <> "" Then
-                            '    Ctl_BookName.Text = MULTY_SELECTION_COLOUM_1_DATA
-                            '    Ctl_BookName.ReadOnly = True
-                            '    _BookCode = MULTY_SELECTION_COLOUM_3_DATA
-                            '    'Ctl_Managebybook.Focus()
-                            '    Txt_mainFormSize.Focus()
-                            'End If
-                            '''''
-                            Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                            Dim _LoadQuery = NewSelectionList.MstBookcategorySelection("")
                             Dim SelectedaccountCode As New List(Of String)
                             Dim ExtracolumnsToHide = {""}
 
                             Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
                             If selected IsNot Nothing Then
                                 Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
-                                Dim BookNames As New List(Of String)
-                                Dim BookCodes As New List(Of String)
+                                Dim Bookcategory As New List(Of String)
+                                Dim BEHAVIOUR As New List(Of String)
                                 For Each dict In List
-                                    If dict.ContainsKey("BookName") AndAlso dict.ContainsKey("ACCOUNTCODE") Then
-                                        BookNames.Add(Convert.ToString(dict("BookName")))
-                                        BookCodes.Add(Convert.ToString(dict("ACCOUNTCODE")))
-                                        AddToMasterList(Convert.ToString(dict("BookName")), Convert.ToString(dict("ACCOUNTCODE")), "")
+                                    If dict.ContainsKey("Bookcategory") AndAlso dict.ContainsKey("BEHAVIOUR") Then
+                                        Bookcategory.Add(Convert.ToString(dict("Bookcategory")))
+                                        BEHAVIOUR.Add(Convert.ToString(dict("BEHAVIOUR")))
+                                        AddToMasterList(Convert.ToString(dict("Bookcategory")), Convert.ToString(dict("BEHAVIOUR")), "")
                                     End If
                                 Next
-                                Ctl_BookName.Text = String.Join(", ", BookNames)
+                                Ctl_BookName.Text = String.Join(", ", Bookcategory)
                                 Ctl_BookName.ReadOnly = True
-                                '_BookCode = String.Join(",", BookCodes)
-                                _BookCode = "('" & String.Join("','", BookCodes) & "')"
+                                _BookCode = String.Join(",", BEHAVIOUR)
                                 Txt_mainFormSize.Focus()
                             End If
                         End If
@@ -3305,7 +3388,8 @@ Public Class MainFrmDesigner
 
     Private Sub txtfrmtype_KeyDown(sender As Object, e As KeyEventArgs) Handles txtfrmtype.KeyDown
         If e.KeyCode = Keys.Enter Then
-            If _FORMMODE = "ADD" AndAlso txtfrmtype.Text <> "" Then
+            If _FORMMODE = "ADD" AndAlso txtfrmtype.Text <> "ENTRY FORM" Then
+                'If _FORMMODE = "ADD" Then
                 _FrmLoad = False
                 Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()
                 Dim TblTmp As New DataTable
@@ -3317,26 +3401,27 @@ Public Class MainFrmDesigner
                     Last_Entry_No = Val(DefaltSoftTable.Rows(0).Item("FormID")) + 1
                 End If
                 Txt_FormId.Text = Last_Entry_No
-                Txt_FormId.Focus()
-                Txt_FormId.Select()
+                'Txt_FormId.Focus()
+                'Txt_FormId.Select()
+                Ctl_BookName.Focus()
                 Ctl_Managebybook.Visible = False
             End If
             If e.KeyCode = Keys.Enter Then
-                If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim > "" Then
-                    Dim _Tmptbla As New DataTable
-                    _Tmptbla = _checkForm()
-                    If _Tmptbla.Rows.Count > 0 Then
-                        'Ctl_BookName.Focus()
-                        'Ctl_BookName.Select()
-                        Ctl_Managebybook.Visible = False
-                    Else
-                        MsgBox("Record Not Found " & txtfrmtype.Text)
-                        txtfrmtype.Focus()
-                        Ctl_Managebybook.Visible = False
+                    If _FORMMODE = "EDIT" AndAlso Txt_FormId.Text.Trim > "" AndAlso txtfrmtype.Text.Trim > "" Then
+                        Dim _Tmptbla As New DataTable
+                        _Tmptbla = _checkForm()
+                        If _Tmptbla.Rows.Count > 0 Then
+                            'Ctl_BookName.Focus()
+                            'Ctl_BookName.Select()
+                            Ctl_Managebybook.Visible = False
+                        Else
+                            MsgBox("Record Not Found " & txtfrmtype.Text)
+                            txtfrmtype.Focus()
+                            Ctl_Managebybook.Visible = False
+                        End If
                     End If
                 End If
             End If
-        End If
 
     End Sub
 

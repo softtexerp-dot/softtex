@@ -839,6 +839,32 @@ Public Class NewSelectionListQuery
         End Try
         Return _strQuery.ToString
     End Function
+    Public Function MstBookcategorySelection(ByVal _FilterString As String)
+        Dim _strQuery = New StringBuilder
+        Try
+            With _strQuery
+                .Append(" SELECT  ")
+                .Append(" 'False' as TickMark  ")
+                .Append(" ,A.Bookcategory  ")
+                .Append(" ,A.BEHAVIOUR  ")
+                .Append("  FROM MstBook A  ")
+                .Append(" WHERE 1=1 ")
+                .Append(" AND A.ACTIVE_STATUS ='YES'  ")
+                .Append(_FilterString)
+                .Append(" group by  A.BOOKCATEGORY,A.BEHAVIOUR ")
+                .Append(" ORDER BY A.BOOKCATEGORY ")
+            End With
+
+            GROUP_WISE_MULTY_PARTY_SELECT = ""
+            party_selection_book_code = ""
+            GroupCodeFiletrCode = ""
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        Finally
+        End Try
+        Return _strQuery.ToString
+    End Function
     Public Function MstFabricItem_Select(ByVal FilterString As String)
         Dim _strQuery = New StringBuilder
 
