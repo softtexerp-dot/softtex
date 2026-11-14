@@ -2905,7 +2905,7 @@ Public Class MainMasterFormRead
             Dim ctrlNameStr As String = dr("CntrlName").ToString().Trim()
             Dim ctrl As Control = Me.Controls.Find(ctrlNameStr, True).FirstOrDefault()
             If offmastercode <> "" Then
-                HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName, "SINGLE")
+                HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName, "SINGLE", "")
             End If
         Next
 

@@ -10,8 +10,8 @@ Public Class UseChallanview
     Public MainLoadFormName1 As String = ""
     Public Property FormNameValue As String
     Dim txtEntryno As String = ""
-    'Dim _Bookcode As String = ""
-    Dim _Bookcode As New List(Of String)
+    Dim _Bookcode As String = ""
+    'Dim _Bookcode As New List(Of String)
     'Dim _Booktrtype As String = ""
     Dim _BookVNo As String = ""
     Dim _Booktrtype As New List(Of String)
@@ -274,8 +274,8 @@ Public Class UseChallanview
                 Dim Tabindex As Integer = 0
                 Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
                 '_Bookcode = dr("Bookcode").ToString()
-                _Bookcode.Clear()
-                _Bookcode.Add(dr("Bookcode").ToString())
+                '_Bookcode.Clear()
+                '_Bookcode.Add(dr("Bookcode").ToString())
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim formtype As String = dr("FormType").ToString().Trim()
                 If formtype = "ENTRY FORM" Then
@@ -334,19 +334,21 @@ Public Class UseChallanview
                     End If
                 End If
             Next
-            Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
-            'sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
-            sqL = "select * from mstbook where bookcode in (" & bookCodes & ")"
-            sql_connect_slect()
-            If DefaltSoftTable.Rows.Count > 0 Then
-                '_Booktrtype = DefaltSoftTable.Rows(0).Item("booktrtype").ToString()
-                _Booktrtype.Clear()
-                For Each dr As DataRow In DefaltSoftTable.Rows
-                    _Booktrtype.Add(dr("booktrtype").ToString().Trim())
-                Next
-            Else
-                MsgBox("Book Not Find Please Define Book", MsgBoxStyle.Critical)
-            End If
+            'Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
+            'sqL = "select * from mstbook where bookcode in (" & bookCodes & ")"
+            'If _Bookcode <> "" Then
+            '    sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
+            '    sql_connect_slect()
+            '    If DefaltSoftTable.Rows.Count > 0 Then
+            '        '_Booktrtype = DefaltSoftTable.Rows(0).Item("booktrtype").ToString()
+            '        _Booktrtype.Clear()
+            '        For Each dr As DataRow In DefaltSoftTable.Rows
+            '            _Booktrtype.Add(dr("booktrtype").ToString().Trim())
+            '        Next
+            '    Else
+            '        MsgBox("Book Not Find Please Define Book", MsgBoxStyle.Critical)
+            '    End If
+            'End If
 #End Region
         Catch ex As Exception
             MsgBox(ex.ToString(), MsgBoxStyle.Critical, "Soft-Tex PRO")
@@ -420,7 +422,8 @@ Public Class UseChallanview
             oldCtrl.Dispose()
         End If
     End Sub
-    Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As List(Of String))
+    'Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As List(Of String))
+    Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
         Try
             'Generate_Date_For_DataBase(Txt_ViewFrom)
             'Generate_Date_For_DataBase(Txt_ViewTO)
@@ -428,8 +431,8 @@ Public Class UseChallanview
             If tmptbl IsNot Nothing AndAlso tmptbl.Rows.Count > 0 AndAlso Not tmptbl.Columns.Contains("Mainid") Then
                 ResultTable = tmptbl.Copy()
             Else
-                'Dim UseChallanFilter1 As String = "'" & String.Join("','", _Bookcode) & "'"
-                Dim UseChallanFilter1 As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim() & "'"))
+                Dim UseChallanFilter1 As String = "'" & String.Join("','", _Bookcode) & "'"
+                'Dim UseChallanFilter1 As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim() & "'"))
                 Dim UseChallanFilter2 As String = ""
                 Dim UseChallanFilter3 As String = ""
                 Dim UseChallanFilter4 As String = ""

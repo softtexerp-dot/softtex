@@ -522,7 +522,7 @@ Module GetMasterDataJoinInMaster
         masterListcode5.Add(New Tuple(Of String, String, String)(code, name, masterName))
     End Sub
 
-    Public Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String, ByVal listtype As String)
+    Public Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String, ByVal listtype As String, ByVal _BookmasterFilter As String)
         Select Case masterName
             Case "ACCOUNT MASTER"
                 Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
@@ -742,7 +742,7 @@ Module GetMasterDataJoinInMaster
                     End If
                 End If
             Case "BOOK MASTER"
-                Dim _LoadQuery = NewSelectionList.MstBookSelection("")
+                Dim _LoadQuery = NewSelectionList.MstBookSelection(_BookmasterFilter)
                 Dim selected = SingleAccountSelectionForm(_LoadQuery, GetType(Master_frm), ActivetextName, listtype)
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("BookName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
@@ -752,7 +752,7 @@ Module GetMasterDataJoinInMaster
         End Select
     End Sub
     Public Sub SetGridValue(ByVal displayValue As String, ByVal codeValue As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal ctrl As Control)
-        If ctrl IsNot Nothing Then
+            If ctrl IsNot Nothing Then
             If TypeOf ctrl Is TextBox Then
                 Dim txt As TextBox = DirectCast(ctrl, TextBox)
                 txt.Text = displayValue

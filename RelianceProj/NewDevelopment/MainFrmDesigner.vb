@@ -3277,20 +3277,42 @@ Public Class MainFrmDesigner
                 ElseIf txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
                     Ctl_BookName.Text = ""
                     LoadFormDesign()
-                ElseIf txtfrmtype.Text.Trim = "REPORT" AndAlso Txt_FormId.Text.Trim > "" Then
-                    Ctl_BookName.Text = ""
-                    LoadFormDesign()
+                    'ElseIf txtfrmtype.Text.Trim = "REPORT" AndAlso Txt_FormId.Text.Trim > "" Then
+                    '    Ctl_BookName.Text = ""
+                    '    LoadFormDesign()
                 Else
                     If txtfrmtype.Text.Trim = "MASTER FORM" AndAlso Txt_FormId.Text.Trim > "" Then
                         Ctl_BookName.Text = ""
                         LoadFormDesign()
-                    ElseIf txtfrmtype.Text.Trim = "REPORT" AndAlso Txt_FormId.Text.Trim > "" Then
-                        Ctl_BookName.Text = ""
-                        LoadFormDesign()
+                        'ElseIf txtfrmtype.Text.Trim = "REPORT" AndAlso Txt_FormId.Text.Trim > "" Then
+                        '    Ctl_BookName.Text = ""
+                        '    LoadFormDesign()
                     Else
                         BOOK_CATGER = ""
                         BOOK_BHEWAR = "BOOKMODIFY"
                         If Ctl_Managebybook.Text = "YES" And txtfrmtype.Text = "ENTRY FORM" Then
+                            Dim _LoadQuery = NewSelectionList.MstBookcategorySelection("")
+                            Dim SelectedaccountCode As New List(Of String)
+                            Dim ExtracolumnsToHide = {""}
+
+                            Dim selected = MultyAccountSelectionForm(_LoadQuery, GetType(Store_Item), "", "MULTY", SelectedaccountCode, ExtracolumnsToHide)
+                            If selected IsNot Nothing Then
+                                Dim List = CType(selected, List(Of Dictionary(Of String, Object)))
+                                Dim Bookcategory As New List(Of String)
+                                Dim BEHAVIOUR As New List(Of String)
+                                For Each dict In List
+                                    If dict.ContainsKey("Bookcategory") AndAlso dict.ContainsKey("BEHAVIOUR") Then
+                                        Bookcategory.Add(Convert.ToString(dict("Bookcategory")))
+                                        BEHAVIOUR.Add(Convert.ToString(dict("BEHAVIOUR")))
+                                        AddToMasterList(Convert.ToString(dict("Bookcategory")), Convert.ToString(dict("BEHAVIOUR")), "")
+                                    End If
+                                Next
+                                Ctl_BookName.Text = String.Join(", ", Bookcategory)
+                                Ctl_BookName.ReadOnly = True
+                                _BookCode = String.Join(",", BEHAVIOUR)
+                                Txt_mainFormSize.Focus()
+                            End If
+                        ElseIf Ctl_Managebybook.Text = "YES" And txtfrmtype.Text = "REPORT" Then
                             Dim _LoadQuery = NewSelectionList.MstBookcategorySelection("")
                             Dim SelectedaccountCode As New List(Of String)
                             Dim ExtracolumnsToHide = {""}
@@ -3388,7 +3410,7 @@ Public Class MainFrmDesigner
 
     Private Sub txtfrmtype_KeyDown(sender As Object, e As KeyEventArgs) Handles txtfrmtype.KeyDown
         If e.KeyCode = Keys.Enter Then
-            If _FORMMODE = "ADD" AndAlso txtfrmtype.Text <> "ENTRY FORM" Then
+            If _FORMMODE = "ADD" AndAlso Not {"ENTRY FORM", "REPORT"}.Contains(txtfrmtype.Text.Trim().ToUpper()) Then
                 'If _FORMMODE = "ADD" Then
                 _FrmLoad = False
                 Dim Str_Qry As String = EntryData_Invoice_Entry_txtBookName_Validated()

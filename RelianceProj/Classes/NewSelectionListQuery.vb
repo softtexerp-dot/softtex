@@ -849,7 +849,6 @@ Public Class NewSelectionListQuery
                 .Append(" ,A.BEHAVIOUR  ")
                 .Append("  FROM MstBook A  ")
                 .Append(" WHERE 1=1 ")
-                .Append(" AND A.ACTIVE_STATUS ='YES'  ")
                 .Append(_FilterString)
                 .Append(" group by  A.BOOKCATEGORY,A.BEHAVIOUR ")
                 .Append(" ORDER BY A.BOOKCATEGORY ")
