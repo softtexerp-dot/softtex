@@ -1,4 +1,5 @@
 ﻿Imports System.Text
+Imports CrystalDecisions.ReportAppServer.DataDefModel
 Imports DevExpress.Data.Controls
 Imports DevExpress.XtraEditors
 Imports DevExpress.XtraEditors.TextEditController.Win32
@@ -241,8 +242,9 @@ Public Class MainFormRead
         _FORMMODE = "DELETE"
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
+        _LoadDefaultData()
         Dim EntryNo As Integer
-        EntryNo = _GetMaxEntryNo()
+        EntryNo = _GetMaxEntryNo(_Bookcode)
         If EntryNo > 0 Then
             Dim txt As New TextBox()
             txt.Text = EntryNo
@@ -556,7 +558,7 @@ Public Class MainFormRead
             .Append(" FROM " & _FilterTableName & " AS A ")
             .Append(leftJoin.ToString())
             .Append(" WHERE 1=1 ")
-            '.Append(" AND A.BOOKCODE in ('" & _Bookcode & "')")
+            .Append(" AND A.BOOKCODE in ('" & _Bookcode & "')")
             If _FORMMODE = "VIEW" Then
             Else
                 .Append(" AND A.EntryNo=" & EntryNo)
@@ -1115,7 +1117,7 @@ Public Class MainFormRead
             Dim _LastID As Integer = 0
             _strQuery = New StringBuilder
             Try
-                Dim EntryNO As String = _GetMaxEntryNo()
+                Dim EntryNO As String = _GetMaxEntryNo(_Bookcode)
                 If EntryNO > 0 Then
                     'Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
                     'strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE in ('" & bookCodes & "')  AND EntryNo='" & EntryNO & "' "
@@ -1451,6 +1453,7 @@ Public Class MainFormRead
             _MainColumTbl = DefaltSoftTable.Copy
             Dim _UseMasterTabl As New DataTable
             _UseMasterTabl = _MainColumTbl.Clone()
+            _Bookcode = ""
             For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES'")
                 _UseMasterTabl.ImportRow(dr)
             Next
@@ -1578,8 +1581,7 @@ Public Class MainFormRead
                 Dim formtype As String = dr("FormType").ToString().Trim()
                 If formtype = "ENTRY FORM" Then
                     If _FORMMODE = "EDIT" OrElse _FORMMODE = "DELETE" Then
-                        'OrElse                       _FORMMODE = "VIEW" Then
-                        EntryNo = _GetMaxEntryNo()
+                        'EntryNo = _GetMaxEntryNo(_Bookcode)
                     End If
                 End If
                 If usemasterkey = "Y" Then
@@ -1773,17 +1775,58 @@ Public Class MainFormRead
                     Else
                         If _FORMMODE = "EDIT" Then
                             txt.AccessibleDescription = databaseColumn
+                            _Bookcode = ""
                             'If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
                             If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
-                                txt.Tag = userTextValue
-                            Else
+                                'txt.Tag = userTextValue
                                 txt.Tag = databaseColumn
+                                Dim fields As New StringBuilder()
+                                Dim values As New StringBuilder()
+                                Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
+                                Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                                Dim oppMasterCode1 As String = dr("OppMasterCode").ToString().Trim()
+                                If Not String.IsNullOrWhiteSpace(oppMasterCode1) Then
+                                    Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
+                                    If existingItem IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(existingItem.Item3.ToString().Trim()) Then
+                                        _Bookcode = existingItem.Item3.ToString().Trim()
+                                    End If
+                                    If _Bookcode <> "" Then
+                                        sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
+                                        'sqL = "select * from mstbook where BEHAVIOUR in (" & bookCodes & ")"
+                                        sql_connect_slect()
+                                        If DefaltSoftTable.Rows.Count > 0 Then
+                                            _Booktrtype = DefaltSoftTable.Rows(0).Item("booktrtype").ToString()
+                                        Else
+                                            MsgBox("Book Not Find Please Define Book", MsgBoxStyle.Critical)
+                                        End If
+                                    End If
+                                End If
                             End If
+                            'ElseIf _FORMMODE = "ADD" Then
+                            '    txt.AccessibleDescription = databaseColumn
+                            '    _Bookcode = ""
+                            '    'If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
+                            '    If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                            '        'txt.Tag = userTextValue
+                            '        txt.Tag = databaseColumn
+                            '        Dim fields As New StringBuilder()
+                            '        Dim values As New StringBuilder()
+                            '        Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
+                            '        Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                            '        Dim oppMasterCode1 As String = dr("OppMasterCode").ToString().Trim()
+                            '        If Not String.IsNullOrWhiteSpace(oppMasterCode1) Then
+                            '            Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
+                            '            If existingItem IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(existingItem.Item3.ToString().Trim()) Then
+                            '                _Bookcode = existingItem.Item3.ToString().Trim()
+                            '            End If
+                            '        End If
+                            '    End If
                         Else
                             txt.Tag = databaseColumn
                             txt.AccessibleDescription = databaseColumn
                         End If
                     End If
+
                     If _Readonly.Equals("Y", StringComparison.OrdinalIgnoreCase) Then
                         txt.ReadOnly = True
                     Else
@@ -1803,12 +1846,25 @@ Public Class MainFormRead
                             txtEntryno = Name
                             txt.Text = EntryNo
                             If _FORMMODE = "ADD" Then
-                                EntryNo = _GetMaxEntryNo()
-                                txt.Text = EntryNo + 1
+                                'EntryNo = _GetMaxEntryNo()
+                                If _Bookcode <> "" Then
+                                    EntryNo = _GetMaxEntryNo(_Bookcode)
+                                    txt.Text = EntryNo + 1
+                                End If
                                 'txt.Focus()
+                                AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
                             End If
-                            AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
                         End If
+                        If _FORMMODE = "EDIT" Then
+                            If Tag = "ENTRYNO" Then
+                                If _Bookcode <> "" Then
+                                    EntryNo = _GetMaxEntryNo(_Bookcode)
+                                    txt.Focus()
+                                    txt.Text = EntryNo
+                                End If
+                                AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
+                            End If
+                            End If
                         If _InputType.Equals("DateBox", StringComparison.OrdinalIgnoreCase) Then
                             txt.MaxLength = 10
                             txt.Text = Today.ToString("dd/MM/yyyy")
@@ -1816,7 +1872,7 @@ Public Class MainFormRead
                             AddHandler txt.Leave, AddressOf DateBox_Validate
                         End If
                         If _FORMMODE = "DELETE" Then
-                            EntryNo = _GetMaxEntryNo()
+                            EntryNo = _GetMaxEntryNo(_Bookcode)
                         End If
                         If txt.TabIndex = 1 Then
                             txt.Focus()
@@ -2202,43 +2258,80 @@ Public Class MainFormRead
         End If
     End Sub
 
-    Private Function _GetMaxEntryNo()
+    'Private Function _GetMaxEntryNo(ByVal bookCode As String)
+    '    Try
+    '        Dim ENTRYNO As Int64 = 0
+    '        Dim Tbltmp As DataTable
+    '        Dim _strquery As New StringBuilder
+    '        Dim ControlName As String = ""
+    '        Dim controlTableRows() As DataRow = _MainColumTbl.Select("DataBaseColumn = 'ENTRYNO' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable <> ''")
+    '        If controlTableRows.Length > 0 Then
+    '            ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
+    '        Else
+    '            ControlName = ""
+    '        End If
+    '        If ControlName <> "" Then
+    '            controlTableRows = _MainColumTbl.Select("CntrlName='" & ControlName.Replace("'", "''") & "' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable<>''")
+    '            If controlTableRows.Length > 0 Then
+    '                _TblName = controlTableRows(0)("DataBaseTable").ToString().Trim()
+    '            Else
+    '                _TblName = ""
+    '            End If
+    '        Else
+    '            _TblName = ""
+    '        End If
+    '        If String.IsNullOrWhiteSpace(_TblName) Then
+    '            Return 0
+    '        End If
+    '        sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "'  ORDER BY ENTRYNO DESC"
+    '        'sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & "  ORDER BY ENTRYNO DESC"
+    '        sql_connect_slect()
+    '        Tbltmp = DefaltSoftTable.Copy
+    '        If Tbltmp.Rows.Count > 0 Then
+    '            If Not IsDBNull(Tbltmp.Rows(0).Item(0)) Then
+    '                ENTRYNO = Val(Tbltmp.Rows(0).Item(0))
+    '            End If
+    '        End If
+    '        Return ENTRYNO
+    '    Catch ex As Exception
+    '        MsgBox(ex.ToString(), MsgBoxStyle.Critical, "Soft-Tex PRO")
+    '    End Try
+    'End Function
+    Private Function _GetMaxEntryNo(ByVal bookCode As String) As Int64
         Try
             Dim ENTRYNO As Int64 = 0
             Dim Tbltmp As DataTable
-            Dim _strquery As New StringBuilder
             Dim ControlName As String = ""
-            Dim controlTableRows() As DataRow = _MainColumTbl.Select("DataBaseColumn = 'ENTRYNO' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable <> ''")
+
+            Dim controlTableRows() As DataRow = _MainColumTbl.Select("DataBaseColumn = 'ENTRYNO' AND DataBaseTable IS NOT NULL AND DataBaseTable <> ''")
+
             If controlTableRows.Length > 0 Then
                 ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
-            Else
-                ControlName = ""
             End If
+
             If ControlName <> "" Then
-                controlTableRows = _MainColumTbl.Select("CntrlName='" & ControlName.Replace("'", "''") & "' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable<>''")
+                controlTableRows = _MainColumTbl.Select("CntrlName='" & ControlName.Replace("'", "''") & "' AND DataBaseTable IS NOT NULL AND DataBaseTable<>''")
                 If controlTableRows.Length > 0 Then
                     _TblName = controlTableRows(0)("DataBaseTable").ToString().Trim()
-                Else
-                    _TblName = ""
                 End If
-            Else
-                _TblName = ""
             End If
-            If String.IsNullOrWhiteSpace(_TblName) Then
-                Return 0
-            End If
-            'sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "'  ORDER BY ENTRYNO DESC"
-            sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & "  ORDER BY ENTRYNO DESC"
+
+            If String.IsNullOrWhiteSpace(_TblName) OrElse String.IsNullOrWhiteSpace(bookCode) Then Return 0
+
+            sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE='" & bookCode.Replace("'", "''") & "' ORDER BY ENTRYNO DESC"
+
             sql_connect_slect()
             Tbltmp = DefaltSoftTable.Copy
-            If Tbltmp.Rows.Count > 0 Then
-                If Not IsDBNull(Tbltmp.Rows(0).Item(0)) Then
-                    ENTRYNO = Val(Tbltmp.Rows(0).Item(0))
-                End If
+
+            If Tbltmp.Rows.Count > 0 AndAlso Not IsDBNull(Tbltmp.Rows(0)(0)) Then
+                ENTRYNO = Val(Tbltmp.Rows(0)(0))
             End If
+
             Return ENTRYNO
+
         Catch ex As Exception
             MsgBox(ex.ToString(), MsgBoxStyle.Critical, "Soft-Tex PRO")
+            Return 0
         End Try
     End Function
 
@@ -2323,6 +2416,15 @@ Public Class MainFormRead
             If _FORMMODE = "EDIT" Then
                 Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
                 If ctrl.Length > 0 Then
+                    'Dim EntryNo As Integer
+                    'EntryNo = _GetMaxEntryNo(_Bookcode)
+                    'If EntryNo > 0 Then
+                    '    Dim txt As New TextBox()
+                    '    txt.Text = EntryNo
+                    '    txtEntryno = txt.Text
+                    '    _GetAlterData(txtEntryno)
+                    '    Ctrl_Visible_TrueForm(Me.Controls)
+                    'End If
                     Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
                     _GetAlterData(Entytxt.Text)
                 End If
@@ -2331,6 +2433,15 @@ Public Class MainFormRead
                 If ctrl.Length > 0 Then
                     Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
                     '_GetAlterData(Entytxt.Text)
+                    'Dim EntryNo As Integer
+                    'EntryNo = _GetMaxEntryNo(_Bookcode)
+                    'If EntryNo > 0 Then
+                    '    Dim txt As New TextBox()
+                    '    txt.Text = EntryNo + 1
+                    '    txtEntryno = txt.Text
+                    '    '_GetAlterData(txtEntryno)
+                    '    'Ctrl_Visible_TrueForm(Me.Controls)
+                    'End If
                 End If
             End If
             If _FORMMODE = "VIEW" Then
@@ -2768,8 +2879,8 @@ Public Class MainFormRead
                 Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
                 If ctrl.Length > 0 Then
                     Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                    Entytxt.Focus()
-                    Entytxt.SelectAll()
+                    'Entytxt.Focus()
+                    'Entytxt.SelectAll()
                 End If
             End If
         End If
