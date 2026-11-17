@@ -2899,13 +2899,17 @@ Public Class MainMasterFormRead
 
     Private Sub RunActivatedColumnMasterSelection(ByVal ctrlmasterName As String, ByVal ActivetextName As String)
 
+        Dim _MaxEntrytxt As New TextBox()
+        _MaxEntrytxt.Name = txtEntryno
+
+
         For Each dr As DataRow In _MainColumTbl.Select("DataBaseColumn='" & ctrlmasterName & "'")
             Dim offmastercode As String = dr("OPPMASTERCODE").ToString()
             Dim masterName As String = dr("MASTERLIST").ToString()
             Dim ctrlNameStr As String = dr("CntrlName").ToString().Trim()
             Dim ctrl As Control = Me.Controls.Find(ctrlNameStr, True).FirstOrDefault()
             If offmastercode <> "" Then
-                HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName, "SINGLE", "")
+                HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName, "SINGLE", "", _MainColumTbl, _FORMMODE, _MaxEntrytxt, Me)
             End If
         Next
 
