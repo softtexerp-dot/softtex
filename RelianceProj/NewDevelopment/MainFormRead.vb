@@ -96,7 +96,6 @@ Public Class MainFormRead
     Dim _Bookcategory As New List(Of String)
     Dim _Booktrtype As String = ""
     Dim _BookVNo As String = ""
-
     Dim _FormCloseMode As Boolean = False
     Public Property FormNameValue As String
     Dim allText As String
@@ -243,26 +242,16 @@ Public Class MainFormRead
         _FORMMODE = "DELETE"
         _FrmLoad = False
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        _LoadDefaultData()
-        'Dim EntryNo As Integer
-        'EntryNo = _GetMaxEntryNo(_Bookcode)
-        'If EntryNo > 0 Then
-        '    Dim txt As New TextBox()
-        '    txt.Text = EntryNo
-        '    txtEntryno = txt.Text
-        '    Ctrl_Visible_TrueForm(Me.Controls)
-        'End If
-        'If _FORMMODE = "DELETE" Then
-        '    'txtFormName.Focus()
-        '    If MsgBox("Do You Want To Delete (Y/N)", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
-        '        Call Delete_Entry()
-        '    End If
-        ObjCls_General.Blank_Object(Me)
-        Ctrl_Visible_Falseform(Me.Controls)
-        'End If
-        Change_Grid_Data = True
-        UC_Buttons1._ButtonEnableDisable("LOAD")
-        UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
+        If _FORMMODE = "DELETE" Then
+            Ctrl_Visible_TrueForm(Me.Controls)
+            _LoadDefaultData()
+        End If
+        'ObjCls_General.Blank_Object(Me)
+        'Ctrl_Visible_Falseform(Me.Controls)
+        ''End If
+        'Change_Grid_Data = True
+        'UC_Buttons1._ButtonEnableDisable("LOAD")
+        'UC_Buttons1.Set_Focus_Last_Clicked_Btn("LOAD")
     End Sub
     Private Sub UC_Buttons1_BackClick()
         _FrmLoad = False
@@ -396,13 +385,12 @@ Public Class MainFormRead
         _FormCloseMode = False
         Dim _BookName As String = ""
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
-        If _FORMMODE = "VIEW" Then
-            Ctrl_Visible_TrueForm(Me.Controls)
-        End If
-
         Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
         Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
-        _LoadDefaultData()
+        If _FORMMODE = "VIEW" Then
+            _LoadDefaultData()
+            Ctrl_Visible_TrueForm(Me.Controls)
+        End If
         '_GridEnable()
         'LoadViewData(tmptbl, _Bookcode)
         UC_Buttons1._ButtonEnableDisable(_FORMMODE)
@@ -439,70 +427,6 @@ Public Class MainFormRead
     End Sub
 #End Region
 #Region "QUERY SECTION"
-    'Private Function getAlter_Form_EntryQuery(ByVal EntryNo As String, ByVal _FilterTableName As String, ByVal FillColumnType As String) As String
-
-    '    Dim DisplayText As String = ""
-    '    Dim leftJoin As New StringBuilder()
-    '    Dim joinHeader As New StringBuilder()
-    '    Dim ControlName As String = ""
-    '    If Not String.IsNullOrWhiteSpace(txtEntryno) Then
-    '        ControlName = txtEntryno.Trim()
-    '    End If
-    '    'Dim columntype As String = "Grid then main table join table name as a = b DataBaseTable "
-    '    Dim _joinTableName As String
-    '    Dim _JoinColumnName As String
-    '    Dim filterCondition As String
-    '    If FillColumnType = "Grid" Then
-    '        filterCondition = "JoinerTableName > '' AND DataBaseTable='" & _FilterTableName & "'"
-    '    Else
-    '        filterCondition = "USEMASTER='YES' AND MasterList > '' AND DataBaseTable='" & _FilterTableName & "'"
-    '    End If
-    '    For Each dr As DataRow In _MainColumTbl.Select(filterCondition)
-    '        _joinTableName = dr("JoinerTableName").ToString().Trim()
-    '        _JoinColumnName = dr("JoinerTableColumn").ToString().Trim()
-    '        Dim _DatabaseHeaderName As String = dr("UserText").ToString().Trim()
-    '        Dim _OppositCode As String = dr("OppMasterCode").ToString().Trim()
-    '        Dim _SelectionMastrName As String = dr("MasterList").ToString().Trim()
-    '        Dim res = GetAccountMaster(_DatabaseHeaderName, _OppositCode, _SelectionMastrName)
-    '        If res IsNot Nothing Then
-    '            If Not String.IsNullOrWhiteSpace(res.LeftJoin) Then
-    '                leftJoin.AppendLine(res.LeftJoin)
-    '            End If
-    '            If Not String.IsNullOrWhiteSpace(res.JoinHeader) Then
-    '                joinHeader.AppendLine(res.JoinHeader)
-    '            End If
-    '        End If
-    '        If _joinTableName <> "" AndAlso _JoinColumnName <> "" Then
-    '            Dim joinAlias As String = "J_" & _joinTableName
-    '            leftJoin.AppendLine(" LEFT JOIN " & _joinTableName & " AS " & joinAlias & " ON A." & _JoinColumnName & " = " & joinAlias & "." & _JoinColumnName)
-    '        End If
-    '    Next
-    '    _strQuery = New StringBuilder()
-    '    'If _FORMMODE = "VIEW" Then
-    '    '    With _strQuery
-    '    '        .Append(" SELECT A.* ")
-    '    '        .Append(joinHeader.ToString())
-    '    '        .Append(" FROM " & _FilterTableName & " AS A ")
-    '    '        .Append(leftJoin.ToString())
-    '    '        .Append(" WHERE 1=1 ")
-    '    '        .Append(" AND A.BOOKCODE='" & _Bookcode & "' ")
-    '    '        .Append(" AND A.EntryNo=" & EntryNo)
-    '    '        .Append(" ORDER BY A.EntryNo DESC")
-    '    '    End With
-    '    'Else
-    '    With _strQuery
-    '        .Append(" SELECT A.* ")
-    '        .Append(joinHeader.ToString())
-    '        .Append(" FROM " & _FilterTableName & " AS A ")
-    '        .Append(leftJoin.ToString())
-    '        .Append(" WHERE 1=1 ")
-    '        .Append(" AND A.BOOKCODE='" & _Bookcode & "' ")
-    '        .Append(" AND A.EntryNo=" & EntryNo)
-    '        .Append(" ORDER BY A.EntryNo DESC")
-    '    End With
-    '    'End If
-    '    Return _strQuery.ToString()
-    'End Function
     Private Function getAlter_Form_EntryQuery(ByVal EntryNo As String, ByVal _FilterTableName As String, ByVal FillColumnType As String, ByVal Tmptbl As DataTable) As String
         Dim leftJoin As New StringBuilder()
         Dim joinHeader As New StringBuilder()
@@ -633,7 +557,7 @@ Public Class MainFormRead
             Dim strFilterString As String = If(mandatoryCol <> "", mandatoryCol & ">0", "")
             Dim ctrl_1 As Control() = Me.Controls.Find(txtEntryno, True)
             Dim Entytxt As TextBox = CType(ctrl_1(0), TextBox)
-            _BookVNo = Generate_Book_Vno(Entytxt.Text, _Booktrtype)
+            '_BookVNo = Generate_Book_Vno(Entytxt.Text, _Booktrtype)
             Dim tables As New List(Of DataTable) From {_DataTableGrid1, _DataTableGrid2, _DataTableGrid3, _DataTableGrid4, _DataTableGrid5}
             Dim gridNames() As String = {"Grid1", "Grid2", "Grid3", "Grid4", "Grid5"}
 
@@ -741,7 +665,7 @@ Public Class MainFormRead
                         End If
                         _BookVNo = Generate_Book_Vno(Entytxt.Text, _Booktrtype)
                     Else
-                        Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
+                            Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
                         If ctrl Is Nothing Then Continue For
                         saveValue = GetControlValue(ctrl, dr("INPUTTYPE").ToString().Trim())
                     End If
@@ -852,144 +776,7 @@ Public Class MainFormRead
     Private Sub RemoveLastComma(ByVal sb As StringBuilder)
         If sb.Length > 0 Then sb.Length -= 1
     End Sub
-    ''' <summary>
-    ''' Old first
-    ''' </summary>
-    ''' <param name="tmptbl"></param>
-    ''' <param name="_Bookcode"></param>
-    'Private Function GridDetailsSaveQuery(ByRef arr_object(,) As String) As String
-    '    Try
-    '        _FieldNotVisibile = New StringBuilder()
-    '        '------------------------ DETAILS Table --------------------------------
-    '        Dim strFilterString As String = ""
-    '        Dim QueryDetailTable As String = ""
-    '        'Dim Query_Auto_Grid(_DataTableGrid1.Rows.Count, 4) As String
-    '        Dim tables As New List(Of DataTable) From {_DataTableGrid1, _DataTableGrid2, _DataTableGrid3, _DataTableGrid4, _DataTableGrid5}
-    '        Dim totalRows As Integer = tables.Sum(Function(t) If(t IsNot Nothing, t.Rows.Count, 0))
-    '        If totalRows = 0 Then
-    '            Exit Function
-    '        End If
-    '        Dim Query_Auto_Grid(totalRows - 1, 4) As String
-    '        Dim rowIndex As Integer = 0
-    '        'For Each dt As DataTable In tables
-    '        '    If dt IsNot Nothing Then
-    '        '        For Each dr As DataRow In dt.Rows
-    '        '            Query_Auto_Grid(rowIndex, 0) = dr(0).ToString()
-    '        '            Query_Auto_Grid(rowIndex, 1) = dr(1).ToString()
-    '        '            Query_Auto_Grid(rowIndex, 2) = dr(2).ToString()
-    '        '            Query_Auto_Grid(rowIndex, 3) = dr(3).ToString()
-    '        '            Query_Auto_Grid(rowIndex, 4) = dr(4).ToString()
-    '        '            rowIndex += 1
-    '        '        Next
-    '        '    End If
-    '        'Next
-    '        For Each dt As DataTable In tables
-    '            If dt Is Nothing OrElse dt.Rows.Count = 0 Then Continue For
-    '            For Each dr As DataRow In dt.Rows
-    '                If rowIndex >= totalRows Then Exit For
-    '                For colIndex As Integer = 0 To 4
-    '                    If colIndex < dt.Columns.Count Then
-    '                        Query_Auto_Grid(rowIndex, colIndex) = dr(colIndex).ToString()
-    '                    Else
-    '                        Query_Auto_Grid(rowIndex, colIndex) = ""
-    '                    End If
-    '                Next
-    '                rowIndex += 1
-    '            Next
-    '            If rowIndex >= totalRows Then Exit For
-    '        Next
-    '        If mandatoryCol <> "" Then
-    '            strFilterString = mandatoryCol & ">0"
-    '        End If
-    '        Dim _extrafielddatatable As New StringBuilder()
-    '        Dim _extrafield_values_datatable As New StringBuilder()
-    '        For Each dr As DataRow In _MainColumTbl.Select("(ColumnType='TextBox' OR ColumnType='CheckBox') AND " & "(UseMaster='NO' OR " & "(UseMaster='YES' AND " & "(OppMasterCode<>'' OR OppMasterCode='')))")
-    '            If _BookVNo = "" Then
-    '                _BookVNo = Generate_Book_Vno(Val(txtEntryno), _Booktrtype)
-    '            End If
-    '            _TableName = dr("DataBaseTable").ToString().Trim()
-    '            Dim _InputType As String = dr("INPUTTYPE").ToString().Trim()
-    '            Dim ctrlName As String = dr("CntrlName").ToString().Trim()
-    '            Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
-    '            Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
-    '            Dim ctrl As Control = Me.Controls.Find(ctrlName, True).FirstOrDefault()
-    '            If ctrl Is Nothing Then
-    '                Continue For
-    '            End If
-    '            Dim value As String = ""
-    '            If TypeOf ctrl Is System.Windows.Forms.CheckBox Then
-    '                Dim chk As System.Windows.Forms.CheckBox = DirectCast(ctrl, System.Windows.Forms.CheckBox)
-    '                If chk.Checked Then
-    '                    value = "1"
-    '                Else
-    '                    value = "0"
-    '                End If
-    '            ElseIf TypeOf ctrl Is TextBox Then
-    '                Dim txt As TextBox = DirectCast(ctrl, TextBox)
-    '                value = txt.Text.Trim().Trim("'"c)
-    '                If _InputType.Equals("DateBox", StringComparison.OrdinalIgnoreCase) Then
-    '                    If value <> "" Then
-    '                        Dim dt As DateTime
-    '                        If DateTime.TryParse(value, dt) Then
-    '                            value = dt.ToString("yyyy-MM-dd")
-    '                        Else
-    '                            value = ""
-    '                        End If
-    '                    End If
-    '                End If
-    '            Else
-    '                Continue For
-    '            End If
-    '            _extrafielddatatable.Append(columnName & ",")
-    '            If value = "" Then
-    '                _extrafield_values_datatable.Append(value & ",")
-    '            ElseIf IsNumeric(value) Then
-    '                _extrafield_values_datatable.Append(value & ",")
-    '            Else
-    '                _extrafield_values_datatable.Append(value.Replace("'", "''") & ",")
-    '            End If
-    '            If existingItem IsNot Nothing Then
-    '                Dim oppColumnName As String = existingItem.Item2
-    '                Dim codeValue As String = existingItem.Item3
-    '                If Not String.IsNullOrWhiteSpace(oppColumnName) Then
-    '                    _extrafielddatatable.Append(oppColumnName & ",")
-    '                    If String.IsNullOrWhiteSpace(codeValue) Then
-    '                        _extrafield_values_datatable.Append("NULL,")
-    '                    ElseIf IsNumeric(codeValue) Then
-    '                        _extrafield_values_datatable.Append(codeValue & ",")
-    '                    Else
-    '                        _extrafield_values_datatable.Append(codeValue.Replace("'", "''") & ",")
-    '                    End If
-    '                End If
-    '            End If
-    '        Next
-    '        ' 🔹 Add BookVno
-    '        _extrafielddatatable.Append("BookVno,")
-    '        _extrafield_values_datatable.Append("" & _BookVNo.Replace("'", "''") & ",")
-    '        ' 🔹 Add BookCode
-    '        _extrafielddatatable.Append("BookCode,")
-    '        _extrafield_values_datatable.Append("" & _Bookcode.Replace("'", "''") & ",")
-    '        ' 🔹 Add BookTrType
-    '        _extrafielddatatable.Append("BookTrType,")
-    '        _extrafield_values_datatable.Append("" & _Booktrtype.Replace("'", "''") & ",")
-    '        ' 🔹 Remove last comma safely (ONLY ONCE)
-    '        If _extrafielddatatable.Length > 0 Then
-    '            _extrafielddatatable.Length -= 1
-    '        End If
-    '        If _extrafield_values_datatable.Length > 0 Then
-    '            _extrafield_values_datatable.Length -= 1
-    '        End If
-    '        QueryDetailTable = ObjCls_General.GetQueryArray(_TableName, "FORCELY_ADDED", strFilterString, Query_Auto_Grid, _DataTableGrid1, _FieldNotRequiredForSave.ToString.ToUpper, _RecordsKeyFieldName, "", "", "N", _extrafielddatatable.ToString.ToUpper, _extrafield_values_datatable.ToString.ToUpper, _ExtraFieldOthers.ToString.ToUpper, _ExtraField_Values_Others.ToString.ToUpper, _FieldDefaultValues.ToString.ToUpper)
-    '        GridDetailsSaveQuery = QueryDetailTable & ""
-    '        arr_object = Query_Auto_Grid
-    '    Catch ex As Exception
-    '        MsgBox(ex.ToString)
-    '    Finally
-    '    End Try
-    'End Function
-
     Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
-        'Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As List(Of String))
         Try
             Generate_Date_For_DataBase(Txt_ViewFrom)
             Generate_Date_For_DataBase(Txt_ViewTO)
@@ -1010,11 +797,13 @@ Public Class MainFormRead
                         MsgBox("View Query Not Found")
                         Exit Sub
                     End If
+
                 End If
 
                 ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
                 ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
                 ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
+
                 sqL = ViewQuery
                 sql_connect_slect()
                 If DefaltSoftTable IsNot Nothing Then
@@ -1032,32 +821,6 @@ Public Class MainFormRead
                 Dim UseChallanFilter8 As String = ""
                 Dim UseChallanFilter9 As String = ""
                 Dim UseChallanFilter10 As String = ""
-
-
-                Dim UseChallanViewQuery As String = GetQuery(tmptbl, "USECHALLANVIEWQUERY", "VIEW")
-                If UseChallanViewQuery = "" Then
-                    If MainLoadFormName = "" Then
-                        Exit Sub
-                    Else
-                        MsgBox("View Query Not Found")
-                        Exit Sub
-                    End If
-                End If
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter1", UseChallanFilter1)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter2", UseChallanFilter2)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter3", UseChallanFilter3)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter4", UseChallanFilter4)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter5", UseChallanFilter5)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter6", UseChallanFilter6)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter7", UseChallanFilter7)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter8", UseChallanFilter8)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter9", UseChallanFilter9)
-                UseChallanViewQuery = UseChallanViewQuery.Replace("UseChallanFilter10", UseChallanFilter10)
-                sqL = UseChallanViewQuery
-                sql_connect_slect()
-                If DefaltSoftTable IsNot Nothing Then
-                    ResultTable = DefaltSoftTable.Copy()
-                End If
             End If
             FirstStage.Columns.Clear()
             If ResultTable IsNot Nothing AndAlso ResultTable.Rows.Count > 0 Then
@@ -1095,6 +858,7 @@ Public Class MainFormRead
                 GridControl1.BringToFront()
             Else
                 MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
+                'Exit Sub
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
@@ -1116,12 +880,7 @@ Public Class MainFormRead
             Dim _LastID As Integer = 0
             _strQuery = New StringBuilder
             Try
-
-
-                'Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
-                'strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE in ('" & bookCodes & "')  AND EntryNo='" & EntryNO & "' "
                 strQuery = "DELETE FROM " & _TblName & " WHERE   BOOKCODE='" & _Bookcode & "'  AND EntryNo='" & _EntryNo & "' "
-
                 sqL = strQuery.ToString
                 sql_connect_slect()
                 MsgBox("Entry Successfully Deleted")
@@ -1136,146 +895,6 @@ Public Class MainFormRead
         End Try
     End Sub
 #End Region
-
-    'Private Sub defineGridColName(ByVal columnTypeFilter As String, ByVal ctrlname As String)
-    '    _Grid1ColNames = New StringBuilder()
-    '    _Grid2ColNames = New StringBuilder()
-    '    _Grid3ColNames = New StringBuilder()
-    '    _Grid4ColNames = New StringBuilder()
-    '    _Grid5ColNames = New StringBuilder()
-    '    _FieldHeader = New StringBuilder()
-    '    _FieldHeaderAlignment = New StringBuilder()
-    '    _FieldAlignMent = New StringBuilder()
-    '    _FieldWidthSet = New StringBuilder()
-    '    _FieldNotVisibile = New StringBuilder()
-    '    _FieldLocked = New StringBuilder()
-    '    _Grid1ColType = New StringBuilder()
-    '    _FieldMasking = New StringBuilder()
-    '    _FieldUseHeaderColumn = New StringBuilder()
-
-    '    'Dim filter As String = "ColumnType='" & columnTypeFilter.Replace("'", "''") & "'"
-    '    Dim filter As String = "ColumnType='" & columnTypeFilter.Replace("'", "''") & "' AND " & "CntrlName='" & ctrlname & "'"
-    '    For Each dr As DataRow In _MainColumTbl.Select(filter, "OrderNo")
-    '        _TblName = dr("DataBaseTable").ToString().Trim()
-    '        Dim colName As String = dr("DataBaseColumn").ToString().Trim()
-    '        Dim colType As String = dr("ColumnType").ToString().Trim()
-    '        Dim header As String = dr("UserText").ToString().Trim()
-    '        Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
-    '        Dim cntrlName As String = dr("CntrlName").ToString().Trim()
-    '        If alignVal = "" Then
-    '            alignVal = "L"
-    '        End If
-    '        If header = "" OrElse colName = "" Then
-    '            Continue For
-    '        End If
-    '        'Dim saveYN As String = dr("SaveYN").ToString().Trim().ToUpper()
-    '        'If saveYN = "N" Then
-    '        '    Continue For
-    '        'End If
-    '        Select Case cntrlName.ToUpper()
-    '            Case "GRID1"
-    '                If _Grid1ColNames.Length > 0 Then
-    '                    _Grid1ColNames.Append(",")
-    '                End If
-    '                _Grid1ColNames.Append(colName)
-    '            Case "GRID2"
-    '                If _Grid2ColNames.Length > 0 Then
-    '                    _Grid2ColNames.Append(",")
-    '                End If
-    '                _Grid2ColNames.Append(colName)
-    '            Case "GRID3"
-    '                If _Grid3ColNames.Length > 0 Then
-    '                    _Grid3ColNames.Append(",")
-    '                End If
-    '                _Grid3ColNames.Append(colName)
-    '            Case "GRID4"
-    '                If _Grid4ColNames.Length > 0 Then
-    '                    _Grid4ColNames.Append(",")
-    '                End If
-    '                _Grid4ColNames.Append(colName)
-    '            Case "GRID5"
-    '                If _Grid5ColNames.Length > 0 Then
-    '                    _Grid5ColNames.Append(",")
-    '                End If
-    '                _Grid5ColNames.Append(colName)
-    '        End Select
-    '        If header <> "" Then
-    '            If _FieldHeader.Length > 0 Then
-    '                _FieldHeader.Append(",")
-    '            End If
-    '            _FieldHeader.Append(colName & ":" & header)
-    '        End If
-    '        If _FieldHeaderAlignment.Length > 0 Then
-    '            _FieldHeaderAlignment.Append(",")
-    '        End If
-    '        _FieldHeaderAlignment.Append(colName & ":" & alignVal)
-    '        If _FieldAlignMent.Length > 0 Then
-    '            _FieldAlignMent.Append(",")
-    '        End If
-    '        _FieldAlignMent.Append(colName & ":" & alignVal)
-    '        'UseHeaderColumn
-    '        Dim useHeaderColumnVal As String = dr("UseHeaderColumn").ToString().Trim()
-    '        If _FieldUseHeaderColumn.Length > 0 Then
-    '            _FieldUseHeaderColumn.Append(",")
-    '        End If
-    '        _FieldUseHeaderColumn.Append(colName & ":" & useHeaderColumnVal)
-    '        Dim widthVal As Integer = Val(dr("SizeWidth").ToString().Trim())
-    '        If _FieldWidthSet.Length > 0 Then
-    '            _FieldWidthSet.Append(",")
-    '        End If
-    '        _FieldWidthSet.Append(colName & ":" & widthVal)
-    '        Dim visibleVal As String = dr("Visible").ToString().Trim().ToUpper()
-    '        If visibleVal = "" Then
-    '            visibleVal = "N"
-    '        End If
-    '        If _FieldNotVisibile.Length > 0 Then
-    '            _FieldNotVisibile.Append(",")
-    '        End If
-    '        _FieldNotVisibile.Append(colName & ":" & visibleVal)
-    '        Dim lockVal As String = dr("ReadOnly").ToString().Trim().ToUpper()
-    '        If lockVal = "" Then
-    '            lockVal = "N"
-    '        End If
-    '        If _FieldLocked.Length > 0 Then
-    '            _FieldLocked.Append(",")
-    '        End If
-    '        _FieldLocked.Append(colName & ":" & lockVal)
-    '        Dim colInputType As String = dr("InputType").ToString().Trim().ToUpper()
-    '        If colInputType = "NUMERIC" Then
-    '            colType = "N"
-    '            If _Grid1ColType.Length > 0 Then
-    '                _Grid1ColType.Append(",")
-    '            End If
-    '            _Grid1ColType.Append(colName & ":" & colType)
-    '        End If
-    '        Dim prec As Integer = Val(dr("Masking").ToString())
-    '        If colInputType = "NUMERIC" Then
-    '            Dim maskVal As String = "NO-" & prec.ToString()
-    '            If _FieldMasking.Length > 0 Then
-    '                _FieldMasking.Append(",")
-    '            End If
-    '            _FieldMasking.Append(colName & ":" & maskVal)
-    '        End If
-    '        Dim notrequired As String = dr("SaveYN").ToString().Trim().ToUpper()
-    '        If notrequired = "N" Then
-    '            If _FieldNotRequiredForSave.Length > 0 Then
-    '                _FieldNotRequiredForSave.Append(",")
-    '            End If
-    '            _FieldNotRequiredForSave.Append(colName & ":" & notrequired)
-    '        End If
-    '    Next
-    '    If ctrlname = "Grid1" Then
-    '        Grid1_Table_ColNames = _Grid1ColNames.ToString().ToUpper().Split(",")
-    '    ElseIf ctrlname = "Grid2" Then
-    '        Grid2_Table_ColNames = _Grid2ColNames.ToString().ToUpper().Split(",")
-    '    ElseIf ctrlname = "Grid3" Then
-    '        Grid3_Table_ColNames = _Grid3ColNames.ToString().ToUpper().Split(",")
-    '    ElseIf ctrlname = "Grid4" Then
-    '        Grid4_Table_ColNames = _Grid4ColNames.ToString().ToUpper().Split(",")
-    '    ElseIf ctrlname = "Grid5" Then
-    '        Grid5_Table_ColNames = _Grid5ColNames.ToString().ToUpper().Split(",")
-    '    End If
-    'End Sub
 
     Private Sub defineGridColName(ByVal columnTypeFilter As String, ByVal ctrlname As String)
 
@@ -1317,12 +936,6 @@ Public Class MainFormRead
             Dim alignVal As String = dr("TextAlign").ToString().Trim().ToUpper()
 
             If alignVal = "" Then alignVal = "L"
-
-            'If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
-            '    colName = header.Replace(" ", "")
-            '    'colName = dr("UserText").ToString().Trim().Replace(" ", "")
-            '    dr("DataBaseColumn") = colName
-            'End If
             If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
                 colName = header.Trim()
                 If String.IsNullOrWhiteSpace(colName) Then
@@ -1452,7 +1065,7 @@ Public Class MainFormRead
             _MainColumTbl = DefaltSoftTable.Copy
             Dim _UseMasterTabl As New DataTable
             _UseMasterTabl = _MainColumTbl.Clone()
-            '_Bookcode = ""
+            _Bookcode = ""
             For Each dr As DataRow In _MainColumTbl.Select("USEMASTER='YES'")
                 _UseMasterTabl.ImportRow(dr)
             Next
@@ -1772,10 +1385,7 @@ Public Class MainFormRead
                         txt.AccessibleName = databaseColumn
                         txt.AccessibleDescription = ""
                     Else
-                        'If _FORMMODE = "EDIT" Then
                         txt.AccessibleDescription = databaseColumn
-                        '_Bookcode = ""
-                        'If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
                         If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
                             'txt.Tag = userTextValue
                             txt.Tag = databaseColumn
@@ -1791,7 +1401,6 @@ Public Class MainFormRead
                                 End If
                                 If _Bookcode <> "" Then
                                     sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
-                                    'sqL = "select * from mstbook where BEHAVIOUR in (" & bookCodes & ")"
                                     sql_connect_slect()
                                     If DefaltSoftTable.Rows.Count > 0 Then
                                         _Booktrtype = DefaltSoftTable.Rows(0).Item("booktrtype").ToString()
@@ -1800,26 +1409,6 @@ Public Class MainFormRead
                                     End If
                                 End If
                             End If
-                            'End If
-                            'ElseIf _FORMMODE = "ADD" Then
-                            '    txt.AccessibleDescription = databaseColumn
-                            '    '_Bookcode = ""
-                            '    'If databaseColumn.Equals("NO COLUMN USE", StringComparison.OrdinalIgnoreCase) OrElse databaseColumn.StartsWith("NO COLUMN USE ", StringComparison.OrdinalIgnoreCase) Then
-                            '    If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
-                            '        'txt.Tag = userTextValue
-                            '        txt.Tag = databaseColumn
-                            '        Dim fields As New StringBuilder()
-                            '        Dim values As New StringBuilder()
-                            '        Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
-                            '        Dim ctrlName As String = dr("CntrlName").ToString().Trim()
-                            '        Dim oppMasterCode1 As String = dr("OppMasterCode").ToString().Trim()
-                            '        If Not String.IsNullOrWhiteSpace(oppMasterCode1) Then
-                            '            Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
-                            '            If existingItem IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(existingItem.Item3.ToString().Trim()) Then
-                            '                _Bookcode = existingItem.Item3.ToString().Trim()
-                            '            End If
-                            '        End If
-                            '    End If
                         Else
                             txt.Tag = databaseColumn
                             txt.AccessibleDescription = databaseColumn
@@ -2239,129 +1828,108 @@ Public Class MainFormRead
         End If
     End Sub
 
-    'Private Function _GetMaxEntryNo(ByVal bookCode As String)
-    '    Try
-    '        Dim ENTRYNO As Int64 = 0
-    '        Dim Tbltmp As DataTable
-    '        Dim _strquery As New StringBuilder
-    '        Dim ControlName As String = ""
-    '        Dim controlTableRows() As DataRow = _MainColumTbl.Select("DataBaseColumn = 'ENTRYNO' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable <> ''")
-    '        If controlTableRows.Length > 0 Then
-    '            ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
-    '        Else
-    '            ControlName = ""
-    '        End If
-    '        If ControlName <> "" Then
-    '            controlTableRows = _MainColumTbl.Select("CntrlName='" & ControlName.Replace("'", "''") & "' AND " & "DataBaseTable IS NOT NULL AND DataBaseTable<>''")
-    '            If controlTableRows.Length > 0 Then
-    '                _TblName = controlTableRows(0)("DataBaseTable").ToString().Trim()
-    '            Else
-    '                _TblName = ""
-    '            End If
-    '        Else
-    '            _TblName = ""
-    '        End If
-    '        If String.IsNullOrWhiteSpace(_TblName) Then
-    '            Return 0
-    '        End If
-    '        sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE='" & _Bookcode & "'  ORDER BY ENTRYNO DESC"
-    '        'sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & "  ORDER BY ENTRYNO DESC"
-    '        sql_connect_slect()
-    '        Tbltmp = DefaltSoftTable.Copy
-    '        If Tbltmp.Rows.Count > 0 Then
-    '            If Not IsDBNull(Tbltmp.Rows(0).Item(0)) Then
-    '                ENTRYNO = Val(Tbltmp.Rows(0).Item(0))
-    '            End If
-    '        End If
-    '        Return ENTRYNO
-    '    Catch ex As Exception
-    '        MsgBox(ex.ToString(), MsgBoxStyle.Critical, "Soft-Tex PRO")
-    '    End Try
-    'End Function
     Public Function _GetMaxEntryNo(ByVal bookCode As String, ByVal TmTable As DataTable, ByVal _GetFormMode As String, ByRef _MaxEntrytxt As TextBox, ByVal FormNameCurrent As Form) As Int64
         Try
             Dim ENTRYNO As Int64 = 0
             Dim Tbltmp As DataTable
             Dim ControlName As String = ""
-            '_Bookcode = bookCode
+            _Bookcode = bookCode
             Dim controlTableRows() As DataRow = TmTable.Select("DataBaseColumn = 'ENTRYNO' AND DataBaseTable IS NOT NULL AND DataBaseTable <> ''")
-
-            'If controlTableRows.Length > 0 Then
-            '    ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
-            'End If
-
-            ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
-            'Dim txt As TextBox = TryCast(Me.Controls.Find(ControlName, True).FirstOrDefault(), TextBox)
-
-            'If txt IsNot Nothing Then
-            '    txt.Text = (ENTRYNO + 1).ToString()
-            'End If
-
-
+            If controlTableRows.Length > 0 Then
+                ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
+            End If
+            'ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
             If ControlName <> "" Then
                 controlTableRows = TmTable.Select("CntrlName='" & ControlName.Replace("'", "''") & "' AND DataBaseTable IS NOT NULL AND DataBaseTable<>''")
                 If controlTableRows.Length > 0 Then
                     _TblName = controlTableRows(0)("DataBaseTable").ToString().Trim()
                 End If
             End If
-
             If String.IsNullOrWhiteSpace(_TblName) OrElse String.IsNullOrWhiteSpace(bookCode) Then Return 0
-
             sqL = "SELECT TOP 1 ENTRYNO FROM " & _TblName & " WHERE BOOKCODE='" & bookCode.Replace("'", "''") & "' ORDER BY ENTRYNO DESC"
-
             sql_connect_slect()
             Tbltmp = DefaltSoftTable.Copy
-
             If Tbltmp.Rows.Count > 0 AndAlso Not IsDBNull(Tbltmp.Rows(0)(0)) Then
                 ENTRYNO = Val(Tbltmp.Rows(0)(0))
+            Else
+                Dim TableNames As New List(Of Tuple(Of String, String, String))
+                For Each dr As DataRow In TmTable.Select("ColumnType='Grid' and DataBaseTable IS NOT NULL AND DataBaseTable<>''")
+                    Dim TableName As String = dr("DataBaseTable").ToString().Trim()
+                    Dim ColumnType As String = dr("ColumnType").ToString().Trim()
+                    Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                    If TableName <> "" Then
+                        Dim Exists As Boolean = TableNames.Any(Function(x) _
+                            x.Item1.Equals(TableName, StringComparison.OrdinalIgnoreCase) AndAlso
+                            x.Item2.Equals(ColumnType, StringComparison.OrdinalIgnoreCase) AndAlso
+                            x.Item3.Equals(ctrlName, StringComparison.OrdinalIgnoreCase))
+                        If Not Exists Then
+                            TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
+                        End If
+                    End If
+                Next
+                Dim grd As FlexCell.Grid
+                For Each item In TableNames
+                    Dim TableName As String = item.Item1
+                    Dim FiltColumnType As String = item.Item2
+                    Dim ctrlName As String = item.Item3
+                    Dim currentCtrl As Control = Nothing
+                    Dim gridname As String = ctrlName
+                    Dim ImagePaths As New Dictionary(Of Integer, String)
+                    If FiltColumnType = "Grid" Then
+
+                        If Me.Controls.ContainsKey(gridname) Then
+                            grd = Me.Controls(gridname)
+                        End If
+                        Dim _GridColmName As String()
+                        If ctrlName = "Grid1" Then
+                            _GridColmName = Grid1_Table_ColNames
+                        ElseIf ctrlName = "Grid2" Then
+                            _GridColmName = Grid2_Table_ColNames
+                        ElseIf ctrlName = "Grid3" Then
+                            _GridColmName = Grid3_Table_ColNames
+                        ElseIf ctrlName = "Grid4" Then
+                            _GridColmName = Grid4_Table_ColNames
+                        ElseIf ctrlName = "Grid5" Then
+                            _GridColmName = Grid5_Table_ColNames
+                        End If
+                        If gridname.StartsWith(ctrlName) Then
+                            If Tbltmp.Rows.Count > 0 Then
+                                If grd IsNot Nothing Then
+                                    grd.Range(0, 0, grd.Rows - 1, grd.Cols - 1).DeleteByRow()
+                                    Fill_Records(Tbltmp, _GridColmName, grd, 0, True, "", False)
+                                    grd.Rows = grd.Rows + 1
+                                    Call Fill_Sr_No_Item(grd, _DataTableGrid1)
+                                    Call Fill_Sr_No_Item(grd, _DataTableGrid2)
+                                    Call Fill_Sr_No_Item(grd, _DataTableGrid3)
+                                    Call Fill_Sr_No_Item(grd, _DataTableGrid4)
+                                    Call Fill_Sr_No_Item(grd, _DataTableGrid5)
+                                End If
+                            End If
+                        End If
+                    End If
+                Next
+                MsgBox("Record Not Found")
+                ObjCls_General.Blank_Object(Me)
+                Clear_Grid(grd, 2)
+                'grd.Visible = False
             End If
-            'Dim FormName As String = TmTable.Rows(0)("FormName").ToString().Trim()
-
-            'Dim frm As Form = Application.OpenForms(FormName)
-
-            'If frm IsNot Nothing Then
             Dim ctrlList As New List(Of Control)
-
             GetAllDynamicControls(FormNameCurrent, ctrlList)
-
-            'For Each ctrl As Control In ctrlList
-            '    Debug.WriteLine("Name: " & ctrl.Name &
-            '            " | Type: " & ctrl.GetType().Name &
-            '            " | Tag: " & If(ctrl.Tag?.ToString(), ""))
-            'Next
-            'End If
-
-
             Dim txt As TextBox = ctrlList.OfType(Of TextBox)().FirstOrDefault(Function(x) x.Name = ControlName)
-
-            'If txt IsNot Nothing Then
-            '    txt.Text = (ENTRYNO + 1).ToString()
-            'End If
-
-
-
-            'Dim txt As New TextBox()
-            'txt.Name = _EntryNoTextBoxName
-
-
-            'Dim ctrl As Control() = Me.Controls.Find(_EntryNoTextBoxName, True)
-            'Dim txt As TextBox = DirectCast(ctrl(0), TextBox)
 
             If _GetFormMode = "ADD" Then
                 txt.Text = ENTRYNO + 1
-                'DirectCast(ctrl, TextBox).Text = (ENTRYNO + 1).ToString()
-            ElseIf _GetFormMode = "EDIT" Then
+            ElseIf _GetFormMode = "EDIT" OrElse _GetFormMode = "DELETE" Then
                 txt.Text = ENTRYNO
-                'DirectCast(ctrl, TextBox).Text = (ENTRYNO).ToString()
-                _GetAlterData(ENTRYNO, TmTable)
-                Ctrl_Visible_TrueForm(Me.Controls)
+                '_GetAlterData(ENTRYNO, TmTable)
 
-            ElseIf _GetFormMode = "DELETE" Then
-                If MsgBox("Do You Want To Delete (Y/N)", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
-                    'DirectCast(ctrl, TextBox).Text = (ENTRYNO).ToString()
-                    txt.Text = ENTRYNO
-                    Delete_Entry(ENTRYNO)
-                End If
+                'ElseIf _GetFormMode = "DELETE" Then
+                '    If MsgBox("Do You Want To Delete (Y/N)", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+                '        txt.Text = ENTRYNO
+                '        Delete_Entry(ENTRYNO)
+                '    End If
+            ElseIf _GetFormMode = "VIEW" Then
+                txt.Text = ENTRYNO
             End If
 
             Return ENTRYNO
@@ -2465,52 +2033,32 @@ Public Class MainFormRead
             If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                 Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
                 If ctrl.Length > 0 Then
-                    'Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                    '_GetAlterData(Entytxt.Text)
-                    'Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                    'Dim EntryNo As Integer
-                    'If String.IsNullOrWhiteSpace(Entytxt.Text) OrElse Entytxt.Text = "1" Then
-                    '    EntryNo = _GetMaxEntryNo(_Bookcode, _MainColumTbl)
-                    '    Entytxt.Text = EntryNo.ToString()
-                    'Else
-                    '    EntryNo = Val(Entytxt.Text)
-                    'End If
-                    'If EntryNo > 0 Then
-                    '_GetAlterData(Entytxt.Text, _MainColumTbl)
-                    'Ctrl_Visible_TrueForm(Me.Controls)
-                    'End If
-
-                    'End If
-
                     Dim ControlName As String = ""
                     Dim controlTableRows() As DataRow = _MainColumTbl.Select("DataBaseColumn = 'ENTRYNO' AND DataBaseTable IS NOT NULL AND DataBaseTable <> ''")
                     ControlName = controlTableRows(0)("CntrlName").ToString().Trim()
                     Dim ctrlList As New List(Of Control)
                     GetAllDynamicControls(Me, ctrlList)
                     Dim txt As TextBox = ctrlList.OfType(Of TextBox)().FirstOrDefault(Function(x) x.Name = ControlName)
-                    _GetAlterData(txt.Text, _MainColumTbl)
+                    If _FORMMODE = "EDIT" Then
+                        _GetAlterData(txt.Text, _MainColumTbl)
+                    End If
+                    If _FORMMODE = "DELETE" Then
+                        If MsgBox("Do You Want To Delete (Y/N)", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2, "Delete ?") = MsgBoxResult.Yes Then
+                            Call Delete_Entry(txt.Text)
+                            ObjCls_General.Blank_Object(Me)
+                            Ctrl_Visible_Falseform(Me.Controls)
+                            UC_Buttons1._ButtonEnableDisable("LOAD")
+                            UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
+                        End If
+                    End If
                 End If
-                'Else
-                '    Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
-                '    If ctrl.Length > 0 Then
-                '        Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                '        '_GetAlterData(Entytxt.Text)
-                '        Dim EntryNo As Integer
-                '        EntryNo = _GetMaxEntryNo(_Bookcode, _MainColumTbl)
-                '        If EntryNo > 0 Then
-                '            Dim txt As New TextBox()
-                '            txt.Text = EntryNo + 1
-                '            Entytxt.Text = txt.Text
-                '            '_GetAlterData(txtEntryno)
-                '            'Ctrl_Visible_TrueForm(Me.Controls)
-                '        End If
-                '    End If
             End If
+
             'If _FORMMODE = "VIEW" Then
             '    Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
             '    If ctrl.Length > 0 Then
             '        Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-            '        _GetAlterData(Entytxt.Text)
+            '        _GetAlterData(Entytxt.Text, _MainColumTbl)
             '        'PrintViewPage.Show()
             '    End If
             'End If
@@ -2622,8 +2170,8 @@ Public Class MainFormRead
 
                     Else
                         MsgBox("Record Not Found")
-                        'ObjCls_General.Blank_Object(Me)
-                        'Clear_Grid(grd, 2)
+                        ObjCls_General.Blank_Object(Me)
+                        Clear_Grid(grd, 2)
                         'grd.Visible = False
                     End If
                 End If
@@ -2844,9 +2392,7 @@ Public Class MainFormRead
             grd.Cell(grd.Rows - 1, colResultIndex).Locked = True
         Next
     End Sub
-    Private Sub RunActivatedColumnMasterSelection(ByVal ctrlmasterName As String, ByVal ActivetextName As String, ByRef _MaxEntrytxt As TextBox)
-
-
+    Private Sub RunActivatedColumnMasterSelection(ByVal ctrlmasterName As String, ByVal ActivetextName As String, ByRef _MaxEntrytxt As Control)
         For Each dr As DataRow In _MainColumTbl.Select("DataBaseColumn='" & ctrlmasterName & "'")
             Dim offmastercode As String = dr("OPPMASTERCODE").ToString()
             Dim masterName As String = dr("MASTERLIST").ToString()
@@ -2859,7 +2405,6 @@ Public Class MainFormRead
                 HandleMasterSelection(masterName, ctrlmasterName, offmastercode, ctrl, ActivetextName, "SINGLE", _BookMasterFilter, _MainColumTbl, _FORMMODE, _MaxEntrytxt, Me)
             End If
         Next
-
     End Sub
     Private Sub HandleControlAction(ByVal sender As Object)
         If isDragging Then
@@ -2939,17 +2484,17 @@ Public Class MainFormRead
             UseChallan = _MainColumTbl.Rows(0)("UseChallan").ToString().Trim()
         End If
         FormNameValue = _getformName()
-        If formType = "ENTRY FORM" Then
-            If _FORMMODE = "EDIT" Then
-                Dim tblTmp1 As New DataTable
-                Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
-                If ctrl.Length > 0 Then
-                    Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
-                    'Entytxt.Focus()
-                    'Entytxt.SelectAll()
-                End If
-            End If
-        End If
+        'If formType = "ENTRY FORM" Then
+        'If _FORMMODE = "EDIT" OrElse _FORMMODE = "DELETE" Then
+        '    Dim tblTmp1 As New DataTable
+        '    Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
+        '    If ctrl.Length > 0 Then
+        '        Dim Entytxt As TextBox = CType(ctrl(0), TextBox)
+        '        'Entytxt.Focus()
+        '        'Entytxt.SelectAll()
+        '    End If
+        'End If
+        'End If
         If _FORMMODE = "VIEW" Then
             Dim tblTmp1 As New DataTable
             Dim ctrl As Control() = Me.Controls.Find(txtEntryno, True)
@@ -2963,9 +2508,9 @@ Public Class MainFormRead
                 LoadViewData(tblTmp1, _Bookcode)
             End If
         ElseIf UseChallan = "YES" Then
-            tmptbl = _GetFormQuery(FormNameValue, "USECHALLANVIEW")
+            'tmptbl = _GetFormQuery(FormNameValue, "USECHALLANVIEW")
         ElseIf _FORMMODE = "LOAD" Then
-            tmptbl = _GetFormQuery(FormNameValue, "TOTAL COLUMN")
+            'tmptbl = _GetFormQuery(FormNameValue, "TOTAL COLUMN")
         End If
         isMoveMode = False
         isDragging = False

@@ -273,9 +273,6 @@ Public Class UseChallanview
                 End If
                 Dim Tabindex As Integer = 0
                 Integer.TryParse(dr("Tabindex").ToString(), Tabindex)
-                '_Bookcode = dr("Bookcode").ToString()
-                '_Bookcode.Clear()
-                '_Bookcode.Add(dr("Bookcode").ToString())
                 Dim colName As String = dr("DataBaseColumn").ToString().Trim()
                 Dim formtype As String = dr("FormType").ToString().Trim()
                 If formtype = "ENTRY FORM" Then
@@ -333,22 +330,82 @@ Public Class UseChallanview
                         targetTabPage = targetTabControl.TabPages(tabCountNo - 1)
                     End If
                 End If
+                If colType.Equals("TextBox", StringComparison.OrdinalIgnoreCase) AndAlso visible.Equals("Y", StringComparison.OrdinalIgnoreCase) Then
+                    Dim txt As New TextBox()
+                    txt.Name = Name
+                    txt.Left = leftPos + 130
+                    txt.Top = topPos
+                    txt.Width = width
+                    txt.Height = height
+                    txt.TabIndex = Tabindex
+                    Dim userTextValue As String = dr("UserText").ToString().Trim()
+                    Dim databaseColumn As String = dr("DataBaseColumn").ToString().Trim()
+
+
+                    If userTextValue.StartsWith("Attach Image", StringComparison.OrdinalIgnoreCase) Then
+                        txt.Tag = userTextValue
+                        txt.AccessibleName = databaseColumn
+                        txt.AccessibleDescription = ""
+                    Else
+                        txt.AccessibleDescription = databaseColumn
+                        If dr("UseMaster").ToString().Trim().Equals("YES", StringComparison.OrdinalIgnoreCase) Then
+                            'txt.Tag = userTextValue
+                            txt.Tag = databaseColumn
+                            Dim fields As New StringBuilder()
+                            Dim values As New StringBuilder()
+                            Dim columnName As String = dr("DataBaseColumn").ToString().Trim()
+                            Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                            Dim oppMasterCode1 As String = dr("OppMasterCode").ToString().Trim()
+                            If Not String.IsNullOrWhiteSpace(oppMasterCode1) Then
+                                Dim existingItem = _UniqueValues.FirstOrDefault(Function(x) String.Equals(x.Item1, ctrlName, StringComparison.OrdinalIgnoreCase))
+                                If existingItem IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(existingItem.Item3.ToString().Trim()) Then
+                                    _Bookcode = existingItem.Item3.ToString().Trim()
+                                End If
+                            End If
+                        Else
+                            txt.Tag = databaseColumn
+                            txt.AccessibleDescription = databaseColumn
+                        End If
+                    End If
+
+                    If _Readonly.Equals("Y", StringComparison.OrdinalIgnoreCase) Then
+                        txt.ReadOnly = True
+                    Else
+                        txt.ReadOnly = False
+                    End If
+                    If tabCountNo > 0 Then
+                        If targetTabPage IsNot Nothing Then
+                            targetTabPage.Controls.Add(txt)
+                        Else
+                            Continue For
+                        End If
+                    Else
+                        Me.Controls.Add(txt)
+                    End If
+                    If formtype = "ENTRY FORM" Then
+                        If Tag = "ENTRYNO" Then
+                            txtEntryno = Name
+                            If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
+
+                            End If
+                        End If
+
+                        If _InputType.Equals("DateBox", StringComparison.OrdinalIgnoreCase) Then
+                            txt.MaxLength = 10
+                            txt.Text = Today.ToString("dd/MM/yyyy")
+                            AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
+                            AddHandler txt.Leave, AddressOf DateBox_Validate
+                        End If
+
+                        If txt.TabIndex = 1 Then
+                            txt.Focus()
+                        End If
+                    End If
+                    AddHandler txt.MouseDown, AddressOf Control_MouseDown
+                    AddHandler txt.MouseMove, AddressOf Control_MouseMove
+                    AddHandler txt.MouseUp, AddressOf Control_MouseUp
+                End If
             Next
-            'Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
-            'sqL = "select * from mstbook where bookcode in (" & bookCodes & ")"
-            'If _Bookcode <> "" Then
-            '    sqL = "select * from mstbook where bookcode='" & _Bookcode & "'"
-            '    sql_connect_slect()
-            '    If DefaltSoftTable.Rows.Count > 0 Then
-            '        '_Booktrtype = DefaltSoftTable.Rows(0).Item("booktrtype").ToString()
-            '        _Booktrtype.Clear()
-            '        For Each dr As DataRow In DefaltSoftTable.Rows
-            '            _Booktrtype.Add(dr("booktrtype").ToString().Trim())
-            '        Next
-            '    Else
-            '        MsgBox("Book Not Find Please Define Book", MsgBoxStyle.Critical)
-            '    End If
-            'End If
 #End Region
         Catch ex As Exception
             MsgBox(ex.ToString(), MsgBoxStyle.Critical, "Soft-Tex PRO")
@@ -422,7 +479,6 @@ Public Class UseChallanview
             oldCtrl.Dispose()
         End If
     End Sub
-    'Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As List(Of String))
     Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
         Try
             'Generate_Date_For_DataBase(Txt_ViewFrom)
