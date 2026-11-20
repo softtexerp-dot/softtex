@@ -622,6 +622,13 @@ Public Class UseChallanview
             End If
         End If
     End Sub
+
+
+    Private Sub UseChallanview_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            Me.Close()
+        End If
+    End Sub
     Private Sub UseChallanview_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
         ParentForm.BeginInvoke(New MethodInvoker(Sub()
                                                      If FirstStage.RowCount > 0 Then

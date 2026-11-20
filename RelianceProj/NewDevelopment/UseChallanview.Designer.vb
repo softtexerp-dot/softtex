@@ -161,7 +161,7 @@ Partial Class UseChallanview
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "UseChallanview"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "UseChallanview"
+        Me.Text = "Use Challan view"
         Me.PnlGrdView.ResumeLayout(False)
         CType(Me.GridControl1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FirstStage, System.ComponentModel.ISupportInitialize).EndInit()
