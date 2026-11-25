@@ -522,7 +522,7 @@ Module GetMasterDataJoinInMaster
         masterListcode5.Add(New Tuple(Of String, String, String)(code, name, masterName))
     End Sub
 
-    Public Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String, ByVal listtype As String, ByVal _BookmasterFilter As String, ByVal _MainColumTbl As DataTable, ByVal _GetFormMode As String, ByRef _MaxEntrytxt As TextBox, ByVal FormNameCurrent As Form)
+    Public Sub HandleMasterSelection(ByVal masterName As String, ByVal activeColName As String, ByVal offMasterCode As String, ByVal CntrlName As Control, ByVal ActivetextName As String, ByVal listtype As String, ByVal _BookmasterFilter As String, ByVal _MainColumTbl As DataTable, ByVal _GetFormMode As String, ByRef _MaxEntrytxt As Control, ByVal FormNameCurrent As Form)
         Select Case masterName
             Case "ACCOUNT MASTER"
                 Dim _LoadQuery = NewSelectionList.MstMasterAccount_Select("")
