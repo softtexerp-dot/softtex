@@ -1858,15 +1858,13 @@ Public Class MainFormRead
                 Dim frm = TryCast(FormNameCurrent, MainFormRead)
                 If frm IsNot Nothing Then
                     frm._CurrentBookCode = _Bookcode.Trim()
-
-
+                    _Bookcode = _Bookcode.Trim()
+                    If TmTable IsNot Nothing Then
+                        _MainColumTbl = TmTable.Copy()
+                    End If
+                    LoadViewRecord(_Bookcode)
+                    frm.PnlGrdView.Show()
                 End If
-                _Bookcode = _Bookcode.Trim()
-                If TmTable IsNot Nothing Then
-                    _MainColumTbl = TmTable.Copy()
-                End If
-                LoadViewRecord(_Bookcode)
-                frm.PnlGrdView.Show()
 
                 'RemoveHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
                 'AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown

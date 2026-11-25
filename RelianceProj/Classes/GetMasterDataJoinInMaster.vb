@@ -747,7 +747,12 @@ Module GetMasterDataJoinInMaster
                 If selected IsNot Nothing Then
                     If selected.ContainsKey("BookName") AndAlso selected.ContainsKey("ACCOUNTCODE") Then
                         SetGridValue(selected("BookName").ToString(), selected("ACCOUNTCODE").ToString(), activeColName, offMasterCode, CntrlName)
-                        MainFormRead._GetMaxEntryNo(selected("ACCOUNTCODE").ToString(), _MainColumTbl, _GetFormMode, _MaxEntrytxt, FormNameCurrent)
+                        Dim currentForm As MainFormRead = TryCast(FormNameCurrent, MainFormRead)
+                        If currentForm IsNot Nothing Then
+                            Dim selectedBookCode As String = selected("ACCOUNTCODE").ToString()
+                            Dim maxEntryTextBox As TextBox = TryCast(_MaxEntrytxt, TextBox)
+                            currentForm._GetMaxEntryNo(selectedBookCode, _MainColumTbl, _GetFormMode, maxEntryTextBox, currentForm)
+                        End If
                     End If
                 End If
         End Select
