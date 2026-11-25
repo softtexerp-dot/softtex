@@ -481,7 +481,6 @@ Public Class MainFormRead
                 End If
             End If
         Next
-        ' _Bookcode = _bookcode1
         'Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
         _strQuery = New StringBuilder()
         With _strQuery
@@ -783,18 +782,16 @@ Public Class MainFormRead
     End Sub
     Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
         Try
-            Generate_Date_For_DataBase(Txt_ViewFrom)
-            Generate_Date_For_DataBase(Txt_ViewTO)
             Txt_ViewFrom.Text = Main_MDI_Frm.FINE_YEAR_START.Text
             Txt_ViewTO.Text = CDate(Date.Now).ToString("dd/MM/yyyy")
+            Generate_Date_For_DataBase(Txt_ViewFrom)
+            Generate_Date_For_DataBase(Txt_ViewTO)
             Txt_ViewFrom.Visible = True
             Txt_ViewTO.Visible = True
             Dim ResultTable As New DataTable
             If tmptbl IsNot Nothing AndAlso tmptbl.Rows.Count > 0 AndAlso Not tmptbl.Columns.Contains("Mainid") Then
                 ResultTable = tmptbl.Copy()
             Else
-                'Dim bookCodes As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim().Replace("'", "''") & "'"))
-                'Dim FilterBookcode As String = " '" & bookCodes & "' "
                 Dim FilterBookcode As String = " '" & _Bookcode & "' "
                 Dim FilterFrom As String = "'" & Txt_ViewFrom.Date_for_Database & "'"
                 Dim FilterTO As String = " '" & Txt_ViewTO.Date_for_Database & "'"
@@ -806,9 +803,7 @@ Public Class MainFormRead
                         MsgBox("View Query Not Found")
                         Exit Sub
                     End If
-
                 End If
-
                 ViewQuery = ViewQuery.Replace("FilterBookcode", FilterBookcode)
                 ViewQuery = ViewQuery.Replace("FilterFrom", FilterFrom)
                 ViewQuery = ViewQuery.Replace("FilterTO", FilterTO)
@@ -860,11 +855,11 @@ Public Class MainFormRead
                         End If
                     Next
                 End If
-                PnlGrdView.Visible = True
-                FirstStage.BestFitColumns()
-                FirstStage.Focus()
-                PnlGrdView.BringToFront()
-                GridControl1.BringToFront()
+                Me.PnlGrdView.Visible = True
+                Me.FirstStage.BestFitColumns()
+                Me.FirstStage.Focus()
+                Me.PnlGrdView.BringToFront()
+                Me.GridControl1.BringToFront()
             Else
                 MsgBox("Record Not Found", MsgBoxStyle.Information + MsgBoxStyle.OkOnly)
                 'Exit Sub
@@ -1442,15 +1437,14 @@ Public Class MainFormRead
                             If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Or _FORMMODE = "VIEW" Then
                                 'If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                                 AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
+                                End If
                             End If
-                        End If
                         If _InputType.Equals("DateBox", StringComparison.OrdinalIgnoreCase) Then
                             txt.MaxLength = 10
                             txt.Text = Today.ToString("dd/MM/yyyy")
                             AddHandler txt.KeyPress, AddressOf DateBox_KeyPress
                             AddHandler txt.Leave, AddressOf DateBox_Validate
                         End If
-
                         If txt.TabIndex = 1 Then
                             txt.Focus()
                         End If
@@ -1864,7 +1858,22 @@ Public Class MainFormRead
                 Dim frm = TryCast(FormNameCurrent, MainFormRead)
                 If frm IsNot Nothing Then
                     frm._CurrentBookCode = _Bookcode.Trim()
+
+
                 End If
+                _Bookcode = _Bookcode.Trim()
+                If TmTable IsNot Nothing Then
+                    _MainColumTbl = TmTable.Copy()
+                End If
+                LoadViewRecord(_Bookcode)
+                frm.PnlGrdView.Show()
+
+                'RemoveHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
+                'AddHandler txt.KeyDown, AddressOf EntryNoControl_KeyDown
+
+
+
+                'LoadViewRecord(_Bookcode)
                 '_Bookcode = _Bookcode.Trim()
                 ''txt.Text = ENTRYNO
                 'If String.IsNullOrWhiteSpace(_Bookcode) Then
@@ -1883,9 +1892,9 @@ Public Class MainFormRead
                 'tmptbl = _GetFormQuery(FormNameValue, "VIEW")
                 'If tmptbl.Rows.Count > 0 Then
                 '    If _Bookcode <> "" Then
+                '        Ctrl_Visible_Falseform(Me.Controls)
+                '        ObjCls_General.Blank_Object(Me)
                 '        LoadViewData(tmptbl, _Bookcode)
-                '        'Ctrl_Visible_Falseform(Me.Controls)
-                '        'ObjCls_General.Blank_Object(Me)
                 '    End If
                 'Else
                 '    Dim TableNames As New List(Of Tuple(Of String, String, String))
@@ -2015,6 +2024,9 @@ Public Class MainFormRead
     End Sub
 
     Private Sub EntryNoControl_KeyDown(sender As Object, e As KeyEventArgs)
+
+
+
         If e.KeyCode = Keys.Enter Then
             If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
                 'If _FORMMODE = "EDIT" Or _FORMMODE = "DELETE" Then
@@ -2043,59 +2055,125 @@ Public Class MainFormRead
                             UC_Buttons1.Set_Focus_Last_Clicked_Btn(_FORMMODE)
                         End If
                     End If
-
                 End If
             ElseIf _FORMMODE = "VIEW" Then
-                _Bookcode = Me._CurrentBookCode.Trim()
-                If String.IsNullOrWhiteSpace(_Bookcode) Then
-                    MsgBox("BookCode Not Found")
-                    Exit Sub
-                Else
-                    Dim formType As String = ""
-                    Dim UseChallan As String = ""
-                    If _MainColumTbl.Rows.Count > 0 Then
-                        formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
-                        FormNameValue = _MainColumTbl.Rows(0)("FormName").ToString().Trim()
-                        UseChallan = _MainColumTbl.Rows(0)("UseChallan").ToString().Trim()
-                    End If
-                    FormNameValue = _getformName()
-                    Dim tblTmp1 As New DataTable
-                    tmptbl = _GetFormQuery(FormNameValue, "VIEW")
-                    If tmptbl.Rows.Count > 0 Then
-                        If _Bookcode <> "" Then
-                            'Ctrl_Visible_Falseform(Me.Controls)
-                            LoadViewData(tmptbl, _Bookcode)
-                        End If
-                    Else
-                        Dim TableNames As New List(Of Tuple(Of String, String, String))
-                        'For Each dr As DataRow In Tmptbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''")
-                        For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''", "Id ASC")
-                            Dim TableName As String = dr("DataBaseTable").ToString().Trim()
-                            Dim ColumnType As String = dr("ColumnType").ToString().Trim()
-                            Dim ctrlName As String = dr("CntrlName").ToString().Trim()
-                            If TableName <> "" Then
-                                Dim Exists As Boolean = TableNames.Any(Function(x) _
-                                x.Item1.Equals(TableName, StringComparison.OrdinalIgnoreCase) AndAlso
-                                x.Item2.Equals(ColumnType, StringComparison.OrdinalIgnoreCase) AndAlso
-                                x.Item3.Equals(ctrlName, StringComparison.OrdinalIgnoreCase))
-                                If Not Exists Then
-                                    TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
-                                End If
-                            End If
-                        Next
-                        For Each item In TableNames
-                            Dim TableName As String = item.Item1
-                            Dim FiltColumnType As String = item.Item2
-                            Dim ctrlName As String = item.Item3
-                            tblTmp1 = Alter_EntryFormHeader("", TableName, _MainColumTbl, _Bookcode)
-                        Next
-                        If _Bookcode <> "" Then
-                            LoadViewData(tblTmp1, _Bookcode)
-                        End If
-                    End If
-                End If
+                LoadViewRecord(_Bookcode)
+
+                '_Bookcode = Me._CurrentBookCode.Trim()
+                'If String.IsNullOrWhiteSpace(_Bookcode) Then
+                '    MsgBox("BookCode Not Found")
+                '    Exit Sub
+                'Else
+                '    Dim formType As String = ""
+                '    Dim UseChallan As String = ""
+                '    If _MainColumTbl.Rows.Count > 0 Then
+                '        formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+                '        FormNameValue = _MainColumTbl.Rows(0)("FormName").ToString().Trim()
+                '        UseChallan = _MainColumTbl.Rows(0)("UseChallan").ToString().Trim()
+                '    End If
+                '    FormNameValue = _getformName()
+                '    Dim tblTmp1 As New DataTable
+                '    tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+                '    If tmptbl.Rows.Count > 0 Then
+                '        If _Bookcode <> "" Then
+                '            'Ctrl_Visible_Falseform(Me.Controls)
+                '            LoadViewData(tmptbl, _Bookcode)
+                '        End If
+                '    Else
+                '        Dim TableNames As New List(Of Tuple(Of String, String, String))
+                '        'For Each dr As DataRow In Tmptbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''")
+                '        For Each dr As DataRow In _MainColumTbl.Select("DataBaseTable IS NOT NULL AND DataBaseTable<>''", "Id ASC")
+                '            Dim TableName As String = dr("DataBaseTable").ToString().Trim()
+                '            Dim ColumnType As String = dr("ColumnType").ToString().Trim()
+                '            Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+                '            If TableName <> "" Then
+                '                Dim Exists As Boolean = TableNames.Any(Function(x) _
+                '                x.Item1.Equals(TableName, StringComparison.OrdinalIgnoreCase) AndAlso
+                '                x.Item2.Equals(ColumnType, StringComparison.OrdinalIgnoreCase) AndAlso
+                '                x.Item3.Equals(ctrlName, StringComparison.OrdinalIgnoreCase))
+                '                If Not Exists Then
+                '                    TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
+                '                End If
+                '            End If
+                '        Next
+                '        For Each item In TableNames
+                '            Dim TableName As String = item.Item1
+                '            Dim FiltColumnType As String = item.Item2
+                '            Dim ctrlName As String = item.Item3
+                '            tblTmp1 = Alter_EntryFormHeader("", TableName, _MainColumTbl, _Bookcode)
+                '        Next
+                '        If _Bookcode <> "" Then
+                '            LoadViewData(tblTmp1, _Bookcode)
+                '        End If
+                '    End If
+                'End If
+
             End If
         End If
+    End Sub
+
+    Private Sub LoadViewRecord(ByRef _Bookcode As String)
+
+        Try
+            '_Bookcode = Me._CurrentBookCode.Trim()
+
+            If String.IsNullOrWhiteSpace(_Bookcode) Then
+                MsgBox("BookCode Not Found")
+                Exit Sub
+            End If
+
+            Dim formType As String = ""
+            Dim UseChallan As String = ""
+            If _MainColumTbl.Rows.Count > 0 Then
+                formType = _MainColumTbl.Rows(0)("FormType").ToString().Trim()
+                FormNameValue = _MainColumTbl.Rows(0)("FormName").ToString().Trim()
+            End If
+            FormNameValue = _getformName()
+
+            Dim tblTmp1 As New DataTable
+            tmptbl = _GetFormQuery(FormNameValue, "VIEW")
+
+            If tmptbl.Rows.Count > 0 Then
+
+                LoadViewData(tmptbl, _Bookcode)
+
+            Else
+
+                Dim TableNames As New List(Of Tuple(Of String, String, String))
+
+                For Each dr As DataRow In _MainColumTbl.Select(
+                "DataBaseTable IS NOT NULL AND DataBaseTable<>''", "Id ASC")
+
+                    Dim TableName As String = dr("DataBaseTable").ToString().Trim()
+                    Dim ColumnType As String = dr("ColumnType").ToString().Trim()
+                    Dim ctrlName As String = dr("CntrlName").ToString().Trim()
+
+                    If TableName <> "" Then
+
+                        Dim Exists As Boolean = TableNames.Any(Function(x) _
+                        x.Item1.Equals(TableName, StringComparison.OrdinalIgnoreCase) AndAlso
+                        x.Item2.Equals(ColumnType, StringComparison.OrdinalIgnoreCase) AndAlso
+                        x.Item3.Equals(ctrlName, StringComparison.OrdinalIgnoreCase))
+
+                        If Not Exists Then
+                            TableNames.Add(Tuple.Create(TableName, ColumnType, ctrlName))
+                        End If
+
+                    End If
+                Next
+
+                For Each item In TableNames
+                    tblTmp1 = Alter_EntryFormHeader("", item.Item1, _MainColumTbl, _Bookcode)
+                Next
+
+                LoadViewData(tblTmp1, _Bookcode)
+
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.ToString())
+        End Try
+
     End Sub
 
 
