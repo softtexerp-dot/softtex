@@ -122,6 +122,7 @@ Public Class MainFormRead
     Public _CurrentBookCode As String = ""
 
     Private Sub MainFormRead_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        _UseChallanForm = Nothing
         Me.KeyPreview = True
         _FORMMODE = "LOAD"
         _SELECTEDCOMPANYCODE = COMPANY_TBL.Rows(0).Item("Comp_Year_Code").ToString.Trim.PadLeft(4, "0")
@@ -258,9 +259,9 @@ Public Class MainFormRead
         ' reports logic yahan add kar sakte ho
     End Sub
     Private Function Alter_EntryFormHeader(ByVal Entryno As String, ByVal _FilterTableName As String, ByVal Tmptbl As DataTable, ByVal _bookcode1 As String) As DataTable
+        Dim tblTmp As New DataTable
         Try
             _FrmLoad = True
-            Dim tblTmp As New DataTable
             sqL = getAlter_Form_EntryQuery(Entryno, _FilterTableName, "", Tmptbl, _bookcode1)
             sql_connect_slect()
             tblTmp = DefaltSoftTable.Copy
@@ -269,10 +270,11 @@ Public Class MainFormRead
                 _BookVNo = tblTmp.Rows(0).Item("bookvno").ToString
             End If
             _FrmLoad = False
-            Return tblTmp   ' 👈 yaha return kar diya
+
         Catch ex As Exception
             MsgBox(ex.ToString(), MsgBoxStyle.Critical, "Soft-Tex PRO")
         End Try
+        Return tblTmp   ' 👈 yaha return kar diya
     End Function
 
     Private Sub UC_Buttons1_DeleteClick()
@@ -1579,7 +1581,6 @@ Public Class MainFormRead
             If spacerValue.Equals("YES", StringComparison.OrdinalIgnoreCase) Then
                 e.Handled = True
                 e.SuppressKeyPress = True
-                'UseChallanview.Show()
                 If _UseChallanForm Is Nothing OrElse _UseChallanForm.IsDisposed Then
                     _UseChallanForm = New UseChallanview()
                 End If

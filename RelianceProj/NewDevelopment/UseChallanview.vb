@@ -481,14 +481,11 @@ Public Class UseChallanview
     End Sub
     Public Sub LoadViewData(ByVal tmptbl As DataTable, ByVal _Bookcode As String)
         Try
-            'Generate_Date_For_DataBase(Txt_ViewFrom)
-            'Generate_Date_For_DataBase(Txt_ViewTO)
             Dim ResultTable As New DataTable
             If tmptbl IsNot Nothing AndAlso tmptbl.Rows.Count > 0 AndAlso Not tmptbl.Columns.Contains("Mainid") Then
                 ResultTable = tmptbl.Copy()
             Else
                 Dim UseChallanFilter1 As String = "'" & String.Join("','", _Bookcode) & "'"
-                'Dim UseChallanFilter1 As String = String.Join(",", _Bookcode.SelectMany(Function(x) x.Split(","c)).Select(Function(x) "'" & x.Trim() & "'"))
                 Dim UseChallanFilter2 As String = ""
                 Dim UseChallanFilter3 As String = ""
                 Dim UseChallanFilter4 As String = ""
@@ -622,8 +619,6 @@ Public Class UseChallanview
             End If
         End If
     End Sub
-
-
     Private Sub UseChallanview_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
             Me.Close()
@@ -642,5 +637,23 @@ Public Class UseChallanview
                                                          FirstStage.Focus()
                                                      End If
                                                  End Sub))
+    End Sub
+    Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
+        If keyData = Keys.Escape Then
+            Me.Hide()
+            Return True
+        End If
+        Return MyBase.ProcessCmdKey(msg, keyData)
+    End Function
+    Private Sub UseChallanview_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+        Me.BeginInvoke(New MethodInvoker(Sub()
+                                             If FirstStage IsNot Nothing AndAlso FirstStage.RowCount > 0 Then
+                                                 FirstStage.FocusedRowHandle = 0
+                                                 If FirstStage.VisibleColumns.Count > 0 Then
+                                                     FirstStage.FocusedColumn = FirstStage.VisibleColumns(0)
+                                                 End If
+                                                 FirstStage.Focus()
+                                             End If
+                                         End Sub))
     End Sub
 End Class
